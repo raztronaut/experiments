@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, useRef, RefObject, useCallback } from "react";
 import { vertexShader, fragmentShader } from "./shaders";
 
 declare global {
@@ -34,27 +34,7 @@ export function useThreeShader(containerRef: RefObject<HTMLDivElement | null>) {
         onWindowResize: null,
     });
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = THREE_CDN_URL;
-
-        script.onload = () => {
-            if (containerRef.current && window.THREE) {
-                initThreeJS();
-            }
-        };
-
-        document.head.appendChild(script);
-
-        return () => {
-            cleanup();
-            if (script.parentNode) {
-                document.head.removeChild(script);
-            }
-        };
-    }, []);
-
-    const cleanup = () => {
+    const cleanup = useCallback(() => {
         const state = sceneRef.current;
 
         if (state.animationId !== null) {
@@ -77,9 +57,9 @@ export function useThreeShader(containerRef: RefObject<HTMLDivElement | null>) {
             animationId: null,
             onWindowResize: null,
         };
-    };
+    }, []);
 
-    const initThreeJS = () => {
+    const initThreeJS = useCallback(() => {
         if (!containerRef.current || !window.THREE) return;
 
         const THREE = window.THREE;
@@ -149,5 +129,25 @@ export function useThreeShader(containerRef: RefObject<HTMLDivElement | null>) {
         };
 
         animate();
-    };
+    }, [containerRef]);
+
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = THREE_CDN_URL;
+
+        script.onload = () => {
+            if (containerRef.current && window.THREE) {
+                initThreeJS();
+            }
+        };
+
+        document.head.appendChild(script);
+
+        return () => {
+            cleanup();
+            if (script.parentNode) {
+                document.head.removeChild(script);
+            }
+        };
+    }, [containerRef, initThreeJS, cleanup]);
 }

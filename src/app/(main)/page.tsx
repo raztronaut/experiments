@@ -13,7 +13,7 @@ export default async function Home() {
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 p-8 md:p-24 max-w-4xl mx-auto w-full">
         <div className="mb-12">
-          <h1 className="text-2xl font-semibold tracking-tight mb-2">Razi's Experiments</h1>
+          <h1 className="text-2xl font-semibold tracking-tight mb-2">Razi&apos;s Experiments</h1>
           <p className="text-muted-foreground">
             This page is created using my simple scaffolding tool to help developers whip up new web design/development experiments rapidly. Check it out here:{" "}
             <a
