@@ -1,8 +1,8 @@
-import { getExperiments } from "@/lib/experiments";
-import { ExperimentList } from "@/components/ui/ExperimentList";
-import { SiteFooter } from "@/components/ui/SiteFooter";
-import { AIWidget } from "@/components/ui/AIWidget";
-import { Github, ArrowUpRight } from "lucide-react";
+import { getExperiments } from '@/lib/experiments';
+import { ExperimentDrawerList } from '@/components/ui/ExperimentDrawerList';
+import { SiteFooter } from '@/components/ui/SiteFooter';
+import { AIWidget } from '@/components/ui/AIWidget';
+import { Github, ArrowUpRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,7 +15,7 @@ export default async function Home() {
         <div className="mb-12">
           <h1 className="text-2xl font-semibold tracking-tight mb-2">Razi&apos;s Experiments</h1>
           <p className="text-muted-foreground">
-            This page is created using my simple scaffolding tool to help developers whip up new web design/development experiments rapidly. Check it out here:{" "}
+            This page is created using my simple scaffolding tool to help developers whip up new web design/development experiments rapidly. Check it out here:{' '}
             <a
               href="https://github.com/raztronaut/experiments-tool"
               target="_blank"
@@ -29,7 +29,7 @@ export default async function Home() {
           </p>
         </div>
 
-        <ExperimentList experiments={experiments} />
+        <ExperimentDrawerList experiments={experiments} />
       </main>
       <div className="max-w-4xl mx-auto w-full px-8 md:px-24">
         <SiteFooter />
