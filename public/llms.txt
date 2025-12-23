@@ -1,0 +1,21 @@
+# Razi's Experiments
+
+> A personal playground for exploring UI interactions, shaders, and modern web development techniques built with Next.js, React Three Fiber, and Framer Motion.
+
+This site is designed for rapid prototyping of web design and development ideas. Each experiment is isolated and self-contained.
+
+## Site Structure
+
+- [Homepage](https://raziexperiments.vercel.app/): Main dashboard listing all experiments
+- [Experiments](https://raziexperiments.vercel.app/experiments/): Individual experiment pages with interactive demos
+
+## Source Code
+
+- [GitHub Repository](https://github.com/raztronaut/experiments-tool): The scaffolding tool used to create this experiments workspace
+
+## Technologies Used
+
+- Next.js 16 (App Router)
+- React Three Fiber / Three.js for 3D graphics
+- Framer Motion for animations
+- Tailwind CSS & Shadcn UI for styling
