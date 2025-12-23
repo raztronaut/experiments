@@ -16,8 +16,13 @@ export async function getExperiments(): Promise<Experiment[]> {
         const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
 
         // Filter for directories that look like Route Groups: "(name)"
+        // Exclude special route groups like (index) that aren't experiments
         const experimentDirs = entries
-            .filter(dirent => dirent.isDirectory() && dirent.name.startsWith('('))
+            .filter(dirent =>
+                dirent.isDirectory() &&
+                dirent.name.startsWith('(') &&
+                dirent.name !== '(index)'
+            )
             .map(dirent => dirent.name);
 
         const experiments = await Promise.all(
