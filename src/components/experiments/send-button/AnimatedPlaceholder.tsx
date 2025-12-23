@@ -53,14 +53,17 @@ export function AnimatedPlaceholder({
             <AnimatePresence mode="wait">
                 <motion.span
                     key={placeholderIndex}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 text-gray-400 select-none pointer-events-none"
+                    className="absolute top-1/2 -translate-y-1/2 text-gray-400 select-none pointer-events-none"
                     style={{
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
+                        maxWidth: "calc(100% - 24px)",
+                        left: "12px",
                         zIndex: 0,
                     }}
                     variants={placeholderContainerVariants}
+                    custom={placeholders[placeholderIndex].length}
                     initial="initial"
                     animate="animate"
                     exit="exit"

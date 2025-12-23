@@ -23,8 +23,21 @@ export const containerVariants = {
  * Placeholder container with staggered children
  */
 export const placeholderContainerVariants = {
-    initial: {},
-    animate: { transition: { staggerChildren: 0.025 } },
+    initial: {
+        clipPath: "inset(0 100% 0 0)",
+    },
+    animate: (length: number = 20) => ({
+        clipPath: "inset(0 0% 0 0)",
+        transition: {
+            staggerChildren: 0.025,
+            clipPath: {
+                // Approximate duration to match the staggered text reveal
+                // (char count * stagger delay) + buffer
+                duration: length * 0.025 + 0.25,
+                ease: "linear",
+            },
+        },
+    }),
     exit: { transition: { staggerChildren: 0.015, staggerDirection: -1 } },
 };
 
