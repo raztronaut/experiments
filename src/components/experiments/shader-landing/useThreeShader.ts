@@ -9,11 +9,12 @@ declare global {
     }
 }
 
+// Using generic types since THREE is loaded dynamically from CDN
 interface SceneState {
-    camera: THREE.Camera | null;
-    scene: THREE.Scene | null;
-    renderer: THREE.WebGLRenderer | null;
-    uniforms: { time: { value: number }; resolution: { value: THREE.Vector2 } } | null;
+    camera: object | null;
+    scene: object | null;
+    renderer: { dispose: () => void } | null;
+    uniforms: { time: { value: number }; resolution: { value: { x: number; y: number } } } | null;
     animationId: number | null;
     onWindowResize: (() => void) | null;
 }
@@ -62,7 +63,9 @@ export function useThreeShader(containerRef: RefObject<HTMLDivElement | null>) {
     const initThreeJS = useCallback(() => {
         if (!containerRef.current || !window.THREE) return;
 
-        const THREE = window.THREE;
+        // Cast to any since CDN version (r89) has different API than @types/three
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const THREE = window.THREE as any;
         const container = containerRef.current;
 
         // Clear any existing content
