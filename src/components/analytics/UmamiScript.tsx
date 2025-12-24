@@ -6,7 +6,7 @@ export function UmamiScript() {
     return (
         <Script
             id="umami-analytics"
-            src="https://cloud.umami.is/script.js"
+            src="/u/script.js"
             data-website-id="2080ec09-2d3f-49a1-8f0a-e1f96fd5b5d5"
             strategy="afterInteractive"
         />

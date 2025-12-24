@@ -21,6 +21,16 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      // Proxy Umami analytics to bypass ad blockers
+      {
+        source: '/u/:path*',
+        destination: 'https://cloud.umami.is/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
+
