@@ -123,7 +123,7 @@ export function AnimatedSendButton({ onSend, disabled }: AnimatedSendButtonProps
                                 // - 0: Starting position  
                                 // - 3: Slight pull down (bottom-left direction)
                                 // - -40: Fly off upward (matches diagonal of send icon)
-                                y: [0, 3, -40],
+                                y: [0, 10, -40],
 
                                 // Opacity fade: [visible, visible, invisible]
                                 // Stays visible during pull-back, fades during fly-away
