@@ -216,7 +216,10 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     {/* Date */}
                                     {experiment.created && (
                                         <div className="text-right">
-                                            <span className="text-xs font-mono text-muted-foreground tabular-nums opacity-60">
+                                            <span
+                                                className="text-xs font-mono text-muted-foreground tabular-nums opacity-60"
+                                                suppressHydrationWarning
+                                            >
                                                 {new Date(experiment.created).toLocaleDateString('en-US', {
                                                     year: 'numeric',
                                                     month: 'long',

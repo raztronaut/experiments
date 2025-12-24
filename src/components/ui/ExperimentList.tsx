@@ -16,7 +16,7 @@ export function ExperimentList({ experiments }: ExperimentListProps) {
                             <div className="flex justify-between items-start">
                                 <CardTitle className="text-lg">{experiment.title}</CardTitle>
                                 {experiment.created && (
-                                    <span className="text-xs text-muted-foreground tabular-nums">
+                                    <span suppressHydrationWarning className="text-xs text-muted-foreground tabular-nums">
                                         {new Date(experiment.created).toLocaleDateString()}
                                     </span>
                                 )}
