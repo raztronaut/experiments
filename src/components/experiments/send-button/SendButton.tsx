@@ -52,21 +52,23 @@ export function SendButton() {
     };
 
     return (
-        <div className="w-full min-h-screen flex justify-center items-center text-black">
-            <motion.div
-                ref={wrapperRef}
-                className="w-full max-w-3xl"
-                variants={containerVariants}
-                animate={isExpanded ? "expanded" : "collapsed"}
-                initial="collapsed"
-                style={{ overflow: "hidden", borderRadius: 32, background: "#fff" }}
-                onClick={handleActivate}
-            >
+        <motion.div
+            ref={wrapperRef}
+            // OUTER WRAPPER: Handles Size, Background, Shadow. NO CLIPPING.
+            className="w-full max-w-3xl bg-white dark:bg-zinc-900 text-black dark:text-white shadow-xl dark:shadow-[0_0_50px_-12px_rgba(255,255,255,0.15)] transition-shadow duration-300"
+            variants={containerVariants}
+            animate={isExpanded ? "expanded" : "collapsed"}
+            initial="collapsed"
+            style={{ borderRadius: 32 }}
+            onClick={handleActivate}
+        >
+            {/* INNER WRAPPER: Handles Clipping */}
+            <div className="w-full h-full overflow-hidden" style={{ borderRadius: 32 }}>
                 <div className="flex flex-col items-stretch w-full h-full">
                     {/* Input Row */}
-                    <div className="flex items-center gap-2 p-3 rounded-full bg-white max-w-3xl w-full">
+                    <div className="flex items-center gap-2 p-3 rounded-full bg-white dark:bg-zinc-900 max-w-3xl w-full">
                         <button
-                            className="p-3 rounded-full hover:bg-gray-100 transition"
+                            className="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition dark:text-zinc-400"
                             title="Attach file"
                             type="button"
                             tabIndex={-1}
@@ -80,7 +82,7 @@ export function SendButton() {
                                 type="text"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
-                                className="flex-1 border-0 outline-0 rounded-md py-2 text-base bg-transparent w-full font-normal"
+                                className="flex-1 border-0 outline-0 rounded-md py-2 text-base bg-transparent w-full font-normal dark:text-white placeholder:text-gray-400"
                                 style={{ position: "relative", zIndex: 1 }}
                                 onFocus={handleActivate}
                             />
@@ -92,12 +94,12 @@ export function SendButton() {
                         </div>
 
                         <button
-                            className="p-3 rounded-full hover:bg-gray-100 transition group"
+                            className="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition group dark:text-zinc-400 dark:hover:text-zinc-100"
                             title="Voice input"
                             type="button"
                             tabIndex={-1}
                         >
-                            <Mic className="group-hover:fill-zinc-400 transition-all" size={20} />
+                            <Mic className="group-hover:fill-zinc-400 dark:group-hover:fill-zinc-700 transition-all" size={20} />
                         </button>
                         <AnimatedSendButton
                             onSend={handleSend}
@@ -114,8 +116,8 @@ export function SendButton() {
                         onDeepSearchToggle={() => setDeepSearchActive((a) => !a)}
                     />
                 </div>
-            </motion.div>
-        </div>
+            </div>
+        </motion.div>
     );
 }
 

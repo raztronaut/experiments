@@ -2,5 +2,6 @@
     "title": "Shader Landing",
     "description": "A random shader experiment",
     "slug": "shader-landing",
-    "created": "2025-12-02T00:00:00.000Z"
+    "created": "2025-12-02T00:00:00.000Z",
+    "video": "/experiments/shader-landing/preview-shader-landing.mp4"
 }

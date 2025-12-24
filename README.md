@@ -140,6 +140,21 @@ This means AI assistants will automatically:
    npm run test
    ```
 
+## Adding Previews
+
+To add a hover preview (image or video) to your experiment:
+
+1.  **Add Asset**: Place your image (`.png`, `.jpg`) or video (`.mp4`) in `public/experiments/<experiment-slug>/`.
+2.  **Update Config**: Edit `src/app/experiments/(<experiment-slug>)/experiment.json`:
+
+```json
+{
+  "image": "/experiments/<experiment-slug>/preview.png",
+  "video": "/experiments/<experiment-slug>/preview.mp4"
+}
+```
+*Note: If both are provided, the video takes precedence on hover.*
+
 ## License
 
 MIT

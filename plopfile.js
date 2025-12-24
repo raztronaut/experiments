@@ -48,6 +48,8 @@ module.exports = function (plop) {
                         description: '{{description}}',
                         slug: '{{dashCase name}}',
                         created: new Date().toISOString(),
+                        image: '/experiments/{{dashCase name}}/preview.gif',
+                        isPlaceholder: true,
                     }, null, 2),
                 },
                 // 5. Create Public Assets Folder
@@ -55,6 +57,22 @@ module.exports = function (plop) {
                     type: 'add',
                     path: 'public/experiments/{{dashCase name}}/.gitkeep',
                     template: '',
+                },
+                // 5.5 Copy Default Preview GIF
+                function (answers) {
+                    const fs = require('fs');
+                    const path = require('path');
+                    const dashCase = plop.getHelper('dashCase');
+                    const slug = dashCase(answers.name);
+                    const src = path.join(process.cwd(), 'public/experiments/no-preview.gif');
+                    const dest = path.join(process.cwd(), 'public/experiments', slug, 'preview.gif');
+
+                    try {
+                        fs.copyFileSync(src, dest);
+                        return 'Copied default preview.gif';
+                    } catch (e) {
+                        return `Failed to copy preview.gif: ${e.message}`;
+                    }
                 },
                 // 6. Create Main Component
                 {

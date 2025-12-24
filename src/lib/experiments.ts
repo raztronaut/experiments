@@ -7,6 +7,9 @@ export interface Experiment {
     slug: string;
     href: string;
     created: string;
+    image?: string;
+    video?: string;
+    isPlaceholder?: boolean;
 }
 
 export async function getExperiments(): Promise<Experiment[]> {

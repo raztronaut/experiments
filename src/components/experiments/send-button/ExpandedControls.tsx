@@ -39,8 +39,8 @@ export function ExpandedControls({
                 {/* Think Toggle */}
                 <button
                     className={`flex items-center gap-1 px-4 py-2 rounded-full transition-all font-medium group ${thinkActive
-                        ? "bg-blue-600/10 outline outline-blue-600/60 text-blue-950"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-blue-600/10 outline outline-blue-600/60 text-blue-950 dark:bg-blue-500/20 dark:outline-blue-500/50 dark:text-blue-200"
+                        : "bg-transparent hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-700 dark:text-zinc-400"
                         }`}
                     title="Think"
                     type="button"
@@ -59,8 +59,8 @@ export function ExpandedControls({
                 {/* Deep Search Toggle */}
                 <motion.button
                     className={`flex items-center px-4 gap-1 py-2 rounded-full transition font-medium whitespace-nowrap overflow-hidden justify-start group ${deepSearchActive
-                        ? "bg-blue-600/10 outline outline-blue-600/60 text-blue-950"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-blue-600/10 outline outline-blue-600/60 text-blue-950 dark:bg-blue-500/20 dark:outline-blue-500/50 dark:text-blue-200"
+                        : "bg-transparent hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-700 dark:text-zinc-400"
                         }`}
                     title="Deep Search"
                     type="button"

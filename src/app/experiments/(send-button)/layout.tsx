@@ -1,4 +1,5 @@
 import "../experiments.css";
+import { ThemeProvider } from "@/components/experiments/send-button/ThemeProvider";
 
 export const metadata = {
   title: 'Send-Button',
@@ -11,8 +12,17 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased min-h-screen">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

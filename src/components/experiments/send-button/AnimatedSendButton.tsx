@@ -80,7 +80,7 @@ export function AnimatedSendButton({ onSend, disabled }: AnimatedSendButtonProps
             // - overflow-hidden: Clips the arrow as it flies out of bounds
             // - rounded-full: Circular button shape
             // - Change width/height to resize the button
-            className="relative flex items-center justify-center bg-black text-white p-3 rounded-full font-medium overflow-hidden"
+            className="relative flex items-center justify-center bg-black dark:bg-white text-white dark:text-black p-3 rounded-full font-medium overflow-hidden"
             title="Send"
             type="button"
             tabIndex={-1}
@@ -117,7 +117,7 @@ export function AnimatedSendButton({ onSend, disabled }: AnimatedSendButtonProps
                                 // - 0: Starting position
                                 // - -3: Slight pull back (bottom-left direction)
                                 // - 40: Fly off to the right (adjust for faster/slower exit)
-                                x: [0, -3, 40],
+                                x: [0, -6, 40],
 
                                 // Y position: [start, pull-back, fly-up]
                                 // - 0: Starting position  
@@ -186,10 +186,10 @@ export function AnimatedSendButton({ onSend, disabled }: AnimatedSendButtonProps
                     >
                         {/* White circle background for the checkmark */}
                         {/* ADJUST w-6 h-6 to change circle size */}
-                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white dark:bg-black rounded-full flex items-center justify-center">
                             {/* Checkmark icon */}
                             {/* ADJUST size and strokeWidth to change checkmark appearance */}
-                            <Check className="text-black" size={14} strokeWidth={4.5} />
+                            <Check className="text-black dark:text-white" size={14} strokeWidth={4.5} />
                         </div>
                     </motion.div>
                 )}
