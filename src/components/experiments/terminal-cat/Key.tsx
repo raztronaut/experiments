@@ -1,0 +1,111 @@
+"use client"
+
+import { useState, useEffect, useCallback } from "react"
+import { cn } from "@/lib/utils"
+
+interface KeyProps {
+    label: string
+    sublabel?: string
+    width?: string
+    keyCode?: string
+}
+
+export function Key({ label, sublabel, width = "w-16", keyCode }: KeyProps) {
+    const [isPressed, setIsPressed] = useState(false)
+
+    const handleKeyDown = useCallback(
+        (e: KeyboardEvent) => {
+            if (keyCode && e.key.toLowerCase() === keyCode.toLowerCase()) {
+                setIsPressed(true)
+            }
+        },
+        [keyCode],
+    )
+
+    const handleKeyUp = useCallback(
+        (e: KeyboardEvent) => {
+            if (keyCode && e.key.toLowerCase() === keyCode.toLowerCase()) {
+                setIsPressed(false)
+            }
+        },
+        [keyCode],
+    )
+
+    useEffect(() => {
+        if (keyCode) {
+            window.addEventListener("keydown", handleKeyDown)
+            window.addEventListener("keyup", handleKeyUp)
+            return () => {
+                window.removeEventListener("keydown", handleKeyDown)
+                window.removeEventListener("keyup", handleKeyUp)
+            }
+        }
+    }, [keyCode, handleKeyDown, handleKeyUp])
+
+    // Dark-only styles for this experiment's dark background
+    const styles = {
+        shadow: "bg-neutral-800",
+        surface: isPressed
+            ? "border-neutral-600 bg-gradient-to-b from-neutral-900 to-neutral-800"
+            : "border-neutral-700 bg-gradient-to-b from-neutral-800 to-neutral-900",
+        shine: "via-white/20",
+        sublabel: "text-neutral-500",
+        label: isPressed ? "text-neutral-400" : "text-neutral-300",
+    }
+
+    return (
+        <button
+            onMouseDown={() => setIsPressed(true)}
+            onMouseUp={() => setIsPressed(false)}
+            onMouseLeave={() => setIsPressed(false)}
+            onTouchStart={() => setIsPressed(true)}
+            onTouchEnd={() => setIsPressed(false)}
+            className={cn(
+                width,
+                "group relative h-16 select-none rounded-xl transition-all duration-75 ease-out focus:outline-none",
+                isPressed ? "translate-y-1" : "translate-y-0",
+            )}
+        >
+            {/* Shadow/depth layer */}
+            <span
+                className={cn(
+                    "absolute inset-0 rounded-xl transition-all duration-75",
+                    styles.shadow,
+                    isPressed ? "translate-y-0" : "translate-y-1",
+                )}
+            />
+
+            {/* Main key surface */}
+            <span
+                className={cn(
+                    "absolute inset-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-75",
+                    styles.surface,
+                )}
+            >
+                {/* Shine effect */}
+                <span
+                    className={cn(
+                        "absolute inset-x-2 top-1 h-px rounded-full bg-gradient-to-r from-transparent to-transparent transition-opacity duration-75",
+                        styles.shine,
+                        isPressed ? "opacity-0" : "opacity-100",
+                    )}
+                />
+
+                {/* Key label */}
+                <span className="relative z-10 flex flex-col items-center justify-center gap-0.5">
+                    {sublabel && (
+                        <span className={cn("text-[10px] font-medium", styles.sublabel)}>{sublabel}</span>
+                    )}
+                    <span
+                        className={cn(
+                            "text-base font-semibold tracking-wide transition-colors duration-75",
+                            styles.label,
+                        )}
+                    >
+                        {label}
+                    </span>
+                </span>
+            </span>
+        </button>
+    )
+}

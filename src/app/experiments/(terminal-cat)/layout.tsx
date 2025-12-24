@@ -1,5 +1,6 @@
 import "../experiments.css";
 import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: 'Terminal Cat',
@@ -16,7 +17,9 @@ export default function Layout({
       <body>
         <ExperimentBackButton />
         {children}
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );
 }
+
