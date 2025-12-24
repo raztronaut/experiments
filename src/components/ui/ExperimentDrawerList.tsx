@@ -205,9 +205,9 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                             <div className="relative p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30">
                                 <div className="flex items-start justify-between gap-4">
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-foreground font-medium text-lg tracking-tight mb-2">
+                                        <h2 className="text-foreground font-medium text-lg tracking-tight mb-2">
                                             {experiment.title}
-                                        </h3>
+                                        </h2>
                                         <p className="text-muted-foreground text-sm leading-relaxed">
                                             {experiment.description}
                                         </p>
