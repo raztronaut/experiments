@@ -1,6 +1,7 @@
 import "../experiments.css";
 import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 import { Toaster } from "@/components/ui/sonner";
+import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
   title: 'Terminal Cat',
@@ -15,6 +16,7 @@ export default function Layout({
   return (
     <html lang="en">
       <body>
+        <UmamiScript />
         <ExperimentBackButton />
         {children}
         <Toaster position="bottom-center" />
