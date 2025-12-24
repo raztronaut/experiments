@@ -78,10 +78,13 @@ export function Key({
     return (
         <button
             onMouseDown={onPress}
-            onTouchStart={onPress}
+            onTouchStart={(e) => {
+                e.preventDefault(); // Prevent synthetic mousedown from firing
+                onPress?.();
+            }}
             className={cn(
                 width,
-                "group relative h-16 select-none rounded-xl transition-all duration-75 ease-out focus:outline-none",
+                "group relative h-16 select-none rounded-xl transition-all duration-75 ease-out focus:outline-none touch-manipulation",
                 isPressed ? "translate-y-1" : "translate-y-0",
             )}
         >
