@@ -142,7 +142,7 @@ export const useConsoleCat = (enabled: boolean = true) => {
             // Smoother ping pong based on frame
             let cycleLength = maxPos * 2;
             if (cycleLength === 0) cycleLength = 1;
-            let tick = state.frame % cycleLength;
+            const tick = state.frame % cycleLength;
             state.pos = tick > maxPos ? cycleLength - tick : tick;
 
             // Speech Logic
@@ -198,8 +198,8 @@ export const useConsoleCat = (enabled: boolean = true) => {
             // Slice a window of the terrain
             // We want the terrain to move "left" so indices increase
             const viewWidth = termWidth + 10;
-            let start = state.terrainOffset % (fullTerrainWidth - viewWidth);
-            let terrainSlice = baseTerrain.substring(start, start + viewWidth);
+            const start = state.terrainOffset % (fullTerrainWidth - viewWidth);
+            const terrainSlice = baseTerrain.substring(start, start + viewWidth);
 
             outputBuffer += `%c${terrainSlice}`;
             styles.push("color: #8be9fd; font-weight: bold;"); // Cyan/Ice color for snow

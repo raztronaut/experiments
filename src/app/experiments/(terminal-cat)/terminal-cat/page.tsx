@@ -11,7 +11,7 @@ export default function Page() {
                 <div className="text-6xl mb-4">🐱</div>
                 <h1 className="text-3xl font-bold tracking-tight">Check the Console</h1>
                 <p className="text-neutral-400">
-                    Open your browser's Developer Tools (F12) and switch to the <span className="text-brand-500 font-mono bg-neutral-900 px-2 py-1 rounded">Console</span> tab to see the cat in action.
+                    Open your browser&apos;s Developer Tools (F12) and switch to the <span className="text-brand-500 font-mono bg-neutral-900 px-2 py-1 rounded">Console</span> tab to see the cat in action.
                 </p>
             </div>
         </div>
