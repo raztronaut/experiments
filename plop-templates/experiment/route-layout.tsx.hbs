@@ -1,18 +1,24 @@
 import "../experiments.css";
+import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 
 export const metadata = {
-  title: '{{titleCase name}}',
-  description: '{{description}}',
+title: '{{titleCase name}}',
+description: '{{description}}',
 };
 
 export default function Layout({
-  children,
+children,
 }: {
-  children: React.ReactNode;
+children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+return (
+<html lang="en">
+
+<body>
+  <ExperimentBackButton />
+  {children}
+</body>
+
+</html>
+);
 }

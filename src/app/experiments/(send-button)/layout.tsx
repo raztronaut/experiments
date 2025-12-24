@@ -1,5 +1,6 @@
 import "../experiments.css";
 import { ThemeProvider } from "@/components/experiments/send-button/ThemeProvider";
+import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 
 export const metadata = {
   title: 'Send-Button',
@@ -14,6 +15,7 @@ export default function Layout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased min-h-screen">
+        <ExperimentBackButton />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
