@@ -60,7 +60,9 @@ module.exports = function (plop) {
                 },
                 // 5.5 Copy Default Preview GIF
                 function (answers) {
+                    // eslint-disable-next-line @typescript-eslint/no-require-imports
                     const fs = require('fs');
+                    // eslint-disable-next-line @typescript-eslint/no-require-imports
                     const path = require('path');
                     const dashCase = plop.getHelper('dashCase');
                     const slug = dashCase(answers.name);

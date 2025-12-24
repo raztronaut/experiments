@@ -2,9 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, ArrowUpRight } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import {
     Drawer,
     DrawerClose,
@@ -14,6 +13,7 @@ import {
     DrawerTitle,
 } from '@/components/ui/drawer';
 import { Experiment } from '@/lib/experiments';
+import Image from 'next/image';
 
 interface ExperimentDrawerListProps {
     experiments: Experiment[];
@@ -47,6 +47,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [smoothPosition, setSmoothPosition] = useState({ x: 0, y: 0 });
+    const [listOrigin, setListOrigin] = useState({ x: 0, y: 0 });
     const [isVisible, setIsVisible] = useState(false);
     const listRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<number | null>(null);
@@ -55,6 +56,17 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         const lerp = (start: number, end: number, factor: number) => {
             return start + (end - start) * factor;
         };
+
+        const updateOrigin = () => {
+            if (listRef.current) {
+                const rect = listRef.current.getBoundingClientRect();
+                setListOrigin({ x: rect.left, y: rect.top });
+            }
+        };
+
+        updateOrigin();
+        window.addEventListener('resize', updateOrigin);
+        window.addEventListener('scroll', updateOrigin);
 
         const animate = () => {
             setSmoothPosition((prev) => ({
@@ -70,6 +82,8 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
             if (animationRef.current) {
                 cancelAnimationFrame(animationRef.current);
             }
+            window.removeEventListener('resize', updateOrigin);
+            window.removeEventListener('scroll', updateOrigin);
         };
     }, [mousePosition]);
 
@@ -116,8 +130,8 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 <div
                     className="pointer-events-none fixed z-50 overflow-hidden rounded-xl shadow-2xl hidden md:block"
                     style={{
-                        left: listRef.current?.getBoundingClientRect().left ?? 0,
-                        top: listRef.current?.getBoundingClientRect().top ?? 0,
+                        left: listOrigin.x,
+                        top: listOrigin.y,
                         transform: `translate3d(${smoothPosition.x + 20}px, ${smoothPosition.y - 100}px, 0)`,
                         opacity: isVisible ? 1 : 0,
                         scale: isVisible ? 1 : 0.8,
@@ -149,10 +163,12 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                             className="w-full h-full object-cover"
                                         />
                                     ) : experiment.image ? (
-                                        <img
+                                        <Image
                                             src={experiment.image}
                                             alt={experiment.title}
-                                            className="w-full h-full object-cover"
+                                            fill
+                                            className="object-cover"
+                                            sizes="280px"
                                         />
                                     ) : (
                                         <div

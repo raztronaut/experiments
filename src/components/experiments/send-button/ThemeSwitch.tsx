@@ -12,16 +12,16 @@ const ThemeSwitch = ({
     ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
     const { resolvedTheme, setTheme } = useTheme();
-    const [checked, setChecked] = useState(false);
     const [mounted, setMounted] = useState(false);
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     useEffect(() => setMounted(true), []);
-    useEffect(() => setChecked(resolvedTheme === "dark"), [resolvedTheme]);
+
+    const isChecked = resolvedTheme === "dark";
 
     const handleCheckedChange = useCallback(
-        (isChecked: boolean) => {
-            setChecked(isChecked);
-            setTheme(isChecked ? "dark" : "light");
+        (checked: boolean) => {
+            setTheme(checked ? "dark" : "light");
         },
         [setTheme],
     );
@@ -38,7 +38,7 @@ const ThemeSwitch = ({
             {...props}
         >
             <SwitchPrimitives.Root
-                checked={checked}
+                checked={isChecked}
                 onCheckedChange={handleCheckedChange}
                 className={cn(
                     // root (track)
@@ -53,8 +53,8 @@ const ThemeSwitch = ({
                         // Use motion for specific properties to guarantee smooth animation
                         initial={false}
                         animate={{
-                            x: checked ? 48 : 4,
-                            backgroundColor: checked ? "#09090b" : "#ffffff"
+                            x: isChecked ? 48 : 4,
+                            backgroundColor: isChecked ? "#09090b" : "#ffffff"
                         }}
                         transition={{
                             type: "spring",
