@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/drawer';
 import { Experiment } from '@/lib/experiments';
 import Image from 'next/image';
+import { useUmami, UmamiEvents } from '@/hooks/useUmami';
 
 interface ExperimentDrawerListProps {
     experiments: Experiment[];
@@ -42,6 +43,9 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isHoveringTrafficLights, setIsHoveringTrafficLights] = useState(false);
+
+    // Analytics
+    const { trackExperiment, track } = useUmami();
 
     // Hover state for list items
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -108,15 +112,32 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     };
 
     const handleExperimentClick = (experiment: Experiment) => {
+        trackExperiment(UmamiEvents.EXPERIMENT_OPEN_DRAWER, {
+            slug: experiment.slug,
+            title: experiment.title,
+        });
         setSelectedExperiment(experiment);
         setIsOpen(true);
     };
 
     const handleOpenFullPage = () => {
         if (selectedExperiment) {
+            trackExperiment(UmamiEvents.EXPERIMENT_OPEN_FULL, {
+                slug: selectedExperiment.slug,
+                title: selectedExperiment.title,
+            });
             window.open(selectedExperiment.href, '_blank');
             setIsOpen(false);
         }
+    };
+
+    const handleDrawerOpenChange = (open: boolean) => {
+        if (!open && selectedExperiment) {
+            track(UmamiEvents.DRAWER_CLOSE, {
+                experiment_slug: selectedExperiment.slug,
+            });
+        }
+        setIsOpen(open);
     };
 
     return (
@@ -241,7 +262,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 </div>
             </section>
 
-            <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            <Drawer open={isOpen} onOpenChange={handleDrawerOpenChange}>
                 <DrawerContent className="h-[85vh]">
                     <DrawerHeader className="flex flex-row items-center justify-between px-4 py-3">
                         {/* macOS Traffic Lights */}

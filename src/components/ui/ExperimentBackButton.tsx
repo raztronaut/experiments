@@ -21,6 +21,7 @@ export function ExperimentBackButton() {
         <Link
             href="/"
             className="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-zinc-900/50 hover:bg-zinc-900/70 text-white rounded-full text-sm font-medium transition-colors backdrop-blur-sm border border-white/10"
+            data-umami-event="back_button_click"
         >
             <ArrowLeft className="w-4 h-4" />
             Return to Experiments

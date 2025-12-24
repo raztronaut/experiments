@@ -21,6 +21,8 @@ export default async function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-primary transition-colors"
+              data-umami-event="github_click"
+              data-umami-event-type="repo"
             >
               <Github className="h-4 w-4" />
               <span>experiments-tool</span>

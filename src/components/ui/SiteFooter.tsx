@@ -13,6 +13,8 @@ export function SiteFooter() {
                     target="_blank"
                     aria-label="GitHub"
                     className="rounded-md p-2 transition-colors hover:bg-white/5 hover:text-[var(--text-primary)]"
+                    data-umami-event="github_click"
+                    data-umami-event-type="profile"
                 >
                     <Icons.GitHub width={18} height={18} />
                 </Link>
@@ -21,6 +23,8 @@ export function SiteFooter() {
                     target="_blank"
                     aria-label="X (formerly Twitter)"
                     className="rounded-md p-2 transition-colors hover:bg-white/5 hover:text-[var(--text-primary)]"
+                    data-umami-event="social_click"
+                    data-umami-event-platform="x"
                 >
                     <Icons.X width={16} height={16} />
                 </Link>
