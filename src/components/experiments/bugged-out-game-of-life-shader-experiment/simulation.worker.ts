@@ -1,9 +1,17 @@
+export { };
 
 /**
  * SIMULATION WORKER
  * -----------------
  * This Web Worker handles the mathematical core of the Game of Life.
  */
+
+// Message Types for Type Safety
+type WorkerMessage =
+    | { type: 'INIT', width: number, height: number }
+    | { type: 'TICK' }
+    | { type: 'SPLAT', x: number, y: number, radius: number }
+    | { type: 'RESET' };
 
 // Cell States
 const ALIVE = 255;
@@ -164,7 +172,7 @@ function splat(centerX: number, centerY: number, radius: number) {
     }
 }
 
-self.onmessage = (e: MessageEvent) => {
+self.onmessage = (e: MessageEvent<WorkerMessage>) => {
     const { type } = e.data;
     switch (type) {
         case 'INIT':
