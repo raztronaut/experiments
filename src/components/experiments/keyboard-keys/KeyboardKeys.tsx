@@ -140,13 +140,26 @@ export default function KeyboardKeys() {
     }, []);
 
     // Handle clicking on a key (simulates pressing that key)
+    // Use ref to track if we're currently processing to prevent double-triggers
+    const isProcessingRef = useRef(false);
+
     const handleKeyClick = useCallback((keyCode: string, keyIndex: number) => {
         // Ignore input during lockout or success/error animations
         if (isLockedOut || sequenceState !== "playing") return;
 
+        // Prevent double-triggers from touch + mouse events
+        if (isProcessingRef.current) return;
+        isProcessingRef.current = true;
+
+        // Reset processing flag after a short delay
+        setTimeout(() => {
+            isProcessingRef.current = false;
+        }, 100);
+
         const expectedKey = keys[currentIndex]?.keyCode;
 
         // Check if clicked key matches expected
+        // Only check keyCode match, not keyIndex (user might tap any key)
         if (expectedKey && keyCode.toLowerCase() === expectedKey.toLowerCase() && keyIndex === currentIndex) {
             // Correct key!
             if (currentIndex === keys.length - 1) {

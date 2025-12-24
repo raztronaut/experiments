@@ -77,10 +77,18 @@ export function Key({
 
     return (
         <button
-            onMouseDown={onPress}
+            type="button"
+            onMouseDown={(e) => {
+                e.stopPropagation();
+                onPress?.();
+            }}
             onTouchStart={(e) => {
                 e.preventDefault(); // Prevent synthetic mousedown from firing
+                e.stopPropagation();
                 onPress?.();
+            }}
+            onTouchEnd={(e) => {
+                e.preventDefault(); // Prevent click event from firing
             }}
             className={cn(
                 width,
