@@ -182,7 +182,7 @@ function splat(centerX: number, centerY: number, radius: number) {
 }
 
 // Global Event Listener for messages from the Main Thread
-self.onmessage = (e: MessageEvent) => {
+self.onmessage = (e: MessageEvent<WorkerMessage>) => {
     const { type } = e.data;
 
     switch (type) {
