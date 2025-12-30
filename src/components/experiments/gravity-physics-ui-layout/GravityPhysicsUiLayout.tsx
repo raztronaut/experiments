@@ -41,6 +41,22 @@ export default function GravityPhysicsUiLayout() {
 
     if (dimensions.width === 0) return null;
 
+    const isMobile = dimensions.width < 768;
+
+    if (isMobile) {
+        return (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900 text-zinc-100 p-8 text-center font-sans">
+                <div className="max-w-md space-y-4">
+                    <div className="text-4xl mb-2">🖥️</div>
+                    <h2 className="text-xl font-semibold">Desktop Experience Required</h2>
+                    <p className="text-zinc-400 leading-relaxed">
+                        This experiment is not currently supported on mobile devices. Please visit on a desktop browser for the full experience.
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="w-full h-full relative overflow-hidden bg-[#2b6cb0]">
             {/* Background Gradient similar to Cheetah default */}
