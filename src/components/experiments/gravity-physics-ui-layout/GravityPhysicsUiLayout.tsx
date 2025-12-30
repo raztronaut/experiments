@@ -27,11 +27,22 @@ export default function GravityPhysicsUiLayout() {
 
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
+    const [isBlockedDevice, setIsBlockedDevice] = useState(false);
+
     useEffect(() => {
+        // Only verify device capability on mount
+        const initialWidth = window.innerWidth;
+        if (initialWidth < 768) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setIsBlockedDevice(true);
+        }
+
+        // Initial dimension set
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        setDimensions({ width: window.innerWidth, height: window.innerHeight });
+        setDimensions({ width: initialWidth, height: window.innerHeight });
 
         const handleResize = () => {
+            // We do NOT update isBlockedDevice here to allow resizing
             setDimensions({ width: window.innerWidth, height: window.innerHeight });
         };
 
@@ -41,9 +52,7 @@ export default function GravityPhysicsUiLayout() {
 
     if (dimensions.width === 0) return null;
 
-    const isMobile = dimensions.width < 768;
-
-    if (isMobile) {
+    if (isBlockedDevice) {
         return (
             <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900 text-zinc-100 p-8 text-center font-sans">
                 <div className="max-w-md space-y-4">
