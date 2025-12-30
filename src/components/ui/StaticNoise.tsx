@@ -32,6 +32,10 @@ export function StaticNoise({ isVisible = true, className = '' }: StaticNoisePro
         const drawNoise = () => {
             const w = canvas.width;
             const h = canvas.height;
+            if (w === 0 || h === 0) {
+                animationFrameRef.current = requestAnimationFrame(drawNoise);
+                return;
+            }
             const idata = ctx.createImageData(w, h);
             const buffer32 = new Uint32Array(idata.data.buffer);
             const len = buffer32.length;
