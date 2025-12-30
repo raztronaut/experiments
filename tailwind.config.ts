@@ -56,7 +56,16 @@ const config: Config = {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',
                 sm: 'calc(var(--radius) - 4px)'
-            }
+            },
+            keyframes: {
+                'static-noise-fade': {
+                    '0%': { opacity: '1' },
+                    '100%': { opacity: '0' },
+                },
+            },
+            animation: {
+                'static-noise': 'static-noise-fade 0.8s ease-in-out forwards',
+            },
         }
     },
     plugins: [tailwindcssAnimate],

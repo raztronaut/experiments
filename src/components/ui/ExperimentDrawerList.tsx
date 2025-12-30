@@ -15,6 +15,7 @@ import {
 import { Experiment } from '@/lib/experiments';
 import Image from 'next/image';
 import { useUmami, UmamiEvents } from '@/hooks/useUmami';
+import { StaticNoise } from '@/components/ui/StaticNoise';
 
 interface ExperimentDrawerListProps {
     experiments: Experiment[];
@@ -64,14 +65,20 @@ function ExperimentPreviewMedia({ experiment, isVisible = true }: { experiment: 
 
             {/* Mount video only when visible for performance */}
             {experiment.video && isVisible && (
-                <video
-                    src={experiment.video}
-                    muted
-                    loop
-                    playsInline
-                    autoPlay
-                    className="absolute inset-0 w-full h-full object-cover z-10"
-                />
+                <>
+                    <video
+                        src={experiment.video}
+                        muted
+                        loop
+                        playsInline
+                        autoPlay
+                        className="absolute inset-0 w-full h-full object-cover z-10"
+                    />
+                    {/* TV Static Overlay */}
+                    <div className="absolute inset-0 z-20 pointer-events-none animate-static-noise">
+                        <StaticNoise isVisible={true} className="opacity-80 mix-blend-overlay" />
+                    </div>
+                </>
             )}
 
             {/* Fallback if no media */}
@@ -278,15 +285,13 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
 
                                 <div className="relative z-10 flex items-start justify-between gap-4 pointer-events-none">
                                     <div className="flex-1 min-w-0">
-                                        <h2 className={`font-medium text-lg tracking-tight mb-2 transition-colors duration-300 ${
-                                            mobilePreviewExperiment?.slug === experiment.slug
+                                        <h2 className={`font-medium text-lg tracking-tight mb-2 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                                 ? 'opacity-0'
                                                 : 'text-foreground'
                                             }`}>
                                             {experiment.title}
                                         </h2>
-                                        <p className={`text-sm leading-relaxed transition-colors duration-300 ${
-                                            mobilePreviewExperiment?.slug === experiment.slug
+                                        <p className={`text-sm leading-relaxed transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                                 ? 'opacity-0'
                                                 : 'text-muted-foreground'
                                             }`}>
@@ -298,8 +303,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     {experiment.created && (
                                         <div className="text-right">
                                             <span
-                                                className={`text-xs font-mono tabular-nums transition-colors duration-300 ${
-                                                    mobilePreviewExperiment?.slug === experiment.slug
+                                                className={`text-xs font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                                         ? 'opacity-0'
                                                         : 'text-muted-foreground opacity-60'
                                                     }`}
