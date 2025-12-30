@@ -176,7 +176,7 @@ export default function TransitAirportSplitFlapDisplay() {
                         </div>
                     ) : (
                         data.map((trip) => (
-                            <div key={trip.id} className="flex flex-col md:grid md:grid-cols-[var(--col-train)_var(--col-dest)_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 md:gap-3 lg:gap-6 items-start md:items-center bg-white/[0.03] hover:bg-white/[0.06] py-3 md:py-4 px-4 transition-all duration-300 rounded-lg group border border-white/[0.02] hover:border-white/10 shadow-sm md:overflow-visible">
+                            <div key={trip.id} className="flex flex-col md:grid md:grid-cols-[var(--col-train)_var(--col-dest)_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 md:gap-3 lg:gap-6 items-start md:items-center bg-white/[0.015] hover:bg-white/[0.04] py-3 md:py-4 px-4 transition-all duration-300 rounded-lg group border border-white/[0.02] hover:border-white/10 shadow-sm md:overflow-visible">
                                 {/* Row 1: Train + Destination */}
                                 <div className="flex items-center gap-4 w-full md:contents">
                                     <div className="flex-shrink-0">
