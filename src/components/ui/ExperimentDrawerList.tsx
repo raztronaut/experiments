@@ -39,10 +39,67 @@ const ExpandIcon = () => (
     </svg>
 );
 
+// Reusable Preview Component (Top-level to prevent re-renders)
+function ExperimentPreviewMedia({ experiment, isVisible = true }: { experiment: Experiment; isVisible?: boolean }) {
+    return (
+        <div
+            className="absolute inset-0 w-full h-full transition-all duration-500 ease-out bg-secondary"
+            style={{
+                opacity: isVisible ? 1 : 0,
+                scale: isVisible ? 1 : 1.1,
+                filter: isVisible ? "none" : "blur(10px)",
+            }}
+        >
+            {/* Always render image as base layer if available */}
+            {experiment.image && (
+                <Image
+                    src={experiment.image}
+                    alt={experiment.title}
+                    fill
+                    className="object-cover z-0"
+                    sizes="(max-width: 768px) 100vw, 280px"
+                    priority={isVisible} // Prioritize loading if visible
+                />
+            )}
+
+            {/* Mount video only when visible for performance */}
+            {experiment.video && isVisible && (
+                <video
+                    src={experiment.video}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    className="absolute inset-0 w-full h-full object-cover z-10"
+                />
+            )}
+
+            {/* Fallback if no media */}
+            {!experiment.image && !experiment.video && (
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center z-0">
+                    <span className="text-muted-foreground text-xs font-mono uppercase tracking-widest">No Preview</span>
+                </div>
+            )}
+
+            {experiment.isPlaceholder && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-20 pointer-events-none">
+                    <span className="text-white font-['Comic_Sans_MS'] font-bold text-sm border-2 border-white/50 px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm -rotate-6 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] transform hover:scale-110 transition-transform">
+                        NO PREVIEW YET
+                    </span>
+                </div>
+            )}
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none z-10" />
+        </div>
+    );
+}
+
 export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps) {
     const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [isHoveringTrafficLights, setIsHoveringTrafficLights] = useState(false);
+    const [mobilePreviewExperiment, setMobilePreviewExperiment] = useState<Experiment | null>(null);
+    const touchStartRef = useRef<number | null>(null);
 
     // Analytics
     const { trackExperiment, track } = useUmami();
@@ -111,6 +168,23 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         setIsVisible(false);
     };
 
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartRef.current = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent, experiment: Experiment) => {
+        if (touchStartRef.current === null) return;
+
+        const touchEnd = e.changedTouches[0].clientX;
+        const diff = touchStartRef.current - touchEnd;
+
+        // Swipe threshold (50px)
+        if (Math.abs(diff) > 50) {
+            setMobilePreviewExperiment(prev => prev?.slug === experiment.slug ? null : experiment);
+        }
+        touchStartRef.current = null;
+    };
+
     const handleExperimentClick = (experiment: Experiment) => {
         trackExperiment(UmamiEvents.EXPERIMENT_OPEN_DRAWER, {
             slug: experiment.slug,
@@ -140,6 +214,8 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         setIsOpen(open);
     };
 
+    // ... (Inside main component)
+
     return (
         <>
             <section
@@ -147,7 +223,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 onMouseMove={handleMouseMove}
                 className="relative w-full"
             >
-                {/* Floating Preview Image */}
+                {/* Floating Preview Image (Desktop Only) */}
                 <div
                     className="pointer-events-none fixed z-50 overflow-hidden rounded-xl shadow-2xl hidden md:block"
                     style={{
@@ -156,60 +232,21 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                         transform: `translate3d(${smoothPosition.x + 20}px, ${smoothPosition.y - 100}px, 0)`,
                         opacity: isVisible ? 1 : 0,
                         scale: isVisible ? 1 : 0.8,
-                        transition: "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), scale 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                         width: '280px',
                         height: '180px',
                     }}
                 >
                     <div className="relative w-full h-full bg-secondary rounded-xl overflow-hidden border border-border/50">
                         {experiments.map((experiment, index) => {
-                            const isHovered = hoveredIndex === index;
+                            // Use key to force remount/update if needed, or just control opacity
                             return (
-                                <div
+                                <ExperimentPreviewMedia
                                     key={experiment.slug}
-                                    className="absolute inset-0 w-full h-full transition-all duration-500 ease-out"
-                                    style={{
-                                        opacity: isHovered ? 1 : 0,
-                                        scale: isHovered ? 1 : 1.1,
-                                        filter: isHovered ? "none" : "blur(10px)",
-                                    }}
-                                >
-                                    {experiment.video ? (
-                                        <video
-                                            src={experiment.video}
-                                            muted
-                                            loop
-                                            playsInline
-                                            autoPlay
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : experiment.image ? (
-                                        <Image
-                                            src={experiment.image}
-                                            alt={experiment.title}
-                                            fill
-                                            className="object-cover"
-                                            sizes="280px"
-                                        />
-                                    ) : (
-                                        <div
-                                            className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center"
-                                        >
-                                            <span className="text-muted-foreground text-xs font-mono uppercase tracking-widest">No Preview</span>
-                                        </div>
-                                    )}
-                                    {experiment.isPlaceholder && (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-20 pointer-events-none">
-                                            <span className="text-white font-['Comic_Sans_MS'] font-bold text-sm border-2 border-white/50 px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm -rotate-6 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] transform hover:scale-110 transition-transform">
-                                                NO PREVIEW YET
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
+                                    experiment={experiment}
+                                    isVisible={hoveredIndex === index}
+                                />
                             );
                         })}
-                        {/* Subtle gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
                     </div>
                 </div>
 
@@ -221,15 +258,36 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                             onMouseEnter={() => handleMouseEnter(index)}
                             onMouseLeave={handleMouseLeave}
                             onClick={() => handleExperimentClick(experiment)}
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={(e) => handleTouchEnd(e, experiment)}
                         >
                             {/* Card-like container */}
-                            <div className="relative p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30">
-                                <div className="flex items-start justify-between gap-4">
+                            <div className="relative p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 overflow-hidden">
+                                {/* In-Card Mobile Swipe Preview */}
+                                <div className={`absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'
+                                    }`}>
+                                    <ExperimentPreviewMedia
+                                        experiment={experiment}
+                                        isVisible={mobilePreviewExperiment?.slug === experiment.slug}
+                                    />
+                                    {/* Dark overlay for text readability */}
+                                    {/* We only render overlay if active to avoid stacking unnecessary divs, though lightweight */}
+                                    <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'
+                                        }`} />
+                                </div>
+
+                                <div className="relative z-10 flex items-start justify-between gap-4 pointer-events-none">
                                     <div className="flex-1 min-w-0">
-                                        <h2 className="text-foreground font-medium text-lg tracking-tight mb-2">
+                                        <h2 className={`font-medium text-lg tracking-tight mb-2 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
+                                                ? 'text-white/40'
+                                                : 'text-foreground'
+                                            }`}>
                                             {experiment.title}
                                         </h2>
-                                        <p className="text-muted-foreground text-sm leading-relaxed">
+                                        <p className={`text-sm leading-relaxed transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
+                                                ? 'text-white/30 font-medium'
+                                                : 'text-muted-foreground'
+                                            }`}>
                                             {experiment.description}
                                         </p>
                                     </div>
@@ -238,7 +296,10 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     {experiment.created && (
                                         <div className="text-right">
                                             <span
-                                                className="text-xs font-mono text-muted-foreground tabular-nums opacity-60"
+                                                className={`text-xs font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
+                                                        ? 'text-white/20'
+                                                        : 'text-muted-foreground opacity-60'
+                                                    }`}
                                                 suppressHydrationWarning
                                             >
                                                 {new Date(experiment.created).toLocaleDateString('en-US', {
