@@ -49,13 +49,14 @@ export default function TransitAirportSplitFlapDisplay() {
         <div
             className="flex flex-col items-center justify-start min-h-screen bg-[#050505] p-4 pt-24 md:p-12 font-mono"
             style={{
-                // Fluid scaling variables - slightly more aggressive to fit tablet 768px
-                '--flap-w': 'clamp(7px, 1.7vw, 26px)',
+                // Fluid scaling variables - tightened for absolute zero overflow
+                '--flap-w': 'clamp(14px, 1.8vw, 26px)',
                 '--flap-h': 'calc(var(--flap-w) * 1.57)',
                 '--flap-font': 'calc(var(--flap-w) * 0.85)',
                 '--flap-gap': 'calc(var(--flap-w) * 0.08)',
                 // Calculated column widths for precise header alignment
                 '--col-train': 'calc(3 * var(--flap-w) + 2 * var(--flap-gap))',
+                '--col-dest': 'calc(16 * var(--flap-w) + 15 * var(--flap-gap))',
                 '--col-time': 'calc(5 * var(--flap-w) + 4 * var(--flap-gap))',
                 '--col-plat': 'calc(2 * var(--flap-w) + 1 * var(--flap-gap))',
                 '--col-status': 'calc(10 * var(--flap-w) + 9 * var(--flap-gap))',
@@ -131,7 +132,7 @@ export default function TransitAirportSplitFlapDisplay() {
                 </div>
             </div>
 
-            <div className="w-full max-w-7xl bg-[#111] px-4 py-8 md:px-4 lg:px-10 md:py-12 rounded-2xl border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+            <div className="w-full max-w-7xl bg-[#111] px-4 py-8 md:px-4 lg:px-10 md:py-12 rounded-2xl border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-x-hidden">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-16 gap-6 px-4">
                     <div className="flex items-center gap-6">
@@ -154,7 +155,7 @@ export default function TransitAirportSplitFlapDisplay() {
                 </div>
 
                 {/* Board Headers */}
-                <div className="hidden md:grid md:grid-cols-[var(--col-train)_1fr_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 lg:gap-6 mb-6 px-4">
+                <div className="hidden md:grid md:grid-cols-[var(--col-train)_var(--col-dest)_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 lg:gap-6 mb-6 px-4">
                     <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Train</span>
                     <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Destination</span>
                     <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Time</span>
@@ -164,8 +165,7 @@ export default function TransitAirportSplitFlapDisplay() {
 
                 {/* Mobile Header (Simplified) */}
                 <div className="md:hidden flex justify-between mb-4 px-4 text-[9px] text-white/20 font-black uppercase tracking-[0.2em]">
-                    <span>Service</span>
-                    <span>Status</span>
+                    <span>Transit Info</span>
                 </div>
 
                 {/* Rows */}
@@ -176,7 +176,7 @@ export default function TransitAirportSplitFlapDisplay() {
                         </div>
                     ) : (
                         data.map((trip) => (
-                            <div key={trip.id} className="flex flex-col md:grid md:grid-cols-[var(--col-train)_1fr_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 md:gap-3 lg:gap-6 items-start md:items-center bg-white/[0.02] hover:bg-white/[0.04] py-3 md:py-4 px-4 transition-all duration-300 rounded-lg group border border-white/[0.02] hover:border-white/10 shadow-sm overflow-x-auto md:overflow-visible">
+                            <div key={trip.id} className="flex flex-col md:grid md:grid-cols-[var(--col-train)_var(--col-dest)_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 md:gap-3 lg:gap-6 items-start md:items-center bg-white/[0.03] hover:bg-white/[0.06] py-3 md:py-4 px-4 transition-all duration-300 rounded-lg group border border-white/[0.02] hover:border-white/10 shadow-sm md:overflow-visible">
                                 {/* Row 1: Train + Destination */}
                                 <div className="flex items-center gap-4 w-full md:contents">
                                     <div className="flex-shrink-0">
@@ -186,12 +186,14 @@ export default function TransitAirportSplitFlapDisplay() {
                                         <SplitFlapRow text={trip.destination} length={14} onFlip={playClick} interactive={true} className="md:hidden" />
                                         <SplitFlapRow text={trip.destination} length={16} onFlip={playClick} interactive={true} className="hidden md:flex" />
                                     </div>
+                                </div>
 
-                                    {/* Status on mobile - moved to right of Row 1 */}
-                                    <div className="md:hidden flex-shrink-0">
+                                {/* Row 2 (Mobile only): Status + Time & Platform */}
+                                <div className="md:hidden flex flex-col gap-4 w-full py-4 border-t border-white/5 mt-1 rounded-b-lg">
+                                    <div className="flex justify-start">
                                         <SplitFlapRow
                                             text={trip.status}
-                                            length={9}
+                                            length={10}
                                             onFlip={playClick}
                                             interactive={true}
                                             className={cn(
@@ -202,19 +204,16 @@ export default function TransitAirportSplitFlapDisplay() {
                                             )}
                                         />
                                     </div>
-                                </div>
-
-                                {/* Row 2 (Mobile only): Time & Platform */}
-                                <div className="flex items-center gap-4 md:hidden py-1 border-t border-white/5 w-full">
-                                    <div className="flex items-center gap-2 text-white/40">
-                                        <Clock className="w-3 h-3" />
-                                        <SplitFlapRow text={trip.arrivalTime} length={5} onFlip={playClick} interactive={true} />
-                                    </div>
-                                    <div className="w-[1px] h-3 bg-white/10" />
-                                    <div className="flex items-center gap-2 text-white/40">
-                                        <MapPin className="w-3 h-3" />
-                                        <span className="text-[10px] font-black uppercase tracking-tight mr-1">Plat</span>
-                                        <SplitFlapRow text={trip.gate} length={2} onFlip={playClick} interactive={true} />
+                                    <div className="flex items-center justify-between w-full text-white/40">
+                                        <div className="flex items-center gap-2">
+                                            <Clock className="w-3 h-3" />
+                                            <SplitFlapRow text={trip.arrivalTime} length={5} onFlip={playClick} interactive={true} />
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <MapPin className="w-3 h-3" />
+                                            <span className="text-[10px] font-black uppercase tracking-tight mr-1">Plat</span>
+                                            <SplitFlapRow text={trip.gate} length={2} onFlip={playClick} interactive={true} />
+                                        </div>
                                     </div>
                                 </div>
 
