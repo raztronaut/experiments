@@ -29,8 +29,11 @@ export default async function Home() {
               <ArrowUpRight className="h-3 w-3 opacity-60" />
             </a>
           </p>
-          <p className="mt-2 text-sm text-muted-foreground md:hidden">
+          <p className="mt-2 text-sm text-[#14b8a6] md:hidden">
             Swipe &lt;- or -&gt; on mobile in a card to view a preview.
+          </p>
+          <p className="mt-2 text-sm text-[#14b8a6] md:hidden">
+            But visit the experiments on desktop for best experience!
           </p>
         </div>
 
