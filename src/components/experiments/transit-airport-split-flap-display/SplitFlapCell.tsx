@@ -1,0 +1,91 @@
+"use client";
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { getPreviousChar, getNextChar, sanitizeChar } from './utils';
+
+interface SplitFlapCellProps {
+    char: string;
+    className?: string;
+    onFlip?: () => void;
+    refreshKey?: number;
+}
+
+export function SplitFlapCell({ char: targetCharProp = " ", className, onFlip, refreshKey }: SplitFlapCellProps) {
+    const sanitizedTarget = useMemo(() => sanitizeChar(targetCharProp), [targetCharProp]);
+    const [currentChar, setCurrentChar] = useState(" ");
+    const [isScrambling, setIsScrambling] = useState(false);
+    const [prevRefreshKey, setPrevRefreshKey] = useState(refreshKey);
+
+    // Trigger scrambling when refreshKey changes
+    useEffect(() => {
+        if (refreshKey !== prevRefreshKey) {
+            setPrevRefreshKey(refreshKey);
+            setIsScrambling(true);
+            setCurrentChar(" ");
+        }
+    }, [refreshKey, prevRefreshKey]);
+
+    const isFlipping = currentChar !== sanitizedTarget;
+
+    // Reset scrambling state when we reach the target
+    useEffect(() => {
+        if (!isFlipping) {
+            setIsScrambling(false);
+        }
+    }, [isFlipping]);
+
+
+    useEffect(() => {
+        if (!isFlipping) return;
+
+        const timer = setTimeout(() => {
+            const next = getNextChar(currentChar);
+            setCurrentChar(next);
+
+            if (onFlip) {
+                if (isScrambling || Math.random() > 0.5) {
+                    onFlip();
+                }
+            }
+        }, 40);
+
+        return () => clearTimeout(timer);
+    }, [currentChar, isFlipping, onFlip, isScrambling]);
+
+    return (
+        <div className={cn("relative w-6 h-10 md:w-7 md:h-11 bg-[#1a1a1a] rounded-sm overflow-hidden perspective-1000 select-none", className)}>
+            {/* Static Background (Target/Incoming Character) */}
+            <div className="absolute inset-0 flex flex-col">
+                <div className="h-1/2 w-full bg-[#1a1a1a] border-b border-black/50 flex items-end justify-center overflow-hidden">
+                    <span className="text-xl md:text-2xl font-mono font-bold text-white translate-y-1/2 leading-none">{currentChar}</span>
+                </div>
+                <div className="h-1/2 w-full bg-[#1a1a1a] flex items-start justify-center overflow-hidden">
+                    <span className="text-xl md:text-2xl font-mono font-bold text-white -translate-y-1/2 leading-none">{currentChar}</span>
+                </div>
+            </div>
+
+            <AnimatePresence mode="popLayout">
+                {isFlipping && (
+                    <motion.div
+                        key={currentChar}
+                        initial={{ rotateX: 0 }}
+                        animate={{ rotateX: -180 }}
+                        exit={{ display: "none" }}
+                        transition={{ duration: 0.1, ease: "linear" }}
+                        style={{ transformOrigin: "bottom", zIndex: 10 }}
+                        className="absolute top-0 left-0 w-full h-1/2 bg-[#1a1a1a] border-b border-black/50 flex items-end justify-center overflow-hidden backface-hidden"
+                    >
+                        <span className="text-xl md:text-2xl font-mono font-bold text-white translate-y-1/2 leading-none">
+                            {getPreviousChar(currentChar)}
+                        </span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Decorative center line */}
+            <div className="absolute top-[calc(50%-1px)] left-0 w-full h-[2px] bg-black/80 z-20 shadow-sm" />
+        </div>
+    );
+}
