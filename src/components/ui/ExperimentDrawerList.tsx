@@ -278,14 +278,16 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
 
                                 <div className="relative z-10 flex items-start justify-between gap-4 pointer-events-none">
                                     <div className="flex-1 min-w-0">
-                                        <h2 className={`font-medium text-lg tracking-tight mb-2 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                ? 'text-white/40'
+                                        <h2 className={`font-medium text-lg tracking-tight mb-2 transition-colors duration-300 ${
+                                            mobilePreviewExperiment?.slug === experiment.slug
+                                                ? 'opacity-0'
                                                 : 'text-foreground'
                                             }`}>
                                             {experiment.title}
                                         </h2>
-                                        <p className={`text-sm leading-relaxed transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                ? 'text-white/30 font-medium'
+                                        <p className={`text-sm leading-relaxed transition-colors duration-300 ${
+                                            mobilePreviewExperiment?.slug === experiment.slug
+                                                ? 'opacity-0'
                                                 : 'text-muted-foreground'
                                             }`}>
                                             {experiment.description}
@@ -296,8 +298,9 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     {experiment.created && (
                                         <div className="text-right">
                                             <span
-                                                className={`text-xs font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                        ? 'text-white/20'
+                                                className={`text-xs font-mono tabular-nums transition-colors duration-300 ${
+                                                    mobilePreviewExperiment?.slug === experiment.slug
+                                                        ? 'opacity-0'
                                                         : 'text-muted-foreground opacity-60'
                                                     }`}
                                                 suppressHydrationWarning
