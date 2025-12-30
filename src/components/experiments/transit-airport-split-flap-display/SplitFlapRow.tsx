@@ -39,7 +39,8 @@ export function SplitFlapRow({ text, length, className, onFlip, interactive = fa
 
     return (
         <div
-            className={`flex gap-[2px] ${className} ${interactive ? 'cursor-pointer' : ''}`}
+            className={`flex ${className} ${interactive ? 'cursor-pointer' : ''}`}
+            style={{ gap: 'var(--flap-gap, 2px)' }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >

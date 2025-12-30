@@ -46,14 +46,28 @@ export default function TransitAirportSplitFlapDisplay() {
     }, [isMuted, setMuted]);
 
     return (
-        <div className="flex flex-col items-center justify-start min-h-screen bg-[#050505] p-4 md:p-12 font-mono">
+        <div
+            className="flex flex-col items-center justify-start min-h-screen bg-[#050505] p-4 pt-24 md:p-12 font-mono"
+            style={{
+                // Fluid scaling variables - slightly more aggressive to fit tablet 768px
+                '--flap-w': 'clamp(7px, 1.7vw, 26px)',
+                '--flap-h': 'calc(var(--flap-w) * 1.57)',
+                '--flap-font': 'calc(var(--flap-w) * 0.85)',
+                '--flap-gap': 'calc(var(--flap-w) * 0.08)',
+                // Calculated column widths for precise header alignment
+                '--col-train': 'calc(3 * var(--flap-w) + 2 * var(--flap-gap))',
+                '--col-time': 'calc(5 * var(--flap-w) + 4 * var(--flap-gap))',
+                '--col-plat': 'calc(2 * var(--flap-w) + 1 * var(--flap-gap))',
+                '--col-status': 'calc(10 * var(--flap-w) + 9 * var(--flap-gap))',
+            } as React.CSSProperties}
+        >
             {/* Control Bar */}
-            <div className="flex items-center gap-6 mb-8">
-                <div className="flex gap-4 bg-white/5 p-1 rounded-full border border-white/10">
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-8 w-full max-w-6xl">
+                <div className="flex gap-2 md:gap-4 bg-white/5 p-1 rounded-full border border-white/10">
                     <button
                         onClick={() => setSelectedAgency('caltrain')}
                         className={cn(
-                            "px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all",
+                            "px-4 md:px-6 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all",
                             selectedAgency === 'caltrain' ? "bg-yellow-400 text-black shadow-lg" : "text-white/40 hover:text-white"
                         )}
                     >
@@ -62,7 +76,7 @@ export default function TransitAirportSplitFlapDisplay() {
                     <button
                         onClick={() => setSelectedAgency('ttc')}
                         className={cn(
-                            "px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all",
+                            "px-4 md:px-6 py-2 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all",
                             selectedAgency === 'ttc' ? "bg-red-600 text-white shadow-lg" : "text-white/40 hover:text-white"
                         )}
                     >
@@ -117,7 +131,7 @@ export default function TransitAirportSplitFlapDisplay() {
                 </div>
             </div>
 
-            <div className="w-full max-w-6xl bg-[#111] px-4 py-8 md:px-10 md:py-12 rounded-2xl border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+            <div className="w-full max-w-7xl bg-[#111] px-4 py-8 md:px-4 lg:px-10 md:py-12 rounded-2xl border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-16 gap-6 px-4">
                     <div className="flex items-center gap-6">
@@ -125,7 +139,7 @@ export default function TransitAirportSplitFlapDisplay() {
                             {config.logo}
                         </div>
                         <div>
-                            <h1 className="text-3xl md:text-5xl font-black text-white tracking-[0.1em] uppercase italic leading-none">{config.name}</h1>
+                            <h1 className="text-2xl md:text-5xl font-black text-white tracking-[0.1em] uppercase italic leading-none">{config.name}</h1>
                             <p className={cn("text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase mt-2 opacity-90 transition-colors duration-500", selectedAgency === 'caltrain' ? 'text-yellow-400' : 'text-red-500')}>
                                 {config.description}
                             </p>
@@ -140,12 +154,18 @@ export default function TransitAirportSplitFlapDisplay() {
                 </div>
 
                 {/* Board Headers */}
-                <div className="grid grid-cols-[60px_1fr_90px] md:grid-cols-[90px_1fr_150px_70px_250px] gap-4 md:gap-8 mb-6 px-4">
-                    <span className="text-[9px] md:text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Train</span>
-                    <span className="text-[9px] md:text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Destination</span>
-                    <span className="hidden md:block text-[9px] md:text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Time</span>
-                    <span className="hidden md:block text-[9px] md:text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Plat</span>
-                    <span className="text-[9px] md:text-[10px] text-white/40 font-black uppercase tracking-[0.2em] md:text-left text-right">Status</span>
+                <div className="hidden md:grid md:grid-cols-[var(--col-train)_1fr_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 lg:gap-6 mb-6 px-4">
+                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Train</span>
+                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Destination</span>
+                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Time</span>
+                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Plat</span>
+                    <span className="text-[10px] text-white/40 font-black uppercase tracking-[0.2em]">Status</span>
+                </div>
+
+                {/* Mobile Header (Simplified) */}
+                <div className="md:hidden flex justify-between mb-4 px-4 text-[9px] text-white/20 font-black uppercase tracking-[0.2em]">
+                    <span>Service</span>
+                    <span>Status</span>
                 </div>
 
                 {/* Rows */}
@@ -156,23 +176,55 @@ export default function TransitAirportSplitFlapDisplay() {
                         </div>
                     ) : (
                         data.map((trip) => (
-                            <div key={trip.id} className="grid grid-cols-[60px_1fr_90px] md:grid-cols-[90px_1fr_150px_70px_250px] gap-4 md:gap-8 items-center bg-white/[0.02] hover:bg-white/[0.04] py-3 px-4 transition-all duration-300 rounded-lg group border border-white/[0.02] hover:border-white/10 shadow-sm">
-                                <SplitFlapRow text={trip.trainNumber} length={3} onFlip={playClick} interactive={true} />
-                                <div className="flex flex-col min-w-0">
-                                    <SplitFlapRow text={trip.destination} length={10} onFlip={playClick} interactive={true} className="md:hidden" />
-                                    <SplitFlapRow text={trip.destination} length={16} onFlip={playClick} interactive={true} className="hidden md:flex" />
-                                    {/* Show time/platform inline on mobile */}
-                                    <div className="flex gap-4 mt-2 md:hidden text-white/30 text-[9px] font-bold uppercase tracking-widest">
-                                        <span className="flex items-center gap-1 opacity-60"><Clock className="w-2.5 h-2.5" /> {trip.arrivalTime}</span>
-                                        <span className="flex items-center gap-1 opacity-60"><MapPin className="w-2.5 h-2.5" /> {trip.gate}</span>
+                            <div key={trip.id} className="flex flex-col md:grid md:grid-cols-[var(--col-train)_1fr_var(--col-time)_var(--col-plat)_var(--col-status)] gap-3 md:gap-3 lg:gap-6 items-start md:items-center bg-white/[0.02] hover:bg-white/[0.04] py-3 md:py-4 px-4 transition-all duration-300 rounded-lg group border border-white/[0.02] hover:border-white/10 shadow-sm overflow-x-auto md:overflow-visible">
+                                {/* Row 1: Train + Destination */}
+                                <div className="flex items-center gap-4 w-full md:contents">
+                                    <div className="flex-shrink-0">
+                                        <SplitFlapRow text={trip.trainNumber} length={3} onFlip={playClick} interactive={true} />
+                                    </div>
+                                    <div className="flex-grow min-w-0 md:contents">
+                                        <SplitFlapRow text={trip.destination} length={14} onFlip={playClick} interactive={true} className="md:hidden" />
+                                        <SplitFlapRow text={trip.destination} length={16} onFlip={playClick} interactive={true} className="hidden md:flex" />
+                                    </div>
+
+                                    {/* Status on mobile - moved to right of Row 1 */}
+                                    <div className="md:hidden flex-shrink-0">
+                                        <SplitFlapRow
+                                            text={trip.status}
+                                            length={9}
+                                            onFlip={playClick}
+                                            interactive={true}
+                                            className={cn(
+                                                "transition-colors duration-700",
+                                                trip.status === 'DELAYED' ? 'text-red-500' :
+                                                    trip.status === 'BOARDING' ? 'text-green-500' :
+                                                        trip.status === 'DEPARTED' ? 'text-white/10' : ''
+                                            )}
+                                        />
                                     </div>
                                 </div>
+
+                                {/* Row 2 (Mobile only): Time & Platform */}
+                                <div className="flex items-center gap-4 md:hidden py-1 border-t border-white/5 w-full">
+                                    <div className="flex items-center gap-2 text-white/40">
+                                        <Clock className="w-3 h-3" />
+                                        <SplitFlapRow text={trip.arrivalTime} length={5} onFlip={playClick} interactive={true} />
+                                    </div>
+                                    <div className="w-[1px] h-3 bg-white/10" />
+                                    <div className="flex items-center gap-2 text-white/40">
+                                        <MapPin className="w-3 h-3" />
+                                        <span className="text-[10px] font-black uppercase tracking-tight mr-1">Plat</span>
+                                        <SplitFlapRow text={trip.gate} length={2} onFlip={playClick} interactive={true} />
+                                    </div>
+                                </div>
+
+                                {/* Desktop only cells */}
                                 <SplitFlapRow text={trip.arrivalTime} length={5} onFlip={playClick} interactive={true} className="hidden md:flex" />
                                 <SplitFlapRow text={trip.gate} length={2} onFlip={playClick} interactive={true} className="hidden md:flex" />
-                                <div className="flex justify-end md:justify-start">
+                                <div className="hidden md:flex justify-start">
                                     <SplitFlapRow
                                         text={trip.status}
-                                        length={8}
+                                        length={10}
                                         onFlip={playClick}
                                         interactive={true}
                                         className={cn(

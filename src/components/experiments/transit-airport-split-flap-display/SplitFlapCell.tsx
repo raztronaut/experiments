@@ -50,14 +50,30 @@ export function SplitFlapCell({ char: targetCharProp = " ", className, onFlip, r
     }, [currentChar, isFlipping, onFlip, isScrambling, sanitizedTarget]);
 
     return (
-        <div className={cn("relative w-6 h-10 md:w-7 md:h-11 bg-[#1a1a1a] rounded-sm overflow-hidden perspective-1000 select-none", className)}>
+        <div
+            className={cn("relative bg-[#1a1a1a] rounded-[2px] overflow-hidden perspective-1000 select-none", className)}
+            style={{
+                width: 'var(--flap-w, 28px)',
+                height: 'var(--flap-h, 44px)'
+            }}
+        >
             {/* Static Background (Target/Incoming Character) */}
             <div className="absolute inset-0 flex flex-col">
                 <div className="h-1/2 w-full bg-[#1a1a1a] border-b border-black/50 flex items-end justify-center overflow-hidden">
-                    <span className="text-xl md:text-2xl font-mono font-bold text-white translate-y-1/2 leading-none">{currentChar}</span>
+                    <span
+                        className="font-mono font-bold text-white translate-y-1/2 leading-none"
+                        style={{ fontSize: 'var(--flap-font, 24px)' }}
+                    >
+                        {currentChar}
+                    </span>
                 </div>
                 <div className="h-1/2 w-full bg-[#1a1a1a] flex items-start justify-center overflow-hidden">
-                    <span className="text-xl md:text-2xl font-mono font-bold text-white -translate-y-1/2 leading-none">{currentChar}</span>
+                    <span
+                        className="font-mono font-bold text-white -translate-y-1/2 leading-none"
+                        style={{ fontSize: 'var(--flap-font, 24px)' }}
+                    >
+                        {currentChar}
+                    </span>
                 </div>
             </div>
 
@@ -72,7 +88,10 @@ export function SplitFlapCell({ char: targetCharProp = " ", className, onFlip, r
                         style={{ transformOrigin: "bottom", zIndex: 10 }}
                         className="absolute top-0 left-0 w-full h-1/2 bg-[#1a1a1a] border-b border-black/50 flex items-end justify-center overflow-hidden backface-hidden"
                     >
-                        <span className="text-xl md:text-2xl font-mono font-bold text-white translate-y-1/2 leading-none">
+                        <span
+                            className="font-mono font-bold text-white translate-y-1/2 leading-none"
+                            style={{ fontSize: 'var(--flap-font, 24px)' }}
+                        >
                             {getPreviousChar(currentChar)}
                         </span>
                     </motion.div>
@@ -80,7 +99,7 @@ export function SplitFlapCell({ char: targetCharProp = " ", className, onFlip, r
             </AnimatePresence>
 
             {/* Decorative center line */}
-            <div className="absolute top-[calc(50%-1px)] left-0 w-full h-[2px] bg-black/80 z-20 shadow-sm" />
+            <div className="absolute top-[calc(50%-0.5px)] md:top-[calc(50%-1px)] left-0 w-full h-[1px] md:h-[2px] bg-black/80 z-20 shadow-sm" />
         </div>
     );
 }
