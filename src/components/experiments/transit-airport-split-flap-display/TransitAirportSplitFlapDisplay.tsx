@@ -113,7 +113,7 @@ export default function TransitAirportSplitFlapDisplay() {
                                 initial={{ opacity: 0, scale: 0.95, y: -10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                                className="absolute top-full mt-4 left-0 w-64 p-4 bg-black/95 border border-white/10 rounded-xl shadow-2xl z-50 pointer-events-none backdrop-blur-xl"
+                                className="absolute top-full mt-4 right-0 md:left-0 w-64 p-4 bg-black/95 border border-white/10 rounded-xl shadow-2xl z-50 pointer-events-none backdrop-blur-xl"
                             >
                                 <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-2 font-mono">Audio Engine</div>
                                 <p className="text-[11px] text-white/80 leading-relaxed font-mono">
