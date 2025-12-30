@@ -33,7 +33,7 @@ export function useFlapSound() {
         return buffer;
     };
 
-    const ensureContext = () => {
+    const ensureContext = useCallback(() => {
         if (!audioContextRef.current) {
             audioContextRef.current = new (window.AudioContext ||
                 (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
@@ -61,7 +61,7 @@ export function useFlapSound() {
         }
 
         return ctx;
-    };
+    }, []);
 
     const playClick = useCallback(() => {
         if (isMuted.current) return;
@@ -208,7 +208,7 @@ export function useFlapSound() {
         } catch (e) {
             console.warn("Audio playback failed:", e);
         }
-    }, []);
+    }, [ensureContext]);
 
     const setMuted = useCallback((muted: boolean) => {
         isMuted.current = muted;

@@ -102,7 +102,7 @@ export default function TransitAirportSplitFlapDisplay() {
                             >
                                 <div className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em] mb-2 font-mono">Audio Engine</div>
                                 <p className="text-[11px] text-white/80 leading-relaxed font-mono">
-                                    Procedural mechanical "clacks" synthesized in real-time using Web Audio.
+                                    Procedural mechanical &quot;clacks&quot; synthesized in real-time using Web Audio.
                                     <br /><br />
                                     Uses three layers:
                                     <br />• <span className="text-yellow-400">Snap</span>: High-freq transient

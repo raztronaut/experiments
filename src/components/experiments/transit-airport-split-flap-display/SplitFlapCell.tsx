@@ -18,24 +18,19 @@ export function SplitFlapCell({ char: targetCharProp = " ", className, onFlip, r
     const [isScrambling, setIsScrambling] = useState(false);
     const [prevRefreshKey, setPrevRefreshKey] = useState(refreshKey);
 
-    // Trigger scrambling when refreshKey changes
-    useEffect(() => {
-        if (refreshKey !== prevRefreshKey) {
-            setPrevRefreshKey(refreshKey);
-            setIsScrambling(true);
-            setCurrentChar(" ");
-        }
-    }, [refreshKey, prevRefreshKey]);
+    // Synchronize state with props during render (React recommended pattern)
+    if (refreshKey !== prevRefreshKey) {
+        setPrevRefreshKey(refreshKey);
+        setIsScrambling(true);
+        setCurrentChar(" ");
+    }
 
     const isFlipping = currentChar !== sanitizedTarget;
 
-    // Reset scrambling state when we reach the target
-    useEffect(() => {
-        if (!isFlipping) {
-            setIsScrambling(false);
-        }
-    }, [isFlipping]);
-
+    // Reset scrambling during render if we reached the target
+    if (!isFlipping && isScrambling) {
+        setIsScrambling(false);
+    }
 
     useEffect(() => {
         if (!isFlipping) return;
@@ -52,7 +47,7 @@ export function SplitFlapCell({ char: targetCharProp = " ", className, onFlip, r
         }, 40);
 
         return () => clearTimeout(timer);
-    }, [currentChar, isFlipping, onFlip, isScrambling]);
+    }, [currentChar, isFlipping, onFlip, isScrambling, sanitizedTarget]);
 
     return (
         <div className={cn("relative w-6 h-10 md:w-7 md:h-11 bg-[#1a1a1a] rounded-sm overflow-hidden perspective-1000 select-none", className)}>
