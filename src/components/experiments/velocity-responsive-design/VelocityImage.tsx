@@ -35,7 +35,7 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
             className="relative px-4 sm:px-0 w-full overflow-hidden"
         >
             <motion.div
-                className="relative z-10 overflow-hidden rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 bg-zinc-900 aspect-video min-h-[300px] flex items-center justify-center"
+                className="relative z-10 overflow-hidden rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10 bg-zinc-900 aspect-video min-h-[200px] sm:min-h-[300px] flex items-center justify-center"
                 style={{
                     transformOrigin: "center center",
                 }}

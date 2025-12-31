@@ -16,14 +16,15 @@ function FlightControl() {
     const { velocity, manualVelocity, setManualVelocity, readingState } = useVelocityState();
 
     return (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-zinc-900/60 backdrop-blur-2xl border border-white/10 p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center gap-6 min-w-[420px]">
-            <div className="flex flex-col gap-1 flex-1">
-                <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1">
-                    <span className="flex items-center gap-2">
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-zinc-900/60 backdrop-blur-2xl border border-white/10 p-3 sm:p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center gap-3 sm:gap-6 w-[calc(100%-2rem)] max-w-[420px]">
+            <div className="flex flex-col gap-1 flex-1 min-w-0">
+                <div className="flex justify-between text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-1">
+                    <span className="flex items-center gap-1.5 sm:gap-2 truncate">
                         <Zap size={10} className={manualVelocity !== null ? "text-primary animate-pulse" : "text-primary/50"} />
-                        Velocity Vector
+                        <span className="hidden min-[400px]:inline">Velocity Vector</span>
+                        <span className="min-[400px]:hidden">VEL</span>
                     </span>
-                    <span className={readingState === 'skim' ? "text-primary font-bold" : "text-zinc-400"}>
+                    <span className={readingState === 'skim' ? "text-primary font-bold whitespace-nowrap" : "text-zinc-400 whitespace-nowrap"}>
                         {Math.round(velocity)} PX/S
                     </span>
                 </div>
@@ -199,7 +200,7 @@ export default function VelocityResponsiveDesign() {
                         className="z-10 relative"
                     >
 
-                        <h1 className="text-6xl sm:text-8xl font-black italic tracking-tighter mb-4 bg-gradient-to-b from-white to-zinc-700 bg-clip-text text-transparent uppercase text-white leading-[0.9]">
+                        <h1 className="text-5xl sm:text-8xl font-black italic tracking-tighter mb-4 bg-gradient-to-b from-white to-zinc-700 bg-clip-text text-transparent uppercase text-white leading-[0.9]">
                             The<br />Relativistic<br />Reader
                         </h1>
 
@@ -228,7 +229,7 @@ export default function VelocityResponsiveDesign() {
 
                 <FlightControl />
 
-                <footer className="h-screen flex flex-col items-center justify-center bg-zinc-950 border-t border-white/5 relative">
+                <footer className="h-[200vh] flex flex-col items-center justify-center bg-zinc-950 border-t border-white/5 relative">
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-white/10 to-transparent" />
                     <p className="text-zinc-700 font-mono text-xs uppercase tracking-[0.4em] mb-4">
                         End of Content Stream

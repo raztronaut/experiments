@@ -66,14 +66,11 @@ export const VelocityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }, []);
 
     // effectiveVelocity is either manual override or scroll velocity
-    const velocity = manualVelocity !== null ? manualVelocity : (isVelocityLocked ? 0 : scrollV);
+    const velocity = manualVelocity !== null ? manualVelocity : scrollV;
 
     useEffect(() => {
         const unsubscribe = smoothVelocity.on("change", (v) => {
-            if (isVelocityLocked) {
-                if (scrollV !== 0) setScrollV(0);
-                return;
-            }
+            if (isVelocityLocked) return;
             const absV = Math.floor(Math.abs(v));
             if (absV !== Math.floor(scrollV)) {
                 setScrollV(absV);
@@ -94,10 +91,10 @@ export const VelocityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         // Neutralize the underlying MotionValues to prevent the spring from "momentum-swallowing" the spike
         scrollVelocity.set(0);
         smoothVelocity.set(0);
-        setScrollV(0);
 
-        // Force state back to detailed when locked (programmatic scroll)
-        setReadingState("detailed");
+        // We DO NOT force the state back to detailed here anymore,
+        // because transitions (like entering skim mode) trigger this lock
+        // to stabilize the layout. Forcing 'detailed' would break the transition.
         if (exitTimerRef.current) {
             clearTimeout(exitTimerRef.current);
             exitTimerRef.current = null;

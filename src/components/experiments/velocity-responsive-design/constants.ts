@@ -11,7 +11,7 @@ export const VELOCITY_THRESHOLDS = {
 
 export const TIMINGS = {
     SKIM_EXIT_DELAY: 2500, // Duration to stay in skim mode after speed drops
-    SCROLL_LOCK_DURATION: 250, // Duration to lock velocity tracking during programmatic scrolls
+    SCROLL_LOCK_DURATION: 350, // Duration to lock velocity tracking during programmatic scrolls
 };
 
 export const SPRING_CONFIGS = {
