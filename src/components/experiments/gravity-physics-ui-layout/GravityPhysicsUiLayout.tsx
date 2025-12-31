@@ -38,7 +38,6 @@ export default function GravityPhysicsUiLayout() {
         }
 
         // Initial dimension set
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setDimensions({ width: initialWidth, height: window.innerHeight });
 
         const handleResize = () => {
