@@ -16,3 +16,17 @@ This experiment abandons the standard Euclidean plane of the web browser for **H
 - **Mouse Drag**: Pan the view (apply Möbius transformation).
 - **Arrow Keys**: Pan the view with keyboard for precision control.
 - **Click Tile**: (Placeholder) Interaction with nodes.
+
+## How it works: Procedural Generation
+The knowledge graph is generated procedurally using a **Radial Tree Layout** adapted for the Poincaré disk:
+1.  **Layers**: Nodes are assigned to concentric layers at specific radii (e.g., `0.4`, `0.7`, `0.88`). In hyperbolic space, circumference grows exponentially, allowing for more nodes in outer layers without crowding.
+2.  **Sector Assignment**: Each child node is assigned an angular sector within its parent's wedge.
+3.  **Jitter**: Random angular jitter is added to create an organic, "mind-map" feel rather than a rigid grid.
+4.  **Icons**: Nodes are procedurally assigned types (Area, Project, Note) and icons based on their hierarchy level.
+
+## Developer Notes: HyperbolicMath Utility
+The core geometry logic is isolated in `HyperbolicMath.ts`. Key concepts for contributors:
+-   **`Complex` Class**: Basic arithmetic (`add`, `sub`, `mul`, `div`) and properties (`abs`, `arg`, `conj`) for complex numbers $z = x + iy$.
+-   **`mobiusTransform(z, a)`**: The primary "camera" operation. Maps point $a$ to the origin. If you want to center the view on node $N$, you apply $T(z) = \frac{z - N_{pos}}{1 - \bar{N}_{pos}z}$ to all points.
+-   **`getGeodesicPath(z1, z2)`**: Calculates the SVG path data for the shortest line between two points. In the Poincaré disk, this is usually an circular arc orthogonal to the boundary.
+-   **`screenToPoincare` / `poincareToScreen`**: Utilities to map between the unit disk model (math space) and normalized DOM coordinates.
