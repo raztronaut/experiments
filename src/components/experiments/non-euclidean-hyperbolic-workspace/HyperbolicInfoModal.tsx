@@ -43,10 +43,10 @@ export function HyperbolicInfoModal({ isOpen, onClose }: HyperbolicInfoModalProp
     if (!isOpen) return null;
 
     return (
-        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-            {/* Escher Hover Preview */}
+        <div className="absolute inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+            {/* Escher Hover Preview - Hidden on mobile */}
             <div
-                className="pointer-events-none fixed z-[110] overflow-hidden rounded-lg shadow-2xl border border-white/10 bg-black/80 backdrop-blur-xl transition-opacity duration-300"
+                className="hidden sm:block pointer-events-none fixed z-[110] overflow-hidden rounded-lg shadow-2xl border border-white/10 bg-black/80 backdrop-blur-xl transition-opacity duration-300"
                 style={{
                     left: 0,
                     top: 0,
@@ -67,22 +67,23 @@ export function HyperbolicInfoModal({ isOpen, onClose }: HyperbolicInfoModalProp
                 </div>
             </div>
 
-            <div className="relative w-full max-w-lg mx-4 bg-zinc-950/90 border border-white/10 rounded-2xl shadow-2xl p-6 overflow-hidden">
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-colors"
-                >
-                    <X size={20} />
-                </button>
-
-                {/* Content */}
-                <div className="space-y-6 text-zinc-300">
+            <div className="relative w-full max-w-lg mx-4 bg-zinc-950/90 border border-white/10 rounded-2xl shadow-2xl flex flex-col max-h-[90%] overflow-hidden">
+                {/* Header: Title + Close Button */}
+                <div className="flex-none p-6 pb-4 border-b border-white/5 relative">
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+                    >
+                        <X size={20} />
+                    </button>
                     <div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Non-Euclidean Hyperbolic Workspace</h2>
+                        <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 pr-8">Non-Euclidean Hyperbolic Workspace</h2>
                         <div className="h-0.5 w-12 bg-sky-500/50 rounded-full" />
                     </div>
+                </div>
 
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto p-6 pt-4 space-y-6 text-zinc-300 custom-scrollbar">
                     <div className="space-y-4 text-sm leading-relaxed">
                         <section>
                             <h3 className="text-sky-400 font-medium mb-1">Concept</h3>
@@ -122,7 +123,7 @@ export function HyperbolicInfoModal({ isOpen, onClose }: HyperbolicInfoModalProp
                                 <span>🖱 Mouse Drag</span>
                                 <span className="text-zinc-500">Pan the view (apply Möbius transformation)</span>
                                 <span>⌨️ Arrow Keys</span>
-                                <span className="text-zinc-500">Pan the view with keyboard for precision control</span>
+                                <span className="text-zinc-500">Pan the view</span>
                                 <span>👆 Click Tile</span>
                                 <span className="text-zinc-500">(Placeholder) Interaction with nodes</span>
                             </div>
