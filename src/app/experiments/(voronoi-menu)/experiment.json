@@ -1,8 +1,0 @@
-{
-  "title": "Voronoi Menu ER Triage / Smart Home",
-  "description": "A menu where every pixel maps to the nearest item using Voronoi partitioning for Fitt's Law",
-  "slug": "voronoi-menu",
-  "created": "2026-01-03T09:22:41.400Z",
-  "image": "/experiments/voronoi-menu/preview.gif",
-  "isPlaceholder": true
-}
