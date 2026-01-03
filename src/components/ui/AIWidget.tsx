@@ -9,7 +9,7 @@ type ServiceId = "chatgpt" | "claude" | "perplexity" | "gemini" | "grok";
 interface ServiceConfig {
     id: ServiceId;
     name: string;
-    icon: React.ElementType;
+    icon: React.FC<React.SVGProps<SVGSVGElement>>;
     buildUrl: (prompt: string, url: string) => string;
 }
 
