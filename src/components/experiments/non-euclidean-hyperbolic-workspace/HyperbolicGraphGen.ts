@@ -12,7 +12,8 @@ import {
     Shapes,
     Sparkles,
     Terminal,
-    Video
+    Video,
+    LucideIcon
 } from 'lucide-react';
 
 export type NodeType = 'root' | 'area' | 'project' | 'note' | 'media';
@@ -22,7 +23,7 @@ export interface GraphNode {
     logicalPos: Complex;
     label: string;
     type: NodeType;
-    icon?: React.ElementType;
+    icon?: LucideIcon;
 }
 
 export interface GraphEdge {
