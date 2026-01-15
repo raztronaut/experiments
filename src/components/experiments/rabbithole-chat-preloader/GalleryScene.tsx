@@ -23,7 +23,6 @@ export default function GalleryScene() {
         );
         camera.position.z = 5;
         scene.add(camera);
-
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
             alpha: true,

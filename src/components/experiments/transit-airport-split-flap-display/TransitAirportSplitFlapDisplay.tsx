@@ -252,7 +252,7 @@ export default function TransitAirportSplitFlapDisplay() {
                 </div>
             </div>
 
-            <style jsx global>{`
+            <style>{`
                 .perspective-1000 {
                   perspective: 1000px;
                 }

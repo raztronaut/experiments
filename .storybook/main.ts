@@ -15,6 +15,18 @@ const config: StorybookConfig = {
   "framework": "@storybook/nextjs-vite",
   "staticDirs": [
     "../public"
-  ]
+  ],
+  viteFinal: async (config) => {
+    if (config.optimizeDeps) {
+      config.optimizeDeps.include = [
+        ...(config.optimizeDeps.include || []),
+        'three',
+        '@react-three/fiber',
+        '@react-three/drei',
+        '@paper-design/shaders-react',
+      ];
+    }
+    return config;
+  },
 };
 export default config;

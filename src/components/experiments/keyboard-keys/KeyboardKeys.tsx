@@ -224,7 +224,7 @@ export default function KeyboardKeys() {
         <>
             {/* Lockout Overlay */}
             {isLockedOut && (
-                <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center gap-8 animate-fade-in">
+                <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center gap-8 animate-[fade-in_0.3s_ease-out]">
                     <div className="flex flex-col items-center gap-4 text-center px-8">
                         <div className="text-6xl mb-4">🤦‍♂️</div>
                         <h1 className="text-2xl md:text-3xl font-bold text-white">
@@ -244,7 +244,7 @@ export default function KeyboardKeys() {
                     {/* Status text */}
                     <div className="h-6 flex items-center justify-center">
                         {isSuccess ? (
-                            <p className="text-sm font-medium uppercase tracking-widest text-green-400 animate-fade-in flex items-center gap-2">
+                            <p className="text-sm font-medium uppercase tracking-widest text-green-400 animate-[fade-in_0.3s_ease-out] flex items-center gap-2">
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
@@ -263,7 +263,7 @@ export default function KeyboardKeys() {
                         <div
                             className={cn(
                                 "relative flex items-center gap-3 rounded-xl border p-4 shadow-2xl transition-all duration-300",
-                                isShaking && "animate-shake",
+                                isShaking && "animate-[shake_0.5s_ease-in-out]",
                                 isSuccess
                                     ? "border-green-500/50 bg-green-950/30 shadow-green-500/20"
                                     : "border-neutral-800 bg-neutral-950 shadow-black/50"
@@ -271,7 +271,7 @@ export default function KeyboardKeys() {
                         >
                             {/* Success glow effect */}
                             {isSuccess && (
-                                <div className="absolute inset-0 rounded-xl bg-green-500/10 animate-pulse-slow z-0" />
+                                <div className="absolute inset-0 rounded-xl bg-green-500/10 animate-[pulse-slow_1.5s_ease-in-out_infinite] z-0" />
                             )}
 
                             {keys.map((key, index) => (
@@ -326,6 +326,10 @@ export default function KeyboardKeys() {
                                                                 '--rotation': `${rotation}deg`,
                                                                 '--duration': `${duration}s`,
                                                                 animationDelay: `${delay}s`,
+                                                                animationName: 'confetti-burst',
+                                                                animationDuration: `${duration}s`,
+                                                                animationTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                                                                animationFillMode: 'forwards'
                                                             } as React.CSSProperties}
                                                         />
                                                     );
@@ -369,35 +373,26 @@ export default function KeyboardKeys() {
                         ];
                         const messageIndex = Math.min(Math.floor((errorCount - 2) / 3), messages.length - 1);
                         return (
-                            <p key={messageIndex} className="text-sm font-medium text-red-400/70 animate-fade-in mt-3">
+                            <p key={messageIndex} className="text-sm font-medium text-red-400/70 animate-[fade-in_0.3s_ease-out] mt-3">
                                 {messages[messageIndex]}
                             </p>
                         );
                     })()}
                 </div>
 
-                <style jsx>{`
+                <style>{`
                 @keyframes shake {
                     0%, 100% { transform: translateX(0); }
                     10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
                     20%, 40%, 60%, 80% { transform: translateX(4px); }
                 }
-                .animate-shake {
-                    animation: shake 0.5s ease-in-out;
-                }
                 @keyframes fade-in {
                     from { opacity: 0; transform: translateY(-4px); }
                     to { opacity: 1; transform: translateY(0); }
                 }
-                .animate-fade-in {
-                    animation: fade-in 0.3s ease-out;
-                }
                 @keyframes pulse-slow {
                     0%, 100% { opacity: 0.3; }
                     50% { opacity: 0.6; }
-                }
-                .animate-pulse-slow {
-                    animation: pulse-slow 1.5s ease-in-out infinite;
                 }
                 @keyframes confetti-burst {
                     0% { 
@@ -420,7 +415,7 @@ export default function KeyboardKeys() {
                     }
                 }
                 .confetti-particle {
-                    animation: confetti-burst var(--duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+                    animation-name: confetti-burst;
                 }
             `}</style>
             </div>

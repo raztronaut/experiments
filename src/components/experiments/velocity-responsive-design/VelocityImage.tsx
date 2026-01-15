@@ -47,7 +47,7 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
             >
                 <AnimatePresence mode="wait">
                     {/* Only render image if we are skimming or transitioning */}
-                    {(isSkim || normalizedVelocity > 0.1) && !error && (
+                    {(isSkim || normalizedVelocity > 0.1) && !error ? (
                         <motion.div
                             key="content"
                             initial={{ opacity: 0 }}
@@ -55,11 +55,11 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
                             exit={{ opacity: 0 }}
                             className="w-full h-full relative"
                         >
-                            {loading && (
+                            {loading ? (
                                 <div className="absolute inset-0 flex items-center justify-center text-zinc-800">
                                     <ImageIcon size={48} strokeWidth={1} className="animate-pulse" />
                                 </div>
-                            )}
+                            ) : null}
                             <motion.img
                                 src={src}
                                 alt={alt}
@@ -69,9 +69,9 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
                                 transition={{ duration: 0.5 }}
                             />
                         </motion.div>
-                    )}
+                    ) : null}
 
-                    {error && (
+                    {error ? (
                         <motion.div
                             key="error"
                             initial={{ opacity: 0 }}
@@ -81,7 +81,7 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
                             <AlertCircle size={40} strokeWidth={1} />
                             <span className="text-xs font-mono uppercase tracking-widest">{alt} (Load Failed)</span>
                         </motion.div>
-                    )}
+                    ) : null}
                 </AnimatePresence>
 
                 <motion.div
@@ -94,14 +94,14 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
                 />
 
                 {/* Subtle highlight instead of blur */}
-                {normalizedVelocity > 0.4 && !error && (
+                {normalizedVelocity > 0.4 && !error ? (
                     <motion.div
                         className="absolute inset-0 bg-white/5 pointer-events-none mix-blend-overlay"
                         style={{
                             opacity: (normalizedVelocity - 0.4) * 1.5
                         }}
                     />
-                )}
+                ) : null}
             </motion.div>
 
             <motion.div

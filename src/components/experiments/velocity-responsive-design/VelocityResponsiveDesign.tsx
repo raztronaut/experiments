@@ -12,6 +12,13 @@ import { CONTENT } from './content';
 import { VELOCITY_THRESHOLDS } from './constants';
 import { AIWidget } from '@/components/ui/AIWidget';
 
+const StaticBackgroundPattern = () => (
+    <div
+        className="absolute inset-0 opacity-20 pointer-events-none"
+        style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)', backgroundSize: '40px 40px' }}
+    />
+);
+
 function FlightControl() {
     const { velocity, manualVelocity, setManualVelocity, readingState } = useVelocityState();
 
@@ -67,7 +74,7 @@ function FlightControl() {
                     />
 
                     {/* Hover indicator for thumb when manual is OFF */}
-                    {manualVelocity === null && (
+                    {manualVelocity === null ? (
                         <div
                             className="absolute top-1/2 -translate-y-1/2 w-3 h-3 border-2 border-white/20 rounded-full pointer-events-none opacity-0 group-hover/slider:opacity-100 transition-opacity"
                             style={{
@@ -75,7 +82,7 @@ function FlightControl() {
                                 transform: 'translate(-50%, -50%)'
                             }}
                         />
-                    )}
+                    ) : null}
                 </div>
             </div>
 
@@ -190,8 +197,7 @@ export default function VelocityResponsiveDesign() {
 
                 {/* Header Section */}
                 <div className="h-screen flex flex-col items-center justify-center p-8 text-center bg-zinc-950 relative overflow-hidden">
-                    <div className="absolute inset-0 opacity-20 pointer-events-none"
-                        style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+                    <StaticBackgroundPattern />
 
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}

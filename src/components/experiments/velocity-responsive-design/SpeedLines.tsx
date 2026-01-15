@@ -6,6 +6,12 @@ import { useVelocityState } from "./VelocityContext";
 export const SpeedLines: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const { normalizedVelocity } = useVelocityState();
+    const velocityRef = useRef(normalizedVelocity);
+    const particlesRef = useRef<{ x: number, y: number, length: number, speed: number }[]>([]);
+
+    useEffect(() => {
+        velocityRef.current = normalizedVelocity;
+    }, [normalizedVelocity]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -18,22 +24,23 @@ export const SpeedLines: React.FC = () => {
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
 
-        const particles: { x: number, y: number, length: number, speed: number }[] = [];
         const particleCount = 40;
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                length: Math.random() * 100 + 50,
-                speed: Math.random() * 5 + 2
-            });
+        if (particlesRef.current.length === 0) {
+            for (let i = 0; i < particleCount; i++) {
+                particlesRef.current.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    length: Math.random() * 100 + 50,
+                    speed: Math.random() * 5 + 2
+                });
+            }
         }
 
         const draw = () => {
+            const v = velocityRef.current;
             ctx.clearRect(0, 0, width, height);
 
-            if (normalizedVelocity < 0.1) {
+            if (v < 0.1) {
                 animationFrameId = requestAnimationFrame(draw);
                 return;
             }
@@ -41,22 +48,22 @@ export const SpeedLines: React.FC = () => {
             const centerX = width / 2;
             const centerY = height / 2;
 
-            particles.forEach(p => {
+            particlesRef.current.forEach(p => {
                 const distanceX = p.x - centerX;
                 const distanceY = p.y - centerY;
                 const angle = Math.atan2(distanceY, distanceX);
                 const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
                 // Opacity based on velocity and distance from center
-                const opacity = normalizedVelocity * 0.5 * (distance / (width / 2));
+                const opacity = v * 0.5 * (distance / (width / 2));
                 ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
-                ctx.lineWidth = 0.5 + normalizedVelocity * 1.5;
+                ctx.lineWidth = 0.5 + v * 1.5;
 
                 ctx.beginPath();
                 ctx.moveTo(p.x, p.y);
 
                 // Line length increases with velocity and distance from center
-                const lineLength = p.length * normalizedVelocity * (distance / (width / 2));
+                const lineLength = p.length * v * (distance / (width / 2));
                 const endX = p.x + Math.cos(angle) * lineLength;
                 const endY = p.y + Math.sin(angle) * lineLength;
 
@@ -64,13 +71,12 @@ export const SpeedLines: React.FC = () => {
                 ctx.stroke();
 
                 // Move particles away from center
-                const speed = p.speed * normalizedVelocity * 20;
+                const speed = p.speed * v * 20;
                 p.x += Math.cos(angle) * speed;
                 p.y += Math.sin(angle) * speed;
 
                 // Reset particles if they go off screen
                 if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
-                    // Start near center
                     const startAngle = Math.random() * Math.PI * 2;
                     const startDistance = Math.random() * 200;
                     p.x = centerX + Math.cos(startAngle) * startDistance;
@@ -88,13 +94,13 @@ export const SpeedLines: React.FC = () => {
         };
 
         window.addEventListener('resize', handleResize);
-        draw();
+        animationFrameId = requestAnimationFrame(draw);
 
         return () => {
             cancelAnimationFrame(animationFrameId);
             window.removeEventListener('resize', handleResize);
         };
-    }, [normalizedVelocity]);
+    }, []);
 
     return (
         <canvas

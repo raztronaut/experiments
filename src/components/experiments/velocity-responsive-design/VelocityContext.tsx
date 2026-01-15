@@ -27,7 +27,6 @@ export const VelocityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     const [scrollV, setScrollV] = useState(0);
     const [manualVelocity, setManualVelocity] = useState<number | null>(null);
-    const [isScrolling, setIsScrolling] = useState(false);
     const [readingState, setReadingState] = useState<ReadingState>("detailed");
     const [isVelocityLocked, setIsVelocityLocked] = useState(false);
 
@@ -74,7 +73,6 @@ export const VelocityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             const absV = Math.floor(Math.abs(v));
             if (absV !== Math.floor(scrollV)) {
                 setScrollV(absV);
-                setIsScrolling(absV > VELOCITY_THRESHOLDS.IS_SCROLLING);
 
                 // Update reading state based on new scroll velocity (only if manual override is OFF)
                 if (manualVelocity === null) {
@@ -92,9 +90,6 @@ export const VelocityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         scrollVelocity.set(0);
         smoothVelocity.set(0);
 
-        // We DO NOT force the state back to detailed here anymore,
-        // because transitions (like entering skim mode) trigger this lock
-        // to stabilize the layout. Forcing 'detailed' would break the transition.
         if (exitTimerRef.current) {
             clearTimeout(exitTimerRef.current);
             exitTimerRef.current = null;
@@ -111,31 +106,44 @@ export const VelocityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         }
     }, [updateReadingState]);
 
-    // Handle scroll-to-top specifically: if user flings to top, we want to respect the delay
-    // but also ensure we don't get stuck in skim mode if they are already at 0.
     useEffect(() => {
         const unsubscribe = scrollY.on("change", (latest) => {
             if (latest <= 0) {
-                // If we hit the absolute top, start the exit timer if in skim mode
                 updateReadingState(0);
             }
         });
         return () => unsubscribe();
     }, [scrollY, updateReadingState]);
 
-    // Normalize velocity for effects (0 to VELOCITY_THRESHOLDS.NORMALIZATION_MAX mapped to 0 to 1)
-    const normalizedVelocity = Math.min(velocity / VELOCITY_THRESHOLDS.NORMALIZATION_MAX, 1);
+    // Optimize derived values and context object
+    const normalizedVelocity = React.useMemo(() =>
+        Math.min(velocity / VELOCITY_THRESHOLDS.NORMALIZATION_MAX, 1),
+        [velocity]);
+
+    const isScrolling = React.useMemo(() =>
+        velocity > VELOCITY_THRESHOLDS.IS_SCROLLING || manualVelocity !== null,
+        [velocity, manualVelocity]);
+
+    const contextValue = React.useMemo(() => ({
+        velocity,
+        normalizedVelocity,
+        readingState,
+        isScrolling,
+        manualVelocity,
+        setManualVelocity: handleSetManualVelocity,
+        lockVelocity
+    }), [
+        velocity,
+        normalizedVelocity,
+        readingState,
+        isScrolling,
+        manualVelocity,
+        handleSetManualVelocity,
+        lockVelocity
+    ]);
 
     return (
-        <VelocityContext.Provider value={{
-            velocity,
-            normalizedVelocity,
-            readingState,
-            isScrolling: isScrolling || manualVelocity !== null,
-            manualVelocity,
-            setManualVelocity: handleSetManualVelocity,
-            lockVelocity
-        }}>
+        <VelocityContext.Provider value={contextValue}>
             {children}
         </VelocityContext.Provider>
     );
