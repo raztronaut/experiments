@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
@@ -41,7 +41,7 @@ const ExpandIcon = () => (
 );
 
 // Reusable Preview Component (Top-level to prevent re-renders)
-function ExperimentPreviewMedia({ experiment, isVisible = true }: { experiment: Experiment; isVisible?: boolean }) {
+const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({ experiment, isVisible = true }: { experiment: Experiment; isVisible?: boolean }) {
     return (
         <div
             className="absolute inset-0 w-full h-full transition-all duration-500 ease-out bg-secondary"
@@ -99,7 +99,11 @@ function ExperimentPreviewMedia({ experiment, isVisible = true }: { experiment: 
             <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none z-10" />
         </div>
     );
-}
+});
+
+const lerp = (start: number, end: number, factor: number) => {
+    return start + (end - start) * factor;
+};
 
 export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps) {
     const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
@@ -118,13 +122,10 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     const [listOrigin, setListOrigin] = useState({ x: 0, y: 0 });
     const [isVisible, setIsVisible] = useState(false);
     const listRef = useRef<HTMLDivElement>(null);
+    const previewRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<number | null>(null);
 
     useEffect(() => {
-        const lerp = (start: number, end: number, factor: number) => {
-            return start + (end - start) * factor;
-        };
-
         const updateOrigin = () => {
             if (listRef.current) {
                 const rect = listRef.current.getBoundingClientRect();
@@ -134,13 +135,20 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
 
         updateOrigin();
         window.addEventListener('resize', updateOrigin);
-        window.addEventListener('scroll', updateOrigin);
+        window.addEventListener('scroll', updateOrigin, { passive: true });
 
         const animate = () => {
-            setSmoothPosition((prev) => ({
-                x: lerp(prev.x, mousePosition.x, 0.15),
-                y: lerp(prev.y, mousePosition.y, 0.15),
-            }));
+            setSmoothPosition((prev) => {
+                const nextX = lerp(prev.x, mousePosition.x, 0.15);
+                const nextY = lerp(prev.y, mousePosition.y, 0.15);
+
+                // Use refs and direct DOM manipulation for the follow effect to avoid React overhead on every frame
+                if (previewRef.current) {
+                    previewRef.current.style.transform = `translate3d(${nextX + 20}px, ${nextY - 100}px, 0)`;
+                }
+
+                return { x: nextX, y: nextY };
+            });
             animationRef.current = requestAnimationFrame(animate);
         };
 
@@ -232,10 +240,12 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
             >
                 {/* Floating Preview Image (Desktop Only) */}
                 <div
+                    ref={previewRef}
                     className="pointer-events-none fixed z-50 overflow-hidden rounded-xl shadow-2xl hidden md:block"
                     style={{
                         left: listOrigin.x,
                         top: listOrigin.y,
+                        // Initial transform will be updated by ref in the animation loop
                         transform: `translate3d(${smoothPosition.x + 20}px, ${smoothPosition.y - 100}px, 0)`,
                         opacity: isVisible ? 1 : 0,
                         scale: isVisible ? 1 : 0.8,
@@ -244,16 +254,13 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                     }}
                 >
                     <div className="relative w-full h-full bg-secondary rounded-xl overflow-hidden border border-border/50">
-                        {experiments.map((experiment, index) => {
-                            // Use key to force remount/update if needed, or just control opacity
-                            return (
-                                <ExperimentPreviewMedia
-                                    key={experiment.slug}
-                                    experiment={experiment}
-                                    isVisible={hoveredIndex === index}
-                                />
-                            );
-                        })}
+                        {experiments.map((experiment, index) => (
+                            <ExperimentPreviewMedia
+                                key={experiment.slug}
+                                experiment={experiment}
+                                isVisible={hoveredIndex === index}
+                            />
+                        ))}
                     </div>
                 </div>
 
@@ -286,26 +293,26 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 <div className="relative z-10 flex items-start justify-between gap-4 pointer-events-none">
                                     <div className="flex-1 min-w-0">
                                         <h2 className={`font-medium text-lg tracking-tight mb-2 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                ? 'opacity-0'
-                                                : 'text-foreground'
+                                            ? 'opacity-0'
+                                            : 'text-foreground'
                                             }`}>
                                             {experiment.title}
                                         </h2>
                                         <p className={`text-sm leading-relaxed transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                ? 'opacity-0'
-                                                : 'text-muted-foreground'
+                                            ? 'opacity-0'
+                                            : 'text-muted-foreground'
                                             }`}>
                                             {experiment.description}
                                         </p>
                                     </div>
 
                                     {/* Date */}
-                                    {experiment.created && (
+                                    {experiment.created ? (
                                         <div className="text-right">
                                             <span
                                                 className={`text-xs font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                        ? 'opacity-0'
-                                                        : 'text-muted-foreground opacity-60'
+                                                    ? 'opacity-0'
+                                                    : 'text-muted-foreground opacity-60'
                                                     }`}
                                                 suppressHydrationWarning
                                             >
@@ -316,7 +323,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                                 })}
                                             </span>
                                         </div>
-                                    )}
+                                    ) : null}
                                 </div>
                             </div>
                         </div>
@@ -345,7 +352,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     className="w-3 h-3 rounded-full bg-[#FF5F57] hover:bg-[#FF5F57] transition-colors flex items-center justify-center"
                                     aria-label="Close"
                                 >
-                                    {isHoveringTrafficLights && <CloseIcon />}
+                                    {isHoveringTrafficLights ? <CloseIcon /> : null}
                                 </button>
                             </DrawerClose>
 
@@ -355,7 +362,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:bg-[#FEBC2E] transition-colors flex items-center justify-center"
                                     aria-label="Minimize"
                                 >
-                                    {isHoveringTrafficLights && <MinimizeIcon />}
+                                    {isHoveringTrafficLights ? <MinimizeIcon /> : null}
                                 </button>
                             </DrawerClose>
 
@@ -365,7 +372,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 className="w-3 h-3 rounded-full bg-[#28C840] hover:bg-[#28C840] transition-colors flex items-center justify-center"
                                 aria-label="Open in new tab"
                             >
-                                {isHoveringTrafficLights && <ExpandIcon />}
+                                {isHoveringTrafficLights ? <ExpandIcon /> : null}
                             </button>
                         </div>
 
