@@ -5,7 +5,10 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
   title: 'Terminal Cat',
-  description: 'A demo of streaming ASCII animation in console',
+  description: 'Animating ASCII art in the browser console logs',
+  openGraph: {
+    images: ['/experiments/terminal-cat/preview.gif'],
+  },
 };
 
 export default function Layout({

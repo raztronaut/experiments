@@ -28,7 +28,7 @@ export default function MountainTransition() {
                     <Canvas
                         orthographic
                         camera={{ zoom: 1, position: [0, 0, 1] }}
-                        gl={{ antialias: true, preserveDrawingBuffer: true }}
+                        gl={{ antialias: true }}
                         dpr={[1, 2]}
                         className="absolute inset-0 w-full h-full"
                     >

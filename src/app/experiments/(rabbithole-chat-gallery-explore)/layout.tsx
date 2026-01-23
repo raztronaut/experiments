@@ -4,7 +4,10 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
   title: 'rabbithole.chat Gallery Explore',
-  description: '',
+  description: '3D floating gallery shader as an experimental explore page',
+  openGraph: {
+    videos: ['/experiments/rabbithole-chat-gallery-explore/preview.mp4'],
+  },
 };
 
 export default function Layout({

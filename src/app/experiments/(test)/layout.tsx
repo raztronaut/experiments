@@ -5,6 +5,9 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 export const metadata = {
   title: 'Test',
   description: 'test',
+  openGraph: {
+    images: ['/experiments/test/preview.gif'],
+  },
 };
 
 export default function Layout({

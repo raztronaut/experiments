@@ -3,24 +3,27 @@ import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
-title: 'rabbithole.chat Preloader',
-description: 'A vortex gallery preloader for rabbithole.chat',
+  title: 'rabbithole.chat Preloader',
+  description: 'A vortex gallery shader preloader for rabbithole.chat',
+  openGraph: {
+    videos: ['/experiments/rabbithole-chat-preloader/preview.mp4'],
+  },
 };
 
 export default function Layout({
-children,
+  children,
 }: {
-children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-return (
-<html lang="en">
+  return (
+    <html lang="en">
 
-<body>
-  <UmamiScript />
-  <ExperimentBackButton />
-  {children}
-</body>
+      <body>
+        <UmamiScript />
+        <ExperimentBackButton />
+        {children}
+      </body>
 
-</html>
-);
+    </html>
+  );
 }

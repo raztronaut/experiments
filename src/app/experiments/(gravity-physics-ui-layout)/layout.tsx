@@ -3,7 +3,10 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
   title: 'Gravity/Physics UI Layout',
-  description: '',
+  description: 'Find the hidden stupid feature!',
+  openGraph: {
+    images: ['/experiments/gravity-physics-ui-layout/preview.png'],
+  },
 };
 
 export default function Layout({

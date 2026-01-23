@@ -4,7 +4,10 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
     title: 'Shader Landing Experiment',
-    description: 'Isolated experiment',
+    description: 'A random shader experiment',
+    openGraph: {
+        videos: ['/experiments/shader-landing/preview-shader-landing.mp4'],
+    },
 };
 
 export default function Layout({

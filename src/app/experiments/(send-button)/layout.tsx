@@ -6,6 +6,9 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 export const metadata = {
   title: 'Send-Button',
   description: 'A cool animated send button animation',
+  openGraph: {
+    videos: ['/experiments/send-button/preview-send-button.mp4'],
+  },
 };
 
 export default function Layout({
