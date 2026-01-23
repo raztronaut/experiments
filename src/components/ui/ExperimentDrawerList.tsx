@@ -117,9 +117,12 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
 
     // Hover state for list items
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [smoothPosition, setSmoothPosition] = useState({ x: 0, y: 0 });
-    const [listOrigin, setListOrigin] = useState({ x: 0, y: 0 });
+
+    // Use REFs for animation values to avoid re-renders
+    const mousePositionRef = useRef({ x: 0, y: 0 });
+    const smoothPositionRef = useRef({ x: 0, y: 0 });
+    const listOriginRef = useRef({ x: 0, y: 0 });
+
     const [isVisible, setIsVisible] = useState(false);
     const listRef = useRef<HTMLDivElement>(null);
     const previewRef = useRef<HTMLDivElement>(null);
@@ -129,7 +132,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         const updateOrigin = () => {
             if (listRef.current) {
                 const rect = listRef.current.getBoundingClientRect();
-                setListOrigin({ x: rect.left, y: rect.top });
+                listOriginRef.current = { x: rect.left, y: rect.top };
             }
         };
 
@@ -138,17 +141,45 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         window.addEventListener('scroll', updateOrigin, { passive: true });
 
         const animate = () => {
-            setSmoothPosition((prev) => {
-                const nextX = lerp(prev.x, mousePosition.x, 0.15);
-                const nextY = lerp(prev.y, mousePosition.y, 0.15);
+            // Read latest values from refs
+            const target = mousePositionRef.current;
+            const current = smoothPositionRef.current;
 
-                // Use refs and direct DOM manipulation for the follow effect to avoid React overhead on every frame
-                if (previewRef.current) {
-                    previewRef.current.style.transform = `translate3d(${nextX + 20}px, ${nextY - 100}px, 0)`;
-                }
+            // LERP from ref to ref
+            const nextX = lerp(current.x, target.x, 0.15);
+            const nextY = lerp(current.y, target.y, 0.15);
 
-                return { x: nextX, y: nextY };
-            });
+            // Update the source ref
+            smoothPositionRef.current = { x: nextX, y: nextY };
+
+            // Direct DOM update (Zero React Render)
+            if (previewRef.current) {
+                // We need to account for the list origin here since the preview is fixed/absolute
+                // If the preview is fixed relative to viewport, we need listOrigin
+                // Original code: left: listOrigin.x, top: listOrigin.y in render + translate3d
+                // We'll update the transform directly
+                const origin = listOriginRef.current;
+
+                // We must apply the base offset (origin) + smooth offset
+                // But wait, the original code had 'left' and 'top' set in style. 
+                // Let's set the full transform including the origin to be safe, OR keep generic styles
+                // The easiest way is to keep 'left/top' in the Ref-based style update or just translate relative to 0,0
+
+                // Let's stick to the previous logic: 
+                // Rendered style: left: listOrigin.x, top: listOrigin.y
+                // Transform: translate3d(smoothX, smoothY, 0)
+
+                // Since we can't easily update 'left/top' props without re-render if listOrigin changes (resize/scroll),
+                // we'll rely on the existing effect to handle resize/scroll for origin, 
+                // BUT actually listOrigin causes a re-render only on Scroll/Resize which is fine.
+                // The 60fps comes from mouse movement.
+
+                // So, inside this loop we ONLY update transform.
+                previewRef.current.style.transform = `translate3d(${nextX + 20}px, ${nextY - 100}px, 0)`;
+                previewRef.current.style.left = `${origin.x}px`;
+                previewRef.current.style.top = `${origin.y}px`;
+            }
+
             animationRef.current = requestAnimationFrame(animate);
         };
 
@@ -161,15 +192,16 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
             window.removeEventListener('resize', updateOrigin);
             window.removeEventListener('scroll', updateOrigin);
         };
-    }, [mousePosition]);
+    }, []); // No dependencies!
 
     const handleMouseMove = (e: React.MouseEvent) => {
         if (listRef.current) {
             const rect = listRef.current.getBoundingClientRect();
-            setMousePosition({
+            // Update ref, no re-render
+            mousePositionRef.current = {
                 x: e.clientX - rect.left,
                 y: e.clientY - rect.top,
-            });
+            };
         }
     };
 
@@ -243,10 +275,10 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                     ref={previewRef}
                     className="pointer-events-none fixed z-50 overflow-hidden rounded-xl shadow-2xl hidden md:block"
                     style={{
-                        left: listOrigin.x,
-                        top: listOrigin.y,
+                        left: 0,
+                        top: 0,
                         // Initial transform will be updated by ref in the animation loop
-                        transform: `translate3d(${smoothPosition.x + 20}px, ${smoothPosition.y - 100}px, 0)`,
+                        transform: 'translate3d(0, 0, 0)',
                         opacity: isVisible ? 1 : 0,
                         scale: isVisible ? 1 : 0.8,
                         width: '280px',
