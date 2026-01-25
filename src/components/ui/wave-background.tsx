@@ -303,7 +303,15 @@ export function Waves({
             window.removeEventListener('mousemove', onMouseMove)
             container?.removeEventListener('touchmove', onTouchMove)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    // Update stroke colors when strokeColor prop changes
+    useEffect(() => {
+        pathsRef.current.forEach(path => {
+            path.setAttribute('stroke', strokeColor)
+        })
+    }, [strokeColor])
 
     return (
         <div

@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -55,13 +56,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(activeFont.className, activeFont.variable, "min-h-screen bg-background font-canvas antialiased text-foreground")}>
         <UmamiScript />
         <ConsoleEasterEgg />
-        <CursorProvider>
-          {children}
-        </CursorProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
+          <CursorProvider>
+            {children}
+          </CursorProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

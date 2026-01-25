@@ -79,8 +79,7 @@ export function AIWidget() {
                             className={cn(
                                 "relative p-2 rounded-lg text-muted-foreground transition-all duration-200",
                                 "hover:text-foreground hover:bg-muted active:scale-95",
-                                "focus:outline-none focus:ring-2 focus:ring-primary/20",
-                                (service.id === "chatgpt" || service.id === "grok") && "text-white hover:text-white"
+                                "focus:outline-none focus:ring-2 focus:ring-primary/20"
                             )}
                             aria-label={`Summarize with ${service.name}`}
                             title={`Summarize with ${service.name}`}

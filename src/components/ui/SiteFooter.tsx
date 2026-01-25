@@ -1,12 +1,26 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 import { Icons } from '@/components/ui/icons';
 import { WithHover } from './cursor/WithHover';
 
 export function SiteFooter() {
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    // Prevent hydration mismatch
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const toggleTheme = () => {
+        setTheme(theme === 'dark' ? 'light' : 'dark');
+    };
+
     return (
-        <footer className="border-t border-white/10 pt-24 md:pt-12 pb-32 text-[0.875rem] text-[var(--text-secondary)]">
+        <footer className="border-t border-border/50 pt-24 md:pt-12 pb-32 text-[0.875rem] text-muted-foreground">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                 <div className="max-w-md space-y-4">
                     <p>
@@ -16,7 +30,7 @@ export function SiteFooter() {
                                 href="https://github.com/raztronaut/experiments-tool"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex h-fit items-center gap-1.5 px-2 py-0.5 rounded-md no-underline hover:bg-white/5 transition-colors hover:text-[var(--text-primary)]"
+                                className="inline-flex h-fit items-center gap-1.5 px-2 py-0.5 rounded-md no-underline hover:bg-muted/40 transition-colors hover:text-foreground"
                                 data-umami-event="github_click"
                                 data-umami-event-type="repo"
                             >
@@ -26,6 +40,21 @@ export function SiteFooter() {
                             </a>
                         </WithHover>
                     </p>
+                    <WithHover config={{ hoverOffset: 2 }}>
+                        <button
+                            onClick={toggleTheme}
+                            className="text-[0.7rem] tracking-[0.1em] uppercase text-muted-foreground/60 hover:text-foreground transition-colors"
+                            aria-label="Toggle theme"
+                            data-umami-event="theme_toggle"
+                            {...(mounted && { 'data-umami-event-theme': theme === 'dark' ? 'light' : 'dark' })}
+                        >
+                            {mounted ? (
+                                theme === 'dark' ? 'turn on the lights' : 'turn off the lights'
+                            ) : (
+                                <span className="opacity-0">turn on the lights</span>
+                            )}
+                        </button>
+                    </WithHover>
                 </div>
 
                 <div className="flex flex-col gap-3 md:items-end">
