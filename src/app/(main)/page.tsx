@@ -23,7 +23,7 @@ export default async function Home() {
       <main className="flex-1 p-8 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
         <div className="mb-12 relative z-10">
 
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 relative">razi&apos;s experiments</h1>
+          <h1 className="text-3xl md:text-5xl font-medium tracking-tight mb-6 relative">razi&apos;s experiments</h1>
 
           <div className="flex items-center gap-4 mb-8 relative">
             <a
