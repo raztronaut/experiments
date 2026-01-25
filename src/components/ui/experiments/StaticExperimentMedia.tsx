@@ -45,8 +45,11 @@ export const StaticExperimentMedia = ({
     }, [shouldPlay]);
 
     const [posterError, setPosterError] = useState(false);
-    const staticImage = experiment.poster || experiment.image;
-    const hasStaticImage = !!staticImage && !posterError;
+    const [imageError, setImageError] = useState(false);
+
+    // Try poster first, then fallback to image if poster fails
+    const staticImage = (!posterError && experiment.poster) ? experiment.poster : (!imageError ? experiment.image : null);
+    const hasStaticImage = !!staticImage;
 
     // DECODER LIMIT FIX (FINAL):
     // 1. If we have a static image (poster/manual image), use it.
@@ -60,7 +63,7 @@ export const StaticExperimentMedia = ({
             className="absolute inset-0 w-full h-full bg-secondary"
         >
             {/* Image Layer (Manual Image OR Generated Poster) */}
-            {staticImage && (
+            {hasStaticImage && staticImage && (
                 <Image
                     src={staticImage}
                     alt={experiment.title}
@@ -68,7 +71,13 @@ export const StaticExperimentMedia = ({
                     className="object-cover z-0"
                     sizes="(max-width: 768px) 100vw, 400px"
                     priority={false}
-                    onError={() => setPosterError(true)}
+                    onError={() => {
+                        if (staticImage === experiment.poster) {
+                            setPosterError(true);
+                        } else {
+                            setImageError(true);
+                        }
+                    }}
                 />
             )}
 

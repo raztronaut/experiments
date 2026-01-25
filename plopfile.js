@@ -49,6 +49,8 @@ module.exports = function (plop) {
                         slug: '{{dashCase name}}',
                         created: new Date().toISOString(),
                         image: '/experiments/{{dashCase name}}/preview.gif',
+                        video: '',
+                        poster: '/experiments/{{dashCase name}}/poster.jpg',
                         isPlaceholder: true,
                     }, null, 2),
                 },

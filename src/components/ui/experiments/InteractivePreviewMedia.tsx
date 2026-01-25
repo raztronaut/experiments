@@ -16,6 +16,8 @@ export const InteractivePreviewMedia = ({
 }: InteractivePreviewMediaProps) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
+    const [posterError, setPosterError] = useState(false);
+    const [imageError, setImageError] = useState(false);
     const [isInViewport, setIsInViewport] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -36,7 +38,9 @@ export const InteractivePreviewMedia = ({
     };
 
     const shouldPlay = isInViewport && isHovered;
-    const staticImage = experiment.image;
+
+    // Fallback logic
+    const staticImage = (!posterError && experiment.poster) ? experiment.poster : (!imageError ? experiment.image : null);
     const hasStaticImage = !!staticImage;
 
     // For interactive preview, we can be more aggressive with unmounting/optimizing
@@ -59,7 +63,7 @@ export const InteractivePreviewMedia = ({
             className="absolute inset-0 w-full h-full transition-all duration-500 ease-out bg-secondary"
             style={style}
         >
-            {staticImage && (
+            {hasStaticImage && staticImage && (
                 <Image
                     src={staticImage}
                     alt={experiment.title}
@@ -67,6 +71,13 @@ export const InteractivePreviewMedia = ({
                     className="object-cover z-0"
                     sizes="280px"
                     priority={isHovered}
+                    onError={() => {
+                        if (staticImage === experiment.poster) {
+                            setPosterError(true);
+                        } else {
+                            setImageError(true);
+                        }
+                    }}
                 />
             )}
             {experiment.video && shouldRenderVideo && (

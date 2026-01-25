@@ -140,20 +140,28 @@ This means AI assistants will automatically:
    npm run test
    ```
 
-## Adding Previews
+## Adding Previews & Posters
 
-To add a hover preview (image or video) to your experiment:
+To add a hover preview (image or video) to your experiment and ensure optimal performance:
 
-1.  **Add Asset**: Place your image (`.png`, `.jpg`) or video (`.mp4`) in `public/experiments/<experiment-slug>/`.
+1.  **Add Asset**: Place your video (`.mp4`) or image (`.png`, `.jpg`) in `public/experiments/<experiment-slug>/`.
 2.  **Update Config**: Edit `src/app/experiments/(<experiment-slug>)/experiment.json`:
 
 ```json
 {
   "image": "/experiments/<experiment-slug>/preview.png",
-  "video": "/experiments/<experiment-slug>/preview.mp4"
+  "video": "/experiments/<experiment-slug>/preview.mp4",
+  "poster": "/experiments/<experiment-slug>/poster.jpg"
 }
 ```
-*Note: If both are provided, the video takes precedence on hover.*
+
+3.  **Generate Poster (Automated)**:
+    If you have added a video, run the following command to automatically extract the first frame as a `poster.jpg`. This is critical for performance and ensuring the Vercel deployment remains lightweight:
+    ```bash
+    npm run generate:posters
+    ```
+
+*Note: The website uses the poster image as a placeholder before the video loads to prevent layout shifts and excessive resource usage.*
 
 ## License
 

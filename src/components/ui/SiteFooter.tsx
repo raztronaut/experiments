@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Icons } from "@/components/ui/icons";
+import Link from 'next/link';
+import { Icons } from '@/components/ui/icons';
 
 export function SiteFooter() {
     return (

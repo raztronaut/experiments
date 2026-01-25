@@ -47,7 +47,7 @@ const lerp = (start: number, end: number, factor: number) => {
 export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps) {
     const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [viewMode, setViewMode] = useState<'list' | 'grid'>('grid'); // Default to Grid
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>('grid');
     const [isHoveringTrafficLights, setIsHoveringTrafficLights] = useState(false);
     const [mobilePreviewExperiment, setMobilePreviewExperiment] = useState<Experiment | null>(null);
     const touchStartRef = useRef<number | null>(null);
@@ -81,18 +81,14 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         window.addEventListener('scroll', updateOrigin, { passive: true });
 
         const animate = () => {
-            // Read latest values from refs
             const target = mousePositionRef.current;
             const current = smoothPositionRef.current;
 
-            // LERP from ref to ref
             const nextX = lerp(current.x, target.x, 0.15);
             const nextY = lerp(current.y, target.y, 0.15);
 
-            // Update the source ref
             smoothPositionRef.current = { x: nextX, y: nextY };
 
-            // Direct DOM update (Zero React Render)
             if (previewRef.current) {
                 const origin = listOriginRef.current;
                 previewRef.current.style.transform = `translate3d(${nextX + 20}px, ${nextY - 100}px, 0)`;
@@ -112,12 +108,11 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
             window.removeEventListener('resize', updateOrigin);
             window.removeEventListener('scroll', updateOrigin);
         };
-    }, []); // No dependencies!
+    }, []);
 
     const handleMouseMove = (e: React.MouseEvent) => {
         if (listRef.current) {
             const rect = listRef.current.getBoundingClientRect();
-            // Update ref, no re-render
             mousePositionRef.current = {
                 x: e.clientX - rect.left,
                 y: e.clientY - rect.top,
@@ -135,7 +130,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         setIsVisible(false);
     };
 
-    // Performance Optimization: Wrap handlers in useCallback
     const handleTouchStart = useCallback((e: React.TouchEvent) => {
         touchStartRef.current = e.touches[0].clientX;
     }, []);
@@ -146,7 +140,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         const touchEnd = e.changedTouches[0].clientX;
         const diff = touchStartRef.current - touchEnd;
 
-        // Swipe threshold (50px)
         if (Math.abs(diff) > 50) {
             setMobilePreviewExperiment(prev => prev?.slug === experiment.slug ? null : experiment);
         }
@@ -189,7 +182,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 onMouseMove={handleMouseMove}
                 className="relative w-full space-y-6"
             >
-                {/* View Controls */}
                 <div className="flex items-center justify-end">
                     <div className="flex items-center p-1 bg-muted/50 rounded-lg border border-border/50">
                         <button
@@ -217,7 +209,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
 
                 {viewMode === 'list' ? (
                     <div className="relative w-full">
-                        {/* Floating Preview Image (Desktop Only - List Mode) */}
                         <div
                             ref={previewRef}
                             className="pointer-events-none fixed z-50 overflow-hidden rounded-xl shadow-2xl hidden md:block"
@@ -232,7 +223,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                             }}
                         >
                             <div className="relative w-full h-full bg-secondary rounded-xl overflow-hidden border border-border/50">
-                                {/* OPTIMIZATION: Only render the active experiment's preview */}
                                 {hoveredIndex !== null && experiments[hoveredIndex] && (
                                     <InteractivePreviewMedia
                                         key={experiments[hoveredIndex].slug}
@@ -254,12 +244,9 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     onTouchStart={handleTouchStart}
                                     onTouchEnd={(e) => handleTouchEnd(e, experiment)}
                                 >
-                                    {/* Card-like container */}
                                     <div className="relative p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 overflow-hidden">
-                                        {/* In-Card Mobile Swipe Preview */}
                                         <div className={`absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'
                                             }`}>
-                                            {/* OPTIMIZATION: Only render if active (swiped) */}
                                             {mobilePreviewExperiment?.slug === experiment.slug && (
                                                 <InteractivePreviewMedia
                                                     experiment={experiment}
@@ -286,7 +273,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                                 </p>
                                             </div>
 
-                                            {/* Date */}
                                             {experiment.created ? (
                                                 <div className="text-left md:text-right w-full md:w-auto order-first md:order-last mb-2 md:mb-0">
                                                     <span
@@ -311,7 +297,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                         </div>
                     </div>
                 ) : (
-                    // Grid View
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         {experiments.map((experiment) => (
                             <ExperimentGridCard
@@ -336,13 +321,11 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
             <Drawer open={isOpen} onOpenChange={handleDrawerOpenChange}>
                 <DrawerContent className="h-[85vh]">
                     <DrawerHeader className="flex flex-row items-center justify-between px-4 py-3">
-                        {/* macOS Traffic Lights */}
                         <div
                             className="flex items-center gap-2"
                             onMouseEnter={() => setIsHoveringTrafficLights(true)}
                             onMouseLeave={() => setIsHoveringTrafficLights(false)}
                         >
-                            {/* Close (Red) */}
                             <DrawerClose asChild>
                                 <button
                                     className="w-3 h-3 rounded-full bg-[#FF5F57] hover:bg-[#FF5F57] transition-colors flex items-center justify-center"
@@ -352,7 +335,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 </button>
                             </DrawerClose>
 
-                            {/* Minimize (Yellow) - also closes drawer */}
                             <DrawerClose asChild>
                                 <button
                                     className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:bg-[#FEBC2E] transition-colors flex items-center justify-center"
@@ -362,7 +344,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 </button>
                             </DrawerClose>
 
-                            {/* Expand (Green) - opens in new tab */}
                             <button
                                 onClick={handleOpenFullPage}
                                 className="w-3 h-3 rounded-full bg-[#28C840] hover:bg-[#28C840] transition-colors flex items-center justify-center"
@@ -372,7 +353,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                             </button>
                         </div>
 
-                        {/* Title and Open Full Page button */}
                         <div className="flex items-center gap-3">
                             <DrawerTitle className="text-sm font-medium">{selectedExperiment?.title}</DrawerTitle>
                             <Button variant="outline" size="sm" className="h-7 text-xs" asChild>

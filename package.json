@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run generate:posters && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
@@ -12,6 +12,7 @@
     "build-storybook": "storybook build",
     "new:experiment": "plop experiment",
     "delete:experiment": "node scripts/delete-experiment.mjs",
+    "generate:posters": "node scripts/generate-posters.mjs",
     "prepare": "husky || true"
   },
   "dependencies": {
