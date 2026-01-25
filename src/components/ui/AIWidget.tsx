@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { AIIcons } from "./ai-icons";
 import { cn } from "@/lib/utils";
+import { WithHover } from "./cursor/WithHover";
 
 type ServiceId = "chatgpt" | "claude" | "perplexity" | "gemini" | "grok";
 
@@ -72,21 +73,22 @@ export function AIWidget() {
         <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-2">
             <div className="flex items-center p-2 rounded-xl bg-background/80 backdrop-blur-md border shadow-lg transition-all duration-300 hover:bg-background/90 group">
                 {services.map((service) => (
-                    <button
-                        key={service.id}
-                        onClick={() => handleSummarize(service)}
-                        className={cn(
-                            "relative p-2 rounded-lg text-muted-foreground transition-all duration-200",
-                            "hover:text-foreground hover:bg-muted active:scale-95",
-                            "focus:outline-none focus:ring-2 focus:ring-primary/20",
-                            (service.id === "chatgpt" || service.id === "grok") && "text-white hover:text-white"
-                        )}
-                        aria-label={`Summarize with ${service.name}`}
-                        title={`Summarize with ${service.name}`}
-                    >
-                        <service.icon className="w-5 h-5" />
-                        <span className="sr-only">{service.name}</span>
-                    </button>
+                    <WithHover key={service.id} config={{ hoverOffset: 2 }}>
+                        <button
+                            onClick={() => handleSummarize(service)}
+                            className={cn(
+                                "relative p-2 rounded-lg text-muted-foreground transition-all duration-200",
+                                "hover:text-foreground hover:bg-muted active:scale-95",
+                                "focus:outline-none focus:ring-2 focus:ring-primary/20",
+                                (service.id === "chatgpt" || service.id === "grok") && "text-white hover:text-white"
+                            )}
+                            aria-label={`Summarize with ${service.name}`}
+                            title={`Summarize with ${service.name}`}
+                        >
+                            <service.icon className="w-5 h-5" />
+                            <span className="sr-only">{service.name}</span>
+                        </button>
+                    </WithHover>
                 ))}
             </div>
             <div className="text-[10px] uppercase tracking-widest text-muted-foreground/50 font-medium pr-4 select-none pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">

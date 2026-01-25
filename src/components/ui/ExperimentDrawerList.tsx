@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, LayoutGrid, List } from 'lucide-react';
+import { WithHover } from './cursor/WithHover';
 import {
     Drawer,
     DrawerClose,
@@ -16,6 +17,7 @@ import { Experiment } from '@/lib/experiments';
 import { useUmami, UmamiEvents } from '@/hooks/useUmami';
 import { ExperimentGridCard } from './experiments/ExperimentGridCard';
 import { InteractivePreviewMedia } from './experiments/InteractivePreviewMedia';
+import { useCursor } from './cursor/Context';
 
 interface ExperimentDrawerListProps {
     experiments: Experiment[];
@@ -51,6 +53,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     const [isHoveringTrafficLights, setIsHoveringTrafficLights] = useState(false);
     const [mobilePreviewExperiment, setMobilePreviewExperiment] = useState<Experiment | null>(null);
     const touchStartRef = useRef<number | null>(null);
+    const { setIsHidden } = useCursor();
 
     // Analytics
     const { trackExperiment, track } = useUmami();
@@ -167,6 +170,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     };
 
     const handleDrawerOpenChange = (open: boolean) => {
+        setIsHidden(open);
         if (!open && selectedExperiment) {
             track(UmamiEvents.DRAWER_CLOSE, {
                 experiment_slug: selectedExperiment.slug,
@@ -184,26 +188,30 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
             >
                 <div className="flex items-center justify-end">
                     <div className="flex items-center p-1 bg-muted/50 rounded-lg border border-border/50">
-                        <button
-                            onClick={() => setViewMode('grid')}
-                            className={`p-1.5 rounded-md transition-all ${viewMode === 'grid'
-                                ? 'bg-background shadow-sm text-foreground'
-                                : 'text-muted-foreground hover:text-foreground'
-                                }`}
-                            aria-label="Grid view"
-                        >
-                            <LayoutGrid className="w-4 h-4" />
-                        </button>
-                        <button
-                            onClick={() => setViewMode('list')}
-                            className={`p-1.5 rounded-md transition-all ${viewMode === 'list'
-                                ? 'bg-background shadow-sm text-foreground'
-                                : 'text-muted-foreground hover:text-foreground'
-                                }`}
-                            aria-label="List view"
-                        >
-                            <List className="w-4 h-4" />
-                        </button>
+                        <WithHover config={{ hoverOffset: 0 }}>
+                            <button
+                                onClick={() => setViewMode('grid')}
+                                className={`p-1.5 rounded-md transition-all ${viewMode === 'grid'
+                                    ? 'bg-background shadow-sm text-foreground'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                                aria-label="Grid view"
+                            >
+                                <LayoutGrid className="w-4 h-4" />
+                            </button>
+                        </WithHover>
+                        <WithHover config={{ hoverOffset: 0 }}>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`p-1.5 rounded-md transition-all ${viewMode === 'list'
+                                    ? 'bg-background shadow-sm text-foreground'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                                aria-label="List view"
+                            >
+                                <List className="w-4 h-4" />
+                            </button>
+                        </WithHover>
                     </div>
                 </div>
 

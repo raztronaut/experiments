@@ -47,6 +47,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { CursorProvider } from "@/components/ui/cursor/Provider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -57,7 +59,9 @@ export default function RootLayout({
       <body className={cn(activeFont.className, activeFont.variable, "min-h-screen bg-background font-canvas antialiased text-foreground")}>
         <UmamiScript />
         <ConsoleEasterEgg />
-        {children}
+        <CursorProvider>
+          {children}
+        </CursorProvider>
       </body>
     </html>
   );
