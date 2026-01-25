@@ -54,13 +54,12 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
     isHovered?: boolean;
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
     const [isInViewport, setIsInViewport] = useState(false);
 
     // Intersection Observer for lazy loading/mounting video
     useEffect(() => {
-        // We observe regardless of video existence to ensure state is synced/consistent
-        // logic downstream handles if video needs to be rendered/played.
+        if (!containerEl) return;
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -69,12 +68,10 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
             { threshold: 0.1, rootMargin: '100px' }
         );
 
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
+        observer.observe(containerEl);
 
         return () => observer.disconnect();
-    }, []); // Only run once on mount (refs are stable)
+    }, [containerEl]);
 
 
     // Derived logic:
@@ -120,7 +117,7 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
 
     return (
         <div
-            ref={containerRef}
+            ref={setContainerEl}
             className="absolute inset-0 w-full h-full transition-all duration-500 ease-out bg-secondary"
             style={style}
         >
