@@ -15,7 +15,7 @@ export interface Experiment {
 
 export async function getExperiments(): Promise<Experiment[]> {
     const experimentsDir = path.join(process.cwd(), 'src/app/experiments');
-    const publicDir = path.join(process.cwd(), 'public');
+
 
     try {
         const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
@@ -41,21 +41,14 @@ export async function getExperiments(): Promise<Experiment[]> {
                     // The slug usually matches the directory name, but let's blindly rely on config.slug for the public path map
                     // Assumption: public/experiments/{slug}/poster.jpg
 
+                    // We assume the poster exists to avoid 'fs.access' on public folder
+                    // which causes Vercel to bundle all public assets (videos) into the API function.
                     const posterPath = `/experiments/${config.slug}/poster.jpg`;
-                    const absolutePosterPath = path.join(publicDir, posterPath);
-                    let hasPoster = false;
-
-                    try {
-                        await fs.access(absolutePosterPath);
-                        hasPoster = true;
-                    } catch {
-                        hasPoster = false;
-                    }
 
                     return {
                         ...config,
                         href: `/experiments/${config.slug}`,
-                        poster: hasPoster ? posterPath : undefined
+                        poster: posterPath
                     } as Experiment;
                 } catch (error) {
                     console.warn(`Could not read config for ${dirName}:`, error);
