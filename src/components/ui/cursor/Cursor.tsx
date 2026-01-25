@@ -14,7 +14,7 @@ export const Cursor: React.FC = () => {
 
         const isSnapped = selectedElement.el && (status === "entering" || status === "shifting" || status === "entered");
 
-        if (!isSnapped || status === "exiting") {
+        if (status === "" || status === "exiting" || !selectedElement.el) {
             // Normal cursor following
             gsap.to(cursorRef.current, {
                 x: pos.x - 9,
