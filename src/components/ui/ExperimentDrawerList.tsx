@@ -322,8 +322,8 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                         }`} />
                                 </div>
 
-                                <div className="relative z-10 flex items-start justify-between gap-4 pointer-events-none">
-                                    <div className="flex-1 min-w-0">
+                                <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-2 md:gap-4 pointer-events-none">
+                                    <div className="flex-1 min-w-0 order-last md:order-first w-full">
                                         <h2 className={`font-bold text-2xl tracking-tight mb-2 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                             ? 'opacity-0'
                                             : 'text-foreground'
@@ -340,7 +340,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
 
                                     {/* Date */}
                                     {experiment.created ? (
-                                        <div className="text-right">
+                                        <div className="text-left md:text-right w-full md:w-auto order-first md:order-last mb-2 md:mb-0">
                                             <span
                                                 className={`text-sm font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                                     ? 'opacity-0'
