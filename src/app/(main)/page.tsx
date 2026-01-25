@@ -20,11 +20,11 @@ export default async function Home() {
         />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
-      <main className="flex-1 p-8 pt-40 md:p-24 md:pt-64 max-w-4xl mx-auto w-full">
+      <main className="flex-1 p-8 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
         <div className="mb-12 relative z-10">
 
-          <h1 className="text-2xl font-semibold tracking-tight mb-2 relative">Razi&apos;s Experiments</h1>
-          <p className="text-muted-foreground relative">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 relative">Razi&apos;s Experiments</h1>
+          <p className="text-lg md:text-xl text-muted-foreground relative">
             This page is created using my simple scaffolding tool to help developers whip up new web design/development experiments rapidly. Check it out here:{' '}
             <a
               href="https://github.com/raztronaut/experiments-tool"
@@ -49,7 +49,7 @@ export default async function Home() {
 
         <ExperimentDrawerList experiments={experiments} />
       </main>
-      <div className="max-w-4xl mx-auto w-full px-8 md:px-24">
+      <div className="max-w-6xl mx-auto w-full px-8 md:px-24">
         <SiteFooter />
       </div>
       <AIWidget />
