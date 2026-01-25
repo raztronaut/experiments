@@ -42,20 +42,27 @@ export const CursorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         };
     }, []);
 
+    // Sync global cursor style
     useEffect(() => {
         const shouldHideSystemCursor = !isTouchDevice && !isHidden;
-        const existingStyle = document.getElementById('cursor-none-style');
-        if (existingStyle) existingStyle.remove();
 
-        if (shouldHideSystemCursor) {
-            document.body.style.cursor = 'none';
-            const style = document.createElement('style');
-            style.id = 'cursor-none-style';
-            style.innerHTML = `* { cursor: none !important; }`;
-            document.head.appendChild(style);
-        } else {
-            document.body.style.cursor = '';
-        }
+        const updateStyles = () => {
+            const existingStyle = document.getElementById('cursor-none-style');
+            if (existingStyle) existingStyle.remove();
+
+            if (shouldHideSystemCursor) {
+                document.body.style.cursor = 'none';
+                const style = document.createElement('style');
+                style.id = 'cursor-none-style';
+                style.innerHTML = `* { cursor: none !important; }`;
+                document.head.appendChild(style);
+            } else {
+                document.body.style.cursor = '';
+            }
+        };
+
+        // Run immediately
+        updateStyles();
 
         return () => {
             document.body.style.cursor = '';
@@ -84,7 +91,7 @@ export const CursorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             setSelectedElementState({ el: null, type: 'default' });
             setStatus("");
             exitTimeoutRef.current = null;
-        }, 150); // Reduced delay for more responsive exit
+        }, 150);
     }, []);
 
     const combinedHidden = isHidden || isTouchDevice;

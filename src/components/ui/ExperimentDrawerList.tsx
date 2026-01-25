@@ -72,6 +72,10 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     const animationRef = useRef<number | null>(null);
 
     useEffect(() => {
+        setIsHidden(isOpen);
+    }, [isOpen, setIsHidden]);
+
+    useEffect(() => {
         const updateOrigin = () => {
             if (listRef.current) {
                 const rect = listRef.current.getBoundingClientRect();
@@ -170,7 +174,6 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     };
 
     const handleDrawerOpenChange = (open: boolean) => {
-        setIsHidden(open);
         if (!open && selectedExperiment) {
             track(UmamiEvents.DRAWER_CLOSE, {
                 experiment_slug: selectedExperiment.slug,
