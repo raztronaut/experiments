@@ -66,6 +66,9 @@ const config: Config = {
             animation: {
                 'static-noise': 'static-noise-fade 0.8s ease-in-out forwards',
             },
+            fontFamily: {
+                canvas: ["var(--font-app)", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+            },
         }
     },
     plugins: [tailwindcssAnimate],

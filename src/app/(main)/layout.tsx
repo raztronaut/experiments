@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { activeFont } from "@/lib/fonts";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: {
@@ -55,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={cn(inter.className, "min-h-screen bg-background font-sans antialiased text-foreground")}>
+      <body className={cn(activeFont.className, activeFont.variable, "min-h-screen bg-background font-canvas antialiased text-foreground")}>
         <UmamiScript />
         {children}
       </body>
