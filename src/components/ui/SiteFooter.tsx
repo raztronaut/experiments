@@ -5,7 +5,7 @@ import { Icons } from "@/components/ui/icons";
 
 export function SiteFooter() {
     return (
-        <footer className="border-t border-white/10 py-12 text-[0.875rem] text-[var(--text-secondary)]">
+        <footer className="border-t border-white/10 pt-12 pb-32 text-[0.875rem] text-[var(--text-secondary)]">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
                 <div className="max-w-md space-y-4">
                     <p>
