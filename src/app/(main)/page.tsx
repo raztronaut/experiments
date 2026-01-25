@@ -6,7 +6,8 @@ import { Waves } from '@/components/ui/wave-background';
 import { Icons } from '@/components/ui/icons';
 import { WithHover } from '@/components/ui/cursor/WithHover';
 
-export const dynamic = 'force-dynamic';
+// Revalidate experiment list every hour for ISR (Incremental Static Regeneration)
+export const revalidate = 3600;
 
 export default async function Home() {
   const experiments = await getExperiments();

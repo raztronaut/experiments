@@ -1,56 +1,45 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { ExternalLink, LayoutGrid, List } from 'lucide-react';
-import { WithHover } from './cursor/WithHover';
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-} from '@/components/ui/drawer';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Experiment } from '@/lib/experiments';
 import { useUmami, UmamiEvents } from '@/hooks/useUmami';
-import { ExperimentGridCard } from './experiments/ExperimentGridCard';
-import { InteractivePreviewMedia } from './experiments/InteractivePreviewMedia';
 import { useCursor } from './cursor/Context';
+
+// Extracted components
+import { ViewModeToggle } from './experiments/ViewModeToggle';
+import { ExperimentListItem } from './experiments/ExperimentListItem';
+import { ExperimentGridCard } from './experiments/ExperimentGridCard';
+import { ExperimentPreviewDrawer } from './experiments/ExperimentPreviewDrawer';
+import { InteractivePreviewMedia } from './experiments/InteractivePreviewMedia';
 
 interface ExperimentDrawerListProps {
     experiments: Experiment[];
 }
 
-// macOS Traffic Light Icons (shown on hover)
-const CloseIcon = () => (
-    <svg viewBox="0 0 12 12" className="w-2 h-2" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5">
-        <path d="M3 3l6 6M9 3l-6 6" strokeLinecap="round" />
-    </svg>
-);
-
-const MinimizeIcon = () => (
-    <svg viewBox="0 0 12 12" className="w-2 h-2" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5">
-        <path d="M2.5 6h7" strokeLinecap="round" />
-    </svg>
-);
-
-const ExpandIcon = () => (
-    <svg viewBox="0 0 12 12" className="w-2 h-2" fill="none" stroke="rgba(0,0,0,0.5)" strokeWidth="1.2">
-        <path d="M2 6.5v3.5h3.5M10 5.5v-3.5h-3.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-);
-
 const lerp = (start: number, end: number, factor: number) => {
     return start + (end - start) * factor;
 };
 
+// Cached date formatter options for performance
+const dateFormatOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+};
+
+// Pre-compute formatted date from ISO string
+const formatDate = (isoDate: string): string => {
+    return new Date(isoDate).toLocaleDateString('en-US', dateFormatOptions);
+};
+
+/**
+ * Displays a list of experiments in either grid or list view with a preview drawer.
+ * Refactored into smaller, focused components for better maintainability.
+ */
 export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps) {
     const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [viewMode, setViewMode] = useState<'list' | 'grid'>('grid');
-    const [isHoveringTrafficLights, setIsHoveringTrafficLights] = useState(false);
     const [mobilePreviewExperiment, setMobilePreviewExperiment] = useState<Experiment | null>(null);
     const touchStartRef = useRef<number | null>(null);
     const { setIsHidden } = useCursor();
@@ -71,10 +60,19 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
     const previewRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<number | null>(null);
 
+    // Memoize formatted dates to avoid recalculating on each render
+    const formattedDates = useMemo(() => {
+        return new Map(
+            experiments.map(exp => [exp.slug, formatDate(exp.created)])
+        );
+    }, [experiments]);
+
+    // Hide custom cursor when drawer is open
     useEffect(() => {
         setIsHidden(isOpen);
     }, [isOpen, setIsHidden]);
 
+    // Animation loop for smooth preview following cursor
     useEffect(() => {
         const updateOrigin = () => {
             if (listRef.current) {
@@ -189,37 +187,11 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 onMouseMove={handleMouseMove}
                 className="relative w-full space-y-6"
             >
-                <div className="flex items-center justify-end">
-                    <div className="flex items-center p-1 bg-muted/50 rounded-lg border border-border/50">
-                        <WithHover config={{ hoverOffset: 0 }}>
-                            <button
-                                onClick={() => setViewMode('grid')}
-                                className={`p-1.5 rounded-md transition-all ${viewMode === 'grid'
-                                    ? 'bg-background shadow-sm text-foreground'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                                aria-label="Grid view"
-                            >
-                                <LayoutGrid className="w-4 h-4" />
-                            </button>
-                        </WithHover>
-                        <WithHover config={{ hoverOffset: 0 }}>
-                            <button
-                                onClick={() => setViewMode('list')}
-                                className={`p-1.5 rounded-md transition-all ${viewMode === 'list'
-                                    ? 'bg-background shadow-sm text-foreground'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                                aria-label="List view"
-                            >
-                                <List className="w-4 h-4" />
-                            </button>
-                        </WithHover>
-                    </div>
-                </div>
+                <ViewModeToggle viewMode={viewMode} onViewModeChange={setViewMode} />
 
                 {viewMode === 'list' ? (
                     <div className="relative w-full">
+                        {/* Floating preview that follows cursor */}
                         <div
                             ref={previewRef}
                             className="pointer-events-none fixed z-50 overflow-hidden rounded-xl shadow-2xl hidden md:block"
@@ -244,66 +216,20 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                             </div>
                         </div>
 
+                        {/* List items */}
                         <div className="space-y-4 relative z-10">
                             {experiments.map((experiment, index) => (
-                                <div
+                                <ExperimentListItem
                                     key={experiment.slug}
-                                    className="group relative block cursor-pointer"
+                                    experiment={experiment}
+                                    formattedDate={formattedDates.get(experiment.slug)}
+                                    isMobileActive={mobilePreviewExperiment?.slug === experiment.slug}
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
                                     onClick={() => handleExperimentClick(experiment)}
                                     onTouchStart={handleTouchStart}
                                     onTouchEnd={(e) => handleTouchEnd(e, experiment)}
-                                >
-                                    <div className="relative p-4 md:p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 overflow-hidden">
-                                        <div className={`absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'
-                                            }`}>
-                                            {mobilePreviewExperiment?.slug === experiment.slug && (
-                                                <InteractivePreviewMedia
-                                                    experiment={experiment}
-                                                    isHovered={true}
-                                                />
-                                            )}
-                                            <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'
-                                                }`} />
-                                        </div>
-
-                                        <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-1 md:gap-4 pointer-events-none">
-                                            <div className="flex-1 min-w-0 order-last md:order-first w-full">
-                                                <h2 className={`font-bold text-lg md:text-2xl tracking-tight mb-1 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                    ? 'opacity-0'
-                                                    : 'text-foreground'
-                                                    }`}>
-                                                    {experiment.title}
-                                                </h2>
-                                                <p className={`text-[13px] md:text-base leading-relaxed transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                    ? 'opacity-0'
-                                                    : 'text-muted-foreground'
-                                                    }`}>
-                                                    {experiment.description}
-                                                </p>
-                                            </div>
-
-                                            {experiment.created ? (
-                                                <div className="text-left md:text-right w-full md:w-auto order-first md:order-last mb-0 md:mb-0">
-                                                    <span
-                                                        className={`text-[11px] md:text-sm font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
-                                                            ? 'opacity-0'
-                                                            : 'text-muted-foreground opacity-60'
-                                                            }`}
-                                                        suppressHydrationWarning
-                                                    >
-                                                        {new Date(experiment.created).toLocaleDateString('en-US', {
-                                                            year: 'numeric',
-                                                            month: 'long',
-                                                            day: 'numeric'
-                                                        })}
-                                                    </span>
-                                                </div>
-                                            ) : null}
-                                        </div>
-                                    </div>
-                                </div>
+                                />
                             ))}
                         </div>
                     </div>
@@ -329,67 +255,12 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 )}
             </section>
 
-            <Drawer open={isOpen} onOpenChange={handleDrawerOpenChange}>
-                <DrawerContent className="h-[85vh]">
-                    <DrawerHeader className="flex flex-row items-center justify-between px-4 py-3">
-                        <div
-                            className="flex items-center gap-2"
-                            onMouseEnter={() => setIsHoveringTrafficLights(true)}
-                            onMouseLeave={() => setIsHoveringTrafficLights(false)}
-                        >
-                            <DrawerClose asChild>
-                                <button
-                                    className="w-3 h-3 rounded-full bg-[#FF5F57] hover:bg-[#FF5F57] transition-colors flex items-center justify-center"
-                                    aria-label="Close"
-                                >
-                                    {isHoveringTrafficLights ? <CloseIcon /> : null}
-                                </button>
-                            </DrawerClose>
-
-                            <DrawerClose asChild>
-                                <button
-                                    className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:bg-[#FEBC2E] transition-colors flex items-center justify-center"
-                                    aria-label="Minimize"
-                                >
-                                    {isHoveringTrafficLights ? <MinimizeIcon /> : null}
-                                </button>
-                            </DrawerClose>
-
-                            <button
-                                onClick={handleOpenFullPage}
-                                className="w-3 h-3 rounded-full bg-[#28C840] hover:bg-[#28C840] transition-colors flex items-center justify-center"
-                                aria-label="Open in new tab"
-                            >
-                                {isHoveringTrafficLights ? <ExpandIcon /> : null}
-                            </button>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                            <DrawerTitle className="text-sm font-medium">{selectedExperiment?.title}</DrawerTitle>
-                            <Button variant="outline" size="sm" className="h-7 text-xs" asChild>
-                                <Link href={selectedExperiment?.href || '#'} target="_blank">
-                                    <ExternalLink className="h-3 w-3 mr-1.5" />
-                                    Open Full Page
-                                </Link>
-                            </Button>
-                        </div>
-                    </DrawerHeader>
-                    <div className="p-4 h-full">
-                        {selectedExperiment && (
-                            <iframe
-                                src={selectedExperiment.href}
-                                className="w-full h-full rounded-lg border bg-background"
-                                title={selectedExperiment.title}
-                            />
-                        )}
-                    </div>
-                    <DrawerFooter className="pt-2 pb-8">
-                        <p className="text-xs text-muted-foreground text-center">
-                            {selectedExperiment?.description}
-                        </p>
-                    </DrawerFooter>
-                </DrawerContent>
-            </Drawer>
+            <ExperimentPreviewDrawer
+                experiment={selectedExperiment}
+                isOpen={isOpen}
+                onOpenChange={handleDrawerOpenChange}
+                onOpenFullPage={handleOpenFullPage}
+            />
         </>
     );
 }
