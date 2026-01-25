@@ -244,7 +244,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     onTouchStart={handleTouchStart}
                                     onTouchEnd={(e) => handleTouchEnd(e, experiment)}
                                 >
-                                    <div className="relative p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 overflow-hidden">
+                                    <div className="relative p-4 md:p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 overflow-hidden">
                                         <div className={`absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'
                                             }`}>
                                             {mobilePreviewExperiment?.slug === experiment.slug && (
@@ -257,15 +257,15 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                                 }`} />
                                         </div>
 
-                                        <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-2 md:gap-4 pointer-events-none">
+                                        <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-1 md:gap-4 pointer-events-none">
                                             <div className="flex-1 min-w-0 order-last md:order-first w-full">
-                                                <h2 className={`font-bold text-2xl tracking-tight mb-2 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
+                                                <h2 className={`font-bold text-lg md:text-2xl tracking-tight mb-1 transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                                     ? 'opacity-0'
                                                     : 'text-foreground'
                                                     }`}>
                                                     {experiment.title}
                                                 </h2>
-                                                <p className={`text-base leading-relaxed transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
+                                                <p className={`text-[13px] md:text-base leading-relaxed transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                                     ? 'opacity-0'
                                                     : 'text-muted-foreground'
                                                     }`}>
@@ -274,9 +274,9 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                             </div>
 
                                             {experiment.created ? (
-                                                <div className="text-left md:text-right w-full md:w-auto order-first md:order-last mb-2 md:mb-0">
+                                                <div className="text-left md:text-right w-full md:w-auto order-first md:order-last mb-0 md:mb-0">
                                                     <span
-                                                        className={`text-sm font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
+                                                        className={`text-[11px] md:text-sm font-mono tabular-nums transition-colors duration-300 ${mobilePreviewExperiment?.slug === experiment.slug
                                                             ? 'opacity-0'
                                                             : 'text-muted-foreground opacity-60'
                                                             }`}
