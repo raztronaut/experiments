@@ -43,7 +43,7 @@ export async function getExperiments(): Promise<Experiment[]> {
 
                     // We assume the poster exists to avoid 'fs.access' on public folder
                     // which causes Vercel to bundle all public assets (videos) into the API function.
-                    const posterPath = `/experiments/${config.slug}/poster.jpg`;
+                    const posterPath = config.video ? `/experiments/${config.slug}/poster.jpg` : undefined;
 
                     return {
                         ...config,
