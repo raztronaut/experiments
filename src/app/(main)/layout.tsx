@@ -3,6 +3,7 @@ import { activeFont } from "@/lib/fonts";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
+import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +56,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={cn(activeFont.className, activeFont.variable, "min-h-screen bg-background font-canvas antialiased text-foreground")}>
         <UmamiScript />
+        <ConsoleEasterEgg />
         {children}
       </body>
     </html>
