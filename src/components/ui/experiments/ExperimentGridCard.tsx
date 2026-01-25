@@ -31,7 +31,7 @@ export const ExperimentGridCard = memo(({
         <div
             role="button"
             tabIndex={0}
-            className="group flex flex-col gap-3 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
+            className="group flex flex-col gap-3 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl h-full"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={() => onClick(experiment)}
@@ -53,7 +53,7 @@ export const ExperimentGridCard = memo(({
             </div>
 
             {/* Content */}
-            <div className="space-y-1">
+            <div className="space-y-1 flex-1 flex flex-col">
                 <div className="flex flex-col gap-1">
                     {experiment.created && (
                         <span className="text-xs text-muted-foreground/60 font-mono" suppressHydrationWarning>
@@ -68,7 +68,7 @@ export const ExperimentGridCard = memo(({
                         {experiment.title}
                     </h3>
                 </div>
-                <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed text-pretty">
                     {experiment.description}
                 </p>
             </div>
