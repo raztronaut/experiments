@@ -49,9 +49,9 @@ export function SiteFooter() {
                             {...(mounted && { 'data-umami-event-theme': theme === 'dark' ? 'light' : 'dark' })}
                         >
                             {mounted ? (
-                                theme === 'dark' ? 'turn on the lights' : 'turn off the lights'
+                                theme === 'dark' ? 'turn on the lights!' : 'turn off the lights!'
                             ) : (
-                                <span className="opacity-0">turn on the lights</span>
+                                <span className="opacity-0">turn on the lights!</span>
                             )}
                         </button>
                     </WithHover>
