@@ -222,15 +222,19 @@ const ExperimentGridCard = memo(({
 
             {/* Content */}
             <div className="space-y-1">
-                <div className="flex items-start justify-between gap-2">
+                <div className="flex flex-col gap-1">
+                    {experiment.created && (
+                        <span className="text-xs text-muted-foreground/60 font-mono" suppressHydrationWarning>
+                            {new Date(experiment.created).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            })}
+                        </span>
+                    )}
                     <h3 className="font-semibold leading-tight tracking-tight text-foreground transition-colors group-hover:text-primary">
                         {experiment.title}
                     </h3>
-                    {experiment.created && (
-                        <span className="text-xs text-muted-foreground/60 font-mono mt-0.5 whitespace-nowrap">
-                            {new Date(experiment.created).getFullYear()}
-                        </span>
-                    )}
                 </div>
                 <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                     {experiment.description}
