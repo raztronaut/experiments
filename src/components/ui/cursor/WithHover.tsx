@@ -17,7 +17,7 @@ interface WithHoverProps {
 export const WithHover: React.FC<WithHoverProps> = ({
     children,
     type = 'block',
-    config = { hoverOffset: 4 },
+    config = { hoverOffset: 3 },
 }) => {
     const { setSelectedElement, removeSelectedElement, pos, selectedElement } = useCursor();
     const elementRef = useRef<HTMLElement>(null);
@@ -44,19 +44,18 @@ export const WithHover: React.FC<WithHoverProps> = ({
         removeSelectedElement();
         setIsHovered(false);
 
-        // Quick, clean reset
+        // Instant reset for elements to avoid that 'trailing' feeling
         if (elementRef.current) {
             gsap.to(elementRef.current, {
                 x: 0,
                 y: 0,
-                duration: 0.3,
+                duration: 0.2, // Faster
                 ease: "power2.out",
                 overwrite: true
             });
         }
     }, [removeSelectedElement]);
 
-    // Use Pointer Events for better accuracy and to avoid some mouse-related jitter
     useEffect(() => {
         if (isHovered && elementRef.current && selectedElement.el === elementRef.current && type === 'block') {
             const rect = elementRef.current.getBoundingClientRect();
@@ -66,16 +65,15 @@ export const WithHover: React.FC<WithHoverProps> = ({
             const relY = pos.y - rect.top;
 
             const configObj = config as Record<string, any>;
-            const amount = configObj.hoverOffset ?? 4;
+            const amount = configObj.hoverOffset ?? 3;
 
-            // Normalize distance to avoid extreme jumps if mouse moves fast
             const xMove = Math.max(Math.min((relX - xMid) / rect.width * amount, amount), -amount);
             const yMove = Math.max(Math.min((relY - yMid) / rect.height * amount, amount), -amount);
 
             gsap.to(elementRef.current, {
                 x: xMove,
                 y: yMove,
-                duration: 0.2,
+                duration: 0.1, // Even faster for instantaneous feedback
                 ease: "power2.out",
                 overwrite: "auto"
             });
@@ -90,6 +88,11 @@ export const WithHover: React.FC<WithHoverProps> = ({
         onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
             handleMouseEnter(e);
             children.props.onMouseEnter?.(e);
+        },
+        onMouseOver: (e: React.MouseEvent<HTMLElement>) => {
+            // Re-assert hover if we somehow lose it while moving internally
+            if (!isHovered) setIsHovered(true);
+            children.props.onMouseOver?.(e);
         },
         onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
             handleMouseLeave();

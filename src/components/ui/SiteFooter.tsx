@@ -11,12 +11,12 @@ export function SiteFooter() {
                 <div className="max-w-md space-y-4">
                     <p>
                         This page is created using my simple scaffolding tool to help developers whip up new web design/development experiments rapidly. Check it out here:{' '}
-                        <WithHover config={{ hoverOffset: 0 }}>
+                        <WithHover config={{ hoverOffset: 2 }}>
                             <a
                                 href="https://github.com/raztronaut/experiments-tool"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex h-fit items-center gap-1.5 px-1.5 py-0.5 rounded-md hover:bg-white/10 transition-colors hover:text-[var(--text-primary)]"
+                                className="inline-flex h-fit items-center gap-1.5 px-2 py-0.5 rounded-md no-underline hover:bg-white/5 transition-colors hover:text-[var(--text-primary)]"
                                 data-umami-event="github_click"
                                 data-umami-event-type="repo"
                             >
