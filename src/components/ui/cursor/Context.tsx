@@ -5,7 +5,6 @@ import { createContext, useContext } from 'react';
 export type CursorType = 'default' | 'block' | 'text';
 
 export interface CursorContextType {
-    pos: { x: number; y: number };
     selectedElement: {
         el: HTMLElement | null;
         type: CursorType;

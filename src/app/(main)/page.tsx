@@ -48,7 +48,7 @@ export default async function Home() {
                 className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
                 aria-label="X (Twitter)"
               >
-                <Icons.X className="h-4 w-4" />
+                <Icons.X className="h-5 w-5" />
               </a>
             </WithHover>
             <WithHover>

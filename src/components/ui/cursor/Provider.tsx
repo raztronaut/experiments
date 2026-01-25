@@ -5,7 +5,9 @@ import { CursorContext, CursorType } from './Context';
 import { Cursor } from './Cursor';
 
 export const CursorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    // Mouse position is now tracked by subscribers (Cursor, WithHover) directly
+    // to avoid re-rendering the entire app on every frame.
+
     const [selectedElement, setSelectedElementState] = useState<{
         el: HTMLElement | null;
         type: CursorType;
@@ -24,19 +26,13 @@ export const CursorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         };
         checkTouch();
 
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePos({ x: e.clientX, y: e.clientY });
-        };
-
         const handleMouseDown = () => setPressing(true);
         const handleMouseUp = () => setPressing(false);
 
-        window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mousedown', handleMouseDown);
         window.addEventListener('mouseup', handleMouseUp);
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
         };
@@ -99,7 +95,6 @@ export const CursorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     return (
         <CursorContext.Provider
             value={{
-                pos: mousePos,
                 selectedElement,
                 status,
                 pressing,

@@ -20,6 +20,7 @@ export function SiteFooter() {
                                 data-umami-event="github_click"
                                 data-umami-event-type="repo"
                             >
+                                <Icons.GitHub className="h-3 w-3 opacity-60" />
                                 <span>experiments-tool</span>
                                 <Icons.ExternalLink className="h-3 w-3 opacity-60" />
                             </a>
@@ -28,18 +29,18 @@ export function SiteFooter() {
                 </div>
 
                 <div className="flex flex-col gap-3 md:items-end">
-                    <span className="block text-xs text-muted-foreground/60">built by razi</span>
+                    <span className="block text-sm text-muted-foreground/60">built by razi</span>
                     <div className="flex items-center gap-3">
                         <WithHover config={{ hoverOffset: 2 }}>
                             <Link
                                 href="https://github.com/raztronaut"
                                 target="_blank"
                                 aria-label="GitHub"
-                                className="rounded-lg p-2 transition-colors hover:bg-white/5 hover:text-[var(--text-primary)]"
+                                className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
                                 data-umami-event="github_click"
                                 data-umami-event-type="profile"
                             >
-                                <Icons.GitHub width={18} height={18} />
+                                <Icons.GitHub className="h-5 w-5" />
                             </Link>
                         </WithHover>
                         <WithHover config={{ hoverOffset: 2 }}>
@@ -47,11 +48,11 @@ export function SiteFooter() {
                                 href="https://x.com/raztronaut"
                                 target="_blank"
                                 aria-label="X (formerly Twitter)"
-                                className="rounded-lg p-2 transition-colors hover:bg-white/5 hover:text-[var(--text-primary)]"
+                                className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
                                 data-umami-event="social_click"
                                 data-umami-event-platform="x"
                             >
-                                <Icons.X width={16} height={16} />
+                                <Icons.X className="h-5 w-5" />
                             </Link>
                         </WithHover>
                         <WithHover config={{ hoverOffset: 2 }}>
@@ -59,11 +60,11 @@ export function SiteFooter() {
                                 href="https://linkedin.com/in/raztronaut"
                                 target="_blank"
                                 aria-label="LinkedIn"
-                                className="rounded-lg p-2 transition-colors hover:bg-white/5 hover:text-[var(--text-primary)]"
+                                className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
                                 data-umami-event="social_click"
                                 data-umami-event-platform="linkedin"
                             >
-                                <Icons.Linkedin width={18} height={18} />
+                                <Icons.Linkedin className="h-5 w-5" />
                             </Link>
                         </WithHover>
                     </div>
