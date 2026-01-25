@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useCursor, CursorType } from './Context';
-import { mergeRefs } from '@/lib/utils';
 
 interface WithHoverProps {
-    children: React.ReactElement<any>;
+    children: React.ReactElement<{
+        onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
+        onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
+        onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
+    }>;
     type?: CursorType;
     config?: {
         hoverOffset?: number;
@@ -18,9 +21,7 @@ export const WithHover: React.FC<WithHoverProps> = ({
     type = 'block',
     config = { hoverOffset: 3 },
 }) => {
-    const { setSelectedElement, removeSelectedElement, selectedElement } = useCursor();
-    const elementRef = useRef<HTMLElement>(null);
-    const [isHovered, setIsHovered] = useState(false);
+    const { setSelectedElement, removeSelectedElement } = useCursor();
 
     const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLElement>) => {
         const target = e.currentTarget;
@@ -36,31 +37,26 @@ export const WithHover: React.FC<WithHoverProps> = ({
         }
 
         setSelectedElement(result);
-        setIsHovered(true);
     }, [type, config, setSelectedElement]);
 
     const handleMouseLeave = useCallback(() => {
         removeSelectedElement();
-        setIsHovered(false);
     }, [removeSelectedElement]);
 
-    const childrenWithRef = children as any;
-    const mergedRef = mergeRefs(childrenWithRef.ref, elementRef);
+    // Get the only child
+    const child = React.Children.only(children);
 
-    return React.cloneElement(children, {
-        ref: mergedRef,
+    return React.cloneElement(child, {
         onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
             handleMouseEnter(e);
-            children.props.onMouseEnter?.(e);
+            child.props.onMouseEnter?.(e);
         },
         onMouseOver: (e: React.MouseEvent<HTMLElement>) => {
-            // Re-assert hover if we somehow lose it while moving internally
-            if (!isHovered) setIsHovered(true);
-            children.props.onMouseOver?.(e);
+            child.props.onMouseOver?.(e);
         },
         onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
             handleMouseLeave();
-            children.props.onMouseLeave?.(e);
+            child.props.onMouseLeave?.(e);
         },
-    } as any);
+    });
 };
