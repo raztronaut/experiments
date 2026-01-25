@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, memo } from 'react';
+import React, { useState, useRef, useEffect, memo, useCallback } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, LayoutGrid, List } from 'lucide-react';
@@ -44,72 +44,47 @@ const ExpandIcon = () => (
 // Reusable Preview Component (Top-level to prevent re-renders)
 // Reusable Preview Component (Top-level to prevent re-renders)
 // Reusable Preview Component (Top-level to prevent re-renders)
-const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
+// 1. Interactive Preview (Floating / List View - Complex)
+const InteractivePreviewMedia = ({
     experiment,
-    variant = 'interactive', // 'interactive' (float) or 'static' (grid)
-    isHovered = false, // Controlled hover state
+    isHovered,
 }: {
     experiment: Experiment;
-    variant?: 'interactive' | 'static';
-    isHovered?: boolean;
-}) {
+    isHovered: boolean;
+}) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
     const [isInViewport, setIsInViewport] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-    // Intersection Observer for lazy loading/mounting video
     useEffect(() => {
         if (!containerEl) return;
-
         const observer = new IntersectionObserver(
-            ([entry]) => {
-                setIsInViewport(entry.isIntersecting);
-            },
+            ([entry]) => setIsInViewport(entry.isIntersecting),
             { threshold: 0.1, rootMargin: '400px' }
         );
-
         observer.observe(containerEl);
-
         return () => observer.disconnect();
     }, [containerEl]);
 
+    const style = {
+        opacity: isHovered ? 1 : 0,
+        scale: isHovered ? 1 : 1.1,
+        filter: isHovered ? "none" : "blur(10px)",
+    };
 
-    // Derived logic:
-    // variant='interactive': container hidden (opacity 0) unless isHovered
-    // variant='static': container always visible. Video plays if hovered.
-
-    const isVisibleStyle = variant === 'interactive' ? isHovered : true;
-
-    const style = variant === 'interactive' ? {
-        opacity: isVisibleStyle ? 1 : 0,
-        scale: isVisibleStyle ? 1 : 1.1,
-        filter: isVisibleStyle ? "none" : "blur(10px)",
-    } : undefined;
-
-    // Play video if:
-    // 1. In viewport (perf)
-    // 2. AND we are supposed to play (hovered in static, or visible in interactive)
     const shouldPlay = isInViewport && isHovered;
+    const staticImage = experiment.image;
+    const hasStaticImage = !!staticImage;
 
-    // Render video if:
-    // 1. We have no image (fallback) - ALWAYS render to ensure we see *something* (first frame)
-    // 2. OR we are playing (hovered interactive preview)
-    const hasImage = !!experiment.image;
-    // CRITICAL FIX: Do not gate rendering on "isInViewport" if we have no image.
-    // We must render the video tag so it can load the first frame/cloudinay poster.
-    // If we rely on IO to mount it, we get race conditions on initial load -> gray box.
-    const shouldRenderVideo = !hasImage || (isInViewport && isHovered);
+    // For interactive preview, we can be more aggressive with unmounting/optimizing
+    // since it's an overlay. But to be safe, let's keep it robust.
+    const shouldRenderVideo = !hasStaticImage || (isInViewport && isHovered);
 
     useEffect(() => {
         if (!videoRef.current) return;
-
         if (shouldPlay) {
-            const playPromise = videoRef.current.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.debug("Video autoplay prevented:", error);
-                });
-            }
+            videoRef.current.play().catch(() => { });
         } else {
             videoRef.current.pause();
         }
@@ -121,36 +96,31 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
             className="absolute inset-0 w-full h-full transition-all duration-500 ease-out bg-secondary"
             style={style}
         >
-            {/* Image Layer */}
-            {experiment.image && (
+            {staticImage && (
                 <Image
-                    src={experiment.image}
+                    src={staticImage}
                     alt={experiment.title}
                     fill
                     className="object-cover z-0"
-                    sizes="(max-width: 768px) 100vw, 280px"
-                    priority={variant === 'interactive' && isHovered}
+                    sizes="280px"
+                    priority={isHovered}
                 />
             )}
-
-            {/* Video Layer */}
             {experiment.video && shouldRenderVideo && (
-                <>
-                    <video
-                        ref={videoRef}
-                        src={experiment.video}
-                        muted
-                        loop
-                        playsInline
-                        preload={isInViewport ? "auto" : "metadata"}
-                        className={`absolute inset-0 w-full h-full object-cover z-10 ${hasImage ? 'transition-opacity duration-500' : ''}`}
-                    />
-
-                </>
+                <video
+                    ref={videoRef}
+                    src={experiment.video}
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    onLoadedData={() => setIsLoaded(true)}
+                    className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 ${(hasStaticImage && !shouldPlay) ? 'opacity-0' : (isLoaded ? 'opacity-100' : 'opacity-0')
+                        }`}
+                />
             )}
-
             {/* Fallback */}
-            {!experiment.image && !experiment.video && (
+            {!staticImage && !experiment.video && (
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center z-0">
                     <span className="text-muted-foreground text-xs font-mono uppercase tracking-widest">No Preview</span>
                 </div>
@@ -167,7 +137,111 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
             <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none z-10" />
         </div>
     );
-});
+};
+
+// 2. Static Media (Grid Cards / Mobile - Simple & Robust)
+const StaticExperimentMedia = ({
+    experiment,
+    shouldPlay
+}: {
+    experiment: Experiment;
+    shouldPlay: boolean;
+}) => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
+    const [isInViewport, setIsInViewport] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    // Optimized Observer: Large margin to preload, but strictly unload when far away
+    useEffect(() => {
+        if (!containerEl) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsInViewport(entry.isIntersecting);
+            },
+            { threshold: 0, rootMargin: '600px 0px 600px 0px' }
+        );
+        observer.observe(containerEl);
+        return () => observer.disconnect();
+    }, [containerEl]);
+
+    useEffect(() => {
+        if (!videoRef.current) return;
+
+        // If active (hover/swipe), play immediately
+        if (shouldPlay) {
+            videoRef.current.play().catch(() => { });
+        } else {
+            // Otherwise pause to save CPU
+            videoRef.current.pause();
+        }
+    }, [shouldPlay]);
+
+    const staticImage = experiment.poster || experiment.image;
+    const hasStaticImage = !!staticImage;
+
+    // DECODER LIMIT FIX (FINAL):
+    // 1. If we have a static image (poster/manual image), use it.
+    // 2. ONLY mount the video if we are interacting (shouldPlay).
+    // 3. Fallback: If no static image exists at all, try to load video if in viewport.
+    const shouldRenderVideo = hasStaticImage ? shouldPlay : isInViewport;
+
+    return (
+        <div
+            ref={setContainerEl}
+            className="absolute inset-0 w-full h-full bg-secondary"
+        >
+            {/* Image Layer (Manual Image OR Generated Poster) */}
+            {staticImage && (
+                <Image
+                    src={staticImage}
+                    alt={experiment.title}
+                    fill
+                    className="object-cover z-0"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    priority={false}
+                />
+            )}
+
+            {/* Video Layer */}
+            {experiment.video && shouldRenderVideo && (
+                <video
+                    ref={videoRef}
+                    src={experiment.video}
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    onLoadedData={() => setIsLoaded(true)}
+                    className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 ${(hasStaticImage && !shouldPlay) ? 'opacity-0' : 'opacity-100'
+                        }`}
+                />
+            )}
+
+            {/* Fallback / Loading State for Video-Only cards */}
+            {!staticImage && !isLoaded && experiment.video && (
+                <div className="absolute inset-0 w-full h-full bg-muted flex items-center justify-center z-0 animate-pulse">
+                </div>
+            )}
+
+            {!staticImage && !experiment.video && (
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center z-0">
+                    <span className="text-muted-foreground text-xs font-mono uppercase tracking-widest">No Preview</span>
+                </div>
+            )}
+
+            {experiment.isPlaceholder && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-20 pointer-events-none">
+                    <span className="text-white font-['Comic_Sans_MS'] font-bold text-sm border-2 border-white/50 px-3 py-1.5 rounded-lg bg-black/40 backdrop-blur-sm -rotate-6 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] transform hover:scale-110 transition-transform">
+                        NO PREVIEW YET
+                    </span>
+                </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent pointer-events-none z-10" />
+        </div>
+    );
+};
+
 
 const lerp = (start: number, end: number, factor: number) => {
     return start + (end - start) * factor;
@@ -190,7 +264,9 @@ const ExperimentGridCard = memo(({
     const [isHovered, setIsHovered] = useState(false);
 
     // Combine hover (Desktop) and mobile active state
-    const shouldShowPreview = isHovered || isMobileActive;
+    // For Grid, we just play the video if hovered or active.
+    // No complex transitions needed, the StaticMedia component handles opacity of video vs image.
+    const shouldPlay = isHovered || isMobileActive;
 
     return (
         <div
@@ -211,10 +287,9 @@ const ExperimentGridCard = memo(({
         >
             {/* Media Container */}
             <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted/30 shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:border-foreground/20">
-                <ExperimentPreviewMedia
+                <StaticExperimentMedia
                     experiment={experiment}
-                    variant="static"
-                    isHovered={shouldShowPreview}
+                    shouldPlay={shouldPlay}
                 />
             </div>
 
@@ -300,16 +375,16 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 const origin = listOriginRef.current;
 
                 // We must apply the base offset (origin) + smooth offset
-                // But wait, the original code had 'left' and 'top' set in style. 
+                // But wait, the original code had 'left/top' set in style.
                 // Let's set the full transform including the origin to be safe, OR keep generic styles
                 // The easiest way is to keep 'left/top' in the Ref-based style update or just translate relative to 0,0
 
-                // Let's stick to the previous logic: 
+                // Let's stick to the previous logic:
                 // Rendered style: left: listOrigin.x, top: listOrigin.y
                 // Transform: translate3d(smoothX, smoothY, 0)
 
                 // Since we can't easily update 'left/top' props without re-render if listOrigin changes (resize/scroll),
-                // we'll rely on the existing effect to handle resize/scroll for origin, 
+                // we'll rely on the existing effect to handle resize/scroll for origin,
                 // BUT actually listOrigin causes a re-render only on Scroll/Resize which is fine.
                 // The 60fps comes from mouse movement.
 
@@ -354,11 +429,12 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
         setIsVisible(false);
     };
 
-    const handleTouchStart = (e: React.TouchEvent) => {
+    // Performance Optimization: Wrap handlers in useCallback
+    const handleTouchStart = useCallback((e: React.TouchEvent) => {
         touchStartRef.current = e.touches[0].clientX;
-    };
+    }, []);
 
-    const handleTouchEnd = (e: React.TouchEvent, experiment: Experiment) => {
+    const handleTouchEnd = useCallback((e: React.TouchEvent, experiment: Experiment) => {
         if (touchStartRef.current === null) return;
 
         const touchEnd = e.changedTouches[0].clientX;
@@ -369,16 +445,16 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
             setMobilePreviewExperiment(prev => prev?.slug === experiment.slug ? null : experiment);
         }
         touchStartRef.current = null;
-    };
+    }, []);
 
-    const handleExperimentClick = (experiment: Experiment) => {
+    const handleExperimentClick = useCallback((experiment: Experiment) => {
         trackExperiment(UmamiEvents.EXPERIMENT_OPEN_DRAWER, {
             slug: experiment.slug,
             title: experiment.title,
         });
         setSelectedExperiment(experiment);
         setIsOpen(true);
-    };
+    }, [trackExperiment]);
 
     const handleOpenFullPage = () => {
         if (selectedExperiment) {
@@ -456,10 +532,9 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                         >
                             <div className="relative w-full h-full bg-secondary rounded-xl overflow-hidden border border-border/50">
                                 {experiments.map((experiment, index) => (
-                                    <ExperimentPreviewMedia
+                                    <InteractivePreviewMedia
                                         key={experiment.slug}
                                         experiment={experiment}
-                                        variant="interactive"
                                         isHovered={hoveredIndex === index}
                                     />
                                 ))}
@@ -482,9 +557,8 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                         {/* In-Card Mobile Swipe Preview */}
                                         <div className={`absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'
                                             }`}>
-                                            <ExperimentPreviewMedia
+                                            <InteractivePreviewMedia
                                                 experiment={experiment}
-                                                variant="interactive"
                                                 isHovered={mobilePreviewExperiment?.slug === experiment.slug}
                                             />
                                             <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${mobilePreviewExperiment?.slug === experiment.slug ? 'opacity-100' : 'opacity-0'

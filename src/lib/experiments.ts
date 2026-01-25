@@ -9,11 +9,13 @@ export interface Experiment {
     created: string;
     image?: string;
     video?: string;
+    poster?: string;
     isPlaceholder?: boolean;
 }
 
 export async function getExperiments(): Promise<Experiment[]> {
     const experimentsDir = path.join(process.cwd(), 'src/app/experiments');
+    const publicDir = path.join(process.cwd(), 'public');
 
     try {
         const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
@@ -35,9 +37,25 @@ export async function getExperiments(): Promise<Experiment[]> {
                     const content = await fs.readFile(configPath, 'utf-8');
                     const config = JSON.parse(content);
 
+                    // Check for poster.jpg
+                    // The slug usually matches the directory name, but let's blindly rely on config.slug for the public path map
+                    // Assumption: public/experiments/{slug}/poster.jpg
+
+                    const posterPath = `/experiments/${config.slug}/poster.jpg`;
+                    const absolutePosterPath = path.join(publicDir, posterPath);
+                    let hasPoster = false;
+
+                    try {
+                        await fs.access(absolutePosterPath);
+                        hasPoster = true;
+                    } catch {
+                        hasPoster = false;
+                    }
+
                     return {
                         ...config,
-                        href: `/experiments/${config.slug}`
+                        href: `/experiments/${config.slug}`,
+                        poster: hasPoster ? posterPath : undefined
                     } as Experiment;
                 } catch (error) {
                     console.warn(`Could not read config for ${dirName}:`, error);
