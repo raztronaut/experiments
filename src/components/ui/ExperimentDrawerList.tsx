@@ -65,7 +65,7 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
             ([entry]) => {
                 setIsInViewport(entry.isIntersecting);
             },
-            { threshold: 0.1, rootMargin: '100px' }
+            { threshold: 0.1, rootMargin: '400px' }
         );
 
         observer.observe(containerEl);
@@ -92,10 +92,13 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
     const shouldPlay = isInViewport && isHovered;
 
     // Render video if:
-    // 1. We have no image (fallback) and are in viewport
-    // 2. OR we are playing
+    // 1. We have no image (fallback) - ALWAYS render to ensure we see *something* (first frame)
+    // 2. OR we are playing (hovered interactive preview)
     const hasImage = !!experiment.image;
-    const shouldRenderVideo = isInViewport && (!hasImage || shouldPlay);
+    // CRITICAL FIX: Do not gate rendering on "isInViewport" if we have no image.
+    // We must render the video tag so it can load the first frame/cloudinay poster.
+    // If we rely on IO to mount it, we get race conditions on initial load -> gray box.
+    const shouldRenderVideo = !hasImage || (isInViewport && isHovered);
 
     useEffect(() => {
         if (!videoRef.current) return;
@@ -109,11 +112,8 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
             }
         } else {
             videoRef.current.pause();
-            if (!hasImage) {
-                videoRef.current.currentTime = 0;
-            }
         }
-    }, [shouldPlay, hasImage]);
+    }, [shouldPlay]);
 
     return (
         <div
@@ -142,6 +142,7 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
                         muted
                         loop
                         playsInline
+                        preload={isInViewport ? "auto" : "metadata"}
                         className={`absolute inset-0 w-full h-full object-cover z-10 ${hasImage ? 'transition-opacity duration-500' : ''}`}
                     />
 
