@@ -59,7 +59,8 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
 
     // Intersection Observer for lazy loading/mounting video
     useEffect(() => {
-        if (!experiment.video) return;
+        // We observe regardless of video existence to ensure state is synced/consistent
+        // logic downstream handles if video needs to be rendered/played.
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -73,7 +74,7 @@ const ExperimentPreviewMedia = memo(function ExperimentPreviewMedia({
         }
 
         return () => observer.disconnect();
-    }, [experiment.video]);
+    }, []); // Only run once on mount (refs are stable)
 
 
     // Derived logic:
@@ -175,8 +176,23 @@ const lerp = (start: number, end: number, factor: number) => {
 };
 
 // Grid Card Component
-const ExperimentGridCard = memo(({ experiment, onClick }: { experiment: Experiment; onClick: (e: Experiment) => void }) => {
+const ExperimentGridCard = memo(({
+    experiment,
+    onClick,
+    onTouchStart,
+    onTouchEnd,
+    isMobileActive
+}: {
+    experiment: Experiment;
+    onClick: (e: Experiment) => void;
+    onTouchStart: (e: React.TouchEvent) => void;
+    onTouchEnd: (e: React.TouchEvent, experiment: Experiment) => void;
+    isMobileActive: boolean;
+}) => {
     const [isHovered, setIsHovered] = useState(false);
+
+    // Combine hover (Desktop) and mobile active state
+    const shouldShowPreview = isHovered || isMobileActive;
 
     return (
         <div
@@ -186,6 +202,8 @@ const ExperimentGridCard = memo(({ experiment, onClick }: { experiment: Experime
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={() => onClick(experiment)}
+            onTouchStart={onTouchStart}
+            onTouchEnd={(e) => onTouchEnd(e, experiment)}
             onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -198,7 +216,7 @@ const ExperimentGridCard = memo(({ experiment, onClick }: { experiment: Experime
                 <ExperimentPreviewMedia
                     experiment={experiment}
                     variant="static"
-                    isHovered={isHovered}
+                    isHovered={shouldShowPreview}
                 />
             </div>
 
@@ -519,6 +537,9 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 key={experiment.slug}
                                 experiment={experiment}
                                 onClick={handleExperimentClick}
+                                onTouchStart={handleTouchStart}
+                                onTouchEnd={handleTouchEnd}
+                                isMobileActive={mobilePreviewExperiment?.slug === experiment.slug}
                             />
                         ))}
                     </div>

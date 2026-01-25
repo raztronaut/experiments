@@ -3,7 +3,7 @@ import { ExperimentDrawerList } from '@/components/ui/ExperimentDrawerList';
 import { SiteFooter } from '@/components/ui/SiteFooter';
 import { AIWidget } from '@/components/ui/AIWidget';
 import { Waves } from '@/components/ui/wave-background';
-import { Github, ArrowUpRight } from 'lucide-react';
+import { Icons } from '@/components/ui/icons';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,22 +23,37 @@ export default async function Home() {
       <main className="flex-1 p-8 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
         <div className="mb-12 relative z-10">
 
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 relative">Razi&apos;s Experiments</h1>
-          <p className="text-lg md:text-xl text-muted-foreground relative">
-            This page is created using my simple scaffolding tool to help developers whip up new web design/development experiments rapidly. Check it out here:{' '}
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 relative">razi&apos;s experiments</h1>
+
+          <div className="flex items-center gap-4 mb-8 relative">
             <a
-              href="https://github.com/raztronaut/experiments-tool"
+              href="https://github.com/raztronaut"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-primary transition-colors"
-              data-umami-event="github_click"
-              data-umami-event-type="repo"
+              className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
+              aria-label="GitHub"
             >
-              <Github className="h-4 w-4" />
-              <span>experiments-tool</span>
-              <ArrowUpRight className="h-3 w-3 opacity-60" />
+              <Icons.GitHub className="h-5 w-5" />
             </a>
-          </p>
+            <a
+              href="https://x.com/raztronaut"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
+              aria-label="X (Twitter)"
+            >
+              <Icons.X className="h-4 w-4" />
+            </a>
+            <a
+              href="https://linkedin.com/in/raztronaut"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
+              aria-label="LinkedIn"
+            >
+              <Icons.Linkedin className="h-5 w-5" />
+            </a>
+          </div>
           <p className="mt-2 text-sm text-[#14b8a6] md:hidden relative">
             Swipe &lt;- or -&gt; on mobile in a card to view a preview.
           </p>
