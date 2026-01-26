@@ -25,9 +25,9 @@ export default async function Home() {
 
           <WithHover type="text" config={{ scale: 1.5 }}>
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className={cn("text-3xl md:text-5xl font-bold tracking-tight relative", replica.className)}>razi&rsquo;s experiments</h1>
-                <span className="px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground font-medium backdrop-blur-sm">
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-4">
+                <h1 className={cn("text-3xl md:text-5xl font-bold tracking-tight relative leading-tight", replica.className)}>razi&rsquo;s experiments</h1>
+                <span className="hidden md:inline-flex w-fit px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground font-medium backdrop-blur-sm">
                   {experiments.length} experiments
                 </span>
               </div>
@@ -72,10 +72,8 @@ export default async function Home() {
               </a>
             </WithHover>
           </div>
-          <p className="mt-2 text-sm text-[#14b8a6] md:hidden relative">
-            Swipe &lt;- or -&gt; on mobile in a card to view a preview.
-          </p>
-          <p className="mt-2 text-sm text-[#14b8a6] md:hidden relative">
+          <p className="mt-2 text-sm text-[#14b8a6] md:hidden relative leading-relaxed">
+            Swipe &lt;- or -&gt; on mobile in a card to view a preview.<br />
             But visit the experiments on desktop for best experience!
           </p>
         </div>
