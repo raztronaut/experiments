@@ -84,6 +84,7 @@ interface SceneProps {
 
 function Scene({ tiltRef, isTouchingRef, imagePath, colorPath, thickness, smoothness, fit, isInteractive, isRevealed }: SceneProps) {
     const materialRef = useRef<THREE.ShaderMaterial>(null);
+    const initialTiltRef = useRef<number | null>(null);
     const { pointer, viewport } = useThree();
 
     // Load both textures
@@ -161,10 +162,24 @@ function Scene({ tiltRef, isTouchingRef, imagePath, colorPath, thickness, smooth
                 targetDepth = 1.0 - ((pointer.y + 1) * 0.5);
             }
             // Otherwise use tilt if data is available
+
             else if (tiltRef.current !== null) {
-                // Map tilt (-45 to 45 degrees approx) to 0-1
-                // 45 deg = 1, -45 deg = 0
-                const normalizedTilt = (tiltRef.current + 45) / 90;
+                // Initialize baseline tilt on first valid reading to prevent jumps
+                // This makes the interaction relative to how the user is currently holding the phone
+                if (initialTiltRef.current === null) {
+                    initialTiltRef.current = tiltRef.current;
+                }
+
+                // Calculate tilt relative to the initial holding position
+                const relativeTilt = tiltRef.current - initialTiltRef.current;
+
+                // Sensitivity range in degrees
+                // 50 degrees means +/- 25 degrees covers the full depth range
+                const range = 50;
+
+                // Map relative tilt to 0-1 (center at 0.5)
+                const normalizedTilt = 0.5 + (relativeTilt / range);
+
                 targetDepth = Math.max(0, Math.min(1, normalizedTilt));
             }
             // Fallback (e.g. initial state)
