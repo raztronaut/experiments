@@ -342,7 +342,7 @@ export default function CursorDepthExplorer({
             />
 
             {/* Controls Container (Bottom Right) */}
-            <div className="absolute bottom-8 right-8 z-50 flex flex-col items-end gap-3 pointer-events-none">
+            <div className="absolute bottom-8 right-8 z-50 flex flex-col items-center gap-3 pointer-events-none">
 
                 {/* Icons Row: Eye & Info */}
                 <div className="flex items-center gap-3 pointer-events-auto">
