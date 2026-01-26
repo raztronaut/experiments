@@ -7,7 +7,7 @@ import { Icons } from '@/components/ui/icons';
 import { WithHover } from './cursor/WithHover';
 
 export function SiteFooter() {
-    const { theme, setTheme } = useTheme();
+    const { setTheme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
     // Prevent hydration mismatch
@@ -16,7 +16,7 @@ export function SiteFooter() {
     }, []);
 
     const toggleTheme = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
+        setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
     };
 
     return (
@@ -46,10 +46,10 @@ export function SiteFooter() {
                             className="inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[0.7rem] tracking-[0.1em] uppercase text-muted-foreground/60 hover:bg-muted/40 hover:text-foreground transition-colors"
                             aria-label="Toggle theme"
                             data-umami-event="theme_toggle"
-                            {...(mounted && { 'data-umami-event-theme': theme === 'dark' ? 'light' : 'dark' })}
+                            {...(mounted && { 'data-umami-event-theme': resolvedTheme === 'dark' ? 'light' : 'dark' })}
                         >
                             {mounted ? (
-                                theme === 'dark' ? 'turn on the lights!' : 'turn off the lights!'
+                                resolvedTheme === 'dark' ? 'turn on the lights!' : 'turn off the lights!'
                             ) : (
                                 <span className="opacity-0">turn on the lights!</span>
                             )}
