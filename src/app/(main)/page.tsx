@@ -5,6 +5,8 @@ import { AIWidget } from '@/components/ui/AIWidget';
 import { ThemeAwareWaves } from '@/components/ui/ThemeAwareWaves';
 import { Icons } from '@/components/ui/icons';
 import { WithHover } from '@/components/ui/cursor/WithHover';
+import { instrumentSerif, testDieGrotesk } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 
 // Revalidate experiment list every hour for ISR (Incremental Static Regeneration)
 export const revalidate = 3600;
@@ -22,7 +24,12 @@ export default async function Home() {
         <div className="mb-12 relative z-10">
 
           <WithHover type="text">
-            <h1 className="text-3xl md:text-5xl font-medium tracking-tight mb-6 relative">razi&apos;s experiments</h1>
+            <div>
+              <h1 className={cn("text-3xl md:text-5xl font-medium tracking-tight mb-2 relative", instrumentSerif.className)}>razi&apos;s experiments</h1>
+              <p className={cn("text-muted-foreground text-lg mb-6 relative", testDieGrotesk.className)}>
+                my lil playground for exploring ui interactions, shaders, and web techniques.
+              </p>
+            </div>
           </WithHover>
 
           <div className="flex items-center gap-4 mb-8 relative">

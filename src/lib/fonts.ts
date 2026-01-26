@@ -7,10 +7,11 @@ import {
     Space_Grotesk,
     Outfit,
     Plus_Jakarta_Sans,
+    Instrument_Serif,
 } from "next/font/google";
 
 // 1. Configure local fonts
-const testDieGrotesk = localFont({
+export const testDieGrotesk = localFont({
     src: [
         {
             path: "../../public/fonts/Test Die Grotesk/test-die-grotesk-vf-roman.woff2",
@@ -33,6 +34,7 @@ const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-app" });
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-app" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-app" });
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-app" });
+export const instrumentSerif = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-instrument" });
 
 // 3. Select the font you want to use by uncommenting ONE line below
 // export const activeFont = inter;
