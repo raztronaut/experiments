@@ -75,7 +75,7 @@ export const Cursor: React.FC = () => {
                         y: rect.top + yMove - (padding / 2),
                         width: rect.width + padding,
                         height: rect.height + padding,
-                        borderRadius: selectedElement.config?.borderRadius || 6,
+                        borderRadius: (selectedElement.config?.borderRadius as string | number) || 6,
                         boxSizing: "border-box",
                         duration: 0.3,
                         ease: "power3.out",
