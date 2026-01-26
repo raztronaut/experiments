@@ -1,0 +1,9 @@
+{
+  "title": "404 Not Found",
+  "description": "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
+  "slug": "404-not-found",
+  "created": "2026-01-26T20:45:55.003Z",
+  "video": "/experiments/404-not-found/preview.mp4",
+  "poster": "/experiments/404-not-found/poster.jpg",
+  "isPlaceholder": false
+}
