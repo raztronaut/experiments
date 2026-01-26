@@ -23,7 +23,7 @@ export default async function Home() {
       <main className="flex-1 p-8 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
         <div className="mb-12 relative z-10">
 
-          <WithHover type="text">
+          <WithHover type="text" config={{ scale: 1.5 }}>
             <div>
               <h1 className={cn("text-3xl md:text-5xl font-medium tracking-tight mb-2 relative", instrumentSerif.className)}>razi&apos;s experiments</h1>
               <p className={cn("text-muted-foreground text-lg mb-6 relative", testDieGrotesk.className)}>
