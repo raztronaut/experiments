@@ -26,7 +26,7 @@ export default async function Home() {
           <WithHover type="text" config={{ scale: 1.5 }}>
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h1 className={cn("text-3xl md:text-5xl font-medium tracking-tight relative", replica.className)}>razi&rsquo;s experiments</h1>
+                <h1 className={cn("text-3xl md:text-5xl font-bold tracking-tight relative", replica.className)}>razi&rsquo;s experiments</h1>
                 <span className="px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground font-medium backdrop-blur-sm">
                   {experiments.length} experiments
                 </span>

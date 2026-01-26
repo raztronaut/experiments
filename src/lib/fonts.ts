@@ -29,6 +29,11 @@ export const testDieGrotesk = localFont({
 export const replica = localFont({
     src: [
         {
+            path: "../../public/fonts/Replica/ReplicaTrial-Regular.otf",
+            weight: "400",
+            style: "normal",
+        },
+        {
             path: "../../public/fonts/Replica/ReplicaTrial-Bold.otf",
             weight: "700",
             style: "normal",

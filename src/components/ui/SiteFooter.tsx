@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { Icons } from '@/components/ui/icons';
 import { WithHover } from './cursor/WithHover';
+import { replica } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 
 export function SiteFooter() {
     const { setTheme, resolvedTheme } = useTheme();
@@ -58,7 +60,7 @@ export function SiteFooter() {
                 </div>
 
                 <div className="flex flex-col gap-3 md:items-end">
-                    <span className="block text-sm text-muted-foreground/60">built by razi</span>
+                    <span className={cn("block text-sm text-muted-foreground/60 font-normal", replica.className)}>built by razi</span>
                     <div className="flex items-center gap-3">
                         <WithHover config={{ hoverOffset: 2 }}>
                             <Link
