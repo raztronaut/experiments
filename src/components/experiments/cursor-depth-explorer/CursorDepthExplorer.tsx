@@ -121,17 +121,17 @@ function Scene({ tiltRef, isTouchingRef, imagePath, colorPath, thickness, smooth
             // --- Reveal Animation ---
             const targetActive = isRevealed ? 1.0 : 0.0;
             // Lerp active state
-            currentRevealActive.current = THREE.MathUtils.lerp(currentRevealActive.current, targetActive, delta * 5);
+            currentRevealActive.current = THREE.MathUtils.lerp(currentRevealActive.current, targetActive, delta * 2);
 
             // Logic for Reveal Progress:
             // If revealed, animate 0 -> 1. If not, reset to 0 (or animate back).
             // Let's make it flow nicely.
             if (isRevealed) {
-                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 1.0, delta * 2);
+                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 1.0, delta * 0.5);
             } else {
                 // When closing, maybe just fade out the active mix, and reset progress? 
                 // Or animate progress back. Animating back looks cool.
-                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 0.0, delta * 5);
+                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 0.0, delta * 2);
             }
 
             materialRef.current.uniforms.uRevealActive.value = currentRevealActive.current;
