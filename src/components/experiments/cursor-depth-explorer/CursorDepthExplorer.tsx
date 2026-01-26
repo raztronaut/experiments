@@ -4,6 +4,46 @@ import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import { Info } from 'lucide-react';
+import InfoModal, { PaintingData } from './InfoModal';
+
+const PAINTINGS: PaintingData[] = [
+    {
+        title: "Nighthawks",
+        artist: "Edward Hopper",
+        year: "1942",
+        imagePath: "/experiments/cursor-depth-explorer/nighthawks.jpg",
+        depthPath: "/experiments/cursor-depth-explorer/depth.png"
+    },
+    {
+        title: "The Astronomer",
+        artist: "Johannes Vermeer",
+        year: "c. 1668",
+        imagePath: "/experiments/cursor-depth-explorer/theastronomer.jpg",
+        depthPath: "/experiments/cursor-depth-explorer/depth2.png"
+    },
+    {
+        title: "Wanderer above the Sea of Fog",
+        artist: "Caspar David Friedrich",
+        year: "1818",
+        imagePath: "/experiments/cursor-depth-explorer/wandererabovethesea.jpeg",
+        depthPath: "/experiments/cursor-depth-explorer/depth3.png"
+    },
+    {
+        title: "The Carpet Merchant",
+        artist: "Jean-Léon Gérôme",
+        year: "1887",
+        imagePath: "/experiments/cursor-depth-explorer/carpetmerchent.jpg",
+        depthPath: "/experiments/cursor-depth-explorer/depth4.png"
+    },
+    {
+        title: "Napoleon Crossing the Alps",
+        artist: "Jacques-Louis David",
+        year: "1801",
+        imagePath: "/experiments/cursor-depth-explorer/crossingthealps.jpg",
+        depthPath: "/experiments/cursor-depth-explorer/depth5.png"
+    }
+];
 
 const vertexShader = `
 varying vec2 vUv;
@@ -50,9 +90,10 @@ interface SceneProps {
     thickness: number;
     smoothness: number;
     fit: 'cover' | 'contain';
+    isInteractive: boolean;
 }
 
-function Scene({ tiltRef, isTouchingRef, imagePath, thickness, smoothness, fit }: SceneProps) {
+function Scene({ tiltRef, isTouchingRef, imagePath, thickness, smoothness, fit, isInteractive }: SceneProps) {
     const materialRef = useRef<THREE.ShaderMaterial>(null);
     const { pointer, viewport } = useThree();
 
@@ -81,6 +122,15 @@ function Scene({ tiltRef, isTouchingRef, imagePath, thickness, smoothness, fit }
 
     useFrame(() => {
         if (materialRef.current) {
+            // If interaction is disabled (e.g. modal open), do not update targetDepth based on pointer
+            // We can smoothly return to center or just hold last value. Holding last value is better to avoid jumpiness,
+            // but returning to 0.5 (center) mimics "letting go". Let's try sticking to 0.5 for now to show "background state".
+            if (!isInteractive) {
+                // Optional: lerp to center or just stay put.
+                // materialRef.current.uniforms.uFocus.value = THREE.MathUtils.lerp(materialRef.current.uniforms.uFocus.value, 0.5, 0.1);
+                return;
+            }
+
             let targetDepth;
 
             // Prioritize touch/mouse if active
@@ -93,7 +143,7 @@ function Scene({ tiltRef, isTouchingRef, imagePath, thickness, smoothness, fit }
                 // Map tilt (-45 to 45 degrees approx) to 0-1
                 // 45 deg = 1, -45 deg = 0
                 const normalizedTilt = (tiltRef.current + 45) / 90;
-                targetDepth = Math.max(0, Math.min(1, 1.0 - normalizedTilt));
+                targetDepth = Math.max(0, Math.min(1, normalizedTilt));
             }
             // Fallback (e.g. initial state)
             else {
@@ -169,19 +219,13 @@ export default function CursorDepthExplorer({
 }: CursorDepthExplorerProps) {
     const [hasPermission, setHasPermission] = useState(false);
     const [needsPermissionButton, setNeedsPermissionButton] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [currentPaintingIndex, setCurrentPaintingIndex] = useState(0);
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
-    // Initialize images in a random order
-    const [images] = useState(() => {
-        const baseImages = [
-            '/experiments/cursor-depth-explorer/depth.png',
-            '/experiments/cursor-depth-explorer/depth2.png',
-            '/experiments/cursor-depth-explorer/depth3.png',
-            '/experiments/cursor-depth-explorer/depth4.png',
-            '/experiments/cursor-depth-explorer/depth5.png'
-        ];
+    // Initialize randomized order of paintings once
+    const [paintings] = useState(() => {
         // Fisher-Yates shuffle
-        const shuffled = [...baseImages];
+        const shuffled = [...PAINTINGS];
         for (let i = shuffled.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -190,7 +234,7 @@ export default function CursorDepthExplorer({
     });
 
     const nextImage = () => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+        setCurrentPaintingIndex((prev) => (prev + 1) % paintings.length);
     };
 
     // Use refs for high-frequency updates to avoid re-renders
@@ -216,6 +260,13 @@ export default function CursorDepthExplorer({
             console.error('Error checking device support', err);
         }
     }, []);
+
+    useEffect(() => {
+        // Reset touching state when modal opens to prevent "stuck" interaction
+        if (isInfoModalOpen) {
+            isTouchingRef.current = false;
+        }
+    }, [isInfoModalOpen]);
 
     useEffect(() => {
         const handleOrientation = (event: DeviceOrientationEvent) => {
@@ -250,7 +301,7 @@ export default function CursorDepthExplorer({
 
     return (
         <div
-            className="fixed inset-0 w-full h-full bg-black overflow-hidden select-none touch-none"
+            className={`fixed inset-0 w-full h-full bg-black overflow-hidden select-none touch-none ${isInfoModalOpen ? 'pointer-events-none' : 'pointer-events-auto'}`}
             onPointerDown={() => { isTouchingRef.current = true; }}
             onPointerUp={() => { isTouchingRef.current = false; }}
             onPointerLeave={() => { isTouchingRef.current = false; }}
@@ -258,16 +309,34 @@ export default function CursorDepthExplorer({
             {needsPermissionButton && !hasPermission && (
                 <button
                     onClick={requestPermission}
-                    className="absolute bottom-8 left-8 z-50 text-white border border-white/20 bg-black/50 backdrop-blur px-4 py-2 rounded-full text-xs hover:bg-white/10 transition-colors"
+                    onPointerDown={(e) => e.stopPropagation()}
+                    className="absolute bottom-8 left-8 z-50 pointer-events-auto text-white border border-white/20 bg-black/50 backdrop-blur px-4 py-2 rounded-full text-xs hover:bg-white/10 transition-colors"
                 >
                     Enable Tilt Control
                 </button>
             )}
 
+            {/* Info Button */}
+            <button
+                onClick={() => setIsInfoModalOpen(true)}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="absolute top-8 right-8 z-50 pointer-events-auto text-white border border-white/20 bg-black/50 backdrop-blur p-3 rounded-full hover:bg-white/10 transition-colors"
+                aria-label="Painting Information"
+            >
+                <Info size={20} />
+            </button>
+
+            <InfoModal
+                isOpen={isInfoModalOpen}
+                onClose={() => setIsInfoModalOpen(false)}
+                painting={paintings[currentPaintingIndex]}
+            />
+
             {/* Image Switcher */}
             <button
                 onClick={nextImage}
-                className="absolute bottom-8 right-8 z-50 text-white border border-white/20 bg-black/50 backdrop-blur px-4 py-2 rounded-full text-xs hover:bg-white/10 transition-colors uppercase tracking-wider"
+                onPointerDown={(e) => e.stopPropagation()}
+                className="absolute bottom-8 right-8 z-50 pointer-events-auto text-white border border-white/20 bg-black/50 backdrop-blur px-4 py-2 rounded-full text-xs hover:bg-white/10 transition-colors uppercase tracking-wider"
             >
                 Next Painting
             </button>
@@ -275,13 +344,14 @@ export default function CursorDepthExplorer({
             <Canvas className="w-full h-full">
                 <React.Suspense fallback={null}>
                     <Scene
-                        key={images[currentImageIndex]} // Force remount on image change to ensure texture reload
+                        key={paintings[currentPaintingIndex].depthPath} // Force remount on image change to ensure texture reload
                         tiltRef={tiltRef}
                         isTouchingRef={isTouchingRef}
-                        imagePath={images[currentImageIndex]}
+                        imagePath={paintings[currentPaintingIndex].depthPath}
                         thickness={thickness}
                         smoothness={smoothness}
                         fit={fit}
+                        isInteractive={!isInfoModalOpen}
                     />
                 </React.Suspense>
             </Canvas>

@@ -1,10 +1,9 @@
 {
-  "title": "Cursor Depth Explorer",
-  "description": "",
+  "title": "Cursor/Tilt Depth Map Explorer",
+  "description": "A volumetric depth viewer to explore the 3D structure of paintings by slicing through with your cursor or device tilt.",
   "slug": "cursor-depth-explorer",
   "created": "2026-01-26T05:11:34.490Z",
-  "image": "/experiments/cursor-depth-explorer/preview.gif",
-  "video": "",
+  "video": "/experiments/cursor-depth-explorer/preview.mp4",
   "poster": "/experiments/cursor-depth-explorer/poster.jpg",
-  "isPlaceholder": true
+  "isPlaceholder": false
 }
