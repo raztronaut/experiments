@@ -62,8 +62,8 @@ export default function RootLayout({
         <ConsoleEasterEgg />
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange
         >
           <CursorProvider>
