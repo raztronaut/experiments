@@ -26,6 +26,17 @@ export const testDieGrotesk = localFont({
     variable: "--font-app",
 });
 
+export const replica = localFont({
+    src: [
+        {
+            path: "../../public/fonts/Replica/ReplicaTrial-Bold.otf",
+            weight: "700",
+            style: "normal",
+        },
+    ],
+    variable: "--font-replica",
+});
+
 // 2. Configure Google fonts
 const inter = Inter({ subsets: ["latin"], variable: "--font-app" });
 const robotoMono = Roboto_Mono({ subsets: ["latin"], variable: "--font-app" });

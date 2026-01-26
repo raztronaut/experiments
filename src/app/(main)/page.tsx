@@ -5,7 +5,7 @@ import { AIWidget } from '@/components/ui/AIWidget';
 import { ThemeAwareWaves } from '@/components/ui/ThemeAwareWaves';
 import { Icons } from '@/components/ui/icons';
 import { WithHover } from '@/components/ui/cursor/WithHover';
-import { instrumentSerif, testDieGrotesk } from '@/lib/fonts';
+import { replica, testDieGrotesk } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
 // Revalidate experiment list every hour for ISR (Incremental Static Regeneration)
@@ -25,7 +25,12 @@ export default async function Home() {
 
           <WithHover type="text" config={{ scale: 1.5 }}>
             <div>
-              <h1 className={cn("text-3xl md:text-5xl font-medium tracking-tight mb-2 relative", instrumentSerif.className)}>razi&apos;s experiments</h1>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className={cn("text-3xl md:text-5xl font-medium tracking-tight relative", replica.className)}>razi&rsquo;s experiments</h1>
+                <span className="px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground font-medium backdrop-blur-sm">
+                  {experiments.length} experiments
+                </span>
+              </div>
               <p className={cn("text-muted-foreground text-lg mb-6 relative", testDieGrotesk.className)}>
                 my lil playground for exploring ui interactions, shaders, and web techniques.
               </p>
