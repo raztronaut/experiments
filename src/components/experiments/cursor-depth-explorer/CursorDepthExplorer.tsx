@@ -4,46 +4,13 @@ import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
-import { Info } from 'lucide-react';
-import InfoModal, { PaintingData } from './InfoModal';
+import Info from 'lucide-react/dist/esm/icons/info';
+import dynamic from 'next/dynamic';
+import { PAINTINGS } from './data';
 
-const PAINTINGS: PaintingData[] = [
-    {
-        title: "Nighthawks",
-        artist: "Edward Hopper",
-        year: "1942",
-        imagePath: "/experiments/cursor-depth-explorer/nighthawks.jpg",
-        depthPath: "/experiments/cursor-depth-explorer/depth.png"
-    },
-    {
-        title: "The Astronomer",
-        artist: "Johannes Vermeer",
-        year: "c. 1668",
-        imagePath: "/experiments/cursor-depth-explorer/theastronomer.jpg",
-        depthPath: "/experiments/cursor-depth-explorer/depth2.png"
-    },
-    {
-        title: "Wanderer above the Sea of Fog",
-        artist: "Caspar David Friedrich",
-        year: "1818",
-        imagePath: "/experiments/cursor-depth-explorer/wandererabovethesea.jpeg",
-        depthPath: "/experiments/cursor-depth-explorer/depth3.png"
-    },
-    {
-        title: "The Carpet Merchant",
-        artist: "Jean-Léon Gérôme",
-        year: "1887",
-        imagePath: "/experiments/cursor-depth-explorer/carpetmerchent.jpg",
-        depthPath: "/experiments/cursor-depth-explorer/depth4.png"
-    },
-    {
-        title: "Napoleon Crossing the Alps",
-        artist: "Jacques-Louis David",
-        year: "1801",
-        imagePath: "/experiments/cursor-depth-explorer/crossingthealps.jpg",
-        depthPath: "/experiments/cursor-depth-explorer/depth5.png"
-    }
-];
+const InfoModal = dynamic(() => import('./InfoModal'), {
+    ssr: false
+});
 
 const vertexShader = `
 varying vec2 vUv;

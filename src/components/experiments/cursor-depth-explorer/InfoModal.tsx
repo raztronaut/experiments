@@ -1,15 +1,7 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import X from 'lucide-react/dist/esm/icons/x';
 import { motion, AnimatePresence } from 'framer-motion';
-
-export interface PaintingData {
-    title: string;
-    artist: string;
-    year: string;
-    description?: string;
-    imagePath: string; // The original image
-    depthPath: string; // The depth map
-}
+import { PaintingData } from './data';
 
 interface InfoModalProps {
     isOpen: boolean;
