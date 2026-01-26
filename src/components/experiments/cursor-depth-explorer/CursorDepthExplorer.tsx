@@ -124,18 +124,23 @@ function Scene({ tiltRef, isTouchingRef, imagePath, colorPath, thickness, smooth
             currentRevealActive.current = THREE.MathUtils.lerp(currentRevealActive.current, targetActive, delta * 2);
 
             // Logic for Reveal Progress:
-            // If revealed, animate 0 -> 1. If not, reset to 0 (or animate back).
-            // Let's make it flow nicely.
+            // Use linear accumulation + easing for smoother start/end control
+            const revealSpeed = 0.3; // Slower speed for "very slow" feel
+
             if (isRevealed) {
-                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 1.0, delta * 0.5);
+                // Linear increase 0 -> 1
+                currentRevealProgress.current = Math.min(1.0, currentRevealProgress.current + delta * revealSpeed);
             } else {
-                // When closing, maybe just fade out the active mix, and reset progress? 
-                // Or animate progress back. Animating back looks cool.
-                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 0.0, delta * 2);
+                // Linear decrease 1 -> 0
+                currentRevealProgress.current = Math.max(0.0, currentRevealProgress.current - delta * revealSpeed * 2.0);
             }
 
+            // Apply smoothstep easing for slow start/end
+            const t = currentRevealProgress.current;
+            const easedProgress = t * t * (3.0 - 2.0 * t);
+
             materialRef.current.uniforms.uRevealActive.value = currentRevealActive.current;
-            materialRef.current.uniforms.uRevealProgress.value = currentRevealProgress.current;
+            materialRef.current.uniforms.uRevealProgress.value = easedProgress;
 
 
             // --- Interactive Logic ---
