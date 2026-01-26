@@ -3,24 +3,24 @@ import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
-title: '404 Not Found',
-description: '',
+  title: '404 Not Found',
+  description: 'A cinematic, procedurally generated 3D 404 page featuring animated floating ribbons.',
 };
 
 export default function Layout({
-children,
+  children,
 }: {
-children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-return (
-<html lang="en">
+  return (
+    <html lang="en">
 
-<body>
-  <UmamiScript />
-  <ExperimentBackButton />
-  {children}
-</body>
+      <body>
+        <UmamiScript />
+        <ExperimentBackButton />
+        {children}
+      </body>
 
-</html>
-);
+    </html>
+  );
 }

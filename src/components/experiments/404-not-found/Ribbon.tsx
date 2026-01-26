@@ -4,6 +4,7 @@ import React, { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { vertexShader, fragmentShader } from "./ribbonShader";
+import { useCachedTexture } from "./useCachedTexture";
 
 interface RibbonProps {
     text: string;
@@ -26,7 +27,7 @@ interface RibbonProps {
     textSpeed?: number;
 }
 
-export default function Ribbon({
+const Ribbon = React.memo(function Ribbon({
     text,
     position,
     rotation,
@@ -49,8 +50,11 @@ export default function Ribbon({
     const meshRef = useRef<THREE.Mesh>(null);
     const materialRef = useRef<THREE.ShaderMaterial>(null);
 
-    // Create front text texture
-    const texture = useMemo(() => {
+    // Generate unique key for front texture
+    const frontTextureKey = `front_${text}_${subscript}_${color}_${width}_${height}`;
+
+    // Front texture generator
+    const generateFrontTexture = () => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         if (!ctx) return null;
@@ -107,12 +111,17 @@ export default function Ribbon({
 
         tex.anisotropy = 16;
         return tex;
-    }, [text, padding, subscript, color, width, height]);
+    };
 
-    // Create backside text texture if needed
-    const backsideTexture = useMemo(() => {
-        if (backsideImage) return backsideImage;
+    const texture = useCachedTexture(frontTextureKey, generateFrontTexture, [text, subscript, color, width, height, padding]);
 
+    // Generate unique key for back texture
+    // Include all visual props in the key
+    const backTextureKey = backsideImage
+        ? null // No caching for external image textures for now (handled by useTexture upstream or unique)
+        : `back_${backsideText || 'DEFAULT'}_${color}_${width}_${height}`;
+
+    const generateBackTexture = () => {
         // If no specifically provided text, we still want the "INSPIRED BY" repeating
         const baseBackText = backsideText || "INSPIRED BY DAY JOB";
 
@@ -162,13 +171,19 @@ export default function Ribbon({
         tex.repeat.set(geomAspect / unitAspect, 1);
 
         return tex;
-    }, [backsideText, backsideImage, color, width, height]);
+    }
+
+    // Special case: if backsideImage is provided, use it directly (it's already a texture from useTexture upstream)
+    // If NOT provided, use generated cache
+    const generatedBackTexture = useCachedTexture(backTextureKey || "", generateBackTexture, [backsideText, color, width, height]);
+
+    const finalBacksideTexture = backsideImage || generatedBackTexture;
 
     const uniforms = useMemo(
         () => ({
             uTime: { value: 0 },
             uTexture: { value: texture },
-            uBackTexture: { value: backsideTexture },
+            uBackTexture: { value: finalBacksideTexture },
             uBackOffset: { value: new THREE.Vector2(backOffset[0], backOffset[1]) },
             uBackScale: { value: new THREE.Vector2(backScale[0], backScale[1]) },
             uBackClamp: { value: backClamp },
@@ -177,15 +192,18 @@ export default function Ribbon({
             uAmplitude: { value: amplitude },
             uOpacity: { value: 1.0 },
             uTextSpeed: { value: textSpeed },
+            // NOTE: We need to default to new THREE.Vector2(1,1) if texture isn't ready
             uRepeat: { value: texture ? texture.repeat : new THREE.Vector2(1, 1) },
-            uBackRepeat: { value: backsideTexture ? (backsideTexture as THREE.Texture).repeat : new THREE.Vector2(1, 1) },
+            uBackRepeat: { value: finalBacksideTexture ? (finalBacksideTexture as THREE.Texture).repeat : new THREE.Vector2(1, 1) },
         }),
-        [texture, backsideTexture, backOffset, backScale, backClamp, color, frequency, amplitude, textSpeed]
+        [texture, finalBacksideTexture, backOffset, backScale, backClamp, color, frequency, amplitude, textSpeed]
     );
 
     useFrame((state) => {
         if (materialRef.current) {
             materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime() * speed;
+            if (texture) materialRef.current.uniforms.uTexture.value = texture;
+            if (finalBacksideTexture) materialRef.current.uniforms.uBackTexture.value = finalBacksideTexture;
         }
     });
 
@@ -202,4 +220,6 @@ export default function Ribbon({
             />
         </mesh>
     );
-}
+});
+
+export default Ribbon;
