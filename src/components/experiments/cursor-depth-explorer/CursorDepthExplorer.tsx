@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import Info from 'lucide-react/dist/esm/icons/info';
+import Eye from 'lucide-react/dist/esm/icons/eye';
 import dynamic from 'next/dynamic';
 import { PAINTINGS } from './data';
 
@@ -22,15 +23,21 @@ void main() {
 
 const fragmentShader = `
 uniform sampler2D uDepthTexture;
+uniform sampler2D uColorTexture;
 uniform float uFocus;
 uniform float uThickness;
 uniform float uSmoothness;
+uniform float uRevealProgress;
+uniform float uRevealActive;
+
 varying vec2 vUv;
 
 void main() {
   vec4 depthColor = texture2D(uDepthTexture, vUv);
+  vec4 realColor = texture2D(uColorTexture, vUv);
   float depth = depthColor.r;
 
+  // --- Slice Mode Logic ---
   float dist = abs(depth - uFocus);
   
   // Softer falloff to mimic volumetric slice
@@ -46,7 +53,20 @@ void main() {
   // Optional smoothness
   alpha = pow(alpha, uSmoothness);
 
-  gl_FragColor = vec4(vec3(alpha), 1.0);
+  vec3 sliceColor = vec3(alpha);
+
+  // --- Reveal Mode Logic ---
+  
+  // Animate from back (0.0) to front (1.0)
+  // Mask: 1.0 if depth < uRevealProgress, else 0.0
+  float revealMask = 1.0 - smoothstep(uRevealProgress, uRevealProgress + 0.05, depth);
+  
+  // Combine: When uRevealActive = 1, we show realColor * revealMask
+  // When uRevealActive = 0, we show sliceColor
+  
+  vec3 finalColor = mix(sliceColor, realColor.rgb * revealMask, uRevealActive);
+
+  gl_FragColor = vec4(finalColor, 1.0);
 }
 `;
 
@@ -54,44 +74,74 @@ interface SceneProps {
     tiltRef: React.MutableRefObject<number | null>;
     isTouchingRef: React.MutableRefObject<boolean>;
     imagePath: string;
+    colorPath: string;
     thickness: number;
     smoothness: number;
     fit: 'cover' | 'contain';
     isInteractive: boolean;
+    isRevealed: boolean;
 }
 
-function Scene({ tiltRef, isTouchingRef, imagePath, thickness, smoothness, fit, isInteractive }: SceneProps) {
+function Scene({ tiltRef, isTouchingRef, imagePath, colorPath, thickness, smoothness, fit, isInteractive, isRevealed }: SceneProps) {
     const materialRef = useRef<THREE.ShaderMaterial>(null);
     const { pointer, viewport } = useThree();
 
-    // Load the depth map
-    // Load the depth map and suspend until loaded
-    const depthTexture = useTexture(imagePath);
+    // Load both textures
+    const [depthTexture, colorTexture] = useTexture([imagePath, colorPath]);
 
     useEffect(() => {
         // Force update texture when it changes
         if (materialRef.current) {
             materialRef.current.uniforms.uDepthTexture.value = depthTexture;
+            materialRef.current.uniforms.uColorTexture.value = colorTexture;
             materialRef.current.needsUpdate = true;
         }
-    }, [depthTexture]);
+    }, [depthTexture, colorTexture]);
 
     // Create uniforms
     const uniforms = useMemo(
         () => ({
             uDepthTexture: { value: depthTexture },
+            uColorTexture: { value: colorTexture },
             uFocus: { value: 0.5 },
             uThickness: { value: thickness },
             uSmoothness: { value: smoothness },
+            uRevealProgress: { value: 0.0 },
+            uRevealActive: { value: 0.0 },
         }),
-        [depthTexture, thickness, smoothness]
+        [depthTexture, colorTexture, thickness, smoothness]
     );
 
-    useFrame(() => {
+    // Animation refs
+    const currentRevealProgress = useRef(0);
+    const currentRevealActive = useRef(0);
+
+    useFrame((state, delta) => {
         if (materialRef.current) {
-            // If interaction is disabled (e.g. modal open), do not update targetDepth based on pointer
-            // We can smoothly return to center or just hold last value. Holding last value is better to avoid jumpiness,
-            // but returning to 0.5 (center) mimics "letting go". Let's try sticking to 0.5 for now to show "background state".
+            // --- Reveal Animation ---
+            const targetActive = isRevealed ? 1.0 : 0.0;
+            // Lerp active state
+            currentRevealActive.current = THREE.MathUtils.lerp(currentRevealActive.current, targetActive, delta * 5);
+
+            // Logic for Reveal Progress:
+            // If revealed, animate 0 -> 1. If not, reset to 0 (or animate back).
+            // Let's make it flow nicely.
+            if (isRevealed) {
+                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 1.0, delta * 2);
+            } else {
+                // When closing, maybe just fade out the active mix, and reset progress? 
+                // Or animate progress back. Animating back looks cool.
+                currentRevealProgress.current = THREE.MathUtils.lerp(currentRevealProgress.current, 0.0, delta * 5);
+            }
+
+            materialRef.current.uniforms.uRevealActive.value = currentRevealActive.current;
+            materialRef.current.uniforms.uRevealProgress.value = currentRevealProgress.current;
+
+
+            // --- Interactive Logic ---
+            // Only update focus if we are NOT fully in reveal mode (save performance/visual glitches)
+            // But actually we might want it to stay updated so it doesn't "jump" when we toggle back.
+
             if (!isInteractive) {
                 // Optional: lerp to center or just stay put.
                 // materialRef.current.uniforms.uFocus.value = THREE.MathUtils.lerp(materialRef.current.uniforms.uFocus.value, 0.5, 0.1);
@@ -188,6 +238,7 @@ export default function CursorDepthExplorer({
     const [needsPermissionButton, setNeedsPermissionButton] = useState(false);
     const [currentPaintingIndex, setCurrentPaintingIndex] = useState(0);
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+    const [isRevealed, setIsRevealed] = useState(false);
 
     // Initialize randomized order of paintings once
     const [paintings] = useState(() => {
@@ -202,6 +253,7 @@ export default function CursorDepthExplorer({
 
     const nextImage = () => {
         setCurrentPaintingIndex((prev) => (prev + 1) % paintings.length);
+        setIsRevealed(false); // Reset reveal on change
     };
 
     // Use refs for high-frequency updates to avoid re-renders
@@ -283,30 +335,47 @@ export default function CursorDepthExplorer({
                 </button>
             )}
 
-            {/* Info Button */}
-            <button
-                onClick={() => setIsInfoModalOpen(true)}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="absolute top-8 right-8 z-50 pointer-events-auto text-white border border-white/20 bg-black/50 backdrop-blur p-3 rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Painting Information"
-            >
-                <Info size={20} />
-            </button>
-
             <InfoModal
                 isOpen={isInfoModalOpen}
                 onClose={() => setIsInfoModalOpen(false)}
                 painting={paintings[currentPaintingIndex]}
             />
 
-            {/* Image Switcher */}
-            <button
-                onClick={nextImage}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="absolute bottom-8 right-8 z-50 pointer-events-auto text-white border border-white/20 bg-black/50 backdrop-blur px-4 py-2 rounded-full text-xs hover:bg-white/10 transition-colors uppercase tracking-wider"
-            >
-                Next Painting
-            </button>
+            {/* Controls Container (Bottom Right) */}
+            <div className="absolute bottom-8 right-8 z-50 flex flex-col items-end gap-3 pointer-events-none">
+
+                {/* Icons Row: Eye & Info */}
+                <div className="flex items-center gap-3 pointer-events-auto">
+                    {/* Depth Reveal Button */}
+                    <button
+                        onClick={() => setIsRevealed(!isRevealed)}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        className={`transition-colors backdrop-blur p-3 rounded-full border border-white/20 ${isRevealed ? 'bg-white/30 text-white' : 'bg-black/50 text-white hover:bg-white/10'}`}
+                        aria-label="Toggle Depth Map"
+                    >
+                        <Eye size={20} />
+                    </button>
+
+                    {/* Info Button */}
+                    <button
+                        onClick={() => setIsInfoModalOpen(true)}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        className="text-white border border-white/20 bg-black/50 backdrop-blur p-3 rounded-full hover:bg-white/10 transition-colors"
+                        aria-label="Painting Information"
+                    >
+                        <Info size={20} />
+                    </button>
+                </div>
+
+                {/* Next Painting Button */}
+                <button
+                    onClick={nextImage}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    className="pointer-events-auto text-white border border-white/20 bg-black/50 backdrop-blur px-4 py-2 rounded-full text-xs hover:bg-white/10 transition-colors tracking-wider"
+                >
+                    Next Painting
+                </button>
+            </div>
 
             <Canvas className="w-full h-full">
                 <React.Suspense fallback={null}>
@@ -315,10 +384,12 @@ export default function CursorDepthExplorer({
                         tiltRef={tiltRef}
                         isTouchingRef={isTouchingRef}
                         imagePath={paintings[currentPaintingIndex].depthPath}
+                        colorPath={paintings[currentPaintingIndex].imagePath}
                         thickness={thickness}
                         smoothness={smoothness}
                         fit={fit}
                         isInteractive={!isInfoModalOpen}
+                        isRevealed={isRevealed}
                     />
                 </React.Suspense>
             </Canvas>
