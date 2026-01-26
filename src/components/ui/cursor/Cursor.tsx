@@ -69,13 +69,14 @@ export const Cursor: React.FC = () => {
                 const yMove = (relY - yMid) / rect.height * amount;
 
                 if (selectedElement.type === "block") {
-                    const padding = 1; // Tighter padding
+                    const padding = 0; // Removed padding
                     gsap.to(cursorRef.current, {
                         x: rect.left + xMove - (padding / 2),
                         y: rect.top + yMove - (padding / 2),
                         width: rect.width + padding,
                         height: rect.height + padding,
-                        borderRadius: 8,
+                        borderRadius: selectedElement.config?.borderRadius || 6,
+                        boxSizing: "border-box",
                         duration: 0.3,
                         ease: "power3.out",
                         backgroundColor: getCursorColor(0.15),

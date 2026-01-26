@@ -77,7 +77,7 @@ export function AIWidget() {
                         <button
                             onClick={() => handleSummarize(service)}
                             className={cn(
-                                "relative p-2 rounded-lg text-muted-foreground transition-all duration-200",
+                                "relative p-2 rounded-md text-muted-foreground transition-all duration-200",
                                 "hover:text-foreground hover:bg-muted active:scale-95",
                                 "focus:outline-none focus:ring-2 focus:ring-primary/20"
                             )}

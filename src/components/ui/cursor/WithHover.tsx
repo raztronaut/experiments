@@ -34,6 +34,10 @@ export const WithHover: React.FC<WithHoverProps> = ({
         if (type === "text") {
             const computed = window.getComputedStyle(target).fontSize;
             result.config.textSize = parseFloat(computed.replace("px", ""));
+        } else {
+            // For block types, capture the border radius to ensure the cursor matches the element shape
+            const computed = window.getComputedStyle(target);
+            result.config.borderRadius = computed.borderRadius;
         }
 
         setSelectedElement(result);

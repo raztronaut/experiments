@@ -43,7 +43,7 @@ export function SiteFooter() {
                     <WithHover config={{ hoverOffset: 2 }}>
                         <button
                             onClick={toggleTheme}
-                            className="text-[0.7rem] tracking-[0.1em] uppercase text-muted-foreground/60 hover:text-foreground transition-colors"
+                            className="inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[0.7rem] tracking-[0.1em] uppercase text-muted-foreground/60 hover:bg-muted/40 hover:text-foreground transition-colors"
                             aria-label="Toggle theme"
                             data-umami-event="theme_toggle"
                             {...(mounted && { 'data-umami-event-theme': theme === 'dark' ? 'light' : 'dark' })}
