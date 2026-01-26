@@ -15,8 +15,8 @@ function InteractivityLayer({ children }: { children: React.ReactNode }) {
             mouse.current.x = THREE.MathUtils.lerp(mouse.current.x, state.mouse.x, 0.02);
             mouse.current.y = THREE.MathUtils.lerp(mouse.current.y, state.mouse.y, 0.02);
 
-            groupRef.current.rotation.y = mouse.current.x * 0.04;
-            groupRef.current.rotation.x = -mouse.current.y * 0.03;
+            groupRef.current.rotation.y = mouse.current.x * 0.12;
+            groupRef.current.rotation.x = -mouse.current.y * 0.08;
         }
     });
 
