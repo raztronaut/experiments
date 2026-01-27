@@ -3,12 +3,25 @@ import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
-  title: 'Mountain Transition',
+  title: 'Mountain Depth Map Shader Transition',
   description: 'A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape',
   openGraph: {
+    title: 'Mountain Depth Map Shader Transition',
+    description: 'A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape',
+    url: 'https://www.razisyed.cv/experiments/mountain-transition',
     images: ['/experiments/mountain-transition/green.png'],
     videos: ['/experiments/mountain-transition/preview.mp4'],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Mountain Depth Map Shader Transition',
+    description: 'A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape',
+    images: ['/experiments/mountain-transition/green.png'],
+  },
+  alternates: {
+    canonical: 'https://www.razisyed.cv/experiments/mountain-transition',
+  },
+  authors: [{ name: 'Razi Syed', url: 'https://www.razisyed.cv' }],
 };
 
 export default function Layout({

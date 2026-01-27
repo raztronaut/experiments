@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
@@ -12,11 +13,19 @@ export const metadata: Metadata = {
     template: "%s | Razi's Experiments",
   },
   description: "A playground for exploring UI interactions, shaders, and modern web techniques.",
-  metadataBase: new URL('https://raziexperiments.vercel.app'),
+  keywords: ["Next.js", "React", "Three.js", "Shaders", "Creative Coding", "Experiment", "Portfolio", "Razi Syed"],
+  authors: [{ name: 'Razi Syed', url: 'https://www.razisyed.cv' }],
+  creator: "Razi Syed",
+  publisher: "Razi Syed",
+  applicationName: "Razi's Experiments",
+  alternates: {
+    canonical: '/',
+  },
+  metadataBase: new URL('https://www.razisyed.cv'),
   openGraph: {
     title: "Razi's Experiments",
     description: "A playground for exploring UI interactions, shaders, and modern web techniques.",
-    url: 'https://raziexperiments.vercel.app',
+    url: 'https://www.razisyed.cv',
     siteName: "Razi's Experiments",
     locale: 'en_US',
     type: 'website',
@@ -50,6 +59,7 @@ export const metadata: Metadata = {
 
 import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { Analytics } from '@vercel/analytics/next';
+import { GlobalTracking } from "@/components/analytics/GlobalTracking";
 
 export default function RootLayout({
   children,
@@ -59,7 +69,28 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(activeFont.className, activeFont.variable, "min-h-screen bg-background font-canvas antialiased text-foreground")}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Razi Syed',
+              url: 'https://www.razisyed.cv',
+              sameAs: [
+                'https://github.com/raztronaut',
+                'https://twitter.com/razisyed',
+              ],
+              jobTitle: 'Design Engineer',
+              worksFor: {
+                '@type': 'Organization',
+                name: 'Independent',
+              },
+            }),
+          }}
+        />
         <UmamiScript />
+        <GlobalTracking />
         <ConsoleEasterEgg />
         <ThemeProvider
           attribute="class"
@@ -72,6 +103,7 @@ export default function RootLayout({
           </CursorProvider>
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

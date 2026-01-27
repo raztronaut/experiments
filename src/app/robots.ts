@@ -23,6 +23,6 @@ export default function robots(): MetadataRoute.Robots {
             // Fallback: allow all others
             { userAgent: '*', allow: '/' },
         ],
-        sitemap: 'https://raziexperiments.vercel.app/sitemap.xml',
+        sitemap: 'https://www.razisyed.cv/sitemap.xml',
     }
 }

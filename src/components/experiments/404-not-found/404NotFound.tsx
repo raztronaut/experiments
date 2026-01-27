@@ -10,7 +10,7 @@ import { useResponsiveCamera } from "./useResponsiveCamera";
 import { scrollVelocityRef } from "./scrollState";
 
 function ScrollManager() {
-    useFrame((_, delta) => {
+    useFrame(() => {
         // Decay scroll velocity
         scrollVelocityRef.current = THREE.MathUtils.lerp(scrollVelocityRef.current, 0, 0.05);
     });

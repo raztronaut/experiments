@@ -45,6 +45,8 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
                 aria-label="GitHub"
+                data-umami-event="github_click"
+                data-umami-event-type="profile"
               >
                 <Icons.GitHub className="h-5 w-5" />
               </a>
@@ -56,6 +58,8 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
                 aria-label="X (Twitter)"
+                data-umami-event="social_click"
+                data-umami-event-platform="x"
               >
                 <Icons.X className="h-5 w-5" />
               </a>
@@ -67,6 +71,8 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center p-2 rounded-md bg-muted/20 hover:bg-muted/40 text-foreground transition-colors border border-border/50"
                 aria-label="LinkedIn"
+                data-umami-event="social_click"
+                data-umami-event-platform="linkedin"
               >
                 <Icons.Linkedin className="h-5 w-5" />
               </a>
