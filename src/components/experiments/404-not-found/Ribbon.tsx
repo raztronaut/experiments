@@ -1,31 +1,10 @@
-"use client";
-
 import React, { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { vertexShader, fragmentShader } from "./ribbonShader";
 import { useCachedTexture } from "./useCachedTexture";
-
-interface RibbonProps {
-    text: string;
-    position: [number, number, number];
-    rotation: [number, number, number];
-    color: string;
-    width?: number;
-    height?: number;
-    thickness?: number;
-    speed?: number;
-    frequency?: number;
-    amplitude?: number;
-    padding?: number;
-    subscript?: string;
-    backsideText?: string;
-    backsideImage?: THREE.Texture | null;
-    backOffset?: [number, number];
-    backScale?: [number, number];
-    backClamp?: number;
-    textSpeed?: number;
-}
+import { useFontsReady } from "./useFontsReady";
+import { RibbonProps } from "./types";
 
 const Ribbon = React.memo(function Ribbon({
     text,
@@ -49,6 +28,7 @@ const Ribbon = React.memo(function Ribbon({
 }: RibbonProps) {
     const meshRef = useRef<THREE.Mesh>(null);
     const materialRef = useRef<THREE.ShaderMaterial>(null);
+    const fontsReady = useFontsReady();
 
     // Generate unique key for front texture
     const frontTextureKey = `front_${text}_${subscript}_${color}_${width}_${height}`;
@@ -113,7 +93,7 @@ const Ribbon = React.memo(function Ribbon({
         return tex;
     };
 
-    const texture = useCachedTexture(frontTextureKey, generateFrontTexture, [text, subscript, color, width, height, padding]);
+    const texture = useCachedTexture(frontTextureKey, generateFrontTexture, [text, subscript, color, width, height, padding, fontsReady]);
 
     // Generate unique key for back texture
     // Include all visual props in the key
@@ -175,7 +155,7 @@ const Ribbon = React.memo(function Ribbon({
 
     // Special case: if backsideImage is provided, use it directly (it's already a texture from useTexture upstream)
     // If NOT provided, use generated cache
-    const generatedBackTexture = useCachedTexture(backTextureKey || "", generateBackTexture, [backsideText, color, width, height]);
+    const generatedBackTexture = useCachedTexture(backTextureKey || "", generateBackTexture, [backsideText, color, width, height, fontsReady]);
 
     const finalBacksideTexture = backsideImage || generatedBackTexture;
 
