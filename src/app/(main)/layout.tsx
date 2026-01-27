@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
@@ -100,6 +101,7 @@ export default function RootLayout({
             {children}
           </CursorProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
