@@ -49,6 +49,7 @@ export const metadata: Metadata = {
 };
 
 import { CursorProvider } from "@/components/ui/cursor/Provider";
+import { Analytics } from '@vercel/analytics/next';
 
 export default function RootLayout({
   children,
@@ -70,6 +71,7 @@ export default function RootLayout({
             {children}
           </CursorProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
