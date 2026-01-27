@@ -13,7 +13,11 @@ import {
     RIBBON_FONTS,
     RIBBON_TEXTS,
     BACKSIDE_TEXT,
-    BACKSIDE_IMAGE_PATH
+    BACKSIDE_IMAGE_PATH,
+    RIBBON_TEXT_SPEED_RANGE,
+    RIBBON_WAVE_SPEED_MIN,
+    RIBBON_WAVE_SPEED_VARIANCE,
+    RIBBON_WAVE_SPEED_IMAGE_SECTION
 } from "./constants";
 
 export function useRibbons() {
@@ -46,7 +50,7 @@ export function useRibbons() {
             // Synchronize wave parameters for the image section so it moves like a single sheet
             const amplitude = isInImageSection ? 3.0 : (2.5 + random(5) * 1.0);
             const frequency = isInImageSection ? 0.04 : (0.03 + random(6) * 0.02);
-            const speed = isInImageSection ? 0.015 : (0.01 + random(4) * 0.015);
+            const speed = isInImageSection ? RIBBON_WAVE_SPEED_IMAGE_SECTION : (RIBBON_WAVE_SPEED_MIN + random(4) * RIBBON_WAVE_SPEED_VARIANCE);
 
             // Subtle rotation and Z staggering to look like a "pile"
             const z = (random(1) - 0.5) * 2;
@@ -103,7 +107,7 @@ export function useRibbons() {
                 backOffset,
                 backScale,
                 backClamp,
-                textSpeed: (random(7) - 0.5) * 12,
+                textSpeed: (random(7) - 0.5) * RIBBON_TEXT_SPEED_RANGE,
             };
 
             return ribbon;

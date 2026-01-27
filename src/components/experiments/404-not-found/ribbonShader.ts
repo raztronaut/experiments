@@ -42,6 +42,7 @@ uniform vec2 uBackOffset;
 uniform vec2 uBackScale;
 uniform float uOpacity;
 uniform float uTime;
+uniform float uRunTime;
 uniform vec3 uColor;
 uniform vec2 uRepeat;
 uniform vec2 uBackRepeat;
@@ -66,9 +67,15 @@ void main() {
   
   // Front face is positive Z model normal, back face is negative Z
   if (vModelNormal.z > 0.5) {
-      // Scroll the text slowly
-      vec2 tiledUv = vUv * uRepeat + vec2(uTime * uTextSpeed, 0.0);
-      texColor = texture2D(uTexture, tiledUv);
+      // Scroll the text using independent scroll time
+      // uTextSpeed is now pre-multiplied by JS
+      float scrollOffset = uRunTime * uTextSpeed;
+      vec2 tiledUv = vUv * uRepeat + vec2(scrollOffset, 0.0);
+      vec4 sampleCol = texture2D(uTexture, tiledUv);
+      
+      // Composite: Texture (Text/Lines) over Background (uColor)
+      texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);
+      
   } else if (vModelNormal.z < -0.5) {
       // Use normal UV for the back side
       vec2 backUv;
@@ -82,10 +89,10 @@ void main() {
               texColor = vec4(uColor, 1.0);
           }
       } else {
-          // Repeating Text
-          // We don't flip UV.x anymore as per previous step, but we want it to repeat
+          // Repeating Text (Backside)
           backUv = vUv * uBackRepeat;
-          texColor = texture2D(uBackTexture, backUv);
+          vec4 sampleCol = texture2D(uBackTexture, backUv);
+          texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);
       }
   } else {
       texColor = vec4(uColor, 1.0);

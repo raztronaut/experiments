@@ -9,14 +9,13 @@ type TextureGenerator = () => THREE.CanvasTexture | null;
 
 export function useCachedTexture(
     key: string,
-    generator: TextureGenerator,
-    dependencies: unknown[]
+    generator: TextureGenerator
 ): THREE.CanvasTexture | null {
     // 1. Synchronously get or create texture
     const texture = React.useMemo(() => {
         if (!key) return null;
 
-        let cachedItem = textureCache.get(key);
+        const cachedItem = textureCache.get(key);
 
         if (cachedItem) {
             // Found in cache

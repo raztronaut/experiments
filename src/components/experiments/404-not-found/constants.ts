@@ -33,3 +33,11 @@ export const RIBBON_TEXTS = [
 
 export const BACKSIDE_TEXT = "INSPIRED BY DAY JOB";
 export const BACKSIDE_IMAGE_PATH = "/experiments/404-not-found/dayjob.png";
+
+// Animation Constants
+export const RIBBON_TEXT_SPEED_RANGE = 6.0;
+export const RIBBON_TEXT_SPEED_MULTIPLIER = 0.05;
+
+export const RIBBON_WAVE_SPEED_MIN = 0.01;
+export const RIBBON_WAVE_SPEED_VARIANCE = 0.015;
+export const RIBBON_WAVE_SPEED_IMAGE_SECTION = 0.015;
