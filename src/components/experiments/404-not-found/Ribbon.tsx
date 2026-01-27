@@ -7,6 +7,7 @@ import { useFontsReady } from "./useFontsReady";
 import { RibbonProps } from "./types";
 import { generateFrontTexture, generateBackTexture } from "./utils/textureGenerators";
 import { RIBBON_TEXT_SPEED_MULTIPLIER } from "./constants";
+import { scrollVelocityRef } from "./scrollState";
 
 
 // 1x1 pixel transparent texture for safe initialization
@@ -110,14 +111,29 @@ const Ribbon = function Ribbon({
         }
     }, [texture, finalBacksideTexture, backOffset, backScale, backClamp, color, frequency, amplitude, textSpeed, uniforms]);
 
-    useFrame((state) => {
+
+
+    // ... inside Ribbon component
+
+    // Track accumulated offset manually to handle variable speed
+    const offsetRef = useRef(0);
+
+    useFrame((state, delta) => {
         if (materialRef.current) {
             // uTime is scaled by `speed` (wave frequency)
             const time = state.clock.getElapsedTime() * speed;
             materialRef.current.uniforms.uTime.value = time;
 
-            // Decoupled run time for text scrolling
-            materialRef.current.uniforms.uRunTime.value = state.clock.getElapsedTime();
+            // Update accumulated offset
+            // Base speed is 1.0 (accumulated over time), plus scroll velocity
+            // Multiplier 2.0 makes scroll effect more pronounced
+            const scrollInfluence = scrollVelocityRef.current * 2.0;
+
+            // Accumulate: offset += (1 + scrollBoost) * delta
+            // We adding 1.0 to represent the "base" flow of time
+            offsetRef.current += (1.0 + scrollInfluence) * delta;
+
+            materialRef.current.uniforms.uRunTime.value = offsetRef.current;
         }
     });
 

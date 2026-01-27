@@ -7,12 +7,12 @@ export const RIBBON_IMAGE_ROWS = 10;
 export const RIBBON_WIDTH = 220;
 
 export const RIBBON_COLORS = [
-    "#fff9c4", // Warm Lemon
-    "#fff59d", // Light Yellow
-    "#fdfcba", // Pale Cream
-    "#ffecb3", // Amber Cream
-    "#ef5350", // Vibrant Red (Accent)
-    "#e53935", // Deep Red
+    "#E6DDB5", // Muted Parchment
+    "#DCCCA3", // Aged Tape
+    "#E8DFC5", // Pale Beige
+    "#D4C596", // Dull Yellow
+    "#A63D3A", // Muted Brick Red (Accent)
+    "#C8B88A", // Greyish Gold
 ];
 
 export const RIBBON_FONTS = [

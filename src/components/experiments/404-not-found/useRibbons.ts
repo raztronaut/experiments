@@ -53,8 +53,12 @@ export function useRibbons() {
             const speed = isInImageSection ? RIBBON_WAVE_SPEED_IMAGE_SECTION : (RIBBON_WAVE_SPEED_MIN + random(4) * RIBBON_WAVE_SPEED_VARIANCE);
 
             // Subtle rotation and Z staggering to look like a "pile"
+            // Subtle rotation and Z staggering to look like a "pile"
             const z = (random(1) - 0.5) * 2;
-            const textIndex = Math.floor(random(4) * RIBBON_TEXTS.length);
+
+            // Use deterministic but scattered index to ensure ALL texts are shown
+            // (i * 3) % length covers all indices since 3 is coprime to 8 (length)
+            const textIndex = (i * 3) % RIBBON_TEXTS.length;
             const text = RIBBON_TEXTS[textIndex];
 
             // Backside Image Logic (Instagram feed style)

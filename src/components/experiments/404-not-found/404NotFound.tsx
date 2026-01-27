@@ -7,6 +7,34 @@ import * as THREE from "three";
 import Ribbon from "./Ribbon";
 import { useRibbons } from "./useRibbons";
 import { useResponsiveCamera } from "./useResponsiveCamera";
+import { scrollVelocityRef } from "./scrollState";
+
+function ScrollManager() {
+    useFrame((_, delta) => {
+        // Decay scroll velocity
+        scrollVelocityRef.current = THREE.MathUtils.lerp(scrollVelocityRef.current, 0, 0.05);
+    });
+
+
+    React.useEffect(() => {
+        const handleWheel = (e: WheelEvent) => {
+            // Prevent native page scroll
+            e.preventDefault();
+
+            // Accumulate velocity based on wheel delta
+            // Increased sensitivity for snappier response
+            const sensitivity = 0.2;
+            scrollVelocityRef.current += e.deltaY * sensitivity;
+            // Clamp max speed if needed
+            scrollVelocityRef.current = THREE.MathUtils.clamp(scrollVelocityRef.current, -5, 5);
+        };
+
+        window.addEventListener("wheel", handleWheel, { passive: false });
+        return () => window.removeEventListener("wheel", handleWheel);
+    }, []);
+
+    return null;
+}
 
 function InteractivityLayer({ children }: { children: React.ReactNode }) {
     const groupRef = useRef<THREE.Group>(null);
@@ -31,12 +59,13 @@ function Scene() {
 
     return (
         <>
+            <ScrollManager />
             <PerspectiveCamera makeDefault position={[0, 0, 32]} fov={65} />
             <color attach="background" args={["#fff9c4"]} />
 
-            <ambientLight intensity={0.8} color="#fffcf0" />
-            <spotLight position={[50, 100, 50]} angle={0.3} penumbra={1} intensity={6} color="#ffffff" castShadow />
-            <pointLight position={[-40, 20, 20]} intensity={3.0} color="#fff1f1" />
+            <ambientLight intensity={2} color="#fffcf0" />
+            <spotLight position={[50, 100, 50]} angle={0.3} penumbra={1} intensity={20} color="#ffffff" castShadow />
+            <pointLight position={[-40, 20, 20]} intensity={6.0} color="#fff1f1" />
 
             <InteractivityLayer>
                 <group rotation={[-0.15, -0.4, 0.02]}>
