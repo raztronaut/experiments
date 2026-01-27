@@ -7,7 +7,7 @@ export function UmamiScript() {
         <Script
             id="umami-analytics"
             src="/u/script.js"
-            data-website-id="2080ec09-2d3f-49a1-8f0a-e1f96fd5b5d5"
+            data-website-id="4fdcf10c-cc4d-40f7-be60-f2e9c59f236f"
             strategy="afterInteractive"
         />
     );

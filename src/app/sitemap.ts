@@ -3,7 +3,7 @@ import { getExperiments } from '@/lib/experiments'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const experiments = await getExperiments()
-    const baseUrl = 'https://raziexperiments.vercel.app'
+    const baseUrl = 'https://www.razisyed.cv'
 
     const experimentUrls = experiments.map((exp) => ({
         url: `${baseUrl}/experiments/${exp.slug}`,

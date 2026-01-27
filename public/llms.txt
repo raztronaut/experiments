@@ -6,8 +6,8 @@ This site is designed for rapid prototyping of web design and development ideas.
 
 ## Site Structure
 
-- [Homepage](https://raziexperiments.vercel.app/): Main dashboard listing all experiments
-- [Experiments](https://raziexperiments.vercel.app/experiments/): Individual experiment pages with interactive demos
+- [Homepage](https://www.razisyed.cv/): Main dashboard listing all experiments
+- [Experiments](https://www.razisyed.cv/experiments/): Individual experiment pages with interactive demos
 
 ## Source Code
 
