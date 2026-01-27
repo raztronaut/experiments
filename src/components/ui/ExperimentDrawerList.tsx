@@ -205,7 +205,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 height: '180px',
                             }}
                         >
-                            <div className="relative w-full h-full bg-secondary rounded-xl overflow-hidden border border-border/50">
+                            <div className="relative w-full h-full bg-background rounded-xl overflow-hidden border border-border/50">
                                 {hoveredIndex !== null && experiments[hoveredIndex] && (
                                     <InteractivePreviewMedia
                                         key={experiments[hoveredIndex].slug}

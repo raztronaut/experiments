@@ -11,14 +11,19 @@ import { cn } from '@/lib/utils';
 // Revalidate experiment list every hour for ISR (Incremental Static Regeneration)
 export const revalidate = 3600;
 
+import { GrainOverlay } from "@/components/ui/GrainOverlay";
+
 export default async function Home() {
   const experiments = await getExperiments();
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
-      <div className="absolute inset-0 -top-20 z-0 h-[500px] w-full overflow-hidden opacity-40 mask-image-gradient pointer-events-none">
+      <GrainOverlay />
+      <div
+        className="absolute inset-0 -top-20 z-0 h-[500px] w-full overflow-hidden opacity-40 pointer-events-none"
+        style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent)' }}
+      >
         <ThemeAwareWaves className="w-full h-full" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
       </div>
       <main className="flex-1 p-8 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
         <div className="mb-12 relative z-10">

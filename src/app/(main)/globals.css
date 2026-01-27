@@ -4,24 +4,24 @@
 
 @layer base {
   :root {
-    --background: 48 22% 95.5%;
+    --background: 35 50% 95.29%;
     --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
+    --card: 35 50% 95.29%;
     --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
+    --popover: 35 50% 95.29%;
     --popover-foreground: 240 10% 3.9%;
     --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
+    --secondary: 35 30% 90%;
     --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
+    --muted: 35 30% 90%;
+    --muted-foreground: 35 10% 45%;
+    --accent: 35 30% 90%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: 35 25% 85%;
+    --input: 35 25% 85%;
     --ring: 240 10% 3.9%;
     --radius: 0.5rem;
     --chart-1: 12 76% 61%;
@@ -32,11 +32,11 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 240 8.25% 6.84%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 240 8.25% 6.84%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 240 8.25% 6.84%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
     --primary-foreground: 240 5.9% 10%;
@@ -66,5 +66,24 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Custom Scrollbar to match theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
   }
 }

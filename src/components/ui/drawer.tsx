@@ -30,6 +30,10 @@ function DrawerOverlay({ className, ...props }: React.ComponentProps<typeof Draw
     );
 }
 
+import { GrainOverlay } from './GrainOverlay';
+
+// ... (existing imports)
+
 function DrawerContent({ className, children, ...props }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
     return (
         <DrawerPortal>
@@ -42,6 +46,7 @@ function DrawerContent({ className, children, ...props }: React.ComponentProps<t
                 )}
                 {...props}
             >
+                <GrainOverlay />
                 <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
                 {children}
             </DrawerPrimitive.Content>
