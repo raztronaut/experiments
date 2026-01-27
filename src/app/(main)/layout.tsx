@@ -57,6 +57,7 @@ export const metadata: Metadata = {
 };
 
 import { CursorProvider } from "@/components/ui/cursor/Provider";
+import { GlobalTracking } from "@/components/analytics/GlobalTracking";
 
 export default function RootLayout({
   children,
@@ -87,6 +88,7 @@ export default function RootLayout({
           }}
         />
         <UmamiScript />
+        <GlobalTracking />
         <ConsoleEasterEgg />
         <ThemeProvider
           attribute="class"
