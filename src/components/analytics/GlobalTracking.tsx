@@ -28,7 +28,7 @@ export function GlobalTracking() {
                         hostname: url.hostname
                     });
                 }
-            } catch (error) {
+            } catch {
                 // Ignore invalid URLs
             }
         };

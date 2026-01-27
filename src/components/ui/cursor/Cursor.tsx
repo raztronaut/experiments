@@ -1,18 +1,14 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { useCursor } from './Context';
+import { useMounted } from '@/hooks/useMounted';
 
 export const Cursor: React.FC = () => {
     const { selectedElement, status, pressing, setStatus, isHidden } = useCursor();
     const cursorRef = useRef<HTMLDivElement>(null);
-    const [mounted, setMounted] = useState(false);
-
-    // Prevent hydration mismatch - only render after mount
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    const mounted = useMounted();
 
     // Store latest state in refs to access in event listener without re-binding
     const stateRef = useRef({ selectedElement, status, isHidden });

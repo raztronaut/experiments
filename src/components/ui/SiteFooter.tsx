@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
+import { useMounted } from '@/hooks/useMounted';
 import { Icons } from '@/components/ui/icons';
 import { WithHover } from './cursor/WithHover';
 import { replica } from '@/lib/fonts';
@@ -10,12 +10,7 @@ import { cn } from '@/lib/utils';
 
 export function SiteFooter() {
     const { setTheme, resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    // Prevent hydration mismatch
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    const mounted = useMounted();
 
     const toggleTheme = () => {
         setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');

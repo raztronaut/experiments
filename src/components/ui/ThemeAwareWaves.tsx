@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useMounted } from '@/hooks/useMounted';
 import { Waves } from './wave-background';
 
 interface ThemeAwareWavesProps {
@@ -10,11 +10,7 @@ interface ThemeAwareWavesProps {
 
 export function ThemeAwareWaves({ className }: ThemeAwareWavesProps) {
     const { resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    const mounted = useMounted();
 
     // Don't render until mounted to prevent hydration mismatch
     if (!mounted) {
