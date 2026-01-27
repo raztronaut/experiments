@@ -58,6 +58,7 @@ export const metadata: Metadata = {
 };
 
 import { CursorProvider } from "@/components/ui/cursor/Provider";
+import { Analytics } from '@vercel/analytics/next';
 import { GlobalTracking } from "@/components/analytics/GlobalTracking";
 
 export default function RootLayout({
@@ -101,6 +102,7 @@ export default function RootLayout({
             {children}
           </CursorProvider>
         </ThemeProvider>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
