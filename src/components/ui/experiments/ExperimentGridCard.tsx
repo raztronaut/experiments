@@ -3,6 +3,7 @@
 import React, { useState, memo } from 'react';
 import { Experiment } from '@/lib/experiments';
 import { StaticExperimentMedia } from './StaticExperimentMedia';
+import { MobileSwipeTutorialOverlay } from './MobileSwipeTutorialOverlay';
 
 interface ExperimentGridCardProps {
     experiment: Experiment;
@@ -10,6 +11,7 @@ interface ExperimentGridCardProps {
     onTouchStart: (e: React.TouchEvent) => void;
     onTouchEnd: (e: React.TouchEvent, experiment: Experiment) => void;
     isMobileActive: boolean;
+    showTutorial?: boolean;
 }
 
 // Grid Card Component
@@ -18,7 +20,8 @@ export const ExperimentGridCard = memo(({
     onClick,
     onTouchStart,
     onTouchEnd,
-    isMobileActive
+    isMobileActive,
+    showTutorial
 }: ExperimentGridCardProps) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -50,6 +53,7 @@ export const ExperimentGridCard = memo(({
                     experiment={experiment}
                     shouldPlay={shouldPlay}
                 />
+                {showTutorial && <MobileSwipeTutorialOverlay />}
             </div>
 
             {/* Content */}

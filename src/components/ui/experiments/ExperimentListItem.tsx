@@ -3,6 +3,7 @@
 import React from 'react';
 import { Experiment } from '@/lib/experiments';
 import { InteractivePreviewMedia } from './InteractivePreviewMedia';
+import { MobileSwipeTutorialOverlay } from './MobileSwipeTutorialOverlay';
 
 interface ExperimentListItemProps {
     experiment: Experiment;
@@ -13,6 +14,7 @@ interface ExperimentListItemProps {
     onClick: () => void;
     onTouchStart: (e: React.TouchEvent) => void;
     onTouchEnd: (e: React.TouchEvent) => void;
+    showTutorial?: boolean;
 }
 
 /**
@@ -27,6 +29,7 @@ export function ExperimentListItem({
     onClick,
     onTouchStart,
     onTouchEnd,
+    showTutorial
 }: ExperimentListItemProps) {
     return (
         <div
@@ -47,7 +50,9 @@ export function ExperimentListItem({
                             isHovered={true}
                         />
                     )}
+
                     <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isMobileActive ? 'opacity-100' : 'opacity-0'}`} />
+                    {showTutorial && <MobileSwipeTutorialOverlay />}
                 </div>
 
                 {/* Content */}

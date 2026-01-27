@@ -83,10 +83,7 @@ export default async function Home() {
               </a>
             </WithHover>
           </div>
-          <p className="mt-2 text-sm text-[#14b8a6] md:hidden relative leading-relaxed">
-            Swipe &lt;- or -&gt; on mobile in a card to view a preview.<br />
-            But visit the experiments on desktop for best experience!
-          </p>
+
         </div>
 
         <ExperimentDrawerList experiments={experiments} />

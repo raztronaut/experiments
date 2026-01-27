@@ -229,13 +229,14 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     onClick={() => handleExperimentClick(experiment)}
                                     onTouchStart={handleTouchStart}
                                     onTouchEnd={(e) => handleTouchEnd(e, experiment)}
+                                    showTutorial={index === 0}
                                 />
                             ))}
                         </div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
-                        {experiments.map((experiment) => (
+                        {experiments.map((experiment, index) => (
                             <ExperimentGridCard
                                 key={experiment.slug}
                                 experiment={experiment}
@@ -243,6 +244,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 onTouchStart={handleTouchStart}
                                 onTouchEnd={handleTouchEnd}
                                 isMobileActive={mobilePreviewExperiment?.slug === experiment.slug}
+                                showTutorial={index === 0}
                             />
                         ))}
                     </div>
@@ -255,12 +257,14 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                 )}
             </section>
 
+
             <ExperimentPreviewDrawer
                 experiment={selectedExperiment}
                 isOpen={isOpen}
                 onOpenChange={handleDrawerOpenChange}
                 onOpenFullPage={handleOpenFullPage}
             />
+
         </>
     );
 }
