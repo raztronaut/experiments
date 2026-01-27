@@ -3,6 +3,11 @@
 import Script from 'next/script';
 
 export function UmamiScript() {
+    // Disable tracking in development
+    if (process.env.NODE_ENV === 'development') {
+        return null;
+    }
+
     return (
         <Script
             id="umami-analytics"
