@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { spaceGrotesk } from "@/lib/fonts";
@@ -46,9 +46,10 @@ export function LocationStatus() {
     // Measure own size for the Liquid Glass Filter
     const { ref: pillRef, width, height } = useElementSize<HTMLDivElement>();
     const RADIUS = isDesktop ? 12 : 6; // 6 for md, 12 for xl
+    const filterId = useId().replace(/:/g, "");
 
     const glassStyle = useLiquidGlassStyle({
-        filterId: "liquid-glass-location",
+        filterId: `liquid-glass-${filterId}`,
         fallbackBlur: 10
     });
 
@@ -61,7 +62,7 @@ export function LocationStatus() {
             className={cn("flex flex-wrap items-center gap-2 text-sm md:text-base select-none w-full md:w-auto", spaceGrotesk.className)}
         >
             <LiquidGlassFilter
-                id="liquid-glass-location"
+                id={`liquid-glass-${filterId}`}
                 width={width}
                 height={height}
                 radius={RADIUS}

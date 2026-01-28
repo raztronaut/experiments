@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useId } from "react";
 import { AIIcons } from "./ai-icons";
 import { cn } from "@/lib/utils";
 import { WithHover } from "./cursor/WithHover";
@@ -59,12 +59,13 @@ const services: ServiceConfig[] = [
 export function AIWidget() {
     const [mounted, setMounted] = useState(false);
     const { ref, width, height } = useElementSize<HTMLDivElement>();
+    const filterId = useId().replace(/:/g, "");
 
 
     const RADIUS = 8; // Matches rounded-lg
 
     const glassStyle = useLiquidGlassStyle({
-        filterId: "liquid-glass-ai",
+        filterId: `liquid-glass-ai-${filterId}`,
         fallbackBlur: 10
     });
 
@@ -89,7 +90,7 @@ export function AIWidget() {
         <LazyMotion features={domAnimation}>
             <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-2">
                 <LiquidGlassFilter
-                    id="liquid-glass-ai"
+                    id={`liquid-glass-ai-${filterId}`}
                     width={width}
                     height={height}
                     radius={RADIUS}

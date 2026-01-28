@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useId } from "react";
 
 interface LiquidGlassFilterProps {
     id?: string;
@@ -21,9 +21,10 @@ export function LiquidGlassFilter({
     blockOutBlur = 12,
     displacementScale = 8, // Controls the "strength" of the glass
 }: LiquidGlassFilterProps) {
-    // Generate unique IDs for internal SVG elements to prevent collisions
-    const redId = `${id}-red`;
-    const blueId = `${id}-blue`;
+    // Generate unique IDs for internal SVG elements to prevent collisions across multiple instances
+    const baseId = useId().replace(/:/g, "");
+    const redId = `${id}-${baseId}-red`;
+    const blueId = `${id}-${baseId}-blue`;
 
     // Generate the SVG Map as a Data URI
     // This map defines the "shape" of the lens/liquid distortion using gradients
@@ -65,9 +66,9 @@ export function LiquidGlassFilter({
                 <!-- mix-blend-mode: difference combines them without overwriting -->
                 <rect x="0" y="0" width="${width}" height="${height}" rx="${radius}" fill="url(#${blueId})" style="mix-blend-mode: difference" />
                 
-                <!-- Block Out Center (Blurry Gray) to prevent distortion on text -->
-                <!-- We use a neutral gray which usually means "no shift" relative to the map or just soft noise -->
-                <rect x="${innerX}" y="${innerY}" width="${innerWidth}" height="${innerHeight}" rx="${radius}" fill="#808080" style="filter:blur(${blockOutBlur}px)" />
+                <!-- Block Out Center (Neutral Gray) to prevent distortion on text -->
+                <!-- We use #7f7f7f which is exactly decimal 127/255 (neutral in 8-bit maps) -->
+                <rect x="${innerX}" y="${innerY}" width="${innerWidth}" height="${innerHeight}" rx="${radius}" fill="#7f7f7f" style="filter:blur(${blockOutBlur}px)" />
             </svg>
         `.trim();
 
