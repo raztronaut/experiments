@@ -23,7 +23,7 @@ export function MobileSwipeTutorialOverlay() {
             }, 4000); // Stay visible for 4s
             return () => clearTimeout(exitTimer);
         }
-        
+
         if (stage === 'exiting') {
             const doneTimer = setTimeout(() => {
                 setStage('done');
@@ -41,22 +41,22 @@ export function MobileSwipeTutorialOverlay() {
             initial={{ opacity: 0 }}
             animate={{ opacity: isVisible ? 1 : 0 }}
             transition={{ duration: 0.5 }}
-            className="absolute bottom-4 right-4 z-20 pointer-events-none md:hidden"
+            className="absolute top-4 right-4 z-20 pointer-events-none md:hidden"
             aria-hidden="true"
         >
             {/* Icon Container */}
             <motion.div
-                initial={{ scale: 0.9, y: 10 }}
-                animate={{ 
-                    scale: isVisible ? 1 : 0.9, 
-                    y: isVisible ? 0 : 10 
+                initial={{ scale: 0.9, y: -10 }}
+                animate={{
+                    scale: isVisible ? 1 : 0.9,
+                    y: isVisible ? 0 : -10
                 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 className="relative bg-neutral-950/60 p-2.5 rounded-xl shadow-lg border border-white/10 backdrop-blur-[2px]"
             >
                 <motion.div
                     animate={{
-                        x: [-6, 6, -6],
+                        x: [-3, 3, -3],
                     }}
                     transition={{
                         repeat: Infinity,
