@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useId } from "react";
+import { useMemo, useId, memo } from "react";
 
 interface LiquidGlassFilterProps {
     id?: string;
@@ -12,7 +12,7 @@ interface LiquidGlassFilterProps {
     displacementScale?: number;
 }
 
-export function LiquidGlassFilter({
+export const LiquidGlassFilter = memo(({
     id = "liquid-glass",
     width = 200,
     height = 80,
@@ -20,7 +20,7 @@ export function LiquidGlassFilter({
     border = 0.25,
     blockOutBlur = 12,
     displacementScale = 8, // Controls the "strength" of the glass
-}: LiquidGlassFilterProps) {
+}: LiquidGlassFilterProps) => {
     // Generate unique IDs for internal SVG elements to prevent collisions across multiple instances
     const baseId = useId().replace(/:/g, "");
     const redId = `${id}-${baseId}-red`;
@@ -96,7 +96,7 @@ export function LiquidGlassFilter({
                     height="200%"
                     colorInterpolationFilters="sRGB"
                 >
-                    {displacementMapParams && (
+                    {displacementMapParams ? (
                         <>
                             {/* 1. Load the Displacement Map */}
                             <feImage
@@ -158,10 +158,11 @@ export function LiquidGlassFilter({
                             <feBlend in="rg" in2="blueOnly" mode="screen" result="final" />
                             <feGaussianBlur in="final" stdDeviation="0.5" />
                         </>
-                    )}
+                    ) : null}
                 </filter>
             </defs>
         </svg>
     );
+});
 
-}
+LiquidGlassFilter.displayName = "LiquidGlassFilter";

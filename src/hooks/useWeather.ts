@@ -27,10 +27,13 @@ export function useWeather(unit: TemperatureUnit = 'C') {
     const [weather, setWeather] = useState<WeatherData | null>(null);
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchWeather = async () => {
             try {
                 const res = await fetch(
-                    `https://api.open-meteo.com/v1/forecast?latitude=${TORONTO_COORDS.lat}&longitude=${TORONTO_COORDS.lng}&current=temperature_2m,weather_code,is_day`
+                    `https://api.open-meteo.com/v1/forecast?latitude=${TORONTO_COORDS.lat}&longitude=${TORONTO_COORDS.lng}&current=temperature_2m,weather_code,is_day`,
+                    { signal: controller.signal }
                 );
                 const data = await res.json();
                 setWeather({
@@ -38,7 +41,8 @@ export function useWeather(unit: TemperatureUnit = 'C') {
                     weatherCode: data.current.weather_code,
                     isDay: data.current.is_day === 1
                 });
-            } catch (e) {
+            } catch (e: unknown) {
+                if (e instanceof Error && e.name === 'AbortError') return;
                 console.error("Failed to fetch weather", e);
             }
         };
@@ -46,7 +50,10 @@ export function useWeather(unit: TemperatureUnit = 'C') {
         fetchWeather();
         // Refresh weather every 30 minutes
         const interval = setInterval(fetchWeather, 30 * 60 * 1000);
-        return () => clearInterval(interval);
+        return () => {
+            controller.abort();
+            clearInterval(interval);
+        };
     }, []);
 
     const tempValue = useMemo(() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Transition } from "framer-motion";
 import { useScramble, type UseScrambleProps } from "use-scramble";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,8 @@ interface ScrambleTickerProps {
     className?: string;
     scrambleProps?: Partial<UseScrambleProps>;
     align?: "left" | "center" | "right";
+    layoutTransition?: Transition;
+    layout?: boolean | "position" | "preserve-aspect";
 }
 
 /**
@@ -19,7 +21,9 @@ export function ScrambleTicker({
     text,
     className,
     scrambleProps,
-    align = "left"
+    align = "left",
+    layoutTransition,
+    layout = true
 }: ScrambleTickerProps) {
     const { ref } = useScramble({
         text,
@@ -34,12 +38,14 @@ export function ScrambleTicker({
 
     return (
         <motion.div
-            layout="position"
+            layout={layout}
+            transition={layoutTransition}
             className={cn("relative inline-flex items-center overflow-hidden px-0.5", className)}
         >
             {/* Ghost text drives width/height and is the layout anchor */}
             <motion.span
-                layout="position"
+                layout={layout}
+                transition={layoutTransition}
                 className="opacity-0 select-none pointer-events-none whitespace-nowrap invisible"
                 aria-hidden="true"
             >
@@ -49,7 +55,8 @@ export function ScrambleTicker({
             {/* Scramble reveal is absolutely positioned over the ghost to prevent jitter */}
             <motion.span
                 ref={ref}
-                layout="position"
+                layout={layout}
+                transition={layoutTransition}
                 className={cn(
                     "absolute inset-x-0.5 inset-y-0 flex items-center whitespace-nowrap",
                     align === "left" && "justify-start",

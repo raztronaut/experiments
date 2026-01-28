@@ -8,40 +8,41 @@ export type TemperatureUnit = 'C' | 'F' | 'K' | 'R' | 'Re' | 'De';
 export function usePreferences() {
     const mounted = useMounted();
 
-    const [tempUnit, setTempUnit] = useState<TemperatureUnit>('C');
-    const [use24Hour, setUse24Hour] = useState(false);
-    const [showCoords, setShowCoords] = useState(false);
-
-    // Hydrate preferences on mount
-    useEffect(() => {
+    const [tempUnit, setTempUnit] = useState<TemperatureUnit>(() => {
+        if (typeof window === "undefined") return 'C';
         try {
-            // Temp Unit
             const storedUnit = localStorage.getItem("pref-temp-unit");
             if (storedUnit && ['C', 'F', 'K', 'R', 'Re', 'De'].includes(storedUnit)) {
-                setTempUnit(storedUnit as TemperatureUnit);
-            } else {
-                // Fallback to old preference key for migration
-                const oldPref = localStorage.getItem("pref-fahrenheit");
-                if (oldPref !== null) {
-                    setTempUnit(oldPref === "true" ? 'F' : 'C');
-                }
+                return storedUnit as TemperatureUnit;
             }
-
-            // 24 Hour
-            const stored24h = localStorage.getItem("pref-24h");
-            if (stored24h !== null) {
-                setUse24Hour(stored24h === "true");
-            }
-
-            // Show Coords
-            const storedCoords = localStorage.getItem("pref-show-coords");
-            if (storedCoords !== null) {
-                setShowCoords(storedCoords === "true");
-            }
+            // Fallback for migration
+            const oldPref = localStorage.getItem("pref-fahrenheit");
+            if (oldPref !== null) return oldPref === "true" ? 'F' : 'C';
         } catch (e) {
-            console.error("Failed to load preferences", e);
+            console.error("Failed to load tempUnit preference", e);
         }
-    }, []);
+        return 'C';
+    });
+
+    const [use24Hour, setUse24Hour] = useState(() => {
+        if (typeof window === "undefined") return false;
+        try {
+            const stored = localStorage.getItem("pref-24h");
+            return stored === "true";
+        } catch {
+            return false;
+        }
+    });
+
+    const [showCoords, setShowCoords] = useState(() => {
+        if (typeof window === "undefined") return false;
+        try {
+            const stored = localStorage.getItem("pref-show-coords");
+            return stored === "true";
+        } catch {
+            return false;
+        }
+    });
 
     // Cycle through units: C -> F -> K -> R -> Re -> De -> C
     const toggleUnit = () => {
