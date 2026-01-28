@@ -54,11 +54,11 @@ export const TimePill = memo(({
 
     /*
      * HISTORY:
-     * Attempt 16: The WeatherPill Clone (Deep Structure + Stable Tree).
-     * Hypothesis: The "Inner Layout Wrapper" in WeatherPill is critical for scale correction.
-     * Flattening removed this buffer.
-     * Plan: Restore Root(layout) -> Button(layout) -> InnerDiv(layout) -> Ticker/Span(layout).
-     * This combined with the Stable Tree (Attempt 10) should replicate WeatherPill's success.
+     * Attempt 18: Deep Structure + Position Content.
+     * 1. RESTORED Deep Structure (Root->Button->Inner) from Attempt 16 (fixes sliding).
+     * 2. CHANGED Content to `layout="position"` (fixes stretching).
+     *    - Root/Button/Inner handle the layout/resize/slide (Full Layout).
+     *    - Text Content opts out of scaling via `layout="position"`.
      */
     return (
         <motion.div
@@ -96,10 +96,10 @@ export const TimePill = memo(({
                                 text={timeString}
                                 scrambleProps={{ speed: 0.8, scramble: 3 }}
                                 layoutTransition={layoutTransition}
-                                layout
+                                layout="position"
                             />
                             <motion.span
-                                layout
+                                layout="position"
                                 initial={false}
                                 animate={{
                                     width: !use24Hour ? "auto" : 0,
