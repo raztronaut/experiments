@@ -43,7 +43,7 @@ export function TimeTicker({
 
     // Avoid hydration mismatch by not rendering time-dependent UI until mounted
     if (!mounted) return (
-        <div className={cn("inline-flex items-center h-5 w-[9ch]", className)} />
+        <div className={cn("inline-flex items-center h-5 md:h-8 w-[9ch]", className)} />
     );
 
     return (
@@ -55,7 +55,7 @@ export function TimeTicker({
             <motion.div
                 layout="position"
                 transition={layoutTransition}
-                className="relative h-5 flex items-center justify-center"
+                className="relative h-5 md:h-8 flex items-center justify-center"
             >
                 <motion.div
                     layout="position"
@@ -70,7 +70,7 @@ export function TimeTicker({
                         <motion.span
                             layout="position"
                             transition={layoutTransition}
-                            className="text-[10px] uppercase tracking-wider opacity-50"
+                            className="text-[10px] md:text-xs uppercase tracking-wider opacity-50"
                         >
                             {period}
                         </motion.span>

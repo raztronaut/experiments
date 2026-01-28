@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
+import { useTheme } from "next-themes";
+import { useMounted } from "@/hooks/useMounted";
+import { cn } from "@/lib/utils";
 
 // Mappings for Day/Night Specific Icons
 const weatherIcons: Record<number, { day: string, night: string }> = {
@@ -60,6 +63,8 @@ const weatherIcons: Record<number, { day: string, night: string }> = {
 
 export function LottieWeatherIcon({ code, isNight }: { code: number, isNight: boolean }) {
     const [animationData, setAnimationData] = useState<unknown>(null);
+    const { resolvedTheme } = useTheme();
+    const mounted = useMounted();
 
     useEffect(() => {
         const loadLottie = async () => {
@@ -82,8 +87,17 @@ export function LottieWeatherIcon({ code, isNight }: { code: number, isNight: bo
         loadLottie();
     }, [code, isNight]);
 
+    // In light mode, the icons (especially clouds) can be too faint.
+    // We apply a brightness filter to make them more visible while preserving relative colors.
+    const isLightMode = mounted && resolvedTheme === 'light';
+
     return (
-        <div className="w-6 h-6 flex items-center justify-center -my-1 relative z-[50]">
+        <div
+            className={cn(
+                "w-6 h-6 md:w-8 md:h-8 flex items-center justify-center -my-1 relative z-[50] transition-all duration-300",
+                isLightMode && "brightness-[0.4] saturate-[1.2]"
+            )}
+        >
             {animationData ? (
                 <Lottie
                     animationData={animationData}
@@ -91,7 +105,7 @@ export function LottieWeatherIcon({ code, isNight }: { code: number, isNight: bo
                     className="w-full h-full"
                 />
             ) : (
-                <div className="w-5 h-5 bg-muted/20 rounded-full animate-pulse" />
+                <div className="w-4 h-4 md:w-6 md:h-6 bg-muted-foreground/10 rounded-full animate-pulse capitalize" />
             )}
         </div>
     );

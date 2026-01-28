@@ -27,11 +27,11 @@ export default async function Home() {
         <ThemeAwareWaves className="w-full h-full" />
       </div>
       <main className="flex-1 p-4 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
-        <div className="mb-12 relative z-10">
+        <div className="mb-8 md:mb-12 relative z-10">
 
           <WithHover type="text" config={{ scale: 1.5 }}>
             <div>
-              <div className="mb-6 relative">
+              <div className="mb-6 md:mb-8 relative">
                 <LocationStatus />
               </div>
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-4">
@@ -43,7 +43,8 @@ export default async function Home() {
             </div>
           </WithHover>
 
-          <div className="flex items-center gap-4 mb-8 relative">
+          {/* Social Links - Mobile Only */}
+          <div className="flex md:hidden items-center gap-4 mb-8 relative">
             <WithHover>
               <a
                 href="https://github.com/raztronaut"
@@ -84,6 +85,7 @@ export default async function Home() {
               </a>
             </WithHover>
           </div>
+
 
         </div>
 
