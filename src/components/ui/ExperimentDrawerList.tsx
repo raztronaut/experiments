@@ -230,6 +230,11 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                     onTouchStart={handleTouchStart}
                                     onTouchEnd={(e) => handleTouchEnd(e, experiment)}
                                     showTutorial={index === 0}
+                                // priority={index < 2} // List Item doesn't support it yet, maybe add later if needed. 
+                                // Actually list view usually shows small thumbs or just text in some designs, 
+                                // but let's check ExperimentListItem implementation first before assuming.
+                                // Wait, ExperimentListItem doesn't use StaticExperimentMedia, it has its own logic usually?
+                                // Let's just focus on GridCard for now as that is the default view.
                                 />
                             ))}
                         </div>
@@ -245,6 +250,7 @@ export function ExperimentDrawerList({ experiments }: ExperimentDrawerListProps)
                                 onTouchEnd={handleTouchEnd}
                                 isMobileActive={mobilePreviewExperiment?.slug === experiment.slug}
                                 showTutorial={index === 0}
+                                priority={index < 2}
                             />
                         ))}
                     </div>

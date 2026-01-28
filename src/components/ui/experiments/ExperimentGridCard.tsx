@@ -12,6 +12,7 @@ interface ExperimentGridCardProps {
     onTouchEnd: (e: React.TouchEvent, experiment: Experiment) => void;
     isMobileActive: boolean;
     showTutorial?: boolean;
+    priority?: boolean;
 }
 
 // Grid Card Component
@@ -21,7 +22,8 @@ export const ExperimentGridCard = memo(({
     onTouchStart,
     onTouchEnd,
     isMobileActive,
-    showTutorial
+    showTutorial,
+    priority = false
 }: ExperimentGridCardProps) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -52,6 +54,7 @@ export const ExperimentGridCard = memo(({
                 <StaticExperimentMedia
                     experiment={experiment}
                     shouldPlay={shouldPlay}
+                    priority={priority}
                 />
                 {showTutorial && !isMobileActive && <MobileSwipeTutorialOverlay />}
             </div>

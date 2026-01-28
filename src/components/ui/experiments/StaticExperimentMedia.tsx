@@ -7,12 +7,14 @@ import { Experiment } from '@/lib/experiments';
 interface StaticExperimentMediaProps {
     experiment: Experiment;
     shouldPlay: boolean;
+    priority?: boolean;
 }
 
 // 2. Static Media (Grid Cards / Mobile - Simple & Robust)
 export const StaticExperimentMedia = ({
     experiment,
-    shouldPlay
+    shouldPlay,
+    priority = false
 }: StaticExperimentMediaProps) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
@@ -70,7 +72,8 @@ export const StaticExperimentMedia = ({
                     fill
                     className="object-cover z-0"
                     sizes="(max-width: 768px) 100vw, 400px"
-                    priority={false}
+                    priority={priority}
+                    quality={70}
                     onError={() => {
                         if (staticImage === experiment.poster) {
                             setPosterError(true);

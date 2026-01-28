@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  images: {
+    qualities: [70, 75],
+  },
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   compiler: {
