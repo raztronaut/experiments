@@ -9,8 +9,13 @@ import { useCursor } from './cursor/Context';
 import { ViewModeToggle } from './experiments/ViewModeToggle';
 import { ExperimentListItem } from './experiments/ExperimentListItem';
 import { ExperimentGridCard } from './experiments/ExperimentGridCard';
-import { ExperimentPreviewDrawer } from './experiments/ExperimentPreviewDrawer';
 import { InteractivePreviewMedia } from './experiments/InteractivePreviewMedia';
+import dynamic from 'next/dynamic';
+
+const ExperimentPreviewDrawer = dynamic(() =>
+    import('./experiments/ExperimentPreviewDrawer').then(mod => mod.ExperimentPreviewDrawer),
+    { ssr: false }
+);
 
 interface ExperimentDrawerListProps {
     experiments: Experiment[];
