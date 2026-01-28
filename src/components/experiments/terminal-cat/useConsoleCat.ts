@@ -161,7 +161,8 @@ export const useConsoleCat = (enabled: boolean = true) => {
             }
 
             // -- Render Composition --
-            console.clear();
+            const c = window.console;
+            c.clear();
 
             let outputBuffer = "";
             const styles: string[] = [];
@@ -204,7 +205,7 @@ export const useConsoleCat = (enabled: boolean = true) => {
             outputBuffer += `%c${terrainSlice}`;
             styles.push("color: #8be9fd; font-weight: bold;"); // Cyan/Ice color for snow
 
-            console.log(outputBuffer, ...styles);
+            c.log(outputBuffer, ...styles);
         };
 
         intervalRef.current = setInterval(render, 150);

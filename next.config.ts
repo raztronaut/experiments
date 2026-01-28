@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
+  compiler: {
+    removeConsole: {
+      exclude: ['error'],
+    },
+  },
   outputFileTracingIncludes: {
     '/': ['./src/app/experiments/**/*'],
   },

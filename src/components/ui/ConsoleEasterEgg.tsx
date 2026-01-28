@@ -29,9 +29,11 @@ export function ConsoleEasterEgg() {
 
         // Wait for initial page-load noise to settle (HMR, initial analytics, etc)
         const initTimer = setTimeout(() => {
-            console.clear();
-            console.log('%c✨ RAZI\'S EXPERIMENTS ✨', welcomeStyle);
-            console.log('%cCuriosity killed the cat... or did it? %ctry surpriseMe()', 'color: #f8f8f2;', hintStyle);
+            // Bypass Next.js removeConsole compiler option
+            const c = window.console;
+            c.clear();
+            c.log('%c✨ RAZI\'S EXPERIMENTS ✨', welcomeStyle);
+            c.log('%cCuriosity killed the cat... or did it? %ctry surpriseMe()', 'color: #f8f8f2;', hintStyle);
         }, 1000);
 
         // 2. Secret Command
@@ -43,9 +45,10 @@ export function ConsoleEasterEgg() {
             const style = 'color: #ff79c6; font-weight: bold; font-family: monospace; line-height: 1.2;';
 
             const interval = setInterval(() => {
-                console.clear();
-                console.log('%c' + ASCII_CAT_FRAMES[frame % ASCII_CAT_FRAMES.length], style);
-                console.log('%c%s', 'color: #50fa7b; font-weight: bold;', '\n  🐾 Purr... Purr... (refresh to stop)');
+                const c = window.console;
+                c.clear();
+                c.log('%c' + ASCII_CAT_FRAMES[frame % ASCII_CAT_FRAMES.length], style);
+                c.log('%c%s', 'color: #50fa7b; font-weight: bold;', '\n  🐾 Purr... Purr... (refresh to stop)');
                 frame++;
             }, 150);
 
@@ -53,7 +56,8 @@ export function ConsoleEasterEgg() {
             (window as any)._stopSurprise = () => {
                 clearInterval(interval);
                 isPlaying.current = false;
-                console.clear();
+                const c = window.console;
+                c.clear();
                 return "Cat is sleeping now. 😴";
             };
 
