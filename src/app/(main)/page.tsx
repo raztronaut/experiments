@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 export const revalidate = 3600;
 
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
+import { LocationStatus } from "@/components/ui/LocationStatus";
 
 export default async function Home() {
   const experiments = await getExperiments();
@@ -25,16 +26,16 @@ export default async function Home() {
       >
         <ThemeAwareWaves className="w-full h-full" />
       </div>
-      <main className="flex-1 p-8 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
+      <main className="flex-1 p-4 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
         <div className="mb-12 relative z-10">
 
           <WithHover type="text" config={{ scale: 1.5 }}>
             <div>
+              <div className="mb-6 relative">
+                <LocationStatus />
+              </div>
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-4">
                 <h1 className={cn("text-3xl md:text-5xl font-bold tracking-tight relative leading-tight", replica.className)}>razi&rsquo;s experiments</h1>
-                <span className="hidden md:inline-flex w-fit px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-sm text-muted-foreground font-medium backdrop-blur-sm">
-                  {experiments.length} experiments
-                </span>
               </div>
               <p className={cn("text-muted-foreground text-lg mb-6 relative", testDieGrotesk.className)}>
                 my lil playground for exploring ui interactions, shaders, and web techniques.

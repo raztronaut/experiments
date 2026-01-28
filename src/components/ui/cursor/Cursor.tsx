@@ -12,6 +12,8 @@ export const Cursor: React.FC = () => {
 
     // Store latest state in refs to access in event listener without re-binding
     const stateRef = useRef({ selectedElement, status, isHidden });
+    // Track mouse position globally to persist across effect re-runs
+    const mouseRef = useRef({ x: -100, y: -100 });
 
     useEffect(() => {
         stateRef.current = { selectedElement, status, isHidden };
@@ -26,12 +28,17 @@ export const Cursor: React.FC = () => {
     useEffect(() => {
         if (!mounted) return;
 
-        const onMouseMove = (e: MouseEvent) => {
+        // Shared update logic
+        const updateCursor = () => {
             if (!cursorRef.current || stateRef.current.isHidden) return;
 
             const { selectedElement, status } = stateRef.current;
-            const x = e.clientX;
-            const y = e.clientY;
+            // Use last known mouse position
+            const x = mouseRef.current.x;
+            const y = mouseRef.current.y;
+
+            // If mouse hasn't moved yet (still initial -100), don't animate to it visibly if possible,
+            // or just let it stay offscreen.
 
             const isSnapped = selectedElement.el && (status === "entering" || status === "shifting" || status === "entered");
 
@@ -52,6 +59,8 @@ export const Cursor: React.FC = () => {
                     overwrite: "auto"
                 });
             } else if (selectedElement.el && isSnapped) {
+                // When snapped, we want to track the element's position/size LIVE
+                // This captures changes during animations (transistions)
                 const rect = selectedElement.el.getBoundingClientRect();
                 const amount = 4; // Subtler pull
 
@@ -107,9 +116,22 @@ export const Cursor: React.FC = () => {
             }
         };
 
+        const onMouseMove = (e: MouseEvent) => {
+            mouseRef.current = { x: e.clientX, y: e.clientY };
+            // Immediate update for responsiveness
+            updateCursor();
+        };
+
         window.addEventListener('mousemove', onMouseMove);
-        return () => window.removeEventListener('mousemove', onMouseMove);
-    }, [mounted, setStatus]);
+
+        // Add ticker for continuous updates (handles animations/resizes while hovering)
+        gsap.ticker.add(updateCursor);
+
+        return () => {
+            window.removeEventListener('mousemove', onMouseMove);
+            gsap.ticker.remove(updateCursor);
+        };
+    }, [mounted, setStatus, selectedElement]);
 
     // Pressing effect
     useEffect(() => {
