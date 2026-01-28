@@ -54,65 +54,70 @@ export const TimePill = memo(({
 
     /*
      * HISTORY:
-     * Attempt 12: Chain Layout Position.
-     * Strategy: Deep Layout Position.
-     * 1. Reduce re-renders (check minute change).
-     * 2. Wrapper uses layout="position".
-     * 3. ScrambleTicker ALSO uses layout="position" (via new prop).
-     * This creates a consistent "Do Not Scale" chain for the text content.
+     * Attempt 16: The WeatherPill Clone (Deep Structure + Stable Tree).
+     * Hypothesis: The "Inner Layout Wrapper" in WeatherPill is critical for scale correction.
+     * Flattening removed this buffer.
+     * Plan: Restore Root(layout) -> Button(layout) -> InnerDiv(layout) -> Ticker/Span(layout).
+     * This combined with the Stable Tree (Attempt 10) should replicate WeatherPill's success.
      */
     return (
-        <WithHover>
-            <motion.button
-                layout
-                transition={layoutTransition}
-                onClick={() => setUse24Hour(!use24Hour)}
-                onMouseEnter={() => setHoveredId('time')}
-                onMouseLeave={() => setHoveredId(null)}
-                className="relative z-10 text-foreground transition-colors cursor-pointer flex items-center justify-center rounded-sm px-2 py-0.5 md:px-3 h-5 md:h-8 w-full min-w-[7ch] md:min-w-[9ch]"
-                aria-label="Toggle time format"
-            >
-                {hoveredId === 'time' ? (
-                    <motion.div
-                        layoutId="pill-hover"
-                        className="absolute inset-0 bg-muted/40 rounded-sm -z-10 hidden md:block"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                    />
-                ) : null}
-
-                {mounted ? (
-                    <motion.div
-                        layout="position"
-                        transition={layoutTransition}
-                        className="flex items-center gap-0.5 font-semibold tabular-nums whitespace-nowrap"
-                    >
-                        <ScrambleTicker
-                            text={timeString}
-                            scrambleProps={{ speed: 0.8, scramble: 3 }}
-                            layoutTransition={layoutTransition}
-                            layout="position"
+        <motion.div
+            layout
+            transition={layoutTransition}
+            className="flex items-center justify-center min-w-[7ch] md:min-w-[9ch]"
+        >
+            <WithHover>
+                <motion.button
+                    layout
+                    transition={layoutTransition}
+                    onClick={() => setUse24Hour(!use24Hour)}
+                    onMouseEnter={() => setHoveredId('time')}
+                    onMouseLeave={() => setHoveredId(null)}
+                    className="relative z-10 text-foreground transition-colors cursor-pointer flex items-center justify-center rounded-sm px-2 py-0.5 md:px-3 h-5 md:h-8 w-full"
+                    aria-label="Toggle time format"
+                >
+                    {hoveredId === 'time' ? (
+                        <motion.div
+                            layoutId="pill-hover"
+                            className="absolute inset-0 bg-muted/40 rounded-sm -z-10 hidden md:block"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                         />
-                        <motion.span
-                            initial={false}
-                            animate={{
-                                width: !use24Hour ? "auto" : 0,
-                                opacity: !use24Hour ? 0.5 : 0,
-                                marginLeft: !use24Hour ? 2 : 0
-                            }}
+                    ) : null}
+
+                    {mounted ? (
+                        <motion.div
+                            layout
                             transition={layoutTransition}
-                            className="text-[10px] md:text-xs uppercase tracking-wider overflow-hidden"
+                            className="flex items-center gap-0.5 font-semibold tabular-nums whitespace-nowrap"
                         >
-                            {/* Always render AM/PM, just hide it */}
-                            {period || "AM"}
-                        </motion.span>
-                    </motion.div>
-                ) : (
-                    <div className="w-[5ch] h-4 bg-transparent" />
-                )}
-            </motion.button>
-        </WithHover>
+                            <ScrambleTicker
+                                text={timeString}
+                                scrambleProps={{ speed: 0.8, scramble: 3 }}
+                                layoutTransition={layoutTransition}
+                                layout
+                            />
+                            <motion.span
+                                layout
+                                initial={false}
+                                animate={{
+                                    width: !use24Hour ? "auto" : 0,
+                                    opacity: !use24Hour ? 0.5 : 0,
+                                    marginLeft: !use24Hour ? 2 : 0
+                                }}
+                                transition={layoutTransition}
+                                className="text-[10px] md:text-xs uppercase tracking-wider overflow-hidden"
+                            >
+                                {period || "AM"}
+                            </motion.span>
+                        </motion.div>
+                    ) : (
+                        <div className="w-[5ch] h-4 bg-transparent" />
+                    )}
+                </motion.button>
+            </WithHover>
+        </motion.div>
     );
 });
 
