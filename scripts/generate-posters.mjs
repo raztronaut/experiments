@@ -32,8 +32,8 @@ async function generatePosters() {
                     if (!fs.existsSync(posterPath)) {
                         console.log(`🎬 Generating poster for: ${slug}...`);
                         try {
-                            // Extract first frame (-ss 1.0 to avoid black frames at start sometimes)
-                            execSync(`ffmpeg -y -i "${videoPath}" -ss 00:00:00.000 -vframes 1 "${posterPath}"`, { stdio: 'inherit' });
+                            // Extract first frame, resize to max 1200w, text quality high (q:v 5 is decent for jpg)
+                            execSync(`ffmpeg -y -i "${videoPath}" -ss 00:00:00.000 -vframes 1 -vf "scale=1200:-1" -q:v 5 "${posterPath}"`, { stdio: 'inherit' });
                             console.log(`✅ Generated poster: ${posterPath}`);
                         } catch (error) {
                             console.error(`❌ Failed to generate poster for ${slug}:`, error.message);
