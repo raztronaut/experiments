@@ -101,7 +101,7 @@ export function AIWidget() {
                     initial={false}
                     className={cn(
                         "flex items-center p-2 rounded-lg border border-border/50 shadow-lg group",
-                        "bg-muted/20 transition-all duration-300" // Visible base, no manual blur (handled by glassStyle fallback)
+                        "bg-muted/40 transition-all duration-300" // Visible base, no manual blur (handled by glassStyle fallback)
                     )}
                     style={hasSize ? glassStyle : {}}
 
