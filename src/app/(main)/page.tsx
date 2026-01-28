@@ -22,7 +22,10 @@ export default async function Home() {
       <GrainOverlay />
       <div
         className="absolute inset-0 -top-20 z-0 h-[500px] w-full overflow-hidden opacity-40 pointer-events-none"
-        style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent)' }}
+        style={{
+          maskImage: 'linear-gradient(to bottom, black 60%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent)'
+        }}
       >
         <ThemeAwareWaves className="w-full h-full" />
       </div>

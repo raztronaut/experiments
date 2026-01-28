@@ -26,6 +26,7 @@ export function ThemeAwareWaves({ className }: ThemeAwareWavesProps) {
 
     return (
         <Waves
+            key={resolvedTheme}
             className={className}
             strokeColor={strokeColor}
             backgroundColor="transparent"
