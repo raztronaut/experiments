@@ -30,7 +30,7 @@ export const WeatherPill = memo(({
         <motion.div
             layout
             transition={layoutTransition}
-            className="flex items-center justify-center min-w-[8ch] md:min-w-[10ch]"
+            className="flex items-center justify-center min-w-[8ch] md:min-w-[12ch]"
         >
             <AnimatePresence mode="wait" initial={false}>
                 {weather ? (

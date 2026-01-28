@@ -64,7 +64,7 @@ export const TimePill = memo(({
         <motion.div
             layout
             transition={layoutTransition}
-            className="flex items-center justify-center min-w-[7ch] md:min-w-[9ch]"
+            className="flex items-center justify-center min-w-[7ch] md:min-w-[10ch]"
         >
             <WithHover>
                 <motion.button
