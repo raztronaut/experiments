@@ -54,7 +54,7 @@ export function MobileSwipeTutorialOverlay({ onVisibilityChange }: MobileSwipeTu
         >
             {/* Icon Container */}
             <motion.div
-                className="relative bg-neutral-950/60 p-2.5 rounded-xl shadow-lg border border-white/10 backdrop-blur-[2px]"
+                className="relative bg-background/20 p-2.5 rounded-md shadow-lg border border-border/50 backdrop-blur-md"
             >
                 <motion.div
                     animate={{
@@ -65,7 +65,7 @@ export function MobileSwipeTutorialOverlay({ onVisibilityChange }: MobileSwipeTu
                         duration: 1.5,
                         ease: "easeInOut"
                     }}
-                    className="relative w-6 h-6 bg-white"
+                    className="relative w-5 h-5 bg-black dark:bg-white"
                     style={{
                         maskImage: `url(${SWIPE_GESTURE_ICON_DATA})`,
                         WebkitMaskImage: `url(${SWIPE_GESTURE_ICON_DATA})`,
