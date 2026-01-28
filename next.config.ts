@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [70, 75],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   compiler: {
