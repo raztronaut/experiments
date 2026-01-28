@@ -68,6 +68,13 @@
     @apply bg-background text-foreground;
   }
 
+  /* Attempt 5: Static Cursor Suppression */
+  /* This ensures the cursor is hidden immediately on load if the attribute overrides exist */
+  html[data-cursor-hidden="true"],
+  html[data-cursor-hidden="true"] * {
+    cursor: none !important;
+  }
+
   /* Custom Scrollbar to match theme */
   ::-webkit-scrollbar {
     width: 6px;

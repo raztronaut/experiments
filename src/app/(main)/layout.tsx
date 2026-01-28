@@ -68,7 +68,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* 
+            Attempt 1: Early execution script to suppress cursor immediately on load.
+            This prevents the "flash" of the system cursor before React hydrates.
+          */}
+
+      </head>
       <body className={cn(activeFont.className, activeFont.variable, "min-h-screen bg-background font-canvas antialiased text-foreground")}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (!('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
+                  document.documentElement.setAttribute('data-cursor-hidden', 'true');
+                }
+              } catch (e) {}
+            `
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

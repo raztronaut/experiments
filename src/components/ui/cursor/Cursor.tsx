@@ -6,8 +6,12 @@ import { useCursor } from './Context';
 import { useMounted } from '@/hooks/useMounted';
 
 export const Cursor: React.FC = () => {
+    // Attempt 1: Fix cursor distortion/artifacts.
+    // Ensure hardware acceleration with backface-visibility: hidden and
+    // robust transform handling to prevent rendering glitches during movement.
     const { selectedElement, status, pressing, setStatus, isHidden } = useCursor();
-    const cursorRef = useRef<HTMLDivElement>(null);
+    const cursorRef = useRef<HTMLDivElement>(null); // Position container (transform x/y)
+    const cursorBodyRef = useRef<HTMLDivElement>(null); // Shape container (width/height/radius)
     const mounted = useMounted();
 
     // Store latest state in refs to access in event listener without re-binding
@@ -37,83 +41,90 @@ export const Cursor: React.FC = () => {
             const x = mouseRef.current.x;
             const y = mouseRef.current.y;
 
-            // If mouse hasn't moved yet (still initial -100), don't animate to it visibly if possible,
-            // or just let it stay offscreen.
+            // Attempt 2: Unified animation state to fix distortion.
+            // Instead of firing competing GSAP tweens, we calculate the target state for every frame
+            // and fire a SINGLE tween. This prevents the "squished bean" effect where width/height
+            // animate at different rates than the position or border-radius.
+
+            const targetState = {
+                x: x - 9,
+                y: y - 9,
+                width: 18,
+                height: 18,
+                borderRadius: "9px", // Attempt 4: Use px instead of 50% for smooth interpolation
+                backgroundColor: getCursorColor(0.3),
+                border: `0px solid ${getCursorColor(0)}`,
+                mixBlendMode: "difference",
+                duration: 0.1,
+                ease: "power2.out"
+            };
 
             const isSnapped = selectedElement.el && (status === "entering" || status === "shifting" || status === "entered");
 
-            if (status === "" || status === "exiting" || !selectedElement.el) {
-                // Normal cursor following
-                gsap.to(cursorRef.current, {
-                    x: x - 9,
-                    y: y - 9,
-                    duration: 0.1,
-                    width: 18,
-                    height: 18,
-                    borderRadius: "50%",
-                    backgroundColor: getCursorColor(0.3),
-                    border: `0px solid ${getCursorColor(0)}`,
-                    mixBlendMode: "difference",
-                    backdropFilter: "none",
-                    ease: "none",
-                    overwrite: "auto"
-                });
-            } else if (selectedElement.el && isSnapped) {
-                // When snapped, we want to track the element's position/size LIVE
-                // This captures changes during animations (transistions)
+            if (selectedElement.el && isSnapped) {
                 const rect = selectedElement.el.getBoundingClientRect();
-                const amount = 4; // Subtler pull
-
+                const amount = 4;
                 const xMid = rect.width / 2;
                 const yMid = rect.height / 2;
-
                 const relX = x - rect.left;
                 const relY = y - rect.top;
-
                 const xMove = (relX - xMid) / rect.width * amount;
                 const yMove = (relY - yMid) / rect.height * amount;
 
                 if (selectedElement.type === "block") {
-                    const padding = 0; // Removed padding
-                    gsap.to(cursorRef.current, {
-                        x: rect.left + xMove - (padding / 2),
-                        y: rect.top + yMove - (padding / 2),
-                        width: rect.width + padding,
-                        height: rect.height + padding,
-                        borderRadius: (selectedElement.config?.borderRadius as string | number) || 6,
-                        boxSizing: "border-box",
-                        duration: 0.3,
-                        ease: "power3.out",
-                        backgroundColor: getCursorColor(0.15),
-                        border: `1px solid ${getCursorColor(0.2)}`,
-                        mixBlendMode: "difference", // Changed from "normal" for light mode visibility
-                        backdropFilter: "none",
-                        overwrite: "auto",
-                        onComplete: () => {
-                            if (status !== "entered") setStatus("entered");
-                        }
-                    });
+                    // Block cursor (Buttons, Cards)
+                    const padding = 0;
+                    targetState.x = rect.left + xMove - (padding / 2);
+                    targetState.y = rect.top + yMove - (padding / 2);
+                    targetState.width = rect.width + padding;
+                    targetState.height = rect.height + padding;
+                    // Ensure radius is clean string to avoid interpolation bugs
+                    // Default to 6px if not specified, which matches standard button radius
+                    targetState.borderRadius = (selectedElement.config?.borderRadius as string) || "6px";
+                    targetState.backgroundColor = getCursorColor(0.15);
+                    targetState.border = `1px solid ${getCursorColor(0.2)}`;
+                    targetState.duration = 0.3;
+                    targetState.ease = "power3.out";
+
+                    if (status !== "entered") setStatus("entered");
                 } else if (selectedElement.type === "text") {
+                    // Text cursor (vertical line)
                     const textSize = (selectedElement.config?.textSize as number) || 20;
-                    gsap.to(cursorRef.current, {
-                        x: x,
-                        y: y - (textSize / 2),
-                        width: 1.5,
-                        height: textSize,
-                        borderRadius: 1,
-                        duration: 0.15,
-                        ease: "power2.out",
-                        backgroundColor: getCursorColor(0.8),
-                        border: `0px solid ${getCursorColor(0)}`,
-                        mixBlendMode: "difference",
-                        backdropFilter: "none",
-                        overwrite: "auto",
-                        onComplete: () => {
-                            if (status !== "entered") setStatus("entered");
-                        }
-                    });
+                    targetState.width = 2; // Fixed width for text cursor
+                    targetState.height = textSize;
+                    targetState.x = x;
+                    targetState.y = y - (textSize / 2);
+                    targetState.borderRadius = "1px"; // Explicit px for smooth morph from 9px
+                    targetState.backgroundColor = getCursorColor(0.8);
+                    targetState.duration = 0.15;
+                    targetState.ease = "power4.out"; // Snappier text transition
+
+                    if (status !== "entered") setStatus("entered");
                 }
             }
+
+            // Fire Position Tween (GPU)
+            gsap.to(cursorRef.current, {
+                x: targetState.x,
+                y: targetState.y,
+                duration: targetState.duration,
+                ease: targetState.ease,
+                overwrite: "auto",
+                // Ensure layout properties are NOT touched here to prevent layout thrashing
+            });
+
+            // Fire Shape Tween (Layout/Paint)
+            gsap.to(cursorBodyRef.current, {
+                width: targetState.width,
+                height: targetState.height,
+                borderRadius: targetState.borderRadius,
+                backgroundColor: targetState.backgroundColor,
+                border: targetState.border,
+                duration: targetState.duration,
+                ease: targetState.ease,
+                overwrite: "auto",
+                boxSizing: "border-box"
+            });
         };
 
         const onMouseMove = (e: MouseEvent) => {
@@ -135,8 +146,8 @@ export const Cursor: React.FC = () => {
 
     // Pressing effect
     useEffect(() => {
-        if (!cursorRef.current || isHidden || !mounted) return;
-        gsap.to(cursorRef.current, {
+        if (!cursorBodyRef.current || isHidden || !mounted) return;
+        gsap.to(cursorBodyRef.current, {
             scale: pressing ? 0.9 : 1,
             duration: 0.1,
             overwrite: "auto"
@@ -150,15 +161,25 @@ export const Cursor: React.FC = () => {
 
     return (
         <div
-            ref={cursorRef}
+            ref={cursorRef} // POSITION ONLY
             className="fixed top-0 left-0 pointer-events-none z-[10000]"
             style={{
-                width: 18,
-                height: 18,
-                borderRadius: '50%',
-                backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                transform: 'translate3d(-100px, -100px, 0)'
+                transform: 'translate3d(-100px, -100px, 0)',
+                backfaceVisibility: 'hidden',
+                willChange: 'transform',
+                mixBlendMode: 'difference' // Blend mode on container
             }}
-        />
+        >
+            <div
+                ref={cursorBodyRef} // SHAPE ONLY
+                style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: '9px', // Match default state
+                    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                    willChange: 'width, height, border-radius'
+                }}
+            />
+        </div>
     );
 };

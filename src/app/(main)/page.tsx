@@ -14,6 +14,12 @@ export const revalidate = 3600;
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { LocationStatus } from "@/components/ui/LocationStatus";
 
+// Attempt 1: Fix cursor distortion in header/hero area.
+// The custom cursor's mix-blend-mode: difference interacts poorly with the
+// stacking context of the masked waves and grain overlay in Chromium.
+// Solution: Apply isolation: isolate to the hero container to force a new stacking context,
+// preventing the blend mode from "leaking" or distorting against the complex background layers.
+
 export default async function Home() {
   const experiments = await getExperiments();
 
@@ -29,22 +35,24 @@ export default async function Home() {
       >
         <ThemeAwareWaves className="w-full h-full" />
       </div>
-      <main className="flex-1 p-4 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full">
+      <main className="flex-1 p-4 pt-40 md:p-24 md:pt-64 max-w-6xl mx-auto w-full relative z-10 isolate">
         <div className="mb-8 md:mb-12 relative z-10">
 
-          <WithHover type="text" config={{ scale: 1.5 }}>
-            <div>
-              <div className="mb-6 md:mb-8 relative">
-                <LocationStatus />
-              </div>
-              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-4">
-                <h1 className={cn("text-3xl md:text-5xl font-bold tracking-tight relative leading-tight", replica.className)}>razi&rsquo;s experiments</h1>
-              </div>
-              <p className={cn("text-muted-foreground text-lg mb-6 relative", testDieGrotesk.className)}>
+          <div>
+            <div className="mb-6 md:mb-8 relative">
+              <LocationStatus />
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-4">
+              <WithHover type="text" config={{ scale: 1.5 }}>
+                <h1 className={cn("text-3xl md:text-5xl font-bold tracking-tight relative leading-tight w-fit", replica.className)}>razi&rsquo;s experiments</h1>
+              </WithHover>
+            </div>
+            <WithHover type="text" config={{ scale: 1.5 }}>
+              <p className={cn("text-muted-foreground text-lg mb-6 relative w-fit", testDieGrotesk.className)}>
                 my lil playground for exploring ui interactions, shaders, and web techniques.
               </p>
-            </div>
-          </WithHover>
+            </WithHover>
+          </div>
 
           {/* Social Links - Mobile Only */}
           <div className="flex md:hidden items-center gap-4 mb-8 relative">
