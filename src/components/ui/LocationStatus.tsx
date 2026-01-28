@@ -149,10 +149,19 @@ export function LocationStatus() {
                         </motion.div>
                     </>
                 ) : (
-                    <div className="flex items-center gap-4 px-2 opacity-20">
-                        <div className="w-16 h-4 bg-foreground/20 rounded-full animate-pulse" />
-                        <div className="w-12 h-4 bg-foreground/20 rounded-full animate-pulse" />
-                        <div className="w-14 h-4 bg-foreground/20 rounded-full animate-pulse" />
+                    <div className="flex items-center w-full md:w-auto opacity-20 md:gap-4">
+                        <div className="flex-1 flex justify-start md:flex-none">
+                            <div className="w-16 h-4 bg-foreground/20 rounded-full animate-pulse" />
+                        </div>
+                        <div className="flex-1 flex justify-center md:flex-none">
+                            <div className="w-12 h-4 bg-foreground/20 rounded-full animate-pulse" />
+                        </div>
+                        <div className="flex-1 flex justify-end md:flex-none">
+                            <div className="w-14 h-4 bg-foreground/20 rounded-full animate-pulse" />
+                        </div>
+                        <div className="hidden md:block">
+                            <div className="w-24 h-4 bg-foreground/20 rounded-full animate-pulse" />
+                        </div>
                     </div>
                 )}
             </motion.div>
