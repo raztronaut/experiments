@@ -65,14 +65,14 @@ export function LocationStatus() {
                 transition={layoutTransition}
                 style={hasSize ? glassStyle : {}}
                 className={cn(
-                    "flex items-center gap-0.5 md:gap-1 bg-muted/20 border border-border/50 px-1.5 py-1 md:px-2.5 md:py-1.5 rounded-md md:rounded-xl shadow-sm w-full md:w-auto justify-between md:justify-start min-h-[28px] md:min-h-[46px]",
+                    "flex items-center gap-0.5 md:gap-1 bg-muted/20 border border-border/50 px-3 py-1 md:px-2.5 md:py-1.5 rounded-md md:rounded-xl shadow-sm w-full md:w-auto justify-between md:justify-start min-h-[28px] md:min-h-[46px]",
                     "relative group/pill transition-shadow duration-500",
                     effectiveIsNight ? "shadow-blue-500/5" : "shadow-orange-500/5"
                 )}
             >
                 {mounted ? (
                     <>
-                        <motion.div layout transition={layoutTransition}>
+                        <motion.div layout transition={layoutTransition} className="flex-1 flex justify-start md:flex-none">
                             <LocationPill
                                 showCoords={showCoords}
                                 setShowCoords={setShowCoords}
@@ -94,7 +94,7 @@ export function LocationStatus() {
                             </motion.span>
                         </motion.div>
 
-                        <motion.div layout transition={layoutTransition}>
+                        <motion.div layout transition={layoutTransition} className="flex-1 flex justify-center md:flex-none">
                             <TimePill
                                 use24Hour={use24Hour}
                                 setUse24Hour={setUse24Hour}
@@ -116,7 +116,7 @@ export function LocationStatus() {
                             </motion.span>
                         </motion.div>
 
-                        <motion.div layout transition={layoutTransition}>
+                        <motion.div layout transition={layoutTransition} className="flex-1 flex justify-end md:flex-none">
                             <WeatherPill
                                 weather={torontoWeather}
                                 tempValue={tempValue}
@@ -140,7 +140,7 @@ export function LocationStatus() {
                             </motion.span>
                         </motion.div>
 
-                        <motion.div layout transition={layoutTransition}>
+                        <motion.div layout transition={layoutTransition} className="hidden md:block">
                             <SocialPills
                                 hoveredId={hoveredId}
                                 setHoveredId={setHoveredId}
