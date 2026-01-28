@@ -31,6 +31,8 @@ export function ExperimentListItem({
     onTouchEnd,
     showTutorial
 }: ExperimentListItemProps) {
+    const [isTutorialActive, setIsTutorialActive] = React.useState(false);
+
     return (
         <div
             className="group relative block cursor-pointer"
@@ -43,11 +45,12 @@ export function ExperimentListItem({
         >
             <div className="relative p-4 md:p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 overflow-hidden">
                 {/* Mobile preview background */}
-                <div className={`absolute inset-0 z-0 transition-opacity duration-300 pointer-events-none ${isMobileActive ? 'opacity-100' : 'opacity-0'}`}>
-                    {isMobileActive && (
+                <div className={`absolute inset-0 z-0 transition-opacity duration-500 pointer-events-none ${isMobileActive ? 'opacity-100' : (isTutorialActive ? 'opacity-40' : 'opacity-0')}`}>
+                    {(showTutorial || isMobileActive || isTutorialActive) && (
                         <InteractivePreviewMedia
                             experiment={experiment}
-                            isHovered={true}
+                            isHovered={isMobileActive}
+                            forceStatic={(showTutorial || isTutorialActive) && !isMobileActive}
                         />
                     )}
 
@@ -78,7 +81,7 @@ export function ExperimentListItem({
                     )}
                 </div>
             </div>
-            {showTutorial && <MobileSwipeTutorialOverlay />}
+            {showTutorial && !isMobileActive && <MobileSwipeTutorialOverlay onVisibilityChange={setIsTutorialActive} />}
         </div>
 
     );

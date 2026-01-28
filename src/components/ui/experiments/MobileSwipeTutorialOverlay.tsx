@@ -4,8 +4,16 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { SWIPE_GESTURE_ICON_DATA } from './constants';
 
-export function MobileSwipeTutorialOverlay() {
+interface MobileSwipeTutorialOverlayProps {
+    onVisibilityChange?: (isVisible: boolean) => void;
+}
+
+export function MobileSwipeTutorialOverlay({ onVisibilityChange }: MobileSwipeTutorialOverlayProps = {}) {
     const [stage, setStage] = useState<'waiting' | 'visible' | 'exiting' | 'done'>('waiting');
+
+    useEffect(() => {
+        onVisibilityChange?.(stage === 'visible' || stage === 'exiting');
+    }, [stage, onVisibilityChange]);
 
     useEffect(() => {
         // Start sequence
@@ -46,12 +54,6 @@ export function MobileSwipeTutorialOverlay() {
         >
             {/* Icon Container */}
             <motion.div
-                initial={{ scale: 0.9, y: -10 }}
-                animate={{
-                    scale: isVisible ? 1 : 0.9,
-                    y: isVisible ? 0 : -10
-                }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
                 className="relative bg-neutral-950/60 p-2.5 rounded-xl shadow-lg border border-white/10 backdrop-blur-[2px]"
             >
                 <motion.div

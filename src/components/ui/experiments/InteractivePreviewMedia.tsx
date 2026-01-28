@@ -7,12 +7,14 @@ import { Experiment } from '@/lib/experiments';
 interface InteractivePreviewMediaProps {
     experiment: Experiment;
     isHovered: boolean;
+    forceStatic?: boolean;
 }
 
 // 1. Interactive Preview (Floating / List View - Complex)
 export const InteractivePreviewMedia = ({
     experiment,
     isHovered,
+    forceStatic = false,
 }: InteractivePreviewMediaProps) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [containerEl, setContainerEl] = useState<HTMLDivElement | null>(null);
@@ -32,12 +34,12 @@ export const InteractivePreviewMedia = ({
     }, [containerEl]);
 
     const style = {
-        opacity: isHovered ? 1 : 0,
-        scale: isHovered ? 1 : 1.1,
-        filter: isHovered ? "none" : "blur(10px)",
+        opacity: (isHovered || forceStatic) ? 1 : 0,
+        scale: (isHovered || forceStatic) ? 1 : 1.1,
+        filter: (isHovered || forceStatic) ? "none" : "blur(10px)",
     };
 
-    const shouldPlay = isInViewport && isHovered;
+    const shouldPlay = isInViewport && isHovered && !forceStatic;
 
     // Fallback logic
     const staticImage = (!posterError && experiment.poster) ? experiment.poster : (!imageError ? experiment.image : null);
@@ -70,7 +72,7 @@ export const InteractivePreviewMedia = ({
                     fill
                     className="object-cover z-0"
                     sizes="280px"
-                    priority={isHovered}
+                    priority={isHovered || forceStatic}
                     onError={() => {
                         if (staticImage === experiment.poster) {
                             setPosterError(true);

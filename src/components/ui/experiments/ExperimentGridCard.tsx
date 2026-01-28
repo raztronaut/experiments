@@ -53,7 +53,7 @@ export const ExperimentGridCard = memo(({
                     experiment={experiment}
                     shouldPlay={shouldPlay}
                 />
-                {showTutorial && <MobileSwipeTutorialOverlay />}
+                {showTutorial && !isMobileActive && <MobileSwipeTutorialOverlay />}
             </div>
 
             {/* Content */}
