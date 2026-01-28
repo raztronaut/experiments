@@ -52,7 +52,7 @@ export function ExperimentListItem({
                     )}
 
                     <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isMobileActive ? 'opacity-100' : 'opacity-0'}`} />
-                    {showTutorial && <MobileSwipeTutorialOverlay />}
+
                 </div>
 
                 {/* Content */}
@@ -78,6 +78,8 @@ export function ExperimentListItem({
                     )}
                 </div>
             </div>
+            {showTutorial && <MobileSwipeTutorialOverlay />}
         </div>
+
     );
 }
