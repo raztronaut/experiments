@@ -2,6 +2,7 @@
 
 import { useRef, forwardRef, useImperativeHandle } from "react";
 import * as THREE from "three";
+import { useThree } from "@react-three/fiber";
 import ScreenPanel from "./ScreenPanel";
 
 // Grid configuration
@@ -27,6 +28,13 @@ export interface ReplayGridHandle {
 
 const ReplayGrid = forwardRef<ReplayGridHandle>(function ReplayGrid(_, ref) {
     const panelRefs = useRef<Map<string, THREE.Mesh>>(new Map());
+    const { size } = useThree();
+
+    // Calculate a responsive scale factor. 
+    // If it's a portrait screen (mobile), scale down aggressively so all 5 columns fit.
+    const aspect = size.width / size.height;
+    const isMobile = aspect < 1.0;
+    const scale = isMobile ? Math.max(0.35, aspect * 0.45) : 1.0;
 
     useImperativeHandle(ref, () => ({
         getPanels: () => {
@@ -96,7 +104,11 @@ const ReplayGrid = forwardRef<ReplayGridHandle>(function ReplayGrid(_, ref) {
         }
     }
 
-    return <group>{panels}</group>;
+    return (
+        <group scale={scale}>
+            {panels}
+        </group>
+    );
 });
 
 export default ReplayGrid;
