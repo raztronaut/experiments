@@ -44,6 +44,11 @@ const nextConfig: NextConfig = {
         source: '/u/:path*',
         destination: 'https://cloud.umami.is/:path*',
       },
+      // Simplified registry URLs: /r/slug -> /registry/slug.json
+      {
+        source: '/r/:slug',
+        destination: '/registry/:slug.json',
+      },
     ];
   },
 };

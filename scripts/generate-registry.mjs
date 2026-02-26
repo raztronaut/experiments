@@ -10,7 +10,7 @@ const APP_EXPERIMENTS_DIR = path.join(ROOT_DIR, "src", "app", "experiments");
 const COMPONENTS_DIR = path.join(ROOT_DIR, "src", "components", "experiments");
 
 // The base URL where assets are served from in production
-const ASSET_BASE_URL = "https://experiments.raztronaut.space";
+const ASSET_BASE_URL = "https://www.razisyed.cv";
 
 /**
  * Extracts all imports from a given file content

@@ -100,7 +100,7 @@ npm run generate:registry
 This generates individual JSON files in `public/registry/` and an `index.json` listing all shared experiments.
 
 ### 2. CDN & Asset Streaming
-When a component is installed into a third-party project, its static assets (images, videos, SVGs in `public/experiments/`) are automatically pointed to the production CDN at `https://experiments.raztronaut.space`. 
+When a component is installed into a third-party project, its static assets (images, videos, SVGs in `public/experiments/`) are automatically pointed to the production CDN at `https://www.razisyed.cv`. 
 
 > [!NOTE]
 > This ensures that binary assets (MP4s, JPEGs) work instantly without requiring the installer to manually copy files into their own `public/` folder.
@@ -109,12 +109,12 @@ When a component is installed into a third-party project, its static assets (ima
 Any experiment in the registry can be installed into a Next.js project using the Shadcn CLI:
 
 ```bash
-npx shadcn@latest add https://experiments.raztronaut.space/registry/<experiment-name>.json
+npx shadcn@latest add https://www.razisyed.cv/r/<experiment-name>
 ```
 
 For example, to install the Basketball Replay Center:
 ```bash
-npx shadcn@latest add https://experiments.raztronaut.space/registry/basketball-replay-center.json
+npx shadcn@latest add https://www.razisyed.cv/r/basketball-replay-center
 ```
 
 The CLI will:
