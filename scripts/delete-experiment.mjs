@@ -18,6 +18,7 @@ const safeName = experimentName.toLowerCase().replace(/[^a-z0-9-]/g, '-');
 const groupDir = path.join(__dirname, '../src/app/experiments', `(${safeName})`);
 const componentsDir = path.join(__dirname, '../src/components/experiments', safeName);
 const publicDir = path.join(__dirname, '../public/experiments', safeName);
+const registryFile = path.join(__dirname, '../public/registry', `${safeName}.json`);
 
 if (!fs.existsSync(groupDir)) {
     console.error(`Experiment "${safeName}" does not exist at ${groupDir}`);
@@ -68,7 +69,17 @@ rl.question(`Are you sure you want to delete the experiment "${safeName}"? This 
         console.error(`❌ Error deleting assets: ${err.message}`);
     }
 
+    // 4. Delete Registry JSON
+    try {
+        if (fs.existsSync(registryFile)) {
+            fs.unlinkSync(registryFile);
+            console.log(`✅ Deleted registry file: ${registryFile}`);
+        }
+    } catch (err) {
+        console.error(`❌ Error deleting registry file: ${err.message}`);
+    }
+
     console.log(`\n✨ Experiment "${safeName}" deleted successfully.`);
-    console.log(`   (No manual update to page.tsx required)`);
+    console.log(`   (Run "npm run generate:registry" to update the registry index)`);
     rl.close();
 });

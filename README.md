@@ -85,6 +85,44 @@ npm run delete:experiment <experiment-name>
 ```
 This script removes all associated files (routes, components, public assets). Because the registry is dynamic, the experiment automatically disappears from the dashboard.
 
+## Sharing Experiments (Component Registry)
+
+This project features a **Shadcn-compatible Registry**, allowing you to share experiments as embeddable components that others can install via a single command.
+
+### How it Works
+The registry system automatically bundles experiment components, resolves their package dependencies (like `gsap`, `three`, `framer-motion`), and prepares a JSON manifest that complies with the `shadcn/ui` registry schema.
+
+### 1. Generate the Registry
+To refresh the registry manifests for all experiments:
+```bash
+npm run generate:registry
+```
+This generates individual JSON files in `public/registry/` and an `index.json` listing all shared experiments.
+
+### 2. CDN & Asset Streaming
+When a component is installed into a third-party project, its static assets (images, videos, SVGs in `public/experiments/`) are automatically pointed to the production CDN at `https://experiments.raztronaut.space`. 
+
+> [!NOTE]
+> This ensures that binary assets (MP4s, JPEGs) work instantly without requiring the installer to manually copy files into their own `public/` folder.
+
+### 3. Installation
+Any experiment in the registry can be installed into a Next.js project using the Shadcn CLI:
+
+```bash
+npx shadcn@latest add https://experiments.raztronaut.space/registry/<experiment-name>.json
+```
+
+For example, to install the Basketball Replay Center:
+```bash
+npx shadcn@latest add https://experiments.raztronaut.space/registry/basketball-replay-center.json
+```
+
+The CLI will:
+1. Download the component files.
+2. Resolve and install required NPM dependencies.
+3. Merge necessary Tailwind configurations and CSS variables.
+4. Rewrite public asset paths to stream from the CDN.
+
 ## Best Practices
 
 - **Strict Isolation**: Do not import components from other experiments. Keep dependencies self-contained.

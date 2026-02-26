@@ -80,7 +80,7 @@ async function getAllComponentFiles(dirPath) {
 /**
  * Follows local imports within the experiment component directory to build up the 'files' array
  */
-async function resolveLocalFiles(startFile, experimentName) {
+async function resolveLocalFiles(startFile) {
     const fileQueue = [startFile];
     const processedFiles = new Set();
     const resolvedFiles = [];
@@ -210,7 +210,7 @@ async function generateRegistry() {
                 const metaPath = path.join(APP_EXPERIMENTS_DIR, dir.name, 'experiment.json');
                 const metaContent = await fs.readFile(metaPath, 'utf-8');
                 metadata = JSON.parse(metaContent);
-            } catch (e) {
+            } catch {
                 // Ignore missing metadata
             }
 
@@ -232,7 +232,7 @@ async function generateRegistry() {
             const allRegistryDeps = new Set();
 
             for (const startFile of componentFiles) {
-                const result = await resolveLocalFiles(startFile, experimentName);
+                const result = await resolveLocalFiles(startFile);
                 result.files.forEach(f => {
                     if (!allFiles.find(existing => existing.path === f.path)) {
                         allFiles.push({
