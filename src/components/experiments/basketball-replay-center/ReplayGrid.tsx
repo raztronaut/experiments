@@ -26,7 +26,12 @@ export interface ReplayGridHandle {
     getPanels: () => GridPanelRef[];
 }
 
-const ReplayGrid = forwardRef<ReplayGridHandle>(function ReplayGrid(_, ref) {
+export interface ReplayGridProps {
+    bgColor?: string;
+    isDark?: boolean;
+}
+
+const ReplayGrid = forwardRef<ReplayGridHandle, ReplayGridProps>(function ReplayGrid({ bgColor = "#f7f7f9", isDark = false }, ref) {
     const panelRefs = useRef<Map<string, THREE.Mesh>>(new Map());
     const { size } = useThree();
 
@@ -98,6 +103,8 @@ const ReplayGrid = forwardRef<ReplayGridHandle>(function ReplayGrid(_, ref) {
                         timeOffset={(row * COLS + col) * 1.37}
                         videoSrc={videoSrc}
                         imageSrc={imageSrc}
+                        bgColor={bgColor}
+                        isDark={isDark}
                     />
                 </group>
             );
@@ -106,6 +113,11 @@ const ReplayGrid = forwardRef<ReplayGridHandle>(function ReplayGrid(_, ref) {
 
     return (
         <group scale={scale}>
+            {/* Background plane to prevent black canvas from bleeding through distortion */}
+            <mesh position={[0, 0, -0.5]}>
+                <planeGeometry args={[20, 20]} />
+                <meshBasicMaterial color={bgColor} />
+            </mesh>
             {panels}
         </group>
     );

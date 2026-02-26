@@ -16,7 +16,6 @@ export default function BasketballReplayCenter() {
             style={{
                 width: "100%",
                 height: "100vh",
-                background: "#050508",
                 overflow: "hidden",
                 position: "relative",
             }}
@@ -33,7 +32,7 @@ export default function BasketballReplayCenter() {
                         alignItems: "center",
                         justifyContent: "center",
                         height: "100%",
-                        color: "rgba(255,255,255,0.6)",
+                        color: "rgba(0,0,0,0.6)",
                         fontFamily: "monospace",
                     }}
                 >

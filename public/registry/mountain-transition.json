@@ -1,0 +1,180 @@
+{
+  "name": "mountain-transition",
+  "type": "registry:ui",
+  "title": "Mountain Depth Map Shader Transition",
+  "description": "A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape",
+  "dependencies": [
+    "@react-three/fiber",
+    "@react-three/drei",
+    "three",
+    "gsap"
+  ],
+  "registryDependencies": [],
+  "tailwind": {
+    "config": {
+      "theme": {
+        "extend": {
+          "colors": {
+            "background": "hsl(var(--background))",
+            "foreground": "hsl(var(--foreground))",
+            "card": {
+              "DEFAULT": "hsl(var(--card))",
+              "foreground": "hsl(var(--card-foreground))"
+            },
+            "popover": {
+              "DEFAULT": "hsl(var(--popover))",
+              "foreground": "hsl(var(--popover-foreground))"
+            },
+            "primary": {
+              "DEFAULT": "hsl(var(--primary))",
+              "foreground": "hsl(var(--primary-foreground))"
+            },
+            "secondary": {
+              "DEFAULT": "hsl(var(--secondary))",
+              "foreground": "hsl(var(--secondary-foreground))"
+            },
+            "muted": {
+              "DEFAULT": "hsl(var(--muted))",
+              "foreground": "hsl(var(--muted-foreground))"
+            },
+            "accent": {
+              "DEFAULT": "hsl(var(--accent))",
+              "foreground": "hsl(var(--accent-foreground))"
+            },
+            "destructive": {
+              "DEFAULT": "hsl(var(--destructive))",
+              "foreground": "hsl(var(--destructive-foreground))"
+            },
+            "border": "hsl(var(--border))",
+            "input": "hsl(var(--input))",
+            "ring": "hsl(var(--ring))",
+            "chart": {
+              "1": "hsl(var(--chart-1))",
+              "2": "hsl(var(--chart-2))",
+              "3": "hsl(var(--chart-3))",
+              "4": "hsl(var(--chart-4))",
+              "5": "hsl(var(--chart-5))"
+            }
+          },
+          "borderRadius": {
+            "lg": "var(--radius)",
+            "md": "calc(var(--radius) - 2px)",
+            "sm": "calc(var(--radius) - 4px)"
+          },
+          "keyframes": {
+            "static-noise-fade": {
+              "0%": {
+                "opacity": "1"
+              },
+              "100%": {
+                "opacity": "0"
+              }
+            }
+          },
+          "animation": {
+            "static-noise": "static-noise-fade 0.8s ease-in-out forwards"
+          }
+        }
+      }
+    }
+  },
+  "cssVars": {
+    "light": {
+      "background": "35 50% 95.29%",
+      "foreground": "240 10% 3.9%",
+      "card": "35 50% 95.29%",
+      "card-foreground": "240 10% 3.9%",
+      "popover": "35 50% 95.29%",
+      "popover-foreground": "240 10% 3.9%",
+      "primary": "240 5.9% 10%",
+      "primary-foreground": "0 0% 98%",
+      "secondary": "35 30% 90%",
+      "secondary-foreground": "240 5.9% 10%",
+      "muted": "35 30% 90%",
+      "muted-foreground": "35 10% 45%",
+      "accent": "35 30% 90%",
+      "accent-foreground": "240 5.9% 10%",
+      "destructive": "0 84.2% 60.2%",
+      "destructive-foreground": "0 0% 98%",
+      "border": "35 25% 85%",
+      "input": "35 25% 85%",
+      "ring": "240 10% 3.9%",
+      "radius": "0.5rem",
+      "chart-1": "12 76% 61%",
+      "chart-2": "173 58% 39%",
+      "chart-3": "197 37% 24%",
+      "chart-4": "43 74% 66%",
+      "chart-5": "27 87% 67%"
+    },
+    "dark": {
+      "background": "240 8.25% 6.84%",
+      "foreground": "0 0% 98%",
+      "card": "240 8.25% 6.84%",
+      "card-foreground": "0 0% 98%",
+      "popover": "240 8.25% 6.84%",
+      "popover-foreground": "0 0% 98%",
+      "primary": "0 0% 98%",
+      "primary-foreground": "240 5.9% 10%",
+      "secondary": "240 3.7% 15.9%",
+      "secondary-foreground": "0 0% 98%",
+      "muted": "240 3.7% 15.9%",
+      "muted-foreground": "240 5% 64.9%",
+      "accent": "240 3.7% 15.9%",
+      "accent-foreground": "0 0% 98%",
+      "destructive": "0 62.8% 30.6%",
+      "destructive-foreground": "0 0% 98%",
+      "border": "240 3.7% 15.9%",
+      "input": "240 3.7% 15.9%",
+      "ring": "240 4.9% 83.9%",
+      "chart-1": "220 70% 50%",
+      "chart-2": "160 60% 45%",
+      "chart-3": "30 80% 55%",
+      "chart-4": "280 65% 60%",
+      "chart-5": "340 75% 55%"
+    }
+  },
+  "files": [
+    {
+      "name": "MountainTransition.tsx",
+      "type": "registry:file",
+      "path": "MountainTransition.tsx",
+      "target": "components/experiments/mountain-transition/MountainTransition.tsx",
+      "content": "'use client';\n\nimport React, { Suspense } from 'react';\nimport { Canvas } from '@react-three/fiber';\nimport Scene from './Scene';\n\nexport default function MountainTransition() {\n    return (\n        <div className=\"relative w-full h-full bg-black\">\n            {/* \n        Scroll container:\n        We make this very tall to allow scrolling.\n        The Canvas will be fixed behind it.\n      */}\n            <div\n                id=\"mountain-scroll-container\"\n                className=\"absolute top-0 left-0 w-full z-10\"\n                style={{ height: '500vh' }} // 5 sections approx\n            />\n\n            {/* \n              Visual Container:\n              Fixed to viewport, but with padding and rounded corners to create the \"Dashboard/Card\" look.\n              The scroll container above still drives the window scroll, which GSAP picks up.\n            */}\n            <div className=\"fixed inset-0 bg-[#0a0a0a] p-4 z-0 flex items-center justify-center\">\n                <div className=\"relative w-full h-full rounded-[32px] overflow-hidden shadow-2xl border border-white/10 bg-black\">\n                    <Canvas\n                        orthographic\n                        camera={{ zoom: 1, position: [0, 0, 1] }}\n                        gl={{ antialias: true }}\n                        dpr={[1, 2]}\n                        className=\"absolute inset-0 w-full h-full\"\n                    >\n                        <Suspense fallback={null}>\n                            <Scene />\n                        </Suspense>\n                    </Canvas>\n\n                    {/* Optional: Add a subtle logo or overlay inside the card if needed later */}\n                </div>\n            </div>\n\n\n        </div>\n    );\n}"
+    },
+    {
+      "name": "Scene.tsx",
+      "type": "registry:file",
+      "path": "Scene.tsx",
+      "target": "components/experiments/mountain-transition/Scene.tsx",
+      "content": "'use client';\n\nimport React, { useRef, useMemo, useEffect } from 'react';\nimport { useThree, useFrame } from '@react-three/fiber';\nimport { useTexture, useVideoTexture, shaderMaterial } from '@react-three/drei';\nimport * as THREE from 'three';\nimport gsap from 'gsap';\nimport { ScrollTrigger } from 'gsap/ScrollTrigger';\nimport { vertexShader, fragmentShader } from './shaders';\n\ngsap.registerPlugin(ScrollTrigger);\n\n// Create the Shader Material\nconst TransitionMaterial = shaderMaterial(\n    {\n        uProgress: 0,\n        uTime: 0,\n        uTex0: new THREE.Texture(),\n        uTex1: new THREE.Texture(),\n        uTex2: new THREE.Texture(),\n        uTex3: new THREE.Texture(),\n        uTex4: new THREE.Texture(),\n        uDepth: new THREE.Texture(),\n        uDisplacementStrength: 0.5,\n    },\n    vertexShader,\n    fragmentShader\n);\n\n// Fix: Proper type extension for R3F\nimport { extend } from '@react-three/fiber';\nimport { Texture } from 'three';\n\nextend({ TransitionMaterial });\n\n// Define the properties required by the shader\ntype TransitionMaterialProps = {\n    uProgress?: number;\n    uTime?: number;\n    uTex0?: Texture;\n    uTex1?: Texture;\n    uTex2?: Texture;\n    uTex3?: Texture;\n    uTex4?: Texture;\n    uDepth?: Texture;\n    uDisplacementStrength?: number;\n} & React.JSX.IntrinsicElements['shaderMaterial'];\n\ndeclare module '@react-three/fiber' {\n    interface ThreeElements {\n        transitionMaterial: TransitionMaterialProps;\n    }\n}\n\nconst ASSET_PATH = 'https://experiments.raztronaut.space/experiments/mountain-transition';\n\nexport default function Scene() {\n    const meshRef = useRef<THREE.Mesh>(null);\n    // Fix 'any' by typing the ref properly\n    const materialRef = useRef<THREE.ShaderMaterial & { uProgress: number; uTime: number }>(null);\n    const { viewport } = useThree();\n\n    // Load Assets\n    const tex0 = useVideoTexture(`${ASSET_PATH}/green.mp4`);\n    const tex1 = useVideoTexture(`${ASSET_PATH}/snowy.mp4`);\n    const tex2 = useVideoTexture(`${ASSET_PATH}/sunrise.mp4`);\n    const tex3 = useVideoTexture(`${ASSET_PATH}/painting.mp4`);\n    const tex4 = useVideoTexture(`${ASSET_PATH}/painting2.mp4`);\n\n    const depthTex = useTexture(`${ASSET_PATH}/depth-grayscale.png`);\n\n    const textures = useMemo(() => [tex0, tex1, tex2, tex3, tex4], [tex0, tex1, tex2, tex3, tex4]);\n\n    useEffect(() => {\n        textures.forEach(tex => {\n            const video = tex.image as HTMLVideoElement;\n            video.loop = true;\n            video.muted = true;\n            video.play();\n        });\n    }, [textures]);\n\n    useFrame((state) => {\n        if (materialRef.current) {\n            materialRef.current.uTime = state.clock.elapsedTime;\n        }\n    });\n\n    useEffect(() => {\n        const trigger = ScrollTrigger.create({\n            trigger: '#mountain-scroll-container',\n            start: 'top top',\n            end: 'bottom bottom',\n            scrub: 0.5,\n            snap: {\n                snapTo: 1 / 4,\n                duration: { min: 0.1, max: 0.5 }, // Faster snap\n                delay: 0.1, // Reduced delay for quicker response\n                ease: 'power1.inOut',\n            },\n            onUpdate: (self) => {\n                if (materialRef.current) {\n                    materialRef.current.uProgress = self.progress;\n                }\n            },\n        });\n\n        return () => {\n            trigger.kill();\n        };\n    }, []);\n\n    return (\n        <mesh ref={meshRef} position={[0, 0, 0]}>\n            <planeGeometry args={[viewport.width, viewport.height, 128, 128]} />\n            <transitionMaterial\n                ref={materialRef}\n                uTex0={tex0}\n                uTex1={tex1}\n                uTex2={tex2}\n                uTex3={tex3}\n                uTex4={tex4}\n                uDepth={depthTex}\n                uDisplacementStrength={0.6}\n                wireframe={false}\n            />\n        </mesh>\n    );\n}\n"
+    },
+    {
+      "name": "shaders.ts",
+      "type": "registry:file",
+      "path": "shaders.ts",
+      "target": "components/experiments/mountain-transition/shaders.ts",
+      "content": "// Simplex 2D noise & FBM\nconst noiseBenchmark = `\nvec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }\n\nfloat snoise(vec2 v){\n  const vec4 C = vec4(0.211324865405187, 0.366025403784439,\n           -0.577350269189626, 0.024390243902439);\n  vec2 i  = floor(v + dot(v, C.yy) );\n  vec2 x0 = v -   i + dot(i, C.xx);\n  vec2 i1;\n  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\n  vec4 x12 = x0.xyxy + C.xxzz;\n  x12.xy -= i1;\n  i = mod(i, 289.0);\n  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))\n  + i.x + vec3(0.0, i1.x, 1.0 ));\n  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\n  m = m*m ;\n  m = m*m ;\n  vec3 x = 2.0 * fract(p * C.www) - 1.0;\n  vec3 h = abs(x) - 0.5;\n  vec3 ox = floor(x + 0.5);\n  vec3 a0 = x - ox;\n  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\n  vec3 g;\n  g.x  = a0.x  * x0.x  + h.x  * x0.y;\n  g.yz = a0.yz * x12.xz + h.yz * x12.yw;\n  return 130.0 * dot(m, g);\n}\n\nfloat fbm(vec2 x) {\n    float v = 0.0;\n    float a = 0.5;\n    vec2 shift = vec2(100.0);\n    mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));\n    for (int i = 0; i < 4; ++i) { // 4 Octaves is enough for smooth mist\n        v += a * snoise(x);\n        x = rot * x * 2.0 + shift;\n        a *= 0.5;\n    }\n    return v;\n}\n`;\n\nexport const vertexShader = `\n  uniform sampler2D uDepth;\n  uniform float uDisplacementStrength;\n  uniform float uTime;\n  \n  varying vec2 vUv;\n  varying float vDepth;\n\n  void main() {\n    vUv = uv;\n    float depth = texture2D(uDepth, uv).r;\n    vDepth = depth;\n    vec3 pos = position;\n    // Moderate displacement for volume\n    pos.z += depth * uDisplacementStrength; \n    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);\n  }\n`;\n\nexport const fragmentShader = `\n  uniform float uProgress;\n  uniform sampler2D uTex0;\n  uniform sampler2D uTex1;\n  uniform sampler2D uTex2;\n  uniform sampler2D uTex3;\n  uniform sampler2D uTex4;\n  uniform sampler2D uDepth;\n  uniform float uTime;\n  \n  varying vec2 vUv;\n  varying float vDepth;\n  \n  ${noiseBenchmark}\n\n  vec4 getTexture(int index, vec2 uv) {\n    if (index == 0) return texture2D(uTex0, uv);\n    if (index == 1) return texture2D(uTex1, uv);\n    if (index == 2) return texture2D(uTex2, uv);\n    if (index == 3) return texture2D(uTex3, uv);\n    if (index == 4) return texture2D(uTex4, uv);\n    return texture2D(uTex0, uv);\n  }\n\n  void main() {\n    float totalScenes = 5.0;\n    float rawP = uProgress * (totalScenes - 1.0);\n    int index0 = int(floor(rawP));\n    int index1 = int(ceil(rawP));\n    float p = fract(rawP);\n    \n    vec4 col0 = getTexture(index0, vUv);\n    vec4 col1 = getTexture(index1, vUv);\n    \n    // --- CINEMATIC MIST TRANSITION ---\n    // Goal: A smooth, depth-aware blend.\n    // Logic: Transition map = Depth (dominant) + Noise (organic variation).\n    \n    // Soft, large scale noise\n    float noise = fbm(vUv * 3.0 + vec2(uTime * 0.05, 0.0)); \n    \n    // Combine Depth and Noise.\n    // User requested \"Front to Back\" transition.\n    // vDepth: 1.0 = Near, 0.0 = Far.\n    // We want Near to transition FIRST.\n    // Logic: Transition happens when structure < threshold (creates mask=0 -> Col1).\n    // As p increases, threshold increases (-0.2 -> 1.2).\n    // So distinct values of 'structure' will follow the threshold.\n    // Elements with LOW structure value will be caught by the threshold first.\n    // So we want Foreground (Near) to have LOW structure.\n    \n    float structure = (1.0 - vDepth) * 0.8 + noise * 0.2; // Inverted Depth for Front-to-Back\n    \n    // P goes 0 -> 1.\n    // Threshold sweeps from -0.2 to 1.2\n    float threshold = p * 1.4 - 0.2;\n    \n    // Smoothness determines how \"foggy\" the specific transition line is\n    float smoothness = 0.15;\n    \n    // Mix mask: 0 = Col0, 1 = Col1\n    // structure > threshold ? \n    // If p=0, threshold=-0.2. structure (0..1) > -0.2. \n    // We want result to be Col0 (current).\n    // So if structure > threshold, return Col0?\n    // Let's use standard smoothstep logic.\n    // factor = smoothstep(threshold - soft, threshold + soft, structure)\n    // If p=0, threshold=-0.2. factor ~ 1.0. \n    // If p=1, threshold=1.2. factor ~ 0.0.\n    // So factor goes 1 -> 0.\n    \n    float mask = smoothstep(threshold - smoothness, threshold + smoothness, structure);\n    \n    // mix(Col1, Col0, mask) -> \n    // mask=1 (start) -> Col0. \n    // mask=0 (end) -> Col1.\n    \n    gl_FragColor = mix(col1, col0, mask);\n  }\n`;\n"
+    },
+    {
+      "name": "Scene.tsx",
+      "type": "registry:file",
+      "path": "Scene.tsx",
+      "target": "components/experiments/mountain-transition/Scene.tsx",
+      "content": "'use client';\n\nimport React, { useRef, useMemo, useEffect } from 'react';\nimport { useThree, useFrame } from '@react-three/fiber';\nimport { useTexture, useVideoTexture, shaderMaterial } from '@react-three/drei';\nimport * as THREE from 'three';\nimport gsap from 'gsap';\nimport { ScrollTrigger } from 'gsap/ScrollTrigger';\nimport { vertexShader, fragmentShader } from './shaders';\n\ngsap.registerPlugin(ScrollTrigger);\n\n// Create the Shader Material\nconst TransitionMaterial = shaderMaterial(\n    {\n        uProgress: 0,\n        uTime: 0,\n        uTex0: new THREE.Texture(),\n        uTex1: new THREE.Texture(),\n        uTex2: new THREE.Texture(),\n        uTex3: new THREE.Texture(),\n        uTex4: new THREE.Texture(),\n        uDepth: new THREE.Texture(),\n        uDisplacementStrength: 0.5,\n    },\n    vertexShader,\n    fragmentShader\n);\n\n// Fix: Proper type extension for R3F\nimport { extend } from '@react-three/fiber';\nimport { Texture } from 'three';\n\nextend({ TransitionMaterial });\n\n// Define the properties required by the shader\ntype TransitionMaterialProps = {\n    uProgress?: number;\n    uTime?: number;\n    uTex0?: Texture;\n    uTex1?: Texture;\n    uTex2?: Texture;\n    uTex3?: Texture;\n    uTex4?: Texture;\n    uDepth?: Texture;\n    uDisplacementStrength?: number;\n} & React.JSX.IntrinsicElements['shaderMaterial'];\n\ndeclare module '@react-three/fiber' {\n    interface ThreeElements {\n        transitionMaterial: TransitionMaterialProps;\n    }\n}\n\nconst ASSET_PATH = 'https://experiments.raztronaut.space/experiments/mountain-transition';\n\nexport default function Scene() {\n    const meshRef = useRef<THREE.Mesh>(null);\n    // Fix 'any' by typing the ref properly\n    const materialRef = useRef<THREE.ShaderMaterial & { uProgress: number; uTime: number }>(null);\n    const { viewport } = useThree();\n\n    // Load Assets\n    const tex0 = useVideoTexture(`${ASSET_PATH}/green.mp4`);\n    const tex1 = useVideoTexture(`${ASSET_PATH}/snowy.mp4`);\n    const tex2 = useVideoTexture(`${ASSET_PATH}/sunrise.mp4`);\n    const tex3 = useVideoTexture(`${ASSET_PATH}/painting.mp4`);\n    const tex4 = useVideoTexture(`${ASSET_PATH}/painting2.mp4`);\n\n    const depthTex = useTexture(`${ASSET_PATH}/depth-grayscale.png`);\n\n    const textures = useMemo(() => [tex0, tex1, tex2, tex3, tex4], [tex0, tex1, tex2, tex3, tex4]);\n\n    useEffect(() => {\n        textures.forEach(tex => {\n            const video = tex.image as HTMLVideoElement;\n            video.loop = true;\n            video.muted = true;\n            video.play();\n        });\n    }, [textures]);\n\n    useFrame((state) => {\n        if (materialRef.current) {\n            materialRef.current.uTime = state.clock.elapsedTime;\n        }\n    });\n\n    useEffect(() => {\n        const trigger = ScrollTrigger.create({\n            trigger: '#mountain-scroll-container',\n            start: 'top top',\n            end: 'bottom bottom',\n            scrub: 0.5,\n            snap: {\n                snapTo: 1 / 4,\n                duration: { min: 0.1, max: 0.5 }, // Faster snap\n                delay: 0.1, // Reduced delay for quicker response\n                ease: 'power1.inOut',\n            },\n            onUpdate: (self) => {\n                if (materialRef.current) {\n                    materialRef.current.uProgress = self.progress;\n                }\n            },\n        });\n\n        return () => {\n            trigger.kill();\n        };\n    }, []);\n\n    return (\n        <mesh ref={meshRef} position={[0, 0, 0]}>\n            <planeGeometry args={[viewport.width, viewport.height, 128, 128]} />\n            <transitionMaterial\n                ref={materialRef}\n                uTex0={tex0}\n                uTex1={tex1}\n                uTex2={tex2}\n                uTex3={tex3}\n                uTex4={tex4}\n                uDepth={depthTex}\n                uDisplacementStrength={0.6}\n                wireframe={false}\n            />\n        </mesh>\n    );\n}\n"
+    },
+    {
+      "name": "shaders.ts",
+      "type": "registry:file",
+      "path": "shaders.ts",
+      "target": "components/experiments/mountain-transition/shaders.ts",
+      "content": "// Simplex 2D noise & FBM\nconst noiseBenchmark = `\nvec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }\n\nfloat snoise(vec2 v){\n  const vec4 C = vec4(0.211324865405187, 0.366025403784439,\n           -0.577350269189626, 0.024390243902439);\n  vec2 i  = floor(v + dot(v, C.yy) );\n  vec2 x0 = v -   i + dot(i, C.xx);\n  vec2 i1;\n  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\n  vec4 x12 = x0.xyxy + C.xxzz;\n  x12.xy -= i1;\n  i = mod(i, 289.0);\n  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))\n  + i.x + vec3(0.0, i1.x, 1.0 ));\n  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\n  m = m*m ;\n  m = m*m ;\n  vec3 x = 2.0 * fract(p * C.www) - 1.0;\n  vec3 h = abs(x) - 0.5;\n  vec3 ox = floor(x + 0.5);\n  vec3 a0 = x - ox;\n  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\n  vec3 g;\n  g.x  = a0.x  * x0.x  + h.x  * x0.y;\n  g.yz = a0.yz * x12.xz + h.yz * x12.yw;\n  return 130.0 * dot(m, g);\n}\n\nfloat fbm(vec2 x) {\n    float v = 0.0;\n    float a = 0.5;\n    vec2 shift = vec2(100.0);\n    mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));\n    for (int i = 0; i < 4; ++i) { // 4 Octaves is enough for smooth mist\n        v += a * snoise(x);\n        x = rot * x * 2.0 + shift;\n        a *= 0.5;\n    }\n    return v;\n}\n`;\n\nexport const vertexShader = `\n  uniform sampler2D uDepth;\n  uniform float uDisplacementStrength;\n  uniform float uTime;\n  \n  varying vec2 vUv;\n  varying float vDepth;\n\n  void main() {\n    vUv = uv;\n    float depth = texture2D(uDepth, uv).r;\n    vDepth = depth;\n    vec3 pos = position;\n    // Moderate displacement for volume\n    pos.z += depth * uDisplacementStrength; \n    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);\n  }\n`;\n\nexport const fragmentShader = `\n  uniform float uProgress;\n  uniform sampler2D uTex0;\n  uniform sampler2D uTex1;\n  uniform sampler2D uTex2;\n  uniform sampler2D uTex3;\n  uniform sampler2D uTex4;\n  uniform sampler2D uDepth;\n  uniform float uTime;\n  \n  varying vec2 vUv;\n  varying float vDepth;\n  \n  ${noiseBenchmark}\n\n  vec4 getTexture(int index, vec2 uv) {\n    if (index == 0) return texture2D(uTex0, uv);\n    if (index == 1) return texture2D(uTex1, uv);\n    if (index == 2) return texture2D(uTex2, uv);\n    if (index == 3) return texture2D(uTex3, uv);\n    if (index == 4) return texture2D(uTex4, uv);\n    return texture2D(uTex0, uv);\n  }\n\n  void main() {\n    float totalScenes = 5.0;\n    float rawP = uProgress * (totalScenes - 1.0);\n    int index0 = int(floor(rawP));\n    int index1 = int(ceil(rawP));\n    float p = fract(rawP);\n    \n    vec4 col0 = getTexture(index0, vUv);\n    vec4 col1 = getTexture(index1, vUv);\n    \n    // --- CINEMATIC MIST TRANSITION ---\n    // Goal: A smooth, depth-aware blend.\n    // Logic: Transition map = Depth (dominant) + Noise (organic variation).\n    \n    // Soft, large scale noise\n    float noise = fbm(vUv * 3.0 + vec2(uTime * 0.05, 0.0)); \n    \n    // Combine Depth and Noise.\n    // User requested \"Front to Back\" transition.\n    // vDepth: 1.0 = Near, 0.0 = Far.\n    // We want Near to transition FIRST.\n    // Logic: Transition happens when structure < threshold (creates mask=0 -> Col1).\n    // As p increases, threshold increases (-0.2 -> 1.2).\n    // So distinct values of 'structure' will follow the threshold.\n    // Elements with LOW structure value will be caught by the threshold first.\n    // So we want Foreground (Near) to have LOW structure.\n    \n    float structure = (1.0 - vDepth) * 0.8 + noise * 0.2; // Inverted Depth for Front-to-Back\n    \n    // P goes 0 -> 1.\n    // Threshold sweeps from -0.2 to 1.2\n    float threshold = p * 1.4 - 0.2;\n    \n    // Smoothness determines how \"foggy\" the specific transition line is\n    float smoothness = 0.15;\n    \n    // Mix mask: 0 = Col0, 1 = Col1\n    // structure > threshold ? \n    // If p=0, threshold=-0.2. structure (0..1) > -0.2. \n    // We want result to be Col0 (current).\n    // So if structure > threshold, return Col0?\n    // Let's use standard smoothstep logic.\n    // factor = smoothstep(threshold - soft, threshold + soft, structure)\n    // If p=0, threshold=-0.2. factor ~ 1.0. \n    // If p=1, threshold=1.2. factor ~ 0.0.\n    // So factor goes 1 -> 0.\n    \n    float mask = smoothstep(threshold - smoothness, threshold + smoothness, structure);\n    \n    // mix(Col1, Col0, mask) -> \n    // mask=1 (start) -> Col0. \n    // mask=0 (end) -> Col1.\n    \n    gl_FragColor = mix(col1, col0, mask);\n  }\n`;\n"
+    },
+    {
+      "name": "shaders.ts",
+      "type": "registry:file",
+      "path": "shaders.ts",
+      "target": "components/experiments/mountain-transition/shaders.ts",
+      "content": "// Simplex 2D noise & FBM\nconst noiseBenchmark = `\nvec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }\n\nfloat snoise(vec2 v){\n  const vec4 C = vec4(0.211324865405187, 0.366025403784439,\n           -0.577350269189626, 0.024390243902439);\n  vec2 i  = floor(v + dot(v, C.yy) );\n  vec2 x0 = v -   i + dot(i, C.xx);\n  vec2 i1;\n  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\n  vec4 x12 = x0.xyxy + C.xxzz;\n  x12.xy -= i1;\n  i = mod(i, 289.0);\n  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))\n  + i.x + vec3(0.0, i1.x, 1.0 ));\n  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\n  m = m*m ;\n  m = m*m ;\n  vec3 x = 2.0 * fract(p * C.www) - 1.0;\n  vec3 h = abs(x) - 0.5;\n  vec3 ox = floor(x + 0.5);\n  vec3 a0 = x - ox;\n  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\n  vec3 g;\n  g.x  = a0.x  * x0.x  + h.x  * x0.y;\n  g.yz = a0.yz * x12.xz + h.yz * x12.yw;\n  return 130.0 * dot(m, g);\n}\n\nfloat fbm(vec2 x) {\n    float v = 0.0;\n    float a = 0.5;\n    vec2 shift = vec2(100.0);\n    mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));\n    for (int i = 0; i < 4; ++i) { // 4 Octaves is enough for smooth mist\n        v += a * snoise(x);\n        x = rot * x * 2.0 + shift;\n        a *= 0.5;\n    }\n    return v;\n}\n`;\n\nexport const vertexShader = `\n  uniform sampler2D uDepth;\n  uniform float uDisplacementStrength;\n  uniform float uTime;\n  \n  varying vec2 vUv;\n  varying float vDepth;\n\n  void main() {\n    vUv = uv;\n    float depth = texture2D(uDepth, uv).r;\n    vDepth = depth;\n    vec3 pos = position;\n    // Moderate displacement for volume\n    pos.z += depth * uDisplacementStrength; \n    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);\n  }\n`;\n\nexport const fragmentShader = `\n  uniform float uProgress;\n  uniform sampler2D uTex0;\n  uniform sampler2D uTex1;\n  uniform sampler2D uTex2;\n  uniform sampler2D uTex3;\n  uniform sampler2D uTex4;\n  uniform sampler2D uDepth;\n  uniform float uTime;\n  \n  varying vec2 vUv;\n  varying float vDepth;\n  \n  ${noiseBenchmark}\n\n  vec4 getTexture(int index, vec2 uv) {\n    if (index == 0) return texture2D(uTex0, uv);\n    if (index == 1) return texture2D(uTex1, uv);\n    if (index == 2) return texture2D(uTex2, uv);\n    if (index == 3) return texture2D(uTex3, uv);\n    if (index == 4) return texture2D(uTex4, uv);\n    return texture2D(uTex0, uv);\n  }\n\n  void main() {\n    float totalScenes = 5.0;\n    float rawP = uProgress * (totalScenes - 1.0);\n    int index0 = int(floor(rawP));\n    int index1 = int(ceil(rawP));\n    float p = fract(rawP);\n    \n    vec4 col0 = getTexture(index0, vUv);\n    vec4 col1 = getTexture(index1, vUv);\n    \n    // --- CINEMATIC MIST TRANSITION ---\n    // Goal: A smooth, depth-aware blend.\n    // Logic: Transition map = Depth (dominant) + Noise (organic variation).\n    \n    // Soft, large scale noise\n    float noise = fbm(vUv * 3.0 + vec2(uTime * 0.05, 0.0)); \n    \n    // Combine Depth and Noise.\n    // User requested \"Front to Back\" transition.\n    // vDepth: 1.0 = Near, 0.0 = Far.\n    // We want Near to transition FIRST.\n    // Logic: Transition happens when structure < threshold (creates mask=0 -> Col1).\n    // As p increases, threshold increases (-0.2 -> 1.2).\n    // So distinct values of 'structure' will follow the threshold.\n    // Elements with LOW structure value will be caught by the threshold first.\n    // So we want Foreground (Near) to have LOW structure.\n    \n    float structure = (1.0 - vDepth) * 0.8 + noise * 0.2; // Inverted Depth for Front-to-Back\n    \n    // P goes 0 -> 1.\n    // Threshold sweeps from -0.2 to 1.2\n    float threshold = p * 1.4 - 0.2;\n    \n    // Smoothness determines how \"foggy\" the specific transition line is\n    float smoothness = 0.15;\n    \n    // Mix mask: 0 = Col0, 1 = Col1\n    // structure > threshold ? \n    // If p=0, threshold=-0.2. structure (0..1) > -0.2. \n    // We want result to be Col0 (current).\n    // So if structure > threshold, return Col0?\n    // Let's use standard smoothstep logic.\n    // factor = smoothstep(threshold - soft, threshold + soft, structure)\n    // If p=0, threshold=-0.2. factor ~ 1.0. \n    // If p=1, threshold=1.2. factor ~ 0.0.\n    // So factor goes 1 -> 0.\n    \n    float mask = smoothstep(threshold - smoothness, threshold + smoothness, structure);\n    \n    // mix(Col1, Col0, mask) -> \n    // mask=1 (start) -> Col0. \n    // mask=0 (end) -> Col1.\n    \n    gl_FragColor = mix(col1, col0, mask);\n  }\n`;\n"
+    }
+  ]
+}

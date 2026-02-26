@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import ReplayGrid, { type ReplayGridHandle } from "./ReplayGrid";
@@ -39,8 +40,12 @@ function CameraRig() {
 // Inner scene that lives inside the Canvas
 function PreloaderScene({
     onComplete,
+    bgColor,
+    isDark
 }: {
     onComplete?: () => void;
+    bgColor: string;
+    isDark: boolean;
 }) {
     const gridRef = useRef<ReplayGridHandle>(null);
     const distortionRef = useRef<{
@@ -76,9 +81,9 @@ function PreloaderScene({
         <>
             <CameraRig />
             <React.Suspense fallback={null}>
-                <ReplayGrid ref={gridRef} />
+                <ReplayGrid ref={gridRef} bgColor={bgColor} isDark={isDark} />
             </React.Suspense>
-            <DistortionPass distortionRef={distortionRef} />
+            <DistortionPass distortionRef={distortionRef} isDark={isDark} />
         </>
     );
 }
@@ -88,13 +93,23 @@ interface ReplayPreloaderProps {
 }
 
 export default function ReplayPreloader({ onComplete }: ReplayPreloaderProps) {
+    const { resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === "dark";
+
+    // Dynamic values based on theme: original dark values vs new light values
+    const bgColor = isDark ? "#050508" : "#f7f7f9";
+    const lineGradient = isDark
+        ? "rgba(255,255,255,0.03)"
+        : "rgba(0,0,0,0.04)";
+
     return (
         <div
             style={{
                 position: "fixed",
                 inset: 0,
-                background: "#050508",
+                background: bgColor,
                 zIndex: 100,
+                transition: "background-color 0.5s ease"
             }}
         >
             {/* Subtle ambient grid lines in background */}
@@ -103,8 +118,8 @@ export default function ReplayPreloader({ onComplete }: ReplayPreloaderProps) {
                     position: "absolute",
                     inset: 0,
                     backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)
+            linear-gradient(${lineGradient} 1px, transparent 1px),
+            linear-gradient(90deg, ${lineGradient} 1px, transparent 1px)
           `,
                     backgroundSize: "40px 40px",
                     pointerEvents: "none",
@@ -120,14 +135,14 @@ export default function ReplayPreloader({ onComplete }: ReplayPreloaderProps) {
                 }}
                 gl={{
                     antialias: true,
-                    alpha: false,
+                    alpha: true,
                     powerPreference: "high-performance",
                 }}
                 dpr={[1, 2]}
                 style={{ position: "absolute", inset: 0 }}
             >
-                <color attach="background" args={["#050508"]} />
-                <PreloaderScene onComplete={onComplete} />
+                <color attach="background" args={[bgColor]} />
+                <PreloaderScene onComplete={onComplete} bgColor={bgColor} isDark={isDark} />
             </Canvas>
 
         </div>

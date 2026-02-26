@@ -1,4 +1,5 @@
 import "../experiments.css";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import experiment from "./experiment.json";
@@ -10,14 +11,14 @@ export const metadata = {
     title: experiment.title,
     description: experiment.description,
     url: `https://www.razisyed.cv/experiments/${experiment.slug}`,
-    images: [experiment.poster || experiment.image], 
+    images: [experiment.poster],
     videos: experiment.video ? [experiment.video] : [],
   },
   twitter: {
     card: 'summary_large_image',
     title: experiment.title,
     description: experiment.description,
-    images: [experiment.poster || experiment.image],
+    images: [experiment.poster],
   },
   alternates: {
     canonical: `https://www.razisyed.cv/experiments/${experiment.slug}`,
@@ -31,11 +32,18 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <UmamiScript />
-        <ExperimentBackButton />
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased font-canvas">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <UmamiScript />
+          <ExperimentBackButton />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

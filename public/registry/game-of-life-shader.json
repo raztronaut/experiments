@@ -1,0 +1,163 @@
+{
+  "name": "game-of-life-shader",
+  "type": "registry:ui",
+  "title": "Game of Life Shader",
+  "description": "An attempt to implement Conway's Game of Life with the logic defining the shader",
+  "dependencies": [
+    "@paper-design/shaders-react"
+  ],
+  "registryDependencies": [],
+  "tailwind": {
+    "config": {
+      "theme": {
+        "extend": {
+          "colors": {
+            "background": "hsl(var(--background))",
+            "foreground": "hsl(var(--foreground))",
+            "card": {
+              "DEFAULT": "hsl(var(--card))",
+              "foreground": "hsl(var(--card-foreground))"
+            },
+            "popover": {
+              "DEFAULT": "hsl(var(--popover))",
+              "foreground": "hsl(var(--popover-foreground))"
+            },
+            "primary": {
+              "DEFAULT": "hsl(var(--primary))",
+              "foreground": "hsl(var(--primary-foreground))"
+            },
+            "secondary": {
+              "DEFAULT": "hsl(var(--secondary))",
+              "foreground": "hsl(var(--secondary-foreground))"
+            },
+            "muted": {
+              "DEFAULT": "hsl(var(--muted))",
+              "foreground": "hsl(var(--muted-foreground))"
+            },
+            "accent": {
+              "DEFAULT": "hsl(var(--accent))",
+              "foreground": "hsl(var(--accent-foreground))"
+            },
+            "destructive": {
+              "DEFAULT": "hsl(var(--destructive))",
+              "foreground": "hsl(var(--destructive-foreground))"
+            },
+            "border": "hsl(var(--border))",
+            "input": "hsl(var(--input))",
+            "ring": "hsl(var(--ring))",
+            "chart": {
+              "1": "hsl(var(--chart-1))",
+              "2": "hsl(var(--chart-2))",
+              "3": "hsl(var(--chart-3))",
+              "4": "hsl(var(--chart-4))",
+              "5": "hsl(var(--chart-5))"
+            }
+          },
+          "borderRadius": {
+            "lg": "var(--radius)",
+            "md": "calc(var(--radius) - 2px)",
+            "sm": "calc(var(--radius) - 4px)"
+          },
+          "keyframes": {
+            "static-noise-fade": {
+              "0%": {
+                "opacity": "1"
+              },
+              "100%": {
+                "opacity": "0"
+              }
+            }
+          },
+          "animation": {
+            "static-noise": "static-noise-fade 0.8s ease-in-out forwards"
+          }
+        }
+      }
+    }
+  },
+  "cssVars": {
+    "light": {
+      "background": "35 50% 95.29%",
+      "foreground": "240 10% 3.9%",
+      "card": "35 50% 95.29%",
+      "card-foreground": "240 10% 3.9%",
+      "popover": "35 50% 95.29%",
+      "popover-foreground": "240 10% 3.9%",
+      "primary": "240 5.9% 10%",
+      "primary-foreground": "0 0% 98%",
+      "secondary": "35 30% 90%",
+      "secondary-foreground": "240 5.9% 10%",
+      "muted": "35 30% 90%",
+      "muted-foreground": "35 10% 45%",
+      "accent": "35 30% 90%",
+      "accent-foreground": "240 5.9% 10%",
+      "destructive": "0 84.2% 60.2%",
+      "destructive-foreground": "0 0% 98%",
+      "border": "35 25% 85%",
+      "input": "35 25% 85%",
+      "ring": "240 10% 3.9%",
+      "radius": "0.5rem",
+      "chart-1": "12 76% 61%",
+      "chart-2": "173 58% 39%",
+      "chart-3": "197 37% 24%",
+      "chart-4": "43 74% 66%",
+      "chart-5": "27 87% 67%"
+    },
+    "dark": {
+      "background": "240 8.25% 6.84%",
+      "foreground": "0 0% 98%",
+      "card": "240 8.25% 6.84%",
+      "card-foreground": "0 0% 98%",
+      "popover": "240 8.25% 6.84%",
+      "popover-foreground": "0 0% 98%",
+      "primary": "0 0% 98%",
+      "primary-foreground": "240 5.9% 10%",
+      "secondary": "240 3.7% 15.9%",
+      "secondary-foreground": "0 0% 98%",
+      "muted": "240 3.7% 15.9%",
+      "muted-foreground": "240 5% 64.9%",
+      "accent": "240 3.7% 15.9%",
+      "accent-foreground": "0 0% 98%",
+      "destructive": "0 62.8% 30.6%",
+      "destructive-foreground": "0 0% 98%",
+      "border": "240 3.7% 15.9%",
+      "input": "240 3.7% 15.9%",
+      "ring": "240 4.9% 83.9%",
+      "chart-1": "220 70% 50%",
+      "chart-2": "160 60% 45%",
+      "chart-3": "30 80% 55%",
+      "chart-4": "280 65% 60%",
+      "chart-5": "340 75% 55%"
+    }
+  },
+  "files": [
+    {
+      "name": "GameOfLifeShader.tsx",
+      "type": "registry:file",
+      "path": "GameOfLifeShader.tsx",
+      "target": "components/experiments/game-of-life-shader/GameOfLifeShader.tsx",
+      "content": "\"use client\";\n\nimport React from 'react';\n\nexport default function GameOfLifeShader() {\nreturn (\n<div className=\"flex flex-col items-center justify-center min-h-[400px] p-4 border border-dashed rounded-lg\">\n    <h1 className=\"text-2xl font-bold mb-2\">Game of Life Shader</h1>\n    <p className=\"text-muted-foreground\">Start building your experiment here.</p>\n</div>\n);\n}"
+    },
+    {
+      "name": "GradientBackground.tsx",
+      "type": "registry:file",
+      "path": "GradientBackground.tsx",
+      "target": "components/experiments/game-of-life-shader/GradientBackground.tsx",
+      "content": "\"use client\"\n\nimport { GrainGradient } from \"@paper-design/shaders-react\"\n\n/**\n * GradientBackground Component\n * \n * This component renders the underlying \"Energy Field\" for our Game of Life simulation.\n * It uses a WebGL fragment shader (GrainGradient) to create a high-quality, noisy, \n * shifting color landscape.\n * \n * THE VISUAL STACK:\n * 1. Bottom Layer: Only this GradientBackground. It fills the screen with color.\n * 2. Top Layer: The LifeSimulation canvas.\n * \n * The LifeSimulation canvas is mostly Opaque Black. It has small transparent \"holes\"\n * where the cells are alive. These holes reveal THIS gradient component underneath.\n * This creates the illusion that the cells are glowing with these colors.\n */\nexport function GradientBackground() {\n    return (\n        <div className=\"absolute inset-0\">\n            <GrainGradient\n                style={{ height: \"100%\", width: \"100%\" }}\n                colorBack=\"hsla(0, 0%, 0%, 1.00)\" // Deep black base\n\n                // Shader Parameters tuned for \"Living\" feel:\n                softness={0.5}   // Harder edges than default for more defined \"blobs\"\n                intensity={1.2}  // High intensity to punch through the small cell windows\n                noise={0.1}      // Subtle grain texture\n\n                // Motion parameters\n                speed={3}        // Fast movement so the colors shift noticeably under stationary cells\n\n                // The \"Plasma\" Palette\n                colors={[\n                    \"hsl(14, 100%, 57%)\",  // Vibrant Orange\n                    \"hsl(45, 100%, 51%)\",  // Golden Yellow\n                    \"hsl(340, 82%, 52%)\"   // Deep Pink/Magenta\n                ]}\n\n                // Unused parameters set to defaults\n                shape=\"corners\"\n                offsetX={0}\n                offsetY={0}\n                scale={1}\n                rotation={0}\n            />\n        </div>\n    )\n}\n"
+    },
+    {
+      "name": "LifeSimulation.tsx",
+      "type": "registry:file",
+      "path": "LifeSimulation.tsx",
+      "target": "components/experiments/game-of-life-shader/LifeSimulation.tsx",
+      "content": "\"use client\";\n\nimport React, { useEffect, useRef, useState } from 'react';\nimport { cn } from '@/lib/utils';\n\ninterface LifeSimulationProps {\n    className?: string;\n}\n\n/**\n * CELL_SIZE defines the resolution of our \"pixel art\" simulation.\n * 8px gives a chunky, retro feel while being performant enough for large screens.\n * Smaller values (e.g., 4) would be sharper but more CPU intensive.\n */\nconst CELL_SIZE = 8;\n\n/**\n * LifeSimulation Component\n * \n * This component renders the Game of Life simulation on top of the Gradient background.\n * \n * VISUAL TECHNIQUE: \"Inverse Masking\"\n * -----------------------------------\n * instead of drawing the cells as colored squares, we treat this canvas as a \"Mask\".\n * 1. The Canvas covers the entire screen.\n * 2. We fill the Canvas with OPAQUE BLACK. This hides the colorful gradient behind it.\n * 3. Where a cell is ALIVE, we clear the black pixel (make it TRANSPARENT).\n * 4. This reveals the gradient *through* the living cell window.\n * \n * This guarantees that the cells always perfectly match the complex, shifting colors\n * of the underlying shader, because they technically ARE the shader.\n */\nexport function LifeSimulation({ className }: LifeSimulationProps) {\n    const canvasRef = useRef<HTMLCanvasElement>(null);\n    const containerRef = useRef<HTMLDivElement>(null);\n    const workerRef = useRef<Worker>(null);\n\n    // We store the calculated grid resolution here (Screen Size / CELL_SIZE)\n    const [resolution, setResolution] = useState({ w: 0, h: 0 });\n\n    /**\n     * WORKER INITIALIZATION\n     * We use a Web Worker to run the heavy simulation loop off the main thread.\n     * This ensures the UI remains buttery smooth (60fps) even if the math gets heavy.\n     */\n    useEffect(() => {\n        // Initialize the dedicated simulation worker\n        workerRef.current = new Worker(new URL('./simulation.worker.ts', import.meta.url));\n\n        const handleResize = () => {\n            if (!containerRef.current) return;\n            const { clientWidth, clientHeight } = containerRef.current;\n\n            // Calculate how many cells fit on screen\n            const w = Math.ceil(clientWidth / CELL_SIZE);\n            const h = Math.ceil(clientHeight / CELL_SIZE);\n\n            setResolution({ w, h });\n\n            // Tell the worker to resize its grid\n            workerRef.current?.postMessage({\n                type: 'INIT',\n                width: w,\n                height: h\n            });\n        };\n\n        window.addEventListener('resize', handleResize);\n        handleResize(); // Initial setup\n\n        return () => {\n            window.removeEventListener('resize', handleResize);\n            workerRef.current?.terminate();\n        };\n    }, []);\n\n    /**\n     * RENDER LOOP\n     * This loop receives grid data from the worker and paints it to the canvas.\n     */\n    useEffect(() => {\n        if (!canvasRef.current || !workerRef.current || resolution.w === 0) return;\n\n        const canvas = canvasRef.current;\n        // Optimization: explicit alpha: true is default, but good to be explicit for our masking trick\n        const ctx = canvas.getContext('2d', { alpha: true });\n        if (!ctx) return;\n\n        // Set internal canvas resolution to match the simulation grid (e.g., 200x100)\n        // CSS will scale this up to cover the full 1920x1080 screen\n        canvas.width = resolution.w;\n        canvas.height = resolution.h;\n\n        // CRITICAL: Disable anti-aliasing to keep the pixels crisp and square\n        ctx.imageSmoothingEnabled = false;\n\n        let animateId: number;\n        let lastGrid: Uint8Array | null = null;\n\n        // Listen for updates from the Worker\n        workerRef.current.onmessage = (e) => {\n            if (e.data.type === 'UPDATE') {\n                // We just store the grid reference; we don't draw immediately.\n                // We draw in the requestAnimationFrame loop to stay synced with screen refresh.\n                lastGrid = e.data.grid;\n            }\n        };\n\n        const render = () => {\n            // 1. Kick off the math for the *next* frame immediately\n            workerRef.current?.postMessage({ type: 'TICK' });\n\n            // 2. Draw the *current* frame if we have data\n            if (lastGrid && ctx) {\n                // Create a buffer to write pixel data directly (fastest method in JS)\n                const imgData = ctx.createImageData(resolution.w, resolution.h);\n                const data = imgData.data;\n\n                for (let i = 0; i < lastGrid.length; i++) {\n                    const stride = i * 4;\n                    const val = lastGrid[i]; // Value is 0 (Dead) to 255 (Alive)\n\n                    /**\n                     * PIXEL SHADER LOGIC (The \"Inverse Mask\")\n                     * \n                     * We calculate Alpha (Transparency) based on the cell's \"Life Value\".\n                     * \n                     * - If val is 0 (Absolute Death), alpha is high. The pixel is black. Hides gradient.\n                     * - If val is 255 (Full Life), alpha is 0. The pixel is transparent. Reveals gradient.\n                     * - If val is 100 (Dying/Trailing), alpha is partial. Creates a dimming effect.\n                     * \n                     * The `0.5` factor means the \"Darkness\" is only 50% opaque max.\n                     * This allows the gradient to faintly shine through even the dead areas,\n                     * creating a unified atmospheric glow rather than pitch black void.\n                     */\n                    const alpha = (255 - val) * 0.5;\n\n                    data[stride] = 0;       // R (Black)\n                    data[stride + 1] = 0;   // G (Black)\n                    data[stride + 2] = 0;   // B (Black)\n                    data[stride + 3] = alpha; // A (Opacity)\n                }\n\n                ctx.putImageData(imgData, 0, 0);\n            }\n\n            animateId = requestAnimationFrame(render);\n        };\n\n        render();\n\n        return () => {\n            cancelAnimationFrame(animateId);\n        };\n    }, [resolution]);\n\n    // INTERACTION HANDLERS //////////////////////////////////////////////////\n\n    // Draw life when mouse moves\n    const handlePointerMove = (e: React.PointerEvent) => {\n        if (!containerRef.current || !workerRef.current) return;\n\n        const rect = containerRef.current.getBoundingClientRect();\n        // Convert screen coordinates to grid coordinates\n        const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);\n        const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);\n\n        workerRef.current.postMessage({\n            type: 'SPLAT',\n            x,\n            y,\n            radius: 3 // Brush size\n        });\n    };\n\n    // Reset on click\n    const handlePointerDown = () => {\n        workerRef.current?.postMessage({ type: 'RESET' });\n    };\n\n    return (\n        <div\n            ref={containerRef}\n            className={cn(\"absolute inset-0 z-0\", className)}\n            onPointerMove={handlePointerMove}\n            onPointerDown={handlePointerDown}\n            // `pointerEvents: auto` enables the mouse interactions on this layer\n            // `touchAction: none` prevents scrolling on mobile while painting life\n            style={{ touchAction: 'none', pointerEvents: 'auto' }}\n        >\n            <canvas\n                ref={canvasRef}\n                className=\"w-full h-full block rendering-pixelated\"\n                style={{\n                    // Use 'normal' blending because we are manually handling the transparency\n                    // in the pixel loop above.\n                    mixBlendMode: 'normal',\n                    // CSS property to keep the pixels chunky when scaled up\n                    imageRendering: 'pixelated'\n                }}\n            />\n        </div>\n    );\n}\n"
+    },
+    {
+      "name": "simulation.worker.ts",
+      "type": "registry:file",
+      "path": "simulation.worker.ts",
+      "target": "components/experiments/game-of-life-shader/simulation.worker.ts",
+      "content": "export { };\n\n/**\n * SIMULATION WORKER\n * -----------------\n * This Web Worker handles the mathematical core of the Game of Life.\n * \n * By running in a worker, we decouple the simulation tick rate from the main UI thread.\n * Even if the simulation becomes computationally heavy (e.g. valid large grids), the\n * user's scrolling and browser responsiveness remain unaffected.\n */\n\n// Cell States\nconst ALIVE = 255; // A fully alive cell value\nconst DEAD = 0;    // A fully dead cell value\n\n/**\n * DECAY_RATE determines the length of the \"Ghost Trails\".\n * \n * In standard Conway's Game of Life, cells die instantly (1 -> 0).\n * Here, we use values 0-255. When a cell dies, we don't set it to 0,\n * we subtract this rate.\n * \n * Value 5 means trails last ~50 frames (255/5), which is nearly 1 second at 60fps.\n * This creates the smooth, comet-like tail effect behind gliders.\n */\nconst DECAY_RATE = 5;\n\n// Message Types for Type Safety\ntype WorkerMessage =\n    | { type: 'INIT', width: number, height: number }\n    | { type: 'TICK' }\n    | { type: 'SPLAT', x: number, y: number, radius: number }\n    | { type: 'RESET' };\n\n// Internal State\n// We use Uint8Array for maximum memory efficiency and cache locality.\n// It is significantly faster than standard JS arrays of objects.\nlet grid: Uint8Array;     // The current state of the universe\nlet nextGrid: Uint8Array; // The \"write buffer\" for the next frame\nlet width: number = 0;\nlet height: number = 0;\n\n/**\n * Initialize the grid memory buffers.\n */\nfunction initGrid(w: number, h: number) {\n    width = w;\n    height = h;\n    // We add +2 padding to the size (though simplified logic below doesn't use it yet)\n    // to potentially allow for easier boundary checking optimizations in future.\n    const size = (width + 2) * (height + 2);\n    grid = new Uint8Array(size);\n    nextGrid = new Uint8Array(size);\n\n    randomize();\n}\n\n/**\n * Seed the universe with random chaos.\n */\nfunction randomize() {\n    for (let i = 0; i < grid.length; i++) {\n        // 15% chance of a cell starting ALIVE\n        grid[i] = Math.random() > 0.85 ? ALIVE : DEAD;\n    }\n}\n\n/**\n * THE MAIN SIMULATION LOOP (TICK)\n * -------------------------------\n * This function computes the Next Generation of the universe based on Conway's 4 Rules.\n */\nfunction tick() {\n    if (!grid || !width) return;\n\n    const wReal = width;\n    const hReal = height;\n\n    // Optimized Loop traversing y then x for memory locality\n    for (let y = 0; y < hReal; y++) {\n        // COORDINATE WRAPPING (Toroidal Geometry)\n        // We simulate a universe that wraps around edges (Pac-Man style).\n        // If you exit the right side, you enter the left. \n        // This preserves \"energy\" inside the system longer than hard walls.\n\n        // Pre-calculating row offsets helps performance inside the inner loop\n        const yUp = ((y - 1 + hReal) % hReal) * wReal;\n        const ySame = y * wReal;\n        const yDown = ((y + 1) % hReal) * wReal;\n\n        for (let x = 0; x < wReal; x++) {\n            const xLeft = (x - 1 + wReal) % wReal;\n            const xRight = (x + 1) % wReal;\n\n            // Count Living Neighbors (Moore Neighborhood)\n            // Checks all 8 surrounding cells:\n            // TL T TR\n            //  L . R\n            // BL B BR\n            let neighbors = 0;\n\n            // Top Row\n            if (grid[yUp + xLeft] === ALIVE) neighbors++;\n            if (grid[yUp + x] === ALIVE) neighbors++;\n            if (grid[yUp + xRight] === ALIVE) neighbors++;\n\n            // Middle Row (Left/Right)\n            if (grid[ySame + xLeft] === ALIVE) neighbors++;\n            if (grid[ySame + xRight] === ALIVE) neighbors++;\n\n            // Bottom Row\n            if (grid[yDown + xLeft] === ALIVE) neighbors++;\n            if (grid[yDown + x] === ALIVE) neighbors++;\n            if (grid[yDown + xRight] === ALIVE) neighbors++;\n\n            const selfIndex = ySame + x;\n            const selfVal = grid[selfIndex];\n\n            // APPLY RULES:\n            // 1. Survival: A live cell with 2 or 3 neighbors lives on.\n            // 2. Birth: A dead cell with exactly 3 neighbors becomes alive.\n            // 3. Death: Overpopulation (>3) or Loneliness (<2) kills the cell.\n            // 4. Decay: (Custom Rule) Dead/Dying cells fade out slowly.\n\n            if (selfVal === ALIVE) {\n                if (neighbors === 2 || neighbors === 3) {\n                    nextGrid[selfIndex] = ALIVE;\n                } else {\n                    // Rule 3: Death (start decaying)\n                    nextGrid[selfIndex] = Math.max(0, selfVal - DECAY_RATE);\n                }\n            } else {\n                if (neighbors === 3) {\n                    // Rule 2: Birth\n                    nextGrid[selfIndex] = ALIVE;\n                } else {\n                    // Rule 4: Continue decaying if not fully dead\n                    nextGrid[selfIndex] = Math.max(0, selfVal - DECAY_RATE);\n                }\n            }\n        }\n    }\n\n    // \"Double Buffering\": Swap the arrays.\n    // `nextGrid` becomes the current `grid` for the next frame.\n    // `grid` becomes the scratchpad for the next calculation.\n    // This is much faster than creating a new array every frame.\n    const temp = grid;\n    grid = nextGrid;\n    nextGrid = temp;\n\n    // Send the calculated frame back to the Main Thread/UI for rendering\n    self.postMessage({ type: 'UPDATE', grid });\n}\n\n\n/**\n * INTERACTION: SPLAT\n * Adds a splash of life at a specific coordinate (e.g., mouse cursor).\n */\nfunction splat(centerX: number, centerY: number, radius: number) {\n    if (!grid) return;\n\n    // Add random life in a circular area\n    const r2 = radius * radius;\n\n    for (let y = -radius; y <= radius; y++) {\n        for (let x = -radius; x <= radius; x++) {\n            // Circle distance check\n            if (x * x + y * y <= r2) {\n                // Wrap coordinates logic\n                const tX = (centerX + x + width) % width;\n                const tY = (centerY + y + height) % height;\n\n                // 50% chance to add life per pixel in the brush\n                if (Math.random() > 0.5) {\n                    grid[tY * width + tX] = ALIVE;\n                }\n            }\n        }\n    }\n}\n\n// Global Event Listener for messages from the Main Thread\nself.onmessage = (e: MessageEvent<WorkerMessage>) => {\n    const { type } = e.data;\n\n    switch (type) {\n        case 'INIT':\n            initGrid(e.data.width, e.data.height);\n            break;\n        case 'TICK':\n            tick();\n            break;\n        case 'SPLAT':\n            splat(e.data.x, e.data.y, e.data.radius);\n            break;\n        case 'RESET':\n            randomize();\n            break;\n    }\n};\n"
+    }
+  ]
+}

@@ -18,6 +18,8 @@ const DistortionShader = {
         uChromaticAberration: { value: 0.002 },
         uTime: { value: 0.0 },
         uGlowIntensity: { value: 0.0 },
+        uBgColor: { value: new THREE.Color("#f7f7f9") },
+        uIsDark: { value: 0.0 },
     },
 
     vertexShader: /* glsl */ `
@@ -36,6 +38,8 @@ const DistortionShader = {
     uniform float uChromaticAberration;
     uniform float uTime;
     uniform float uGlowIntensity;
+    uniform vec3 uBgColor;
+    uniform float uIsDark;
     varying vec2 vUv;
 
     vec2 barrelDistortion(vec2 uv, float distortion) {
@@ -62,26 +66,39 @@ const DistortionShader = {
       // Mask out edge smearing caused by out-of-bounds UV sampling
       float maskX = step(0.0, distortedUv.x) * step(distortedUv.x, 1.0);
       float maskY = step(0.0, distortedUv.y) * step(distortedUv.y, 1.0);
-      color *= (maskX * maskY);
+      float mask = maskX * maskY;
+      
+      // Outside the rendered area, show the background color
+      color = mix(uBgColor, color, mask);
 
-      // Vignette effect (wider and softer)
+      // Vignette effect (wider and softer, dynamically darker for dark mode)
       vec2 shifted = 2.0 * (vUv - 0.5);
       float dist = length(shifted);
+      
+      float vignetteDarkness = mix(0.3, uVignetteDarkness, uIsDark);
       float vignette = smoothstep(
         1.6, // Start fading further out
         0.5, // fully visible in the center
-        dist * uVignetteDarkness
+        dist * vignetteDarkness
       );
-
-      color *= vignette;
 
       // Subtle scan-line overlay on the whole scene
       float globalScan = sin(vUv.y * 800.0) * 0.015 + 1.0;
-      color *= globalScan;
 
-      // Ambient glow from screens (bloom-like)
+      // Only apply vignette and scanlines to the "screen" areas, not the background wall.
+      // We can detect the wall by checking if the color is exactly our uBgColor.
+      float isWall = step(length(color - uBgColor), 0.01);
+      
+      color = mix(color * vignette * globalScan, color, isWall);
+
+      // Ambient glow from screens
       float glow = smoothstep(0.6, 0.0, dist) * uGlowIntensity;
-      color += vec3(0.02, 0.06, 0.12) * glow;
+      vec3 lightGlow = vec3(0.5, 0.6, 0.8) * 0.3;
+      vec3 darkGlow = vec3(0.02, 0.06, 0.12) * 1.0;
+      
+      // In light mode, mask the glow from the wall. In dark mode, let it bleed (original implementation feel).
+      float glowMask = mix(1.0 - isWall, 1.0, uIsDark);
+      color += mix(lightGlow, darkGlow, uIsDark) * glow * glowMask;
 
       // Slight film grain
       float grain = fract(sin(dot(vUv + fract(uTime), vec2(12.9898, 78.233))) * 43758.5453);
@@ -98,9 +115,10 @@ interface DistortionPassProps {
         setGlow: (value: number) => void;
         uniforms: Record<string, { value: number }>;
     } | null>;
+    isDark?: boolean;
 }
 
-export default function DistortionPass({ distortionRef }: DistortionPassProps) {
+export default function DistortionPass({ distortionRef, isDark = false }: DistortionPassProps) {
     const { gl, scene, camera, size } = useThree();
     const composerRef = useRef<EffectComposer | null>(null);
     const shaderPassRef = useRef<ShaderPass | null>(null);
@@ -133,6 +151,15 @@ export default function DistortionPass({ distortionRef }: DistortionPassProps) {
         composerRef.current = composer;
         shaderPassRef.current = shaderPass;
     }, [composer, shaderPass]);
+
+    // Handle theme updates
+    useEffect(() => {
+        if (shaderPassRef.current) {
+            shaderPassRef.current.uniforms.uIsDark.value = isDark ? 1.0 : 0.0;
+            const bgHex = isDark ? "#050508" : "#f7f7f9";
+            shaderPassRef.current.uniforms.uBgColor.value.set(bgHex);
+        }
+    }, [isDark]);
 
     // Expose control interface for GSAP
     useEffect(() => {

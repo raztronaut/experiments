@@ -21,6 +21,8 @@ const fragmentShader = /* glsl */ `
   uniform sampler2D uTexture;
   uniform float uHasTexture;
   uniform float uBrightness;
+  uniform vec3 uBgColor;
+  uniform float uIsDark;
   varying vec2 vUv;
 
   // Simple pseudo-random
@@ -30,33 +32,42 @@ const fragmentShader = /* glsl */ `
 
   void main() {
     if (uIsLogo > 0.5) {
-      // Logo panel — render white logo on black screen
       if (uHasTexture > 0.5) {
         vec4 tex = texture2D(uTexture, vUv);
-        // Use texture alpha to mask white logo over black background
-        vec3 finalColor = mix(vec3(0.0), vec3(1.0), tex.a);
+        // Blend logo against the exact wall color
+        
+        vec3 lightLogo = vec3(0.12, 0.14, 0.18);
+        vec3 darkLogo = vec3(1.0);
+        vec3 darkWall = vec3(0.0);
+        
+        vec3 activeWall = mix(uBgColor, darkWall, uIsDark);
+        vec3 activeLogo = mix(lightLogo, darkLogo, uIsDark);
+
+        vec3 finalColor = mix(activeWall, activeLogo, tex.a);
         gl_FragColor = vec4(finalColor, uOpacity);
       } else {
-        // Simple basketball icon as fallback — circle with lines
+        // Fallback basketball logo
         vec2 center = vUv - 0.5;
         float dist = length(center);
         float circle = smoothstep(0.32, 0.30, dist) - smoothstep(0.28, 0.26, dist);
         float fill = smoothstep(0.28, 0.26, dist);
         
-        // Cross lines
         float lineH = smoothstep(0.012, 0.008, abs(center.y));
         float lineV = smoothstep(0.012, 0.008, abs(center.x));
         float arc1 = smoothstep(0.012, 0.008, abs(length(center - vec2(0.15, 0.0)) - 0.18));
         float arc2 = smoothstep(0.012, 0.008, abs(length(center - vec2(-0.15, 0.0)) - 0.18));
         
         float inner = fill * max(max(lineH, lineV), max(arc1, arc2));
-        float logo = max(circle, inner);
+        float logoMask = max(circle, inner);
         
-        vec3 col = vec3(1.0) * logo;
-        float bg = fill * 0.06;
-        col += bg;
-        
-        gl_FragColor = vec4(col, (logo + bg) * uOpacity);
+        vec3 lightLogo = vec3(0.12, 0.14, 0.18);
+        vec3 darkLogo = vec3(1.0);
+        vec3 darkWall = vec3(0.0);
+
+        vec3 activeWall = mix(uBgColor, darkWall, uIsDark);
+        vec3 activeLogo = mix(lightLogo, darkLogo, uIsDark);
+
+        gl_FragColor = vec4(mix(activeWall, activeLogo, logoMask), uOpacity);
       }
       return;
     }
@@ -74,8 +85,9 @@ const fragmentShader = /* glsl */ `
     float scanline = sin(vUv.y * 300.0 + uTime * 3.0) * 0.06;
     float scanline2 = sin(vUv.y * 100.0 - uTime * 1.5) * 0.03;
 
-    // Animated static noise
-    float noise = rand(vUv * 0.5 + fract(uTime * 0.7)) * 0.12;
+    // Animated static noise (reduced for a cleaner look)
+    float baseNoiseFactor = mix(0.08, 0.12, uIsDark);
+    float noise = rand(vUv * 0.5 + fract(uTime * 0.7)) * baseNoiseFactor;
 
     // Rolling bar (like a desynced CRT)
     float rollPos = fract(uTime * 0.15);
@@ -99,15 +111,17 @@ const fragmentShader = /* glsl */ `
     dotGrid = dotGrid * 0.03 + 1.0;
     finalColor *= dotGrid;
 
-    // Screen edge glow
+    // Screen edge glow (interpolated for mode)
     float edgeGlow = smoothstep(0.48, 0.5, max(abs(vUv.x - 0.5), abs(vUv.y - 0.5)));
-    finalColor += vec3(0.05, 0.12, 0.2) * edgeGlow * 0.5;
+    vec3 lightEdgeGlow = vec3(0.2, 0.25, 0.3);
+    vec3 darkEdgeGlow = vec3(0.05, 0.12, 0.2); // Original broadcast blue
+    finalColor += mix(lightEdgeGlow, darkEdgeGlow, uIsDark) * edgeGlow * 0.5;
 
     gl_FragColor = vec4(finalColor, uOpacity);
   }
 `;
 
-// Dark broadcast-tone palette
+// Dark broadcast-tone palette for screens
 const SCREEN_COLORS = [
   [0.08, 0.15, 0.25], // dark navy
   [0.12, 0.08, 0.18], // deep purple
@@ -133,6 +147,8 @@ interface ScreenPanelProps {
   timeOffset?: number;
   videoSrc?: string;
   imageSrc?: string;
+  bgColor?: string;
+  isDark?: boolean;
 }
 
 export default function ScreenPanel({
@@ -143,6 +159,8 @@ export default function ScreenPanel({
   timeOffset = 0,
   videoSrc,
   imageSrc,
+  bgColor = "#f7f7f9",
+  isDark = false,
 }: ScreenPanelProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
@@ -150,18 +168,32 @@ export default function ScreenPanel({
   const color = SCREEN_COLORS[colorIndex % SCREEN_COLORS.length];
 
   const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uOpacity: { value: 0 },
-      uColor: { value: new THREE.Vector3(color[0], color[1], color[2]) },
-      uIsLogo: { value: isLogo ? 1.0 : 0.0 },
-      uTexture: { value: new THREE.Texture() },
-      uHasTexture: { value: 0.0 },
-      uBrightness: { value: 1.0 },
-    }),
+    () => {
+      // Create a specific Color instance for the background so ThreeJS handles the exact color space conversion
+      const initialBg = new THREE.Color(bgColor);
+      return {
+        uTime: { value: 0 },
+        uOpacity: { value: 0 },
+        uColor: { value: new THREE.Vector3(color[0], color[1], color[2]) },
+        uIsLogo: { value: isLogo ? 1.0 : 0.0 },
+        uTexture: { value: new THREE.Texture() },
+        uHasTexture: { value: 0.0 },
+        uBrightness: { value: 1.0 },
+        uBgColor: { value: initialBg },
+        uIsDark: { value: isDark ? 1.0 : 0.0 },
+      };
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  // Update uniforms dynamically when theme changes
+  useEffect(() => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uBgColor.value.set(bgColor);
+      materialRef.current.uniforms.uIsDark.value = isDark ? 1.0 : 0.0;
+    }
+  }, [bgColor, isDark]);
 
   // Load textures manually to avoid hook conditional rendering
   useEffect(() => {
@@ -183,6 +215,7 @@ export default function ScreenPanel({
       materialRef.current.uniforms.uHasTexture.value = 1.0;
     } else if (imageSrc && isLogo) {
       const loader = new THREE.TextureLoader();
+      loader.setCrossOrigin("anonymous");
       loader.load(imageSrc, (texture) => {
         texture.colorSpace = THREE.SRGBColorSpace;
         texture.minFilter = THREE.LinearMipmapLinearFilter;

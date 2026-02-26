@@ -1,6 +1,6 @@
 {
   "title": "Basketball Replay Center",
-  "description": "A WebGL preloader animation recreating the aesthetic of a sports control room, featuring a curved grid of CRT screens displaying video clips.",
+  "description": "A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.",
   "slug": "basketball-replay-center",
   "created": "2026-02-20T17:04:36.701Z",
   "video": "/experiments/basketball-replay-center/preview.mp4",
