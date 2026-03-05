@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "gsap-react": {
+      "source": "bbeierle12/skill-mcp-claude",
+      "sourceType": "github",
+      "computedHash": "53dafcee0becafe2054bc12c3f5b129d05623c0ae16ca8e5f398629dbaf78a7b"
+    },
+    "gsap-scrolltrigger": {
+      "source": "bbeierle12/skill-mcp-claude",
+      "sourceType": "github",
+      "computedHash": "622b9720a79b2928a05b4066af62bb9d98f1878985e9f97aaa6249f0aaa70562"
+    },
+    "r3f-best-practices": {
+      "source": "emalorenzo/three-agent-skills",
+      "sourceType": "github",
+      "computedHash": "d15cf5c47c35125afb4bfb079c3da515a34152f9839985065270a85e6bf36fb5"
+    },
+    "r3f-fundamentals": {
+      "source": "bbeierle12/skill-mcp-claude",
+      "sourceType": "github",
+      "computedHash": "8513ecb7d4c447b1838abd3dc5d5ba3aa1605f31781d160838307963ff138240"
+    },
+    "threejs-3d-graphics": {
+      "source": "omer-metin/skills-for-antigravity",
+      "sourceType": "github",
+      "computedHash": "3ff01b0e46925f84d0d2a709f945c8205d30178dc87cac66bb6c26946b41d7e3"
+    },
+    "threejs-pro": {
+      "source": "404kidwiz/claude-supercode-skills",
+      "sourceType": "github",
+      "computedHash": "dd5bdbbae244e6f18c0367638efa5cd7e9fc9273cf7ad29ddcacf217c212de25"
+    }
+  }
+}
