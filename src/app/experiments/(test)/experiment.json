@@ -2,11 +2,12 @@
   "title": "Test",
   "description": "test",
   "slug": "test",
+  "profile": "blank",
   "created": "2025-01-01T00:00:00.000Z",
   "image": "/experiments/test/preview.gif",
   "isPlaceholder": true,
   "status": "shipped",
   "legacy": true,
-  "tags": [],
+  "tags": ["test"],
   "tech": []
 }

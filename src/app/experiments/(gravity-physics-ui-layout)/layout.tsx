@@ -1,7 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "OSX Cheetah UI with a surprise",
   description: "Find the hidden stupid feature!",
   openGraph: {
@@ -27,6 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <UmamiScript />
+        <ExperimentNav />
         {children}
       </body>
     </html>

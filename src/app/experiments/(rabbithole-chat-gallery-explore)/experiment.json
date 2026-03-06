@@ -2,11 +2,12 @@
   "title": "rabbithole.chat Gallery Explore",
   "description": "3D floating gallery shader as an experimental explore page",
   "slug": "rabbithole-chat-gallery-explore",
+  "profile": "r3f-shader",
   "created": "2026-01-09T07:50:46.767Z",
   "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4",
   "isPlaceholder": false,
   "status": "shipped",
   "legacy": true,
-  "tags": [],
-  "tech": []
+  "tags": ["3d", "shader", "gallery", "scroll"],
+  "tech": ["r3f", "three.js", "glsl"]
 }

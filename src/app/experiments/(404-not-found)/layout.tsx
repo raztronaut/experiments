@@ -1,8 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "404 Not Found",
   description:
     "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
@@ -31,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <UmamiScript />
-        <ExperimentBackButton />
+        <ExperimentNav />
         {children}
       </body>
     </html>

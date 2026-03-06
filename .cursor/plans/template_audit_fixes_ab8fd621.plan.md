@@ -1,40 +1,40 @@
 ---
-name: Template Audit Fixes
-overview: Fix 2 template bugs (motion/react import in interaction + dom-effect profiles) and 1 pre-existing flaky test (life-3d), then re-run Test 1 end-to-end with a proper manual verification pause.
+name: Template Audit Fixes (OBSOLETE)
+overview: "CANCELLED -- All todos superseded by the motion migration (motion_migration_+_legacy_cleanup plan). framer-motion was swapped for the motion package, making motion/react imports correct. All 16 legacy test files were deleted. Verification was completed in subsequent sessions."
 todos:
   - id: fix-interaction-template
     content: Change interaction/component.tsx.hbs import from motion/react to framer-motion
-    status: pending
+    status: cancelled
   - id: fix-dom-effect-template
     content: Change dom-effect/component.tsx.hbs import from motion/react to framer-motion
-    status: pending
+    status: cancelled
   - id: fix-flaky-test
     content: Fix life-3d Life_3d.test.tsx 'step updates the grid' to use deterministic setup
-    status: pending
+    status: cancelled
   - id: rerun-scaffold
     content: Re-scaffold magnetic-card with interaction profile
-    status: pending
+    status: cancelled
   - id: rerun-verify-files
     content: Verify all 9 artifacts created
-    status: pending
+    status: cancelled
   - id: rerun-verify-contents
     content: Verify experiment.json, layout.tsx, and MagneticCard.tsx contents
-    status: pending
+    status: cancelled
   - id: rerun-typecheck
     content: Run npm run typecheck -- must pass clean
-    status: pending
+    status: cancelled
   - id: rerun-tests
     content: Run npx vitest --run --project unit -- all tests must pass
-    status: pending
+    status: cancelled
   - id: rerun-validate-19
     content: Run validate-experiments.mjs -- 19 experiments
-    status: pending
+    status: cancelled
   - id: rerun-manual-pause
     content: "PAUSE: present manual checklist, wait for user to confirm before cleanup"
-    status: pending
+    status: cancelled
   - id: rerun-delete
     content: Delete magnetic-card and verify clean state (18 experiments)
-    status: pending
+    status: cancelled
 isProject: false
 ---
 

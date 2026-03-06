@@ -1,8 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "Keyboard Keys",
   description:
     "Interactive 3D keyboard keys with press animation and success/error animations",
@@ -32,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <UmamiScript />
-        <ExperimentBackButton />
+        <ExperimentNav articleSlug="keyboard-keys" />
         {children}
       </body>
     </html>

@@ -1,8 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "rabbithole.chat Gallery Explore",
   description: "3D floating gallery shader as an experimental explore page",
   openGraph: {
@@ -35,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }}
       >
         <UmamiScript />
-        <ExperimentBackButton />
+        <ExperimentNav />
         {children}
       </body>
     </html>

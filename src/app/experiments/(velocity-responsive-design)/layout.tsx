@@ -1,8 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "Velocity-Responsive Design",
   description:
     "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
@@ -32,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <UmamiScript />
-        <ExperimentBackButton />
+        <ExperimentNav />
         {children}
       </body>
     </html>

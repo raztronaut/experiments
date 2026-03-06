@@ -2,10 +2,11 @@
   "title": "Shader Landing",
   "description": "A random shader experiment",
   "slug": "shader-landing",
+  "profile": "r3f-shader",
   "created": "2025-12-02T00:00:00.000Z",
   "video": "/experiments/shader-landing/preview-shader-landing.mp4",
   "status": "shipped",
   "legacy": true,
-  "tags": [],
-  "tech": []
+  "tags": ["shader", "generative"],
+  "tech": ["three.js", "glsl"]
 }

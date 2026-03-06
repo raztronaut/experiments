@@ -1,8 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "Transit/Airport Split-Flap Display",
   description:
     "A split flap display for transit/airport systems with sound effects manually made with Web Audio API",
@@ -33,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <UmamiScript />
-        <ExperimentBackButton />
+        <ExperimentNav />
         {children}
       </body>
     </html>

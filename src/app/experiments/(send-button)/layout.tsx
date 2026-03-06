@@ -1,9 +1,10 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { ThemeProvider } from "@/components/experiments/send-button/ThemeProvider";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "Send-Button",
   description: "A cool animated send button animation",
   openGraph: {
@@ -30,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen antialiased">
         <UmamiScript />
-        <ExperimentBackButton />
+        <ExperimentNav articleSlug="send-button" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

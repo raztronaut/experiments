@@ -1,8 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "Mountain Depth Map Shader Transition",
   description:
     "A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape",
@@ -51,7 +52,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           type="application/ld+json"
         />
         <h1 className="sr-only">{metadata.title}</h1>
-        <ExperimentBackButton />
+        <ExperimentNav />
         {children}
       </body>
     </html>

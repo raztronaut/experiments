@@ -1,8 +1,9 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: "Game of Life Shader",
   description:
     "An attempt to implement Conway's Game of Life with the logic defining the shader",
@@ -32,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <UmamiScript />
-        <ExperimentBackButton />
+        <ExperimentNav />
         {children}
       </body>
     </html>

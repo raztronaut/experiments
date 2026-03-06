@@ -151,11 +151,18 @@ module.exports = (plop) => {
           return true;
         },
       },
+      {
+        type: "input",
+        name: "description",
+        message: "Article description (optional, press Enter to skip):",
+      },
     ],
     actions(answers) {
       const dashCase = plop.getHelper("dashCase");
       const slug = dashCase(answers.name);
       const routeBase = `src/app/experiments/(${slug})/${slug}`;
+      answers.createdDate = new Date().toISOString().split("T")[0];
+      answers.description = answers.description || "";
 
       return [
         {
