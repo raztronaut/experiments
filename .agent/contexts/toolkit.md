@@ -38,13 +38,15 @@ These are thin integration layers, not abstractions. Experiments import directly
 - `scripts/validate-experiments.mjs` -- Validates all experiment.json files (required fields, enum values, no duplicate slugs)
 
 ### Publishing Pipeline (`src/components/mdx/`, `src/components/ui/ArticleLayout.tsx`, `src/lib/articles.ts`)
-- `ArticleLayout` -- Two-column article layout with header, reading time, sticky TOC sidebar
-- `articleComponents` -- MDX component map for article rendering (headings, code blocks, tables, callouts, live demos)
-- `CodeBlock`, `Callout`, `LiveDemo`, `CodeStep`, `TableOfContents` -- Individual MDX components
+- `ArticleLayout` -- Sylph-style single-column article layout: small semibold title, `>` breadcrumb, prev/next nav. TOC commented out. No motion animations.
+- `articleComponents` -- Minimal MDX component map (CSS handles typography). Overrides: h2 (footnote filter), a (external links), pre (CodeBlock), code, blockquote, table, img.
+- `CodeBlock`, `Callout`, `LiveDemo`, `SandpackDemo`, `InteractiveWidget`, `CodeStep` -- Individual MDX components
+- `ExperimentNav` -- Unified floating nav: "Return to Experiments" + pathname-aware "View Article"/"View Experiment" toggle. Replaces old ExperimentBackButton + ExperimentArticleButton.
 - `getArticles()` -- Scans experiments for `article/content.mdx`, parses frontmatter with gray-matter
 - `next-mdx-remote/rsc` -- Renders MDX at build time with rehype-pretty-code, remark-gfm, rehype-slug
 - Dynamic OG route at `/api/og?title=...&tags=...` -- Edge runtime ImageResponse
-- Article plop generator: `npm run new:article` scaffolds article/ + docs/ directories
+- RSS feed at `/feed.xml` -- RSS 2.0 via `getArticles()`
+- Article plop generator: `npm run new:article` scaffolds article/ + docs/ directories (now prompts for description, auto-populates dates)
 
 ## Tier 2: Domain Libraries (import per-experiment)
 

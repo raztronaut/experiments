@@ -139,11 +139,10 @@ All agent config files are functional with zero forward dependencies:
 
 | Check | Result |
 |-------|--------|
-| `npx ultracite check` | 486 files, 0 errors |
+| `npx ultracite check` | 485 files, 0 errors |
 | `npm run typecheck` | Clean |
 | `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
 | `node scripts/validate-experiments.mjs` | 18 experiments valid |
-| `npm run build` | Success, 28 routes, 3 article routes |
 | Test 1: scaffold + verify + delete (interaction) | All 13 checks PASS |
 
 Full test results: `.agent/running-findings.md`
@@ -156,70 +155,47 @@ Full test results: `.agent/running-findings.md`
 |------|--------|-------|
 | Lighthouse CI | Not started | Needs deployed preview URL; add as separate GitHub Actions workflow |
 | Package extraction | Documented | Process described in publish-experiment workflow, not automated |
-| RSS/Atom feed | Infrastructure ready | `getArticles()` + gray-matter built, just needs feed route |
 | Social asset generation | Foundation built | OG API route is the base for cards/images |
 | `next-view-transitions` | Not needed yet | For same-document transitions in `(main)` route group |
 | Registry V2 | Not started | Interactive docs pages with live demos |
 | MCP capture server | Not started | Full MCP tool (currently CLI script) |
-| Storybook browser tests in CI | Not started | Needs Playwright browser setup |
-| Tag/tech backfill | Not started | 18 legacy experiments have empty `tags`/`tech` arrays (status/legacy already backfilled) |
 | Article-aware homepage section | Not started | Dedicated "Writing" section using `getArticles()` (discovery via badges/drawer already works) |
 | Content dashboard | Not started | Overview of which experiments have which content formats |
+| Legacy layout migration | Partial | 15/17 layouts hardcode metadata instead of reading experiment.json. send-button and keyboard-keys hardcode `articleSlug` instead of deriving from `content?.article`. Should match plop template pattern. |
+| Validator enhancements | Not started | Cross-check `content.article` vs. `article/content.mdx` on disk; warn on layouts missing experiment.json import |
+
+### Completed P3 Items
+
+| What | Status | Notes |
+|------|--------|-------|
 | `framer-motion` -> `motion/react` migration | **DONE** | Swapped `framer-motion` package for `motion`, all 24 source files migrated to `motion/react` imports |
 | `@codesandbox/sandpack-react` | **Installed** | Interactive in-browser code playgrounds for MDX articles, used via SandpackDemo + InteractiveWidget components |
+| RSS/Atom feed | **DONE** | `src/app/feed.xml/route.ts` -- serves RSS 2.0 feed via `getArticles()` |
+| Tag/tech backfill | **DONE** | All 18 experiments have populated `tags` and `tech` arrays |
+| Profile backfill | **DONE** | All 18 experiments have `profile` field based on their tech stack |
+| metadataBase backfill | **DONE** | All 18 experiment layouts have `metadataBase: new URL("https://www.razisyed.cv")` |
+| ExperimentNav migration | **DONE** | All 18 layouts use unified `ExperimentNav`. Old `ExperimentBackButton` + `ExperimentArticleButton` deleted. |
+| Plopfile article vars | **DONE** | Article generator now prompts for `description` and auto-populates `createdDate` in frontmatter |
 
 ---
 
-## Uncommitted Changes
+## Git History
 
-There are extensive uncommitted changes on disk from the V2 quality gap fix pass + test suite session. The next step is a cleanup commit. Key changes include:
+All V2 work is committed. Two commits on `main`:
 
-**Previous (V2 quality gap fix)**:
-- `.agents/` directory fully removed (79 files git rm'd)
-- `eslint.config.mjs` removed
-- `.agent/rules/new-experiment-process-and-rules.md` removed
-- V1 orphan plop templates removed
-- `shared-tokens.css` created, both CSS entry points updated
-- Sylph article typography ported to `experiments.css`
-- `ArticleLayout.tsx` rewritten (breadcrumb, mobile TOC, prev/next, staggered animations)
-- `CodeBlock.tsx` updated (theme-aware, no hardcoded bg)
-- `TableOfContents.tsx` updated (data-highlight pattern)
-- Article discovery wired (GridCard, ListItem, PreviewDrawer, sitemap)
-- keyboard-keys article + full docs constellation created
-- `next.config.ts` hardened (ignoreBuildErrors removed)
-- `validate-experiments.mjs` tightened (tags, tech, created, content validation)
-- Plop templates updated (node: imports, dual-theme, metadataBase, prev/next)
+**`735a7ac` -- `feat: v2 platform overhaul`** (686 files changed)
+- Complete V2 implementation: AI config, creative toolkit, visual feedback bridge, experiment architecture, content publishing pipeline, quality infrastructure
+- framer-motion -> motion migration, Biome/Ultracite migration, 3 published articles
+- All agent config files, plop templates, CI, pre-commit hooks
 
-**Article platform upgrade**:
-- ArticleLayout rewritten to match Sylph (removed hero header, tags/tech, motion animations)
-- Sandpack installed, SandpackDemo + InteractiveWidget MDX components created
-- ExperimentArticleButton component added to experiment layouts
-- Homepage tag filters removed
-- Writing voice expanded with Maxime Heckel reference and interactive element guidance
-- h2/h3 CSS readability fix in experiments.css
-- Plop templates updated (article page.tsx.hbs Biome compliance, route-layout.tsx.hbs article button)
-
-**This session (article system debug + quality polish)**:
-- `articleComponents` MDX map stripped to match Sylph: removed h1/h3/p/ul/ol overrides that were fighting CSS typography rules. CSS handles all typography now.
-- ArticleLayout rewritten: TOC commented out, single-column `max-w-3xl`, no motion animations
-- `ExperimentNav` component created: unified nav replacing separate ExperimentBackButton + ExperimentArticleButton. Flex container, pathname-aware (swaps "View Article"/"View Experiment" based on route). Used in basketball-replay-center layout + plop template.
-- `CodeBlock` fixed: changed outer wrapper from `<figure>` to `<div>` to prevent double-border from rehype-pretty-code's own `<figure>` wrapper
-- Homepage tag filters removed from ExperimentFilters + ExperimentDrawerList
-- Writing voice expanded: Maxime Heckel reference, **progressive demo pattern** (one interactive widget per major technique, each building on the last), SandpackDemo/InteractiveWidget/LiveDemo usage patterns
-- Publish workflow rewritten: step 6 is now "plan interactive demos BEFORE writing content" with progressive layering pattern. Documents component wiring (import in page.tsx, merge into components prop, NOT MDX import).
-- Plop article templates improved: content.mdx.hbs has progressive demo structure guide + wiring instructions, components.tsx.hbs documents the progressive demo pattern with concrete examples, page.tsx.hbs documents the next-mdx-remote component wiring pattern
-- Basketball-replay-center content regenerated: article has CRTEffectDemo + BarrelDistortionDemo interactive widgets with parameter sliders, wired through page.tsx
-- Critical bug found + fixed: next-mdx-remote does NOT support MDX import statements — article-specific components must be imported in page.tsx and passed via the components prop
-
-**Previous session (test suite + migration)**:
-- `framer-motion` -> `motion` package swap (package.json, package-lock.json)
-- 24 source files migrated from `framer-motion` to `motion/react` imports
-- 11 import-ordering fixes for Biome compliance post-migration
-- 16 legacy experiment test files deleted
-- 14 plop templates rewritten for Biome-clean output (sorted imports, sorted Tailwind classes, sorted JSX attributes, double quotes, proper indentation)
-- `plopfile.js` updated (experiment.json trailing newline)
-- AGENTS.md, toolkit.md, STATUS.md, README.md updated for `motion/react`
-- `.agent/running-findings.md` created (test results documentation)
+**`8ebaad1` -- `refactor: v2 cleanup -- unified nav, metadata backfills, RSS feed`** (42 files changed)
+- All 18 layouts migrated to unified ExperimentNav (old buttons deleted)
+- metadataBase backfilled on all 17 legacy layouts
+- profile field added to all 18 experiment.json files
+- tags/tech arrays populated on all 18 experiments
+- RSS feed at /feed.xml
+- Plopfile article generator: createdDate + description prompt
+- template_audit_fixes plan cancelled (superseded by motion migration)
 
 ---
 

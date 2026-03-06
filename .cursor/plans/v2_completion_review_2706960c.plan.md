@@ -31,7 +31,7 @@ todos:
     status: completed
   - id: rss-feed-route
     content: "P3: Create RSS/Atom feed route using existing getArticles() infrastructure."
-    status: in_progress
+    status: completed
 isProject: false
 ---
 

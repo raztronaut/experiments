@@ -246,3 +246,56 @@ Documented in: writing-voice.md, publish-experiment.md, content.mdx.hbs, compone
 | `npx ultracite check` | 486 files, 0 errors |
 | `validate-experiments.mjs` | 18 experiments valid |
 | `npm run build` | Success, 3 article routes, basketball-replay-center has CRTEffectDemo + BarrelDistortionDemo |
+
+---
+
+## V2 Completion Review + Cleanup (2026-03-06)
+
+Audited all 13 V2 plan files, cross-referenced against on-disk state, then executed all remaining work.
+
+### Plan Audit Results
+
+| Plan | Todos | Status |
+|------|-------|--------|
+| experiments_platform_v2 (master) | 15/15 | Completed |
+| ai_coding_config_overhaul | 8/8 | Completed |
+| creative_toolkit_foundation | 9/9 | Completed |
+| p1_visual_and_templates | 8/8 | Completed |
+| p2_publishing_ci_transitions | 10/10 | Completed |
+| biome_ultracite_migration | 7/7 | Completed |
+| v2_platform_full_audit | 8/8 | Completed |
+| v2_quality_gap_fix | 7/7 | Completed |
+| motion_migration_+_legacy_cleanup | 11/11 | Completed |
+| status_update_+_test_guide | 2/2 | Completed |
+| article_platform_upgrade | 9/9 | Completed |
+| v2_content_pipeline_audit | 3/5 remaining | 3 fixed, 2 were already resolved |
+| template_audit_fixes | 0/11 | All cancelled (obsolete -- superseded by motion migration) |
+
+### Changes Made
+
+| Change | Files | Detail |
+|--------|-------|--------|
+| **Initial V2 commit** | 686 | All V2 work committed to git for the first time (was all on disk with no safety net) |
+| **ExperimentNav migration** | 18 layouts + 2 deleted | All 18 layouts switched to unified `ExperimentNav`. `ExperimentBackButton.tsx` and `ExperimentArticleButton.tsx` deleted (dead code). |
+| **metadataBase backfill** | 17 layouts | Added `metadataBase: new URL("https://www.razisyed.cv")` to all legacy layouts |
+| **Profile backfill** | 18 experiment.json | Classified and added `profile` field: r3f-shader (7), interaction (4), dom-effect (2), blank (2), r3f-scene (1), scrollytelling (1), web-audio (1) |
+| **Tags/tech backfill** | 17 experiment.json | Populated based on component source analysis (basketball-replay-center already had them) |
+| **RSS feed** | 1 new file | `src/app/feed.xml/route.ts` -- RSS 2.0 via `getArticles()` |
+| **Plopfile article generator** | 2 files | Added `createdDate` computed property + optional `description` prompt; content.mdx.hbs uses both |
+| **template_audit_fixes plan** | 1 file | All 11 todos marked as cancelled in plan frontmatter |
+
+### Known Remaining Issue: Legacy Layout Drift
+
+The 17 legacy layouts still hardcode metadata (title, description, URLs, images) instead of reading from `experiment.json` like the plop template does. Additionally, send-button and keyboard-keys hardcode `articleSlug="send-button"` and `articleSlug="keyboard-keys"` instead of using the dynamic `content?.article ? experiment.slug : undefined` pattern from the template. This means:
+- Adding/removing an article requires editing the layout file, not just experiment.json
+- Metadata can drift out of sync between experiment.json and layout.tsx
+- The validator doesn't catch layout-level inconsistencies
+
+### Verification
+
+| Check | Result |
+|-------|--------|
+| `npm run typecheck` | Clean |
+| `npx ultracite check` | 485 files, 0 errors |
+| `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
+| `node scripts/validate-experiments.mjs` | 18 experiments valid |
