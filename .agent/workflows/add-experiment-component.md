@@ -108,7 +108,7 @@ description: Create a new component within an existing experiment
 import { cn } from "@/lib/utils";
 import { Button, Card } from "@/components/ui/button";
 import { LocalComponent } from "./LocalComponent";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import * as THREE from "three";
 
 // ❌ NEVER DO THIS
@@ -121,7 +121,7 @@ import { ComponentFromOther } from "@/components/experiments/other-experiment/..
 ```tsx
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 export function AnimatedCard({ children }: { children: React.ReactNode }) {
   return (

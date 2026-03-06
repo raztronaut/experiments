@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 // CRT screen shader — scanlines, noise, color tint
@@ -126,29 +126,29 @@ const SCREEN_COLORS = [
   [0.08, 0.15, 0.25], // dark navy
   [0.12, 0.08, 0.18], // deep purple
   [0.06, 0.14, 0.12], // forest
-  [0.18, 0.10, 0.06], // amber dark
-  [0.10, 0.10, 0.16], // slate blue
-  [0.14, 0.06, 0.10], // wine
-  [0.05, 0.12, 0.20], // broadcast blue
-  [0.10, 0.14, 0.08], // camo green
+  [0.18, 0.1, 0.06], // amber dark
+  [0.1, 0.1, 0.16], // slate blue
+  [0.14, 0.06, 0.1], // wine
+  [0.05, 0.12, 0.2], // broadcast blue
+  [0.1, 0.14, 0.08], // camo green
   [0.16, 0.08, 0.12], // maroon
   [0.08, 0.08, 0.18], // midnight
   [0.12, 0.12, 0.06], // olive
-  [0.06, 0.10, 0.18], // steel blue
-  [0.14, 0.10, 0.14], // dusty purple
-  [0.10, 0.06, 0.06], // dark red
+  [0.06, 0.1, 0.18], // steel blue
+  [0.14, 0.1, 0.14], // dusty purple
+  [0.1, 0.06, 0.06], // dark red
 ];
 
 interface ScreenPanelProps {
+  bgColor?: string;
+  colorIndex?: number;
+  imageSrc?: string;
+  isDark?: boolean;
+  isLogo?: boolean;
   position: [number, number, number];
   size: [number, number];
-  isLogo?: boolean;
-  colorIndex?: number;
   timeOffset?: number;
   videoSrc?: string;
-  imageSrc?: string;
-  bgColor?: string;
-  isDark?: boolean;
 }
 
 export default function ScreenPanel({
@@ -167,25 +167,21 @@ export default function ScreenPanel({
 
   const color = SCREEN_COLORS[colorIndex % SCREEN_COLORS.length];
 
-  const uniforms = useMemo(
-    () => {
-      // Create a specific Color instance for the background so ThreeJS handles the exact color space conversion
-      const initialBg = new THREE.Color(bgColor);
-      return {
-        uTime: { value: 0 },
-        uOpacity: { value: 0 },
-        uColor: { value: new THREE.Vector3(color[0], color[1], color[2]) },
-        uIsLogo: { value: isLogo ? 1.0 : 0.0 },
-        uTexture: { value: new THREE.Texture() },
-        uHasTexture: { value: 0.0 },
-        uBrightness: { value: 1.0 },
-        uBgColor: { value: initialBg },
-        uIsDark: { value: isDark ? 1.0 : 0.0 },
-      };
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+  const uniforms = useMemo(() => {
+    // Create a specific Color instance for the background so ThreeJS handles the exact color space conversion
+    const initialBg = new THREE.Color(bgColor);
+    return {
+      uTime: { value: 0 },
+      uOpacity: { value: 0 },
+      uColor: { value: new THREE.Vector3(color[0], color[1], color[2]) },
+      uIsLogo: { value: isLogo ? 1.0 : 0.0 },
+      uTexture: { value: new THREE.Texture() },
+      uHasTexture: { value: 0.0 },
+      uBrightness: { value: 1.0 },
+      uBgColor: { value: initialBg },
+      uIsDark: { value: isDark ? 1.0 : 0.0 },
+    };
+  }, [bgColor, color[0], isDark, isLogo]);
 
   // Update uniforms dynamically when theme changes
   useEffect(() => {
@@ -197,7 +193,9 @@ export default function ScreenPanel({
 
   // Load textures manually to avoid hook conditional rendering
   useEffect(() => {
-    if (!materialRef.current) return;
+    if (!materialRef.current) {
+      return;
+    }
 
     if (videoSrc && !isLogo) {
       const video = document.createElement("video");
@@ -206,7 +204,7 @@ export default function ScreenPanel({
       video.loop = true;
       video.playsInline = true;
       video.src = videoSrc;
-      video.play().catch(() => { });
+      video.play().catch(() => {});
 
       const texture = new THREE.VideoTexture(video);
       texture.colorSpace = THREE.SRGBColorSpace;
@@ -236,14 +234,14 @@ export default function ScreenPanel({
   });
 
   return (
-    <mesh ref={meshRef} position={position}>
+    <mesh position={position} ref={meshRef}>
       <planeGeometry args={[size[0], size[1]]} />
       <shaderMaterial
-        ref={materialRef}
-        vertexShader={vertexShader}
         fragmentShader={fragmentShader}
-        uniforms={uniforms}
+        ref={materialRef}
         transparent
+        uniforms={uniforms}
+        vertexShader={vertexShader}
       />
     </mesh>
   );

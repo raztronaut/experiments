@@ -1,10 +1,15 @@
 import "../experiments.css";
-import { ThemeProvider } from "@/components/ui/ThemeProvider";
-import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
+import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import experiment from "./experiment.json";
 
+const content = (experiment as Record<string, unknown>).content as
+  | Record<string, boolean>
+  | undefined;
+
 export const metadata = {
+  metadataBase: new URL("https://www.razisyed.cv"),
   title: experiment.title,
   description: experiment.description,
   openGraph: {
@@ -15,7 +20,7 @@ export const metadata = {
     videos: experiment.video ? [experiment.video] : [],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image" as const,
     title: experiment.title,
     description: experiment.description,
     images: [experiment.poster],
@@ -23,25 +28,23 @@ export const metadata = {
   alternates: {
     canonical: `https://www.razisyed.cv/experiments/${experiment.slug}`,
   },
-  authors: [{ name: 'Razi Syed', url: 'https://www.razisyed.cv' }],
+  authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
 };
 
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased font-canvas">
+      <body className="font-canvas antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem
           disableTransitionOnChange
+          enableSystem
         >
           <UmamiScript />
-          <ExperimentBackButton />
+          <ExperimentNav
+            articleSlug={content?.article ? experiment.slug : undefined}
+          />
           {children}
         </ThemeProvider>
       </body>

@@ -4,5 +4,9 @@
   "slug": "mountain-transition",
   "created": "2026-01-22T21:59:04.491Z",
   "video": "/experiments/mountain-transition/preview.mp4",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": []
 }

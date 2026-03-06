@@ -1,20 +1,22 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function mergeRefs<T = unknown>(
-  ...refs: Array<React.MutableRefObject<T> | React.LegacyRef<T> | undefined | null>
+  ...refs: Array<
+    React.MutableRefObject<T> | React.LegacyRef<T> | undefined | null
+  >
 ): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
       if (typeof ref === "function") {
-        ref(value)
+        ref(value);
       } else if (ref != null) {
-        ; (ref as React.MutableRefObject<T | null>).current = value
+        (ref as React.MutableRefObject<T | null>).current = value;
       }
-    })
-  }
+    });
+  };
 }

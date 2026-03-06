@@ -1,23 +1,27 @@
 "use client";
 
-import { useConsoleCat } from "@/components/experiments/terminal-cat/useConsoleCat";
 import { DevToolsKeyboard } from "@/components/experiments/terminal-cat/DevToolsKeyboard";
 import { MobileNotice } from "@/components/experiments/terminal-cat/MobileNotice";
+import { useConsoleCat } from "@/components/experiments/terminal-cat/useConsoleCat";
 
 export default function Page() {
-    useConsoleCat();
+  useConsoleCat();
 
-    return (
-        <div className="w-full h-screen bg-neutral-950 flex flex-col items-center justify-center text-center p-8 text-neutral-200 font-sans">
-            <MobileNotice />
-            <div className="max-w-md space-y-6">
-                <div className="text-6xl mb-4">🐱</div>
-                <h1 className="text-3xl font-bold tracking-tight">Check the Console</h1>
-                <p className="text-neutral-400">
-                    Open your browser&apos;s Developer Tools and switch to the <span className="text-brand-500 font-mono bg-neutral-900 px-2 py-1 rounded">Console</span> tab to see the cat in action.
-                </p>
-                <DevToolsKeyboard />
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex h-screen w-full flex-col items-center justify-center bg-neutral-950 p-8 text-center font-sans text-neutral-200">
+      <MobileNotice />
+      <div className="max-w-md space-y-6">
+        <div className="mb-4 text-6xl">🐱</div>
+        <h1 className="font-bold text-3xl tracking-tight">Check the Console</h1>
+        <p className="text-neutral-400">
+          Open your browser&apos;s Developer Tools and switch to the{" "}
+          <span className="rounded bg-neutral-900 px-2 py-1 font-mono text-brand-500">
+            Console
+          </span>{" "}
+          tab to see the cat in action.
+        </p>
+        <DevToolsKeyboard />
+      </div>
+    </div>
+  );
 }

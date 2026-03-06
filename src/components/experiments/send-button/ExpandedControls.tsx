@@ -1,96 +1,98 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Lightbulb, Globe } from "lucide-react";
+import { Globe, Lightbulb } from "lucide-react";
+import { motion } from "motion/react";
 import { expandedControlsVariants } from "./variants";
 
 interface ExpandedControlsProps {
-    /** Whether the controls should be visible */
-    isVisible: boolean;
-    /** Whether Think mode is active */
-    thinkActive: boolean;
-    /** Callback when Think is toggled */
-    onThinkToggle: () => void;
-    /** Whether Deep Search is active */
-    deepSearchActive: boolean;
-    /** Callback when Deep Search is toggled */
-    onDeepSearchToggle: () => void;
+  /** Whether Deep Search is active */
+  deepSearchActive: boolean;
+  /** Whether the controls should be visible */
+  isVisible: boolean;
+  /** Callback when Deep Search is toggled */
+  onDeepSearchToggle: () => void;
+  /** Callback when Think is toggled */
+  onThinkToggle: () => void;
+  /** Whether Think mode is active */
+  thinkActive: boolean;
 }
 
 /**
  * Expanded controls panel with Think and Deep Search toggles
  */
 export function ExpandedControls({
-    isVisible,
-    thinkActive,
-    onThinkToggle,
-    deepSearchActive,
-    onDeepSearchToggle,
+  isVisible,
+  thinkActive,
+  onThinkToggle,
+  deepSearchActive,
+  onDeepSearchToggle,
 }: ExpandedControlsProps) {
-    return (
-        <motion.div
-            className="w-full flex justify-start px-4 items-center text-sm"
-            variants={expandedControlsVariants}
-            initial="hidden"
-            animate={isVisible ? "visible" : "hidden"}
-            style={{ marginTop: 8 }}
+  return (
+    <motion.div
+      animate={isVisible ? "visible" : "hidden"}
+      className="flex w-full items-center justify-start px-4 text-sm"
+      initial="hidden"
+      style={{ marginTop: 8 }}
+      variants={expandedControlsVariants}
+    >
+      <div className="flex items-center gap-3">
+        {/* Think Toggle */}
+        <button
+          className={`group flex items-center gap-1 rounded-full px-4 py-2 font-medium transition-all ${
+            thinkActive
+              ? "bg-blue-600/10 text-blue-950 outline outline-blue-600/60 dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
+              : "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onThinkToggle();
+          }}
+          title="Think"
+          type="button"
         >
-            <div className="flex gap-3 items-center">
-                {/* Think Toggle */}
-                <button
-                    className={`flex items-center gap-1 px-4 py-2 rounded-full transition-all font-medium group ${thinkActive
-                        ? "bg-blue-600/10 outline outline-blue-600/60 text-blue-950 dark:bg-blue-500/20 dark:outline-blue-500/50 dark:text-blue-200"
-                        : "bg-transparent hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-700 dark:text-zinc-400"
-                        }`}
-                    title="Think"
-                    type="button"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onThinkToggle();
-                    }}
-                >
-                    <Lightbulb
-                        className="group-hover:fill-yellow-300 transition-all"
-                        size={18}
-                    />
-                    Think
-                </button>
+          <Lightbulb
+            className="transition-all group-hover:fill-yellow-300"
+            size={18}
+          />
+          Think
+        </button>
 
-                {/* Deep Search Toggle */}
-                <motion.button
-                    className={`flex items-center px-4 gap-1 py-2 rounded-full transition font-medium whitespace-nowrap overflow-hidden justify-start group ${deepSearchActive
-                        ? "bg-blue-600/10 outline outline-blue-600/60 text-blue-950 dark:bg-blue-500/20 dark:outline-blue-500/50 dark:text-blue-200"
-                        : "bg-transparent hover:bg-gray-100 dark:hover:bg-zinc-800 text-gray-700 dark:text-zinc-400"
-                        }`}
-                    title="Deep Search"
-                    type="button"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onDeepSearchToggle();
-                    }}
-                    initial={false}
-                    animate={{
-                        width: deepSearchActive ? 125 : 36,
-                        paddingLeft: deepSearchActive ? 8 : 9,
-                    }}
-                >
-                    <div className="flex-1">
-                        <Globe
-                            className="group-hover:fill-cyan-400 transition-all"
-                            size={18}
-                        />
-                    </div>
-                    <motion.span
-                        className="pb-[2px]"
-                        initial={false}
-                        animate={{
-                            opacity: deepSearchActive ? 1 : 0,
-                        }}
-                    >
-                        Deep Search
-                    </motion.span>
-                </motion.button>
-            </div>
-        </motion.div>
-    );
+        {/* Deep Search Toggle */}
+        <motion.button
+          animate={{
+            width: deepSearchActive ? 125 : 36,
+            paddingLeft: deepSearchActive ? 8 : 9,
+          }}
+          className={`group flex items-center justify-start gap-1 overflow-hidden whitespace-nowrap rounded-full px-4 py-2 font-medium transition ${
+            deepSearchActive
+              ? "bg-blue-600/10 text-blue-950 outline outline-blue-600/60 dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
+              : "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          }`}
+          initial={false}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeepSearchToggle();
+          }}
+          title="Deep Search"
+          type="button"
+        >
+          <div className="flex-1">
+            <Globe
+              className="transition-all group-hover:fill-cyan-400"
+              size={18}
+            />
+          </div>
+          <motion.span
+            animate={{
+              opacity: deepSearchActive ? 1 : 0,
+            }}
+            className="pb-[2px]"
+            initial={false}
+          >
+            Deep Search
+          </motion.span>
+        </motion.button>
+      </div>
+    </motion.div>
+  );
 }

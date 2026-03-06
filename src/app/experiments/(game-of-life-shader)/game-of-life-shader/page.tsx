@@ -3,27 +3,27 @@ import { LifeSimulation } from "@/components/experiments/game-of-life-shader/Lif
 
 /**
  * Game of Life + Shader Experiment Page
- * 
+ *
  * This page composes the "Living Refraction" visual effect.
  * It layers a WebGL gradient shader underneath a Canvas-based simulation.
- * 
+ *
  * LAYOUT ARCHITECTURE:
  * The effect relies on Z-Index stacking:
  * 1. Z-0: GradientBackground (The colors)
  * 2. Z-10: LifeSimulation (The mask/pattern)
  */
 export default function Page() {
-    return (
-        <div className="relative w-full h-screen overflow-hidden bg-black">
-            {/* 
+  return (
+    <div className="relative h-screen w-full overflow-hidden bg-black">
+      {/* 
                LAYER 1: The "Energy"
                The beautiful, shifting gradient shader. It sits at the bottom.
             */}
-            <div className="absolute inset-0 z-0">
-                <GradientBackground />
-            </div>
+      <div className="absolute inset-0 z-0">
+        <GradientBackground />
+      </div>
 
-            {/* 
+      {/* 
                LAYER 2: The "Pattern"
                The Game of Life simulation. 
                - It renders mostly BLACK (hiding the gradient).
@@ -32,9 +32,9 @@ export default function Page() {
                  but the component inside enables its own pointer-events: auto 
                  for interaction.
             */}
-            <div className="absolute inset-0 z-10 pointer-events-none">
-                <LifeSimulation />
-            </div>
-        </div>
-    );
+      <div className="pointer-events-none absolute inset-0 z-10">
+        <LifeSimulation />
+      </div>
+    </div>
+  );
 }

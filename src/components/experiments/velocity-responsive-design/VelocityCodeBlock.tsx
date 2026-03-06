@@ -1,71 +1,86 @@
 "use client";
 
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useVelocityState } from "./VelocityContext";
 import { FileCode, Terminal } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import type React from "react";
 import { SPRING_CONFIGS } from "./constants";
+import { useVelocityState } from "./VelocityContext";
 
 interface VelocityCodeBlockProps {
-    filename: string;
-    language: string;
-    code: string;
+  code: string;
+  filename: string;
+  language: string;
 }
 
-export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({ filename, language, code }) => {
-    const { readingState } = useVelocityState();
-    const isSkim = readingState === "skim";
+export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({
+  filename,
+  language,
+  code,
+}) => {
+  const { readingState } = useVelocityState();
+  const isSkim = readingState === "skim";
 
-    return (
-        <motion.div
-            layout
-            transition={SPRING_CONFIGS.TRANSITION}
-            className={`my-8 rounded-lg overflow-hidden border ${isSkim ? "bg-primary/5 border-primary/20" : "bg-zinc-950 border-white/10"
-                }`}
-            animate={{
-                scale: isSkim ? 0.98 : 1,
-                opacity: isSkim ? 0.8 : 1,
-            }}
-        >
-            <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/5">
-                <div className="flex items-center gap-2">
-                    <FileCode size={14} className="text-primary" />
-                    <span className="text-xs font-mono text-muted-foreground">{filename}</span>
-                </div>
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground/50">{language}</span>
-            </div>
+  return (
+    <motion.div
+      animate={{
+        scale: isSkim ? 0.98 : 1,
+        opacity: isSkim ? 0.8 : 1,
+      }}
+      className={`my-8 overflow-hidden rounded-lg border ${
+        isSkim
+          ? "border-primary/20 bg-primary/5"
+          : "border-white/10 bg-zinc-950"
+      }`}
+      layout
+      transition={SPRING_CONFIGS.TRANSITION}
+    >
+      <div className="flex items-center justify-between border-white/5 border-b bg-white/5 px-4 py-2">
+        <div className="flex items-center gap-2">
+          <FileCode className="text-primary" size={14} />
+          <span className="font-mono text-muted-foreground text-xs">
+            {filename}
+          </span>
+        </div>
+        <span className="text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+          {language}
+        </span>
+      </div>
 
-            <AnimatePresence mode="popLayout" initial={false}>
-                {!isSkim ? (
-                    <motion.div
-                        key="detailed"
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.02 }}
-                        className="p-4 overflow-x-auto"
-                    >
-                        <pre className="text-sm font-mono text-zinc-300">
-                            <code>{code}</code>
-                        </pre>
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        key="skim"
-                        initial={{ opacity: 0, scale: 1.02 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.98 }}
-                        className="flex items-center px-4 h-10 gap-3 text-primary/60 italic text-sm relative overflow-hidden"
-                    >
-                        <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent pointer-events-none"
-                            animate={{ x: ['-100%', '200%'] }}
-                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                        />
-                        <Terminal size={14} />
-                        <span>Implementation details collapsed for speed...</span>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.div>
-    );
+      <AnimatePresence initial={false} mode="popLayout">
+        {isSkim ? (
+          <motion.div
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative flex h-10 items-center gap-3 overflow-hidden px-4 text-primary/60 text-sm italic"
+            exit={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0, scale: 1.02 }}
+            key="skim"
+          >
+            <motion.div
+              animate={{ x: ["-100%", "200%"] }}
+              className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"
+              transition={{
+                duration: 1.5,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+              }}
+            />
+            <Terminal size={14} />
+            <span>Implementation details collapsed for speed...</span>
+          </motion.div>
+        ) : (
+          <motion.div
+            animate={{ opacity: 1, scale: 1 }}
+            className="overflow-x-auto p-4"
+            exit={{ opacity: 0, scale: 1.02 }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            key="detailed"
+          >
+            <pre className="font-mono text-sm text-zinc-300">
+              <code>{code}</code>
+            </pre>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
 };

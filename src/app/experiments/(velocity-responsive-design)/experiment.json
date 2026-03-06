@@ -4,5 +4,9 @@
   "slug": "velocity-responsive-design",
   "created": "2025-12-31T04:46:03.740Z",
   "video": "/experiments/velocity-responsive-design/preview.mp4",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": []
 }

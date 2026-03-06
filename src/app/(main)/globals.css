@@ -1,81 +1,44 @@
+@import "../shared-tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 35 50% 95.29%;
-    --foreground: 240 10% 3.9%;
-    --card: 35 50% 95.29%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 35 50% 95.29%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 35 30% 90%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 35 30% 90%;
-    --muted-foreground: 35 10% 45%;
-    --accent: 35 30% 90%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 35 25% 85%;
-    --input: 35 25% 85%;
-    --ring: 240 10% 3.9%;
-    --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
-
-  .dark {
-    --background: 240 8.25% 6.84%;
-    --foreground: 0 0% 98%;
-    --card: 240 8.25% 6.84%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 8.25% 6.84%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
+@view-transition {
+  navigation: auto;
 }
 
 @layer base {
   * {
+    font-variant-ligatures: common-ligatures;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-wrap: pretty;
+    text-rendering: optimizelegibility;
     @apply border-border;
+  }
+
+  *::selection {
+    color: hsl(var(--selection-foreground));
+    background-color: hsl(var(--selection-background));
   }
 
   body {
     @apply bg-background text-foreground;
   }
 
-  /* Attempt 5: Static Cursor Suppression */
-  /* This ensures the cursor is hidden immediately on load if the attribute overrides exist */
   html[data-cursor-hidden="true"],
   html[data-cursor-hidden="true"] * {
     cursor: none !important;
   }
 
-  /* Custom Scrollbar to match theme */
+  html {
+    scrollbar-gutter: stable;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    scrollbar-width: thin;
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;

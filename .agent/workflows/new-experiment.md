@@ -69,7 +69,7 @@ export default function MyExperiment() {
 ```tsx
 "use client";
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function MyExperiment() {
   return (

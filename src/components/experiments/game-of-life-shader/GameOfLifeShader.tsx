@@ -1,12 +1,12 @@
 "use client";
 
-import React from 'react';
-
 export default function GameOfLifeShader() {
-return (
-<div className="flex flex-col items-center justify-center min-h-[400px] p-4 border border-dashed rounded-lg">
-    <h1 className="text-2xl font-bold mb-2">Game of Life Shader</h1>
-    <p className="text-muted-foreground">Start building your experiment here.</p>
-</div>
-);
+  return (
+    <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-4">
+      <h1 className="mb-2 font-bold text-2xl">Game of Life Shader</h1>
+      <p className="text-muted-foreground">
+        Start building your experiment here.
+      </p>
+    </div>
+  );
 }

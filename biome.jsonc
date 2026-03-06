@@ -1,0 +1,77 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/react",
+    "ultracite/biome/next"
+  ],
+  "files": {
+    "includes": [
+      "!.next",
+      "!out",
+      "!build",
+      "!public/registry",
+      "!next-env.d.ts"
+    ]
+  },
+  "linter": {
+    "rules": {
+      "style": {
+        "useFilenamingConvention": "off",
+        "noNestedTernary": "off",
+        "noNonNullAssertion": "off",
+        "useConsistentMemberAccessibility": "off",
+        "noParameterProperties": "off",
+        "noExportedImports": "off",
+        "useDefaultSwitchClause": "off",
+        "useCollapsedIf": "off",
+        "useCollapsedElseIf": "off"
+      },
+      "performance": {
+        "noNamespaceImport": "off",
+        "useTopLevelRegex": "off",
+        "noImgElement": "off",
+        "noBarrelFile": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noShadowRestrictedNames": "off",
+        "noArrayIndexKey": "off",
+        "noEvolvingTypes": "off",
+        "noBitwiseOperators": "off",
+        "noEmptyBlockStatements": "off",
+        "noAssignInExpressions": "off",
+        "noImplicitAnyLet": "off",
+        "noAlert": "off",
+        "noCommentText": "off",
+        "noTemplateCurlyInString": "off",
+        "useIterableCallbackReturn": "off",
+        "useAwait": "off",
+        "noUnknownAtRules": "off"
+      },
+      "complexity": {
+        "noForEach": "off",
+        "noExcessiveCognitiveComplexity": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off",
+        "noUndeclaredVariables": "off",
+        "noUnusedFunctionParameters": "off",
+        "useImageSize": "off",
+        "noUnusedVariables": "off"
+      },
+      "a11y": {
+        "useButtonType": "off",
+        "noSvgWithoutTitle": "off",
+        "noNoninteractiveElementInteractions": "off",
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off",
+        "useSemanticElements": "off",
+        "useFocusableInteractive": "off"
+      }
+    }
+  }
+}

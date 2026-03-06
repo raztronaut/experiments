@@ -1,0 +1,36 @@
+---
+title: "{{titleCase name}}"
+description: ""
+publishedAt: ""
+updatedAt: ""
+---
+
+{/* 
+  Article structure (see .agent/contexts/writing-voice.md):
+  
+  1. # Title — the MDX h1 IS the visual page title
+  2. Hook — 1-2 paragraphs
+  3. ## Section per technique — code + interactive demo for each layer
+     Each major technique gets its own <InteractiveWidget> demo that
+     progressively builds on the previous one. See writing-voice.md
+     "Progressive demo pattern" for details.
+  4. ## Key insight — the non-obvious "aha" moment
+  5. ## Full thing:
+     <LiveDemo slug="{{dashCase name}}" height="500px" />
+  6. ## What I'd do differently — honest reflection
+
+  Available components (registered in articleComponents):
+  - <LiveDemo slug="..." height="500px" /> — iframe embed of the experiment
+  - <InteractiveWidget title="...">children</InteractiveWidget> — bordered card for custom interactive demos
+  - <SandpackDemo files=\{{ "/App.js": "..." }} /> — editable code playground
+  - <Callout type="info|warning|tip">text</Callout> — callout box
+  - <CodeStep step={1} title="...">content</CodeStep> — numbered walkthrough step
+
+  WIRING (critical — MDX imports don't work with next-mdx-remote):
+  1. Build demo components in ./components.tsx
+  2. Import them in page.tsx: import { Step1Demo } from "./components";
+  3. Merge into components prop: components={{ ...articleComponents, Step1Demo }}
+  4. Use directly in this MDX: <InteractiveWidget title="..."><Step1Demo /></InteractiveWidget>
+*/}
+
+# {{titleCase name}}

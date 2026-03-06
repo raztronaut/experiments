@@ -1,0 +1,12 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-fix:
+      run: npx ultracite fix {staged_files}
+      stage_fixed: true
+      glob: "*.{ts,tsx,js,mjs,json,jsonc,css}"
+    typecheck:
+      run: npx tsc --noEmit
+    validate-experiments:
+      run: node scripts/validate-experiments.mjs
+      glob: "**/experiment.json"

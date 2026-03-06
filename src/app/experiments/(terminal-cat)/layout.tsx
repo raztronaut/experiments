@@ -1,34 +1,30 @@
 import "../experiments.css";
+import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { ExperimentBackButton } from "@/components/ui/ExperimentBackButton";
 import { Toaster } from "@/components/ui/sonner";
-import { UmamiScript } from "@/components/analytics/UmamiScript";
 
 export const metadata = {
-  title: 'Terminal Cat',
-  description: 'Animating ASCII art in the browser console logs',
+  title: "Terminal Cat",
+  description: "Animating ASCII art in the browser console logs",
   openGraph: {
-    title: 'Terminal Cat',
-    description: 'Animating ASCII art in the browser console logs',
-    url: 'https://www.razisyed.cv/experiments/terminal-cat',
-    images: ['/experiments/terminal-cat/preview.gif'],
+    title: "Terminal Cat",
+    description: "Animating ASCII art in the browser console logs",
+    url: "https://www.razisyed.cv/experiments/terminal-cat",
+    images: ["/experiments/terminal-cat/preview.gif"],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Terminal Cat',
-    description: 'Animating ASCII art in the browser console logs',
-    images: ['/experiments/terminal-cat/preview.gif'],
+    card: "summary_large_image",
+    title: "Terminal Cat",
+    description: "Animating ASCII art in the browser console logs",
+    images: ["/experiments/terminal-cat/preview.gif"],
   },
   alternates: {
-    canonical: 'https://www.razisyed.cv/experiments/terminal-cat',
+    canonical: "https://www.razisyed.cv/experiments/terminal-cat",
   },
-  authors: [{ name: 'Razi Syed', url: 'https://www.razisyed.cv' }],
+  authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
 };
 
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
@@ -40,4 +36,3 @@ export default function Layout({
     </html>
   );
 }
-

@@ -8,8 +8,8 @@ import { useThreeShader } from "./useThreeShader";
  * Uses Three.js loaded dynamically from CDN for WebGL rendering.
  */
 export function ShaderLanding() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    useThreeShader(containerRef);
+  const containerRef = useRef<HTMLDivElement>(null);
+  useThreeShader(containerRef);
 
-    return <div ref={containerRef} className="w-full h-full absolute" />;
+  return <div className="absolute h-full w-full" ref={containerRef} />;
 }

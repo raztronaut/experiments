@@ -4,5 +4,9 @@
   "slug": "non-euclidean-hyperbolic-workspace",
   "created": "2025-12-31T00:41:44.181Z",
   "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": []
 }

@@ -1,18 +1,19 @@
 "use client";
 
-import { useMemo, useId, memo } from "react";
+import { memo, useId, useMemo } from "react";
 
 interface LiquidGlassFilterProps {
-    id?: string;
-    width: number;
-    height: number;
-    radius?: number;
-    border?: number; // 0 to 1, percentage of size
-    blockOutBlur?: number;
-    displacementScale?: number;
+  blockOutBlur?: number;
+  border?: number; // 0 to 1, percentage of size
+  displacementScale?: number;
+  height: number;
+  id?: string;
+  radius?: number;
+  width: number;
 }
 
-export const LiquidGlassFilter = memo(({
+export const LiquidGlassFilter = memo(
+  ({
     id = "liquid-glass",
     width = 200,
     height = 80,
@@ -20,7 +21,7 @@ export const LiquidGlassFilter = memo(({
     border = 0.25,
     blockOutBlur = 12,
     displacementScale = 8, // Controls the "strength" of the glass
-}: LiquidGlassFilterProps) => {
+  }: LiquidGlassFilterProps) => {
     // Generate unique IDs for internal SVG elements to prevent collisions across multiple instances
     const baseId = useId().replace(/:/g, "");
     const redId = `${id}-${baseId}-red`;
@@ -29,22 +30,24 @@ export const LiquidGlassFilter = memo(({
     // Generate the SVG Map as a Data URI
     // This map defines the "shape" of the lens/liquid distortion using gradients
     const displacementMapParams = useMemo(() => {
-        // If dimensions are invalid, return null
-        if (width <= 0 || height <= 0) return null;
+      // If dimensions are invalid, return null
+      if (width <= 0 || height <= 0) {
+        return null;
+      }
 
-        // Calculate border size in pixels based on the smallest dimension
-        const borderSize = Math.min(width, height) * (border * 0.5);
+      // Calculate border size in pixels based on the smallest dimension
+      const borderSize = Math.min(width, height) * (border * 0.5);
 
-        // Inner block-out rectangle (where content is clear)
-        const innerWidth = Math.max(0, width - borderSize * 2);
-        const innerHeight = Math.max(0, height - borderSize * 2);
-        const innerX = borderSize;
-        const innerY = borderSize;
+      // Inner block-out rectangle (where content is clear)
+      const innerWidth = Math.max(0, width - borderSize * 2);
+      const innerHeight = Math.max(0, height - borderSize * 2);
+      const innerX = borderSize;
+      const innerY = borderSize;
 
-        // We create a simpler SVG string for the displacement map
-        // The red and blue channels determine x/y displacement
-        // We add the "block out" rect in the middle to keep text readable
-        const svgString = `
+      // We create a simpler SVG string for the displacement map
+      // The red and blue channels determine x/y displacement
+      // We add the "block out" rect in the middle to keep text readable
+      const svgString = `
             <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="${redId}" x1="100%" y1="0%" x2="0%" y2="0%">
@@ -72,97 +75,103 @@ export const LiquidGlassFilter = memo(({
             </svg>
         `.trim();
 
-        return `data:image/svg+xml,${encodeURIComponent(svgString)}`;
+      return `data:image/svg+xml,${encodeURIComponent(svgString)}`;
     }, [width, height, radius, border, blockOutBlur, redId, blueId]);
 
     return (
-        <svg
-            style={{
-                position: "absolute",
-                width: 0,
-                height: 0,
-                left: -9999,
-                top: -9999,
-                pointerEvents: "none",
-            }}
-            aria-hidden="true"
-        >
-            <defs>
-                <filter
-                    id={id}
-                    x="-50%"
-                    y="-50%"
-                    width="200%"
-                    height="200%"
-                    colorInterpolationFilters="sRGB"
-                >
-                    {displacementMapParams ? (
-                        <>
-                            {/* 1. Load the Displacement Map */}
-                            <feImage
-                                href={displacementMapParams}
-                                x="0"
-                                y="0"
-                                width={width}
-                                height={height}
-                                result="map"
-                                preserveAspectRatio="none"
-                            />
+      <svg
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          width: 0,
+          height: 0,
+          left: -9999,
+          top: -9999,
+          pointerEvents: "none",
+        }}
+      >
+        <defs>
+          <filter
+            colorInterpolationFilters="sRGB"
+            height="200%"
+            id={id}
+            width="200%"
+            x="-50%"
+            y="-50%"
+          >
+            {displacementMapParams ? (
+              <>
+                {/* 1. Load the Displacement Map */}
+                <feImage
+                  height={height}
+                  href={displacementMapParams}
+                  preserveAspectRatio="none"
+                  result="map"
+                  width={width}
+                  x="0"
+                  y="0"
+                />
 
-                            {/* 2. Chromatic Aberration / Channel Splitting */}
-                            <feDisplacementMap
-                                in="SourceGraphic"
-                                in2="map"
-                                scale={displacementScale + 5}
-                                xChannelSelector="R"
-                                yChannelSelector="B"
-                                result="dispRed"
-                            />
-                            <feDisplacementMap
-                                in="SourceGraphic"
-                                in2="map"
-                                scale={displacementScale}
-                                xChannelSelector="R"
-                                yChannelSelector="B"
-                                result="dispGreen"
-                            />
-                            <feDisplacementMap
-                                in="SourceGraphic"
-                                in2="map"
-                                scale={displacementScale + 10}
-                                xChannelSelector="B"
-                                yChannelSelector="R"
-                                result="dispBlue"
-                            />
+                {/* 2. Chromatic Aberration / Channel Splitting */}
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="map"
+                  result="dispRed"
+                  scale={displacementScale + 5}
+                  xChannelSelector="R"
+                  yChannelSelector="B"
+                />
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="map"
+                  result="dispGreen"
+                  scale={displacementScale}
+                  xChannelSelector="R"
+                  yChannelSelector="B"
+                />
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="map"
+                  result="dispBlue"
+                  scale={displacementScale + 10}
+                  xChannelSelector="B"
+                  yChannelSelector="R"
+                />
 
-                            <feColorMatrix
-                                in="dispRed"
-                                type="matrix"
-                                values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"
-                                result="redOnly"
-                            />
-                            <feColorMatrix
-                                in="dispGreen"
-                                type="matrix"
-                                values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"
-                                result="greenOnly"
-                            />
-                            <feColorMatrix
-                                in="dispBlue"
-                                type="matrix"
-                                values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"
-                                result="blueOnly"
-                            />
+                <feColorMatrix
+                  in="dispRed"
+                  result="redOnly"
+                  type="matrix"
+                  values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"
+                />
+                <feColorMatrix
+                  in="dispGreen"
+                  result="greenOnly"
+                  type="matrix"
+                  values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"
+                />
+                <feColorMatrix
+                  in="dispBlue"
+                  result="blueOnly"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"
+                />
 
-                            <feBlend in="redOnly" in2="greenOnly" mode="screen" result="rg" />
-                            <feBlend in="rg" in2="blueOnly" mode="screen" result="final" />
-                            <feGaussianBlur in="final" stdDeviation="0.5" />
-                        </>
-                    ) : null}
-                </filter>
-            </defs>
-        </svg>
+                <feBlend
+                  in="redOnly"
+                  in2="greenOnly"
+                  mode="screen"
+                  result="rg"
+                />
+                <feBlend in="rg" in2="blueOnly" mode="screen" result="final" />
+                <feGaussianBlur in="final" stdDeviation="0.5" />
+              </>
+            ) : null}
+          </filter>
+        </defs>
+      </svg>
     );
-});
+  }
+);
 
 LiquidGlassFilter.displayName = "LiquidGlassFilter";

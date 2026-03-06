@@ -4,5 +4,17 @@
   "slug": "keyboard-keys",
   "created": "2025-12-24T03:26:10.067Z",
   "video": "/experiments/keyboard-keys/preview.mp4",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": [],
+  "content": {
+    "article": true,
+    "labNote": true,
+    "architecture": true,
+    "snippet": true,
+    "social": true,
+    "changelog": true
+  }
 }

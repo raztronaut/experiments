@@ -4,5 +4,12 @@
   "slug": "send-button",
   "created": "2025-12-23T20:09:01.977Z",
   "image": "/experiments/send-button/preview-send-button.png",
-  "video": "/experiments/send-button/preview-send-button.mp4"
+  "video": "/experiments/send-button/preview-send-button.mp4",
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": [],
+  "content": {
+    "article": true
+  }
 }

@@ -1,28 +1,28 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
-import { useThree, useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
-import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
 // Barrel distortion + vignette + chromatic aberration shader
 const DistortionShader = {
-    uniforms: {
-        tDiffuse: { value: null },
-        uDistortion: { value: 0.0 },
-        uVignetteOffset: { value: 1.0 },
-        uVignetteDarkness: { value: 1.2 },
-        uChromaticAberration: { value: 0.002 },
-        uTime: { value: 0.0 },
-        uGlowIntensity: { value: 0.0 },
-        uBgColor: { value: new THREE.Color("#f7f7f9") },
-        uIsDark: { value: 0.0 },
-    },
+  uniforms: {
+    tDiffuse: { value: null },
+    uDistortion: { value: 0.0 },
+    uVignetteOffset: { value: 1.0 },
+    uVignetteDarkness: { value: 1.2 },
+    uChromaticAberration: { value: 0.002 },
+    uTime: { value: 0.0 },
+    uGlowIntensity: { value: 0.0 },
+    uBgColor: { value: new THREE.Color("#f7f7f9") },
+    uIsDark: { value: 0.0 },
+  },
 
-    vertexShader: /* glsl */ `
+  vertexShader: /* glsl */ `
     varying vec2 vUv;
     void main() {
       vUv = uv;
@@ -30,7 +30,7 @@ const DistortionShader = {
     }
   `,
 
-    fragmentShader: /* glsl */ `
+  fragmentShader: /* glsl */ `
     uniform sampler2D tDiffuse;
     uniform float uDistortion;
     uniform float uVignetteOffset;
@@ -110,91 +110,94 @@ const DistortionShader = {
 };
 
 interface DistortionPassProps {
-    distortionRef?: React.MutableRefObject<{
-        setDistortion: (value: number) => void;
-        setGlow: (value: number) => void;
-        uniforms: Record<string, { value: number }>;
-    } | null>;
-    isDark?: boolean;
+  distortionRef?: React.MutableRefObject<{
+    setDistortion: (value: number) => void;
+    setGlow: (value: number) => void;
+    uniforms: Record<string, { value: number }>;
+  } | null>;
+  isDark?: boolean;
 }
 
-export default function DistortionPass({ distortionRef, isDark = false }: DistortionPassProps) {
-    const { gl, scene, camera, size } = useThree();
-    const composerRef = useRef<EffectComposer | null>(null);
-    const shaderPassRef = useRef<ShaderPass | null>(null);
+export default function DistortionPass({
+  distortionRef,
+  isDark = false,
+}: DistortionPassProps) {
+  const { gl, scene, camera, size } = useThree();
+  const composerRef = useRef<EffectComposer | null>(null);
+  const shaderPassRef = useRef<ShaderPass | null>(null);
 
-    const { composer, shaderPass } = useMemo(() => {
-        const renderTarget = new THREE.WebGLRenderTarget(
-            size.width * Math.min(window.devicePixelRatio, 2),
-            size.height * Math.min(window.devicePixelRatio, 2),
-            {
-                minFilter: THREE.LinearFilter,
-                magFilter: THREE.LinearFilter,
-                format: THREE.RGBAFormat,
-            }
-        );
+  const { composer, shaderPass } = useMemo(() => {
+    const renderTarget = new THREE.WebGLRenderTarget(
+      size.width * Math.min(window.devicePixelRatio, 2),
+      size.height * Math.min(window.devicePixelRatio, 2),
+      {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        format: THREE.RGBAFormat,
+      }
+    );
 
-        const comp = new EffectComposer(gl, renderTarget);
-        const renderPass = new RenderPass(scene, camera);
-        const distortionPass = new ShaderPass(DistortionShader);
-        const outputPass = new OutputPass();
+    const comp = new EffectComposer(gl, renderTarget);
+    const renderPass = new RenderPass(scene, camera);
+    const distortionPass = new ShaderPass(DistortionShader);
+    const outputPass = new OutputPass();
 
-        comp.addPass(renderPass);
-        comp.addPass(distortionPass);
-        comp.addPass(outputPass);
+    comp.addPass(renderPass);
+    comp.addPass(distortionPass);
+    comp.addPass(outputPass);
 
-        return { composer: comp, shaderPass: distortionPass };
-    }, [gl, scene, camera, size]);
+    return { composer: comp, shaderPass: distortionPass };
+  }, [gl, scene, camera, size]);
 
-    // Store refs in effects to avoid modifying during render
-    useEffect(() => {
-        composerRef.current = composer;
-        shaderPassRef.current = shaderPass;
-    }, [composer, shaderPass]);
+  // Store refs in effects to avoid modifying during render
+  useEffect(() => {
+    composerRef.current = composer;
+    shaderPassRef.current = shaderPass;
+  }, [composer, shaderPass]);
 
-    // Handle theme updates
-    useEffect(() => {
-        if (shaderPassRef.current) {
-            shaderPassRef.current.uniforms.uIsDark.value = isDark ? 1.0 : 0.0;
-            const bgHex = isDark ? "#050508" : "#f7f7f9";
-            shaderPassRef.current.uniforms.uBgColor.value.set(bgHex);
-        }
-    }, [isDark]);
+  // Handle theme updates
+  useEffect(() => {
+    if (shaderPassRef.current) {
+      shaderPassRef.current.uniforms.uIsDark.value = isDark ? 1.0 : 0.0;
+      const bgHex = isDark ? "#050508" : "#f7f7f9";
+      shaderPassRef.current.uniforms.uBgColor.value.set(bgHex);
+    }
+  }, [isDark]);
 
-    // Expose control interface for GSAP
-    useEffect(() => {
-        if (distortionRef) {
-            distortionRef.current = {
-                setDistortion: (value: number) => {
-                    if (shaderPassRef.current) {
-                        shaderPassRef.current.uniforms.uDistortion.value = value;
-                    }
-                },
-                setGlow: (value: number) => {
-                    if (shaderPassRef.current) {
-                        shaderPassRef.current.uniforms.uGlowIntensity.value = value;
-                    }
-                },
-                uniforms: shaderPassRef.current?.uniforms as Record<
-                    string,
-                    { value: number }
-                >,
-            };
-        }
-    }, [distortionRef, shaderPass]);
+  // Expose control interface for GSAP
+  useEffect(() => {
+    if (distortionRef) {
+      distortionRef.current = {
+        setDistortion: (value: number) => {
+          if (shaderPassRef.current) {
+            shaderPassRef.current.uniforms.uDistortion.value = value;
+          }
+        },
+        setGlow: (value: number) => {
+          if (shaderPassRef.current) {
+            shaderPassRef.current.uniforms.uGlowIntensity.value = value;
+          }
+        },
+        uniforms: shaderPassRef.current?.uniforms as Record<
+          string,
+          { value: number }
+        >,
+      };
+    }
+  }, [distortionRef]);
 
-    // Handle resize
-    useEffect(() => {
-        const dpr = Math.min(window.devicePixelRatio, 2);
-        composerRef.current?.setSize(size.width * dpr, size.height * dpr);
-    }, [size]);
+  // Handle resize
+  useEffect(() => {
+    const dpr = Math.min(window.devicePixelRatio, 2);
+    composerRef.current?.setSize(size.width * dpr, size.height * dpr);
+  }, [size]);
 
-    useFrame((state) => {
-        if (shaderPassRef.current) {
-            shaderPassRef.current.uniforms.uTime.value = state.clock.elapsedTime;
-        }
-        composerRef.current?.render();
-    }, 1);
+  useFrame((state) => {
+    if (shaderPassRef.current) {
+      shaderPassRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+    }
+    composerRef.current?.render();
+  }, 1);
 
-    return null;
+  return null;
 }

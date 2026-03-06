@@ -1,15 +1,15 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import {{pascalCase name}} from './{{pascalCase name}}';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import {{pascalCase name}} from "./{{pascalCase name}}";
 
 const meta = {
-title: 'Experiments/{{titleCase name}}',
-component: {{pascalCase name}},
-parameters: {
-layout: 'centered',
-},
+  title: "Experiments/{{titleCase name}}",
+  component: {{pascalCase name}},
+  parameters: {
+    layout: "centered",
+  },
 } satisfies Meta<typeof {{pascalCase name}}>;
 
-    export default meta;
-    type Story = StoryObj<typeof meta>;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-        export const Default: Story = {};
+export const Default: Story = {};

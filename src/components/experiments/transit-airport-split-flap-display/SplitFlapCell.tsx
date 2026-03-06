@@ -1,105 +1,116 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { getPreviousChar, getNextChar, sanitizeChar } from './utils';
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
+import { cn } from "@/lib/utils";
+import { getNextChar, getPreviousChar, sanitizeChar } from "./utils";
 
 interface SplitFlapCellProps {
-    char: string;
-    className?: string;
-    onFlip?: () => void;
-    refreshKey?: number;
+  char: string;
+  className?: string;
+  onFlip?: () => void;
+  refreshKey?: number;
 }
 
-export function SplitFlapCell({ char: targetCharProp = " ", className, onFlip, refreshKey }: SplitFlapCellProps) {
-    const sanitizedTarget = useMemo(() => sanitizeChar(targetCharProp), [targetCharProp]);
-    const [currentChar, setCurrentChar] = useState(" ");
-    const [isScrambling, setIsScrambling] = useState(false);
-    const [prevRefreshKey, setPrevRefreshKey] = useState(refreshKey);
+export function SplitFlapCell({
+  char: targetCharProp = " ",
+  className,
+  onFlip,
+  refreshKey,
+}: SplitFlapCellProps) {
+  const sanitizedTarget = useMemo(
+    () => sanitizeChar(targetCharProp),
+    [targetCharProp]
+  );
+  const [currentChar, setCurrentChar] = useState(" ");
+  const [isScrambling, setIsScrambling] = useState(false);
+  const [prevRefreshKey, setPrevRefreshKey] = useState(refreshKey);
 
-    // Synchronize state with props during render (React recommended pattern)
-    if (refreshKey !== prevRefreshKey) {
-        setPrevRefreshKey(refreshKey);
-        setIsScrambling(true);
-        setCurrentChar(" ");
+  // Synchronize state with props during render (React recommended pattern)
+  if (refreshKey !== prevRefreshKey) {
+    setPrevRefreshKey(refreshKey);
+    setIsScrambling(true);
+    setCurrentChar(" ");
+  }
+
+  const isFlipping = currentChar !== sanitizedTarget;
+
+  // Reset scrambling during render if we reached the target
+  if (!isFlipping && isScrambling) {
+    setIsScrambling(false);
+  }
+
+  useEffect(() => {
+    if (!isFlipping) {
+      return;
     }
 
-    const isFlipping = currentChar !== sanitizedTarget;
+    const timer = setTimeout(() => {
+      const next = getNextChar(currentChar);
+      setCurrentChar(next);
 
-    // Reset scrambling during render if we reached the target
-    if (!isFlipping && isScrambling) {
-        setIsScrambling(false);
-    }
+      if (onFlip && (isScrambling || Math.random() > 0.5)) {
+        onFlip();
+      }
+    }, 40);
 
-    useEffect(() => {
-        if (!isFlipping) return;
+    return () => clearTimeout(timer);
+  }, [currentChar, isFlipping, onFlip, isScrambling]);
 
-        const timer = setTimeout(() => {
-            const next = getNextChar(currentChar);
-            setCurrentChar(next);
-
-            if (onFlip) {
-                if (isScrambling || Math.random() > 0.5) {
-                    onFlip();
-                }
-            }
-        }, 40);
-
-        return () => clearTimeout(timer);
-    }, [currentChar, isFlipping, onFlip, isScrambling, sanitizedTarget]);
-
-    return (
-        <div
-            className={cn("relative bg-[#1a1a1a] rounded-[2px] overflow-hidden perspective-1000 select-none", className)}
-            style={{
-                width: 'var(--flap-w, 28px)',
-                height: 'var(--flap-h, 44px)'
-            }}
-        >
-            {/* Static Background (Target/Incoming Character) */}
-            <div className="absolute inset-0 flex flex-col">
-                <div className="h-1/2 w-full bg-[#1a1a1a] border-b border-black/50 flex items-end justify-center overflow-hidden">
-                    <span
-                        className="font-mono font-bold text-white translate-y-1/2 leading-none"
-                        style={{ fontSize: 'var(--flap-font, 24px)' }}
-                    >
-                        {currentChar}
-                    </span>
-                </div>
-                <div className="h-1/2 w-full bg-[#1a1a1a] flex items-start justify-center overflow-hidden">
-                    <span
-                        className="font-mono font-bold text-white -translate-y-1/2 leading-none"
-                        style={{ fontSize: 'var(--flap-font, 24px)' }}
-                    >
-                        {currentChar}
-                    </span>
-                </div>
-            </div>
-
-            <AnimatePresence mode="popLayout">
-                {isFlipping && (
-                    <motion.div
-                        key={currentChar}
-                        initial={{ rotateX: 0 }}
-                        animate={{ rotateX: -180 }}
-                        exit={{ display: "none" }}
-                        transition={{ duration: 0.1, ease: "linear" }}
-                        style={{ transformOrigin: "bottom", zIndex: 10 }}
-                        className="absolute top-0 left-0 w-full h-1/2 bg-[#1a1a1a] border-b border-black/50 flex items-end justify-center overflow-hidden backface-hidden"
-                    >
-                        <span
-                            className="font-mono font-bold text-white translate-y-1/2 leading-none"
-                            style={{ fontSize: 'var(--flap-font, 24px)' }}
-                        >
-                            {getPreviousChar(currentChar)}
-                        </span>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-            {/* Decorative center line */}
-            <div className="absolute top-[calc(50%-0.5px)] md:top-[calc(50%-1px)] left-0 w-full h-[1px] md:h-[2px] bg-black/80 z-20 shadow-sm" />
+  return (
+    <div
+      className={cn(
+        "perspective-1000 relative select-none overflow-hidden rounded-[2px] bg-[#1a1a1a]",
+        className
+      )}
+      style={{
+        width: "var(--flap-w, 28px)",
+        height: "var(--flap-h, 44px)",
+      }}
+    >
+      {/* Static Background (Target/Incoming Character) */}
+      <div className="absolute inset-0 flex flex-col">
+        <div className="flex h-1/2 w-full items-end justify-center overflow-hidden border-black/50 border-b bg-[#1a1a1a]">
+          <span
+            className="translate-y-1/2 font-bold font-mono text-white leading-none"
+            style={{ fontSize: "var(--flap-font, 24px)" }}
+          >
+            {currentChar}
+          </span>
         </div>
-    );
+        <div className="flex h-1/2 w-full items-start justify-center overflow-hidden bg-[#1a1a1a]">
+          <span
+            className="-translate-y-1/2 font-bold font-mono text-white leading-none"
+            style={{ fontSize: "var(--flap-font, 24px)" }}
+          >
+            {currentChar}
+          </span>
+        </div>
+      </div>
+
+      <AnimatePresence mode="popLayout">
+        {isFlipping && (
+          <motion.div
+            animate={{ rotateX: -180 }}
+            className="backface-hidden absolute top-0 left-0 flex h-1/2 w-full items-end justify-center overflow-hidden border-black/50 border-b bg-[#1a1a1a]"
+            exit={{ display: "none" }}
+            initial={{ rotateX: 0 }}
+            key={currentChar}
+            style={{ transformOrigin: "bottom", zIndex: 10 }}
+            transition={{ duration: 0.1, ease: "linear" }}
+          >
+            <span
+              className="translate-y-1/2 font-bold font-mono text-white leading-none"
+              style={{ fontSize: "var(--flap-font, 24px)" }}
+            >
+              {getPreviousChar(currentChar)}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Decorative center line */}
+      <div className="absolute top-[calc(50%-0.5px)] left-0 z-20 h-[1px] w-full bg-black/80 shadow-sm md:top-[calc(50%-1px)] md:h-[2px]" />
+    </div>
+  );
 }

@@ -5,5 +5,9 @@
   "created": "2026-01-26T20:45:55.003Z",
   "video": "/experiments/404-not-found/preview.mp4",
   "poster": "/experiments/404-not-found/poster.jpg",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": []
 }

@@ -1,0 +1,58 @@
+---
+title: "Send Button"
+description: "A satisfying animated send button with state transitions"
+publishedAt: "2025-12-01T00:00:00.000Z"
+updatedAt: "2025-12-01T00:00:00.000Z"
+---
+
+# The Send Button
+
+I built this because every messaging app has a send button, and almost none of them feel good to press. The idea was simple: make a send button that gives you real feedback when you tap it.
+
+## The basic version
+
+The starting point is a button with three states -- idle, sending, and sent. Each state has its own icon and color.
+
+```tsx
+const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+
+const handleSend = () => {
+  setStatus("sending");
+  setTimeout(() => setStatus("sent"), 1200);
+  setTimeout(() => setStatus("idle"), 2400);
+};
+```
+
+Nothing fancy here. Just state transitions on a timer.
+
+## Making it interesting
+
+The magic is in the transitions between states. Instead of hard-cutting between icons, each state change gets a choreographed animation -- the arrow morphs into a loader, the loader morphs into a checkmark.
+
+The key is using `AnimatePresence` with `mode="wait"` so the exit animation finishes before the entrance begins:
+
+```tsx
+<AnimatePresence mode="wait">
+  {status === "idle" && (
+    <motion.div
+      key="idle"
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0, y: -10 }}
+      transition={{ type: "spring", stiffness: 400 }}
+    >
+      <ArrowUp />
+    </motion.div>
+  )}
+</AnimatePresence>
+```
+
+## The key insight
+
+The thing that makes the whole interaction feel premium is **anticipation**. Before the button enters the "sending" state, there's a 50ms squeeze -- the button scales down slightly. It's barely perceptible, but it makes the subsequent expansion feel earned. Remove it and the animation feels flat.
+
+## Putting it all together
+
+The full button combines the state machine, the icon transitions, and a background color shift that follows the state. The color uses a spring transition so it doesn't feel mechanical.
+
+That's it. A send button that feels like it's actually doing something.

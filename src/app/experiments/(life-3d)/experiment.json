@@ -4,5 +4,9 @@
   "slug": "life-3d",
   "created": "2026-01-03T11:55:42.770Z",
   "video": "/experiments/life-3d/preview.mp4",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": []
 }

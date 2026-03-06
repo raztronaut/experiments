@@ -44,7 +44,7 @@ To ensure that experiments do not interfere with each other or the main applicat
 
 - **Framework**: Next.js 16 (App Router)
 - **Styling**: Tailwind CSS & Shadcn UI (Main Dashboard)
-- **Animation**: Framer Motion
+- **Animation**: Motion (`motion/react`)
 - **3D Graphics**: React Three Fiber / Three.js
 - **Tooling**: Plop.js for scaffolding, Vitest for testing, Storybook for component development.
 

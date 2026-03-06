@@ -4,5 +4,9 @@
   "slug": "rabbithole-chat-gallery-explore",
   "created": "2026-01-09T07:50:46.767Z",
   "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": []
 }

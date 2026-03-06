@@ -4,5 +4,9 @@
   "slug": "bugged-out-game-of-life-shader-experiment",
   "created": "2025-12-24T05:54:41.000Z",
   "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4",
-  "isPlaceholder": false
+  "isPlaceholder": false,
+  "status": "shipped",
+  "legacy": true,
+  "tags": [],
+  "tech": []
 }
