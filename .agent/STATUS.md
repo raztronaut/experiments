@@ -161,8 +161,8 @@ Full test results: `.agent/running-findings.md`
 | MCP capture server | Not started | Full MCP tool (currently CLI script) |
 | Article-aware homepage section | Not started | Dedicated "Writing" section using `getArticles()` (discovery via badges/drawer already works) |
 | Content dashboard | Not started | Overview of which experiments have which content formats |
-| Legacy layout migration | Partial | 15/17 layouts hardcode metadata instead of reading experiment.json. send-button and keyboard-keys hardcode `articleSlug` instead of deriving from `content?.article`. Should match plop template pattern. |
-| Validator enhancements | Not started | Cross-check `content.article` vs. `article/content.mdx` on disk; warn on layouts missing experiment.json import |
+| Legacy layout metadata | Low priority | 15/18 layouts hardcode metadata strings instead of reading experiment.json. 3 layouts (basketball-replay-center, send-button, keyboard-keys) use the dynamic pattern. New experiments use it automatically via plop template. Cosmetic only -- no functional bugs. |
+| Validator enhancements | **DONE** | Cross-checks `content.article` vs. `article/content.mdx` on disk. Warns in both directions. Runs in CI + pre-commit. |
 
 ### Completed P3 Items
 
@@ -176,6 +176,8 @@ Full test results: `.agent/running-findings.md`
 | metadataBase backfill | **DONE** | All 18 experiment layouts have `metadataBase: new URL("https://www.razisyed.cv")` |
 | ExperimentNav migration | **DONE** | All 18 layouts use unified `ExperimentNav`. Old `ExperimentBackButton` + `ExperimentArticleButton` deleted. |
 | Plopfile article vars | **DONE** | Article generator now prompts for `description` and auto-populates `createdDate` in frontmatter |
+| Validator content checks | **DONE** | `validate-experiments.mjs` cross-checks `content.article` vs. `article/content.mdx` on disk |
+| Dynamic articleSlug | **DONE** | send-button + keyboard-keys layouts derive `articleSlug` from `content?.article` instead of hardcoding |
 
 ---
 

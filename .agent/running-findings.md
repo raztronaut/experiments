@@ -284,12 +284,16 @@ Audited all 13 V2 plan files, cross-referenced against on-disk state, then execu
 | **Plopfile article generator** | 2 files | Added `createdDate` computed property + optional `description` prompt; content.mdx.hbs uses both |
 | **template_audit_fixes plan** | 1 file | All 11 todos marked as cancelled in plan frontmatter |
 
-### Known Remaining Issue: Legacy Layout Drift
+### Follow-Up: Dynamic articleSlug + Validator Enhancement
 
-The 17 legacy layouts still hardcode metadata (title, description, URLs, images) instead of reading from `experiment.json` like the plop template does. Additionally, send-button and keyboard-keys hardcode `articleSlug="send-button"` and `articleSlug="keyboard-keys"` instead of using the dynamic `content?.article ? experiment.slug : undefined` pattern from the template. This means:
-- Adding/removing an article requires editing the layout file, not just experiment.json
-- Metadata can drift out of sync between experiment.json and layout.tsx
-- The validator doesn't catch layout-level inconsistencies
+Two fixes applied after the initial cleanup commit:
+
+1. **send-button and keyboard-keys layouts** now import `experiment.json` and derive `articleSlug` from `content?.article ? experiment.slug : undefined` instead of hardcoding the slug string. Adding/removing an article only requires updating `experiment.json`.
+2. **`validate-experiments.mjs`** now cross-checks `content.article` in experiment.json against `article/content.mdx` on disk. Warns in both directions (file exists but not declared, or declared but file missing). Runs in CI + pre-commit.
+
+### Remaining: Legacy Layout Metadata Hardcoding (Low Priority)
+
+15 of 18 layouts still hardcode metadata strings (title, description, URLs, images) instead of reading from `experiment.json`. Only 3 layouts (basketball-replay-center, send-button, keyboard-keys) use the dynamic pattern from the plop template. This is cosmetic -- metadata could drift if experiment.json is updated without updating the layout -- but doesn't cause functional bugs. New experiments scaffolded via `npm run new:experiment` use the correct pattern automatically.
 
 ### Verification
 
