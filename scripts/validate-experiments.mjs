@@ -119,6 +119,40 @@ try {
         );
       }
     }
+
+    // Cross-check content.article against article/content.mdx on disk
+    if (config.slug) {
+      const slugDirs = fs
+        .readdirSync(path.join(EXPERIMENTS_DIR, group.name), {
+          withFileTypes: true,
+        })
+        .filter((d) => d.isDirectory() && !d.name.startsWith("."));
+
+      for (const slugDir of slugDirs) {
+        const articlePath = path.join(
+          EXPERIMENTS_DIR,
+          group.name,
+          slugDir.name,
+          "article",
+          "content.mdx"
+        );
+        const hasArticleOnDisk = fs.existsSync(articlePath);
+        const hasArticleInJson = config.content?.article === true;
+
+        if (hasArticleOnDisk && !hasArticleInJson) {
+          warn(
+            relPath,
+            "article/content.mdx exists on disk but content.article is not true in experiment.json"
+          );
+        }
+        if (hasArticleInJson && !hasArticleOnDisk) {
+          warn(
+            relPath,
+            "content.article is true but article/content.mdx does not exist on disk"
+          );
+        }
+      }
+    }
   }
 
   console.log(`Validated ${slugs.size} experiments.`);
