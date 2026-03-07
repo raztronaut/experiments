@@ -62,12 +62,8 @@ async function getAllComponentFiles(dirPath) {
   try {
     const list = await fs.readdir(dirPath, { withFileTypes: true });
     for (const file of list) {
-      // Skip hidden files, tests, and stories
-      if (
-        file.name.startsWith(".") ||
-        file.name.includes(".test.") ||
-        file.name.includes(".stories.")
-      ) {
+      // Skip hidden files and tests
+      if (file.name.startsWith(".") || file.name.includes(".test.")) {
         continue;
       }
 

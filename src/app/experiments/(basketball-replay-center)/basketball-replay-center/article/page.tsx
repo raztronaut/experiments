@@ -65,8 +65,14 @@ export default async function ArticlePage() {
 
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: SITE_URL },
-    { name: experiment.title, url: `${SITE_URL}/experiments/${experiment.slug}` },
-    { name: "Article", url: `${SITE_URL}/experiments/${experiment.slug}/article` },
+    {
+      name: experiment.title,
+      url: `${SITE_URL}/experiments/${experiment.slug}`,
+    },
+    {
+      name: "Article",
+      url: `${SITE_URL}/experiments/${experiment.slug}/article`,
+    },
   ]);
 
   return (
@@ -76,43 +82,45 @@ export default async function ArticlePage() {
         type="application/ld+json"
       />
       <script
-        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLdStringify(breadcrumbJsonLd),
+        }}
         type="application/ld+json"
       />
       <ArticleLayout
-      experimentSlug={experiment.slug}
-      experimentTitle={experiment.title}
-      next={next ? { title: next.title, href: next.href } : undefined}
-      prev={prev ? { title: prev.title, href: prev.href } : undefined}
-      publishedAt={frontmatter.publishedAt || experiment.created}
-      readingTime={`${readingMinutes} min read`}
-      title={frontmatter.title || experiment.title}
-      updatedAt={frontmatter.updatedAt}
-    >
-      <MDXRemote
-        components={{
-          ...articleComponents,
-          BarrelDistortionDemo,
-          CRTEffectDemo,
-        }}
-        options={{
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [
-              rehypeSlug,
-              [
-                rehypePrettyCode,
-                {
-                  theme: { light: "github-light", dark: "github-dark" },
-                  keepBackground: false,
-                },
+        experimentSlug={experiment.slug}
+        experimentTitle={experiment.title}
+        next={next ? { title: next.title, href: next.href } : undefined}
+        prev={prev ? { title: prev.title, href: prev.href } : undefined}
+        publishedAt={frontmatter.publishedAt || experiment.created}
+        readingTime={`${readingMinutes} min read`}
+        title={frontmatter.title || experiment.title}
+        updatedAt={frontmatter.updatedAt}
+      >
+        <MDXRemote
+          components={{
+            ...articleComponents,
+            BarrelDistortionDemo,
+            CRTEffectDemo,
+          }}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+              rehypePlugins: [
+                rehypeSlug,
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: { light: "github-light", dark: "github-dark" },
+                    keepBackground: false,
+                  },
+                ],
               ],
-            ],
-          },
-        }}
-        source={content}
-      />
-    </ArticleLayout>
+            },
+          }}
+          source={content}
+        />
+      </ArticleLayout>
     </>
   );
 }

@@ -25,7 +25,6 @@ description: Create a new isolated experiment with all required scaffolding
    - `src/app/experiments/(kebab-name)/kebab-name/error.tsx` - Error boundary
    - `src/app/experiments/(kebab-name)/experiment.json` - Dashboard metadata
    - `src/components/experiments/kebab-name/PascalName.tsx` - Main component
-   - `src/components/experiments/kebab-name/PascalName.stories.tsx` - Storybook story
    - `src/components/experiments/kebab-name/PascalName.test.tsx` - Test file
    - `public/experiments/kebab-name/.gitkeep` - Asset directory
 
@@ -34,12 +33,7 @@ description: Create a new isolated experiment with all required scaffolding
    src/components/experiments/<name>/<PascalName>.tsx
    ```
 
-4. For complex components, develop in Storybook first:
-   ```bash
-   npm run storybook
-   ```
-
-5. Verify the experiment works:
+4. Verify the experiment works:
    - Visit `http://localhost:3000` - should appear in dashboard
    - Visit `http://localhost:3000/experiments/<name>` - direct access
 

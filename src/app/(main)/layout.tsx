@@ -9,8 +9,8 @@ import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
 import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import {
-	generateWebSiteJsonLd,
-	safeJsonLdStringify,
+  generateWebSiteJsonLd,
+  safeJsonLdStringify,
 } from "@/lib/structured-data";
 import { cn } from "@/lib/utils";
 

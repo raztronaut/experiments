@@ -112,11 +112,6 @@ module.exports = (plop) => {
         },
         {
           type: "add",
-          path: "src/components/experiments/{{dashCase name}}/{{pascalCase name}}.stories.tsx",
-          templateFile: "plop-templates/experiment/component.stories.tsx.hbs",
-        },
-        {
-          type: "add",
           path: "src/components/experiments/{{dashCase name}}/{{pascalCase name}}.test.tsx",
           templateFile: "plop-templates/experiment/component.test.tsx.hbs",
         },

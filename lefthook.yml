@@ -7,6 +7,7 @@ pre-commit:
       glob: "*.{ts,tsx,js,mjs,json,jsonc,css}"
     typecheck:
       run: npx tsc --noEmit
+      glob: "*.{ts,tsx}"
     validate-experiments:
       run: node scripts/validate-experiments.mjs
       glob: "**/experiment.json"

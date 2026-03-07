@@ -74,10 +74,10 @@ MDX article infrastructure using `next-mdx-remote/rsc` (Sylph-inspired pattern).
 | Component | File(s) | Purpose |
 |-----------|---------|---------|
 | **Biome (Ultracite)** | `biome.jsonc`, `ultracite` | Linting + formatting via Biome. Replaces ESLint. `npm run lint` = `ultracite check`, `npm run fix` = `ultracite fix` |
-| **CI** | `.github/workflows/ci.yml` | lint -> typecheck -> unit tests -> build on push/PR to main |
+| **CI** | `.github/workflows/ci.yml` | Two parallel jobs: `checks` (lint, typecheck, validate, unit tests) and `build` (with `.next/cache` caching). Concurrency group cancels stale runs. |
 | **Type checking** | `npm run typecheck` | `tsc --noEmit` |
 | **Experiment validation** | `scripts/validate-experiments.mjs` | Validates experiment.json: required fields, enum values (status, profile, complexity), array types for tags/tech, date format for created, object structure for content, no duplicate slugs |
-| **Pre-commit hooks** | `lefthook.yml` | Parallel: ultracite fix (staged), typecheck, validate experiments |
+| **Pre-commit hooks** | `lefthook.yml` | Parallel: ultracite fix (staged), typecheck (glob-filtered to `*.{ts,tsx}`), validate experiments |
 | **View Transitions** | `@view-transition` in globals.css + experiments.css | Cross-document transitions between homepage and experiments |
 | **Navigation** | `ExperimentDrawerList.tsx` | Same-tab default (Cmd/Ctrl+click for new tab), enables view transitions |
 | **Transition names** | `ExperimentGridCard`, `ExperimentNav`, layout template | Matching `view-transition-name` for morphing between pages |
@@ -134,18 +134,19 @@ All agent config files are functional with zero forward dependencies:
 1. **P0**: DONE (Sections 1-2)
 2. **P1**: DONE (Sections 3-4)
 3. **P2**: DONE (Sections 5-6)
-4. **P3** (next): MCP capture server, Tier 2/3 library adoption, Registry V2, Lighthouse CI
+4. **P3**: DONE (Content, SEO, AI discoverability)
+5. **P4**: DONE (Storybook removal, CI/testing infrastructure)
 
 ### Post-V2 Remediation (from [comprehensive review](../.cursor/plans/v2_comprehensive_review_9100ae49.plan.md))
 - **P0 Critical Issues**: DONE -- DevToolsInjector wired into Plop template, `getArticleContent()` error handling, root layout cleanup, `removeConsole` documented. Metadata inconsistencies fixed (404-not-found -> advanced, test -> archived). Remaining: Cursor.tsx perf bug (deferred).
 - **P1 Fulfill Original Promises**: DONE -- DevToolsInjector backfilled into all 18 layouts, ArticleLayout breadcrumbs use `<Link>` + human-readable titles, 5 misplaced deps moved to devDependencies, plopfile timestamp bug fixed, delete-article resets publishable. CSS base style extraction deferred (low priority, ~45 lines, proven safe via shared-tokens.css pattern but not worth the effort).
 - **P2 Quality and Performance**: DONE -- Tracked in `.cursor/plans/p2_quality_performance_b442a328.plan.md`. Runtime schema validation in `getExperiments()`, `articles.ts` converted from sync to async `fs/promises`, all 3 data functions wrapped with `React.cache()`, `optimizePackageImports` expanded (motion, @react-three/drei, @codesandbox/sandpack-react), ExperimentDrawerList rAF loop gated on viewMode+isVisible with convergence stop. Deferred: Cursor.tsx perf bug, `useExhaustiveDependencies`, Biome a11y rules, `noExplicitAny`/`noUnusedVariables`.
 - **P3 Content, SEO, and AI Discoverability**: DONE -- Tracked in `.cursor/plans/p3_content_seo_f304f8d2.plan.md`. `schema-dts` typed JSON-LD across the entire site: `WebSite` + `Person` `@graph` on root layout, `SoftwareApplication` + `BreadcrumbList` on all 18 experiment layouts (via `ExperimentJsonLd` component), `TechArticle` + `BreadcrumbList` + canonical URLs on article pages. `llms.txt` rewritten to v1.1.1 spec with build-time generation (`scripts/generate-llms-txt.mjs`) for both `llms.txt` and `llms-full.txt`. `robots.txt` updated with 5 additional AI crawler names (ChatGPT-User, Claude-SearchBot, Claude-User, Applebot-Extended, Bytespider). RSS feed uses shared constants + `<lastBuildDate>`. OG image route loads custom font with Inter fallback + description parameter. Sitemap includes `/experiments` (redirect to `/`). Shared constants (`SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR_NAME`, `GITHUB_URL`, `TWITTER_URL`). XSS-safe JSON-LD serialization. Deferred: TOC in ArticleLayout (dedicated effort with scroll-spy + responsive design).
-- **P4**: Pending. See comprehensive review for full roadmap.
+- **P4 CI/Testing Infrastructure**: DONE -- Tracked in `.cursor/plans/p4_ci_testing_infrastructure_eb0aeeb8.plan.md`. Storybook removed comprehensively (22 files deleted, 8 packages uninstalled, all docs/workflows/templates updated). CI split into 2 parallel jobs (`checks` + `build`) with `.next/cache` caching and concurrency control. `.nvmrc` added (Node 22). Lefthook typecheck glob-filtered to `*.{ts,tsx}`. Vitest config simplified to unit-only.
 
 ---
 
-## Verification Results (last run: 2026-03-07, post-P3)
+## Verification Results (last run: 2026-03-07, post-P4)
 
 | Check | Result |
 |-------|--------|

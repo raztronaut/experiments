@@ -13,7 +13,7 @@ Scaffolded `magnetic-card` with the interaction profile, ran the full verificati
 
 | Step | Result | Detail |
 |------|--------|--------|
-| 9/9 files created | PASS | layout, page, error, experiment.json, component, stories, test, .gitkeep, preview.gif |
+| 8/8 files created | PASS | layout, page, error, experiment.json, component, test, .gitkeep, preview.gif |
 | experiment.json fields | PASS | `profile: "interaction"`, `status: "wip"`, `tags: []`, `tech: []` |
 | layout.tsx: metadataBase | PASS | `new URL("https://www.razisyed.cv")` present |
 | layout.tsx: viewTransitionName | PASS | Set on `<body>` as string literal |
@@ -49,7 +49,6 @@ Scaffolded `magnetic-card` with the interaction profile, ran the full verificati
 **Fix applied**: All 14 template files updated to generate Biome-clean output:
 - `route-layout.tsx.hbs` -- import order, double quotes, string literal for viewTransitionName, collapsed function signature, trailing whitespace
 - `route-error.tsx.hbs` -- full indentation rewrite, Tailwind class sorting
-- `component.stories.tsx.hbs` -- indentation and quote normalization
 - `component.test.tsx.hbs` -- import order (testing-library before vitest), formatting
 - `profiles/interaction/component.tsx.hbs` -- import order (motion/react before react), Tailwind class sorting, JSX attribute sorting
 - `profiles/interaction/route-page.tsx.hbs` -- Tailwind class sorting
@@ -610,3 +609,17 @@ Addressed P3 from the V2 Comprehensive Review plus modern AI discoverability sta
 | `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
 | `node scripts/validate-experiments.mjs` | 18 experiments valid |
 | `npm run build` | Success, 29 routes (18 experiments + 2 articles + /experiments redirect + API routes + feed + sitemap + robots), llms.txt generated (18 experiments, 2 articles), llms-full.txt generated (232 lines) |
+
+---
+
+## P4 CI/Testing Infrastructure (2026-03-07)
+
+Addressed Section 8 (Testing and CI Gaps) and Section 11 P4 from the V2 Comprehensive Review. Tracked in `.cursor/plans/p4_ci_testing_infrastructure_eb0aeeb8.plan.md`.
+
+### Storybook Removal (Complete)
+
+Removed Storybook comprehensively: 3 config files, 18 story files, 1 plop template deleted. 8 packages uninstalled (115 transitive removed). Vitest config simplified to unit-only. Updated package.json scripts, plopfile, .gitignore, README.md, and 8 agent docs.
+
+### CI Improvements
+
+Split single sequential CI job into 2 parallel jobs (`checks` + `build`). Added `.next/cache` via `actions/cache@v4`. Added concurrency group with `cancel-in-progress`. Created `.nvmrc` (Node 22), CI uses `node-version-file`. Lefthook typecheck glob-filtered to `*.{ts,tsx}` so non-TS commits skip tsc.

@@ -36,41 +36,7 @@ description: Create a new component within an existing experiment
    }
    ```
 
-3. **Create the Storybook story**:
-   ```
-   src/components/experiments/<experiment-name>/<ComponentName>.stories.tsx
-   ```
-   
-   ```tsx
-   import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-   import { <ComponentName> } from './<ComponentName>';
-   
-   const meta: Meta<typeof <ComponentName>> = {
-     title: 'Experiments/<ExperimentName>/<ComponentName>',
-     component: <ComponentName>,
-     parameters: {
-       layout: 'centered',
-     },
-     tags: ['autodocs'],
-   };
-   
-   export default meta;
-   type Story = StoryObj<typeof <ComponentName>>;
-   
-   export const Default: Story = {
-     args: {
-       // default props
-     },
-   };
-   
-   export const Variant: Story = {
-     args: {
-       // variant props
-     },
-   };
-   ```
-
-4. **Create the test file** (optional but recommended):
+3. **Create the test file** (optional but recommended):
    ```
    src/components/experiments/<experiment-name>/<ComponentName>.test.tsx
    ```
@@ -88,13 +54,7 @@ description: Create a new component within an existing experiment
    });
    ```
 
-5. **Test in Storybook**:
-   ```bash
-   npm run storybook
-   ```
-   Navigate to `Experiments/<ExperimentName>/<ComponentName>`
-
-6. **Import into parent component or page**:
+4. **Import into parent component or page**:
    ```tsx
    import { <ComponentName> } from './<ComponentName>';
    // or from page.tsx:

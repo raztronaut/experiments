@@ -38,7 +38,7 @@ To ensure that experiments do not interfere with each other or the main applicat
 
 - **Isolated Environments**: Each experiment runs in its own route group.
 - **Style Isolation**: The main application uses global styles (Tailwind, Shadcn), but experiments can opt-out or use their own isolated CSS to ensure a clean slate.
-- **Component Independence**: Components are built specifically for their experiment, often developed in isolation using Storybook before integration.
+- **Component Independence**: Components are built specifically for their experiment, developed in isolation using route-group separation.
 
 ## Technology Stack
 
@@ -46,7 +46,7 @@ To ensure that experiments do not interfere with each other or the main applicat
 - **Styling**: Tailwind CSS & Shadcn UI (Main Dashboard)
 - **Animation**: Motion (`motion/react`)
 - **3D Graphics**: React Three Fiber / Three.js
-- **Tooling**: Plop.js for scaffolding, Vitest for testing, Storybook for component development.
+- **Tooling**: Plop.js for scaffolding, Vitest for testing.
 
 ## Workflow & Automation
 
@@ -63,19 +63,10 @@ This command:
 - Creates a dedicated component directory in `src/components/experiments`.
 - **Creates a metadata file (`experiment.json`)** which allows the dashboard to automatically list the experiment.
 - **Creates an asset directory** in `public/experiments/<name>` for images/models.
-- Sets up initial Storybook stories.
-
-### 2. Develop Components (Storybook)
-Complex interactions are best built in isolation.
-```bash
-npm run storybook
-```
-We use Storybook to build and refine components without the noise of the full application context.
-
-### 3. Integration
+### 2. Integration
 Once components are ready, they are assembled into the page file designated for that experiment.
 
-### 4. Verification
+### 3. Verification
 Visit `http://localhost:3000/experiments/<experiment-name>` to see your creation live.
 
 ### 5. Cleanup
@@ -168,12 +159,7 @@ This means AI assistants will automatically:
    ```
    Visit [http://localhost:3000](http://localhost:3000) for the main dashboard.
 
-3. **Run component workbench (Storybook)**:
-   ```bash
-   npm run storybook
-   ```
-
-4. **Run tests**:
+3. **Run tests**:
    ```bash
    npm run test
    ```

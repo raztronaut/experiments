@@ -113,4 +113,4 @@ Located in `src/components/ui/`:
 | `scripts/validate-experiments.mjs` | experiment.json validation |
 | View Transitions API | CSS `@view-transition { navigation: auto; }` in globals.css and experiments.css, `view-transition-name` on experiment cards and back button |
 
-**Note**: ESLint, eslint-config-next, and eslint-plugin-storybook have been removed. Biome handles all JS/TS/JSX/TSX/JSON/CSS linting and formatting.
+**Note**: ESLint, eslint-config-next, eslint-plugin-storybook, and Storybook have been removed. Biome handles all JS/TS/JSX/TSX/JSON/CSS linting and formatting.

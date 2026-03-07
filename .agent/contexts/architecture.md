@@ -16,7 +16,6 @@ src/app/experiments/(experiment-name)/
 
 src/components/experiments/experiment-name/
 ├── ExperimentName.tsx      # Main component ("use client")
-├── ExperimentName.stories.tsx  # Storybook story
 ├── ExperimentName.test.tsx     # Vitest test
 └── [sub-components...]         # Additional components, hooks, shaders
 
@@ -82,7 +81,7 @@ The scaffolder prompts for name, description, and **profile**. Each profile gene
 | Location | What Goes Here | Example |
 |----------|---------------|---------|
 | `src/app/experiments/(name)/` | Route files, layout, metadata | layout.tsx, experiment.json, page.tsx |
-| `src/components/experiments/name/` | Components, hooks, utils, shaders, stories, tests | MyExperiment.tsx, shader.glsl |
+| `src/components/experiments/name/` | Components, hooks, utils, shaders, tests | MyExperiment.tsx, shader.glsl |
 | `public/experiments/name/` | Static assets | preview.mp4, model.glb, texture.png |
 
 ## Import Rules

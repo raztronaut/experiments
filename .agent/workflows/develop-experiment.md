@@ -27,7 +27,6 @@ description: Work on an existing experiment following isolation rules
 3. **For new components within this experiment**:
    - Create at `src/components/experiments/<name>/<NewComponent>.tsx`
    - Add `"use client"` if the component uses hooks, events, or browser APIs
-   - Create matching story: `<NewComponent>.stories.tsx`
    - Import only from allowed sources (see below)
 
 4. **Allowed imports for experiment components**:
@@ -50,9 +49,6 @@ description: Work on an existing experiment following isolation rules
 
 6. **Development workflow**:
    ```bash
-   # Component development in isolation
-   npm run storybook
-   
    # Run tests
    npm run test
    
@@ -64,7 +60,6 @@ description: Work on an existing experiment following isolation rules
    - [ ] All `useEffect` hooks have cleanup functions
    - [ ] No imports from other experiments
    - [ ] No modifications to files outside the experiment's directories
-   - [ ] Storybook story works correctly
    - [ ] Error boundary catches failures gracefully
 
 ## Common Modifications

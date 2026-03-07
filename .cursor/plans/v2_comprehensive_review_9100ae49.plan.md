@@ -10,19 +10,19 @@ todos:
     status: completed
   - id: fix-data-inconsistencies
     content: Fix 404-not-found complexity to advanced, test status to archived, plopfile timestamp bug, delete-article.mjs publishable reset, game-of-life-shader profile
-    status: pending
+    status: completed
   - id: fix-semantic-seo
     content: "ArticleLayout: h1 for title, Link for breadcrumb, human-readable title; add JSON-LD + canonical to articles; uncomment TOC; fix sitemap/RSS gaps"
-    status: pending
+    status: completed
   - id: fix-code-quality
     content: Move misplaced deps to devDeps, extract shared CSS base, add getExperiments() schema validation, expand optimizePackageImports, fix Biome exhaustive-deps
-    status: pending
+    status: completed
   - id: fix-docs-accuracy
     content: "architecture.md auto-inject claim + filter bar mention FIXED. Remaining: STATUS.md accuracy, constants.ts expansion (site title)"
-    status: pending
+    status: completed
   - id: fix-ci-testing
-    content: Add browser tests + Storybook build to CI, parallelize lint/typecheck/validate steps, add .next cache
-    status: pending
+    content: "Storybook removed, CI parallelized into 2 jobs (checks + build), .next cache added, lefthook typecheck glob-filtered, .nvmrc added"
+    status: completed
   - id: content-pipeline-execution
     content: Begin generating articles for remaining 16 experiments, populate unused schema fields (updated, inspiration, related), build content dashboard
     status: pending
@@ -193,14 +193,14 @@ Both [InteractivePreviewMedia.tsx](src/components/ui/experiments/InteractivePrev
 
 ---
 
-## 8. Testing and CI Gaps
+## 8. Testing and CI Gaps -- RESOLVED
 
-- **No browser/integration tests** in CI -- Playwright is installed but only used for manual captures
-- **Storybook build** not validated in CI -- can break silently
+- **No browser/integration tests** in CI -- Playwright is installed but only used for manual captures (unchanged -- E2E is a future effort)
+- ~~**Storybook build** not validated in CI~~ RESOLVED (Storybook removed entirely in P4)
 - **All 16 legacy experiment tests deleted** -- test coverage is minimal (only 2 test files, 5 tests total)
-- `**typecheck` runs on every pre-commit** regardless of which files changed -- slow for CSS-only changes
-- **No test coverage reporting**
-- **CI steps are sequential** -- lint, typecheck, and validate could run in parallel
+- ~~`**typecheck` runs on every pre-commit** regardless of which files changed~~ FIXED (lefthook glob filter on `*.{ts,tsx}`)
+- **No test coverage reporting** (`@vitest/coverage-v8` installed, can wire as follow-up)
+- ~~**CI steps are sequential**~~ FIXED (split into 2 parallel jobs: `checks` + `build`)
 
 ---
 
@@ -285,10 +285,14 @@ Per the original V2 plan priority ordering:
 - ~~Shared constants (`SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR_NAME`)~~ DONE
 - ~~XSS-safe JSON-LD serialization (`safeJsonLdStringify`)~~ DONE
 
-### P4: Infrastructure
+### P4: Infrastructure -- DONE
 
-1. Add browser tests to CI
-2. Add Storybook build validation to CI
-3. Parallelize CI steps
-4. Begin P3 items from original plan (MCP, Lighthouse CI, Registry V2)
+> **Tracked in [P4 CI Testing Infrastructure](p4_ci_testing_infrastructure_eb0aeeb8.plan.md).**
+
+1. ~~Add browser tests to CI~~ Storybook removed entirely (22 files + 8 packages + all docs references)
+2. ~~Add Storybook build validation to CI~~ N/A (Storybook removed)
+3. ~~Parallelize CI steps~~ DONE (2 parallel jobs: `checks` + `build`, `.next/cache` caching, concurrency group)
+4. ~~Lefthook typecheck optimization~~ DONE (glob filter: `*.{ts,tsx}`)
+5. ~~`.nvmrc`~~ DONE (Node 22, CI uses `node-version-file`)
+6. Begin P3 items from original plan (MCP, Lighthouse CI, Registry V2) -- future effort
 

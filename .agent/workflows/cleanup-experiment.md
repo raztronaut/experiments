@@ -38,7 +38,7 @@ description: Remove an experiment and all its associated files safely
 | Directory | Contents |
 |-----------|----------|
 | `src/app/experiments/(<name>)/` | layout.tsx, page.tsx, error.tsx, experiment.json |
-| `src/components/experiments/<name>/` | All components, stories, tests |
+| `src/components/experiments/<name>/` | All components and tests |
 | `public/experiments/<name>/` | All static assets |
 
 ## Troubleshooting

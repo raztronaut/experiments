@@ -5,7 +5,7 @@ trigger: always_on
 # Experiment Isolation Rules
 
 ## Scaffolding
-Always use `npm run new:experiment` to create experiments. Never manually create initial experiment files. The generator handles route groups, layouts, metadata, components, stories, and tests.
+Always use `npm run new:experiment` to create experiments. Never manually create initial experiment files. The generator handles route groups, layouts, metadata, components, and tests.
 
 ## Three-Location Rule
 Experiment code belongs ONLY in:

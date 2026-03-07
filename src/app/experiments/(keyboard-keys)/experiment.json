@@ -8,13 +8,7 @@
   "status": "shipped",
   "complexity": "intermediate",
   "legacy": true,
-  "tags": [
-    "keyboard",
-    "animation",
-    "ui"
-  ],
-  "tech": [
-    "css-animations"
-  ],
+  "tags": ["keyboard", "animation", "ui"],
+  "tech": ["css-animations"],
   "content": {}
 }

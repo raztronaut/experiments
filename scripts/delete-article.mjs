@@ -35,7 +35,7 @@ if (!fs.existsSync(groupDir)) {
 const hasArticle = fs.existsSync(articleDir);
 const hasDocs = fs.existsSync(docsDir);
 
-if (!hasArticle && !hasDocs) {
+if (!(hasArticle || hasDocs)) {
   console.log(
     `No article/ or docs/ directories found for "${safeName}". Nothing to delete.`
   );
@@ -45,7 +45,9 @@ if (!hasArticle && !hasDocs) {
 console.log(`\nFound content for "${safeName}":`);
 if (hasArticle) {
   const articleFiles = fs.readdirSync(articleDir);
-  console.log(`  article/ (${articleFiles.length} files): ${articleFiles.join(", ")}`);
+  console.log(
+    `  article/ (${articleFiles.length} files): ${articleFiles.join(", ")}`
+  );
 }
 if (hasDocs) {
   const docsFiles = fs.readdirSync(docsDir);
@@ -97,13 +99,13 @@ rl.question(
         const data = JSON.parse(raw);
         let changed = false;
         if ("content" in data) {
-          delete data.content;
+          data.content = undefined;
           console.log(`✅ Removed "content" block from experiment.json`);
           changed = true;
         }
         if (data.publishable) {
           data.publishable = false;
-          console.log(`✅ Reset publishable to false (article removed)`);
+          console.log("✅ Reset publishable to false (article removed)");
           changed = true;
         }
         if (changed) {
@@ -113,19 +115,19 @@ rl.question(
             "utf-8"
           );
         } else {
-          console.log(`ℹ️  experiment.json has no "content" block (already clean)`);
+          console.log(
+            `ℹ️  experiment.json has no "content" block (already clean)`
+          );
         }
       } catch (err) {
-        console.error(
-          `❌ Error updating experiment.json: ${err.message}`
-        );
+        console.error(`❌ Error updating experiment.json: ${err.message}`);
       }
     }
 
     console.log(
       `\n✨ Deleted ${deletedCount} files from "${safeName}" article & docs.`
     );
-    console.log(`   The experiment itself remains intact.`);
+    console.log("   The experiment itself remains intact.");
     rl.close();
   }
 );

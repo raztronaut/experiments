@@ -55,7 +55,7 @@ No AI fingerprints in git history or PR descriptions. No `Co-Authored-By` AI lin
 Experiments use **route group isolation** -- each gets its own `<html>`/`<body>`:
 
 - `src/app/experiments/(name)/` -- route files, layout, experiment.json
-- `src/components/experiments/name/` -- components, stories, tests
+- `src/components/experiments/name/` -- components and tests
 - `public/experiments/name/` -- assets (images, video, models)
 
 **Hard rules**: no cross-experiment imports, no global state pollution, shared UI is read-only. Always scaffold with `npm run new:experiment`.
