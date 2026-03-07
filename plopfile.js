@@ -20,6 +20,23 @@ module.exports = (plop) => {
       },
       {
         type: "list",
+        name: "complexity",
+        message: "Complexity level:",
+        choices: [
+          { name: "Beginner (single-technique, minimal)", value: "beginner" },
+          {
+            name: "Intermediate (interaction/dom-effect, single-shader)",
+            value: "intermediate",
+          },
+          {
+            name: "Advanced (multi-technique, R3F, physics)",
+            value: "advanced",
+          },
+        ],
+        default: "intermediate",
+      },
+      {
+        type: "list",
         name: "profile",
         message: "Experiment profile:",
         choices: [
@@ -42,6 +59,7 @@ module.exports = (plop) => {
     ],
     actions(answers) {
       const profileDir = `plop-templates/experiment/profiles/${answers.profile}`;
+      answers.createdDate = new Date().toISOString();
 
       const actions = [
         {
@@ -67,15 +85,16 @@ module.exports = (plop) => {
               title: "{{titleCase name}}",
               description: "{{description}}",
               slug: "{{dashCase name}}",
-              created: new Date().toISOString(),
+              created: "{{createdDate}}",
               profile: "{{profile}}",
               status: "wip",
+              complexity: "{{complexity}}",
               tags: [],
               tech: [],
-              image: "/experiments/{{dashCase name}}/preview.gif",
+              image: "",
               video: "",
               poster: "/experiments/{{dashCase name}}/poster.jpg",
-              isPlaceholder: true,
+              publishable: false,
             },
             null,
             2
@@ -85,29 +104,6 @@ module.exports = (plop) => {
           type: "add",
           path: "public/experiments/{{dashCase name}}/.gitkeep",
           template: "",
-        },
-        (answers) => {
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const dashCase = plop.getHelper("dashCase");
-          const slug = dashCase(answers.name);
-          const src = path.join(
-            process.cwd(),
-            "public/experiments/no-preview.gif"
-          );
-          const dest = path.join(
-            process.cwd(),
-            "public/experiments",
-            slug,
-            "preview.gif"
-          );
-
-          try {
-            fs.copyFileSync(src, dest);
-            return "Copied default preview.gif";
-          } catch (e) {
-            return `Failed to copy preview.gif: ${e.message}`;
-          }
         },
         {
           type: "add",
@@ -147,6 +143,10 @@ module.exports = (plop) => {
           const routeDir = `src/app/experiments/(${slug})`;
           if (!fs.existsSync(routeDir)) {
             return `No experiment found at ${routeDir}. Create the experiment first with 'npm run new:experiment'.`;
+          }
+          const articlePath = `${routeDir}/${slug}/article/page.tsx`;
+          if (fs.existsSync(articlePath)) {
+            return `Article already exists for "${slug}". Delete it first with 'npm run delete:article ${slug}'.`;
           }
           return true;
         },
@@ -204,6 +204,15 @@ module.exports = (plop) => {
           type: "add",
           path: `${routeBase}/docs/changelog.md`,
           templateFile: "plop-templates/article/changelog.md.hbs",
+        },
+        {
+          type: "modify",
+          path: `src/app/experiments/(${slug})/experiment.json`,
+          transform(fileContent) {
+            const data = JSON.parse(fileContent);
+            data.content = { ...data.content, article: true };
+            return `${JSON.stringify(data, null, 2)}\n`;
+          },
         },
       ];
     },

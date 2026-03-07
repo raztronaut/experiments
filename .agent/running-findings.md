@@ -78,7 +78,7 @@ Scaffolded `magnetic-card` with the interaction profile, ran the full verificati
 | Category | Claimed | Found | Verified |
 |----------|---------|-------|----------|
 | Rules | 6 | 6 | 5 with `file_patterns`, 1 with `trigger: always_on` |
-| Profiles | 5 | 5 | `interaction.md` correctly references `motion/react` |
+| Profiles | 6 | 6 | `shader-art.md` renamed to `r3f-shader.md` (matches 7 experiments). `web-audio.md` added. |
 | Skills | 8 | 8 | All present |
 | Workflows | 7 | 7 | All present |
 | Contexts | 3 | 3 | `toolkit.md` updated for `motion` package |
@@ -115,7 +115,7 @@ Capture script, dev metrics, scene inspector all present. Playwright-based captu
 | MDX infrastructure (7 files) | All present |
 | ArticleLayout.tsx | Present |
 | articles.ts | Present |
-| Published articles (3) | send-button + keyboard-keys + basketball-replay-center |
+| Published articles (2) | send-button + basketball-replay-center (keyboard-keys article removed during audit remediation Phase 2) |
 | Article plop templates (8) | All present |
 | Sitemap with getArticles() | Present |
 | OG route | Present |
@@ -268,7 +268,7 @@ Audited all 13 V2 plan files, cross-referenced against on-disk state, then execu
 | motion_migration_+_legacy_cleanup | 11/11 | Completed |
 | status_update_+_test_guide | 2/2 | Completed |
 | article_platform_upgrade | 9/9 | Completed |
-| v2_content_pipeline_audit | 3/5 remaining | 3 fixed, 2 were already resolved |
+| v2_content_pipeline_audit | 5/5 | Completed (3 fixed during completion review, 2 were already resolved, all marked complete during Phase 9 cleanup) |
 | template_audit_fixes | 0/11 | All cancelled (obsolete -- superseded by motion migration) |
 
 ### Changes Made
@@ -303,3 +303,273 @@ Two fixes applied after the initial cleanup commit:
 | `npx ultracite check` | 485 files, 0 errors |
 | `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
 | `node scripts/validate-experiments.mjs` | 18 experiments valid |
+
+---
+
+## V2 Audit Remediation (2026-03-06)
+
+Systematic remediation of issues found during the V2 completion review audit. Tracked in `.cursor/plans/v2_audit_remediation_8fb38e3a.plan.md`.
+
+### Phase 1: Remove Homepage Filtering (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Deleted** `ExperimentFilters.tsx` | Entire filtering component removed |
+| **Updated** `ExperimentDrawerList.tsx` | Removed `ExperimentFilters` import, `statusFilter`/`setStatusFilter` state, `filteredExperiments` useMemo, and filter JSX. All `filteredExperiments` references replaced with `experiments`. Removed unused `ExperimentStatus` type import. |
+| **Bug fix** | Critical #1 (wrong preview when filter active) resolved -- filtered vs unfiltered array index mismatch no longer exists |
+
+### Phase 2: Create `delete:article` Script + Delete Keyboard-Keys Article (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Created** `scripts/delete-article.mjs` | Companion to `npm run new:article`. Accepts slug, resolves route group, detects article/ and docs/ dirs, prompts for confirmation, deletes both dirs, removes `content` block from experiment.json, prints summary. |
+| **Updated** `package.json` | Added `"delete:article": "node scripts/delete-article.mjs"` |
+| **Ran on keyboard-keys** | Deleted 3 article files (components.tsx, content.mdx, page.tsx) + 5 docs files (architecture.md, changelog.md, lab-note.md, snippet.md, social.md). Removed `content` block from experiment.json. Experiment itself (page.tsx, error.tsx, layout.tsx) untouched. |
+| **Layout auto-adapts** | keyboard-keys `layout.tsx` derives `articleSlug` from `content?.article` -- with `content` removed, no article nav link renders. No layout changes needed. |
+
+### Phase 3: Backfill `complexity` Field (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Updated** 18 experiment.json files | Added `complexity` field: 3 beginner (terminal-cat, test, 404-not-found), 6 intermediate (send-button, keyboard-keys, velocity-responsive-design, transit-airport-split-flap-display, game-of-life-shader, bugged-out-game-of-life-shader), 9 advanced (life-3d, basketball-replay-center, gravity-physics-ui-layout, non-euclidean-hyperbolic-workspace, cursor-depth-explorer, mountain-transition, shader-landing, rabbithole-chat-preloader, rabbithole-chat-gallery-explore) |
+| **Updated** `plopfile.js` | Added complexity list prompt (beginner/intermediate/advanced, default: intermediate) before profile prompt. Added `"complexity": "{{complexity}}"` to experiment.json template. |
+| **Updated** `validate-experiments.mjs` | Added `VALID_COMPLEXITY` enum array and validation error on invalid values |
+| **No TS changes needed** | `ExperimentComplexity` type and `complexity?: ExperimentComplexity` already existed in `src/lib/experiments.ts` |
+
+### Phase 4: Replace `isPlaceholder` with Media-Derived Badge (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Updated** `plopfile.js` | Removed `isPlaceholder: true` from experiment.json template. Changed `image` from fake placeholder path to `""`. Removed the no-preview.gif copy action (23 lines). |
+| **Updated** `InteractivePreviewMedia.tsx` | Badge condition changed from `experiment.isPlaceholder` to `!experiment.video && !experiment.image` |
+| **Updated** `StaticExperimentMedia.tsx` | Same badge condition change |
+| **Updated** `src/lib/experiments.ts` | Removed `isPlaceholder?: boolean` from `Experiment` interface |
+| **Updated** 14 experiment.json files | Removed `"isPlaceholder": false` line |
+| **Updated** `(test)/experiment.json` | Removed `"isPlaceholder": true`, set `"image": ""` (was fake placeholder GIF) |
+| **Updated** `(terminal-cat)/experiment.json` | Removed `"isPlaceholder": true`, kept real ASCII art GIF image |
+| **Updated** `.agent/contexts/architecture.md` | Removed `isPlaceholder` from example experiment.json |
+| **Badge logic** | Now automatic: shows when `!video && !image`. No manual flag needed. terminal-cat keeps its real GIF preview (no badge). test shows badge (empty image, no video). |
+
+### Phase 5: Fix Agent Profile Mismatch (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Renamed** `shader-art.md` to `r3f-shader.md` | Updated title ("R3F Shader Profile") and activation trigger (`"profile": "r3f-shader"`). Content unchanged -- already covered fullscreen quad, GLSL patterns, Canvas config, shader debugging. |
+| **Created** `web-audio.md` | New profile for audio-focused experiments. Covers AudioContext initialization (with `webkitAudioContext` fallback), DynamicsCompressor master bus, synthesis patterns (noise buffers, oscillators, gain envelopes, filters, stereo panning), concurrency limiting, randomization, browser gotchas, pre-implementation checklist. Modeled on real `useFlapSound.ts` implementation. |
+| **Updated** `STATUS.md` (3 locations) | File inventory: count 5->6, `shader-art.md`->`r3f-shader.md`, added `web-audio.md`. "Fully Working": 5 of 5 -> 6 of 6. Automation table: clarified "7 profile choices, 6 with guidance files". |
+| **Impact** | 7 r3f-shader experiments now correctly match their guidance file. 1 web-audio experiment now has profile-specific guidance. `blank` profile (2 experiments) intentionally has no guidance file. |
+
+### Phase 6: Clarify AGENTS.md Barrel Import Rule (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Updated** `AGENTS.md` | Scoped "no barrel imports" to experiment components. Shared infrastructure (`@/components/mdx`, `@/lib/toolkit`) may use barrels for public API surfaces. |
+
+### Phase 7: Wire OG Images to Page Metadata (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Updated** send-button `article/page.tsx` | Added `openGraph.images` and `twitter` metadata pointing to `/api/og?title=Send+Button&tags=ui,animation,interaction` |
+| **Updated** basketball-replay-center `article/page.tsx` | Added `openGraph.images` and `twitter` metadata pointing to `/api/og?title=Basketball+Replay+Center&tags=preloader,broadcast,crt` |
+| **Updated** `plop-templates/article/page.tsx.hbs` | Future articles scaffolded with `npm run new:article` automatically include `openGraph` + `twitter` metadata wired to `/api/og` |
+| **OG URL construction** | Uses `URLSearchParams` with `experiment.title` and `experiment.tags.join(",")` for proper encoding |
+| **Experiment layouts skipped** | Layouts already have OG metadata with static poster/preview images (better for social sharing than text-based dynamic cards). Marked optional in plan. |
+
+### Phase 8: Extract Shared Article Utilities and Constants (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Created** `src/lib/constants.ts` | Single `SITE_URL` constant (`"https://www.razisyed.cv"`). Eliminates 3 hardcoded URL definitions across the codebase. |
+| **Updated** `feed.xml/route.ts` | Replaced local `const SITE_URL` with import from `@/lib/constants` |
+| **Updated** `sitemap.ts` | Replaced local `const baseUrl` with `SITE_URL` import. Fixed `lastModified` to use `exp.updated \|\| exp.created` for experiments and `article.updatedAt \|\| article.publishedAt` for articles (was `new Date()` -- non-deterministic). |
+| **Updated** `robots.ts` | Replaced hardcoded sitemap URL with `SITE_URL` template literal |
+| **Extracted** `getArticleContent()` to `src/lib/articles.ts` | New shared utility accepts a `slug` parameter, derives path dynamically via `(slug)/slug/article/content.mdx` convention. Added `ArticleFrontmatter` and `ArticleContent` interfaces. |
+| **Updated** send-button `article/page.tsx` | Removed 5 unused imports (`fs`, `path`, `matter`, `readingTime`, `reading-time-estimator`), removed local `getArticleContent()`, now imports shared version from `@/lib/articles` |
+| **Updated** basketball-replay-center `article/page.tsx` | Same deduplication as send-button |
+| **Updated** `plop-templates/article/page.tsx.hbs` | Same deduplication -- future articles scaffolded with shared `getArticleContent()` |
+| **Fixed** `articles.ts` error handling | Empty `catch {}` now logs `console.warn`. Non-deterministic `new Date().toISOString()` fallback replaced with epoch date `"1970-01-01T00:00:00.000Z"`. |
+| **Fixed** send-button `content.mdx` date | `publishedAt` and `updatedAt` changed from `2025-12-01` to `2025-12-23` (the experiment's creation date -- article can't predate its experiment) |
+| **Note** | `api/og/route.tsx` doesn't reference SITE_URL (renders relative OG images). Article pages don't use SITE_URL directly either (OG images use relative `/api/og` paths). Both correctly left untouched. |
+
+### Phase 9: Code Cleanup (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Removed unused deps** | `@next/bundle-analyzer`, `summarize-with-ai`, `cross-env` uninstalled from dependencies |
+| **Moved @types to devDeps** | `@types/matter-js` and `@types/three` moved from dependencies to devDependencies |
+| **Cleaned comments** | Removed 12-line "Attempt 1-4" history block from `cursor/Provider.tsx`, "Attempt 1/2/4" debug notes from `cursor/Cursor.tsx`, 5 thinking-out-loud comment lines from `ExperimentDrawerList.tsx` |
+| **Fixed duplicate disconnect** | Removed duplicate `observer.disconnect()` call in `cursor/Provider.tsx` cleanup function |
+| **Fixed drawer.tsx** | Moved misplaced `GrainOverlay` import from between function declarations to top-of-file imports, removed stale `// ... (existing imports)` comment |
+| **Fixed dynamic Tailwind** | `DesktopIcon.tsx`: replaced broken `w-[${width}px] h-[${height}px]` template literals with inline `style={{ width, height }}` |
+| **Fixed clipboard** | `CodeBlock.tsx`: added `.catch(() => {})` to `navigator.clipboard.writeText` to prevent unhandled rejection |
+| **Fixed stale config** | `new-experiment.md`: renamed "Using Framer Motion" heading to "Using Motion" |
+| **Backfilled content field** | Added `"content": {}` to all 16 experiment.json files missing it (all except send-button and basketball-replay-center which already had content declarations) |
+| **Updated stale plan** | Marked all 5 pending todos in `v2_content_pipeline_audit` plan as completed (resolved by prior v2_completion_review work) |
+
+### Remaining Phases
+
+| Phase | Status |
+|-------|--------|
+| 5: Fix agent profile mismatch | **Done** |
+| 6: Clarify AGENTS.md barrel import rule | **Done** |
+| 7: Wire OG images to page metadata | **Done** |
+| 8: Extract shared article utilities and constants | **Done** |
+| 9: Code cleanup | **Done** |
+| 10: Content pipeline fixes (V2 plan gaps) | **Done** |
+
+### Phase 10: Content Pipeline Fixes (V2 Plan Gaps) (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Backfilled `publishable`** | Added `"publishable": true` to send-button experiment.json (matches basketball-replay-center). Added `"publishable": false` to plopfile experiment.json template for new experiments. |
+| **Validator: publishable checks** | Two new warnings: (1) publishable is true but no content.article, (2) full content constellation exists but publishable not set. |
+| **Validator: docs cross-checks** | Extended content cross-checking from article-only to all 6 content flags. New checks: labNote vs docs/lab-note.md, architecture vs docs/architecture.md, snippet vs docs/snippet.md, social vs docs/social.md, changelog vs docs/changelog.md. Same warn-not-fail pattern. |
+| **Article scaffold auto-updates experiment.json** | `npm run new:article` now adds `type: "modify"` action that merges `{ "article": true }` into experiment.json's content block. Symmetrical with `npm run delete:article` which removes the content block. |
+| **Already-exists guard** | Article generator validate function now checks for `article/page.tsx` before scaffolding. Returns clear error with instructions to delete first. |
+| **Documented `publishable` semantics** | architecture.md: updated field description from "Ready for article generation" to "Quality-reviewed, ready for public. Set at END of publish workflow." publish-experiment.md: added note that `publishable: true` is the OUTPUT of the workflow, not an input gate. |
+
+### Verification (Post-Phase 10)
+
+| Check | Result |
+|-------|--------|
+| `node scripts/validate-experiments.mjs` | 18 experiments valid, 0 warnings |
+| `npm run typecheck` | Clean |
+
+---
+
+## P0 Critical Issues Fix (2026-03-07)
+
+Addressed Section 3 of the V2 Comprehensive Review. Tracked in `.cursor/plans/p0_critical_issues_fix_3da33f1d.plan.md`.
+
+### 3A: Wire Dev Tools Into Experiment Layouts (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Created** `DevToolsInjector.tsx` | `src/components/dev/DevToolsInjector.tsx` -- client component, `next/dynamic` + `process.env.NODE_ENV` gating, tree-shakes to nothing in prod |
+| **Updated** `index.ts` barrel | Added `DevToolsInjector` export |
+| **Updated** Plop layout template | Added import + `<DevToolsInjector />` inside `<body>` |
+| **Updated** `scroll.ts` | JSDoc documenting scroll/raf coordination conflict with Tempus |
+| **Updated** `architecture.md` | Fixed false auto-inject claim, removed stale "filter bar" mention |
+
+### 3B: Document removeConsole Survival Pattern (DONE)
+
+Added comment to `useConsoleCat.ts` explaining why `window.console` alias survives SWC's `removeConsole` transform.
+
+### 3C: Root Layout Cleanup (DONE)
+
+Moved 3 mid-file imports to top, removed orphaned "Attempt 1" comment, removed empty `<head>`.
+
+### 3D: getArticleContent Error Handling (DONE)
+
+`getArticleContent()` now returns `ArticleContent | null` with `fs.existsSync` + try/catch. Updated 3 callers (send-button, basketball-replay-center, Plop template) to use `notFound()`.
+
+### 3E: Cursor.tsx Performance Bug -- DEFERRED
+
+Not in scope for this pass per user direction.
+
+### Verification
+
+| Check | Result |
+|-------|--------|
+| `npm run typecheck` | Clean |
+| Linter errors | 0 across all edited files |
+
+---
+
+## P1 Fulfill Original Promises (2026-03-07)
+
+Addressed Section 11 P1 from the V2 Comprehensive Review. Tracked in `.cursor/plans/p1_fulfill_original_promises_7b0aaf4c.plan.md`.
+
+### Phase 1: Metadata, Dependency, and Script Fixes (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **404-not-found complexity** | Changed from "beginner" to "advanced" (3D GLSL shader with R3F) |
+| **test experiment status** | Changed from "shipped" to "archived" (placeholder experiment) |
+| **Dependency cleanup** | Moved `autoprefixer`, `postcss`, `tailwindcss`, `tailwindcss-animate`, `@theatre/studio` to devDependencies. Version pins preserved (tailwindcss@^3.4.19, not v4). |
+| **Plopfile timestamp** | `created` field now uses `answers.createdDate` computed in `actions()` instead of module-load-time `new Date()` |
+| **delete-article publishable** | Script now resets `publishable: false` when removing article content |
+
+### Phase 2: ArticleLayout Semantic Fixes (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Breadcrumb `<a>` -> `<Link>`** | All breadcrumb and prev/next nav links switched from raw `<a>` to Next.js `<Link>`. Visually identical. |
+| **`experimentTitle` prop** | Added to `ArticleLayoutProps`. Breadcrumb now shows human-readable title instead of raw slug. Updated 2 article pages + Plop template. |
+| **Title stays as `<p>`** | Intentional Sylph pattern. MDX content provides `<h1>` via `# Title`. Changing would create duplicate `<h1>`. |
+| **TOC stays commented** | Future dedicated effort with scroll-spy + responsive design. |
+
+### Phase 3: CSS Extraction -- DEFERRED
+
+~45 lines of duplicated base styles between `globals.css` and `experiments.css`. Architecturally required (no shared root layout). Extractable via `@import` (proven by `shared-tokens.css`), but low ROI.
+
+### Phase 4: DevToolsInjector Backfill (DONE)
+
+All 18 existing experiment layouts now have `DevToolsInjector` imported from `@/components/dev` and rendered as first child of `<body>`.
+
+### Verification
+
+| Check | Result |
+|-------|--------|
+| `npm run typecheck` | Clean |
+| `node scripts/validate-experiments.mjs` | 18 experiments valid |
+| `npm run build` | Success, all routes present, 2 article routes |
+
+---
+
+## P2 Quality and Performance (2026-03-07)
+
+Addressed Section 11 P2 from the V2 Comprehensive Review. Tracked in `.cursor/plans/p2_quality_performance_b442a328.plan.md`. Cross-referenced against Vercel's React Best Practices (58 rules) and Next.js Best Practices skills.
+
+### Item 1: Runtime Schema Validation in `getExperiments()` (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Added** `validateExperiment()` | `src/lib/experiments.ts` -- validates required strings (`title`, `description`, `slug`, `created`, `href`), optional enum checks (`status`, `profile`, `complexity`) against const arrays. Returns `null` + `console.warn` on failure. |
+| **Added** const arrays | `VALID_PROFILES`, `VALID_STATUSES`, `VALID_COMPLEXITIES` -- reuse existing type unions as runtime-checkable values |
+| **Replaced** `as Experiment` cast | Line 83 now calls `validateExperiment({ ...config, href, poster })` instead of unsafe `as Experiment` |
+
+### Item 2: Filesystem Caching + Async Alignment (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Converted** `articles.ts` to async | `fs.readdirSync` -> `fs.readdir`, `fs.readFileSync` -> `fs.readFile`, `fs.existsSync` -> `fs.access` with try/catch. All callers updated to `await`. |
+| **Wrapped** `getExperiments` with `React.cache()` | Per Vercel's `server-cache-react` rule. Named function expression preserves stack traces. Comment documents `Object.is` caveat for filter objects. |
+| **Wrapped** `getArticles` with `React.cache()` | No-arg function, ideal for `React.cache()`. |
+| **Wrapped** `getArticleContent` with `React.cache()` | String slug argument, ideal for `React.cache()`. |
+| **Updated** `sitemap.ts` | Added `await` to `getArticles()` call |
+| **Updated** `feed.xml/route.ts` | Added `await` to `getArticles()` call |
+| **Updated** 2 article `page.tsx` files | Made `getAdjacentArticles` async, made `ArticlePage` async, added `await` to both data calls |
+| **Updated** Plop template | `plop-templates/article/page.tsx.hbs` updated to match async pattern |
+
+### Item 3: Expand `optimizePackageImports` (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Updated** `next.config.ts` | Added `"motion"`, `"@react-three/drei"`, `"@codesandbox/sandpack-react"` to `optimizePackageImports`. Vercel rates barrel import optimization as CRITICAL impact (15-70% faster dev boot, 28% faster builds). |
+
+### Item 4: Fix ExperimentDrawerList Perpetual rAF Loop (DONE)
+
+| Change | Detail |
+|--------|--------|
+| **Extracted** `startAnimation()` | `useCallback` with convergence detection -- stops when `|target - current| < 0.5` on both axes |
+| **Split** monolithic effect | Origin tracking effect (depends on `viewMode`), animation lifecycle effect (depends on `viewMode` + `isVisible`) |
+| **Added** `isAnimatingRef` | Prevents double-start, enables event-driven restart from `handleMouseMove` |
+| **Gated** rAF lifecycle | Grid mode (default): zero rAF. List mode, no hover: zero rAF. List mode + hover: rAF runs, stops on convergence, restarts on mouse move. |
+
+### Deferred Items (Documented)
+
+- **Cursor.tsx `getCursorColor` perf bug** (Section 3E) -- acknowledged, deferred
+- **Enable `useExhaustiveDependencies` in Biome** (Section 5D) -- ~90 hook-using files, deferred to dedicated pass
+- **Biome a11y rules** (Section 5D) -- 7 rules disabled, creative experiments need per-experiment assessment
+- **`noExplicitAny` / `noUnusedVariables`** (Section 5D) -- deferred to linting tightening pass
+
+### Verification (Post-P2)
+
+| Check | Result |
+|-------|--------|
+| `npm run typecheck` | Clean |
+| `npx ultracite check` | 0 errors in edited files (pre-existing issues in `InteractivePreviewMedia.tsx`, `StaticExperimentMedia.tsx`, `delete-article.mjs` untouched) |
+| `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
+| `node scripts/validate-experiments.mjs` | 18 experiments valid |
+| `npm run build` | Success, all routes present, 2 article routes, sitemap, feed |

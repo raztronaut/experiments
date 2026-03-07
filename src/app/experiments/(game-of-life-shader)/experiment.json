@@ -5,9 +5,10 @@
   "profile": "blank",
   "created": "2025-12-24T04:56:14.074Z",
   "video": "/experiments/game-of-life-shader/preview.mp4",
-  "isPlaceholder": false,
   "status": "shipped",
+  "complexity": "intermediate",
   "legacy": true,
   "tags": ["generative", "game", "animation", "cursor"],
-  "tech": ["canvas-2d", "web-workers"]
+  "tech": ["canvas-2d", "web-workers"],
+  "content": {}
 }

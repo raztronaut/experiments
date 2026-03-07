@@ -1,9 +1,8 @@
 import { getArticles } from "@/lib/articles";
-
-const SITE_URL = "https://www.razisyed.cv";
+import { SITE_URL } from "@/lib/constants";
 
 export async function GET() {
-  const articles = getArticles();
+  const articles = await getArticles();
 
   const items = articles
     .map(

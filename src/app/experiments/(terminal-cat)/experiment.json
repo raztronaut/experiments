@@ -5,9 +5,10 @@
   "profile": "dom-effect",
   "created": "2025-12-24T01:50:06.164Z",
   "image": "/experiments/terminal-cat/preview.gif",
-  "isPlaceholder": true,
   "status": "shipped",
+  "complexity": "beginner",
   "legacy": true,
   "tags": ["ascii-art", "animation", "keyboard", "console"],
-  "tech": ["console-api"]
+  "tech": ["console-api"],
+  "content": {}
 }

@@ -5,9 +5,10 @@
   "profile": "dom-effect",
   "created": "2025-12-24T05:54:41.000Z",
   "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4",
-  "isPlaceholder": false,
   "status": "shipped",
+  "complexity": "intermediate",
   "legacy": true,
   "tags": ["generative", "game", "animation", "cursor"],
-  "tech": ["canvas-2d", "web-workers", "@paper-design/shaders"]
+  "tech": ["canvas-2d", "web-workers", "@paper-design/shaders"],
+  "content": {}
 }

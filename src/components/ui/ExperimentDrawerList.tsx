@@ -4,9 +4,8 @@ import dynamic from "next/dynamic";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { UmamiEvents, useUmami } from "@/hooks/useUmami";
-import type { Experiment, ExperimentStatus } from "@/lib/experiments";
+import type { Experiment } from "@/lib/experiments";
 import { useCursor } from "./cursor/Context";
-import { ExperimentFilters } from "./experiments/ExperimentFilters";
 import { ExperimentGridCard } from "./experiments/ExperimentGridCard";
 import { ExperimentListItem } from "./experiments/ExperimentListItem";
 import { InteractivePreviewMedia } from "./experiments/InteractivePreviewMedia";
@@ -53,9 +52,6 @@ export function ExperimentDrawerList({
   const [viewMode, setViewMode] = useState<"list" | "grid">("grid");
   const [mobilePreviewExperiment, setMobilePreviewExperiment] =
     useState<Experiment | null>(null);
-  const [statusFilter, setStatusFilter] = useState<ExperimentStatus | "all">(
-    "all"
-  );
   const touchStartRef = useRef<number | null>(null);
   const { setIsHidden } = useCursor();
 
@@ -64,15 +60,6 @@ export function ExperimentDrawerList({
 
   // Hover state for list items
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  const filteredExperiments = useMemo(() => {
-    return experiments.filter((exp) => {
-      if (statusFilter !== "all" && exp.status && exp.status !== statusFilter) {
-        return false;
-      }
-      return true;
-    });
-  }, [experiments, statusFilter]);
 
   // Use REFs for animation values to avoid re-renders
   const mousePositionRef = useRef({ x: 0, y: 0 });
@@ -83,31 +70,13 @@ export function ExperimentDrawerList({
   const listRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
+  const isAnimatingRef = useRef(false);
 
-  // Memoize formatted dates to avoid recalculating on each render
-  const formattedDates = useMemo(() => {
-    return new Map(
-      experiments.map((exp) => [exp.slug, formatDate(exp.created)])
-    );
-  }, [experiments]);
-
-  // Hide custom cursor when drawer is open
-  useEffect(() => {
-    setIsHidden(isOpen);
-  }, [isOpen, setIsHidden]);
-
-  // Animation loop for smooth preview following cursor
-  useEffect(() => {
-    const updateOrigin = () => {
-      if (listRef.current) {
-        const rect = listRef.current.getBoundingClientRect();
-        listOriginRef.current = { x: rect.left, y: rect.top };
-      }
-    };
-
-    updateOrigin();
-    window.addEventListener("resize", updateOrigin);
-    window.addEventListener("scroll", updateOrigin, { passive: true });
+  const startAnimation = useCallback(() => {
+    if (isAnimatingRef.current) {
+      return;
+    }
+    isAnimatingRef.current = true;
 
     const animate = () => {
       const target = mousePositionRef.current;
@@ -125,27 +94,89 @@ export function ExperimentDrawerList({
         previewRef.current.style.top = `${origin.y}px`;
       }
 
+      if (
+        Math.abs(target.x - nextX) < 0.5 &&
+        Math.abs(target.y - nextY) < 0.5
+      ) {
+        isAnimatingRef.current = false;
+        animationRef.current = null;
+        return;
+      }
+
       animationRef.current = requestAnimationFrame(animate);
     };
 
     animationRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  // Memoize formatted dates to avoid recalculating on each render
+  const formattedDates = useMemo(() => {
+    return new Map(
+      experiments.map((exp) => [exp.slug, formatDate(exp.created)])
+    );
+  }, [experiments]);
+
+  // Hide custom cursor when drawer is open
+  useEffect(() => {
+    setIsHidden(isOpen);
+  }, [isOpen, setIsHidden]);
+
+  // Track list origin for position calculations (only in list mode)
+  useEffect(() => {
+    if (viewMode !== "list") {
+      return;
+    }
+
+    const updateOrigin = () => {
+      if (listRef.current) {
+        const rect = listRef.current.getBoundingClientRect();
+        listOriginRef.current = { x: rect.left, y: rect.top };
+      }
+    };
+
+    updateOrigin();
+    window.addEventListener("resize", updateOrigin);
+    window.addEventListener("scroll", updateOrigin, { passive: true });
+
+    return () => {
+      window.removeEventListener("resize", updateOrigin);
+      window.removeEventListener("scroll", updateOrigin);
+    };
+  }, [viewMode]);
+
+  // Start/stop lerp animation when hover state changes in list mode
+  useEffect(() => {
+    if (viewMode !== "list" || !isVisible) {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+      isAnimatingRef.current = false;
+      return;
+    }
+
+    startAnimation();
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
       }
-      window.removeEventListener("resize", updateOrigin);
-      window.removeEventListener("scroll", updateOrigin);
+      isAnimatingRef.current = false;
     };
-  }, []);
+  }, [viewMode, isVisible, startAnimation]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (listRef.current) {
-      const rect = listRef.current.getBoundingClientRect();
-      mousePositionRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
+    if (!listRef.current) {
+      return;
+    }
+    const rect = listRef.current.getBoundingClientRect();
+    mousePositionRef.current = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+    if (viewMode === "list" && isVisible && !isAnimatingRef.current) {
+      startAnimation();
     }
   };
 
@@ -225,11 +256,7 @@ export function ExperimentDrawerList({
         onMouseMove={handleMouseMove}
         ref={listRef}
       >
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <ExperimentFilters
-            onStatusFilterChange={setStatusFilter}
-            statusFilter={statusFilter}
-          />
+        <div className="flex items-center justify-end">
           <ViewModeToggle onViewModeChange={setViewMode} viewMode={viewMode} />
         </div>
 
@@ -262,7 +289,7 @@ export function ExperimentDrawerList({
 
             {/* List items */}
             <div className="relative z-10 space-y-4">
-              {filteredExperiments.map((experiment, index) => (
+              {experiments.map((experiment, index) => (
                 <ExperimentListItem
                   experiment={experiment}
                   formattedDate={formattedDates.get(experiment.slug)}
@@ -276,18 +303,13 @@ export function ExperimentDrawerList({
                   onTouchEnd={(e) => handleTouchEnd(e, experiment)}
                   onTouchStart={handleTouchStart}
                   showTutorial={index === 0}
-                  // priority={index < 2} // List Item doesn't support it yet, maybe add later if needed.
-                  // Actually list view usually shows small thumbs or just text in some designs,
-                  // but let's check ExperimentListItem implementation first before assuming.
-                  // Wait, ExperimentListItem doesn't use StaticExperimentMedia, it has its own logic usually?
-                  // Let's just focus on GridCard for now as that is the default view.
                 />
               ))}
             </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-            {filteredExperiments.map((experiment, index) => (
+            {experiments.map((experiment, index) => (
               <ExperimentGridCard
                 experiment={experiment}
                 isMobileActive={
@@ -304,7 +326,7 @@ export function ExperimentDrawerList({
           </div>
         )}
 
-        {filteredExperiments.length === 0 && (
+        {experiments.length === 0 && (
           <div className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">
             No experiments found. Run{" "}
             <code className="rounded bg-muted px-1 py-0.5">

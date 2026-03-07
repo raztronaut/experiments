@@ -1,5 +1,6 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
+import { DevToolsInjector } from "@/components/dev";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import experiment from "./experiment.json";
@@ -35,6 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-canvas antialiased">
+        <DevToolsInjector />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

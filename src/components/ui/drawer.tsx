@@ -3,6 +3,7 @@
 import type * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 import { cn } from "@/lib/utils";
+import { GrainOverlay } from "./GrainOverlay";
 
 const Drawer = ({
   shouldScaleBackground = true,
@@ -44,10 +45,6 @@ function DrawerOverlay({
     />
   );
 }
-
-import { GrainOverlay } from "./GrainOverlay";
-
-// ... (existing imports)
 
 function DrawerContent({
   className,

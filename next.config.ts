@@ -17,7 +17,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   experimental: {
-    optimizePackageImports: ["lucide-react"],
+    optimizePackageImports: [
+      "lucide-react",
+      "motion",
+      "@react-three/drei",
+      "@codesandbox/sandpack-react",
+    ],
   },
   images: {
     qualities: [70, 75],

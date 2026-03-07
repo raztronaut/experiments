@@ -5,9 +5,10 @@
   "profile": "interaction",
   "created": "2025-12-31T00:41:44.181Z",
   "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
-  "isPlaceholder": false,
   "status": "shipped",
+  "complexity": "advanced",
   "legacy": true,
   "tags": ["generative", "ui", "cursor"],
-  "tech": ["svg"]
+  "tech": ["svg"],
+  "content": {}
 }

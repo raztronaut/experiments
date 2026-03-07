@@ -1,5 +1,6 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
+import { DevToolsInjector } from "@/components/dev";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
@@ -28,6 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
+        <DevToolsInjector />
         <UmamiScript />
         <ExperimentNav />
         {children}

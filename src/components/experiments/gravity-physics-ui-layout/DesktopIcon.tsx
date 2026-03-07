@@ -90,7 +90,8 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
       }}
     >
       <div
-        className={`relative w-[${width}px] h-[${height}px] mb-1 ${isSelected ? "brightness-[0.8]" : ""} pointer-events-none`}
+        className={`relative mb-1 ${isSelected ? "brightness-[0.8]" : ""} pointer-events-none`}
+        style={{ width, height }}
       >
         <Image
           alt={label}

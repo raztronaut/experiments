@@ -1,5 +1,6 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
+import { DevToolsInjector } from "@/components/dev";
 import { ThemeProvider } from "@/components/experiments/send-button/ThemeProvider";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import experiment from "./experiment.json";
@@ -35,6 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen antialiased">
+        <DevToolsInjector />
         <UmamiScript />
         <ExperimentNav
           articleSlug={content?.article ? experiment.slug : undefined}

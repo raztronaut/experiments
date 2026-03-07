@@ -66,7 +66,7 @@ Experiments use **route group isolation** -- each gets its own `<html>`/`<body>`
 
 - **TypeScript**: No `any` -- use `unknown` and narrow. Prefer `interface` for objects.
 - **React**: Server Components by default. `'use client'` only when needed.
-- **Imports**: No barrel imports. Dynamic import heavy deps (Three.js, GSAP).
+- **Imports**: No barrel imports from experiment components. Shared infrastructure (`@/components/mdx`, `@/lib/toolkit`) may use barrels for public API surfaces. Dynamic import heavy deps (Three.js, GSAP).
 - **Performance**: `Promise.all` for parallel fetches. Animate only `transform`/`opacity`.
 - **Accessibility**: `alt` text on images, `aria-label` on icon buttons, 44x44px touch targets minimum, color contrast 4.5:1.
 - **Git**: Conventional commits (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`).

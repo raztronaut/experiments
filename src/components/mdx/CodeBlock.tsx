@@ -18,7 +18,7 @@ export function CodeBlock({ children, raw, ...props }: CodeBlockProps) {
 
   const handleCopy = async () => {
     const text = raw || preRef.current?.textContent || "";
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(text).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

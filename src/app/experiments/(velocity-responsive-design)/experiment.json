@@ -5,9 +5,10 @@
   "profile": "scrollytelling",
   "created": "2025-12-31T04:46:03.740Z",
   "video": "/experiments/velocity-responsive-design/preview.mp4",
-  "isPlaceholder": false,
   "status": "shipped",
+  "complexity": "intermediate",
   "legacy": true,
   "tags": ["scroll", "animation", "ui", "generative"],
-  "tech": ["motion", "canvas-2d"]
+  "tech": ["motion", "canvas-2d"],
+  "content": {}
 }

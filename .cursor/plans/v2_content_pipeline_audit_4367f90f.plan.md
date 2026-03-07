@@ -4,19 +4,19 @@ overview: Comprehensive audit of the V2 content generation pipeline after the ba
 todos:
   - id: fix-article-template-biome
     content: "Fix plop-templates/article/page.tsx.hbs for Biome compliance: double quotes, sorted imports, sorted JSX attributes"
-    status: pending
+    status: completed
   - id: fix-plopfile-article-vars
     content: Add createdDate computed property and optional description prompt to the article generator in plopfile.js
-    status: pending
+    status: completed
   - id: update-workflow-r3f-note
     content: Add note to publish-experiment.md about R3F/WebGL experiments not supporting LiveDemo inline -- suggest screenshot/video/link instead
-    status: pending
+    status: completed
   - id: backfill-metadatabase
     content: Add metadataBase to all 18 legacy experiment layouts to eliminate build warnings
-    status: pending
+    status: completed
   - id: backfill-profile-field
     content: Add profile field to legacy experiment.json files based on their tech stack
-    status: pending
+    status: completed
 isProject: false
 ---
 

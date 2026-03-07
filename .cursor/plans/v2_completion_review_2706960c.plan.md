@@ -97,7 +97,7 @@ All todos marked completed and verified against the actual codebase:
 
 - `fix-interaction-template` and `fix-dom-effect-template` wanted to change `motion/react` back to `framer-motion`. The motion migration swapped to the `motion` package, making `motion/react` imports **correct**.
 - `fix-flaky-test` (life-3d) is obsolete -- all 16 legacy experiment test files were deleted.
-- The 8 `rerun-*` todos were a verification cycle superseded by subsequent work.
+- The 8 `rerun-`* todos were a verification cycle superseded by subsequent work.
 
 ---
 
@@ -144,48 +144,59 @@ This is the single most urgent item. All V2 work exists only on the local filesy
 These are documented as future work and are **not blockers** for the current V2 milestone:
 
 
-| Item                               | Status                                               | Notes                                                    |
-| ---------------------------------- | ---------------------------------------------------- | -------------------------------------------------------- |
-| **Tag/tech backfill**              | 17 of 18 experiments have empty `tags`/`tech` arrays | Only basketball-replay-center is populated               |
-| **RSS/Atom feed**                  | Not started                                          | `getArticles()` infrastructure ready, just needs a route |
-| **Lighthouse CI**                  | Not started                                          | Needs deployed preview URL                               |
-| **MCP capture server**             | Not started                                          | Currently CLI-only (`scripts/capture.mjs`)               |
-| **Registry V2**                    | Not started                                          | Interactive docs pages with live demos                   |
-| **Article-aware homepage section** | Not started                                          | Dedicated "Writing" section (badge discovery works)      |
-| **Content dashboard**              | Not started                                          | Overview of content formats per experiment               |
-| **Package extraction**             | Documented only                                      | Process in publish workflow, not automated               |
-| **Social asset generation**        | Foundation built                                     | OG API route exists as base                              |
-| `**next-view-transitions`**        | Not needed yet                                       | For same-document transitions                            |
+| Item                               | Status           | Notes                                               |
+| ---------------------------------- | ---------------- | --------------------------------------------------- |
+| **Tag/tech backfill**              | **DONE**         | All 18 experiments now have populated `tags`/`tech` |
+| **RSS/Atom feed**                  | **DONE**         | `src/app/feed.xml/route.ts` serves RSS 2.0          |
+| **Lighthouse CI**                  | Not started      | Needs deployed preview URL                          |
+| **MCP capture server**             | Not started      | Currently CLI-only (`scripts/capture.mjs`)          |
+| **Registry V2**                    | Not started      | Interactive docs pages with live demos              |
+| **Article-aware homepage section** | Not started      | Dedicated "Writing" section (badge discovery works) |
+| **Content dashboard**              | Not started      | Overview of content formats per experiment          |
+| **Package extraction**             | Documented only  | Process in publish workflow, not automated          |
+| **Social asset generation**        | Foundation built | OG API route exists as base                         |
+| `**next-view-transitions`**        | Not needed yet   | For same-document transitions                       |
 
+
+---
+
+## Post-V2 Remediation (completed after this review)
+
+### P0 Critical Issues (completed)
+
+- DevToolsInjector created and wired into Plop template
+- `getArticleContent()` error handling added
+- Root layout cleanup (imports, comments, empty `<head>`)
+- `removeConsole` survival pattern documented
+- Cursor.tsx perf bug deferred
+
+### P1 Fulfill Original Promises (completed)
+
+- DevToolsInjector backfilled into all 18 existing experiment layouts
+- ArticleLayout: `<a>` -> `<Link>`, `experimentTitle` prop for breadcrumbs. Title stays as `<p>` (Sylph pattern). TOC stays commented (future effort).
+- 5 build-tool packages moved from dependencies to devDependencies
+- Plopfile timestamp bug fixed (computed in `actions()` callback)
+- `delete-article.mjs` now resets `publishable: false`
+- 404-not-found complexity fixed to "advanced", test experiment status fixed to "archived"
+- CSS base extraction deferred (low ROI, ~45 lines, proven safe via `shared-tokens.css` pattern)
+- Toolkit template wiring deferred (scroll/raf coordination conflict)
 
 ---
 
 ## Recommended Next Steps (Priority Order)
 
-### 1. Commit the V2 work (Critical)
+All items from steps 1-6 below have been completed. P2 Quality and Performance is now also complete (tracked in `.cursor/plans/p2_quality_performance_b442a328.plan.md`). The remaining work is in the P3-P4 sections of the [comprehensive review](.cursor/plans/v2_comprehensive_review_9100ae49.plan.md).
 
-~618 uncommitted changes need to be organized into logical commits. Could be a single large `feat: v2 platform overhaul` commit or broken into thematic ones.
+### ~~1. Commit the V2 work~~ DONE
 
-### 2. Clean up dead code + migrate legacy layouts (Quick wins)
+### ~~2. Clean up dead code + migrate legacy layouts~~ DONE
 
-- **Delete `ExperimentArticleButton.tsx`** -- dead code, zero imports
-- **Migrate 17 legacy layouts** from `ExperimentBackButton` to `ExperimentNav` -- mechanical replacement, can be batched
-- After migration, **delete `ExperimentBackButton.tsx`** too
+### ~~3. Fix remaining content pipeline todos~~ DONE
 
-### 3. Fix remaining content pipeline todos (Medium)
+### ~~4. Cancel the obsolete template_audit_fixes plan~~ DONE
 
-- **Backfill `metadataBase`** on 17 legacy experiment layouts (eliminates build warnings)
-- **Backfill `profile` field** on 18 legacy experiment.json files (enables AI profile activation)
-- **Add `createdDate` / `description`** to plopfile article generator (quality-of-life)
+### ~~5. Tag/tech backfill~~ DONE
 
-### 4. Cancel the obsolete template_audit_fixes plan
-
-Mark all 11 todos as cancelled -- they were superseded by the motion migration.
-
-### 5. Tag/tech backfill (P3)
-
-17 experiments have empty `tags`/`tech` arrays. Largest metadata gap remaining.
-
-### 6. RSS feed route (P3)
+### ~~6. RSS feed route~~ DONE
 
 All infrastructure exists (`getArticles()`, `gray-matter`). Just needs a `/feed.xml` route.

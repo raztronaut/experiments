@@ -5,9 +5,10 @@
   "profile": "r3f-shader",
   "created": "2026-01-22T21:59:04.491Z",
   "video": "/experiments/mountain-transition/preview.mp4",
-  "isPlaceholder": false,
   "status": "shipped",
+  "complexity": "advanced",
   "legacy": true,
   "tags": ["shader", "animation", "scroll", "3d"],
-  "tech": ["r3f", "three.js", "glsl", "gsap"]
+  "tech": ["r3f", "three.js", "glsl", "gsap"],
+  "content": {}
 }

@@ -23,6 +23,7 @@ const VALID_PROFILES = [
   "web-audio",
   "blank",
 ];
+const VALID_COMPLEXITY = ["beginner", "intermediate", "advanced"];
 const REQUIRED_FIELDS = ["title", "description", "slug"];
 
 let errors = 0;
@@ -93,6 +94,13 @@ try {
       );
     }
 
+    if (config.complexity && !VALID_COMPLEXITY.includes(config.complexity)) {
+      error(
+        relPath,
+        `Invalid complexity "${config.complexity}". Must be one of: ${VALID_COMPLEXITY.join(", ")}`
+      );
+    }
+
     if (config.tags !== undefined && !Array.isArray(config.tags)) {
       error(relPath, `"tags" must be an array, got ${typeof config.tags}`);
     }
@@ -151,7 +159,58 @@ try {
             "content.article is true but article/content.mdx does not exist on disk"
           );
         }
+
+        const docsMapping = [
+          { flag: "labNote", file: "docs/lab-note.md" },
+          { flag: "architecture", file: "docs/architecture.md" },
+          { flag: "snippet", file: "docs/snippet.md" },
+          { flag: "social", file: "docs/social.md" },
+          { flag: "changelog", file: "docs/changelog.md" },
+        ];
+
+        for (const { flag, file } of docsMapping) {
+          const docPath = path.join(
+            EXPERIMENTS_DIR,
+            group.name,
+            slugDir.name,
+            file
+          );
+          const hasFileOnDisk = fs.existsSync(docPath);
+          const hasFlagInJson = config.content?.[flag] === true;
+
+          if (hasFileOnDisk && !hasFlagInJson) {
+            warn(
+              relPath,
+              `${file} exists on disk but content.${flag} is not true in experiment.json`
+            );
+          }
+          if (hasFlagInJson && !hasFileOnDisk) {
+            warn(
+              relPath,
+              `content.${flag} is true but ${file} does not exist on disk`
+            );
+          }
+        }
       }
+    }
+
+    if (config.publishable === true && config.content?.article !== true) {
+      warn(relPath, "publishable is true but content.article is not set");
+    }
+
+    if (
+      config.content?.article === true &&
+      config.content?.labNote === true &&
+      config.content?.architecture === true &&
+      config.content?.snippet === true &&
+      config.content?.social === true &&
+      config.content?.changelog === true &&
+      config.publishable !== true
+    ) {
+      warn(
+        relPath,
+        "full content constellation exists but publishable is not set (run publish workflow finalization?)"
+      );
     }
   }
 

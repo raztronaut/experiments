@@ -7,9 +7,6 @@ import { useMounted } from "@/hooks/useMounted";
 import { useCursor } from "./Context";
 
 export const Cursor: React.FC = () => {
-  // Attempt 1: Fix cursor distortion/artifacts.
-  // Ensure hardware acceleration with backface-visibility: hidden and
-  // robust transform handling to prevent rendering glitches during movement.
   const { selectedElement, status, pressing, setStatus, isHidden } =
     useCursor();
   const cursorRef = useRef<HTMLDivElement>(null); // Position container (transform x/y)
@@ -47,17 +44,12 @@ export const Cursor: React.FC = () => {
       const x = mouseRef.current.x;
       const y = mouseRef.current.y;
 
-      // Attempt 2: Unified animation state to fix distortion.
-      // Instead of firing competing GSAP tweens, we calculate the target state for every frame
-      // and fire a SINGLE tween. This prevents the "squished bean" effect where width/height
-      // animate at different rates than the position or border-radius.
-
       const targetState = {
         x: x - 9,
         y: y - 9,
         width: 18,
         height: 18,
-        borderRadius: "9px", // Attempt 4: Use px instead of 50% for smooth interpolation
+        borderRadius: "9px",
         backgroundColor: getCursorColor(0.3),
         border: `0px solid ${getCursorColor(0)}`,
         mixBlendMode: "difference",

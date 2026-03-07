@@ -1,5 +1,6 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
+import { DevToolsInjector } from "@/components/dev";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import experiment from "./experiment.json";
 
@@ -34,6 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
+        <DevToolsInjector />
         <UmamiScript />
         <ExperimentNav
           articleSlug={content?.article ? experiment.slug : undefined}

@@ -5,17 +5,16 @@
   "profile": "interaction",
   "created": "2025-12-24T03:26:10.067Z",
   "video": "/experiments/keyboard-keys/preview.mp4",
-  "isPlaceholder": false,
   "status": "shipped",
+  "complexity": "intermediate",
   "legacy": true,
-  "tags": ["keyboard", "animation", "ui"],
-  "tech": ["css-animations"],
-  "content": {
-    "article": true,
-    "labNote": true,
-    "architecture": true,
-    "snippet": true,
-    "social": true,
-    "changelog": true
-  }
+  "tags": [
+    "keyboard",
+    "animation",
+    "ui"
+  ],
+  "tech": [
+    "css-animations"
+  ],
+  "content": {}
 }

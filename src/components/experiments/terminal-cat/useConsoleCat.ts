@@ -153,6 +153,9 @@ export const useConsoleCat = (enabled = true) => {
       }
 
       // -- Render Composition --
+      // Access console indirectly via window.console -- SWC's removeConsole
+      // transform (next.config.ts) strips direct console.X() calls in production,
+      // but this alias pattern survives the AST-level rewrite.
       const c = window.console;
       c.clear();
 

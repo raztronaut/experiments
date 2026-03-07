@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { activeFont } from "@/lib/fonts";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GlobalTracking } from "@/components/analytics/GlobalTracking";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
+import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { cn } from "@/lib/utils";
 
@@ -69,10 +72,6 @@ export const metadata: Metadata = {
   },
 };
 
-import { Analytics } from "@vercel/analytics/next";
-import { GlobalTracking } from "@/components/analytics/GlobalTracking";
-import { CursorProvider } from "@/components/ui/cursor/Provider";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,12 +79,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* 
-            Attempt 1: Early execution script to suppress cursor immediately on load.
-            This prevents the "flash" of the system cursor before React hydrates.
-          */}
-      </head>
       <body
         className={cn(
           activeFont.className,

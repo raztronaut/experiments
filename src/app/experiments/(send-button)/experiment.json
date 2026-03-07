@@ -7,7 +7,9 @@
   "image": "/experiments/send-button/preview-send-button.png",
   "video": "/experiments/send-button/preview-send-button.mp4",
   "status": "shipped",
+  "complexity": "intermediate",
   "legacy": true,
+  "publishable": true,
   "tags": ["ui", "animation", "interaction"],
   "tech": ["motion"],
   "content": {

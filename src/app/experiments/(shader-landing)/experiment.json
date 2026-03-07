@@ -6,7 +6,9 @@
   "created": "2025-12-02T00:00:00.000Z",
   "video": "/experiments/shader-landing/preview-shader-landing.mp4",
   "status": "shipped",
+  "complexity": "advanced",
   "legacy": true,
   "tags": ["shader", "generative"],
-  "tech": ["three.js", "glsl"]
+  "tech": ["three.js", "glsl"],
+  "content": {}
 }

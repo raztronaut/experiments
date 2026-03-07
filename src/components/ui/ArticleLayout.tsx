@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import type React from "react";
 
 interface ArticleNavItem {
@@ -11,6 +12,7 @@ interface ArticleNavItem {
 interface ArticleLayoutProps {
   children: React.ReactNode;
   experimentSlug: string;
+  experimentTitle: string;
   next?: ArticleNavItem;
   prev?: ArticleNavItem;
   publishedAt: string;
@@ -33,6 +35,7 @@ export function ArticleLayout({
   updatedAt,
   readingTime,
   experimentSlug,
+  experimentTitle,
   children,
   prev,
   next,
@@ -40,16 +43,16 @@ export function ArticleLayout({
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <nav className="mb-6 flex items-center gap-1.5 text-muted-foreground text-sm">
-        <a className="transition-colors hover:text-foreground" href="/">
+        <Link className="transition-colors hover:text-foreground" href="/">
           Home
-        </a>
+        </Link>
         <span>&gt;</span>
-        <a
+        <Link
           className="transition-colors hover:text-foreground"
           href={`/experiments/${experimentSlug}`}
         >
-          {experimentSlug}
-        </a>
+          {experimentTitle}
+        </Link>
         <span>&gt;</span>
         <span className="text-foreground">Article</span>
       </nav>
@@ -77,7 +80,7 @@ export function ArticleLayout({
       {(prev || next) && (
         <nav className="mt-16 flex items-stretch gap-4 border-border border-t pt-8">
           {prev ? (
-            <a
+            <Link
               className="group flex flex-1 flex-col gap-1 rounded-lg border border-border p-4 transition-colors hover:border-foreground/20"
               href={prev.href}
             >
@@ -88,12 +91,12 @@ export function ArticleLayout({
               <span className="font-medium text-sm transition-colors group-hover:text-foreground">
                 {prev.title}
               </span>
-            </a>
+            </Link>
           ) : (
             <div className="flex-1" />
           )}
           {next ? (
-            <a
+            <Link
               className="group flex flex-1 flex-col items-end gap-1 rounded-lg border border-border p-4 text-right transition-colors hover:border-foreground/20"
               href={next.href}
             >
@@ -104,7 +107,7 @@ export function ArticleLayout({
               <span className="font-medium text-sm transition-colors group-hover:text-foreground">
                 {next.title}
               </span>
-            </a>
+            </Link>
           ) : (
             <div className="flex-1" />
           )}

@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { cache } from "react";
 
 export type ExperimentProfile =
   | "r3f-scene"
@@ -14,6 +15,22 @@ export type ExperimentStatus = "wip" | "shipped" | "archived";
 
 export type ExperimentComplexity = "beginner" | "intermediate" | "advanced";
 
+const VALID_PROFILES: ExperimentProfile[] = [
+  "r3f-scene",
+  "r3f-shader",
+  "scrollytelling",
+  "interaction",
+  "dom-effect",
+  "web-audio",
+  "blank",
+];
+const VALID_STATUSES: ExperimentStatus[] = ["wip", "shipped", "archived"];
+const VALID_COMPLEXITIES: ExperimentComplexity[] = [
+  "beginner",
+  "intermediate",
+  "advanced",
+];
+
 export interface Experiment {
   complexity?: ExperimentComplexity;
   content?: Record<string, boolean>;
@@ -22,7 +39,6 @@ export interface Experiment {
   href: string;
   image?: string;
   inspiration?: { title: string; url: string }[];
-  isPlaceholder?: boolean;
   legacy?: boolean;
   poster?: string;
   profile?: ExperimentProfile;
@@ -45,7 +61,63 @@ export interface ExperimentFilter {
   tech?: string[];
 }
 
-export async function getExperiments(
+function validateExperiment(raw: unknown): Experiment | null {
+  if (!raw || typeof raw !== "object") {
+    return null;
+  }
+  const obj = raw as Record<string, unknown>;
+
+  if (typeof obj.title !== "string" || !obj.title) {
+    return null;
+  }
+  if (typeof obj.description !== "string" || !obj.description) {
+    return null;
+  }
+  if (typeof obj.slug !== "string" || !obj.slug) {
+    return null;
+  }
+  if (typeof obj.created !== "string") {
+    return null;
+  }
+  if (typeof obj.href !== "string") {
+    return null;
+  }
+
+  if (
+    obj.status !== undefined &&
+    !VALID_STATUSES.includes(obj.status as ExperimentStatus)
+  ) {
+    console.warn(`Invalid status "${obj.status}" in experiment "${obj.slug}"`);
+    return null;
+  }
+
+  if (
+    obj.profile !== undefined &&
+    !VALID_PROFILES.includes(obj.profile as ExperimentProfile)
+  ) {
+    console.warn(
+      `Invalid profile "${obj.profile}" in experiment "${obj.slug}"`
+    );
+    return null;
+  }
+
+  if (
+    obj.complexity !== undefined &&
+    !VALID_COMPLEXITIES.includes(obj.complexity as ExperimentComplexity)
+  ) {
+    console.warn(
+      `Invalid complexity "${obj.complexity}" in experiment "${obj.slug}"`
+    );
+    return null;
+  }
+
+  return obj as unknown as Experiment;
+}
+
+// React.cache() deduplicates within a single server render pass.
+// Caveat: uses Object.is for args -- inline filter objects will miss cache.
+// All current callers pass undefined (no filter), which deduplicates correctly.
+export const getExperiments = cache(async function getExperiments(
   filter?: ExperimentFilter
 ): Promise<Experiment[]> {
   const experimentsDir = path.join(process.cwd(), "src/app/experiments");
@@ -77,11 +149,17 @@ export async function getExperiments(
             ? `/experiments/${config.slug}/poster.jpg`
             : undefined;
 
-          return {
+          const experiment = validateExperiment({
             ...config,
             href: `/experiments/${config.slug}`,
             poster: posterPath,
-          } as Experiment;
+          });
+
+          if (!experiment) {
+            console.warn(`Validation failed for ${dirName}`);
+          }
+
+          return experiment;
         } catch (error) {
           console.warn(`Could not read config for ${dirName}:`, error);
           return null;
@@ -122,4 +200,4 @@ export async function getExperiments(
     console.error("Error reading experiments directory:", error);
     return [];
   }
-}
+});

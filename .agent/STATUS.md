@@ -23,7 +23,7 @@ The AI coding configuration was overhauled into a layered, token-efficient syste
 |----------|-------|-------|
 | **Standards** | 1 | `AGENTS.md` -- cross-tool portable coding standards (~605 words) |
 | **Rules** | 6 | `experiments.md` (always-on), `r3f.md`, `shaders.md`, `animations.md`, `scroll.md`, `performance.md` (path-conditioned) |
-| **Profiles** | 5 | `r3f-scene.md`, `shader-art.md`, `scrollytelling.md`, `interaction.md`, `dom-effect.md` |
+| **Profiles** | 6 | `r3f-scene.md`, `r3f-shader.md`, `scrollytelling.md`, `interaction.md`, `dom-effect.md`, `web-audio.md` |
 | **Skills** | 8 | `lenis-scroll.md`, `gsap-modern.md`, `r3f-core.md`, `shader-authoring.md`, `motion-react.md`, `visual-qa.md`, `tempus-raf.md`, `vercel-react-best-practices.md` |
 | **Workflows** | 7 | `new-experiment.md`, `develop-experiment.md`, `visual-qa.md`, `publish-experiment.md`, `add-experiment-component.md`, `add-experiment-assets.md`, `cleanup-experiment.md` |
 | **Contexts** | 3 | `toolkit.md` (library inventory + install status), `architecture.md` (experiment structure reference), `writing-voice.md` (RNDR Realm-style content voice) |
@@ -34,11 +34,11 @@ Tier 1 libraries installed, integration layer built, custom hooks migrated. Leni
 
 ### Section 3: Visual Feedback Bridge
 
-Playwright capture script (`scripts/capture.mjs` with --delay, --scroll, --viewport, --full-page, --og flags). Console-piped dev metrics (ExperimentDevMetrics, R3FDevMetrics, R3FSceneInspector). All in `src/components/dev/`.
+Playwright capture script (`scripts/capture.mjs` with --delay, --scroll, --viewport, --full-page, --og flags). Console-piped dev metrics (ExperimentDevMetrics, R3FDevMetrics, R3FSceneInspector) in `src/components/dev/`. `DevToolsInjector` component auto-injects `ExperimentDevMetrics` in dev mode (tree-shakes to nothing in production). Wired into the Plop layout template and backfilled into all 18 existing experiment layouts -- every experiment now gets dev metrics in dev mode. R3F-specific tools (R3FDevMetrics, R3FSceneInspector) must be added manually inside `<Canvas>`.
 
 ### Section 4: Experiment Architecture V2
 
-Enriched `experiment.json` with V2 fields (profile, status, tags, tech, complexity, content, etc.). 18 experiments backfilled with `status: "shipped"` and `legacy: true`. `getExperiments()` with filtering by status/tags/tech/profile. 7 profile-based templates via Plop (`npm run new:experiment`). Homepage filtering by status/tags via `ExperimentFilters` component.
+Enriched `experiment.json` with V2 fields (profile, status, tags, tech, complexity, content, etc.). 18 experiments backfilled with `status: "shipped"` and `legacy: true`. `getExperiments()` with filtering by status/tags/tech/profile. 7 profile-based templates via Plop (`npm run new:experiment`). Homepage shows all experiments without filtering (filter system removed during V2 audit remediation).
 
 ### Section 5: Content Publishing Pipeline
 
@@ -52,20 +52,22 @@ MDX article infrastructure using `next-mdx-remote/rsc` (Sylph-inspired pattern).
 | **MDX components** | `src/components/mdx/` | Minimal articleComponents map (Sylph-style: CSS handles typography). CodeBlock, Callout, LiveDemo, SandpackDemo, InteractiveWidget, CodeStep. TOC exists but commented out. |
 | **Article layout** | `src/components/ui/ArticleLayout.tsx` | Sylph-style: small semibold title, `>` breadcrumb, single-column, prev/next nav. TOC commented out. No motion animations. |
 | **Experiment nav** | `src/components/ui/ExperimentNav.tsx` | Unified nav component: "Return to Experiments" + context-aware "View Article"/"View Experiment" toggle. Replaces separate ExperimentBackButton + ExperimentArticleButton. |
-| **Article listing** | `src/lib/articles.ts` | `getArticles()` -- scans for article/content.mdx, parses frontmatter with gray-matter |
+| **Article listing** | `src/lib/articles.ts` | `getArticles()` and `getArticleContent(slug)` -- async `fs/promises`, wrapped with `React.cache()` for per-request deduplication. Scans for article/content.mdx, parses frontmatter with gray-matter. Returns `ArticleContent | null` with `fs.access` guard + try/catch (callers `await` + use `notFound()` on null). |
 | **Article discovery** | `ExperimentGridCard`, `ExperimentListItem`, `ExperimentPreviewDrawer` | `FileText` badge on cards/list items when `content.article === true`, "Read Article" button in drawer |
-| **Sitemap** | `src/app/sitemap.ts` | Includes both experiment URLs and article URLs via `getArticles()` |
-| **Content model** | `experiment.json` `content` field | Tracks which content formats exist per experiment (`article`, `labNote`, `architecture`, `snippet`, `social`, `changelog`) |
+| **Sitemap** | `src/app/sitemap.ts` | Includes both experiment URLs and article URLs via `getArticles()`. Uses `SITE_URL` from `@/lib/constants`. `lastModified` uses real dates (`exp.updated \|\| exp.created`, `article.updatedAt \|\| article.publishedAt`). |
+| **Content model** | `experiment.json` `content` field | Tracks which content formats exist per experiment (`article`, `labNote`, `architecture`, `snippet`, `social`, `changelog`). All 18 experiments have the field (empty `{}` when no content exists). |
 | **Writing voice** | `.agent/contexts/writing-voice.md` | RNDR Realm + Maxime Heckel voice guide. Includes progressive demo pattern for complex experiments. |
 | **Docs templates** | `docs/` per experiment | lab-note.md, architecture.md, snippet.md, social.md, changelog.md |
-| **OG images** | `scripts/capture.mjs --og` + `/api/og` route | Screenshot-based (Playwright) + dynamic (ImageResponse, edge runtime) |
+| **OG images** | `scripts/capture.mjs --og` + `/api/og` route | Screenshot-based (Playwright) + dynamic (ImageResponse, edge runtime). Article pages + plop template wire `openGraph.images` to `/api/og`. Experiment layouts use static poster/preview images. |
+| **Shared constants** | `src/lib/constants.ts` | `SITE_URL` constant used by feed.xml, sitemap, robots.ts. Single source of truth for the production URL. |
 | **Plop generator** | `npm run new:article` | Scaffolds article/ + docs/ for existing experiments (8 files, with `node:` imports, dual-theme code, prev/next nav) |
 | **Publish workflow** | `.agent/workflows/publish-experiment.md` | 5-phase content generation guide. Documents progressive demo pattern, component wiring (page.tsx, not MDX imports), interactive element planning. Validated on keyboard-keys + basketball-replay-center. |
 
-**Published articles** (3):
+**Published articles** (2):
 - `/experiments/send-button/article` -- manually authored during restoration
-- `/experiments/keyboard-keys/article` -- AI-generated via publish workflow (full content constellation: article + 5 docs)
 - `/experiments/basketball-replay-center/article` -- AI-generated with upgraded voice + interactive Sandpack demos
+
+*Note: keyboard-keys article was removed during V2 audit remediation (placeholder content, not publication-quality). The experiment itself remains.*
 
 ### Section 6: Quality Infrastructure
 
@@ -74,13 +76,13 @@ MDX article infrastructure using `next-mdx-remote/rsc` (Sylph-inspired pattern).
 | **Biome (Ultracite)** | `biome.jsonc`, `ultracite` | Linting + formatting via Biome. Replaces ESLint. `npm run lint` = `ultracite check`, `npm run fix` = `ultracite fix` |
 | **CI** | `.github/workflows/ci.yml` | lint -> typecheck -> unit tests -> build on push/PR to main |
 | **Type checking** | `npm run typecheck` | `tsc --noEmit` |
-| **Experiment validation** | `scripts/validate-experiments.mjs` | Validates experiment.json: required fields, enum values, array types for tags/tech, date format for created, object structure for content, no duplicate slugs |
+| **Experiment validation** | `scripts/validate-experiments.mjs` | Validates experiment.json: required fields, enum values (status, profile, complexity), array types for tags/tech, date format for created, object structure for content, no duplicate slugs |
 | **Pre-commit hooks** | `lefthook.yml` | Parallel: ultracite fix (staged), typecheck, validate experiments |
 | **View Transitions** | `@view-transition` in globals.css + experiments.css | Cross-document transitions between homepage and experiments |
 | **Navigation** | `ExperimentDrawerList.tsx` | Same-tab default (Cmd/Ctrl+click for new tab), enables view transitions |
 | **Transition names** | `ExperimentGridCard`, `ExperimentNav`, layout template | Matching `view-transition-name` for morphing between pages |
-| **Homepage filtering** | `ExperimentFilters` + `ExperimentDrawerList` | Status toggles only (All/Shipped/WIP). Tag filters removed. |
-| **Build hardening** | `next.config.ts` | `ignoreBuildErrors` removed -- type errors now fail the build. `metadataBase` in plop layout template. |
+| **Homepage listing** | `ExperimentDrawerList` | All experiments shown without filtering. `ExperimentFilters` removed during V2 audit remediation. |
+| **Build hardening** | `next.config.ts` | No `ignoreBuildErrors` configured -- type errors fail the build. `metadataBase` in plop layout template. `removeConsole` strips `console.*` except `error` in production (terminal-cat uses `window.console` alias to survive this). |
 
 ---
 
@@ -88,9 +90,10 @@ MDX article infrastructure using `next-mdx-remote/rsc` (Sylph-inspired pattern).
 
 | Command | What It Does |
 |---------|-------------|
-| `npm run new:experiment` | Scaffold a new experiment with profile selection (7 profiles), V2 experiment.json, dev metrics injection, preview.gif copy |
+| `npm run new:experiment` | Scaffold a new experiment with complexity + profile selection (7 profile choices, 6 with guidance files), V2 experiment.json, DevToolsInjector auto-included in layout |
 | `npm run new:article` | Scaffold article + docs for an existing experiment (8 files: page.tsx, content.mdx, components.tsx, 5 doc templates) |
 | `npm run delete:experiment <name>` | Interactive deletion of route group, components, public assets, registry JSON |
+| `npm run delete:article <name>` | Interactive deletion of article/ + docs/ directories, removes `content` block from experiment.json, resets `publishable` to false |
 | `npm run capture <slug>` | Playwright screenshot with --delay, --scroll, --viewport, --full-page, --og flags |
 | `npm run validate:experiments` | Validate all experiment.json files (required fields, enums, types, no duplicates) |
 | `npm run generate:registry` | Generate shadcn-compatible registry JSON for all experiments |
@@ -107,12 +110,12 @@ MDX article infrastructure using `next-mdx-remote/rsc` (Sylph-inspired pattern).
 
 All agent config files are functional with zero forward dependencies:
 
-**Profiles** (5 of 5): all fully functional
+**Profiles** (6 of 6): all fully functional
 **Rules** (6 of 6): all fully functional
 **Skills** (8 of 8): all fully functional
-**Workflows** (7 of 7): all fully functional -- publish-experiment validated end-to-end (keyboard-keys article + full docs constellation)
+**Workflows** (7 of 7): all fully functional -- publish-experiment validated end-to-end (basketball-replay-center article + full docs constellation)
 **Contexts** (3 of 3): all fully functional (including writing-voice)
-**Articles** (3 of 3): send-button, keyboard-keys, and basketball-replay-center -- all build as static routes with Sylph-quality typography, dual-theme code blocks, and full discovery (badges, drawer links, sitemap). Sandpack (`@codesandbox/sandpack-react`) now available for interactive in-browser code playgrounds in articles.
+**Articles** (2): send-button and basketball-replay-center -- both build as static routes with Sylph-quality typography, dual-theme code blocks, and full discovery (badges, drawer links, sitemap). Sandpack (`@codesandbox/sandpack-react`) now available for interactive in-browser code playgrounds in articles.
 
 ---
 
@@ -122,9 +125,9 @@ All agent config files are functional with zero forward dependencies:
 |---------|--------|-------|
 | **1. AI Coding Config** | **DONE** | All completed |
 | **2. Creative Toolkit** | **DONE** | All completed |
-| **3. Visual Feedback Bridge** | **DONE** | All completed |
+| **3. Visual Feedback Bridge** | **DONE** | All completed. DevToolsInjector now auto-injects ExperimentDevMetrics in dev mode via Plop template. |
 | **4. Experiment Architecture V2** | **DONE** | All completed |
-| **5. Content Publishing** | **DONE** | Infrastructure complete, 3 articles shipped, AI publish workflow validated end-to-end, Sandpack interactive demos available |
+| **5. Content Publishing** | **DONE** | Infrastructure complete, 2 articles shipped (send-button, basketball-replay-center), AI publish workflow validated, Sandpack interactive demos available |
 | **6. Quality Infrastructure** | **DONE** | CI, linting, view transitions, homepage filtering, build hardening, validator tightening |
 
 ### Priority Order (from V2 plan)
@@ -133,17 +136,22 @@ All agent config files are functional with zero forward dependencies:
 3. **P2**: DONE (Sections 5-6)
 4. **P3** (next): MCP capture server, Tier 2/3 library adoption, Registry V2, Lighthouse CI
 
+### Post-V2 Remediation (from [comprehensive review](../.cursor/plans/v2_comprehensive_review_9100ae49.plan.md))
+- **P0 Critical Issues**: DONE -- DevToolsInjector wired into Plop template, `getArticleContent()` error handling, root layout cleanup, `removeConsole` documented. Metadata inconsistencies fixed (404-not-found -> advanced, test -> archived). Remaining: Cursor.tsx perf bug (deferred).
+- **P1 Fulfill Original Promises**: DONE -- DevToolsInjector backfilled into all 18 layouts, ArticleLayout breadcrumbs use `<Link>` + human-readable titles, 5 misplaced deps moved to devDependencies, plopfile timestamp bug fixed, delete-article resets publishable. CSS base style extraction deferred (low priority, ~45 lines, proven safe via shared-tokens.css pattern but not worth the effort).
+- **P2 Quality and Performance**: DONE -- Tracked in `.cursor/plans/p2_quality_performance_b442a328.plan.md`. Runtime schema validation in `getExperiments()`, `articles.ts` converted from sync to async `fs/promises`, all 3 data functions wrapped with `React.cache()`, `optimizePackageImports` expanded (motion, @react-three/drei, @codesandbox/sandpack-react), ExperimentDrawerList rAF loop gated on viewMode+isVisible with convergence stop. Deferred: Cursor.tsx perf bug, `useExhaustiveDependencies`, Biome a11y rules, `noExplicitAny`/`noUnusedVariables`.
+- **P3-P4**: Pending. See comprehensive review for full roadmap.
+
 ---
 
-## Verification Results (last run: 2026-03-06)
+## Verification Results (last run: 2026-03-07, post-P2)
 
 | Check | Result |
 |-------|--------|
-| `npx ultracite check` | 485 files, 0 errors |
 | `npm run typecheck` | Clean |
-| `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
 | `node scripts/validate-experiments.mjs` | 18 experiments valid |
-| Test 1: scaffold + verify + delete (interaction) | All 13 checks PASS |
+| `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
+| `npm run build` | Success, all routes present, 2 article routes |
 
 Full test results: `.agent/running-findings.md`
 
@@ -155,14 +163,14 @@ Full test results: `.agent/running-findings.md`
 |------|--------|-------|
 | Lighthouse CI | Not started | Needs deployed preview URL; add as separate GitHub Actions workflow |
 | Package extraction | Documented | Process described in publish-experiment workflow, not automated |
-| Social asset generation | Foundation built | OG API route is the base for cards/images |
+| Social asset generation | Partially done | OG API route wired to article metadata (`openGraph` + `twitter`). Plop template auto-includes. Experiment layouts use static images. Full social card automation (auto-generate per-experiment) not yet built. |
 | `next-view-transitions` | Not needed yet | For same-document transitions in `(main)` route group |
 | Registry V2 | Not started | Interactive docs pages with live demos |
 | MCP capture server | Not started | Full MCP tool (currently CLI script) |
 | Article-aware homepage section | Not started | Dedicated "Writing" section using `getArticles()` (discovery via badges/drawer already works) |
 | Content dashboard | Not started | Overview of which experiments have which content formats |
 | Legacy layout metadata | Low priority | 15/18 layouts hardcode metadata strings instead of reading experiment.json. 3 layouts (basketball-replay-center, send-button, keyboard-keys) use the dynamic pattern. New experiments use it automatically via plop template. Cosmetic only -- no functional bugs. |
-| Validator enhancements | **DONE** | Cross-checks `content.article` vs. `article/content.mdx` on disk. Warns in both directions. Runs in CI + pre-commit. |
+| Validator enhancements | **DONE** | Cross-checks all 6 content flags (`article`, `labNote`, `architecture`, `snippet`, `social`, `changelog`) vs. files on disk. Publishable consistency checks (publishable vs content.article, full constellation nudge). Runs in CI + pre-commit. |
 
 ### Completed P3 Items
 
@@ -178,6 +186,15 @@ Full test results: `.agent/running-findings.md`
 | Plopfile article vars | **DONE** | Article generator now prompts for `description` and auto-populates `createdDate` in frontmatter |
 | Validator content checks | **DONE** | `validate-experiments.mjs` cross-checks `content.article` vs. `article/content.mdx` on disk |
 | Dynamic articleSlug | **DONE** | send-button + keyboard-keys layouts derive `articleSlug` from `content?.article` instead of hardcoding |
+| Complexity backfill | **DONE** | All 18 experiments classified (3 beginner, 6 intermediate, 9 advanced). Plopfile prompts for complexity on scaffold. Validator enforces enum. |
+| Content field backfill | **DONE** | All 18 experiments have `content` field in experiment.json (empty `{}` for 16, populated for send-button + basketball-replay-center) |
+| Code cleanup | **DONE** | Removed 3 unused deps (`@next/bundle-analyzer`, `summarize-with-ai`, `cross-env`), moved `@types/matter-js` + `@types/three` to devDeps, cleaned debug comments (cursor/Provider, cursor/Cursor, ExperimentDrawerList), fixed duplicate observer.disconnect, fixed misplaced drawer import, fixed DesktopIcon dynamic Tailwind bug, fixed CodeBlock clipboard catch, fixed stale "Framer Motion" heading |
+| DevToolsInjector backfill | **DONE** | All 18 existing experiment layouts now have DevToolsInjector (was only in Plop template) |
+| ArticleLayout semantics | **DONE** | Breadcrumb `<a>` -> `<Link>`, added `experimentTitle` prop. Title stays as `<p>` (Sylph pattern). TOC stays commented (future effort). |
+| Dependency cleanup | **DONE** | Moved `autoprefixer`, `postcss`, `tailwindcss`, `tailwindcss-animate`, `@theatre/studio` to devDependencies |
+| Plopfile timestamp fix | **DONE** | `created` field now computed in `actions()` callback, not at module load time |
+| delete-article publishable | **DONE** | `delete-article.mjs` now resets `publishable: false` when removing article content |
+| Metadata fixes | **DONE** | 404-not-found complexity -> "advanced", test experiment status -> "archived" |
 
 ---
 

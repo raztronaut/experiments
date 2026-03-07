@@ -26,7 +26,7 @@ public/experiments/experiment-name/
 └── [assets...]                 # Models, textures, fonts, audio
 ```
 
-The layout.tsx renders its own `<html>` and `<body>`, giving each experiment complete CSS/JS isolation from the main dashboard app. In dev mode, `ExperimentDevMetrics` is auto-injected to log FPS, heap, and CLS to the console.
+The layout.tsx renders its own `<html>` and `<body>`, giving each experiment complete CSS/JS isolation from the main dashboard app. In dev mode, `DevToolsInjector` auto-injects `ExperimentDevMetrics` (logs FPS, heap, CLS to the console every 2s). This is included in the Plop layout template for new experiments. For R3F experiments, `R3FDevMetrics` and `R3FSceneInspector` must be added manually inside `<Canvas>`.
 
 ## Metadata Schema (experiment.json)
 
@@ -37,7 +37,6 @@ The layout.tsx renders its own `<html>` and `<body>`, giving each experiment com
   "slug": "kebab-case-slug",
   "created": "2026-03-06T00:00:00.000Z",
   "video": "/experiments/slug/preview.mp4",
-  "isPlaceholder": false,
   "profile": "r3f-scene",
   "status": "wip",
   "tags": ["3d", "shader"],
@@ -58,7 +57,7 @@ The layout.tsx renders its own `<html>` and `<body>`, giving each experiment com
 | `tech` | string[] | Libraries used (for search and context) |
 | `complexity` | string | `beginner` / `intermediate` / `advanced` |
 | `legacy` | boolean | Pre-V2 experiment. Not refactored, kept as-is. |
-| `publishable` | boolean | Ready for article generation (Section 5) |
+| `publishable` | boolean | Quality-reviewed, ready for public. Set at END of publish workflow (step 17). Different from `content.article` which only tracks file existence. |
 
 ## Template System
 
@@ -118,7 +117,7 @@ npm run delete:experiment # Safe removal with confirmation
 ```
 experiment.json
   → getExperiments() in src/lib/experiments.ts (with status/tag/profile filtering)
-  → Homepage renders ExperimentDrawerList (with filter bar)
+  → Homepage renders ExperimentDrawerList
   → Each card links to /experiments/<slug>
   → Route group layout renders isolated experiment
 ```

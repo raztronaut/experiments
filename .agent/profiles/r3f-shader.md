@@ -1,6 +1,6 @@
-# Shader Art Profile
+# R3F Shader Profile
 
-> Activate when `experiment.json` has `"profile": "shader-art"`
+> Activate when `experiment.json` has `"profile": "r3f-shader"`
 
 ## Behavioral Mode
 **Visual fidelity first, mathematical precision.** The shader IS the experiment. Prioritize visual output quality and GPU efficiency.

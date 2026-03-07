@@ -13,6 +13,8 @@ Turn a shipped experiment into a content constellation: public article, internal
 - Code is clean and demonstrates interesting techniques
 - Read `.agent/contexts/writing-voice.md` before writing anything
 
+Note: `publishable: true` is the OUTPUT of this workflow (set in step 17), not an input gate. Prerequisite is `status: "shipped"`, output is `publishable: true`.
+
 ## Phase 1: Preparation
 
 1. Read all source files for the experiment (`src/components/experiments/<slug>/`, `src/app/experiments/(<slug>)/`)
