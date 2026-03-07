@@ -1,6 +1,7 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
+import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
@@ -30,28 +31,15 @@ export const metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: metadata.title,
-    description: metadata.description,
-    applicationCategory: "MultimediaApplication",
-    operatingSystem: "Any",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  };
-
   return (
     <html lang="en">
       <body>
         <DevToolsInjector />
         <UmamiScript />
-        <script
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-          type="application/ld+json"
+        <ExperimentJsonLd
+          description={metadata.description as string}
+          slug="mountain-transition"
+          title={metadata.title as string}
         />
         <h1 className="sr-only">{metadata.title}</h1>
         <ExperimentNav />

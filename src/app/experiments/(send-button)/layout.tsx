@@ -2,6 +2,7 @@ import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ThemeProvider } from "@/components/experiments/send-button/ThemeProvider";
+import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import experiment from "./experiment.json";
 
@@ -38,6 +39,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body className="min-h-screen antialiased">
         <DevToolsInjector />
         <UmamiScript />
+        <ExperimentJsonLd
+          description={experiment.description}
+          slug={experiment.slug}
+          tags={experiment.tags as string[]}
+          title={experiment.title}
+        />
         <ExperimentNav
           articleSlug={content?.article ? experiment.slug : undefined}
         />

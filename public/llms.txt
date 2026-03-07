@@ -1,21 +1,38 @@
-# Razi's Experiments
+# Razi's Experiments Lab
 
-> A personal playground for exploring UI interactions, shaders, and modern web development techniques built with Next.js, React Three Fiber, and Framer Motion.
+> A creative coding lab exploring shaders, 3D graphics, animation, and interaction design. Each experiment is isolated, interactive, and close to publishable.
 
-This site is designed for rapid prototyping of web design and development ideas. Each experiment is isolated and self-contained.
+## Articles
+- [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center/article): Building a sports control room preloader with CRT shaders, barrel distortion, and GSAP-driven uniform animation in React Three Fiber
+- [Send Button](https://www.razisyed.cv/experiments/send-button/article): A satisfying animated send button with state transitions
 
-## Site Structure
+## Experiments
+- [404 Not Found](https://www.razisyed.cv/experiments/404-not-found): A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.
+- [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center): A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.
+- [Bugged Out Game of Life Shader](https://www.razisyed.cv/experiments/bugged-out-game-of-life-shader-experiment): A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors
+- [Cursor/Tilt Depth Map Explorer](https://www.razisyed.cv/experiments/cursor-depth-explorer): A tomographic slice style depth map viewer for paintings using your cursor or device tilt (try on mobile too!)
+- [Game of Life Shader](https://www.razisyed.cv/experiments/game-of-life-shader): An attempt to implement Conway's Game of Life with the logic defining the shader
+- [Keyboard Keys](https://www.razisyed.cv/experiments/keyboard-keys): Interactive 3D keyboard keys with press animation and success/error animations
+- [Life 3D](https://www.razisyed.cv/experiments/life-3d): Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering
+- [Mountain Depth Map Shader Transition](https://www.razisyed.cv/experiments/mountain-transition): A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape
+- [Non-Euclidean Hyperbolic Second Brain](https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace): Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations
+- [OSX Cheetah UI with a surprise](https://www.razisyed.cv/experiments/gravity-physics-ui-layout): Find the hidden stupid feature!
+- [rabbithole.chat Gallery Explore](https://www.razisyed.cv/experiments/rabbithole-chat-gallery-explore): 3D floating gallery shader as an experimental explore page
+- [rabbithole.chat Preloader Shader](https://www.razisyed.cv/experiments/rabbithole-chat-preloader): A vortex gallery shader preloader for rabbithole.chat
+- [Send Button](https://www.razisyed.cv/experiments/send-button): A cool animated send button animation
+- [Shader Landing](https://www.razisyed.cv/experiments/shader-landing): A random shader experiment
+- [Terminal Cat](https://www.razisyed.cv/experiments/terminal-cat): Animating ASCII art in the browser console logs
+- [Transit/Airport Split-Flap Display](https://www.razisyed.cv/experiments/transit-airport-split-flap-display): A split flap display for transit/airport systems with sound effects manually made with Web Audio API
+- [Velocity-Responsive Design](https://www.razisyed.cv/experiments/velocity-responsive-design): A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed
 
-- [Homepage](https://www.razisyed.cv/): Main dashboard listing all experiments
-- [Experiments](https://www.razisyed.cv/experiments/): Individual experiment pages with interactive demos
+## Technical Details
+- Built with Next.js 16+ (App Router), React 19+, TypeScript
+- Animation: Motion (motion/react), GSAP with ScrollTrigger
+- 3D: React Three Fiber, Three.js, custom GLSL shaders
+- Scroll: Lenis smooth scroll with Tempus RAF management
+- Styling: Tailwind CSS with shadcn/ui components
 
-## Source Code
-
-- [GitHub Repository](https://github.com/raztronaut/experiments-tool): The scaffolding tool used to create this experiments workspace
-
-## Technologies Used
-
-- Next.js 16 (App Router)
-- React Three Fiber / Three.js for 3D graphics
-- Framer Motion for animations
-- Tailwind CSS & Shadcn UI for styling
+## Contact
+- GitHub: https://github.com/raztronaut
+- Twitter: https://twitter.com/razisyed
+- Website: https://www.razisyed.cv

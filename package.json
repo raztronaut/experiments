@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run generate:posters && npm run generate:registry && next build",
+    "build": "npm run generate:posters && npm run generate:registry && npm run generate:llms-txt && next build",
+    "generate:llms-txt": "node scripts/generate-llms-txt.mjs",
     "start": "next start",
     "lint": "ultracite check",
     "fix": "ultracite fix",
@@ -63,6 +64,7 @@
     "rehype-pretty-code": "^0.14.3",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
+    "schema-dts": "^1.1.5",
     "shiki": "^4.0.1",
     "simplex-noise": "^4.0.3",
     "sonner": "^2.0.7",

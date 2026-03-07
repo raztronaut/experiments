@@ -573,3 +573,40 @@ Addressed Section 11 P2 from the V2 Comprehensive Review. Tracked in `.cursor/pl
 | `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
 | `node scripts/validate-experiments.mjs` | 18 experiments valid |
 | `npm run build` | Success, all routes present, 2 article routes, sitemap, feed |
+
+---
+
+## P3 Content, SEO, and AI Discoverability (2026-03-07)
+
+Addressed P3 from the V2 Comprehensive Review plus modern AI discoverability standards. Tracked in `.cursor/plans/p3_content_seo_f304f8d2.plan.md`.
+
+### Changes Made
+
+| Change | Files | Detail |
+|--------|-------|--------|
+| **Installed** `schema-dts` | package.json | Google-maintained Schema.org TypeScript types (0kb runtime, types only) |
+| **Expanded** constants | `src/lib/constants.ts` | Added `SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR_NAME`, `GITHUB_URL`, `TWITTER_URL` |
+| **Created** structured data utils | `src/lib/structured-data.ts` | `schema-dts` typed generators: `generateWebSiteJsonLd()`, `generateArticleJsonLd()`, `generateBreadcrumbJsonLd()`, `generateExperimentJsonLd()`, `safeJsonLdStringify()` |
+| **Updated** root layout | `src/app/(main)/layout.tsx` | Replaced raw `Person` JSON-LD with `@graph` array (Person + WebSite) via `safeJsonLdStringify()` |
+| **Created** ExperimentJsonLd | `src/components/seo/ExperimentJsonLd.tsx` | Server component rendering `SoftwareApplication` + `BreadcrumbList` JSON-LD |
+| **Updated** 18 experiment layouts | All `layout.tsx` files | Added `ExperimentJsonLd` component. Mountain-transition refactored from inline JSON-LD to shared component. |
+| **Updated** Plop layout template | `plop-templates/experiment/route-layout.tsx.hbs` | New experiments auto-include `ExperimentJsonLd` |
+| **Updated** 2 article pages | send-button + basketball-replay-center `article/page.tsx` | Added `TechArticle` + `BreadcrumbList` JSON-LD, `alternates.canonical` |
+| **Updated** Plop article template | `plop-templates/article/page.tsx.hbs` | New articles auto-include JSON-LD + canonical URL |
+| **Created** llms.txt generator | `scripts/generate-llms-txt.mjs` | Build-time generation of `public/llms.txt` (v1.1.1 spec) and `public/llms-full.txt` from experiment data |
+| **Updated** build chain | `package.json` | Added `generate:llms-txt` script, wired into `npm run build` |
+| **Updated** robots.txt | `src/app/robots.ts` | Added ChatGPT-User, Claude-SearchBot, Claude-User, Applebot-Extended, Bytespider |
+| **Created** /experiments redirect | `src/app/experiments/page.tsx` | Redirects to `/` |
+| **Updated** sitemap | `src/app/sitemap.ts` | Added `/experiments` entry (priority 0.9) |
+| **Updated** RSS feed | `src/app/feed.xml/route.ts` | Uses `SITE_TITLE`/`SITE_DESCRIPTION` constants, added `<lastBuildDate>` |
+| **Updated** OG image route | `src/app/api/og/route.tsx` | Custom font loading (Test Die Grotesk + Inter fallback), `description` query param |
+
+### Verification (Post-P3)
+
+| Check | Result |
+|-------|--------|
+| `npm run typecheck` | Clean |
+| `npx ultracite check` | 0 errors in edited files |
+| `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
+| `node scripts/validate-experiments.mjs` | 18 experiments valid |
+| `npm run build` | Success, 29 routes (18 experiments + 2 articles + /experiments redirect + API routes + feed + sitemap + robots), llms.txt generated (18 experiments, 2 articles), llms-full.txt generated (232 lines) |

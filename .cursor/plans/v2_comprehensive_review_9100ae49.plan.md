@@ -143,9 +143,9 @@ Lenis, Tempus, and Hamo are in `package.json` but the integration layer that mak
 
 ~~Leaves `publishable: true` intact~~ Now resets `publishable` to `false` when removing article content.
 
-### 5H. OG Image Quality
+### 5H. ~~OG Image Quality~~ FIXED
 
-The `/api/og` route uses `system-ui` font (platform-dependent rendering), has no `description` parameter, and all OG images look identical except for text content. No experiment-specific visuals.
+~~The `/api/og` route uses `system-ui` font (platform-dependent rendering), has no `description` parameter~~ FIXED (P3). Now loads Replica Bold OTF with Google Fonts woff fallback. `description` query param renders below title. Tags still render as pill badges.
 
 ### 5I. ArticleLayout Semantic Issues -- PARTIALLY FIXED
 
@@ -178,16 +178,18 @@ Both [InteractivePreviewMedia.tsx](src/components/ui/experiments/InteractivePrev
 
 ---
 
-## 7. SEO and Content Gaps
+## 7. SEO and Content Gaps -- MOSTLY RESOLVED
 
-- **No `/experiments` index page** in sitemap -- only individual experiment URLs
-- **No `<lastBuildDate>`** in RSS feed (recommended RSS field)
-- **Site title "Razi's Experiments Lab"** hardcoded in feed instead of from constant
-- **TOC commented out** in ArticleLayout -- missing anchor navigation and SEO heading signals
-- **Article title as `<p>` not `<h1>`** -- search engines expect the page heading in an `<h1>`
-- **No structured data (JSON-LD)** on article pages -- only on the root layout
-- **No canonical URLs** on article pages
-- **16/18 experiments** have no content -- the "publishable by default" vision is far from realized
+- ~~**No `/experiments` index page** in sitemap~~ FIXED (P3: redirect page + sitemap entry)
+- ~~**No `<lastBuildDate>`** in RSS feed~~ FIXED (P3)
+- ~~**Site title hardcoded** in feed~~ FIXED (P3: uses `SITE_TITLE`/`SITE_DESCRIPTION` constants)
+- **TOC commented out** in ArticleLayout -- DEFERRED (dedicated future effort)
+- **Article title as `<p>` not `<h1>**` -- INTENTIONAL (Sylph pattern, MDX owns `<h1>`)
+- ~~**No structured data (JSON-LD)** on article pages~~ FIXED (P3: `TechArticle` + `BreadcrumbList`, plus `SoftwareApplication` on all 18 experiments, `WebSite` + `Person` `@graph` on root)
+- ~~**No canonical URLs** on article pages~~ FIXED (P3)
+- **16/18 experiments** have no content -- ongoing content creation effort
+- ~~**No llms.txt/llms-full.txt**~~ FIXED (P3: build-time generated, v1.1.1 spec)
+- ~~**robots.txt missing AI crawler names**~~ FIXED (P3: 5 new entries)
 
 ---
 
@@ -262,15 +264,26 @@ Per the original V2 plan priority ordering:
 6. ~~Fix delete-article.mjs to reset `publishable`~~ DONE
 7. ~~Fix ExperimentDrawerList perpetual rAF loop~~ DONE (gated on viewMode+isVisible, convergence stop)
 
-### P3: Content and SEO
+### P3: Content and SEO -- DONE
 
-1. Add JSON-LD structured data to article pages
-2. Add canonical URLs to article pages
-3. Uncomment and finalize TOC in ArticleLayout (dedicated future effort with scroll-spy + responsive design)
-4. Fix sitemap to include `/experiments` index
-5. Fix RSS feed (lastBuildDate, constant for site title)
-6. Improve OG image route (custom font, description param)
+> **Tracked in [P3 Content SEO](p3_content_seo_f304f8d2.plan.md).**
+
+1. ~~Add JSON-LD structured data to article pages~~ DONE (`TechArticle` + `BreadcrumbList` on 2 article pages + Plop template, `schema-dts` typed)
+2. ~~Add canonical URLs to article pages~~ DONE (`alternates.canonical` on 2 article pages + Plop template)
+3. Uncomment and finalize TOC in ArticleLayout -- DEFERRED (dedicated future effort with scroll-spy + responsive design)
+4. ~~Fix sitemap to include `/experiments` index~~ DONE (redirect page + sitemap entry)
+5. ~~Fix RSS feed (lastBuildDate, constant for site title)~~ DONE (uses `SITE_TITLE`/`SITE_DESCRIPTION` constants, `<lastBuildDate>` added)
+6. ~~Improve OG image route (custom font, description param)~~ DONE (custom font loading with Inter fallback, description parameter)
 7. Backfill remaining 16 experiments with articles (ongoing)
+
+**Additional P3 items (beyond original plan):**
+
+- ~~WebSite + Person `@graph` JSON-LD on root layout~~ DONE (replaces standalone `Person`)
+- ~~SoftwareApplication + BreadcrumbList JSON-LD on all 18 experiment layouts~~ DONE (shared `ExperimentJsonLd` component)
+- ~~llms.txt rewrite to v1.1.1 spec + llms-full.txt build-time generation~~ DONE
+- ~~robots.txt updated with 5 missing AI crawler names~~ DONE
+- ~~Shared constants (`SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR_NAME`)~~ DONE
+- ~~XSS-safe JSON-LD serialization (`safeJsonLdStringify`)~~ DONE
 
 ### P4: Infrastructure
 

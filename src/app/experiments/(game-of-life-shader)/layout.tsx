@@ -1,6 +1,7 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
+import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 
 export const metadata = {
@@ -35,6 +36,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <DevToolsInjector />
         <UmamiScript />
+        <ExperimentJsonLd
+          description={metadata.description as string}
+          slug="game-of-life-shader"
+          title={metadata.title as string}
+        />
         <ExperimentNav />
         {children}
       </body>

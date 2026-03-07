@@ -1,0 +1,231 @@
+# Razi's Experiments Lab — Full Content
+
+> A creative coding lab exploring shaders, 3D graphics, animation, and interaction design. Each experiment is isolated, interactive, and close to publishable.
+
+## Published Articles
+
+### Basketball Replay Center
+
+- URL: https://www.razisyed.cv/experiments/basketball-replay-center/article
+- Experiment: https://www.razisyed.cv/experiments/basketball-replay-center
+- Published: 2026-03-06T00:00:00.000Z
+- Description: A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.
+- Tags: preloader, broadcast, crt
+- Technologies: r3f, three.js, glsl, gsap, next-themes
+
+### Send Button
+
+- URL: https://www.razisyed.cv/experiments/send-button/article
+- Experiment: https://www.razisyed.cv/experiments/send-button
+- Published: 2025-12-23T00:00:00.000Z
+- Description: A cool animated send button animation
+- Tags: ui, animation, interaction
+- Technologies: motion
+
+## All Experiments
+
+### 404 Not Found
+
+- URL: https://www.razisyed.cv/experiments/404-not-found
+- Description: A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.
+- Complexity: advanced
+- Profile: r3f-shader
+- Status: shipped
+- Created: 2026-01-26T20:45:55.003Z
+- Tags: 3d, shader, animation, scroll
+- Technologies: r3f, three.js, glsl
+
+### Basketball Replay Center
+
+- URL: https://www.razisyed.cv/experiments/basketball-replay-center
+- Description: A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.
+- Complexity: advanced
+- Profile: r3f-shader
+- Status: shipped
+- Created: 2026-02-20T17:04:36.701Z
+- Tags: preloader, broadcast, crt
+- Technologies: r3f, three.js, glsl, gsap, next-themes
+- Article: https://www.razisyed.cv/experiments/basketball-replay-center/article
+
+### Bugged Out Game of Life Shader
+
+- URL: https://www.razisyed.cv/experiments/bugged-out-game-of-life-shader-experiment
+- Description: A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors
+- Complexity: intermediate
+- Profile: dom-effect
+- Status: shipped
+- Created: 2025-12-24T05:54:41.000Z
+- Tags: generative, game, animation, cursor
+- Technologies: canvas-2d, web-workers, @paper-design/shaders
+
+### Cursor/Tilt Depth Map Explorer
+
+- URL: https://www.razisyed.cv/experiments/cursor-depth-explorer
+- Description: A tomographic slice style depth map viewer for paintings using your cursor or device tilt (try on mobile too!)
+- Complexity: advanced
+- Profile: r3f-shader
+- Status: shipped
+- Created: 2026-01-26T05:11:34.490Z
+- Tags: shader, cursor, 3d
+- Technologies: r3f, three.js, glsl
+
+### Game of Life Shader
+
+- URL: https://www.razisyed.cv/experiments/game-of-life-shader
+- Description: An attempt to implement Conway's Game of Life with the logic defining the shader
+- Complexity: intermediate
+- Profile: blank
+- Status: shipped
+- Created: 2025-12-24T04:56:14.074Z
+- Tags: generative, game, animation, cursor
+- Technologies: canvas-2d, web-workers
+
+### Keyboard Keys
+
+- URL: https://www.razisyed.cv/experiments/keyboard-keys
+- Description: Interactive 3D keyboard keys with press animation and success/error animations
+- Complexity: intermediate
+- Profile: interaction
+- Status: shipped
+- Created: 2025-12-24T03:26:10.067Z
+- Tags: keyboard, animation, ui
+- Technologies: css-animations
+
+### Life 3D
+
+- URL: https://www.razisyed.cv/experiments/life-3d
+- Description: Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering
+- Complexity: advanced
+- Profile: r3f-scene
+- Status: shipped
+- Created: 2026-01-03T11:55:42.770Z
+- Tags: 3d, game, generative, animation
+- Technologies: r3f, three.js, postprocessing
+
+### Mountain Depth Map Shader Transition
+
+- URL: https://www.razisyed.cv/experiments/mountain-transition
+- Description: A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape
+- Complexity: advanced
+- Profile: r3f-shader
+- Status: shipped
+- Created: 2026-01-22T21:59:04.491Z
+- Tags: shader, animation, scroll, 3d
+- Technologies: r3f, three.js, glsl, gsap
+
+### Non-Euclidean Hyperbolic Second Brain
+
+- URL: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace
+- Description: Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations
+- Complexity: advanced
+- Profile: interaction
+- Status: shipped
+- Created: 2025-12-31T00:41:44.181Z
+- Tags: generative, ui, cursor
+- Technologies: svg
+
+### OSX Cheetah UI with a surprise
+
+- URL: https://www.razisyed.cv/experiments/gravity-physics-ui-layout
+- Description: Find the hidden stupid feature!
+- Complexity: advanced
+- Profile: interaction
+- Status: shipped
+- Created: 2025-12-30T14:56:07.296Z
+- Tags: physics, ui, animation
+- Technologies: matter.js
+
+### rabbithole.chat Gallery Explore
+
+- URL: https://www.razisyed.cv/experiments/rabbithole-chat-gallery-explore
+- Description: 3D floating gallery shader as an experimental explore page
+- Complexity: advanced
+- Profile: r3f-shader
+- Status: shipped
+- Created: 2026-01-09T07:50:46.767Z
+- Tags: 3d, shader, gallery, scroll
+- Technologies: r3f, three.js, glsl
+
+### rabbithole.chat Preloader Shader
+
+- URL: https://www.razisyed.cv/experiments/rabbithole-chat-preloader
+- Description: A vortex gallery shader preloader for rabbithole.chat
+- Complexity: advanced
+- Profile: r3f-shader
+- Status: shipped
+- Created: 2026-01-09T03:35:21.030Z
+- Tags: 3d, shader, preloader, gallery, animation
+- Technologies: three.js, glsl, motion
+
+### Send Button
+
+- URL: https://www.razisyed.cv/experiments/send-button
+- Description: A cool animated send button animation
+- Complexity: intermediate
+- Profile: interaction
+- Status: shipped
+- Created: 2025-12-23T20:09:01.977Z
+- Tags: ui, animation, interaction
+- Technologies: motion
+- Article: https://www.razisyed.cv/experiments/send-button/article
+
+### Shader Landing
+
+- URL: https://www.razisyed.cv/experiments/shader-landing
+- Description: A random shader experiment
+- Complexity: advanced
+- Profile: r3f-shader
+- Status: shipped
+- Created: 2025-12-02T00:00:00.000Z
+- Tags: shader, generative
+- Technologies: three.js, glsl
+
+### Terminal Cat
+
+- URL: https://www.razisyed.cv/experiments/terminal-cat
+- Description: Animating ASCII art in the browser console logs
+- Complexity: beginner
+- Profile: dom-effect
+- Status: shipped
+- Created: 2025-12-24T01:50:06.164Z
+- Tags: ascii-art, animation, keyboard, console
+- Technologies: console-api
+
+### Transit/Airport Split-Flap Display
+
+- URL: https://www.razisyed.cv/experiments/transit-airport-split-flap-display
+- Description: A split flap display for transit/airport systems with sound effects manually made with Web Audio API
+- Complexity: intermediate
+- Profile: web-audio
+- Status: shipped
+- Created: 2025-12-30T02:53:58.656Z
+- Tags: ui, audio, animation, text-effect
+- Technologies: motion, web-audio, css-animations
+
+### Velocity-Responsive Design
+
+- URL: https://www.razisyed.cv/experiments/velocity-responsive-design
+- Description: A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed
+- Complexity: intermediate
+- Profile: scrollytelling
+- Status: shipped
+- Created: 2025-12-31T04:46:03.740Z
+- Tags: scroll, animation, ui, generative
+- Technologies: motion, canvas-2d
+
+## Technical Stack
+
+- **Framework**: Next.js 16+ (App Router), React 19+, TypeScript strict mode
+- **Animation**: Motion (motion/react) for layout animations and gestures, GSAP with ScrollTrigger for scroll-driven animation
+- **3D**: React Three Fiber (@react-three/fiber), Three.js, custom GLSL vertex and fragment shaders, @react-three/drei helpers
+- **Scroll**: Lenis smooth scroll with Tempus unified RAF management
+- **Styling**: Tailwind CSS with shadcn/ui components, dual light/dark theme support
+- **Content**: MDX articles via next-mdx-remote/rsc with Shiki syntax highlighting
+- **Performance hooks**: Hamo (useRect, useWindowSize, useResizeObserver)
+
+## About
+
+Built by Razi Syed, a Design Engineer.
+- Website: https://www.razisyed.cv
+- GitHub: https://github.com/raztronaut
+- Twitter: https://twitter.com/razisyed

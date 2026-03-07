@@ -1,5 +1,5 @@
 import { getArticles } from "@/lib/articles";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/constants";
 
 export async function GET() {
   const articles = await getArticles();
@@ -15,13 +15,19 @@ export async function GET() {
     )
     .join("\n");
 
+  const lastBuildDate =
+    articles.length > 0
+      ? new Date(articles[0].publishedAt).toUTCString()
+      : new Date().toUTCString();
+
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Razi's Experiments Lab</title>
+    <title>${escapeXml(SITE_TITLE)}</title>
     <link>${SITE_URL}</link>
-    <description>Creative coding experiments -- shaders, 3D, animation, and interaction design.</description>
+    <description>${escapeXml(SITE_DESCRIPTION)}</description>
     <language>en-us</language>
+    <lastBuildDate>${lastBuildDate}</lastBuildDate>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml" />
 ${items}
   </channel>

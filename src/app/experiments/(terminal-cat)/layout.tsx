@@ -1,6 +1,7 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
+import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -32,6 +33,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <DevToolsInjector />
         <UmamiScript />
+        <ExperimentJsonLd
+          description={metadata.description as string}
+          slug="terminal-cat"
+          title={metadata.title as string}
+        />
         <ExperimentNav />
         {children}
         <Toaster position="bottom-center" />

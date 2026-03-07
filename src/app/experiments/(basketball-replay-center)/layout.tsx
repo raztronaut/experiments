@@ -1,6 +1,7 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
+import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import experiment from "./experiment.json";
@@ -37,6 +38,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body className="font-canvas antialiased">
         <DevToolsInjector />
+        <ExperimentJsonLd
+          description={experiment.description}
+          slug={experiment.slug}
+          tags={experiment.tags as string[]}
+          title={experiment.title}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

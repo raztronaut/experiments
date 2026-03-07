@@ -6,6 +6,12 @@ import remarkGfm from "remark-gfm";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getArticleContent, getArticles } from "@/lib/articles";
+import { SITE_URL } from "@/lib/constants";
+import {
+  generateArticleJsonLd,
+  generateBreadcrumbJsonLd,
+  safeJsonLdStringify,
+} from "@/lib/structured-data";
 import experiment from "../../experiment.json";
 import { BarrelDistortionDemo, CRTEffectDemo } from "./components";
 
@@ -14,6 +20,9 @@ const ogImageUrl = `/api/og?${new URLSearchParams({ title: experiment.title, tag
 export const metadata = {
   title: `${experiment.title} — Article`,
   description: experiment.description,
+  alternates: {
+    canonical: `${SITE_URL}/experiments/${experiment.slug}/article`,
+  },
   openGraph: {
     title: `${experiment.title} — Article`,
     description: experiment.description,
@@ -44,8 +53,33 @@ export default async function ArticlePage() {
   const { frontmatter, content, readingMinutes } = articleContent;
   const { prev, next } = await getAdjacentArticles();
 
+  const articleJsonLd = generateArticleJsonLd({
+    title: frontmatter.title || experiment.title,
+    description: experiment.description,
+    slug: experiment.slug,
+    datePublished: frontmatter.publishedAt || experiment.created,
+    dateModified: frontmatter.updatedAt,
+    tags: experiment.tags as string[],
+    ogImageUrl,
+  });
+
+  const breadcrumbJsonLd = generateBreadcrumbJsonLd([
+    { name: "Home", url: SITE_URL },
+    { name: experiment.title, url: `${SITE_URL}/experiments/${experiment.slug}` },
+    { name: "Article", url: `${SITE_URL}/experiments/${experiment.slug}/article` },
+  ]);
+
   return (
-    <ArticleLayout
+    <>
+      <script
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(articleJsonLd) }}
+        type="application/ld+json"
+      />
+      <script
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbJsonLd) }}
+        type="application/ld+json"
+      />
+      <ArticleLayout
       experimentSlug={experiment.slug}
       experimentTitle={experiment.title}
       next={next ? { title: next.title, href: next.href } : undefined}
@@ -79,5 +113,6 @@ export default async function ArticlePage() {
         source={content}
       />
     </ArticleLayout>
+    </>
   );
 }

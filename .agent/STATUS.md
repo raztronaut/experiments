@@ -140,18 +140,19 @@ All agent config files are functional with zero forward dependencies:
 - **P0 Critical Issues**: DONE -- DevToolsInjector wired into Plop template, `getArticleContent()` error handling, root layout cleanup, `removeConsole` documented. Metadata inconsistencies fixed (404-not-found -> advanced, test -> archived). Remaining: Cursor.tsx perf bug (deferred).
 - **P1 Fulfill Original Promises**: DONE -- DevToolsInjector backfilled into all 18 layouts, ArticleLayout breadcrumbs use `<Link>` + human-readable titles, 5 misplaced deps moved to devDependencies, plopfile timestamp bug fixed, delete-article resets publishable. CSS base style extraction deferred (low priority, ~45 lines, proven safe via shared-tokens.css pattern but not worth the effort).
 - **P2 Quality and Performance**: DONE -- Tracked in `.cursor/plans/p2_quality_performance_b442a328.plan.md`. Runtime schema validation in `getExperiments()`, `articles.ts` converted from sync to async `fs/promises`, all 3 data functions wrapped with `React.cache()`, `optimizePackageImports` expanded (motion, @react-three/drei, @codesandbox/sandpack-react), ExperimentDrawerList rAF loop gated on viewMode+isVisible with convergence stop. Deferred: Cursor.tsx perf bug, `useExhaustiveDependencies`, Biome a11y rules, `noExplicitAny`/`noUnusedVariables`.
-- **P3-P4**: Pending. See comprehensive review for full roadmap.
+- **P3 Content, SEO, and AI Discoverability**: DONE -- Tracked in `.cursor/plans/p3_content_seo_f304f8d2.plan.md`. `schema-dts` typed JSON-LD across the entire site: `WebSite` + `Person` `@graph` on root layout, `SoftwareApplication` + `BreadcrumbList` on all 18 experiment layouts (via `ExperimentJsonLd` component), `TechArticle` + `BreadcrumbList` + canonical URLs on article pages. `llms.txt` rewritten to v1.1.1 spec with build-time generation (`scripts/generate-llms-txt.mjs`) for both `llms.txt` and `llms-full.txt`. `robots.txt` updated with 5 additional AI crawler names (ChatGPT-User, Claude-SearchBot, Claude-User, Applebot-Extended, Bytespider). RSS feed uses shared constants + `<lastBuildDate>`. OG image route loads custom font with Inter fallback + description parameter. Sitemap includes `/experiments` (redirect to `/`). Shared constants (`SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR_NAME`, `GITHUB_URL`, `TWITTER_URL`). XSS-safe JSON-LD serialization. Deferred: TOC in ArticleLayout (dedicated effort with scroll-spy + responsive design).
+- **P4**: Pending. See comprehensive review for full roadmap.
 
 ---
 
-## Verification Results (last run: 2026-03-07, post-P2)
+## Verification Results (last run: 2026-03-07, post-P3)
 
 | Check | Result |
 |-------|--------|
 | `npm run typecheck` | Clean |
 | `node scripts/validate-experiments.mjs` | 18 experiments valid |
 | `npx vitest --run --project unit` | 2 files, 5/5 tests pass |
-| `npm run build` | Success, all routes present, 2 article routes |
+| `npm run build` | Success, all routes present, 2 article routes, llms.txt + llms-full.txt generated, /experiments redirect works |
 
 Full test results: `.agent/running-findings.md`
 
@@ -176,6 +177,14 @@ Full test results: `.agent/running-findings.md`
 
 | What | Status | Notes |
 |------|--------|-------|
+| JSON-LD structured data (full site) | **DONE** | `schema-dts` typed. Root: `WebSite` + `Person` `@graph`. 18 experiment layouts: `SoftwareApplication` + `BreadcrumbList` via `ExperimentJsonLd` component. 2 article pages: `TechArticle` + `BreadcrumbList`. XSS-safe serialization (`safeJsonLdStringify`). |
+| Canonical URLs on article pages | **DONE** | `alternates.canonical` on send-button + basketball-replay-center article pages + Plop template |
+| llms.txt + llms-full.txt | **DONE** | Build-time generation via `scripts/generate-llms-txt.mjs`. `llms.txt` follows v1.1.1 spec. `llms-full.txt` has full experiment details. Added to `npm run build` chain. |
+| robots.txt AI crawler update | **DONE** | Added ChatGPT-User, Claude-SearchBot, Claude-User, Applebot-Extended, Bytespider with `allow: "/"` |
+| Shared constants | **DONE** | `src/lib/constants.ts` now exports `SITE_TITLE`, `SITE_DESCRIPTION`, `AUTHOR_NAME`, `GITHUB_URL`, `TWITTER_URL` |
+| Sitemap `/experiments` index | **DONE** | Redirect page at `src/app/experiments/page.tsx`, sitemap entry with priority 0.9 |
+| RSS feed improvements | **DONE** | Uses `SITE_TITLE`/`SITE_DESCRIPTION` constants, `<lastBuildDate>` element from latest article |
+| OG image improvements | **DONE** | Custom font loading (Test Die Grotesk with Inter fallback), `description` query parameter |
 | `framer-motion` -> `motion/react` migration | **DONE** | Swapped `framer-motion` package for `motion`, all 24 source files migrated to `motion/react` imports |
 | `@codesandbox/sandpack-react` | **Installed** | Interactive in-browser code playgrounds for MDX articles, used via SandpackDemo + InteractiveWidget components |
 | RSS/Atom feed | **DONE** | `src/app/feed.xml/route.ts` -- serves RSS 2.0 feed via `getArticles()` |

@@ -8,6 +8,10 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
 import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import {
+	generateWebSiteJsonLd,
+	safeJsonLdStringify,
+} from "@/lib/structured-data";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -99,21 +103,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Razi Syed",
-              url: "https://www.razisyed.cv",
-              sameAs: [
-                "https://github.com/raztronaut",
-                "https://twitter.com/razisyed",
-              ],
-              jobTitle: "Design Engineer",
-              worksFor: {
-                "@type": "Organization",
-                name: "Independent",
-              },
-            }),
+            __html: safeJsonLdStringify(generateWebSiteJsonLd()),
           }}
           type="application/ld+json"
         />
