@@ -163,21 +163,28 @@ export function CRTEffectDemo() {
   );
 }
 
-const GRID_SRC = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="80" height="80" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><line x1="40" y1="0" x2="40" y2="80" stroke="rgba(255,255,255,0.06)" stroke-width="1"/><line x1="0" y1="40" x2="80" y2="40" stroke="rgba(255,255,255,0.06)" stroke-width="1"/></svg>')}`;
+function createGridTile(): HTMLCanvasElement {
+  const tile = document.createElement("canvas");
+  tile.width = 80;
+  tile.height = 80;
+  const ctx = tile.getContext("2d")!;
+  ctx.strokeStyle = "rgba(255,255,255,0.12)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(0, 0, 80, 80);
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
+  ctx.beginPath();
+  ctx.moveTo(40, 0);
+  ctx.lineTo(40, 80);
+  ctx.moveTo(0, 40);
+  ctx.lineTo(80, 40);
+  ctx.stroke();
+  return tile;
+}
 
 export function BarrelDistortionDemo() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [distortion, setDistortion] = useState(0.35);
   const [chromaticAberration, setChromaticAberration] = useState(0.003);
-  const imgRef = useRef<HTMLImageElement | null>(null);
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = GRID_SRC;
-    img.onload = () => {
-      imgRef.current = img;
-    };
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -195,18 +202,17 @@ export function BarrelDistortionDemo() {
     const data = imageData.data;
 
     let gridPattern: ImageData | null = null;
-    if (imgRef.current) {
-      const tmpCanvas = document.createElement("canvas");
-      tmpCanvas.width = w;
-      tmpCanvas.height = h;
-      const tmpCtx = tmpCanvas.getContext("2d");
-      if (tmpCtx) {
-        const pat = tmpCtx.createPattern(imgRef.current, "repeat");
-        if (pat) {
-          tmpCtx.fillStyle = pat;
-          tmpCtx.fillRect(0, 0, w, h);
-          gridPattern = tmpCtx.getImageData(0, 0, w, h);
-        }
+    const tile = createGridTile();
+    const tmpCanvas = document.createElement("canvas");
+    tmpCanvas.width = w;
+    tmpCanvas.height = h;
+    const tmpCtx = tmpCanvas.getContext("2d");
+    if (tmpCtx) {
+      const pat = tmpCtx.createPattern(tile, "repeat");
+      if (pat) {
+        tmpCtx.fillStyle = pat;
+        tmpCtx.fillRect(0, 0, w, h);
+        gridPattern = tmpCtx.getImageData(0, 0, w, h);
       }
     }
 
