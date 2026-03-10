@@ -16,10 +16,14 @@ interface WithHoverProps {
   type?: CursorType;
 }
 
+const DEFAULT_CONFIG: { hoverOffset: number; [key: string]: unknown } = {
+  hoverOffset: 3,
+};
+
 export const WithHover: React.FC<WithHoverProps> = ({
   children,
   type = "block",
-  config = { hoverOffset: 3 },
+  config = DEFAULT_CONFIG,
 }) => {
   const { setSelectedElement, removeSelectedElement } = useCursor();
 

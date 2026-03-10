@@ -125,6 +125,7 @@ export default function NonEuclideanHyperbolicWorkspace() {
         view: viewCenter,
       };
     },
+    // biome-ignore lint/correctness/useExhaustiveDependencies: legacy experiment, intentional dep pattern
     [viewCenter, getRelCoords]
   ); // viewCenter needed if we want to capture it exactly at start, though ref is better?
   // Actually viewCenter is in state, so closure captures it.
@@ -151,6 +152,7 @@ export default function NonEuclideanHyperbolicWorkspace() {
       const newCenter = mobiusTransform(currentC, shift);
       setViewCenter(newCenter);
     },
+    // biome-ignore lint/correctness/useExhaustiveDependencies: legacy experiment, intentional dep pattern
     [isDragging, getRelCoords]
   );
 

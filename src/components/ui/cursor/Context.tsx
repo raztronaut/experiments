@@ -25,10 +25,27 @@ export interface CursorContextType {
 
 export const CursorContext = createContext<CursorContextType | null>(null);
 
+const FALLBACK: CursorContextType = {
+  isHidden: true,
+  pressing: false,
+  removeSelectedElement: () => {},
+  selectedElement: { el: null, type: "default" },
+  setIsHidden: () => {},
+  setSelectedElement: () => {},
+  setStatus: () => {},
+  status: "",
+};
+
 export const useCursor = () => {
   const context = useContext(CursorContext);
   if (!context) {
-    throw new Error("useCursor must be used within a CursorProvider");
+    if (
+      process.env.NODE_ENV === "development" &&
+      typeof window !== "undefined"
+    ) {
+      console.warn("useCursor: no CursorProvider found, using inert fallback");
+    }
+    return FALLBACK;
   }
   return context;
 };

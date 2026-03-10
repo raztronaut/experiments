@@ -81,29 +81,42 @@ export const CursorProvider: React.FC<{ children: ReactNode }> = ({
       }
     };
 
-    // MutationObserver to protect our attribute
+    // MutationObserver to protect the cursor-none style from being
+    // removed by Next.js route changes / script injection.
+    // Narrowed scope: only watch for our style element disappearing
+    // and our data attribute being removed.
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
     const observer = new MutationObserver(() => {
-      if (shouldHideSystemCursor) {
+      if (!shouldHideSystemCursor) {
+        return;
+      }
+      if (debounceTimer) {
+        return;
+      }
+      debounceTimer = setTimeout(() => {
+        debounceTimer = null;
         if (document.documentElement.dataset.cursorHidden !== "true") {
           document.documentElement.dataset.cursorHidden = "true";
         }
-        const style = document.getElementById("cursor-none-style");
-        if (!style) {
+        if (!document.getElementById("cursor-none-style")) {
           updateStyles();
         }
-      }
+      }, 50);
     });
 
-    observer.observe(document.head, { childList: true, subtree: true });
-    observer.observe(document.body, {
+    observer.observe(document.head, { childList: true });
+    observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["style", "class"],
+      attributeFilter: ["data-cursor-hidden"],
     });
 
     // Run immediately
     updateStyles();
 
     return () => {
+      if (debounceTimer) {
+        clearTimeout(debounceTimer);
+      }
       observer.disconnect();
       delete document.documentElement.dataset.cursorHidden;
       document.body.style.cursor = "";

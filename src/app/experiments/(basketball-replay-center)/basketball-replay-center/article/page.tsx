@@ -5,7 +5,10 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
-import { getArticleContent, getArticles } from "@/lib/articles";
+import {
+  getAdjacentArticles,
+  getArticleContent,
+} from "@/lib/articles";
 import { SITE_URL } from "@/lib/constants";
 import {
   generateArticleJsonLd,
@@ -36,22 +39,15 @@ export const metadata = {
   },
 };
 
-async function getAdjacentArticles() {
-  const articles = await getArticles();
-  const idx = articles.findIndex((a) => a.experimentSlug === experiment.slug);
-  return {
-    prev: idx > 0 ? articles[idx - 1] : undefined,
-    next: idx < articles.length - 1 ? articles[idx + 1] : undefined,
-  };
-}
-
 export default async function ArticlePage() {
-  const articleContent = await getArticleContent(experiment.slug);
+  const [articleContent, { prev, next }] = await Promise.all([
+    getArticleContent(experiment.slug),
+    getAdjacentArticles(experiment.slug),
+  ]);
   if (!articleContent) {
     notFound();
   }
   const { frontmatter, content, readingMinutes } = articleContent;
-  const { prev, next } = await getAdjacentArticles();
 
   const articleJsonLd = generateArticleJsonLd({
     title: frontmatter.title || experiment.title,

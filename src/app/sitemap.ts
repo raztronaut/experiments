@@ -3,6 +3,8 @@ import { getArticles } from "@/lib/articles";
 import { SITE_URL } from "@/lib/constants";
 import { getExperiments } from "@/lib/experiments";
 
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const experiments = await getExperiments();
   const articles = await getArticles();

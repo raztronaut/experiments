@@ -97,25 +97,11 @@ export function LocationStatus() {
               />
             </motion.div>
 
-            <motion.div
-              className="flex items-center"
-              layout
-              transition={layoutTransition}
-            >
-              <motion.span
-                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                className="cursor-default select-none font-light opacity-20"
-                transition={{
-                  opacity: {
-                    duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                  },
-                }}
-              >
+            <div className="flex items-center">
+              <span className="animate-dot-pulse cursor-default select-none font-light opacity-20">
                 •
-              </motion.span>
-            </motion.div>
+              </span>
+            </div>
 
             <motion.div
               className="flex flex-1 justify-center md:flex-none"
@@ -131,26 +117,14 @@ export function LocationStatus() {
               />
             </motion.div>
 
-            <motion.div
-              className="flex items-center"
-              layout
-              transition={layoutTransition}
-            >
-              <motion.span
-                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                className="cursor-default select-none font-light opacity-20"
-                transition={{
-                  opacity: {
-                    duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                    delay: 1.5,
-                  },
-                }}
+            <div className="flex items-center">
+              <span
+                className="animate-dot-pulse cursor-default select-none font-light opacity-20"
+                style={{ animationDelay: "1.5s" }}
               >
                 •
-              </motion.span>
-            </motion.div>
+              </span>
+            </div>
 
             <motion.div
               className="flex flex-1 justify-end md:flex-none"
@@ -168,26 +142,14 @@ export function LocationStatus() {
               />
             </motion.div>
 
-            <motion.div
-              className="hidden items-center md:flex"
-              layout
-              transition={layoutTransition}
-            >
-              <motion.span
-                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                className="cursor-default select-none font-light opacity-20"
-                transition={{
-                  opacity: {
-                    duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                    delay: 2.5,
-                  },
-                }}
+            <div className="hidden items-center md:flex">
+              <span
+                className="animate-dot-pulse cursor-default select-none font-light opacity-20"
+                style={{ animationDelay: "2.5s" }}
               >
                 •
-              </motion.span>
-            </motion.div>
+              </span>
+            </div>
 
             <motion.div
               className="hidden md:block"

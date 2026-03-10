@@ -103,7 +103,7 @@ export const StaticExperimentMedia = ({
           muted
           onLoadedData={() => setIsLoaded(true)}
           playsInline
-          preload="auto"
+          preload="none"
           ref={videoRef}
           src={experiment.video}
         />

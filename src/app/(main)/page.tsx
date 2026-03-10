@@ -1,18 +1,21 @@
+import { Suspense } from "react";
 import { AIWidget } from "@/components/ui/AIWidget";
 import { WithHover } from "@/components/ui/cursor/WithHover";
 import { ExperimentDrawerList } from "@/components/ui/ExperimentDrawerList";
+import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { Icons } from "@/components/ui/icons";
+import { LocationStatus } from "@/components/ui/LocationStatus";
 import { SiteFooter } from "@/components/ui/SiteFooter";
 import { ThemeAwareWaves } from "@/components/ui/ThemeAwareWaves";
+import { WritingSection } from "@/components/ui/WritingSection";
+import { getArticles } from "@/lib/articles";
 import { getExperiments } from "@/lib/experiments";
 import { replica, testDieGrotesk } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
-// Revalidate experiment list every hour for ISR (Incremental Static Regeneration)
 export const revalidate = 3600;
 
-import { GrainOverlay } from "@/components/ui/GrainOverlay";
-import { LocationStatus } from "@/components/ui/LocationStatus";
+const TEXT_SCALE_CONFIG = { scale: 1.5 } as const;
 
 // Attempt 1: Fix cursor distortion in header/hero area.
 // The custom cursor's mix-blend-mode: difference interacts poorly with the
@@ -20,9 +23,45 @@ import { LocationStatus } from "@/components/ui/LocationStatus";
 // Solution: Apply isolation: isolate to the hero container to force a new stacking context,
 // preventing the blend mode from "leaking" or distorting against the complex background layers.
 
-export default async function Home() {
-  const experiments = await getExperiments();
+async function WritingSectionAsync() {
+  const articles = await getArticles();
+  return <WritingSection articles={articles} />;
+}
 
+async function ExperimentListAsync() {
+  const experiments = await getExperiments();
+  return <ExperimentDrawerList experiments={experiments} />;
+}
+
+function WritingSkeleton() {
+  return (
+    <div className="mb-16 space-y-4">
+      <div className="h-8 w-32 animate-pulse rounded bg-muted/20" />
+      <div className="space-y-3">
+        <div className="h-20 animate-pulse rounded-lg bg-muted/10" />
+        <div className="h-20 animate-pulse rounded-lg bg-muted/10" />
+      </div>
+    </div>
+  );
+}
+
+function ExperimentsSkeleton() {
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="h-8 w-40 animate-pulse rounded bg-muted/20" />
+        <div className="h-8 w-20 animate-pulse rounded bg-muted/20" />
+      </div>
+      <div className="space-y-3">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={`skel-${i.toString()}`} className="h-16 animate-pulse rounded-lg bg-muted/10" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function Home() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
       <GrainOverlay />
@@ -42,7 +81,7 @@ export default async function Home() {
               <LocationStatus />
             </div>
             <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
-              <WithHover config={{ scale: 1.5 }} type="text">
+              <WithHover config={TEXT_SCALE_CONFIG} type="text">
                 <h1
                   className={cn(
                     "relative w-fit font-bold text-3xl leading-tight tracking-tight md:text-5xl",
@@ -53,7 +92,7 @@ export default async function Home() {
                 </h1>
               </WithHover>
             </div>
-            <WithHover config={{ scale: 1.5 }} type="text">
+            <WithHover config={TEXT_SCALE_CONFIG} type="text">
               <p
                 className={cn(
                   "relative mb-6 w-fit text-lg text-muted-foreground",
@@ -110,7 +149,12 @@ export default async function Home() {
           </div>
         </div>
 
-        <ExperimentDrawerList experiments={experiments} />
+        <Suspense fallback={<WritingSkeleton />}>
+          <WritingSectionAsync />
+        </Suspense>
+        <Suspense fallback={<ExperimentsSkeleton />}>
+          <ExperimentListAsync />
+        </Suspense>
       </main>
       <div className="mx-auto w-full max-w-6xl px-8 md:px-24">
         <SiteFooter />

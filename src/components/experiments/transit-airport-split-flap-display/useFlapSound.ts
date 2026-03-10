@@ -79,6 +79,7 @@ export function useFlapSound() {
     }
 
     return ctx;
+    // biome-ignore lint/correctness/useExhaustiveDependencies: legacy experiment, intentional dep pattern
   }, [createNoiseBuffer]);
 
   const playClick = useCallback(() => {

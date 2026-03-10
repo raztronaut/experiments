@@ -1,6 +1,16 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import "@/app/(main)/globals.css";
-import NotFound404 from "@/components/experiments/404-not-found/404NotFound";
+
+const NotFound404 = dynamic(
+  () => import("@/components/experiments/404-not-found/404NotFound"),
+  {
+    ssr: false,
+    loading: () => <div className="h-full w-full bg-white" />,
+  }
+);
 
 export default function NotFound() {
   return (

@@ -78,6 +78,9 @@ export function ConsoleEasterEgg() {
 
     return () => {
       clearTimeout(initTimer);
+      if (typeof (window as any)._stopSurprise === "function") {
+        (window as any)._stopSurprise();
+      }
       (window as any).surpriseMe = undefined;
       (window as any)._stopSurprise = undefined;
     };

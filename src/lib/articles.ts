@@ -10,6 +10,7 @@ export interface Article {
   experimentSlug: string;
   href: string;
   publishedAt: string;
+  readingMinutes: number;
   slug: string;
   title: string;
   updatedAt?: string;
@@ -24,51 +25,52 @@ export const getArticles = cache(async (): Promise<Article[]> => {
       (d) => d.isDirectory() && d.name.startsWith("(") && d.name !== "(index)"
     );
 
-    const articles: Article[] = [];
+    const slugDirEntries = await Promise.all(
+      routeGroups.map(async (group) => {
+        const groupPath = path.join(experimentsDir, group.name);
+        const dirs = (
+          await fs.readdir(groupPath, { withFileTypes: true })
+        ).filter((d) => d.isDirectory() && !d.name.startsWith("."));
+        return dirs.map((d) => ({ groupPath, name: d.name }));
+      })
+    );
 
-    for (const group of routeGroups) {
-      const groupPath = path.join(experimentsDir, group.name);
+    const candidates = slugDirEntries.flat();
 
-      const slugDirs = (
-        await fs.readdir(groupPath, { withFileTypes: true })
-      ).filter((d) => d.isDirectory() && !d.name.startsWith("."));
-
-      for (const slugDir of slugDirs) {
+    const results = await Promise.all(
+      candidates.map(async ({ groupPath, name }): Promise<Article | null> => {
         const contentPath = path.join(
           groupPath,
-          slugDir.name,
+          name,
           "article",
           "content.mdx"
         );
 
         try {
-          await fs.access(contentPath);
-        } catch {
-          continue;
-        }
-
-        try {
           const raw = await fs.readFile(contentPath, "utf-8");
-          const { data } = matter(raw);
+          const { data, content } = matter(raw);
 
-          articles.push({
-            title: data.title || slugDir.name,
+          return {
+            title: data.title || name,
             description: data.description,
-            slug: slugDir.name,
-            experimentSlug: slugDir.name,
+            slug: name,
+            experimentSlug: name,
             publishedAt:
               data.publishedAt ||
               data.time?.created ||
               "1970-01-01T00:00:00.000Z",
+            readingMinutes: readingTime(content).minutes,
             updatedAt: data.updatedAt || data.time?.updated,
-            href: `/experiments/${slugDir.name}/article`,
-            experimentHref: `/experiments/${slugDir.name}`,
-          });
-        } catch (error) {
-          console.warn(`Failed to parse article ${slugDir.name}:`, error);
+            href: `/experiments/${name}/article`,
+            experimentHref: `/experiments/${name}`,
+          };
+        } catch {
+          return null;
         }
-      }
-    }
+      })
+    );
+
+    const articles = results.filter((a): a is Article => a !== null);
 
     return articles.sort(
       (a, b) =>
@@ -93,6 +95,15 @@ export interface ArticleContent {
   readingMinutes: number;
 }
 
+export const getAdjacentArticles = cache(async (experimentSlug: string) => {
+  const articles = await getArticles();
+  const idx = articles.findIndex((a) => a.experimentSlug === experimentSlug);
+  return {
+    prev: idx > 0 ? articles[idx - 1] : undefined,
+    next: idx < articles.length - 1 ? articles[idx + 1] : undefined,
+  };
+});
+
 export const getArticleContent = cache(
   async (slug: string): Promise<ArticleContent | null> => {
     const filePath = path.join(
@@ -101,19 +112,11 @@ export const getArticleContent = cache(
     );
 
     try {
-      await fs.access(filePath);
-    } catch {
-      console.warn(`[articles] content.mdx not found: ${filePath}`);
-      return null;
-    }
-
-    try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
       const estimate = readingTime(content);
       return { frontmatter: data, content, readingMinutes: estimate.minutes };
-    } catch (error) {
-      console.warn(`[articles] Failed to read article "${slug}":`, error);
+    } catch {
       return null;
     }
   }

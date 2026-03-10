@@ -54,7 +54,7 @@ export const ExperimentGridCard = memo(
       >
         {/* Media Container */}
         <div
-          className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted/30 shadow-sm transition-all duration-300 group-hover:border-foreground/20 group-hover:shadow-md"
+          className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted/30 shadow-sm transition-[border-color,box-shadow] duration-300 group-hover:border-foreground/20 group-hover:shadow-md"
           style={{ viewTransitionName: `experiment-media-${experiment.slug}` }}
         >
           <StaticExperimentMedia

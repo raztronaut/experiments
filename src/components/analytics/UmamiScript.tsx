@@ -13,7 +13,7 @@ export function UmamiScript() {
       data-website-id="4fdcf10c-cc4d-40f7-be60-f2e9c59f236f"
       id="umami-analytics"
       src="/u/script.js"
-      strategy="afterInteractive"
+      strategy="lazyOnload"
     />
   );
 }

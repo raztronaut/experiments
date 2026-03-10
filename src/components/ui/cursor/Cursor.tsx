@@ -1,46 +1,45 @@
 "use client";
 
-import { gsap } from "gsap";
 import type React from "react";
 import { useEffect, useRef } from "react";
 import { useMounted } from "@/hooks/useMounted";
 import { useCursor } from "./Context";
 
+const getCursorColor = (alpha: number) => `rgba(255, 255, 255, ${alpha})`;
+
+const IDLE_TIMEOUT = 100;
+
 export const Cursor: React.FC = () => {
   const { selectedElement, status, pressing, setStatus, isHidden } =
     useCursor();
-  const cursorRef = useRef<HTMLDivElement>(null); // Position container (transform x/y)
-  const cursorBodyRef = useRef<HTMLDivElement>(null); // Shape container (width/height/radius)
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorBodyRef = useRef<HTMLDivElement>(null);
   const mounted = useMounted();
 
-  // Store latest state in refs to access in event listener without re-binding
   const stateRef = useRef({ selectedElement, status, isHidden });
-  // Track mouse position globally to persist across effect re-runs
   const mouseRef = useRef({ x: -100, y: -100 });
+  const gsapRef = useRef<typeof import("gsap").gsap | null>(null);
 
   useEffect(() => {
     stateRef.current = { selectedElement, status, isHidden };
   }, [selectedElement, status, isHidden]);
 
-  // Always use white color - mixBlendMode "difference" makes it visible on any background
-  // On dark background: white stays white
-  // On light background: white becomes dark (inverted)
-  const getCursorColor = (alpha: number) => `rgba(255, 255, 255, ${alpha})`;
-
-  // Update position smoothly
   useEffect(() => {
     if (!mounted) {
       return;
     }
 
-    // Shared update logic
+    let tickerActive = false;
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+    let disposed = false;
+
     const updateCursor = () => {
-      if (!cursorRef.current || stateRef.current.isHidden) {
+      const g = gsapRef.current;
+      if (!(cursorRef.current && g) || stateRef.current.isHidden) {
         return;
       }
 
       const { selectedElement, status } = stateRef.current;
-      // Use last known mouse position
       const x = mouseRef.current.x;
       const y = mouseRef.current.y;
 
@@ -74,14 +73,11 @@ export const Cursor: React.FC = () => {
         const yMove = ((relY - yMid) / rect.height) * amount;
 
         if (selectedElement.type === "block") {
-          // Block cursor (Buttons, Cards)
           const padding = 0;
           targetState.x = rect.left + xMove - padding / 2;
           targetState.y = rect.top + yMove - padding / 2;
           targetState.width = rect.width + padding;
           targetState.height = rect.height + padding;
-          // Ensure radius is clean string to avoid interpolation bugs
-          // Default to 6px if not specified, which matches standard button radius
           targetState.borderRadius =
             (selectedElement.config?.borderRadius as string) || "6px";
           targetState.backgroundColor = getCursorColor(0.15);
@@ -93,16 +89,15 @@ export const Cursor: React.FC = () => {
             setStatus("entered");
           }
         } else if (selectedElement.type === "text") {
-          // Text cursor (vertical line)
           const textSize = (selectedElement.config?.textSize as number) || 20;
-          targetState.width = 2; // Fixed width for text cursor
+          targetState.width = 2;
           targetState.height = textSize;
           targetState.x = x;
           targetState.y = y - textSize / 2;
-          targetState.borderRadius = "1px"; // Explicit px for smooth morph from 9px
+          targetState.borderRadius = "1px";
           targetState.backgroundColor = getCursorColor(0.8);
           targetState.duration = 0.15;
-          targetState.ease = "power4.out"; // Snappier text transition
+          targetState.ease = "power4.out";
 
           if (status !== "entered") {
             setStatus("entered");
@@ -110,18 +105,15 @@ export const Cursor: React.FC = () => {
         }
       }
 
-      // Fire Position Tween (GPU)
-      gsap.to(cursorRef.current, {
+      g.to(cursorRef.current, {
         x: targetState.x,
         y: targetState.y,
         duration: targetState.duration,
         ease: targetState.ease,
         overwrite: "auto",
-        // Ensure layout properties are NOT touched here to prevent layout thrashing
       });
 
-      // Fire Shape Tween (Layout/Paint)
-      gsap.to(cursorBodyRef.current, {
+      g.to(cursorBodyRef.current, {
         width: targetState.width,
         height: targetState.height,
         borderRadius: targetState.borderRadius,
@@ -134,61 +126,92 @@ export const Cursor: React.FC = () => {
       });
     };
 
+    const ensureTickerActive = () => {
+      const g = gsapRef.current;
+      if (!tickerActive && g) {
+        g.ticker.add(updateCursor);
+        tickerActive = true;
+      }
+    };
+
+    const scheduleIdle = () => {
+      if (idleTimer) {
+        clearTimeout(idleTimer);
+      }
+      idleTimer = setTimeout(() => {
+        const hasSnap = stateRef.current.selectedElement.el !== null;
+        if (!hasSnap && tickerActive && gsapRef.current) {
+          gsapRef.current.ticker.remove(updateCursor);
+          tickerActive = false;
+        }
+      }, IDLE_TIMEOUT);
+    };
+
     const onMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
-      // Immediate update for responsiveness
+      ensureTickerActive();
       updateCursor();
+      scheduleIdle();
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-
-    // Add ticker for continuous updates (handles animations/resizes while hovering)
-    gsap.ticker.add(updateCursor);
+    import("gsap").then((mod) => {
+      if (disposed) {
+        return;
+      }
+      gsapRef.current = mod.gsap || mod.default;
+      window.addEventListener("mousemove", onMouseMove);
+      ensureTickerActive();
+    });
 
     return () => {
+      disposed = true;
+      if (idleTimer) {
+        clearTimeout(idleTimer);
+      }
       window.removeEventListener("mousemove", onMouseMove);
-      gsap.ticker.remove(updateCursor);
+      if (tickerActive && gsapRef.current) {
+        gsapRef.current.ticker.remove(updateCursor);
+      }
     };
-  }, [mounted, setStatus, getCursorColor]);
+  }, [mounted, setStatus]);
 
-  // Pressing effect
   useEffect(() => {
     if (!cursorBodyRef.current || isHidden || !mounted) {
       return;
     }
-    gsap.to(cursorBodyRef.current, {
+    const g = gsapRef.current;
+    if (!g) {
+      return;
+    }
+    g.to(cursorBodyRef.current, {
       scale: pressing ? 0.9 : 1,
       duration: 0.1,
       overwrite: "auto",
     });
   }, [pressing, isHidden, mounted]);
 
-  // Don't render until mounted to prevent hydration mismatch
   if (!mounted || isHidden) {
     return null;
   }
 
-  // Always use white - mixBlendMode "difference" inverts it on light backgrounds
-
   return (
     <div
-      className="pointer-events-none fixed top-0 left-0 z-[10000]" // POSITION ONLY
+      className="pointer-events-none fixed top-0 left-0 z-[10000]"
       ref={cursorRef}
       style={{
         transform: "translate3d(-100px, -100px, 0)",
         backfaceVisibility: "hidden",
         willChange: "transform",
-        mixBlendMode: "difference", // Blend mode on container
+        mixBlendMode: "difference",
       }}
     >
       <div
-        ref={cursorBodyRef} // SHAPE ONLY
+        ref={cursorBodyRef}
         style={{
           width: 18,
           height: 18,
-          borderRadius: "9px", // Match default state
+          borderRadius: "9px",
           backgroundColor: "rgba(255, 255, 255, 0.3)",
-          willChange: "width, height, border-radius",
         }}
       />
     </div>

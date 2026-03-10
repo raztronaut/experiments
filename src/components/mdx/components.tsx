@@ -1,11 +1,15 @@
 import type { MDXComponents } from "mdx/types";
+import dynamic from "next/dynamic";
 import type React from "react";
 import { Callout } from "./Callout";
 import { CodeBlock } from "./CodeBlock";
 import { CodeStep } from "./CodeStep";
 import { InteractiveWidget } from "./InteractiveWidget";
 import { LiveDemo } from "./LiveDemo";
-import { SandpackDemo } from "./SandpackDemo";
+
+const SandpackDemo = dynamic(() =>
+  import("./SandpackDemo").then((mod) => mod.SandpackDemo)
+);
 
 function isExternalUrl(href: string): boolean {
   return /^https?:\/\//.test(href) && !href.includes("razisyed.cv");
@@ -89,7 +93,13 @@ export const articleComponents: MDXComponents = {
     </td>
   ),
   img: ({ alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    <img alt={alt || ""} className="rounded-lg" {...props} />
+    <img
+      alt={alt || ""}
+      className="rounded-lg"
+      decoding="async"
+      loading="lazy"
+      {...props}
+    />
   ),
   Callout,
   CodeStep,

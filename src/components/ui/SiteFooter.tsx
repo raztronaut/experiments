@@ -8,6 +8,8 @@ import { replica } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { WithHover } from "./cursor/WithHover";
 
+const HOVER_OFFSET_CONFIG = { hoverOffset: 2 } as const;
+
 export function SiteFooter() {
   const { setTheme, resolvedTheme } = useTheme();
   const mounted = useMounted();
@@ -24,7 +26,7 @@ export function SiteFooter() {
             This page is created using my simple scaffolding tool to help
             developers whip up new web design/development experiments rapidly.
             Check it out here:{" "}
-            <WithHover config={{ hoverOffset: 2 }}>
+            <WithHover config={HOVER_OFFSET_CONFIG}>
               <a
                 className="inline-flex h-fit items-center gap-1.5 rounded-md px-2 py-0.5 no-underline transition-colors hover:bg-muted/40 hover:text-foreground"
                 data-umami-event="github_click"
@@ -39,7 +41,7 @@ export function SiteFooter() {
               </a>
             </WithHover>
           </p>
-          <WithHover config={{ hoverOffset: 2 }}>
+          <WithHover config={HOVER_OFFSET_CONFIG}>
             <button
               aria-label="Toggle theme"
               className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-[0.7rem] text-muted-foreground/60 uppercase tracking-[0.1em] transition-colors hover:bg-muted/40 hover:text-foreground"
@@ -73,7 +75,7 @@ export function SiteFooter() {
             built by razi
           </span>
           <div className="flex items-center gap-3">
-            <WithHover config={{ hoverOffset: 2 }}>
+            <WithHover config={HOVER_OFFSET_CONFIG}>
               <Link
                 aria-label="GitHub"
                 className="inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
@@ -85,7 +87,7 @@ export function SiteFooter() {
                 <Icons.GitHub className="h-5 w-5" />
               </Link>
             </WithHover>
-            <WithHover config={{ hoverOffset: 2 }}>
+            <WithHover config={HOVER_OFFSET_CONFIG}>
               <Link
                 aria-label="X (formerly Twitter)"
                 className="inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
@@ -97,7 +99,7 @@ export function SiteFooter() {
                 <Icons.X className="h-5 w-5" />
               </Link>
             </WithHover>
-            <WithHover config={{ hoverOffset: 2 }}>
+            <WithHover config={HOVER_OFFSET_CONFIG}>
               <Link
                 aria-label="LinkedIn"
                 className="inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"

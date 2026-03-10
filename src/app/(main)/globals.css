@@ -10,13 +10,11 @@
 
 @layer base {
   * {
-    font-variant-ligatures: common-ligatures;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-wrap: pretty;
-    text-rendering: optimizelegibility;
     @apply border-border;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-rendering: optimizeLegibility;
   }
 
   *::selection {
@@ -56,4 +54,13 @@
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--muted-foreground) / 0.5);
   }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-dot-pulse {
+  animation: dot-pulse 3s ease-in-out infinite;
 }

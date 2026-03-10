@@ -26,17 +26,18 @@ export const TimePill = memo(
     const [date, setDate] = useState(() => new Date());
 
     useEffect(() => {
-      const timer = setInterval(() => {
+      let timerId: ReturnType<typeof setTimeout>;
+      const scheduleNextMinute = () => {
         const now = new Date();
-        // Only trigger re-render if the minute has changed
-        setDate((prev) => {
-          if (prev.getMinutes() !== now.getMinutes()) {
-            return now;
-          }
-          return prev;
-        });
-      }, 1000);
-      return () => clearInterval(timer);
+        const msUntilNextMinute =
+          (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+        timerId = setTimeout(() => {
+          setDate(new Date());
+          scheduleNextMinute();
+        }, msUntilNextMinute);
+      };
+      scheduleNextMinute();
+      return () => clearTimeout(timerId);
     }, []);
 
     const formatter = useMemo(

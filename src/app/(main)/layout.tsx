@@ -5,7 +5,11 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GlobalTracking } from "@/components/analytics/GlobalTracking";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
+import dynamic from "next/dynamic";
+
+const ConsoleEasterEgg = dynamic(() =>
+  import("@/components/ui/ConsoleEasterEgg").then((m) => m.ConsoleEasterEgg)
+);
 import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import {

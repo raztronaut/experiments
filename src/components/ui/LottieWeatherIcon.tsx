@@ -1,10 +1,12 @@
 "use client";
 
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useMounted } from "@/hooks/useMounted";
 import { cn } from "@/lib/utils";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 // Mappings for Day/Night Specific Icons
 const weatherIcons: Record<number, { day: string; night: string }> = {

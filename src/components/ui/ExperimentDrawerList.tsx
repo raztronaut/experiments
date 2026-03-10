@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { UmamiEvents, useUmami } from "@/hooks/useUmami";
@@ -8,8 +9,15 @@ import type { Experiment } from "@/lib/experiments";
 import { useCursor } from "./cursor/Context";
 import { ExperimentGridCard } from "./experiments/ExperimentGridCard";
 import { ExperimentListItem } from "./experiments/ExperimentListItem";
-import { InteractivePreviewMedia } from "./experiments/InteractivePreviewMedia";
 import { ViewModeToggle } from "./experiments/ViewModeToggle";
+
+const InteractivePreviewMedia = dynamic(
+  () =>
+    import("./experiments/InteractivePreviewMedia").then(
+      (mod) => mod.InteractivePreviewMedia
+    ),
+  { ssr: false }
+);
 
 const ExperimentPreviewDrawer = dynamic(
   () =>
@@ -46,6 +54,7 @@ const formatDate = (isoDate: string): string => {
 export function ExperimentDrawerList({
   experiments,
 }: ExperimentDrawerListProps) {
+  const router = useRouter();
   const [selectedExperiment, setSelectedExperiment] =
     useState<Experiment | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -234,7 +243,7 @@ export function ExperimentDrawerList({
       if (e && (e.metaKey || e.ctrlKey)) {
         window.open(selectedExperiment.href, "_blank");
       } else {
-        window.location.href = selectedExperiment.href;
+        router.push(selectedExperiment.href);
       }
       setIsOpen(false);
     }

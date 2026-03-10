@@ -21,7 +21,7 @@ interface ExperimentListItemProps {
 /**
  * A single experiment item in list view with hover preview support.
  */
-export function ExperimentListItem({
+export const ExperimentListItem = React.memo(function ExperimentListItem({
   experiment,
   formattedDate,
   isMobileActive,
@@ -44,7 +44,7 @@ export function ExperimentListItem({
       onTouchStart={onTouchStart}
       style={{ contentVisibility: "auto", containIntrinsicSize: "0 100px" }}
     >
-      <div className="relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 md:p-6">
+      <div className="relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-colors duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 md:p-6">
         {/* Mobile preview background */}
         <div
           className={`pointer-events-none absolute inset-0 z-0 transition-opacity duration-500 ${isMobileActive ? "opacity-100" : isTutorialActive ? "opacity-40 md:opacity-0" : "opacity-0"}`}
@@ -103,4 +103,4 @@ export function ExperimentListItem({
       )}
     </div>
   );
-}
+});
