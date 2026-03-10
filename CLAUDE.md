@@ -1,4 +1,5 @@
 @AGENTS.md
+@memory.md
 
 # Claude Code
 

@@ -227,3 +227,5 @@ Read the relevant doc BEFORE working in that domain:
 **Architecture reference**: `.agents/contexts/architecture.md`
 **Toolkit inventory**: `.agents/contexts/toolkit.md`
 **Writing voice**: `.agents/contexts/writing-voice.md`
+
+**Learned memory**: `memory.md` -- auto-maintained user preferences and workspace facts (always read)
