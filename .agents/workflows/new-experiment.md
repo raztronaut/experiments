@@ -25,7 +25,7 @@ description: Create a new isolated experiment with all required scaffolding
    - Drag/spring/gesture focused → `interaction`
    - Sound design → `web-audio`
    - CSS/shader effects on DOM → `dom-effect`
-   - **Mixed (scroll + 3D + interaction)** → scaffold with `scrollytelling` as base, then manually add Canvas and interaction layers. See `.agent/profiles/mixed.md` for architecture guidance.
+   - **Mixed (scroll + 3D + interaction)** → scaffold with `scrollytelling` as base, then manually add Canvas and interaction layers. See `.agents/profiles/mixed.md` for architecture guidance.
 
    **For humans** (interactive):
    ```bash

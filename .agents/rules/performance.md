@@ -1,10 +1,4 @@
----
-trigger: file_match
-file_patterns:
-  - "src/components/experiments/**/*.tsx"
-  - "src/components/experiments/**/*.ts"
-description: Loads when editing experiment code
----
+<!-- read_when: Optimizing render, bundle, or runtime performance -->
 
 # Performance Rules
 
@@ -44,4 +38,4 @@ For R3F experiments, `<R3FDevToolsInjector />` is auto-included in R3F Plop temp
 [R3FMetrics] calls=12 triangles=8400 geometries=5 textures=3
 ```
 
-Append `?debug` to the URL for a visual r3f-perf panel + camera helpers. See `.agent/skills/visual-qa.md`.
+Append `?debug` to the URL for a visual r3f-perf panel + camera helpers. See `.agents/skills/visual-qa.md`.

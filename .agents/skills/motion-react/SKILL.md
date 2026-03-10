@@ -1,3 +1,8 @@
+---
+name: motion-react
+description: "Motion (Framer Motion) patterns for React. Layout animations, AnimatePresence, springs, useScroll, useTransform, gestures. Use when adding React-native animations with motion/react."
+---
+
 # Motion (Framer Motion) for React
 
 > Motion v12+ API: layout animations, springs, gestures, scroll transforms

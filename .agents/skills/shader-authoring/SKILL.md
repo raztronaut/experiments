@@ -1,3 +1,8 @@
+---
+name: shader-authoring
+description: "GLSL shader authoring patterns. ShaderMaterial setup, composable GLSL utility library (noise, SDF, color, post), gradient dithering, onBeforeCompile injection. Use when writing or editing shaders."
+---
+
 # Shader Authoring
 
 > ShaderMaterial setup, typed uniforms, GLSL utility library, onBeforeCompile injection, modular GLSL patterns, debugging

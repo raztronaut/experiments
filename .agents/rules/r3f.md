@@ -1,10 +1,4 @@
----
-trigger: file_match
-file_patterns:
-  - "src/components/experiments/**/*.tsx"
-  - "src/components/experiments/**/*.ts"
-description: Loads when editing R3F experiment components
----
+<!-- read_when: Editing R3F scenes, Canvas, useFrame, drei components -->
 
 # React Three Fiber Rules
 

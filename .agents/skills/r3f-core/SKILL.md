@@ -1,3 +1,8 @@
+---
+name: r3f-core
+description: "React Three Fiber core patterns. Scene setup, useFrame best practices, Zustand integration, drei helpers, adaptive performance, error boundaries. Use when building 3D scenes with R3F."
+---
+
 # React Three Fiber Core
 
 > R3F Canvas setup, useFrame, disposal, instancing, Drei essentials, tone mapping, adaptive performance, error boundaries, DOM-WebGL bridging, post-processing, loading strategies, and state management in frame loops.
@@ -555,7 +560,7 @@ Each `<View>` gets its own scene graph, camera, and events while sharing a singl
 
 ## Common Patterns
 - **Post-processing**: `@react-three/postprocessing` with `<EffectComposer>` (see Post-Processing section above)
-- **Custom materials via `onBeforeCompile`**: Extend built-in materials (MeshBasicMaterial, MeshStandardMaterial) with custom GLSL while preserving lighting, fog, and environment maps. See `.agent/skills/shader-authoring.md` "onBeforeCompile: Material Injection" for the class-based pattern and injection point reference.
+- **Custom materials via `onBeforeCompile`**: Extend built-in materials (MeshBasicMaterial, MeshStandardMaterial) with custom GLSL while preserving lighting, fog, and environment maps. See `.agents/skills/shader-authoring.md` "onBeforeCompile: Material Injection" for the class-based pattern and injection point reference.
 - **Physics**: `@react-three/rapier` for rigid body physics
 - **Debug**: `useDevControls` from `@/hooks/useDevControls` (production-safe leva wrapper)
 - **Events**: R3F mesh events (`onClick`, `onPointerOver`) work like DOM events, with raycasting built in

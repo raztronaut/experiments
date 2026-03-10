@@ -1,3 +1,8 @@
+---
+name: gsap-modern
+description: "Modern GSAP animation patterns with useGSAP hook, ScrollTrigger, Tempus integration, and dynamic imports. Use when writing scroll-driven animations or timeline-based effects."
+---
+
 # GSAP Modern Patterns
 
 > GSAP with React: useGSAP hook, ScrollTrigger, dynamic import, cleanup

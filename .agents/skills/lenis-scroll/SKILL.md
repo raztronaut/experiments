@@ -1,3 +1,8 @@
+---
+name: lenis-scroll
+description: "Lenis smooth scroll integration with GSAP and Tempus. Covers createUnifiedScroll(), priority chain, ScrollTrigger refresh, MCP scroll helpers. Use when implementing smooth scroll in experiments."
+---
+
 # Lenis Smooth Scroll
 
 > Lenis v1.3.18 -- smooth scroll library by darkroom.engineering

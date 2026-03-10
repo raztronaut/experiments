@@ -11,7 +11,7 @@ Turn a shipped experiment into a content constellation: public article, internal
 - Experiment is `status: "shipped"` (or close)
 - Visual output validated (see visual-qa workflow)
 - Code is clean and demonstrates interesting techniques
-- Read `.agent/contexts/writing-voice.md` before writing anything
+- Read `.agents/contexts/writing-voice.md` before writing anything
 
 Note: `publishable: true` is the OUTPUT of this workflow (set in step 17), not an input gate. Prerequisite is `status: "shipped"`, output is `publishable: true`.
 
@@ -32,7 +32,7 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
 
 **Audience**: Engineers, designers, creative coders. Anyone who might find the technique useful.
 
-**Voice**: First-person, conversational, code-forward. Reference `.agent/contexts/writing-voice.md`.
+**Voice**: First-person, conversational, code-forward. Reference `.agents/contexts/writing-voice.md`.
 
 4. Open `article/content.mdx`. The scaffolded file has an MDX comment listing all available components and the article structure. Follow it.
 

@@ -1,3 +1,8 @@
+---
+name: tempus-raf
+description: "Tempus unified RAF manager. Priority system, R3F binding via TempusFrameDriver, delta clamping, pausable time, useTempus hook. Use when coordinating animation frame loops."
+---
+
 # Tempus RAF Management
 
 > Tempus v1.0.0-dev.17 -- unified requestAnimationFrame manager by darkroom.engineering

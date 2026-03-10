@@ -50,7 +50,7 @@ The layout.tsx renders its own `<html>` and `<body>`, giving each experiment com
 
 | Field | Type | Purpose |
 |-------|------|---------|
-| `profile` | string | Activates behavioral guidance from `.agent/profiles/`. Used by template scaffolder. |
+| `profile` | string | Activates behavioral guidance from `.agents/profiles/`. Used by template scaffolder. |
 | `status` | `wip` / `shipped` / `archived` | Used by `getExperiments()` for programmatic filtering. Generation scripts skip `wip`. |
 | `tags` | string[] | Categorization for search, JSON-LD structured data, OG images, and llms.txt |
 | `tech` | string[] | Libraries used (for search and context) |
@@ -80,7 +80,7 @@ The interactive scaffolder prompts for name, description, profile, and optional 
 | `dom-effect` | Text with shimmer entrance animation |
 | `blank` | Minimal placeholder shell |
 
-**Mixed experiments** (scroll + 3D + interaction): No dedicated plop profile -- scaffold with `scrollytelling` or `r3f-scene` as a base, then manually compose the other layers. See `.agent/profiles/mixed.md` for the layer-cake architecture, file structure, and state bridging patterns.
+**Mixed experiments** (scroll + 3D + interaction): No dedicated plop profile -- scaffold with `scrollytelling` or `r3f-scene` as a base, then manually compose the other layers. See `.agents/profiles/mixed.md` for the layer-cake architecture, file structure, and state bridging patterns.
 
 ## Three-Location Rule
 
@@ -133,7 +133,7 @@ src/components/experiments/experiment-name/
   [hooks/, shaders/, etc.]    Extracted utilities
 ```
 
-Each section component owns its own `useGSAP({ scope: ref, dependencies: [...] })`. The orchestrator handles lifecycle (Lenis, controls) and composes sections via props. See `.agent/profiles/scrollytelling.md` for the canonical pattern.
+Each section component owns its own `useGSAP({ scope: ref, dependencies: [...] })`. The orchestrator handles lifecycle (Lenis, controls) and composes sections via props. See `.agents/profiles/scrollytelling.md` for the canonical pattern.
 
 ## Data Flow
 ```

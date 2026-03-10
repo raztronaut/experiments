@@ -1,9 +1,4 @@
----
-trigger: file_match
-file_patterns:
-  - "src/components/experiments/**/*.tsx"
-description: Loads when editing experiments that may use scroll-driven animation
----
+<!-- read_when: Using Lenis, ScrollTrigger, or createUnifiedScroll -->
 
 # Scroll Animation Rules
 

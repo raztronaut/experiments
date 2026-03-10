@@ -71,7 +71,7 @@ description: Work on an existing experiment following isolation rules
    ```
    Import `ExperimentCanvas` directly from `@/lib/toolkit/r3f` (not via the barrel) to avoid pulling R3F into non-3D experiments.
 
-   **Mixed experiments** (scroll + 3D + interaction): See `.agent/profiles/mixed.md` for the layer-cake pattern and state bridging between DOM and R3F.
+   **Mixed experiments** (scroll + 3D + interaction): See `.agents/profiles/mixed.md` for the layer-cake pattern and state bridging between DOM and R3F.
 
 7. **Debug tools**:
    - `useDevControls(folder, schema)` wraps Leva for production-safe parameter tweaking. Dead-code eliminated in production by default.

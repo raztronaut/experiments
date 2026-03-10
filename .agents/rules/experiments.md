@@ -1,6 +1,4 @@
----
-trigger: always_on
----
+<!-- read_when: Creating or modifying any experiment (always read) -->
 
 # Experiment Isolation Rules
 
@@ -22,7 +20,7 @@ Never modify `src/app/(main)/` for experiment-specific code. Never add experimen
 - Each experiment layout renders its own `<html>`/`<body>` for complete CSS/JS isolation
 
 ## Profile Detection
-Check `experiment.json` for a `profile` field. When present, activate the matching profile from `.agent/profiles/` to get experiment-type-specific behavioral guidance.
+Check `experiment.json` for a `profile` field. When present, activate the matching profile from `.agents/profiles/` to get experiment-type-specific behavioral guidance.
 
 ## Component Decomposition
 

@@ -1,12 +1,4 @@
----
-trigger: file_match
-file_patterns:
-  - "**/*.glsl"
-  - "**/*.frag"
-  - "**/*.vert"
-  - "**/shader*"
-description: Loads when editing GLSL or shader-related files
----
+<!-- read_when: Editing .glsl/.frag/.vert files or ShaderMaterial -->
 
 # Shader Authoring Rules
 
@@ -49,7 +41,7 @@ For fullscreen shader effects, use a plane geometry scaled to viewport and disab
 ```
 
 ## GLSL Utility Library
-Use the composable GLSL module pattern documented in `.agent/skills/shader-authoring.md`. Available utilities include:
+Use the composable GLSL module pattern documented in `.agents/skills/shader-authoring.md`. Available utilities include:
 
 - **Noise**: simplex 2D/3D, FBM (configurable octaves), curl noise, voronoi
 - **Pattern**: domain warping, rotation matrices
@@ -69,7 +61,7 @@ color += (rand(gl_FragCoord.xy) - 0.5) / 255.0;
 For alpha gradients, use stronger dithering: `alpha -= rand(gl_FragCoord.xy) * 0.05;`
 
 ## onBeforeCompile Alternative
-When you need lighting, fog, or environment maps but want to add a custom effect, extend a built-in material via `onBeforeCompile` instead of writing a full `ShaderMaterial`. See the class-based pattern in `.agent/skills/shader-authoring.md` under "onBeforeCompile: Material Injection." This preserves Three.js features while injecting custom GLSL.
+When you need lighting, fog, or environment maps but want to add a custom effect, extend a built-in material via `onBeforeCompile` instead of writing a full `ShaderMaterial`. See the class-based pattern in `.agents/skills/shader-authoring.md` under "onBeforeCompile: Material Injection." This preserves Three.js features while injecting custom GLSL.
 
 ## Debugging
 Visual honesty applies doubly here -- AI agents cannot see shader output. Describe the expected visual clearly. Use solid colors to verify geometry before adding complex shaders. Test each uniform independently. Build incrementally: geometry → UVs → noise → color → animation → polish (dithering, grain, vignette).

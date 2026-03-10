@@ -16,7 +16,7 @@
 
 ### Key Integration Patterns
 
-**Lenis + GSAP (canonical)**: Use `createUnifiedScroll()` from `@/lib/toolkit/scroll`. Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). The old `gsap.ticker.add` pattern is superseded. See `.agent/skills/lenis-scroll.md` for detailed integration patterns and `useTempus` hook usage.
+**Lenis + GSAP (canonical)**: Use `createUnifiedScroll()` from `@/lib/toolkit/scroll`. Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). The old `gsap.ticker.add` pattern is superseded. See `.agents/skills/lenis-scroll/SKILL.md` for detailed integration patterns and `useTempus` hook usage.
 
 **Tempus unification**: Put Lenis (priority -1), GSAP (priority 0), and Three.js rendering (priority 1) under one RAF loop. See `skills/tempus-raf.md`.
 

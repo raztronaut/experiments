@@ -1,9 +1,4 @@
----
-trigger: file_match
-file_patterns:
-  - "src/components/experiments/**/*.tsx"
-description: Loads when editing experiment components that may use animation
----
+<!-- read_when: Editing components with GSAP, Motion, or scroll-driven animation -->
 
 # Animation Rules
 

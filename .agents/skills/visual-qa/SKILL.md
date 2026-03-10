@@ -1,3 +1,8 @@
+---
+name: visual-qa
+description: "Visual QA workflow for experiments. 8-category structured review using pinchtab, dev metrics, and ?debug mode. Use when reviewing or debugging experiment visual output."
+---
+
 # Visual QA for AI Agents
 
 > Systematic visual validation when you cannot see the screen. Adapted from [darkroom.engineering's QA methodology](https://github.com/darkroomengineering/cc-settings/blob/main/skills/qa/SKILL.md).
