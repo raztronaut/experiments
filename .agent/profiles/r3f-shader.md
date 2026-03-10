@@ -40,6 +40,8 @@ function ShaderPlane() {
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={uniforms}
+        depthWrite={false}
+        depthTest={false}
       />
     </mesh>
   )

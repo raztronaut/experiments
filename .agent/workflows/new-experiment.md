@@ -18,6 +18,15 @@ description: Create a new isolated experiment with all required scaffolding
    ```
    Flags: `--name` (required), `--profile` (blank|r3f-scene|r3f-shader|scrollytelling|interaction|web-audio|dom-effect), `--complexity` (beginner|intermediate|advanced), `--toolkit`, `--no-toolkit`, `--leva`, `--description "text"`. Toolkit defaults to true for scrollytelling/r3f profiles.
 
+   **Profile selection guidance:**
+   - Pure scroll narrative → `scrollytelling`
+   - Pure 3D scene → `r3f-scene`
+   - Pure shader art → `r3f-shader`
+   - Drag/spring/gesture focused → `interaction`
+   - Sound design → `web-audio`
+   - CSS/shader effects on DOM → `dom-effect`
+   - **Mixed (scroll + 3D + interaction)** → scaffold with `scrollytelling` as base, then manually add Canvas and interaction layers. See `.agent/profiles/mixed.md` for architecture guidance.
+
    **For humans** (interactive):
    ```bash
    npm run new:experiment

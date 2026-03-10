@@ -47,20 +47,55 @@ description: Work on an existing experiment following isolation rules
    - Place in `public/experiments/<name>/`
    - Reference as `/experiments/<name>/filename.ext`
 
-6. **Development workflow**:
+6. **Toolkit integration** (when `includeToolkit` was selected during scaffolding):
+
+   **Scroll experiments** (scrollytelling profile or any experiment with scroll-driven animation):
+   ```tsx
+   import { createUnifiedScroll } from "@/lib/toolkit/scroll";
+   import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
+
+   // In a useEffect or useLayoutEffect:
+   const handle = createUnifiedScroll({ debug: isDebug });
+   // handle.lenis for direct Lenis access
+   // Cleanup: handle.destroy() in the effect's return
+   ```
+   This drives Lenis (priority -1) and GSAP (priority 0) from a single Tempus RAF loop. Do **not** use the old `gsap.ticker.add` pattern alongside this.
+
+   **R3F experiments** (r3f-scene, r3f-shader profiles):
+   ```tsx
+   import { ExperimentCanvas } from "@/lib/toolkit/r3f";
+
+   <ExperimentCanvas camera={{ position: [0, 0, 5], fov: 50 }}>
+     {/* Scene content */}
+   </ExperimentCanvas>
+   ```
+   Import `ExperimentCanvas` directly from `@/lib/toolkit/r3f` (not via the barrel) to avoid pulling R3F into non-3D experiments.
+
+   **Mixed experiments** (scroll + 3D + interaction): See `.agent/profiles/mixed.md` for the layer-cake pattern and state bridging between DOM and R3F.
+
+7. **Debug tools**:
+   - `useDevControls(folder, schema)` wraps Leva for production-safe parameter tweaking. Dead-code eliminated in production by default.
+   - `DevToolsInjector` is auto-included in every experiment layout. Append `?debug` to the URL for: GSDevTools (GSAP), device info overlay, and keyboard shortcuts (D=device, L=leva, H=hide GSDevTools).
+   - R3F experiments also get `R3FDevToolsInjector` inside Canvas for r3f-perf metrics and scene inspection behind `?debug`.
+   - Query `window.__experimentMetrics` from MCP browser tools for programmatic FPS/heap/CLS data.
+
+8. **Development workflow**:
    ```bash
    # Run tests
    npm run test
    
    # Full preview
    # Visit http://localhost:3000/experiments/<name>
+   # Append ?debug for dev tools overlay
    ```
 
-7. **Before considering complete**:
+9. **Before considering complete**:
    - [ ] All `useEffect` hooks have cleanup functions
    - [ ] No imports from other experiments
    - [ ] No modifications to files outside the experiment's directories
    - [ ] Error boundary catches failures gracefully
+   - [ ] Toolkit cleanup called in effect returns (`handle.destroy()`, disposal of Three.js resources)
+   - [ ] `prefers-reduced-motion` respected (use `gsap.set` for fallbacks, not early returns)
 
 ## Common Modifications
 

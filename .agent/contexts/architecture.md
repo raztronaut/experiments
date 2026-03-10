@@ -51,8 +51,8 @@ The layout.tsx renders its own `<html>` and `<body>`, giving each experiment com
 | Field | Type | Purpose |
 |-------|------|---------|
 | `profile` | string | Activates behavioral guidance from `.agent/profiles/`. Used by template scaffolder. |
-| `status` | `wip` / `shipped` / `archived` | Controls homepage filtering. Archived experiments are hidden by default. |
-| `tags` | string[] | Enables tag-based filtering on homepage |
+| `status` | `wip` / `shipped` / `archived` | Used by `getExperiments()` for programmatic filtering. Generation scripts skip `wip`. |
+| `tags` | string[] | Categorization for search, JSON-LD structured data, OG images, and llms.txt |
 | `tech` | string[] | Libraries used (for search and context) |
 | `complexity` | string | `beginner` / `intermediate` / `advanced` |
 | `legacy` | boolean | Pre-V2 experiment. Not refactored, kept as-is. |
@@ -79,6 +79,8 @@ The interactive scaffolder prompts for name, description, profile, and optional 
 | `web-audio` | Piano keys with synthesized tones |
 | `dom-effect` | Text with shimmer entrance animation |
 | `blank` | Minimal placeholder shell |
+
+**Mixed experiments** (scroll + 3D + interaction): No dedicated plop profile -- scaffold with `scrollytelling` or `r3f-scene` as a base, then manually compose the other layers. See `.agent/profiles/mixed.md` for the layer-cake architecture, file structure, and state bridging patterns.
 
 ## Three-Location Rule
 

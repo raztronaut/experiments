@@ -43,7 +43,48 @@ lenis.scrollTo('#section-3', {
 ```
 Targets: number (pixels), CSS selector, HTMLElement, `'top'`, `'bottom'`.
 
-## GSAP ScrollTrigger Integration (Canonical Pattern)
+## Tempus Integration (Recommended)
+
+Unifies Lenis + GSAP under a single RAF with deterministic priority ordering. This is the canonical pattern used by darkroom.engineering and Satus-based projects.
+
+```ts
+import Tempus from 'tempus'
+import Lenis from 'lenis'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const lenis = new Lenis({ autoRaf: false })
+lenis.on('scroll', ScrollTrigger.update)
+
+// Priority: Lenis first (-1), GSAP second (0), rendering last (1)
+Tempus.add((time) => lenis.raf(time), { priority: -1 })
+gsap.ticker.remove(gsap.updateRoot)
+Tempus.add((time) => gsap.updateRoot(time / 1000), { priority: 0 })
+gsap.ticker.lagSmoothing(0)
+
+ScrollTrigger.refresh()
+```
+
+In the experiments toolkit, `createUnifiedScroll()` from `@/lib/toolkit/scroll` wraps this with reference-counted GSAP-Tempus binding, proper cleanup, and optional debug helpers.
+
+### React hook: useTempus
+
+```tsx
+import { useTempus } from 'tempus/react'
+
+function ScrollDrivenEffect() {
+  useTempus((time, deltaTime) => {
+    // runs every frame at default priority (0), auto-cleaned on unmount
+  }, { priority: 0 })
+}
+```
+
+## GSAP Ticker Integration (Without Tempus)
+
+Drives Lenis from GSAP's ticker. Simpler, but runs a separate RAF from any R3F or Canvas systems.
+
 ```tsx
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -71,18 +112,6 @@ function ScrollLayout({ children }) {
   )
 }
 ```
-Key: set `autoRaf: false` on Lenis, then drive it from GSAP's ticker. This keeps both in sync on the same frame.
-
-## Tempus Integration
-```ts
-import Tempus from 'tempus'
-import Lenis from 'lenis'
-
-const lenis = new Lenis()
-lenis.on('scroll', ScrollTrigger.update)
-Tempus.add((time) => lenis.raf(time), { priority: -1 })
-```
-Lenis runs first (priority -1), then animations, then rendering.
 
 ## Key Options
 | Option | Default | Notes |

@@ -20,7 +20,7 @@ If an approach fails after **2 attempts**, STOP:
 3. Ask which direction to take
 
 ### Visual/Spatial Honesty
-For WebGL, shaders, physics, animations, canvas -- acknowledge you cannot see the output. Provide best-effort with clear TODOs. Suggest the user validate visually. Use the visual-qa workflow when available.
+For WebGL, shaders, physics, animations, canvas -- acknowledge you cannot see the output. Provide best-effort with clear TODOs. Suggest the user validate visually. Use `.agent/workflows/visual-qa.md` (8-category structured review with pinchtab, dev metrics, and `?debug` mode) to systematically validate visual work.
 
 ### Pre-Commit Verification
 Before ANY commit: `tsc --noEmit` + build must pass. Never commit code that doesn't build.
@@ -39,6 +39,8 @@ No single component file should exceed **200 lines**. When approaching this limi
 4. The main component becomes a thin orchestrator: lifecycle setup, shared state, section composition
 
 **Hard limit**: 300 lines triggers mandatory decomposition before continuing. Stop and split.
+
+See `.agent/profiles/scrollytelling.md` "Decomposition Architecture" for the canonical pattern with `useGSAP` scoping per section.
 
 ### Stealth Mode
 No AI fingerprints in git history or PR descriptions. No `Co-Authored-By` AI lines, no "Generated with" language. Conventional commits only.
@@ -69,6 +71,8 @@ Experiments use **route group isolation** -- each gets its own `<html>`/`<body>`
 
 **Hard rules**: no cross-experiment imports, no global state pollution, shared UI is read-only. Always scaffold with `npm run new:experiment`.
 
+**Mixed experiments** (scroll + 3D + interaction): When an experiment combines multiple profiles (e.g., scrollytelling with R3F, or interaction with scroll), consult `.agent/profiles/mixed.md` for layer-cake architecture, Tempus priority chain composition, state bridging between DOM and R3F, and conflict resolution guidance.
+
 ---
 
 ## Coding Standards
@@ -92,6 +96,7 @@ Drawn from the 12 Principles of Animation:
 - **Anticipation**: subtle cue before major actions (wiggle, scale-down before scale-up).
 - **Exaggeration**: amplify feedback for emphasis -- error shakes, success bounces. Sparingly.
 - **`prefers-reduced-motion`**: always respected. Provide reduced-motion fallbacks.
+- **Motion vocabulary diversity**: In multi-section experiments, each section should have a distinct motion signature. Avoid repeating the same `opacity: 0, y: 40` reveal everywhere. Mix techniques: `clipPath` reveals, blur transitions, scale transforms, text splitting, parallax layers, horizontal scroll sections, counter-animations. See `.agent/rules/animations.md` for the full technique catalog.
 
 ---
 

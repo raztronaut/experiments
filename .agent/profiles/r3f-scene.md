@@ -13,45 +13,93 @@
 5. Device responsiveness (adapt DPR, geometry complexity)
 
 ## Toolkit Setup
-```tsx
-import { Canvas } from '@react-three/fiber'
-import { Environment, OrbitControls } from '@react-three/drei'
-import { Perf } from 'r3f-perf'
 
-<Canvas
+Prefer `ExperimentCanvas` from `@/lib/toolkit/r3f` -- it handles DPR, Suspense, Preload, and optional adaptive performance / error boundaries:
+
+```tsx
+import { ExperimentCanvas } from '@/lib/toolkit/r3f'
+import { Environment, OrbitControls } from '@react-three/drei'
+import { R3FDevToolsInjector } from '@/components/dev/R3FDevToolsInjector'
+
+<ExperimentCanvas
   camera={{ position: [0, 0, 5], fov: 50 }}
-  dpr={[1, 2]}
   gl={{ antialias: true, alpha: false }}
+  adaptive
+  errorFallback={<p>3D content unavailable.</p>}
 >
+  <R3FDevToolsInjector />
   <ambientLight intensity={0.5} />
   <directionalLight position={[10, 10, 5]} intensity={1} />
   <Environment preset="city" />
   <OrbitControls />
-  {process.env.NODE_ENV === 'development' && <Perf position="top-left" />}
-</Canvas>
+</ExperimentCanvas>
+```
+
+For post-processing scenes, configure tone mapping:
+```tsx
+<ExperimentCanvas
+  gl={{ toneMapping: THREE.NoToneMapping }}
+  flat
+>
+  <Scene />
+  <EffectComposer>
+    <Bloom />
+    <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+  </EffectComposer>
+</ExperimentCanvas>
 ```
 
 ## useFrame Pattern
 ```tsx
 useFrame((state, delta) => {
-  meshRef.current.rotation.y += delta * 0.5
+  const d = Math.min(delta, 1/15) // clamp to prevent physics explosions on frame drops
+  meshRef.current.rotation.y += d * 0.5
 })
 ```
-Always use `delta` for frame-rate-independent motion. Never use `clock.elapsedTime` directly for incremental rotation.
+Always use `delta` for frame-rate-independent motion. Clamp delta for any physics or position-sensitive logic. Never use `clock.elapsedTime` directly for incremental rotation. Read Zustand stores via `useStore.getState()` inside `useFrame` -- never hooks.
 
 ## Responsive Canvas
+
+Use feature detection, not user agent sniffing:
 ```tsx
-const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent)
-<Canvas dpr={isMobile ? [1, 1.5] : [1, 2]}>
+function useDeviceCapabilities() {
+  const [caps, setCaps] = useState({
+    isMobile: false,
+    isReducedMotion: false,
+    maxDpr: 2,
+  })
+  useEffect(() => {
+    setCaps({
+      isMobile: window.matchMedia('(pointer: coarse)').matches
+        || navigator.maxTouchPoints > 0,
+      isReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      maxDpr: Math.min(window.devicePixelRatio, 2),
+    })
+  }, [])
+  return caps
+}
 ```
-Reduce geometry complexity on mobile. Use `useThree` to read viewport size.
+
+Feature-gate expensive rendering:
+```tsx
+const { isMobile, isReducedMotion } = useDeviceCapabilities()
+
+<Canvas dpr={isMobile ? [1, 1.5] : [1, 2]}>
+  <AdaptiveDpr pixelated />
+  <AdaptiveEvents />
+  <Scene particleCount={isMobile ? 500 : 5000} />
+  {!isMobile && <EffectComposer><Bloom /></EffectComposer>}
+</Canvas>
+```
+
+Reduce geometry complexity on mobile. Use `useThree` to read viewport size. See `r3f-core.md` Device Detection for full hook.
 
 ## Loading States
 ```tsx
 import { useProgress } from '@react-three/drei'
 const { progress } = useProgress()
 ```
-Wrap 3D content in `<Suspense fallback={<Loader />}>`. Never show a blank canvas.
+Wrap 3D content in `<Suspense fallback={<Loader />}>`. Avoid blank canvas in finished experiments.
 
 ## Gotchas
 
@@ -67,7 +115,10 @@ Wrap 3D content in `<Suspense fallback={<Loader />}>`. Never show a blank canvas
 ## Pre-Implementation Checklist
 - [ ] Camera position and FOV defined
 - [ ] Lighting setup (ambient + directional minimum)
-- [ ] DPR responsive to device
+- [ ] DPR responsive to device (prefer `adaptive` prop on `ExperimentCanvas`)
+- [ ] Error boundary wrapping Canvas (use `errorFallback` prop)
 - [ ] Suspense boundary with fallback
-- [ ] r3f-perf in dev mode
+- [ ] Tone mapping strategy decided (default ACESFilmic or manual via post-processing)
+- [ ] R3FDevToolsInjector included (auto-added by plop templates)
 - [ ] Disposal in cleanup functions
+- [ ] Mobile feature gating if using post-processing or heavy particle counts

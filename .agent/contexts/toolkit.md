@@ -16,7 +16,7 @@
 
 ### Key Integration Patterns
 
-**Lenis + GSAP (canonical)**: Use `createUnifiedScroll()` from `@/lib/toolkit/scroll`. Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). The old `gsap.ticker.add` pattern is superseded.
+**Lenis + GSAP (canonical)**: Use `createUnifiedScroll()` from `@/lib/toolkit/scroll`. Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). The old `gsap.ticker.add` pattern is superseded. See `.agent/skills/lenis-scroll.md` for detailed integration patterns and `useTempus` hook usage.
 
 **Tempus unification**: Put Lenis (priority -1), GSAP (priority 0), and Three.js rendering (priority 1) under one RAF loop. See `skills/tempus-raf.md`.
 
@@ -82,6 +82,9 @@ These are thin integration layers, not abstractions. Experiments import directly
 | **Theatre.js** | latest | `@theatre/core`, `@theatre/r3f` | Visual animation timeline editor |
 | **leva** | latest | `leva` | Debug GUI for parameter tweaking |
 | **@use-gesture/react** | latest | `@use-gesture/react` | Gesture recognition (drag, pinch, scroll, hover) |
+| **tunnel-rat** | latest | `tunnel-rat` | DOM-WebGL portal bridge for layer-cake patterns (persistent Canvas + page-specific 3D). `npm i tunnel-rat` |
+| **maath** | latest | `maath/easing` | Frame-rate-independent damping for R3F (`damp3`, `dampE`, `dampC`). `npm i maath` |
+| **zustand** | latest | `zustand` | Lightweight state management for R3F frame loops (`getState()` for non-reactive reads in `useFrame`). `npm i zustand` |
 
 ### Notes on Tier 2
 - **r3f-scroll-rig**: pinned to R3F v8 -- may need migration for R3F v9+
@@ -101,7 +104,7 @@ These are thin integration layers, not abstractions. Experiments import directly
 Located in `src/components/ui/`:
 - shadcn/ui components (button, card, drawer, badge, scroll-area, separator)
 - Custom cursor system (`cursor/`)
-- Experiment list UI with filters (`experiments/`)
+- Experiment list UI with preview drawer (`experiments/`)
 - Location/weather display components
 - GrainOverlay, ThemeAwareWaves, ScrambleTicker
 

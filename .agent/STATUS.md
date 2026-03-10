@@ -17,9 +17,10 @@ A creative coding lab built for AI-native development. Experiments are isolated 
 ## Current State
 
 - **18 legacy experiments** (pre-V2, `legacy: true`, all `status: "shipped"`) -- untouchable, no modifications
-- **1 V2 experiment** (`kinetic-typography-scroll`, status: wip) -- first real experiment built on the V2 stack
+- **1 V2 experiment** (`announcing-v2`, status: wip) -- showcase of the V2 platform with scrollytelling + R3F + shaders
 - **2 published articles** (send-button, basketball-replay-center)
 - **V2 infrastructure**: complete (AI config, toolkit, dev tools, templates, content pipeline, CI)
+- **Agent docs improvement effort**: in progress -- gap analysis against darkroom.engineering, basement.studio, and tambo-ai reference implementations. Organized as 8 parallel domains (see `.cursor/plans/agent_docs_gap_analysis_*.plan.md`).
 - **19 total experiments**, all valid
 
 ---
@@ -30,7 +31,7 @@ The config loads progressively to minimize token overhead:
 
 1. **AGENTS.md** -- loads automatically in any AGENTS.md-compatible tool. Portable coding standards.
 2. **Rules** (6) -- path-conditioned. Cursor reads `file_patterns` frontmatter and loads rules when you edit matching files. `experiments.md` is always-on; `r3f.md`, `shaders.md`, `animations.md`, `scroll.md`, `performance.md` activate on experiment files.
-3. **Profiles** (6) -- experiment-type behavioral modes. Read `experiment.json` -> find `"profile": "r3f-scene"` -> read `.agent/profiles/r3f-scene.md`. Profiles shape trade-off decisions, not just API usage.
+3. **Profiles** (7) -- experiment-type behavioral modes. Read `experiment.json` -> find `"profile": "r3f-scene"` -> read `.agent/profiles/r3f-scene.md`. Profiles shape trade-off decisions, not just API usage. Includes `mixed.md` for experiments combining scroll + R3F + interaction.
 4. **Skills** (8) -- on-demand technology references. Concise (<5K tokens each). Referenced when working with specific libraries.
 5. **Workflows** (7) -- step-by-step procedures for scaffolding, developing, publishing, cleanup.
 6. **Contexts** (3) -- background reference for architecture, toolkit inventory, and writing voice.
@@ -55,3 +56,6 @@ The config loads progressively to minimize token overhead:
 - **Registry V2** -- interactive docs pages with live demos not started
 - **Dedicated `/writing` index page** -- homepage Writing section exists; standalone page deferred until article count exceeds ~6
 - **Preview video recording is intentionally manual** -- developer records via QuickTime/OBS, places in `public/experiments/<slug>/preview.mp4`. `generate-posters.mjs` auto-extracts poster.jpg from video. `capture.mjs` handles screenshots only. This is not a gap to automate.
+- **Agent docs gaps** -- identified via reference repo analysis (Domain 1-7 in gap analysis plan). Key areas: R3F Tempus binding, expanded GLSL utilities, motion vocabulary diversity, mixed-profile guidance, portable creative patterns skill. In progress.
+- **Biome strictness** -- `useExhaustiveDependencies` warn-only, `noExplicitAny`/`noUnusedVariables` disabled, 7 a11y rules disabled. Deferred to dedicated linting tightening pass.
+- **Cursor.tsx `getCursorColor` perf bug** -- acknowledged, deferred

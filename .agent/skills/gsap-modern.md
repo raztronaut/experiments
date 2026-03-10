@@ -109,7 +109,7 @@ import Tempus from 'tempus'
 gsap.ticker.remove(gsap.updateRoot)
 Tempus.add((time) => gsap.updateRoot(time / 1000), { priority: 0 })
 ```
-Puts GSAP under Tempus's unified RAF loop. Or use the toolkit helper: `import { setupUnifiedRAF } from '@/lib/toolkit/raf'`.
+Puts GSAP under Tempus's unified RAF loop. For scroll experiments, `createUnifiedScroll()` from `@/lib/toolkit/scroll` handles this automatically (Lenis at priority -1, GSAP at priority 0, reference-counted). For manual Tempus access: `import Tempus from '@/lib/toolkit/raf'`.
 
 ## Performance
 - `gsap.set()` for initial states (faster than CSS for many elements)
