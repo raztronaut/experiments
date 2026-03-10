@@ -9,8 +9,8 @@
       "args": ["-y", "browser-devtools-mcp"]
     },
     "mcp-three": {
-      "command": "npx",
-      "args": ["-y", "mcp-three"]
+      "command": "node",
+      "args": ["/Users/razisyed/.gemini/antigravity/mcp-three-wrapper.js"]
     }
   }
 }
