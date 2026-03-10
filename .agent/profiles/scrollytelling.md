@@ -12,35 +12,45 @@
 4. Performance (efficient scroll callbacks)
 5. Device adaptation (touch vs. wheel, mobile vs. desktop)
 
-## Toolkit Setup: Lenis + GSAP ScrollTrigger
-```tsx
-'use client'
-import { ReactLenis } from 'lenis/react'
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+## Decomposition Architecture
 
-gsap.registerPlugin(ScrollTrigger)
+Scrollytelling experiments grow fast. Decompose early -- when the main component reaches ~200 lines or 3+ sections.
 
-function ScrollLayout({ children }) {
-  const lenisRef = useRef()
-
-  useEffect(() => {
-    function update(time) {
-      lenisRef.current?.lenis?.raf(time * 1000)
-    }
-    gsap.ticker.add(update)
-    gsap.ticker.lagSmoothing(0)
-    return () => gsap.ticker.remove(update)
-  }, [])
-
-  return (
-    <ReactLenis root options={{ autoRaf: false }} ref={lenisRef}>
-      {children}
-    </ReactLenis>
-  )
-}
+**Target structure:**
 ```
+src/components/experiments/experiment-name/
+  ExperimentName.tsx     ~120 lines  Orchestrator (Lenis, controls, progress bar, section composition)
+  data.ts                ~100 lines  Section content, config constants
+  sections/
+    HeroSection.tsx      Each section owns its own useGSAP with scope + dependencies
+    ...
+```
+
+**Each section:**
+- Has its own `useRef` for scoping
+- Runs its own `useGSAP({ scope: ref, dependencies: [...] })`
+- Handles its own `prefers-reduced-motion` fallback (`gsap.set` to reveal, not early return that leaves `opacity-0` elements invisible)
+- Receives `reducedMotion`, `scrub`, and any shared refs as props
+
+**The orchestrator:**
+- `createUnifiedScroll` lifecycle (see Toolkit Setup below)
+- `useDevControls` for shared parameters
+- Scroll progress bar animation
+- Composes sections -- no direct ScrollTrigger/gsap animation code
+
+## Toolkit Setup: createUnifiedScroll (Canonical)
+```tsx
+import { createUnifiedScroll } from "@/lib/toolkit/scroll";
+import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
+
+// In orchestrator's useLayoutEffect:
+const handle = createUnifiedScroll({ debug: isDebug });
+// handle.lenis for direct access, handle.destroy() in cleanup
+```
+
+Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). Do NOT use the old `gsap.ticker.add` pattern -- it is superseded by `createUnifiedScroll`.
+
+Pass `{ debug: true }` (gated behind `?debug`) to expose `window.__scrollToSection(index)` and `window.__scrollToProgress(0-1)` for MCP browser tool scrolling.
 
 ## Pinned Section Pattern
 ```tsx
@@ -56,7 +66,7 @@ useGSAP(() => {
       scrub: 1,
     }
   })
-}, [])
+}, { scope: sectionRef, dependencies: [scrub] })
 ```
 
 ## Multi-Section Snap
@@ -94,7 +104,9 @@ ScrollTrigger.batch('.card', {
 
 | Problem | Fix |
 |---------|-----|
-| Scroll jank with ScrollTrigger | Wire Lenis correctly (autoRaf: false, gsap.ticker) |
+| Scroll jank with ScrollTrigger | Use `createUnifiedScroll` (not manual `gsap.ticker.add`) |
 | Pin jumps on mobile | Use `pinSpacing: true` (default), test on real devices |
 | Scrub feels laggy | Reduce `scrub` value (0.5 instead of 2) |
 | Content flashes before scroll | Set initial state (opacity: 0, y: 50) in CSS or gsap.set |
+| MCP tools can't scroll Lenis | Pass `{ debug: true }` to `createUnifiedScroll`, use `window.__scrollToSection(i)` |
+| Monolithic component | Decompose at ~200 lines (see Decomposition Architecture above) |

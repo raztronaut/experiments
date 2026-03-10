@@ -24,6 +24,43 @@ Never modify `src/app/(main)/` for experiment-specific code. Never add experimen
 ## Profile Detection
 Check `experiment.json` for a `profile` field. When present, activate the matching profile from `.agent/profiles/` to get experiment-type-specific behavioral guidance.
 
+## Component Decomposition
+
+### File Budget (lines)
+| File Type | Target | Hard Limit |
+|-----------|--------|------------|
+| Orchestrator component | ~120 | 200 |
+| Section component | ~60-90 | 150 |
+| Data constants | ~100 | 150 |
+| Hook | ~30-50 | 80 |
+
+### When to Decompose
+When the main component exceeds ~200 lines or contains 3+ distinct visual sections, split into:
+
+```
+src/components/experiments/experiment-name/
+  ExperimentName.tsx          Orchestrator (lifecycle, shared state, composition)
+  data.ts                     All constants and configuration
+  sections/
+    SectionName.tsx           Each visual section owns its own animation scope
+  [hooks, shaders, etc.]
+```
+
+### Section Pattern
+Each section is a self-contained component:
+- Own `useRef` for root element
+- Own `useGSAP({ scope: sectionRef, dependencies: [...] })` or equivalent animation hook
+- Own `prefers-reduced-motion` handling (never leave `opacity-0` elements invisible)
+- Receives shared config via props (not global state)
+
+### Orchestrator Pattern
+The main component stays thin:
+- Lenis/scroll setup and cleanup
+- Shared controls (`useDevControls`)
+- Shared refs (scroll progress, debug state)
+- Composes `<Section />` components with props
+- No direct DOM animation code
+
 ## Cleanup Discipline
 - `useEffect` cleanups for event listeners, timers, animation contexts
 - Dispose Three.js geometries, materials, textures on unmount

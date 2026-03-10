@@ -16,33 +16,53 @@
 
 ### Key Integration Patterns
 
-**Lenis + GSAP**: Set `autoRaf: false` on Lenis, drive from GSAP ticker. See `skills/lenis-scroll.md`.
+**Lenis + GSAP (canonical)**: Use `createUnifiedScroll()` from `@/lib/toolkit/scroll`. Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). The old `gsap.ticker.add` pattern is superseded.
 
 **Tempus unification**: Put Lenis (priority -1), GSAP (priority 0), and Three.js rendering (priority 1) under one RAF loop. See `skills/tempus-raf.md`.
 
 **Hamo lazy mode**: `useRect({ lazy: true, callback })` for animation-safe measurements that don't trigger re-renders.
 
 ### Integration Layer (`src/lib/toolkit/`)
-- `src/lib/toolkit/scroll.ts` -- `createLenisScroll(options?)` / `destroyLenisScroll(lenis)` -- Lenis + GSAP ScrollTrigger wiring
-- `src/lib/toolkit/raf.ts` -- `Tempus` re-export + `setupUnifiedRAF()` -- puts GSAP under Tempus's RAF loop
-- `src/lib/toolkit/r3f.tsx` -- `ExperimentCanvas` -- Canvas wrapper with `dpr={[1,2]}`, Suspense, Preload
-- `src/lib/toolkit/index.ts` -- barrel re-exports all of the above
+- `src/lib/toolkit/scroll.ts` -- `createUnifiedScroll(options?)` returns `{ lenis, destroy() }`. Lenis + GSAP + Tempus unified RAF (priority -1 Lenis, 0 GSAP, 1 Three.js). GSAP-Tempus binding is reference-counted across instances. `destroy()` disposes Tempus callbacks, kills only ScrollTriggers created by that instance, and restores GSAP's own ticker only when the last instance is destroyed. Accepts `{ debug: true }` to attach `window.__lenis`, `window.__scrollToSection(index)`, `window.__scrollToProgress(0-1)` for MCP browser tool scrolling (Lenis intercepts programmatic scroll).
+- `src/lib/toolkit/raf.ts` -- `Tempus` re-export
+- `src/lib/toolkit/r3f.tsx` -- `ExperimentCanvas` -- Canvas wrapper with `dpr={[1,2]}`, Suspense, Preload. Import directly from `@/lib/toolkit/r3f` (not via the barrel, to avoid pulling R3F into non-3D experiments).
+- `src/lib/toolkit/index.ts` -- barrel re-exports `Tempus`, `createUnifiedScroll`, `UnifiedScrollHandle`. Does NOT re-export `ExperimentCanvas` (use direct import from `r3f.tsx`).
 
 These are thin integration layers, not abstractions. Experiments import directly from the libraries for everything else.
 
+### Hooks
+- `src/hooks/useDevControls.ts` -- `useDevControls(folder, schema, options?)` -- Leva controls wrapper with dead-code elimination. Returns static defaults in production by default (leva tree-shaken from bundle). Pass `{ production: true }` to keep leva in production for showcase experiments that expose debug tools to visitors.
+
 ### Dev Tools (`src/components/dev/`)
-- `ExperimentDevMetrics` -- Console-piped FPS, heap, CLS (auto-injected in new experiment layouts)
-- `R3FDevMetrics` -- Console-piped draw calls, triangles, geometries, textures (inside Canvas)
-- `R3FSceneInspector` -- Scene graph text tree logged to console (inside Canvas)
-- `scripts/capture.mjs` -- Playwright screenshot: `npm run capture <slug> [--delay ms] [--scroll %] [--viewport WxH] [--full-page] [--og]`
+- `DevToolsInjector` -- Auto-injected in all experiment layouts. Loads `ExperimentDevMetrics` + `DebugOverlay` in dev mode. Tree-shakes to nothing in production. Pass `production` prop to keep dev tools in production builds (used by showcase experiments for `?debug` visitor access).
+- `ExperimentDevMetrics` -- Logs FPS, heap, CLS, GSAP active tween count every 2s via `console.warn` (warn level for MCP visibility). Also writes structured data to `window.__experimentMetrics` for programmatic querying.
+- `DebugOverlay` -- Activates when `?debug` is in the URL (basement.studio Daylight pattern). Keyboard shortcuts: D (device info), L (leva panel toggle). GSDevTools loads automatically for GSAP experiments (H to hide, SPACE play/pause, I/O in/out markers).
+- `R3FDevToolsInjector` -- Canvas-level companion to `DevToolsInjector`. Auto-injected in R3F Plop templates. Tree-shakes to nothing in production unless `production` prop is passed. All R3F dev tools (`R3FMetricsPiper`, `R3FSceneInspector`, r3f-perf panel, `DebugCamera`) are gated behind `?debug`. When `?debug` active: R3F metrics piped to `window.__experimentMetrics.r3f` and `.scene`, r3f-perf visual panel, camera helpers (O=Orbit, G=Grid).
+- `DebugCamera` -- R3F camera helpers behind `?debug`. O key toggles orbit mode (free camera + gizmo), G key toggles grid helper.
+- `R3FSceneInspector` -- Scene graph text tree logged via `console.warn` on mount + every 10s. Only active when `?debug` is in the URL.
+- `src/hooks/useDebug.ts` -- `useDebug()` hook returns true when `?debug` is in the URL
+- `src/hooks/useGSAPDebug.ts` -- `useGSAPDebug(timeline, id)` links a specific GSAP timeline to GSDevTools when `?debug` active (per official docs best practice)
+
+**Queryable metrics for AI agents**: All dev metrics are written to `window.__experimentMetrics` (structured JSON with `fps`, `fpsMin`, `heap`, `cls`, `gsapTweens`, `r3f`, `scene`, `timestamp`). Agents using pinchtab or browser-devtools can query on demand: `eval("JSON.stringify(window.__experimentMetrics)")`.
+
+### MCP Tools (configured in `.cursor/mcp.json`)
+- **pinchtab** -- AI-optimized browser automation. `pinchtab nav/text/screenshot/snap/click`. Token-efficient (~800 tokens/page). Primary tool for QA and debugging.
+- **Browser DevTools MCP** -- React DevTools, console capture, network, Web Vitals, annotated screenshots
+- **context7** -- Library documentation lookup. `resolve-library-id` to find a library, then `query-docs` to fetch up-to-date docs and code examples (GSAP, Lenis, Drei, Three.js, etc.). Use before writing code with unfamiliar APIs.
+- **basement mcp-three** -- GLTF/GLB to R3F JSX conversion (`gltfjsx`) + model structure analysis
+
+### Scripts
+- `scripts/capture.mjs` -- Playwright CLI screenshot: `npm run capture <slug> [--delay ms] [--scroll %] [--viewport WxH] [--full-page] [--og]` (CI/scripting fallback, pinchtab preferred for interactive use)
 - `scripts/validate-experiments.mjs` -- Validates all experiment.json files (required fields, enum values, no duplicate slugs)
 
 ### Publishing Pipeline (`src/components/mdx/`, `src/components/ui/ArticleLayout.tsx`, `src/lib/articles.ts`)
 - `ArticleLayout` -- Sylph-style single-column article layout: small semibold title, `>` breadcrumb, prev/next nav. TOC commented out. No motion animations.
 - `articleComponents` -- Minimal MDX component map (CSS handles typography). Overrides: h2 (footnote filter), a (external links), pre (CodeBlock), code, blockquote, table, img.
 - `CodeBlock`, `Callout`, `LiveDemo`, `SandpackDemo`, `InteractiveWidget`, `CodeStep` -- Individual MDX components
-- `ExperimentNav` -- Unified floating nav: "Return to Experiments" + pathname-aware "View Article"/"View Experiment" toggle. Replaces old ExperimentBackButton + ExperimentArticleButton.
-- `getArticles()` -- Scans experiments for `article/content.mdx`, parses frontmatter with gray-matter
+- `ExperimentNav` -- Unified floating nav: "Return to Experiments" + pathname-aware "View Article"/"View Experiment" toggle.
+- `WritingSection` -- Homepage "Writing" section. Server component rendering article cards in a 2-column grid with reading time, analytics, and deep-link anchor (`/#writing`).
+- `getArticles()` -- Scans experiments for `article/content.mdx`, parses frontmatter with gray-matter, computes reading time
+- `getAdjacentArticles(slug)` -- Returns prev/next articles for article page navigation
 - `next-mdx-remote/rsc` -- Renders MDX at build time with rehype-pretty-code, remark-gfm, rehype-slug
 - Dynamic OG route at `/api/og?title=...&tags=...` -- Edge runtime ImageResponse
 - RSS feed at `/feed.xml` -- RSS 2.0 via `getArticles()`

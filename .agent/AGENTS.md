@@ -31,6 +31,15 @@ Stay confined to files directly related to the bug. No drive-by refactors, no de
 ### Context Hygiene
 When tool output exceeds ~2K tokens, write it to a scratch file and return a summary with the file path. Prevents context bloat.
 
+### Component Size Discipline
+No single component file should exceed **200 lines**. When approaching this limit, decompose:
+1. Extract data constants to `data.ts`
+2. Extract reusable hooks to dedicated files
+3. Split visual sections into `sections/SectionName.tsx` -- each owns its own `useGSAP`/animation scope
+4. The main component becomes a thin orchestrator: lifecycle setup, shared state, section composition
+
+**Hard limit**: 300 lines triggers mandatory decomposition before continuing. Stop and split.
+
 ### Stealth Mode
 No AI fingerprints in git history or PR descriptions. No `Co-Authored-By` AI lines, no "Generated with" language. Conventional commits only.
 

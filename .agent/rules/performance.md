@@ -39,9 +39,9 @@ Animate `transform` and `opacity` exclusively. These skip layout and paint, runn
 [DevMetrics] fps=58.3 fps_min=52 heap=23.4MB cls=0.001
 ```
 
-For R3F experiments, add `<R3FDevMetrics />` inside the Canvas for renderer stats:
+For R3F experiments, `<R3FDevToolsInjector />` is auto-included in R3F Plop templates. It console-pipes renderer stats and scene graph text:
 ```
 [R3FMetrics] calls=12 triangles=8400 geometries=5 textures=3
 ```
 
-Use `<R3FSceneInspector />` to log the scene graph as text for verification. See `.agent/skills/visual-qa.md`.
+Append `?debug` to the URL for a visual r3f-perf panel + camera helpers. See `.agent/skills/visual-qa.md`.

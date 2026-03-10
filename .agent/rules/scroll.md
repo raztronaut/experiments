@@ -7,31 +7,39 @@ description: Loads when editing experiments that may use scroll-driven animation
 
 # Scroll Animation Rules
 
-## Lenis + GSAP ScrollTrigger (Canonical Wiring)
+## createUnifiedScroll (Canonical)
 ```tsx
-import { ReactLenis, useLenis } from 'lenis/react'
+import { createUnifiedScroll } from "@/lib/toolkit/scroll";
+import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
 
-// In layout or provider:
+// In useLayoutEffect:
+const handle = createUnifiedScroll({ debug: isDebug });
+// handle.lenis for direct access
+// handle.destroy() in cleanup
+```
+
+Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). GSAP-Tempus binding is reference-counted. Pass `{ debug: true }` (gated behind `?debug`) to expose MCP scroll helpers.
+
+## Legacy: Lenis + GSAP Ticker (pre-V2)
+```tsx
+// Superseded by createUnifiedScroll. Only for reference when reading legacy experiments.
 const lenisRef = useRef()
-
 useEffect(() => {
-  function update(time) {
-    lenisRef.current?.lenis?.raf(time * 1000)
-  }
+  function update(time) { lenisRef.current?.lenis?.raf(time * 1000) }
   gsap.ticker.add(update)
   return () => gsap.ticker.remove(update)
 }, [])
-
 <ReactLenis root options={{ autoRaf: false }} ref={lenisRef} />
 ```
 
-## Lenis + Tempus (Unified RAF)
-When using Tempus as the global RAF manager:
-```ts
-import Tempus from 'tempus'
-const lenis = new Lenis()
-Tempus.add((time) => lenis.raf(time))
-```
+## Lenis + MCP Scroll
+
+Lenis intercepts programmatic scroll -- `pinchtab_scroll`, `interaction_scroll`, and browser devtools scroll commands don't work reliably. Use `createUnifiedScroll({ debug: true })` which attaches:
+- `window.__scrollToSection(index)` -- scroll to nth `section[aria-label]`
+- `window.__scrollToProgress(progress)` -- scroll to 0-1 progress value
+- `window.__lenis` -- direct Lenis instance
+
+Call via MCP eval: `eval("window.__scrollToSection(2)")` or `eval("window.__scrollToProgress(0.5)")`.
 
 ## ScrollTrigger Patterns
 - **Pin**: `{ pin: true, scrub: 1 }` -- element stays fixed while scroll drives animation

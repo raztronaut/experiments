@@ -25,7 +25,7 @@ public/experiments/experiment-name/
 └── [assets...]                 # Models, textures, fonts, audio
 ```
 
-The layout.tsx renders its own `<html>` and `<body>`, giving each experiment complete CSS/JS isolation from the main dashboard app. In dev mode, `DevToolsInjector` auto-injects `ExperimentDevMetrics` (logs FPS, heap, CLS to the console every 2s). This is included in the Plop layout template for new experiments. For R3F experiments, `R3FDevMetrics` and `R3FSceneInspector` must be added manually inside `<Canvas>`.
+The layout.tsx renders its own `<html>` and `<body>`, giving each experiment complete CSS/JS isolation from the main dashboard app. In dev mode, `DevToolsInjector` auto-injects `ExperimentDevMetrics` (logs FPS, heap, CLS, GSAP tweens every 2s) + `DebugOverlay` (activates with `?debug` URL param for GSDevTools, device info, and debug hotkeys). Tree-shakes to nothing in production unless `<DevToolsInjector production />` is passed (used by showcase experiments for visitor-facing `?debug` tools). R3F experiments get `R3FDevToolsInjector` inside `<Canvas>` (auto-included in R3F Plop templates, same `production` prop pattern) which provides r3f-perf metrics, scene graph inspection, and visual debug panels when `?debug` is active.
 
 ## Metadata Schema (experiment.json)
 
@@ -61,10 +61,14 @@ The layout.tsx renders its own `<html>` and `<body>`, giving each experiment com
 ## Template System
 
 ```bash
+# Interactive (for humans)
 npm run new:experiment
+
+# Non-interactive (for AI agents)
+npm run new:experiment:auto -- --name "my experiment" --profile r3f-scene --toolkit --leva
 ```
 
-The scaffolder prompts for name, description, and **profile**. Each profile generates a working demo component:
+The interactive scaffolder prompts for name, description, profile, and optional feature toggles (toolkit wiring, leva debug GUI). The non-interactive path accepts all options as CLI flags: `--name` (required), `--profile`, `--complexity`, `--toolkit`/`--no-toolkit`, `--leva`, `--description`. Defaults match interactive behavior (toolkit defaults to true for scrollytelling/r3f profiles). R3F profiles auto-include `R3FDevToolsInjector`. Each profile generates a working demo component:
 
 | Profile | Demo |
 |---------|------|
@@ -93,7 +97,7 @@ import { Button } from '@/components/ui/button'
 import SubComponent from './SubComponent'
 import { Canvas } from '@react-three/fiber'
 import { motion } from 'motion/react'
-import { R3FSceneInspector } from '@/components/dev'
+import { R3FDevToolsInjector } from '@/components/dev'
 
 // FORBIDDEN: cross-experiment imports, global state pollution
 import X from '@/components/experiments/other-experiment/X'
@@ -101,8 +105,10 @@ import X from '@/components/experiments/other-experiment/X'
 
 ## Scaffolding
 ```bash
-npm run new:experiment    # Interactive generator (name, description, profile)
-npm run delete:experiment # Safe removal with confirmation
+npm run new:experiment              # Interactive (humans)
+npm run new:experiment:auto -- ...  # Non-interactive (AI agents) -- see Template System above
+npm run delete:experiment <name>    # Safe removal with confirmation
+npm run delete:experiment <name> --yes  # Skip confirmation (AI agents)
 ```
 
 ## File Naming
@@ -111,6 +117,21 @@ npm run delete:experiment # Safe removal with confirmation
 - Utilities/hooks: `camelCase.ts`
 - Shaders: `descriptiveName.glsl` / `.vert` / `.frag`
 - Assets: `kebab-case.ext`
+
+## Component Decomposition
+
+When an experiment component exceeds ~200 lines, split into focused modules:
+
+```
+src/components/experiments/experiment-name/
+  ExperimentName.tsx          ~120 lines  Thin orchestrator
+  data.ts                     Constants, section content
+  sections/                   One file per visual section
+    SectionName.tsx           Own animation scope (useGSAP + scope ref)
+  [hooks/, shaders/, etc.]    Extracted utilities
+```
+
+Each section component owns its own `useGSAP({ scope: ref, dependencies: [...] })`. The orchestrator handles lifecycle (Lenis, controls) and composes sections via props. See `.agent/profiles/scrollytelling.md` for the canonical pattern.
 
 ## Data Flow
 ```
@@ -123,10 +144,16 @@ experiment.json
 
 ## Scripts
 ```bash
-npm run new:experiment         # Scaffold new experiment (Plop, profile-based)
-npm run delete:experiment      # Remove experiment files
-npm run generate:posters       # Extract video first frames
-npm run generate:registry      # Build shadcn-compatible registry
-npm run capture <slug>         # Playwright screenshot capture
-npm run build                  # Runs posters + registry + next build
+npm run new:experiment              # Scaffold experiment (interactive)
+npm run new:experiment:auto -- ...  # Scaffold experiment (non-interactive, for agents)
+npm run delete:experiment <name>    # Remove experiment (interactive)
+npm run delete:experiment <name> --yes  # Remove experiment (non-interactive)
+npm run generate:posters            # Extract video first frames (skips wip)
+npm run generate:registry           # Build shadcn-compatible registry (skips wip)
+npm run generate:llms-txt           # Generate llms.txt + llms-full.txt (skips wip)
+npm run capture <slug>              # Playwright screenshot capture
+npm run validate:experiments        # Validate all experiment.json files
+npm run build                       # Runs posters + registry + llms-txt + next build
 ```
+
+Note: `generate:registry`, `generate:posters`, and `generate:llms-txt` filter out experiments with `status: "wip"` so test fixtures don't pollute production artifacts.

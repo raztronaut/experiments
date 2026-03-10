@@ -10,8 +10,15 @@ description: Create a new isolated experiment with all required scaffolding
 
 ## Steps
 
-// turbo
 1. Run the scaffolding generator:
+
+   **For AI agents** (non-interactive):
+   ```bash
+   npm run new:experiment:auto -- --name "fluid simulation" --profile r3f-scene --toolkit --leva
+   ```
+   Flags: `--name` (required), `--profile` (blank|r3f-scene|r3f-shader|scrollytelling|interaction|web-audio|dom-effect), `--complexity` (beginner|intermediate|advanced), `--toolkit`, `--no-toolkit`, `--leva`, `--description "text"`. Toolkit defaults to true for scrollytelling/r3f profiles.
+
+   **For humans** (interactive):
    ```bash
    npm run new:experiment
    ```
