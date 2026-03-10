@@ -1,186 +1,159 @@
-export const HERO = {
-  title: "razi's experiments",
-  version: "v2",
-  subtitle:
-    "Check out this cool shit I built. It's a playground designed to let me build faster, experiment quicker, and test new interactions with strong scaffolding. Try adding ?debug to the URL to see under the hood.",
-};
-
-export const MANIFESTO = {
-  heading: "The Setup",
-  lines: [
-    {
-      text: "Strong scaffolding so I can drop straight into creative coding.",
-      emphasis: "Zero config" as const,
-    },
-    {
-      text: "Unified RAF loops, Tempus, and silky Lenis scroll right out of the box.",
-      emphasis: "Performance first" as const,
-    },
-    {
-      text: "Quick debug toggles and tools to inspect exactly what's rendering.",
-      emphasis: "Debuggable" as const,
-    },
-    {
-      text: "Publishing is automatic with built-in MDX and OG image generation.",
-      emphasis: "Publishable" as const,
-    },
-  ],
-  command:
-    'npm run new:experiment:auto -- --name "anything" --profile scrollytelling --toolkit',
-};
-
-export interface ToolkitItem {
-  color: string;
-  description: string;
-  name: string;
-  tier: "core" | "domain" | "ui";
+export interface ExperimentItem {
+  poster: string;
+  slug: string;
+  title: string;
+  video?: string;
 }
 
-export const TOOLKIT: ToolkitItem[] = [
+export const EXPERIMENTS: ExperimentItem[] = [
   {
-    name: "Lenis",
-    description: "Silky smooth scroll with momentum and touch support",
-    tier: "core",
-    color: "#ff4d4d",
+    slug: "basketball-replay-center",
+    title: "Basketball Replay Center",
+    poster: "/experiments/announcing-v2/previews/basketball-replay-center.jpg",
+    video: "/experiments/announcing-v2/previews/basketball-replay-center.mp4",
   },
   {
-    name: "Tempus",
-    description: "Unified RAF manager with priority scheduling",
-    tier: "core",
-    color: "#4dff88",
+    slug: "send-button",
+    title: "Send Button",
+    poster: "/experiments/announcing-v2/previews/send-button.jpg",
   },
   {
-    name: "GSAP",
-    description: "Industry-standard timeline animations and ScrollTrigger",
-    tier: "core",
-    color: "#88ce02",
+    slug: "shader-landing",
+    title: "Shader Landing",
+    poster: "/experiments/announcing-v2/previews/shader-landing.jpg",
   },
   {
-    name: "R3F",
-    description: "React Three Fiber for declarative 3D scenes and shaders",
-    tier: "core",
-    color: "#049ef4",
+    slug: "keyboard-keys",
+    title: "Keyboard Keys",
+    poster: "/experiments/announcing-v2/previews/keyboard-keys.jpg",
+    video: "/experiments/announcing-v2/previews/keyboard-keys.mp4",
   },
   {
-    name: "Motion",
-    description: "Spring physics, layout animations, and gesture support",
-    tier: "core",
-    color: "#ff0055",
+    slug: "mountain-transition",
+    title: "Mountain Transition",
+    poster: "/experiments/announcing-v2/previews/mountain-transition.jpg",
+    video: "/experiments/announcing-v2/previews/mountain-transition.mp4",
   },
   {
-    name: "Drei",
-    description: "100+ helpers for lights, controls, materials, and text",
-    tier: "domain",
-    color: "#ffd700",
+    slug: "cursor-depth-explorer",
+    title: "Cursor Depth Explorer",
+    poster: "/experiments/announcing-v2/previews/cursor-depth-explorer.jpg",
+    video: "/experiments/announcing-v2/previews/cursor-depth-explorer.mp4",
   },
   {
-    name: "Theatre.js",
-    description: "Visual timeline editor for animation sequencing",
-    tier: "domain",
-    color: "#b4ff39",
+    slug: "game-of-life-shader",
+    title: "Game of Life Shader",
+    poster: "/experiments/announcing-v2/previews/game-of-life-shader.jpg",
+    video: "/experiments/announcing-v2/previews/game-of-life-shader.mp4",
   },
   {
-    name: "Leva",
-    description: "Developer GUI controls, tree-shaken in production",
-    tier: "domain",
-    color: "#9b59b6",
+    slug: "life-3d",
+    title: "Life 3D",
+    poster: "/experiments/announcing-v2/previews/life-3d.jpg",
+    video: "/experiments/announcing-v2/previews/life-3d.mp4",
+  },
+  {
+    slug: "velocity-responsive-design",
+    title: "Velocity Responsive",
+    poster:
+      "/experiments/announcing-v2/previews/velocity-responsive-design.jpg",
+    video: "/experiments/announcing-v2/previews/velocity-responsive-design.mp4",
+  },
+  {
+    slug: "transit-airport-split-flap-display",
+    title: "Split-Flap Display",
+    poster:
+      "/experiments/announcing-v2/previews/transit-airport-split-flap-display.jpg",
+    video:
+      "/experiments/announcing-v2/previews/transit-airport-split-flap-display.mp4",
+  },
+  {
+    slug: "non-euclidean-hyperbolic-workspace",
+    title: "Hyperbolic Workspace",
+    poster:
+      "/experiments/announcing-v2/previews/non-euclidean-hyperbolic-workspace.jpg",
+    video:
+      "/experiments/announcing-v2/previews/non-euclidean-hyperbolic-workspace.mp4",
+  },
+  {
+    slug: "rabbithole-chat-gallery-explore",
+    title: "Rabbithole Gallery",
+    poster:
+      "/experiments/announcing-v2/previews/rabbithole-chat-gallery-explore.jpg",
+    video:
+      "/experiments/announcing-v2/previews/rabbithole-chat-gallery-explore.mp4",
+  },
+  {
+    slug: "rabbithole-chat-preloader",
+    title: "Rabbithole Preloader",
+    poster: "/experiments/announcing-v2/previews/rabbithole-chat-preloader.jpg",
+    video: "/experiments/announcing-v2/previews/rabbithole-chat-preloader.mp4",
+  },
+  {
+    slug: "bugged-out-game-of-life-shader-experiment",
+    title: "Bugged Out GoL",
+    poster:
+      "/experiments/announcing-v2/previews/bugged-out-game-of-life-shader-experiment.jpg",
+    video:
+      "/experiments/announcing-v2/previews/bugged-out-game-of-life-shader-experiment.mp4",
   },
 ];
 
-export const AI_BRIDGE = {
-  heading: "Debug Introspection",
-  description:
-    "I wanted to make sure it was easy to see what's happening. Add ?debug to the URL on any experiment to expose the serialized scene graphs, performance metrics, and GUI controls.",
-  metrics: [
-    { label: "FPS", value: 60, suffix: "", format: "int" as const },
-    { label: "Heap", value: 12.4, suffix: "MB", format: "float" as const },
-    { label: "CLS", value: 0.001, suffix: "", format: "float" as const },
-    { label: "GSAP Tweens", value: 24, suffix: "", format: "int" as const },
+export const INVERSA_CONTENT = {
+  title: "Location Framework",
+  blocks: [
+    {
+      heading: "Coordinate Mapping",
+      text: "A creative coding laboratory where every experiment pushes the boundary between art and engineering.",
+    },
+    {
+      heading: "Active Locations",
+      text: "Scaffolded by AI agents. Refined by hand. Shipped with intent.",
+    },
+    {
+      heading: "Spatial Center",
+      text: "3D scenes, custom shaders, scroll-driven animation, interactive physics — each one isolated, each one publishable.",
+    },
+    {
+      heading: "Final State",
+      text: "18 experiments. 42+ shaders. 3200+ lines of GLSL. Built from the ground up.",
+    },
   ],
-  sceneGraph: [
-    "Scene",
-    "  ├─ PerspectiveCamera (fov: 75)",
-    "  ├─ AmbientLight (intensity: 0.5)",
-    "  ├─ DirectionalLight (intensity: 1.2)",
-    '  ├─ Mesh "hero-plane"',
-    "  │   ├─ PlaneGeometry (2 × 2)",
-    "  │   └─ ShaderMaterial (custom)",
-    '  ├─ Group "particles"',
-    "  │   └─ InstancedMesh (count: 1000)",
-    '  └─ Mesh "floor"',
-    "      ├─ PlaneGeometry (10 × 10)",
-    "      └─ MeshStandardMaterial",
+  markers: [
+    { label: "AI Scaffolding", color: "#dc5935" },
+    { label: "Human Refinement", color: "#d3ef76" },
   ],
+  outroText: "The system has reached its final spatial state.",
 };
 
-export interface ProfileCard {
-  description: string;
-  icon: string;
-  name: string;
-  profile: string;
-}
-
-export const PROFILES: ProfileCard[] = [
-  {
-    name: "3D Scene",
-    profile: "r3f-scene",
-    icon: "◆",
+export const JESKOJETS_CONTENT = {
+  headerLeft: {
+    title: "V2 is\nlive",
     description:
-      "Interactive 3D environments with lights, models, and controls",
+      "A creative coding laboratory rebuilt from the ground up. AI agents as creative partners, every experiment isolated and publishable.",
   },
-  {
-    name: "Shader Art",
-    profile: "r3f-shader",
-    icon: "◈",
-    description: "Fullscreen GLSL shaders with noise, SDF, and color palettes",
+  headerRight: {
+    label: "razisyed.cv",
+    title: "Explore\nthe lab",
   },
-  {
-    name: "Scrollytelling",
-    profile: "scrollytelling",
-    icon: "▼",
-    description: "Scroll-driven narratives with pinned sections and scrub",
-  },
-  {
-    name: "Interaction",
-    profile: "interaction",
-    icon: "◉",
-    description: "Drag, spring physics, gestures, and tactile feedback",
-  },
-  {
-    name: "Web Audio",
-    profile: "web-audio",
-    icon: "♫",
-    description: "Audio-reactive visuals and sound synthesis experiments",
-  },
-  {
-    name: "DOM Effect",
-    profile: "dom-effect",
-    icon: "✦",
-    description: "CSS-powered VFX, shimmer, magnetic elements, and morphs",
-  },
-  {
-    name: "Blank",
-    profile: "blank",
-    icon: "□",
-    description: "Clean slate — bring your own stack and constraints",
-  },
-];
-
-export const PUBLISHING = {
-  heading: "Automated Publishing",
-  description:
-    "Because I like documenting this stuff, every experiment ships with automated MDX generation, dynamic OG images, and RSS feed integration to make sharing easy.",
-  pipeline: [
-    { label: "Experiment", icon: "⚡" },
-    { label: "MDX Article", icon: "📝" },
-    { label: "OG Image", icon: "🖼" },
-    { label: "RSS Feed", icon: "📡" },
-    { label: "Registry", icon: "📦" },
-  ],
+  copy: "What unfolds here is not a portfolio, but a practice. A sustained commitment where code becomes craft, constraints become catalysts, and each experiment teaches something the last one couldn't.",
+  outroText: "End of view.",
 };
 
-export const CLOSING = {
-  heading: "Explore the Lab",
-  cta: "Enter the Lab",
-  ctaHref: "/",
+export const PRELOADER_CONTENT = {
+  logo: "V2 Lab",
+  navLinks: ["Experiments", "Shaders", "Process", "Info"],
+  header: "Experiments",
+  footerItems: ["Creative Coding", "AI-Native", "V2"],
+  heroImage: "/experiments/announcing-v2/death.jpg",
 };
+
+export const FIDDLE_CONTENT = {
+  navLeft: "AI as Creative Partner",
+  navRight: "razisyed.cv/v2",
+  footerLeft: "Experiment Lab",
+  footerRight: "Built with AI Agents",
+  heroImage: "/experiments/announcing-v2/fiddle-img.jpg",
+};
+
+export const GRID_SYMBOLS = ["O", "X", "*", ">", "$", "W"];

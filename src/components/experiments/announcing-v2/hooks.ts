@@ -1,45 +1,36 @@
-"use client";
-
 import { useEffect, useState } from "react";
-import type { ExperimentMetrics } from "@/components/dev/ExperimentDevMetrics";
-
-const METRICS_POLL_MS = 500;
 
 export function usePrefersReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () => {
-      setPrefersReducedMotion(mediaQuery.matches);
-    };
-
-    updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updatePreference);
-    };
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
   }, []);
 
-  return prefersReducedMotion;
+  return reduced;
 }
 
-export function useExperimentMetrics() {
-  const [metrics, setMetrics] = useState<ExperimentMetrics | null>(null);
+export function useDeviceCapabilities() {
+  const [caps, setCaps] = useState({
+    isMobile: false,
+    isReducedMotion: false,
+    supportsWebGL2: true,
+  });
 
   useEffect(() => {
-    const updateMetrics = () => {
-      setMetrics(window.__experimentMetrics ?? null);
-    };
-
-    updateMetrics();
-
-    const intervalId = window.setInterval(updateMetrics, METRICS_POLL_MS);
-    return () => {
-      window.clearInterval(intervalId);
-    };
+    setCaps({
+      isMobile:
+        window.matchMedia("(pointer: coarse)").matches ||
+        navigator.maxTouchPoints > 0,
+      isReducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)")
+        .matches,
+      supportsWebGL2: !!document.createElement("canvas").getContext("webgl2"),
+    });
   }, []);
 
-  return metrics;
+  return caps;
 }

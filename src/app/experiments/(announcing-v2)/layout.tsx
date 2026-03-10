@@ -19,14 +19,14 @@ export const metadata = {
     title: experiment.title,
     description: experiment.description,
     url: `https://www.razisyed.cv/experiments/${experiment.slug}`,
-    images: [experiment.poster || experiment.image],
+    images: [experiment.poster],
     videos: experiment.video ? [experiment.video] : [],
   },
   twitter: {
     card: "summary_large_image" as const,
     title: experiment.title,
     description: experiment.description,
-    images: [experiment.poster || experiment.image],
+    images: [experiment.poster],
   },
   alternates: {
     canonical: `https://www.razisyed.cv/experiments/${experiment.slug}`,
@@ -36,9 +36,26 @@ export const metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body className={cn(activeFont.variable, "bg-[#0a0a0c]")}>
-        <style>{`body { view-transition-name: experiment-page-announcing-v2; }`}</style>
+    <html className="dark" lang="en">
+      <head>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+          crossOrigin=""
+          href="https://fonts.gstatic.com"
+          rel="preconnect"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body
+        className={cn(
+          activeFont.variable,
+          "bg-[#0a0a0a] text-white antialiased"
+        )}
+        style={{ overflow: "auto", overscrollBehavior: "none" }}
+      >
         <DevToolsInjector />
         <UmamiScript />
         <ExperimentJsonLd

@@ -1,19 +1,23 @@
-import tunnelRat from "tunnel-rat";
 import { create } from "zustand";
 
-interface AnnouncingStore {
-  mouse: { x: number; y: number };
+interface AnnouncingV2State {
+  activeExperimentSlug: string | null;
+  activeSection: string;
+  mousePosition: { x: number; y: number };
   scrollProgress: number;
-  setMouse: (x: number, y: number) => void;
+  setActiveExperiment: (slug: string | null) => void;
+  setActiveSection: (section: string) => void;
+  setMousePosition: (x: number, y: number) => void;
   setScrollProgress: (progress: number) => void;
 }
 
-export const useAnnouncingStore = create<AnnouncingStore>((set) => ({
+export const useAnnouncingStore = create<AnnouncingV2State>((set) => ({
   scrollProgress: 0,
-  mouse: { x: 0, y: 0 },
+  activeSection: "hero",
+  activeExperimentSlug: null,
+  mousePosition: { x: 0, y: 0 },
   setScrollProgress: (progress) => set({ scrollProgress: progress }),
-  setMouse: (x, y) => set({ mouse: { x, y } }),
+  setActiveSection: (section) => set({ activeSection: section }),
+  setActiveExperiment: (slug) => set({ activeExperimentSlug: slug }),
+  setMousePosition: (x, y) => set({ mousePosition: { x, y } }),
 }));
-
-// Create the global tunnel instance used to pass 3D scene elements from DOM React trees into the persistent GlobalCanvas
-export const tunnel = tunnelRat();
