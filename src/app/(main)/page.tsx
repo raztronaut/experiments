@@ -54,7 +54,10 @@ function ExperimentsSkeleton() {
       </div>
       <div className="space-y-3">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={`skel-${i.toString()}`} className="h-16 animate-pulse rounded-lg bg-muted/10" />
+          <div
+            className="h-16 animate-pulse rounded-lg bg-muted/10"
+            key={`skel-${i.toString()}`}
+          />
         ))}
       </div>
     </div>
