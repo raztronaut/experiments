@@ -181,7 +181,13 @@ export function R3FSceneInspector() {
           `${stats.materials.size} materials, ${Math.round(stats.triangles)} triangles`
       );
 
-      console.log(lines.join("\n"));
+      const sceneText = lines.join("\n");
+      console.warn(sceneText);
+
+      if (window.__experimentMetrics) {
+        window.__experimentMetrics.scene = sceneText;
+        window.__experimentMetrics.timestamp = Date.now();
+      }
     }
 
     inspect();

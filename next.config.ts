@@ -20,12 +20,16 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       "lucide-react",
       "motion",
+      "leva",
+      "three",
+      "@react-three/fiber",
       "@react-three/drei",
       "@codesandbox/sandpack-react",
     ],
   },
   images: {
     qualities: [70, 75],
+    formats: ["image/avif", "image/webp"],
   },
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
@@ -44,6 +48,16 @@ const nextConfig: NextConfig = {
         headers: securityHeaders,
       },
       {
+        source:
+          "/experiments/:path*.:ext(mp4|webm|png|jpg|jpeg|webp|gif|avif|glb|gltf|hdr)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
         source: "/experiments/:path*",
         headers: [
           { key: "Access-Control-Allow-Origin", value: "*" },
@@ -58,12 +72,10 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
-      // Proxy Umami analytics to bypass ad blockers
       {
         source: "/u/:path*",
         destination: "https://cloud.umami.is/:path*",
       },
-      // Simplified registry URLs: /r/slug -> /registry/slug.json
       {
         source: "/r/:slug",
         destination: "/registry/:slug.json",

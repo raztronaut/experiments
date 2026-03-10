@@ -270,6 +270,11 @@ async function generateRegistry() {
         // Ignore missing metadata
       }
 
+      if (metadata.status === "wip") {
+        console.log(`Skipping wip experiment: ${experimentName}`);
+        continue;
+      }
+
       // 2. Find the root component for this experiment in src/components/experiments/[name]
       const componentDir = path.join(COMPONENTS_DIR, experimentName);
       const componentFiles = await getAllComponentFiles(componentDir);

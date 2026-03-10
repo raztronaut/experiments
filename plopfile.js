@@ -56,10 +56,29 @@ module.exports = (plop) => {
         ],
         default: "blank",
       },
+      {
+        type: "confirm",
+        name: "includeToolkit",
+        message: "Include toolkit wiring? (Lenis + Tempus + GSAP unified RAF)",
+        default: (answers) =>
+          ["scrollytelling", "r3f-scene", "r3f-shader"].includes(
+            answers.profile
+          ),
+        when: (answers) => answers.profile !== "blank",
+      },
+      {
+        type: "confirm",
+        name: "includeLeva",
+        message: "Include leva debug GUI?",
+        default: false,
+        when: (answers) => answers.profile !== "blank",
+      },
     ],
     actions(answers) {
       const profileDir = `plop-templates/experiment/profiles/${answers.profile}`;
       answers.createdDate = new Date().toISOString();
+      answers.includeToolkit = answers.includeToolkit ?? false;
+      answers.includeLeva = answers.includeLeva ?? false;
 
       const actions = [
         {

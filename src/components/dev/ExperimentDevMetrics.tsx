@@ -10,14 +10,75 @@ interface PerformanceMemory {
   usedJSHeapSize: number;
 }
 
+declare global {
+  interface Window {
+    __experimentMetrics?: ExperimentMetrics;
+  }
+}
+
+export interface ExperimentMetrics {
+  cls: number;
+  fps: number;
+  fpsMin: number;
+  gsapTweens: number | null;
+  heap: string;
+  r3f?: {
+    calls: number;
+    triangles: number;
+    geometries: number;
+    textures: number;
+  };
+  scene?: string;
+  timestamp: number;
+}
+
 function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
 }
 
+function getGsapTweenCount(): number | null {
+  try {
+    const gsap = (window as unknown as Record<string, unknown>).gsap as
+      | {
+          globalTimeline?: {
+            getChildren: (
+              a: boolean,
+              b: boolean,
+              c: boolean
+            ) => { isActive: () => boolean }[];
+          };
+        }
+      | undefined;
+    if (!gsap?.globalTimeline) {
+      return null;
+    }
+    return gsap.globalTimeline
+      .getChildren(true, true, false)
+      .filter((t) => t.isActive()).length;
+  } catch {
+    return null;
+  }
+}
+
+function updateGlobalMetrics(partial: Partial<ExperimentMetrics>) {
+  window.__experimentMetrics = {
+    ...(window.__experimentMetrics ?? {
+      timestamp: 0,
+      fps: 0,
+      fpsMin: 0,
+      heap: "n/a",
+      cls: 0,
+      gsapTweens: null,
+    }),
+    ...partial,
+    timestamp: Date.now(),
+  };
+}
+
 /**
- * Logs FPS, JS heap, and CLS to the console every 2 seconds.
- * Designed for AI agents to read from the dev server terminal.
- * Include in experiment layouts in dev mode only.
+ * Logs FPS, JS heap, CLS, and GSAP tween count every 2 seconds.
+ * Writes to both console (warn level for MCP visibility) and
+ * window.__experimentMetrics for programmatic querying by AI agents.
  */
 export function ExperimentDevMetrics() {
   const frameTimesRef = useRef<number[]>([]);
@@ -26,13 +87,16 @@ export function ExperimentDevMetrics() {
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
-    // CLS observer
     let clsObserver: PerformanceObserver | undefined;
     try {
       clsObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (!(entry as any).hadRecentInput) {
-            clsRef.current += (entry as any).value ?? 0;
+          const shift = entry as PerformanceEntry & {
+            hadRecentInput?: boolean;
+            value?: number;
+          };
+          if (!shift.hadRecentInput) {
+            clsRef.current += shift.value ?? 0;
           }
         }
       });
@@ -57,15 +121,19 @@ export function ExperimentDevMetrics() {
           const fps = Math.round((1000 / avgFrameTime) * 10) / 10;
           const fpsMin = Math.round((1000 / maxFrameTime) * 10) / 10;
 
-          const mem = (performance as any).memory as
-            | PerformanceMemory
-            | undefined;
+          const mem = (performance as unknown as { memory?: PerformanceMemory })
+            .memory;
           const heap = mem ? formatBytes(mem.usedJSHeapSize) : "n/a";
           const cls = Math.round(clsRef.current * 1000) / 1000;
 
-          console.log(
-            `[DevMetrics] fps=${fps} fps_min=${fpsMin} heap=${heap} cls=${cls}`
+          const tweens = getGsapTweenCount();
+          const gsapStr = tweens !== null ? ` gsap_tweens=${tweens}` : "";
+
+          console.warn(
+            `[DevMetrics] fps=${fps} fps_min=${fpsMin} heap=${heap} cls=${cls}${gsapStr}`
           );
+
+          updateGlobalMetrics({ fps, fpsMin, heap, cls, gsapTweens: tweens });
         }
 
         frameTimesRef.current = [];

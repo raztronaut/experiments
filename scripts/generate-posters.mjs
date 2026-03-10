@@ -23,6 +23,11 @@ async function generatePosters() {
       }
 
       const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+
+      if (config.status === "wip") {
+        continue;
+      }
+
       const slug = config.slug;
 
       if (config.video) {

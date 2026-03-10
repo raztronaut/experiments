@@ -12,6 +12,7 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "new:experiment": "plop experiment",
+    "new:experiment:auto": "node scripts/create-experiment.mjs",
     "new:article": "plop article",
     "delete:experiment": "node scripts/delete-experiment.mjs",
     "delete:article": "node scripts/delete-article.mjs",
@@ -20,7 +21,8 @@
     "capture": "node scripts/capture.mjs",
     "validate:experiments": "node scripts/validate-experiments.mjs",
     "optimize:videos": "node scripts/optimize-videos.mjs",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "postinstall": "node scripts/patch-r3f-perf.mjs"
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.20.0",
@@ -94,6 +96,7 @@
     "playwright": "^1.57.0",
     "plop": "^4.0.4",
     "postcss": "^8.5.8",
+    "r3f-perf": "^7.2.3",
     "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5",

@@ -3,8 +3,16 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ReactLenis } from "lenis/react";
-import { useRef } from "react";
+{{#if includeToolkit}}
+import { createUnifiedScroll } from "@/lib/toolkit/scroll";
+import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
+{{else}}
+import Lenis from "lenis";
+{{/if}}
+{{#if includeLeva}}
+import { useDevControls } from "@/hooks/useDevControls";
+{{/if}}
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +24,32 @@ const sections = [
 
 export default function {{pascalCase name}}() {
   const containerRef = useRef<HTMLDivElement>(null);
+{{#if includeToolkit}}
+  const scrollRef = useRef<UnifiedScrollHandle | null>(null);
+
+  useEffect(() => {
+    scrollRef.current = createUnifiedScroll();
+    return () => scrollRef.current?.destroy();
+  }, []);
+{{else}}
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({ autoRaf: false });
+    lenisRef.current = lenis;
+    lenis.on("scroll", ScrollTrigger.update);
+    const tickerCallback = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
+    return () => {
+      gsap.ticker.remove(tickerCallback);
+      lenis.destroy();
+    };
+  }, []);
+{{/if}}
+{{#if includeLeva}}
+  const { scrub } = useDevControls("Scroll", { scrub: { value: 1, min: 0, max: 3, step: 0.1 } });
+{{/if}}
 
   useGSAP(() => {
     if (!containerRef.current) return;
@@ -36,7 +70,11 @@ export default function {{pascalCase name}}() {
             trigger: panel,
             start: "top 80%",
             end: "top 20%",
+{{#if includeLeva}}
+            scrub: scrub,
+{{else}}
             scrub: 1,
+{{/if}}
           },
         }
       );
@@ -49,24 +87,45 @@ export default function {{pascalCase name}}() {
       pin: true,
       pinSpacing: true,
     });
+{{#if includeLeva}}
+  }, { scope: containerRef, dependencies: [scrub] });
+{{else}}
   }, { scope: containerRef });
+{{/if}}
 
+{{#if includeToolkit}}
   return (
-    <ReactLenis root options=\{{ autoRaf: true }}>
-      <div ref={containerRef}>
-        {sections.map((section, i) => (
-          <section
-            key={i}
-            className="panel flex min-h-screen items-center justify-center"
-            style=\{{ backgroundColor: section.bg, color: section.color }}
-          >
-            <div className="panel-content px-8 text-center">
-              <h2 className="mb-4 font-bold text-5xl md:text-7xl">{section.title}</h2>
-              <p className="text-xl opacity-70 md:text-2xl">{section.subtitle}</p>
-            </div>
-          </section>
-        ))}
-      </div>
-    </ReactLenis>
+    <div ref={containerRef}>
+      {sections.map((section, i) => (
+        <section
+          key={i}
+          className="panel flex min-h-screen items-center justify-center"
+          style=\{{ backgroundColor: section.bg, color: section.color }}
+        >
+          <div className="panel-content px-8 text-center opacity-0">
+            <h2 className="mb-4 font-bold text-5xl md:text-7xl">{section.title}</h2>
+            <p className="text-xl opacity-70 md:text-2xl">{section.subtitle}</p>
+          </div>
+        </section>
+      ))}
+    </div>
   );
+{{else}}
+  return (
+    <div ref={containerRef}>
+      {sections.map((section, i) => (
+        <section
+          key={i}
+          className="panel flex min-h-screen items-center justify-center"
+          style=\{{ backgroundColor: section.bg, color: section.color }}
+        >
+          <div className="panel-content px-8 text-center opacity-0">
+            <h2 className="mb-4 font-bold text-5xl md:text-7xl">{section.title}</h2>
+            <p className="text-xl opacity-70 md:text-2xl">{section.subtitle}</p>
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+{{/if}}
 }

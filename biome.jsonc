@@ -57,7 +57,7 @@
         "noDangerouslySetInnerHtml": "off"
       },
       "correctness": {
-        "useExhaustiveDependencies": "off",
+        "useExhaustiveDependencies": "warn",
         "noUndeclaredVariables": "off",
         "noUnusedFunctionParameters": "off",
         "useImageSize": "off",

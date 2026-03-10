@@ -1,8 +1,10 @@
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { DevToolsInjector } from "@/components/dev/DevToolsInjector";
+import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { activeFont } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";
 
 const content = (experiment as Record<string, unknown>).content as
@@ -35,7 +37,8 @@ export const metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body style=\{{ viewTransitionName: "experiment-page-{{dashCase name}}" }}>
+      <body className={cn(activeFont.variable)}>
+        <style>{\`body { view-transition-name: experiment-page-{{dashCase name}}; }\`}</style>
         <DevToolsInjector />
         <UmamiScript />
         <ExperimentJsonLd

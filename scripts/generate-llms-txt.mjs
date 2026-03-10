@@ -34,6 +34,11 @@ function loadExperiments() {
     }
 
     const data = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
+
+    if (data.status === "wip") {
+      continue;
+    }
+
     const hasArticle = fs.existsSync(
       path.join(EXPERIMENTS_DIR, routeGroup, slug, "article", "content.mdx")
     );

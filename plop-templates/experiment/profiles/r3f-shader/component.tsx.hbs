@@ -1,6 +1,15 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+{{#if includeToolkit}}
+import { ExperimentCanvas } from "@/lib/toolkit/r3f";
+{{else}}
+import { Canvas } from "@react-three/fiber";
+{{/if}}
+import { useFrame, useThree } from "@react-three/fiber";
+import { R3FDevToolsInjector } from "@/components/dev/R3FDevToolsInjector";
+{{#if includeLeva}}
+import { useDevControls } from "@/hooks/useDevControls";
+{{/if}}
 import { useMemo, useRef } from "react";
 import { ShaderMaterial } from "three";
 
@@ -28,6 +37,9 @@ const fragmentShader = /* glsl */ `
 function ShaderQuad() {
   const materialRef = useRef<ShaderMaterial>(null);
   const { viewport } = useThree();
+{{#if includeLeva}}
+  const { timeScale } = useDevControls("Shader", { timeScale: { value: 1, min: 0, max: 5, step: 0.1 } });
+{{/if}}
 
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
@@ -36,7 +48,11 @@ function ShaderQuad() {
 
   useFrame((state) => {
     if (materialRef.current) {
+{{#if includeLeva}}
+      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime * timeScale;
+{{else}}
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+{{/if}}
     }
   });
 
@@ -55,11 +71,22 @@ function ShaderQuad() {
 
 export default function {{pascalCase name}}() {
   return (
+{{#if includeToolkit}}
+    <ExperimentCanvas
+      camera=\{{ position: [0, 0, 1], fov: 75 }}
+    >
+{{else}}
     <Canvas
       camera=\{{ position: [0, 0, 1], fov: 75 }}
       dpr={[1, 2]}
     >
+{{/if}}
+      <R3FDevToolsInjector />
       <ShaderQuad />
+{{#if includeToolkit}}
+    </ExperimentCanvas>
+{{else}}
     </Canvas>
+{{/if}}
   );
 }
