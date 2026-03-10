@@ -71,8 +71,10 @@
     "tailwind-merge": "^3.4.0",
     "tempus": "^1.0.0-dev.17",
     "three": "^0.182.0",
+    "tunnel-rat": "^0.1.2",
     "use-scramble": "^2.2.15",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.5",

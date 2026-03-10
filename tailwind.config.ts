@@ -63,9 +63,14 @@ const config: Config = {
           "0%": { opacity: "1" },
           "100%": { opacity: "0" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "static-noise": "static-noise-fade 0.8s ease-in-out forwards",
+        marquee: "marquee 30s linear infinite",
       },
       fontFamily: {
         canvas: [
