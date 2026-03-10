@@ -206,7 +206,7 @@ New skills to create:
 - `**r3f-core.md`** -- Canvas config (responsive DPR, Suspense, loader), `useFrame` with delta, disposal patterns, instancing with `<Instances>`, Drei essentials (Environment, OrbitControls, useProgress), performance budgets
 - `**shader-authoring.md`** -- ShaderMaterial setup, typed uniform object pattern, common GLSL utilities (noise, SDF, easing, color), fullscreen quad pattern, debugging approach
 - `**motion-react.md`** -- Motion v12+ API, layout animations, `AnimatePresence`, spring physics, `useScroll`/`useTransform`, gesture integration, `motion.div` variants, `prefers-reduced-motion`
-- `**visual-qa.md**` -- How AI agents validate visual output: screenshot capture workflow, console metrics reading, R3F scene inspection, multi-frame animation validation, expected vs. actual description pattern
+- `**visual-qa.md`** -- How AI agents validate visual output: screenshot capture workflow, console metrics reading, R3F scene inspection, multi-frame animation validation, expected vs. actual description pattern
 - `**tempus-raf.md**` -- Tempus singleton, `Tempus.add()` with priority, `useTempus` hook, integration wiring (Lenis + GSAP + Three.js unified under Tempus), FPS targeting, idle callbacks
 
 ### Workflows Update
