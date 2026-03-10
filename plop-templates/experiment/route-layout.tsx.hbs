@@ -7,6 +7,17 @@ import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";
 
+// FONTS: This layout has its own <html>/<body> and does NOT inherit fonts from
+// the main app layout. Only `activeFont` (the app default) is applied below.
+// To use additional or custom fonts:
+//   1. Import them here:  import { replica, spaceGrotesk } from "@/lib/fonts";
+//      or load a local font: import localFont from "next/font/local";
+//   2. Add their CSS variable classes to <body>:
+//      className={cn(activeFont.variable, replica.variable, "font-replica")}
+//   3. Use the variable in Tailwind via theme.extend.fontFamily or inline CSS.
+// For experiment-specific fonts, place .woff2 files in public/experiments/{{dashCase name}}/
+// and load via next/font/local with a relative src path.
+
 const content = (experiment as Record<string, unknown>).content as
   | Record<string, boolean>
   | undefined;
@@ -35,6 +46,8 @@ export const metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  // Add "dark" to <html> className for dark-mode experiments, or other
+  // class-based theming. Custom bg colors go on <body>.
   return (
     <html lang="en">
       <body className={cn(activeFont.variable)}>

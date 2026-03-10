@@ -53,6 +53,8 @@ module.exports = (plop) => {
             name: "DOM Effect (CSS/shader effects on DOM)",
             value: "dom-effect",
           },
+          // Mixed experiments (scroll + 3D + interaction): use scrollytelling
+          // as base, then manually compose. See .agent/profiles/mixed.md.
         ],
         default: "blank",
       },

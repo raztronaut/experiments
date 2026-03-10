@@ -8,6 +8,7 @@ import { createUnifiedScroll } from "@/lib/toolkit/scroll";
 import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
 {{else}}
 import Lenis from "lenis";
+import Tempus from "tempus";
 {{/if}}
 {{#if includeLeva}}
 import { useDevControls } from "@/hooks/useDevControls";
@@ -29,6 +30,7 @@ export default function {{pascalCase name}}() {
 
   useEffect(() => {
     scrollRef.current = createUnifiedScroll();
+    ScrollTrigger.refresh();
     return () => scrollRef.current?.destroy();
   }, []);
 {{else}}
@@ -38,11 +40,18 @@ export default function {{pascalCase name}}() {
     const lenis = new Lenis({ autoRaf: false });
     lenisRef.current = lenis;
     lenis.on("scroll", ScrollTrigger.update);
-    const tickerCallback = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tickerCallback);
+
+    const lenisDispose = Tempus.add((time: number) => lenis.raf(time), { priority: -1 });
+    gsap.ticker.remove(gsap.updateRoot);
+    const gsapDispose = Tempus.add((time: number) => gsap.updateRoot(time / 1000), { priority: 0 });
     gsap.ticker.lagSmoothing(0);
+
+    ScrollTrigger.refresh();
+
     return () => {
-      gsap.ticker.remove(tickerCallback);
+      lenisDispose();
+      gsapDispose();
+      gsap.ticker.add(gsap.updateRoot);
       lenis.destroy();
     };
   }, []);

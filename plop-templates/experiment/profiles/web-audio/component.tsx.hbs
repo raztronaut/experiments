@@ -1,8 +1,11 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+{{#if includeLeva}}
+import { useDevControls } from "@/hooks/useDevControls";
+{{/if}}
 
-function playTone(ctx: AudioContext, frequency: number) {
+function playTone(ctx: AudioContext, frequency: number, volume: number) {
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
@@ -10,7 +13,7 @@ function playTone(ctx: AudioContext, frequency: number) {
   osc.frequency.setValueAtTime(frequency, ctx.currentTime);
 
   gain.gain.setValueAtTime(0, ctx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.02);
+  gain.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.02);
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
 
   osc.connect(gain);
@@ -33,15 +36,28 @@ const notes = [
 export default function {{pascalCase name}}() {
   const ctxRef = useRef<AudioContext | null>(null);
   const [activeNote, setActiveNote] = useState<string | null>(null);
+{{#if includeLeva}}
+  const { volume } = useDevControls("Audio", {
+    volume: { value: 0.3, min: 0, max: 1, step: 0.05 },
+  });
+{{/if}}
 
   const play = useCallback((label: string, freq: number) => {
     if (!ctxRef.current) {
       ctxRef.current = new AudioContext();
     }
-    playTone(ctxRef.current, freq);
+{{#if includeLeva}}
+    playTone(ctxRef.current, freq, volume);
+{{else}}
+    playTone(ctxRef.current, freq, 0.3);
+{{/if}}
     setActiveNote(label);
     setTimeout(() => setActiveNote(null), 200);
+{{#if includeLeva}}
+  }, [volume]);
+{{else}}
   }, []);
+{{/if}}
 
   return (
     <div className="flex flex-col items-center gap-8">

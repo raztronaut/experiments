@@ -64,6 +64,8 @@ function ShaderQuad() {
         ref={materialRef}
         uniforms={uniforms}
         vertexShader={vertexShader}
+        depthWrite={false}
+        depthTest={false}
       />
     </mesh>
   );
@@ -74,6 +76,7 @@ export default function {{pascalCase name}}() {
 {{#if includeToolkit}}
     <ExperimentCanvas
       camera=\{{ position: [0, 0, 1], fov: 75 }}
+      tempus
     >
 {{else}}
     <Canvas
