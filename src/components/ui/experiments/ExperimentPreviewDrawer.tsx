@@ -138,9 +138,9 @@ export function ExperimentPreviewDrawer({
           </div>
         </DrawerHeader>
 
-        {/* Iframe Preview */}
+        {/* Iframe Preview — unmount when closed to release GPU/WebGL resources */}
         <div className="h-full p-4">
-          {experiment && (
+          {experiment && isOpen && (
             <iframe
               className="h-full w-full rounded-lg border bg-background"
               src={experiment.href}
