@@ -121,23 +121,26 @@ Use sparingly -- can break third-party libraries that depend on raw rAF behavior
 
 ## R3F Binding
 
-Set `frameloop="never"` on the Canvas and drive rendering from Tempus at priority 1 (after scroll and animations):
+Set `frameloop="never"` on the Canvas and drive rendering from Tempus at priority 1 (after scroll and animations). **You must use R3F's `advance()` -- not `gl.render(scene, camera)`.** Calling `gl.render()` directly only invokes Three.js's renderer and **skips all `useFrame` callbacks**. `advance()` runs the full R3F frame lifecycle: clock update, useFrame subscribers (in priority order), then render.
 
 ```tsx
-import { Canvas, useThree } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber'
 import Tempus from 'tempus'
 import { useEffect } from 'react'
 
 function TempusFrameDriver() {
-  const { gl, scene, camera, invalidate } = useThree()
+  const advance = useThree((s) => s.advance)
 
   useEffect(() => {
-    const dispose = Tempus.add((_time, deltaTime) => {
-      const dt = Math.min(deltaTime, 1000 / 15) // clamp to prevent physics explosions
-      gl.render(scene, camera)
-    }, { priority: 1 })
+    const dispose = Tempus.add(
+      (time) => {
+        // Tempus provides ms, R3F expects seconds
+        advance(time / 1000, true)
+      },
+      { priority: 1 }
+    )
     return dispose
-  }, [gl, scene, camera])
+  }, [advance])
 
   return null
 }
@@ -149,13 +152,15 @@ function TempusFrameDriver() {
 </Canvas>
 ```
 
+> **Why not `gl.render(scene, camera)`?** R3F's frame loop has two phases: (1) call all `useFrame` subscribers, (2) render. `gl.render()` only does phase 2. Any component using `useFrame` for animation, state reads, or shader uniform updates will be completely dead. `advance()` does both phases.
+
 With `ExperimentCanvas`, pass the `tempus` prop instead:
 
 ```tsx
 import { ExperimentCanvas } from '@/lib/toolkit/r3f'
 
 <ExperimentCanvas tempus camera={{ position: [0, 0, 5] }}>
-  {/* scene content -- useFrame still works, driven by Tempus */}
+  {/* scene content -- useFrame works, driven by Tempus via advance() */}
 </ExperimentCanvas>
 ```
 

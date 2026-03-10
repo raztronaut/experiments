@@ -214,11 +214,12 @@ Read the relevant doc BEFORE working in that domain:
 | Scroll | `.agents/rules/scroll.md` | Using Lenis, ScrollTrigger, or createUnifiedScroll |
 | Performance | `.agents/rules/performance.md` | Optimizing render, bundle, or runtime performance |
 | Experiments | `.agents/rules/experiments.md` | Creating or modifying any experiment (always read) |
+| Porting | `.agents/skills/porting-demos/SKILL.md` | Porting external demos, websites, repos, or code snippets into experiments |
 
 **Profile-specific guidance**: read `experiment.json` `"profile"` field, then `.agents/profiles/<profile>.md`
 
 **Skills** (library-specific patterns): `.agents/skills/<name>/SKILL.md`
-- gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa
+- gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa, porting-demos
 
 **Workflows** (step-by-step procedures): `.agents/workflows/<name>.md`
 - new-experiment, develop-experiment, publish-experiment, add-experiment-component, add-experiment-assets, cleanup-experiment, visual-qa

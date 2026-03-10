@@ -558,10 +558,50 @@ function Dashboard() {
 
 Each `<View>` gets its own scene graph, camera, and events while sharing a single WebGL context.
 
+## External Frame Loop (`frameloop="never"`)
+
+When driving R3F from an external source (Tempus, GSAP ticker, custom RAF), set `frameloop="never"` on Canvas and call `advance()` to drive the frame loop. **Never call `gl.render(scene, camera)` directly** -- it only invokes Three.js's renderer and skips all `useFrame` callbacks.
+
+```tsx
+import { useThree } from '@react-three/fiber'
+
+function ExternalFrameDriver() {
+  const advance = useThree((s) => s.advance)
+
+  useEffect(() => {
+    // Your external RAF source calls advance() each frame
+    const dispose = externalRAF.add((time) => {
+      advance(time / 1000, true) // seconds, flush global effects
+    })
+    return dispose
+  }, [advance])
+
+  return null
+}
+```
+
+`advance()` runs the full R3F frame lifecycle:
+1. Updates the clock (`elapsedTime`, `delta`)
+2. Calls all `useFrame` subscribers in priority order
+3. Renders the scene (unless a subscriber with positive priority takes over)
+
+`advance()` is available from:
+- The store: `useThree((s) => s.advance)` (scoped to one Canvas)
+- Global export: `import { advance } from '@react-three/fiber'` (drives all roots)
+
+**Timestamp convention**: R3F's clock uses seconds. Tempus provides milliseconds, so divide by 1000.
+
+With `ExperimentCanvas`, pass the `tempus` prop to handle all of this automatically:
+```tsx
+<ExperimentCanvas tempus>
+  {/* useFrame works -- driven by Tempus via advance() at priority 1 */}
+</ExperimentCanvas>
+```
+
 ## Common Patterns
 - **Post-processing**: `@react-three/postprocessing` with `<EffectComposer>` (see Post-Processing section above)
 - **Custom materials via `onBeforeCompile`**: Extend built-in materials (MeshBasicMaterial, MeshStandardMaterial) with custom GLSL while preserving lighting, fog, and environment maps. See `.agents/skills/shader-authoring.md` "onBeforeCompile: Material Injection" for the class-based pattern and injection point reference.
 - **Physics**: `@react-three/rapier` for rigid body physics
 - **Debug**: `useDevControls` from `@/hooks/useDevControls` (production-safe leva wrapper)
 - **Events**: R3F mesh events (`onClick`, `onPointerOver`) work like DOM events, with raycasting built in
-- **Frameloop modes**: `"always"` (default), `"demand"` (render only on `invalidate()`), `"never"` (external control, e.g., Tempus)
+- **Frameloop modes**: `"always"` (default), `"demand"` (render only on `invalidate()`), `"never"` (external control via `advance()` -- see section above)

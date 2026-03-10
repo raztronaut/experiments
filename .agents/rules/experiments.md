@@ -5,6 +5,8 @@
 ## Scaffolding
 Always use `npm run new:experiment` to create experiments. Never manually create initial experiment files. The generator handles route groups, layouts, metadata, components, and tests.
 
+When porting external code (Codegrid, Awwwards, CodePen, repos), read `.agents/skills/porting-demos/SKILL.md` before scaffolding.
+
 ## Three-Location Rule
 Experiment code belongs ONLY in:
 1. `src/app/experiments/(experiment-name)/` -- route files, layout, metadata

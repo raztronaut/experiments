@@ -27,6 +27,8 @@ description: Create a new isolated experiment with all required scaffolding
    - CSS/shader effects on DOM → `dom-effect`
    - **Mixed (scroll + 3D + interaction)** → scaffold with `scrollytelling` as base, then manually add Canvas and interaction layers. See `.agents/profiles/mixed.md` for architecture guidance.
 
+   When scaffolding for a port (external demo/website/repo), see `.agents/skills/porting-demos/SKILL.md` Phase 1 for profile selection based on source characteristics.
+
    **For humans** (interactive):
    ```bash
    npm run new:experiment

@@ -14,7 +14,7 @@ description: Work on an existing experiment following isolation rules
    ```
    src/app/experiments/(<experiment-name>)/
    ```
-   If not found, use `/new-experiment` workflow instead.
+   If not found, use `/new-experiment` workflow instead. If this experiment was ported from external source code, follow `.agents/skills/porting-demos/SKILL.md` for transformation patterns and CSS fidelity rules.
 
 2. **Understand the file boundaries** - ONLY modify files in:
 

@@ -47,6 +47,13 @@ useFrame((_, delta) => {
 })
 ```
 
+## External Frame Loop (`frameloop="never"`)
+When using `frameloop="never"` (e.g., with Tempus via `ExperimentCanvas tempus`):
+- Use `advance(timestamp)` to drive the frame loop -- never `gl.render()` directly
+- `gl.render()` bypasses R3F's internal loop -- `useFrame` callbacks will not fire
+- `advance()` is available via `useThree((s) => s.advance)` or as a global R3F export
+- Timestamp must be in **seconds** (R3F clock convention); Tempus provides ms, so divide by 1000
+
 ## Dev Tooling
 `r3f-perf` in dev only: `{process.env.NODE_ENV === 'development' && <Perf position="top-left" />}`
 
