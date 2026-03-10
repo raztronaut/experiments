@@ -5,10 +5,7 @@ import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
-import {
-  getAdjacentArticles,
-  getArticleContent,
-} from "@/lib/articles";
+import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
 import { SITE_URL } from "@/lib/constants";
 import {
   generateArticleJsonLd,
