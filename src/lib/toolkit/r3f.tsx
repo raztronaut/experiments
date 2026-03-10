@@ -48,19 +48,17 @@ class CanvasErrorBoundary extends Component<
 }
 
 function TempusFrameDriver() {
-  const gl = useThree((s) => s.gl);
-  const scene = useThree((s) => s.scene);
-  const camera = useThree((s) => s.camera);
+  const advance = useThree((s) => s.advance);
 
   useEffect(() => {
     const dispose = Tempus.add(
-      () => {
-        gl.render(scene, camera);
+      (time) => {
+        advance(time / 1000, true);
       },
       { priority: 1 }
     );
     return dispose;
-  }, [gl, scene, camera]);
+  }, [advance]);
 
   return null;
 }
