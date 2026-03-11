@@ -25,9 +25,13 @@ export const CONTENT: ContentItem[] = [
   },
   {
     type: "code",
-    filename: "VelocityContext.tsx",
+    filename: "useVelocityEngine.ts",
     language: "typescript",
-    code: `const velocity = manualVelocity ?? scrollV;\nconst normalizedVelocity = Math.min(velocity / 1200, 1);\nconst readingState = velocity > 800 ? "skim" : "detailed";`,
+    code: `const velocity = manualVelocity ?? scrollV;
+const normalizedVelocity = Math.min(velocity / config.normalizationMax, 1);
+
+if (v > config.skimEnter) setReadingState("skim");
+else if (v < config.skimExit) { /* delayed exit via hysteresis */ }`,
   },
   {
     type: "image",
@@ -52,7 +56,16 @@ export const CONTENT: ContentItem[] = [
     type: "code",
     filename: "VelocityText.tsx",
     language: "typescript",
-    code: "<motion.div\n  animate={{\n    opacity: isSkim ? 0.8 : 1,\n    filter: `blur(${isSkim ? v * 3 : 0}px)`,\n  }}\n>\n  {isSkim ? summary : detailed}\n</motion.div>",
+    code: `<AnimatePresence mode="popLayout">
+  <motion.div
+    key={readingState}
+    initial={{ opacity: 0, y: isSkim ? 10 : -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: isSkim ? -10 : 10 }}
+  >
+    {isSkim ? summary : detailed}
+  </motion.div>
+</AnimatePresence>`,
   },
   {
     type: "image",
@@ -86,9 +99,17 @@ export const CONTENT: ContentItem[] = [
   },
   {
     type: "code",
-    filename: "VisualInertia.glsl",
-    language: "glsl",
-    code: "void main() {\n  vec2 uv = gl_FragCoord.xy / u_resolution;\n  float stretch = u_velocity * 0.001;\n  uv.y += sin(uv.x * 10.0) * stretch;\n  gl_FragColor = texture2D(u_texture, uv);\n}",
+    filename: "SpeedLines.tsx",
+    language: "typescript",
+    code: `useTempus(() => {
+  if (v < 0.1) return;
+  for (const p of particles) {
+    const angle = Math.atan2(p.y - centerY, p.x - centerX);
+    ctx.strokeStyle = \`rgba(255,255,255,\${v * 0.5})\`;
+    ctx.moveTo(p.x, p.y);
+    ctx.lineTo(p.x + Math.cos(angle) * p.length * v, ...);
+  }
+}, { priority: 2 });`,
   },
   {
     type: "image",

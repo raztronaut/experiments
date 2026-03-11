@@ -15,21 +15,24 @@ export function FlightControl() {
     reducedMotion,
   } = useVelocityState();
 
+  const isManual = manualVelocity !== null;
   const fillPercent = Math.min(
     (velocity / VELOCITY_THRESHOLDS.NORMALIZATION_MAX) * 100,
     100
   );
 
   return (
-    <div className="fixed bottom-8 left-1/2 z-100 flex w-[calc(100%-2rem)] max-w-[420px] -translate-x-1/2 items-center gap-3 rounded-2xl border border-white/10 bg-zinc-900/60 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:gap-6 sm:p-4">
+    <div
+      aria-label="Flight Control — velocity dashboard"
+      className="fixed bottom-8 left-1/2 z-100 flex w-[calc(100%-2rem)] max-w-[420px] -translate-x-1/2 items-center gap-3 rounded-2xl border border-white/10 bg-zinc-900/60 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:gap-6 sm:p-4"
+      role="toolbar"
+    >
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className="mb-1 flex justify-between font-mono text-[9px] text-zinc-500 uppercase tracking-widest sm:text-[10px]">
           <span className="flex items-center gap-1.5 truncate sm:gap-2">
             <Zap
               className={cn(
-                manualVelocity !== null
-                  ? "animate-pulse text-primary"
-                  : "text-primary/50"
+                isManual ? "animate-pulse text-primary" : "text-primary/50"
               )}
               size={10}
             />
@@ -53,10 +56,11 @@ export function FlightControl() {
             <motion.div
               animate={{
                 width: `${fillPercent}%`,
-                backgroundColor:
-                  manualVelocity !== null ? "#3b82f6" : "#ffffff",
+                backgroundColor: isManual
+                  ? "hsl(var(--primary))"
+                  : "hsl(var(--foreground))",
               }}
-              className="absolute inset-y-0 left-0 bg-primary/80"
+              className="absolute inset-y-0 left-0"
               transition={
                 reducedMotion
                   ? { duration: 0 }
@@ -66,6 +70,8 @@ export function FlightControl() {
           </div>
 
           <input
+            aria-label="Velocity control"
+            aria-valuetext={`${Math.round(velocity)} pixels per second`}
             className="absolute inset-0 z-20 h-full w-full cursor-pointer opacity-0"
             max={VELOCITY_THRESHOLDS.NORMALIZATION_MAX}
             min="0"
@@ -78,8 +84,8 @@ export function FlightControl() {
             animate={{
               left: `${fillPercent}%`,
               x: "-50%",
-              scale: manualVelocity !== null ? 1.2 : 0.8,
-              opacity: manualVelocity !== null ? 1 : 0,
+              scale: isManual ? 1.2 : 0.8,
+              opacity: isManual ? 1 : 0,
             }}
             className="pointer-events-none absolute top-1/2 z-10 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white shadow-[0_0_15px_rgba(255,255,255,0.5)]"
             transition={
@@ -89,7 +95,7 @@ export function FlightControl() {
             }
           />
 
-          {manualVelocity === null ? (
+          {!isManual && (
             <div
               className="pointer-events-none absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white/20 opacity-0 transition-opacity group-hover/slider:opacity-100"
               style={{
@@ -97,7 +103,7 @@ export function FlightControl() {
                 transform: "translate(-50%, -50%)",
               }}
             />
-          ) : null}
+          )}
         </div>
       </div>
 
@@ -105,29 +111,26 @@ export function FlightControl() {
 
       <div className="flex items-center gap-4">
         <button
+          aria-label={
+            isManual
+              ? "Switch to auto-scroll velocity"
+              : "Switch to manual override"
+          }
           className={cn(
-            "rounded-xl p-2.5 transition-all duration-300",
-            manualVelocity !== null
-              ? "bg-primary text-black shadow-[0_0_20px_rgba(59,130,246,0.4)]"
+            "rounded-xl p-3 transition-all duration-300",
+            isManual
+              ? "bg-primary text-black shadow-[0_0_20px_hsl(var(--primary)/0.4)]"
               : "bg-white/5 text-zinc-400 hover:bg-white/10"
           )}
-          onClick={() =>
-            setManualVelocity(manualVelocity === null ? velocity : null)
-          }
-          title={
-            manualVelocity !== null
-              ? "Switch to Auto-Scroll Velocity"
-              : "Switch to Manual Override"
-          }
+          onClick={() => setManualVelocity(isManual ? null : velocity)}
+          type="button"
         >
           <motion.div
             animate={
-              !reducedMotion && manualVelocity !== null
-                ? { rotate: 360 }
-                : { rotate: 0 }
+              !reducedMotion && isManual ? { rotate: 360 } : { rotate: 0 }
             }
             transition={
-              manualVelocity !== null
+              isManual
                 ? {
                     duration: 4,
                     repeat: Number.POSITIVE_INFINITY,

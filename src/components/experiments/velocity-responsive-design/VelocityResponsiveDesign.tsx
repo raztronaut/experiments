@@ -1,7 +1,5 @@
 "use client";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type Lenis from "lenis";
 import { Monitor, Settings, Zap } from "lucide-react";
 import { motion } from "motion/react";
@@ -17,8 +15,6 @@ import { VelocityCodeBlock } from "./VelocityCodeBlock";
 import { VelocityProvider } from "./VelocityContext";
 import { VelocityImage } from "./VelocityImage";
 import { VelocityText } from "./VelocityText";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const StaticBackgroundPattern = () => (
   <div
@@ -40,7 +36,6 @@ export default function VelocityResponsiveDesign() {
     const handle = createUnifiedScroll({ debug: isDebug });
     scrollRef.current = handle;
     setLenis(handle.lenis);
-    ScrollTrigger.refresh();
 
     return () => {
       handle.destroy();

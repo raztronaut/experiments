@@ -6,46 +6,50 @@ The **Relativistic Reader** is an experimental UI paradigm that explores content
 
 VRD categorizes user interaction into two primary kinetic states:
 
-1. **Deep Reading (Slow Scroll):** High-density information, serif typography, detailed code blocks, and static imagery. Optimized for comprehension.
-2. **Skimming (Fast Scroll):** Low-density summaries, bold sans-serif typography, collapsed "file signatures" for code, and expanded hero imagery. Optimized for pattern recognition and visual anchoring.
+1. **Deep Reading (Slow Scroll):** High-density information, serif typography, detailed code blocks. Optimized for comprehension.
+2. **Skimming (Fast Scroll):** Low-density summaries, bold sans-serif typography, collapsed code signatures, and expanded generative visuals. Optimized for pattern recognition and visual anchoring.
 
 ## Core Mechanics
 
-### Motion Persistence and Hysteresis
-To prevent visual "flicker" during rapid speed changes, the system employs **Hysteresis**. State transitions are stabilized by using different thresholds for entering and exiting "Skim Mode," ensuring the UI feels deliberate and physical.
-- **Enter Skim:** 2500 PX/S
+### Hysteresis State Machine
+To prevent visual "flicker" during rapid speed changes, the system employs **hysteresis**. State transitions are stabilized by using different thresholds for entering and exiting "Skim Mode," with a configurable hold delay on exit.
+- **Enter Skim:** 500 PX/S (scaled)
 - **Exit Skim:** 400 PX/S (with 2.5s hold)
 - Thresholds are tunable at runtime via `useDevControls` in `?debug` mode.
 
 ### Lenis-Native Velocity Tracking
-Velocity is read directly from Lenis's native `velocity` property via `useLenis()`. Lenis owns the scroll at Tempus priority -1 through `createUnifiedScroll`, making its velocity the most reliable and frame-synchronized source.
+Velocity is read directly from Lenis's native `velocity` property via the `useVelocityEngine` hook. Lenis owns the scroll at Tempus priority -1 through `createUnifiedScroll`.
 
-### Relativistic Visuals
-Inspired by special relativity, the interface simulates physical effects of high-velocity travel:
-- **Length Contraction:** Text blocks reorganize and scale to accommodate higher travel speeds.
-- **Mass Increase:** Imagery gains visual weight, expanding to fill the viewport as "visual speed bumps."
-- **Warp Depth:** A canvas-based `SpeedLines` component creates a radiating depth effect that intensifies with velocity.
+### Generative Visuals
+Instead of static images, VelocityImage renders CSS-gradient-based generative visuals driven by `normalizedVelocity`. Each visual has a deterministic color palette and responds to scroll speed, serving as "visual speed bumps" during skim mode.
 
 ### Flight Control System
-A manual "Flight Control" dashboard allows developers to bypass physical scrolling and manually slide through velocity vectors to calibrate transitions and visual effects.
+A fixed bottom dashboard allows manual velocity override to calibrate transitions and visual effects.
 
 ### Reduced Motion
-When `prefers-reduced-motion` is active, the experiment locks to "detailed" reading state permanently. SpeedLines canvas is disabled, and all spring transitions use instant durations. The interaction UI remains functional.
+When `prefers-reduced-motion` is active, the experiment locks to "detailed" reading state permanently. SpeedLines canvas is disabled, all spring transitions use instant durations.
 
-## Components
+## Architecture
 
-- **`VelocityProvider`**: React Context tracking scroll velocity via Lenis, with hysteresis state machine, `useDevControls`, and `useReducedMotion`.
-- **`FlightControl`**: Fixed bottom velocity control bar with spring-physics slider and manual override.
-- **`IntelligentScroller`**: Scroll position stabilizer using anchor-based layout shift compensation via `useScrollStabilizer` hook.
-- **`VelocityText`**: Morphs between long-form text and summaries using Motion's `AnimatePresence` with `popLayout`.
-- **`VelocityImage`**: Dynamically scales and adjusts focal depth based on scroll momentum.
-- **`VelocityCodeBlock`**: Collapses source code into a minimal "implementation signature" during high-speed travel.
-- **`SpeedLines`**: Canvas overlay simulating astronomical warp speed (progressive enhancement -- disabled in reduced motion).
+```
+VelocityResponsiveDesign.tsx    Orchestrator: Lenis lifecycle, section composition
+  VelocityContext.tsx            Thin context: devControls, reducedMotion, manual velocity
+    hooks/useVelocityEngine.ts   Core engine: scroll tracking, hysteresis, normalization
+    hooks/useScrollStabilizer.ts Anchor-based layout shift compensation
+  VelocityText.tsx               Morphs between long-form and summaries (AnimatePresence)
+  VelocityImage.tsx              Generative gradient visuals, grid-based collapse
+  VelocityCodeBlock.tsx          Collapses source into implementation signatures
+  SpeedLines.tsx                 Canvas particle system (Tempus priority 2)
+  FlightControl.tsx              Manual velocity dashboard
+  IntelligentScroller.tsx        Scroll-stabilized content container
+  content.ts                     Content data (text, image seeds, code snippets)
+  constants.ts                   Thresholds, timings, spring configs
+```
 
 ## Tech Stack
 
 - **React / Next.js** (App Router)
-- **Lenis** + **Tempus**: Smooth scroll via `createUnifiedScroll` with unified RAF priority chain.
-- **Motion**: Spring-based transitions and layout animations.
-- **Canvas 2D**: SpeedLines particle system.
-- **Leva** (via `useDevControls`): Runtime parameter tuning in `?debug` mode.
+- **Lenis** + **Tempus**: Smooth scroll via `createUnifiedScroll` with unified RAF priority chain
+- **Motion**: Spring-based transitions and layout animations
+- **Canvas 2D**: SpeedLines particle system
+- **Leva** (via `useDevControls`): Runtime parameter tuning in `?debug` mode
