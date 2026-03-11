@@ -3,7 +3,7 @@
   "name": "use-umami",
   "type": "registry:hook",
   "title": "useUmami",
-  "description": "Hook: useUmami",
+  "description": "useUmami hook",
   "category": "hooks",
   "files": [
     {

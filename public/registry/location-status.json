@@ -3,7 +3,7 @@
   "name": "location-status",
   "type": "registry:component",
   "title": "LocationStatus",
-  "description": "Shared UI component: LocationStatus",
+  "description": "LocationStatus component",
   "category": "components",
   "dependencies": [
     "motion",

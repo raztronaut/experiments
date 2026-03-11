@@ -3,7 +3,7 @@
   "name": "card",
   "type": "registry:component",
   "title": "card",
-  "description": "Shared UI component: card",
+  "description": "card component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

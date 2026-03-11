@@ -3,7 +3,7 @@
   "name": "use-media-query",
   "type": "registry:hook",
   "title": "useMediaQuery",
-  "description": "Hook: useMediaQuery",
+  "description": "useMediaQuery hook",
   "category": "hooks",
   "files": [
     {

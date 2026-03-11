@@ -3,7 +3,7 @@
   "name": "experiment-list",
   "type": "registry:component",
   "title": "ExperimentList",
-  "description": "Shared UI component: ExperimentList",
+  "description": "ExperimentList component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

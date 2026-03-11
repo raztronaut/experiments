@@ -3,7 +3,7 @@
   "name": "separator",
   "type": "registry:component",
   "title": "separator",
-  "description": "Shared UI component: separator",
+  "description": "separator component",
   "category": "components",
   "dependencies": [
     "@radix-ui/react-separator"

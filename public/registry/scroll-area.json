@@ -3,7 +3,7 @@
   "name": "scroll-area",
   "type": "registry:component",
   "title": "scroll-area",
-  "description": "Shared UI component: scroll-area",
+  "description": "scroll-area component",
   "category": "components",
   "dependencies": [
     "@radix-ui/react-scroll-area"

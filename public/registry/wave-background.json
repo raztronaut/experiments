@@ -3,7 +3,7 @@
   "name": "wave-background",
   "type": "registry:component",
   "title": "wave-background",
-  "description": "Shared UI component: wave-background",
+  "description": "wave-background component",
   "category": "components",
   "dependencies": [
     "simplex-noise"

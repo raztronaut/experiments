@@ -3,7 +3,7 @@
   "name": "icons",
   "type": "registry:component",
   "title": "icons",
-  "description": "Shared UI component: icons",
+  "description": "icons component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

@@ -3,7 +3,7 @@
   "name": "use-debug",
   "type": "registry:hook",
   "title": "useDebug",
-  "description": "Hook: useDebug",
+  "description": "Returns true when `?debug` is present in the URL.",
   "category": "hooks",
   "files": [
     {

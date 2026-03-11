@@ -3,7 +3,7 @@
   "name": "use-dev-controls",
   "type": "registry:hook",
   "title": "useDevControls",
-  "description": "Hook: useDevControls",
+  "description": "Leva controls wrapper with dead-code elimination in production.",
   "category": "hooks",
   "files": [
     {

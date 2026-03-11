@@ -708,7 +708,7 @@
       "name": "ai-widget",
       "type": "registry:component",
       "title": "AIWidget",
-      "description": "Shared UI component: AIWidget",
+      "description": "AIWidget component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["motion"],
@@ -740,7 +740,7 @@
       "name": "article-layout",
       "type": "registry:component",
       "title": "ArticleLayout",
-      "description": "Shared UI component: ArticleLayout",
+      "description": "ArticleLayout component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["lucide-react"],
@@ -756,7 +756,7 @@
       "name": "console-easter-egg",
       "type": "registry:component",
       "title": "ConsoleEasterEgg",
-      "description": "Shared UI component: ConsoleEasterEgg",
+      "description": "ConsoleEasterEgg component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -824,7 +824,7 @@
       "name": "experiment-error-boundary",
       "type": "registry:component",
       "title": "ExperimentErrorBoundary",
-      "description": "Shared UI component: ExperimentErrorBoundary",
+      "description": "Error boundary for experiment components.",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -840,7 +840,7 @@
       "name": "experiment-list",
       "type": "registry:component",
       "title": "ExperimentList",
-      "description": "Shared UI component: ExperimentList",
+      "description": "ExperimentList component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -856,13 +856,33 @@
       "name": "experiment-nav",
       "type": "registry:component",
       "title": "ExperimentNav",
-      "description": "Shared UI component: ExperimentNav",
+      "description": "ExperimentNav component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["lucide-react"],
       "files": [
         {
           "path": "src/components/ui/ExperimentNav.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "grain-overlay.story",
+      "type": "registry:component",
+      "title": "GrainOverlay.story",
+      "description": "GrainOverlay.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/GrainOverlay.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/GrainOverlay.tsx",
           "type": "registry:component"
         }
       ],
@@ -885,10 +905,30 @@
       "meta": {}
     },
     {
+      "name": "liquid-glass-filter.story",
+      "type": "registry:component",
+      "title": "LiquidGlassFilter.story",
+      "description": "LiquidGlassFilter.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LiquidGlassFilter.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/LiquidGlassFilter.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "liquid-glass-filter",
       "type": "registry:component",
       "title": "LiquidGlassFilter",
-      "description": "Shared UI component: LiquidGlassFilter",
+      "description": "LiquidGlassFilter component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -904,7 +944,7 @@
       "name": "location-status",
       "type": "registry:component",
       "title": "LocationStatus",
-      "description": "Shared UI component: LocationStatus",
+      "description": "LocationStatus component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["motion", "use-scramble"],
@@ -957,10 +997,30 @@
       "meta": {}
     },
     {
+      "name": "lottie-weather-icon.story",
+      "type": "registry:component",
+      "title": "LottieWeatherIcon.story",
+      "description": "LottieWeatherIcon.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LottieWeatherIcon.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/LottieWeatherIcon.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "lottie-weather-icon",
       "type": "registry:component",
       "title": "LottieWeatherIcon",
-      "description": "Shared UI component: LottieWeatherIcon",
+      "description": "LottieWeatherIcon component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -976,13 +1036,33 @@
       "name": "mobile-blocker",
       "type": "registry:component",
       "title": "MobileBlocker",
-      "description": "Shared UI component: MobileBlocker",
+      "description": "Hook to determine if the current device should be blocked (mobile).",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
           "path": "src/components/ui/MobileBlocker.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "scramble-ticker.story",
+      "type": "registry:component",
+      "title": "ScrambleTicker.story",
+      "description": "ScrambleTicker.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "use-scramble"],
+      "files": [
+        {
+          "path": "src/components/ui/ScrambleTicker.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/ScrambleTicker.tsx",
           "type": "registry:component"
         }
       ],
@@ -1008,7 +1088,7 @@
       "name": "site-footer",
       "type": "registry:component",
       "title": "SiteFooter",
-      "description": "Shared UI component: SiteFooter",
+      "description": "SiteFooter component",
       "category": "components",
       "registryDependencies": ["icons", "razi-style"],
       "dependencies": [],
@@ -1032,7 +1112,7 @@
       "name": "theme-aware-waves",
       "type": "registry:component",
       "title": "ThemeAwareWaves",
-      "description": "Shared UI component: ThemeAwareWaves",
+      "description": "ThemeAwareWaves component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["simplex-noise"],
@@ -1052,7 +1132,7 @@
       "name": "theme-provider",
       "type": "registry:component",
       "title": "ThemeProvider",
-      "description": "Shared UI component: ThemeProvider",
+      "description": "ThemeProvider component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -1068,7 +1148,7 @@
       "name": "writing-section",
       "type": "registry:component",
       "title": "WritingSection",
-      "description": "Shared UI component: WritingSection",
+      "description": "WritingSection component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["lucide-react"],
@@ -1092,7 +1172,7 @@
       "name": "ai-icons",
       "type": "registry:component",
       "title": "ai-icons",
-      "description": "Shared UI component: ai-icons",
+      "description": "ai-icons component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -1105,10 +1185,30 @@
       "meta": {}
     },
     {
+      "name": "badge.story",
+      "type": "registry:component",
+      "title": "badge.story",
+      "description": "badge.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/badge.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "badge",
       "type": "registry:component",
       "title": "badge",
-      "description": "Shared UI component: badge",
+      "description": "badge component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["class-variance-authority"],
@@ -1121,10 +1221,30 @@
       "meta": {}
     },
     {
+      "name": "button.story",
+      "type": "registry:component",
+      "title": "button.story",
+      "description": "button.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/button.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "button",
       "type": "registry:component",
       "title": "button",
-      "description": "Shared UI component: button",
+      "description": "button component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
@@ -1137,10 +1257,26 @@
       "meta": {}
     },
     {
+      "name": "card.story",
+      "type": "registry:component",
+      "title": "card.story",
+      "description": "card.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/card.story.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "card",
       "type": "registry:component",
       "title": "card",
-      "description": "Shared UI component: card",
+      "description": "card component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -1156,7 +1292,7 @@
       "name": "drawer",
       "type": "registry:component",
       "title": "drawer",
-      "description": "Shared UI component: drawer",
+      "description": "drawer component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["vaul"],
@@ -1176,7 +1312,7 @@
       "name": "icons",
       "type": "registry:component",
       "title": "icons",
-      "description": "Shared UI component: icons",
+      "description": "icons component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": [],
@@ -1192,7 +1328,7 @@
       "name": "scroll-area",
       "type": "registry:component",
       "title": "scroll-area",
-      "description": "Shared UI component: scroll-area",
+      "description": "scroll-area component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["@radix-ui/react-scroll-area"],
@@ -1205,10 +1341,30 @@
       "meta": {}
     },
     {
+      "name": "separator.story",
+      "type": "registry:component",
+      "title": "separator.story",
+      "description": "separator.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-separator"],
+      "files": [
+        {
+          "path": "src/components/ui/separator.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/separator.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "separator",
       "type": "registry:component",
       "title": "separator",
-      "description": "Shared UI component: separator",
+      "description": "separator component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["@radix-ui/react-separator"],
@@ -1224,7 +1380,7 @@
       "name": "sonner",
       "type": "registry:component",
       "title": "sonner",
-      "description": "Shared UI component: sonner",
+      "description": "sonner component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["sonner"],
@@ -1237,10 +1393,30 @@
       "meta": {}
     },
     {
+      "name": "wave-background.story",
+      "type": "registry:component",
+      "title": "wave-background.story",
+      "description": "wave-background.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["simplex-noise"],
+      "files": [
+        {
+          "path": "src/components/ui/wave-background.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/wave-background.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "wave-background",
       "type": "registry:component",
       "title": "wave-background",
-      "description": "Shared UI component: wave-background",
+      "description": "wave-background component",
       "category": "components",
       "registryDependencies": ["razi-style"],
       "dependencies": ["simplex-noise"],
@@ -1256,7 +1432,7 @@
       "name": "use-debug",
       "type": "registry:hook",
       "title": "useDebug",
-      "description": "Hook: useDebug",
+      "description": "Returns true when `?debug` is present in the URL.",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1272,7 +1448,7 @@
       "name": "use-dev-controls",
       "type": "registry:hook",
       "title": "useDevControls",
-      "description": "Hook: useDevControls",
+      "description": "Leva controls wrapper with dead-code elimination in production.",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1288,7 +1464,7 @@
       "name": "use-element-size",
       "type": "registry:hook",
       "title": "useElementSize",
-      "description": "Hook: useElementSize",
+      "description": "useElementSize hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1304,7 +1480,7 @@
       "name": "use-gsap-debug",
       "type": "registry:hook",
       "title": "useGSAPDebug",
-      "description": "Hook: useGSAPDebug",
+      "description": "Links a GSAP timeline to GSDevTools when ?debug is active.",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1324,7 +1500,7 @@
       "name": "use-liquid-glass-style",
       "type": "registry:hook",
       "title": "useLiquidGlassStyle",
-      "description": "Hook: useLiquidGlassStyle",
+      "description": "useLiquidGlassStyle hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1344,7 +1520,7 @@
       "name": "use-media-query",
       "type": "registry:hook",
       "title": "useMediaQuery",
-      "description": "Hook: useMediaQuery",
+      "description": "useMediaQuery hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1360,7 +1536,7 @@
       "name": "use-mounted",
       "type": "registry:hook",
       "title": "useMounted",
-      "description": "Hook: useMounted",
+      "description": "useMounted hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1376,7 +1552,7 @@
       "name": "use-preferences",
       "type": "registry:hook",
       "title": "usePreferences",
-      "description": "Hook: usePreferences",
+      "description": "usePreferences hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1396,7 +1572,7 @@
       "name": "use-time-of-day",
       "type": "registry:hook",
       "title": "useTimeOfDay",
-      "description": "Hook: useTimeOfDay",
+      "description": "useTimeOfDay hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1412,7 +1588,7 @@
       "name": "use-umami",
       "type": "registry:hook",
       "title": "useUmami",
-      "description": "Hook: useUmami",
+      "description": "useUmami hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1428,7 +1604,7 @@
       "name": "use-weather",
       "type": "registry:hook",
       "title": "useWeather",
-      "description": "Hook: useWeather",
+      "description": "useWeather hook",
       "category": "hooks",
       "registryDependencies": [],
       "dependencies": [],
@@ -1452,7 +1628,7 @@
       "name": "utils",
       "type": "registry:lib",
       "title": "utils",
-      "description": "Utility: utils",
+      "description": "utils utility",
       "category": "utilities",
       "registryDependencies": [],
       "dependencies": ["clsx", "tailwind-merge"],
@@ -1468,7 +1644,7 @@
       "name": "fonts",
       "type": "registry:lib",
       "title": "fonts",
-      "description": "Utility: fonts",
+      "description": "fonts utility",
       "category": "utilities",
       "registryDependencies": [],
       "dependencies": [],

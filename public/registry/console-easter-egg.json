@@ -3,7 +3,7 @@
   "name": "console-easter-egg",
   "type": "registry:component",
   "title": "ConsoleEasterEgg",
-  "description": "Shared UI component: ConsoleEasterEgg",
+  "description": "ConsoleEasterEgg component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

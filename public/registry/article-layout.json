@@ -3,7 +3,7 @@
   "name": "article-layout",
   "type": "registry:component",
   "title": "ArticleLayout",
-  "description": "Shared UI component: ArticleLayout",
+  "description": "ArticleLayout component",
   "category": "components",
   "dependencies": [
     "lucide-react"

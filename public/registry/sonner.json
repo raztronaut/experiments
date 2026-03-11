@@ -3,7 +3,7 @@
   "name": "sonner",
   "type": "registry:component",
   "title": "sonner",
-  "description": "Shared UI component: sonner",
+  "description": "sonner component",
   "category": "components",
   "dependencies": [
     "sonner"

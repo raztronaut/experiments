@@ -3,7 +3,7 @@
   "name": "site-footer",
   "type": "registry:component",
   "title": "SiteFooter",
-  "description": "Shared UI component: SiteFooter",
+  "description": "SiteFooter component",
   "category": "components",
   "registryDependencies": [
     "icons",

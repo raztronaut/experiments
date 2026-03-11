@@ -1,6 +1,13 @@
 {
   "$comment": "Curation rules for the registry pipeline. Read by generate-registry-json.mjs.",
-  "categories": ["experiments", "components", "hooks", "utilities", "styles"],
+  "categories": [
+    "experiments",
+    "components",
+    "collected",
+    "hooks",
+    "utilities",
+    "styles"
+  ],
   "featured": [
     "send-button",
     "404-not-found",
@@ -23,6 +30,7 @@
   "scan": {
     "experiments": true,
     "sharedUI": true,
+    "collected": true,
     "hooks": true,
     "utilities": ["src/lib/utils.ts", "src/lib/fonts.ts"]
   }

@@ -3,7 +3,7 @@
   "name": "use-element-size",
   "type": "registry:hook",
   "title": "useElementSize",
-  "description": "Hook: useElementSize",
+  "description": "useElementSize hook",
   "category": "hooks",
   "files": [
     {

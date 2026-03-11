@@ -3,7 +3,7 @@
   "name": "ai-icons",
   "type": "registry:component",
   "title": "ai-icons",
-  "description": "Shared UI component: ai-icons",
+  "description": "ai-icons component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

@@ -3,7 +3,7 @@
   "name": "drawer",
   "type": "registry:component",
   "title": "drawer",
-  "description": "Shared UI component: drawer",
+  "description": "drawer component",
   "category": "components",
   "dependencies": [
     "vaul"

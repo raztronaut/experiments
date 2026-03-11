@@ -3,7 +3,7 @@
   "name": "experiment-nav",
   "type": "registry:component",
   "title": "ExperimentNav",
-  "description": "Shared UI component: ExperimentNav",
+  "description": "ExperimentNav component",
   "category": "components",
   "dependencies": [
     "lucide-react"

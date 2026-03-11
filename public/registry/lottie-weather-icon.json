@@ -3,7 +3,7 @@
   "name": "lottie-weather-icon",
   "type": "registry:component",
   "title": "LottieWeatherIcon",
-  "description": "Shared UI component: LottieWeatherIcon",
+  "description": "LottieWeatherIcon component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

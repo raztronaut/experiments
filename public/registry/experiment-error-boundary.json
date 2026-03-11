@@ -3,7 +3,7 @@
   "name": "experiment-error-boundary",
   "type": "registry:component",
   "title": "ExperimentErrorBoundary",
-  "description": "Shared UI component: ExperimentErrorBoundary",
+  "description": "Error boundary for experiment components.",
   "category": "components",
   "registryDependencies": [
     "razi-style"

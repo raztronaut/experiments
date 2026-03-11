@@ -3,7 +3,7 @@
   "name": "button",
   "type": "registry:component",
   "title": "button",
-  "description": "Shared UI component: button",
+  "description": "button component",
   "category": "components",
   "dependencies": [
     "@radix-ui/react-slot",

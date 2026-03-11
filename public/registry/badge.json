@@ -3,7 +3,7 @@
   "name": "badge",
   "type": "registry:component",
   "title": "badge",
-  "description": "Shared UI component: badge",
+  "description": "badge component",
   "category": "components",
   "dependencies": [
     "class-variance-authority"

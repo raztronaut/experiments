@@ -3,7 +3,7 @@
   "name": "mobile-blocker",
   "type": "registry:component",
   "title": "MobileBlocker",
-  "description": "Shared UI component: MobileBlocker",
+  "description": "Hook to determine if the current device should be blocked (mobile).",
   "category": "components",
   "registryDependencies": [
     "razi-style"

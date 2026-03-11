@@ -3,7 +3,7 @@
   "name": "liquid-glass-filter",
   "type": "registry:component",
   "title": "LiquidGlassFilter",
-  "description": "Shared UI component: LiquidGlassFilter",
+  "description": "LiquidGlassFilter component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

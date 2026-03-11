@@ -3,7 +3,7 @@
   "name": "use-preferences",
   "type": "registry:hook",
   "title": "usePreferences",
-  "description": "Hook: usePreferences",
+  "description": "usePreferences hook",
   "category": "hooks",
   "files": [
     {

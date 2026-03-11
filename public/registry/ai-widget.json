@@ -3,7 +3,7 @@
   "name": "ai-widget",
   "type": "registry:component",
   "title": "AIWidget",
-  "description": "Shared UI component: AIWidget",
+  "description": "AIWidget component",
   "category": "components",
   "dependencies": [
     "motion"

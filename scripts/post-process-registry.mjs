@@ -157,7 +157,7 @@ function buildSlimIndex(items, metaMap) {
     const category =
       item.category ?? meta.category ?? inferCategoryFromType(item.type);
 
-    return {
+    const slim = {
       name: item.name,
       type: item.type ?? "registry:block",
       title: item.title ?? item.name,
@@ -173,6 +173,15 @@ function buildSlimIndex(items, metaMap) {
         ? item.dependencies.length
         : 0,
     };
+
+    if (meta.reference) {
+      slim.reference = true;
+      slim.source = meta.source ?? "";
+      slim.library = meta.library ?? "";
+      slim.libraryUrl = meta.libraryUrl ?? "";
+    }
+
+    return slim;
   });
 
   slimItems.sort((a, b) => {

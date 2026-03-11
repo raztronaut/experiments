@@ -3,7 +3,7 @@
   "name": "use-weather",
   "type": "registry:hook",
   "title": "useWeather",
-  "description": "Hook: useWeather",
+  "description": "useWeather hook",
   "category": "hooks",
   "files": [
     {

@@ -3,7 +3,7 @@
   "name": "use-gsap-debug",
   "type": "registry:hook",
   "title": "useGSAPDebug",
-  "description": "Hook: useGSAPDebug",
+  "description": "Links a GSAP timeline to GSDevTools when ?debug is active.",
   "category": "hooks",
   "files": [
     {

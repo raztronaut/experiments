@@ -3,7 +3,7 @@
   "name": "theme-provider",
   "type": "registry:component",
   "title": "ThemeProvider",
-  "description": "Shared UI component: ThemeProvider",
+  "description": "ThemeProvider component",
   "category": "components",
   "registryDependencies": [
     "razi-style"

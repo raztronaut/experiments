@@ -3,7 +3,7 @@
   "name": "use-liquid-glass-style",
   "type": "registry:hook",
   "title": "useLiquidGlassStyle",
-  "description": "Hook: useLiquidGlassStyle",
+  "description": "useLiquidGlassStyle hook",
   "category": "hooks",
   "files": [
     {

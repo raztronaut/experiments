@@ -13,6 +13,7 @@ const COMPONENTS_EXPERIMENTS_DIR = path.join(
   "experiments"
 );
 const UI_DIR = path.join(ROOT_DIR, "src", "components", "ui");
+const COLLECTED_DIR = path.join(ROOT_DIR, "src", "components", "collected");
 const HOOKS_DIR = path.join(ROOT_DIR, "src", "hooks");
 const ASSET_BASE_URL = "https://www.razisyed.cv";
 
@@ -370,6 +371,27 @@ async function loadConfig() {
 // Kebab-case helper
 // ---------------------------------------------------------------------------
 
+async function extractJSDocDescription(filePath) {
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    const jsdocMatch = content.match(/\/\*\*\s*\n(?:\s*\*[^\n]*\n)*?\s*\*\//);
+    if (!jsdocMatch) {
+      return null;
+    }
+    const descMatch = jsdocMatch[0].match(/@description\s+(.+)/);
+    if (descMatch) {
+      return descMatch[1].trim();
+    }
+    const lines = jsdocMatch[0]
+      .split("\n")
+      .map((l) => l.replace(/^\s*\*\s?/, "").trim())
+      .filter((l) => l && !l.startsWith("@") && l !== "/**" && l !== "*/");
+    return lines[0] || null;
+  } catch {
+    return null;
+  }
+}
+
 function toKebabCase(str) {
   return str
     .replace(/\.tsx?$/, "")
@@ -523,11 +545,14 @@ async function scanSharedUI() {
       type: inferFileType(f.absolutePath, f.content),
     }));
 
+    const jsdocDesc = await extractJSDocDescription(filePath);
+    const componentTitle = entry.name.replace(/\.tsx$/, "");
+
     items.push({
       name,
       type: "registry:component",
-      title: entry.name.replace(/\.tsx$/, ""),
-      description: `Shared UI component: ${entry.name.replace(/\.tsx$/, "")}`,
+      title: componentTitle,
+      description: jsdocDesc || `${componentTitle} component`,
       category: "components",
       registryDependencies:
         result.registryDependencies.length > 0
@@ -572,11 +597,14 @@ async function scanHooks() {
       type: inferFileType(f.absolutePath, f.content),
     }));
 
+    const jsdocDesc = await extractJSDocDescription(filePath);
+    const hookTitle = entry.name.replace(/\.ts$/, "");
+
     items.push({
       name,
       type: "registry:hook",
-      title: entry.name.replace(/\.ts$/, ""),
-      description: `Hook: ${entry.name.replace(/\.ts$/, "")}`,
+      title: hookTitle,
+      description: jsdocDesc || `${hookTitle} hook`,
       category: "hooks",
       registryDependencies:
         result.registryDependencies.length > 0
@@ -615,11 +643,14 @@ async function scanUtilities(config) {
       type: inferFileType(f.absolutePath, f.content),
     }));
 
+    const jsdocDesc = await extractJSDocDescription(filePath);
+    const utilTitle = path.basename(filePath).replace(/\.tsx?$/, "");
+
     items.push({
       name,
       type: "registry:lib",
-      title: path.basename(filePath).replace(/\.tsx?$/, ""),
-      description: `Utility: ${path.basename(filePath).replace(/\.tsx?$/, "")}`,
+      title: utilTitle,
+      description: jsdocDesc || `${utilTitle} utility`,
       category: "utilities",
       registryDependencies:
         result.registryDependencies.length > 0
@@ -628,6 +659,130 @@ async function scanUtilities(config) {
       dependencies: result.dependencies,
       files,
       meta: {},
+    });
+  }
+
+  return items;
+}
+
+async function scanCollected() {
+  const items = [];
+  let entries;
+  try {
+    entries = await fs.readdir(COLLECTED_DIR, { withFileTypes: true });
+  } catch {
+    return items;
+  }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+    if (entry.name.startsWith(".")) {
+      continue;
+    }
+
+    const folderPath = path.join(COLLECTED_DIR, entry.name);
+
+    const libraryJsonPath = path.join(folderPath, "library.json");
+    let isLibrary = false;
+    try {
+      const libraryData = JSON.parse(
+        await fs.readFile(libraryJsonPath, "utf-8")
+      );
+      if (
+        libraryData.type === "library" &&
+        Array.isArray(libraryData.components)
+      ) {
+        isLibrary = true;
+        for (const comp of libraryData.components) {
+          items.push({
+            name: `${entry.name}--${comp.name}`,
+            type: "registry:component",
+            title: comp.title || comp.name,
+            description: comp.description || "",
+            category: "collected",
+            files: [],
+            dependencies: [],
+            registryDependencies: [],
+            meta: {
+              reference: true,
+              source: comp.url || "",
+              library: libraryData.title || entry.name,
+              libraryUrl: libraryData.url || "",
+              group: comp.group || "",
+              tags: comp.tags || [],
+            },
+          });
+        }
+      }
+    } catch {
+      /* no library.json or invalid -- try component mode */
+    }
+
+    if (isLibrary) {
+      continue;
+    }
+
+    const folderEntries = await fs.readdir(folderPath, { withFileTypes: true });
+    const tsxFiles = folderEntries
+      .filter(
+        (f) =>
+          f.isFile() &&
+          f.name.endsWith(".tsx") &&
+          !f.name.includes(".test.") &&
+          !f.name.includes(".story.")
+      )
+      .map((f) => f.name);
+
+    if (tsxFiles.length === 0) {
+      continue;
+    }
+
+    const entryFile = tsxFiles[0];
+    const entryFilePath = path.join(folderPath, entryFile);
+    const result = await resolveLocalFiles(entryFilePath);
+
+    const files = result.files.map((f) => ({
+      path: path.relative(ROOT_DIR, f.absolutePath),
+      type: inferFileType(f.absolutePath, f.content),
+    }));
+
+    let metaData = {};
+    try {
+      const metaPath = path.join(folderPath, "meta.json");
+      metaData = JSON.parse(await fs.readFile(metaPath, "utf-8"));
+    } catch {
+      /* no meta.json */
+    }
+
+    const jsdocDesc = await extractJSDocDescription(entryFilePath);
+    const componentTitle = entryFile.replace(/\.tsx$/, "");
+
+    const isMultiFile = files.length > 1;
+    const itemType = isMultiFile ? "registry:block" : "registry:component";
+    const regDeps =
+      result.registryDependencies.length > 0
+        ? [...result.registryDependencies, "razi-style"]
+        : ["razi-style"];
+
+    items.push({
+      name: entry.name,
+      type: itemType,
+      title: metaData.title || componentTitle,
+      description:
+        metaData.description || jsdocDesc || `${componentTitle} component`,
+      category: "collected",
+      registryDependencies: regDeps,
+      dependencies: result.dependencies,
+      files,
+      meta: {
+        source: metaData.source || "",
+        author: metaData.author || "",
+        license: metaData.license || "",
+        tags: metaData.tags || [],
+        tech: metaData.tech || [],
+      },
     });
   }
 
@@ -694,12 +849,14 @@ async function main() {
   const config = await loadConfig();
   const scanExperimentsEnabled = config?.scan?.experiments !== false;
   const scanSharedUIEnabled = config?.scan?.sharedUI === true;
+  const scanCollectedEnabled = config?.scan?.collected === true;
   const scanHooksEnabled = config?.scan?.hooks === true;
 
   console.log("Registry discovery starting...\n");
 
   let experimentItems = [];
   let uiItems = [];
+  let collectedItems = [];
   let hookItems = [];
   let utilItems = [];
 
@@ -715,6 +872,12 @@ async function main() {
     console.log(`  Found ${uiItems.length} components`);
   }
 
+  if (scanCollectedEnabled) {
+    console.log("Scanning collected...");
+    collectedItems = await scanCollected();
+    console.log(`  Found ${collectedItems.length} collected`);
+  }
+
   if (scanHooksEnabled) {
     console.log("Scanning hooks...");
     hookItems = await scanHooks();
@@ -727,7 +890,13 @@ async function main() {
     console.log(`  Found ${utilItems.length} utilities`);
   }
 
-  let allItems = [...experimentItems, ...uiItems, ...hookItems, ...utilItems];
+  let allItems = [
+    ...experimentItems,
+    ...uiItems,
+    ...collectedItems,
+    ...hookItems,
+    ...utilItems,
+  ];
 
   allItems = applyCuration(allItems, config);
 
@@ -745,12 +914,13 @@ async function main() {
 
   const expCount = experimentItems.length;
   const uiCount = uiItems.length;
+  const collectedCount = collectedItems.length;
   const hookCount = hookItems.length;
   const utilCount = utilItems.length;
   const total = allItems.length;
 
   console.log(
-    `\nDiscovered ${expCount} experiments, ${uiCount} components, ${hookCount} hooks, ${utilCount} utilities. Total: ${total} items.`
+    `\nDiscovered ${expCount} experiments, ${uiCount} components, ${collectedCount} collected, ${hookCount} hooks, ${utilCount} utilities. Total: ${total} items.`
   );
   console.log(`Wrote registry.json (${total} items)`);
 }

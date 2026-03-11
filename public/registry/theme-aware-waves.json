@@ -3,7 +3,7 @@
   "name": "theme-aware-waves",
   "type": "registry:component",
   "title": "ThemeAwareWaves",
-  "description": "Shared UI component: ThemeAwareWaves",
+  "description": "ThemeAwareWaves component",
   "category": "components",
   "dependencies": [
     "simplex-noise"

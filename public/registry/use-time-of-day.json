@@ -3,7 +3,7 @@
   "name": "use-time-of-day",
   "type": "registry:hook",
   "title": "useTimeOfDay",
-  "description": "Hook: useTimeOfDay",
+  "description": "useTimeOfDay hook",
   "category": "hooks",
   "files": [
     {

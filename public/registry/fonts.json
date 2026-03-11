@@ -3,7 +3,7 @@
   "name": "fonts",
   "type": "registry:lib",
   "title": "fonts",
-  "description": "Utility: fonts",
+  "description": "fonts utility",
   "category": "utilities",
   "files": [
     {

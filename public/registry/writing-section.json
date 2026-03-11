@@ -3,7 +3,7 @@
   "name": "writing-section",
   "type": "registry:component",
   "title": "WritingSection",
-  "description": "Shared UI component: WritingSection",
+  "description": "WritingSection component",
   "category": "components",
   "dependencies": [
     "lucide-react"
