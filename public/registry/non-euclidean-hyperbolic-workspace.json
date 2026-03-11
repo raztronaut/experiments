@@ -5,6 +5,19 @@
   "title": "Non-Euclidean Hyperbolic Second Brain",
   "description": "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "generative",
+      "ui",
+      "cursor"
+    ],
+    "tech": [
+      "svg"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4"
+  },
   "dependencies": [
     "lucide-react"
   ],

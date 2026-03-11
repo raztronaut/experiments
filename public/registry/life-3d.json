@@ -5,6 +5,22 @@
   "title": "Life 3D",
   "description": "Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "3d",
+      "game",
+      "generative",
+      "animation"
+    ],
+    "tech": [
+      "r3f",
+      "three.js",
+      "postprocessing"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/life-3d/preview.mp4"
+  },
   "dependencies": [
     "lucide-react",
     "@react-three/drei",

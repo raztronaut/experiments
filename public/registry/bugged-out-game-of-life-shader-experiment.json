@@ -5,6 +5,22 @@
   "title": "Bugged Out Game of Life Shader",
   "description": "A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "generative",
+      "game",
+      "animation",
+      "cursor"
+    ],
+    "tech": [
+      "canvas-2d",
+      "web-workers",
+      "@paper-design/shaders"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4"
+  },
   "dependencies": [
     "@paper-design/shaders-react"
   ],

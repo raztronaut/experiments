@@ -6,6 +6,23 @@
     "title": "404 Not Found",
     "description": "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "3d",
+        "shader",
+        "animation",
+        "scroll"
+      ],
+      "tech": [
+        "r3f",
+        "three.js",
+        "glsl"
+      ],
+      "status": "shipped",
+      "poster": "/experiments/404-not-found/poster.jpg",
+      "video": "/experiments/404-not-found/preview.mp4",
+      "featured": true
+    },
     "dependencies": [
       "@react-three/drei",
       "@react-three/fiber",
@@ -191,6 +208,23 @@
     "title": "Basketball Replay Center",
     "description": "A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "preloader",
+        "broadcast",
+        "crt"
+      ],
+      "tech": [
+        "r3f",
+        "three.js",
+        "glsl",
+        "gsap",
+        "next-themes"
+      ],
+      "status": "shipped",
+      "poster": "/experiments/basketball-replay-center/poster.jpg",
+      "video": "/experiments/basketball-replay-center/preview.mp4"
+    },
     "dependencies": [
       "@react-three/fiber",
       "three",
@@ -233,6 +267,22 @@
     "title": "Bugged Out Game of Life Shader",
     "description": "A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "generative",
+        "game",
+        "animation",
+        "cursor"
+      ],
+      "tech": [
+        "canvas-2d",
+        "web-workers",
+        "@paper-design/shaders"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4"
+    },
     "dependencies": [
       "@paper-design/shaders-react"
     ],
@@ -342,6 +392,51 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "clip-path-reveal",
+    "type": "registry:block",
+    "title": "ClipPathReveal",
+    "description": "ClipPathReveal component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/codegrid-capsules-landing-page-reveal-animation",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "reveal",
+        "preloader",
+        "clip-path",
+        "mask",
+        "splittext",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "gsap/SplitText",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/clip-path-reveal"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "ClipPathReveal.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/clip-path-reveal/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "console-easter-egg",
     "type": "registry:component",
     "title": "ConsoleEasterEgg",
@@ -359,11 +454,138 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "content-section",
+    "type": "registry:component",
+    "title": "ContentSection",
+    "description": "ContentSection component",
+    "category": "components",
+    "dependencies": [
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "ContentSection.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "WithHover.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ExperimentDrawerList.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ViewModeToggle.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "WritingSection.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Context.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ExperimentGridCard.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ExperimentListItem.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "MobileSwipeTutorialOverlay.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "StaticExperimentMedia.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "InteractivePreviewMedia.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "constants.ts",
+        "type": "registry:file",
+        "target": "components/ui/experiments/constants.ts"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "counter-flip-reveal",
+    "type": "registry:block",
+    "title": "CounterFlipReveal",
+    "description": "CounterFlipReveal component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/cg-konpo-lp-reveal",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "reveal",
+        "counter",
+        "flip",
+        "preloader",
+        "splittext",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "gsap/Flip",
+        "gsap/SplitText",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/counter-flip-reveal"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "CounterFlipReveal.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/counter-flip-reveal/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "cursor-depth-explorer",
     "type": "registry:block",
     "title": "Cursor/Tilt Depth Map Explorer",
     "description": "A tomographic slice style depth map viewer for paintings using your cursor or device tilt (try on mobile too!)",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "shader",
+        "cursor",
+        "3d"
+      ],
+      "tech": [
+        "r3f",
+        "three.js",
+        "glsl"
+      ],
+      "status": "shipped",
+      "poster": "/experiments/cursor-depth-explorer/poster.jpg",
+      "video": "/experiments/cursor-depth-explorer/preview.mp4"
+    },
     "dependencies": [
       "@react-three/drei",
       "@react-three/fiber",
@@ -387,6 +609,90 @@
       {
         "name": "InfoModal.tsx",
         "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "curved-text-scroll",
+    "type": "registry:block",
+    "title": "CurvedTextScroll",
+    "description": "Curved 3D text paths with horizontal-scrolling cards + dot grid.",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/cg-wodniack-work-section-scroll",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "3d",
+        "text",
+        "curves",
+        "three-js",
+        "horizontal",
+        "dot-grid",
+        "gsap"
+      ],
+      "tech": [
+        "three",
+        "gsap",
+        "gsap/ScrollTrigger"
+      ],
+      "previewUrl": "/collected/curved-text-scroll"
+    },
+    "dependencies": [
+      "gsap"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "CurvedTextScroll.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/curved-text-scroll/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "custom-video-player",
+    "type": "registry:block",
+    "title": "CustomVideoPlayer",
+    "description": "CustomVideoPlayer component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/cg-video-player",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "video",
+        "player",
+        "timeline",
+        "cursor",
+        "interaction"
+      ],
+      "tech": [
+        "react"
+      ],
+      "previewUrl": "/collected/custom-video-player"
+    },
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "CustomVideoPlayer.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/custom-video-player/styles.css"
       }
     ]
   },
@@ -446,10 +752,6 @@
         "type": "registry:component"
       },
       {
-        "name": "ViewModeToggle.tsx",
-        "type": "registry:component"
-      },
-      {
         "name": "MobileSwipeTutorialOverlay.tsx",
         "type": "registry:component"
       },
@@ -459,10 +761,6 @@
       },
       {
         "name": "InteractivePreviewMedia.tsx",
-        "type": "registry:component"
-      },
-      {
-        "name": "WithHover.tsx",
         "type": "registry:component"
       },
       {
@@ -528,6 +826,89 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "feature-convergence",
+    "type": "registry:block",
+    "title": "FeatureConvergence",
+    "description": "FeatureConvergence component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/codegrid-deepjudge-scroll-animation",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "convergence",
+        "morph",
+        "search",
+        "features",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/feature-convergence"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "FeatureConvergence.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/feature-convergence/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "fibonacci-image-orb",
+    "type": "registry:block",
+    "title": "FibonacciImageOrb",
+    "description": "3D Fibonacci sphere of image planes.",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/cg-asset-orb-next",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "3d",
+        "sphere",
+        "fibonacci",
+        "gallery",
+        "three-js",
+        "orbit"
+      ],
+      "tech": [
+        "three"
+      ],
+      "previewUrl": "/collected/fibonacci-image-orb"
+    },
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "FibonacciImageOrb.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/fibonacci-image-orb/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "fonts",
     "type": "registry:lib",
     "title": "fonts",
@@ -548,6 +929,21 @@
     "title": "Game of Life Shader",
     "description": "An attempt to implement Conway's Game of Life with the logic defining the shader",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "generative",
+        "game",
+        "animation",
+        "cursor"
+      ],
+      "tech": [
+        "canvas-2d",
+        "web-workers"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/game-of-life-shader/preview.mp4"
+    },
     "dependencies": [
       "@paper-design/shaders-react"
     ],
@@ -620,6 +1016,20 @@
     "title": "OSX Cheetah UI with a surprise",
     "description": "Find the hidden stupid feature!",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "physics",
+        "ui",
+        "animation"
+      ],
+      "tech": [
+        "matter.js"
+      ],
+      "status": "shipped",
+      "poster": "/experiments/gravity-physics-ui-layout/preview.png",
+      "video": null,
+      "featured": true
+    },
     "dependencies": [
       "matter-js",
       "lucide-react"
@@ -681,11 +1091,64 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "image-explosion",
+    "type": "registry:block",
+    "title": "ImageExplosion",
+    "description": "ImageExplosion component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/codegrid-image-explosion-scroll-animation-nextjs",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "physics",
+        "explosion",
+        "particles",
+        "images",
+        "scroll",
+        "interaction"
+      ],
+      "tech": [
+        "react"
+      ],
+      "previewUrl": "/collected/image-explosion"
+    },
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "ImageExplosion.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/image-explosion/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "keyboard-keys",
     "type": "registry:block",
     "title": "Keyboard Keys",
     "description": "Interactive 3D keyboard keys with press animation and success/error animations",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "keyboard",
+        "animation",
+        "ui"
+      ],
+      "tech": [
+        "css-animations"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/keyboard-keys/preview.mp4",
+      "featured": true
+    },
     "registryDependencies": [
       "razi-style"
     ],
@@ -707,6 +1170,22 @@
     "title": "Life 3D",
     "description": "Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "3d",
+        "game",
+        "generative",
+        "animation"
+      ],
+      "tech": [
+        "r3f",
+        "three.js",
+        "postprocessing"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/life-3d/preview.mp4"
+    },
     "dependencies": [
       "lucide-react",
       "@react-three/drei",
@@ -908,6 +1387,23 @@
     "title": "Mountain Depth Map Shader Transition",
     "description": "A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "shader",
+        "animation",
+        "scroll",
+        "3d"
+      ],
+      "tech": [
+        "r3f",
+        "three.js",
+        "glsl",
+        "gsap"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/mountain-transition/preview.mp4"
+    },
     "dependencies": [
       "@react-three/fiber",
       "@react-three/drei",
@@ -940,6 +1436,19 @@
     "title": "Non-Euclidean Hyperbolic Second Brain",
     "description": "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "generative",
+        "ui",
+        "cursor"
+      ],
+      "tech": [
+        "svg"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4"
+    },
     "dependencies": [
       "lucide-react"
     ],
@@ -981,11 +1490,66 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "physics-tag-cloud",
+    "type": "registry:block",
+    "title": "PhysicsTagCloud",
+    "description": "Physics-based tag cloud using Matter.js.",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/cg-playable-objects",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "physics",
+        "matter-js",
+        "tags",
+        "draggable",
+        "gravity",
+        "interaction"
+      ],
+      "tech": [
+        "matter-js"
+      ],
+      "previewUrl": "/collected/physics-tag-cloud"
+    },
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "PhysicsTagCloud.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/physics-tag-cloud/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "rabbithole-chat-gallery-explore",
     "type": "registry:block",
     "title": "rabbithole.chat Gallery Explore",
     "description": "3D floating gallery shader as an experimental explore page",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "3d",
+        "shader",
+        "gallery",
+        "scroll"
+      ],
+      "tech": [
+        "r3f",
+        "three.js",
+        "glsl"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4"
+    },
     "dependencies": [
       "@react-three/fiber",
       "three",
@@ -1022,6 +1586,23 @@
     "title": "rabbithole.chat Preloader Shader",
     "description": "A vortex gallery shader preloader for rabbithole.chat",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "3d",
+        "shader",
+        "preloader",
+        "gallery",
+        "animation"
+      ],
+      "tech": [
+        "three.js",
+        "glsl",
+        "motion"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/rabbithole-chat-preloader/preview.mp4"
+    },
     "dependencies": [
       "gsap",
       "three",
@@ -1122,11 +1703,71 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "scroll-frame-canvas",
+    "type": "registry:block",
+    "title": "ScrollFrameCanvas",
+    "description": "ScrollFrameCanvas component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/cg-adaline-scroll-animation",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "canvas",
+        "frames",
+        "video",
+        "sequence",
+        "3d",
+        "perspective",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/scroll-frame-canvas"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "ScrollFrameCanvas.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/scroll-frame-canvas/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "send-button",
     "type": "registry:block",
     "title": "Send Button",
     "description": "A cool animated send button animation",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "ui",
+        "animation",
+        "interaction"
+      ],
+      "tech": [
+        "motion"
+      ],
+      "status": "shipped",
+      "poster": "/experiments/send-button/preview-send-button.png",
+      "video": "/experiments/send-button/preview-send-button.mp4",
+      "featured": true
+    },
     "dependencies": [
       "motion",
       "lucide-react",
@@ -1223,6 +1864,19 @@
     "title": "Shader Landing",
     "description": "A random shader experiment",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "shader",
+        "generative"
+      ],
+      "tech": [
+        "three.js",
+        "glsl"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/shader-landing/preview-shader-landing.mp4"
+    },
     "registryDependencies": [
       "razi-style"
     ],
@@ -1290,11 +1944,245 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "split-card-flip",
+    "type": "registry:block",
+    "title": "SplitCardFlip",
+    "description": "SplitCardFlip component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/codegrid-split-card-scroll-animation",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "cards",
+        "flip",
+        "3d",
+        "split",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/split-card-flip"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "SplitCardFlip.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/split-card-flip/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "spotlight-image-stack",
+    "type": "registry:block",
+    "title": "SpotlightImageStack",
+    "description": "SpotlightImageStack component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/codegrid-senseitech-scroll-animation",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "images",
+        "spotlight",
+        "stacking",
+        "scatter",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/spotlight-image-stack"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "SpotlightImageStack.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/spotlight-image-stack/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "sticky-cards-fold",
+    "type": "registry:block",
+    "title": "StickyCardsFold",
+    "description": "StickyCardsFold component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/cg-phive-sticky-cards",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "sticky",
+        "cards",
+        "3d",
+        "fold",
+        "perspective",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/sticky-cards-fold"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "StickyCardsFold.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/sticky-cards-fold/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "sticky-cards-scale",
+    "type": "registry:block",
+    "title": "StickyCardsScale",
+    "description": "StickyCardsScale component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/codegrid-sticky-cards-ashfall-rebuild-nextjs",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "sticky",
+        "cards",
+        "scale",
+        "zoom",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/sticky-cards-scale"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "StickyCardsScale.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/sticky-cards-scale/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "sticky-cards-tilt",
+    "type": "registry:block",
+    "title": "StickyCardsTilt",
+    "description": "StickyCardsTilt component",
+    "category": "collected",
+    "meta": {
+      "source": "https://github.com/codegridweb/codegrid-sticky-cards-nextjs",
+      "author": "Codegrid",
+      "license": "MIT",
+      "tags": [
+        "scroll",
+        "sticky",
+        "cards",
+        "tilt",
+        "gsap"
+      ],
+      "tech": [
+        "gsap",
+        "@gsap/react"
+      ],
+      "previewUrl": "/collected/sticky-cards-tilt"
+    },
+    "dependencies": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "StickyCardsTilt.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "styles.css",
+        "type": "registry:file",
+        "target": "components/collected/sticky-cards-tilt/styles.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "terminal-cat",
     "type": "registry:block",
     "title": "Terminal Cat",
     "description": "Animating ASCII art in the browser console logs",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "ascii-art",
+        "animation",
+        "keyboard",
+        "console"
+      ],
+      "tech": [
+        "console-api"
+      ],
+      "status": "shipped",
+      "poster": "/experiments/terminal-cat/preview.gif",
+      "video": null
+    },
     "dependencies": [
       "sonner"
     ],
@@ -1368,6 +2256,23 @@
     "title": "Transit/Airport Split-Flap Display",
     "description": "A split flap display for transit/airport systems with sound effects manually made with Web Audio API",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "ui",
+        "audio",
+        "animation",
+        "text-effect"
+      ],
+      "tech": [
+        "motion",
+        "web-audio",
+        "css-animations"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/transit-airport-split-flap-display/preview.mp4",
+      "featured": true
+    },
     "dependencies": [
       "motion",
       "lucide-react"
@@ -1608,6 +2513,21 @@
     "title": "Velocity-Responsive Design",
     "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
     "category": "experiments",
+    "meta": {
+      "tags": [
+        "scroll",
+        "animation",
+        "ui",
+        "generative"
+      ],
+      "tech": [
+        "motion",
+        "canvas-2d"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": "/experiments/velocity-responsive-design/preview.mp4"
+    },
     "dependencies": [
       "motion",
       "lucide-react"

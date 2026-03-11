@@ -5,6 +5,19 @@
   "title": "Shader Landing",
   "description": "A random shader experiment",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "shader",
+      "generative"
+    ],
+    "tech": [
+      "three.js",
+      "glsl"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/shader-landing/preview-shader-landing.mp4"
+  },
   "registryDependencies": [
     "razi-style"
   ],

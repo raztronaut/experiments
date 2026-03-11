@@ -5,6 +5,20 @@
   "title": "Terminal Cat",
   "description": "Animating ASCII art in the browser console logs",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "ascii-art",
+      "animation",
+      "keyboard",
+      "console"
+    ],
+    "tech": [
+      "console-api"
+    ],
+    "status": "shipped",
+    "poster": "/experiments/terminal-cat/preview.gif",
+    "video": null
+  },
   "dependencies": [
     "sonner"
   ],

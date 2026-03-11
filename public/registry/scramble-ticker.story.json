@@ -17,7 +17,7 @@
       "name": "ScrambleTicker.story.tsx",
       "type": "registry:file",
       "target": "components/ui/ScrambleTicker.story.tsx",
-      "content": "import { defineStory } from \"@/lib/story\";\nimport { ScrambleTicker } from \"./ScrambleTicker\";\n\nexport const story = defineStory(import.meta.url, {\n  Component: ScrambleTicker,\n  args: [\n    { variant: \"Default\", initial: { text: \"Hello World\", align: \"left\" } },\n    { variant: \"Centered\", initial: { text: \"Centered Text\", align: \"center\" } },\n    {\n      variant: \"Right Aligned\",\n      initial: { text: \"Right Aligned\", align: \"right\" },\n    },\n  ],\n});\n"
+      "content": "import { defineStory } from \"@/lib/story\";\nimport { ScrambleTicker } from \"./ScrambleTicker\";\n\nexport const story = defineStory(import.meta.url, {\n  Component: ScrambleTicker,\n  args: [\n    { variant: \"Default\", initial: { text: \"Hello World\", align: \"left\" } },\n    {\n      variant: \"Centered\",\n      initial: { text: \"Centered Text\", align: \"center\" },\n    },\n    {\n      variant: \"Right Aligned\",\n      initial: { text: \"Right Aligned\", align: \"right\" },\n    },\n  ],\n});\n"
     },
     {
       "name": "ScrambleTicker.tsx",

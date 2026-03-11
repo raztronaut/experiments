@@ -5,6 +5,23 @@
   "title": "Basketball Replay Center",
   "description": "A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "preloader",
+      "broadcast",
+      "crt"
+    ],
+    "tech": [
+      "r3f",
+      "three.js",
+      "glsl",
+      "gsap",
+      "next-themes"
+    ],
+    "status": "shipped",
+    "poster": "/experiments/basketball-replay-center/poster.jpg",
+    "video": "/experiments/basketball-replay-center/preview.mp4"
+  },
   "dependencies": [
     "@react-three/fiber",
     "three",

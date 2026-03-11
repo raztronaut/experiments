@@ -5,6 +5,21 @@
   "title": "Velocity-Responsive Design",
   "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "scroll",
+      "animation",
+      "ui",
+      "generative"
+    ],
+    "tech": [
+      "motion",
+      "canvas-2d"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/velocity-responsive-design/preview.mp4"
+  },
   "dependencies": [
     "motion",
     "lucide-react"

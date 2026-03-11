@@ -1,0 +1,47 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sticky-cards-fold",
+  "type": "registry:block",
+  "title": "StickyCardsFold",
+  "description": "StickyCardsFold component",
+  "category": "collected",
+  "meta": {
+    "source": "https://github.com/codegridweb/cg-phive-sticky-cards",
+    "author": "Codegrid",
+    "license": "MIT",
+    "tags": [
+      "scroll",
+      "sticky",
+      "cards",
+      "3d",
+      "fold",
+      "perspective",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "previewUrl": "/collected/sticky-cards-fold"
+  },
+  "dependencies": [
+    "gsap",
+    "@gsap/react"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "StickyCardsFold.tsx",
+      "type": "registry:component",
+      "content": "\"use client\"\n\nimport { useRef } from \"react\"\nimport gsap from \"gsap\"\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\"\nimport { useGSAP } from \"@gsap/react\"\nimport \"./styles.css\"\n\ngsap.registerPlugin(ScrollTrigger)\n\nexport interface StickyCardsFoldCard {\n  info: string\n  title: string\n  description: string\n  image: string\n  accentColor?: string\n}\n\nexport interface StickyCardsFoldProps {\n  cards?: StickyCardsFoldCard[]\n  className?: string\n}\n\nconst DEFAULT_CARDS: StickyCardsFoldCard[] = [\n  {\n    info: \"A surreal dive into neon hues and playful decay\",\n    title: \"Reverie\",\n    description:\n      \"A psychedelic skull study exploring the tension between playfulness and decay. Bold candy tones, liquid forms, and crisp vectors bring a surreal, pop-art mood meant for covers and prints.\",\n    image: \"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80\",\n    accentColor: \"#b1c0ef\",\n  },\n  {\n    info: \"A retro-futurist scene where nostalgia meets glitch\",\n    title: \"Vaporwave\",\n    description:\n      \"An 80s-UI dreamscape: stacked windows, checkerboard floors, and a sunset gradient. Built to feel like a loading screen to another world — nostalgic, glossy, and a bit uncanny.\",\n    image: \"https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=800&q=80\",\n    accentColor: \"#f2acac\",\n  },\n  {\n    info: \"A kaleidoscope of folk motifs reimagined in digital form\",\n    title: \"Kaleido\",\n    description:\n      \"Ornamental symmetry inspired by folk motifs and stained-glass glow. Designed as a seamless, tileable pattern for textiles, wallpapers, and rich UI backgrounds.\",\n    image: \"https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=800&q=80\",\n    accentColor: \"#fedd93\",\n  },\n  {\n    info: \"A portrait framed by oddball creatures and doodles\",\n    title: \"Menagerie\",\n    description:\n      \"A playful portrait surrounded by oddball companions — mascots, monsters, and midnight snacks. Loose linework meets pastel whimsy, perfect for merch, stickers, and editorial spots.\",\n    image: \"https://images.unsplash.com/photo-1579547945413-497e1b99dac0?w=800&q=80\",\n    accentColor: \"#81b7bf\",\n  },\n]\n\nexport function StickyCardsFold({\n  cards = DEFAULT_CARDS,\n  className,\n}: StickyCardsFoldProps) {\n  const container = useRef<HTMLDivElement>(null)\n\n  useGSAP(\n    () => {\n      const prefersReduced = window.matchMedia(\n        \"(prefers-reduced-motion: reduce)\"\n      ).matches\n      const cardEls = gsap.utils.toArray<HTMLElement>(\n        \".scf-card\",\n        container.current!\n      )\n\n      if (prefersReduced) {\n        cardEls.forEach((card) => {\n          const inner = card.querySelector<HTMLElement>(\".scf-card-inner\")\n          if (inner) {\n            gsap.set(inner, { y: 0, z: 0, rotationX: 0, \"--after-opacity\": 0 })\n          }\n        })\n        return\n      }\n\n      cardEls.forEach((card, index) => {\n        if (index < cardEls.length - 1) {\n          const cardInner = card.querySelector(\".scf-card-inner\")!\n\n          gsap.fromTo(\n            cardInner,\n            { y: \"0%\", z: 0, rotationX: 0 },\n            {\n              y: \"-50%\",\n              z: -250,\n              rotationX: 45,\n              scrollTrigger: {\n                trigger: cardEls[index + 1],\n                start: \"top 85%\",\n                end: \"top -75%\",\n                scrub: true,\n                pin: card,\n                pinSpacing: false,\n              },\n            }\n          )\n\n          gsap.to(cardInner, {\n            \"--after-opacity\": 1,\n            scrollTrigger: {\n              trigger: cardEls[index + 1],\n              start: \"top 75%\",\n              end: \"top -25%\",\n              scrub: true,\n            },\n          })\n        }\n      })\n    },\n    { scope: container }\n  )\n\n  return (\n    <div\n      className={`scf-sticky-cards ${className ?? \"\"}`.trim()}\n      ref={container}\n    >\n      {cards.map((card, index) => (\n        <div className=\"scf-card\" key={index}>\n          <div\n            className=\"scf-card-inner\"\n            style={\n              card.accentColor\n                ? ({ \"--scf-accent\": card.accentColor } as React.CSSProperties)\n                : undefined\n            }\n          >\n            <div className=\"scf-card-info\">\n              <p>{card.info}</p>\n            </div>\n            <div className=\"scf-card-title\">\n              <h1>{card.title}</h1>\n            </div>\n            <div className=\"scf-card-description\">\n              <p>{card.description}</p>\n            </div>\n            <div className=\"scf-card-img\">\n              <img src={card.image} alt={card.title} />\n            </div>\n          </div>\n        </div>\n      ))}\n    </div>\n  )\n}\n\nexport default StickyCardsFold\n"
+    },
+    {
+      "name": "styles.css",
+      "type": "registry:file",
+      "target": "components/collected/sticky-cards-fold/styles.css",
+      "content": ".scf-sticky-cards {\n  position: relative;\n  width: 100%;\n  background-color: var(--scf-bg, #0f0f0f);\n}\n\n.scf-card {\n  position: sticky;\n  width: 100%;\n  height: 125svh;\n  transform-style: preserve-3d;\n  perspective: 1000px;\n}\n\n.scf-card-inner {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  transform-origin: 50% 100%;\n  will-change: transform;\n  text-align: center;\n  background-color: var(--scf-accent, #b1c0ef);\n}\n\n.scf-card-inner::after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #000;\n  opacity: var(--after-opacity, 0);\n  will-change: opacity;\n  pointer-events: none;\n  z-index: 2;\n}\n\n.scf-card-info {\n  width: 25%;\n  padding: 4em;\n  text-align: left;\n}\n\n.scf-card-info p {\n  font-size: 0.9rem;\n  text-transform: uppercase;\n  font-weight: 500;\n}\n\n.scf-card-title h1 {\n  text-transform: uppercase;\n  font-size: 10rem;\n  font-weight: 900;\n  line-height: 1;\n  padding: 2rem 0;\n}\n\n.scf-card-description {\n  width: 60%;\n  margin: 0 auto 2em auto;\n}\n\n.scf-card-description p {\n  font-size: 1.5rem;\n  text-transform: uppercase;\n  font-weight: 500;\n}\n\n.scf-card-img {\n  width: 100%;\n  flex: 1;\n  margin-top: 4em;\n  overflow: hidden;\n}\n\n.scf-card-img img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n\n@media (max-width: 1000px) {\n  .scf-card-info {\n    width: 75%;\n    margin: 0 auto;\n    padding: 4em 2em;\n    text-align: center;\n  }\n\n  .scf-card-title h1 {\n    font-size: 3rem;\n  }\n\n  .scf-card-description {\n    width: calc(100% - 4rem);\n    margin: 0 auto;\n  }\n\n  .scf-card-description p {\n    font-size: 1.25rem;\n  }\n}\n"
+    }
+  ]
+}

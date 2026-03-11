@@ -769,6 +769,66 @@
       "meta": {}
     },
     {
+      "name": "content-section",
+      "type": "registry:component",
+      "title": "ContentSection",
+      "description": "ContentSection component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react", "motion"],
+      "files": [
+        {
+          "path": "src/components/ui/ContentSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/WithHover.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/ExperimentDrawerList.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ViewModeToggle.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/WritingSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/Context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ExperimentGridCard.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ExperimentListItem.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/MobileSwipeTutorialOverlay.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/StaticExperimentMedia.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/InteractivePreviewMedia.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/constants.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "experiment-drawer-list",
       "type": "registry:component",
       "title": "ExperimentDrawerList",
@@ -794,10 +854,6 @@
           "type": "registry:component"
         },
         {
-          "path": "src/components/ui/experiments/ViewModeToggle.tsx",
-          "type": "registry:component"
-        },
-        {
           "path": "src/components/ui/experiments/MobileSwipeTutorialOverlay.tsx",
           "type": "registry:component"
         },
@@ -807,10 +863,6 @@
         },
         {
           "path": "src/components/ui/experiments/InteractivePreviewMedia.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "src/components/ui/cursor/WithHover.tsx",
           "type": "registry:component"
         },
         {
@@ -1427,6 +1479,445 @@
         }
       ],
       "meta": {}
+    },
+    {
+      "name": "clip-path-reveal",
+      "type": "registry:block",
+      "title": "ClipPathReveal",
+      "description": "ClipPathReveal component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/clip-path-reveal/ClipPathReveal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/clip-path-reveal/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-capsules-landing-page-reveal-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "reveal",
+          "preloader",
+          "clip-path",
+          "mask",
+          "splittext",
+          "gsap"
+        ],
+        "tech": ["gsap", "gsap/SplitText", "@gsap/react"],
+        "previewUrl": "/collected/clip-path-reveal"
+      }
+    },
+    {
+      "name": "counter-flip-reveal",
+      "type": "registry:block",
+      "title": "CounterFlipReveal",
+      "description": "CounterFlipReveal component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/counter-flip-reveal/CounterFlipReveal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/counter-flip-reveal/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-konpo-lp-reveal",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["reveal", "counter", "flip", "preloader", "splittext", "gsap"],
+        "tech": ["gsap", "gsap/Flip", "gsap/SplitText", "@gsap/react"],
+        "previewUrl": "/collected/counter-flip-reveal"
+      }
+    },
+    {
+      "name": "curved-text-scroll",
+      "type": "registry:block",
+      "title": "CurvedTextScroll",
+      "description": "Curved 3D text paths with horizontal-scrolling cards + dot grid.",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/curved-text-scroll/CurvedTextScroll.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/curved-text-scroll/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-wodniack-work-section-scroll",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "3d",
+          "text",
+          "curves",
+          "three-js",
+          "horizontal",
+          "dot-grid",
+          "gsap"
+        ],
+        "tech": ["three", "gsap", "gsap/ScrollTrigger"],
+        "previewUrl": "/collected/curved-text-scroll"
+      }
+    },
+    {
+      "name": "custom-video-player",
+      "type": "registry:block",
+      "title": "CustomVideoPlayer",
+      "description": "CustomVideoPlayer component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/custom-video-player/CustomVideoPlayer.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/custom-video-player/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-video-player",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["video", "player", "timeline", "cursor", "interaction"],
+        "tech": ["react"],
+        "previewUrl": "/collected/custom-video-player"
+      }
+    },
+    {
+      "name": "feature-convergence",
+      "type": "registry:block",
+      "title": "FeatureConvergence",
+      "description": "FeatureConvergence component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/feature-convergence/FeatureConvergence.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/feature-convergence/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-deepjudge-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "convergence",
+          "morph",
+          "search",
+          "features",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/feature-convergence"
+      }
+    },
+    {
+      "name": "fibonacci-image-orb",
+      "type": "registry:block",
+      "title": "FibonacciImageOrb",
+      "description": "3D Fibonacci sphere of image planes.",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/fibonacci-image-orb/FibonacciImageOrb.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/fibonacci-image-orb/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-asset-orb-next",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["3d", "sphere", "fibonacci", "gallery", "three-js", "orbit"],
+        "tech": ["three"],
+        "previewUrl": "/collected/fibonacci-image-orb"
+      }
+    },
+    {
+      "name": "image-explosion",
+      "type": "registry:block",
+      "title": "ImageExplosion",
+      "description": "ImageExplosion component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/image-explosion/ImageExplosion.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/image-explosion/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-image-explosion-scroll-animation-nextjs",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "physics",
+          "explosion",
+          "particles",
+          "images",
+          "scroll",
+          "interaction"
+        ],
+        "tech": ["react"],
+        "previewUrl": "/collected/image-explosion"
+      }
+    },
+    {
+      "name": "physics-tag-cloud",
+      "type": "registry:block",
+      "title": "PhysicsTagCloud",
+      "description": "Physics-based tag cloud using Matter.js.",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/physics-tag-cloud/PhysicsTagCloud.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/physics-tag-cloud/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-playable-objects",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "physics",
+          "matter-js",
+          "tags",
+          "draggable",
+          "gravity",
+          "interaction"
+        ],
+        "tech": ["matter-js"],
+        "previewUrl": "/collected/physics-tag-cloud"
+      }
+    },
+    {
+      "name": "scroll-frame-canvas",
+      "type": "registry:block",
+      "title": "ScrollFrameCanvas",
+      "description": "ScrollFrameCanvas component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/scroll-frame-canvas/ScrollFrameCanvas.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/scroll-frame-canvas/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-adaline-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "canvas",
+          "frames",
+          "video",
+          "sequence",
+          "3d",
+          "perspective",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/scroll-frame-canvas"
+      }
+    },
+    {
+      "name": "split-card-flip",
+      "type": "registry:block",
+      "title": "SplitCardFlip",
+      "description": "SplitCardFlip component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/split-card-flip/SplitCardFlip.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/split-card-flip/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-split-card-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["scroll", "cards", "flip", "3d", "split", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/split-card-flip"
+      }
+    },
+    {
+      "name": "spotlight-image-stack",
+      "type": "registry:block",
+      "title": "SpotlightImageStack",
+      "description": "SpotlightImageStack component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/spotlight-image-stack/SpotlightImageStack.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/spotlight-image-stack/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-senseitech-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "images",
+          "spotlight",
+          "stacking",
+          "scatter",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/spotlight-image-stack"
+      }
+    },
+    {
+      "name": "sticky-cards-fold",
+      "type": "registry:block",
+      "title": "StickyCardsFold",
+      "description": "StickyCardsFold component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/sticky-cards-fold/StickyCardsFold.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/sticky-cards-fold/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-phive-sticky-cards",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "sticky",
+          "cards",
+          "3d",
+          "fold",
+          "perspective",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/sticky-cards-fold"
+      }
+    },
+    {
+      "name": "sticky-cards-scale",
+      "type": "registry:block",
+      "title": "StickyCardsScale",
+      "description": "StickyCardsScale component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/sticky-cards-scale/StickyCardsScale.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/sticky-cards-scale/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-sticky-cards-ashfall-rebuild-nextjs",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["scroll", "sticky", "cards", "scale", "zoom", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/sticky-cards-scale"
+      }
+    },
+    {
+      "name": "sticky-cards-tilt",
+      "type": "registry:block",
+      "title": "StickyCardsTilt",
+      "description": "StickyCardsTilt component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap", "@gsap/react"],
+      "files": [
+        {
+          "path": "src/components/collected/sticky-cards-tilt/StickyCardsTilt.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/sticky-cards-tilt/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-sticky-cards-nextjs",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["scroll", "sticky", "cards", "tilt", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/sticky-cards-tilt"
+      }
     },
     {
       "name": "use-debug",

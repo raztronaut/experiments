@@ -5,6 +5,23 @@
   "title": "rabbithole.chat Preloader Shader",
   "description": "A vortex gallery shader preloader for rabbithole.chat",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "3d",
+      "shader",
+      "preloader",
+      "gallery",
+      "animation"
+    ],
+    "tech": [
+      "three.js",
+      "glsl",
+      "motion"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/rabbithole-chat-preloader/preview.mp4"
+  },
   "dependencies": [
     "gsap",
     "three",

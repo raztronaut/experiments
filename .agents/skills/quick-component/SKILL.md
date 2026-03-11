@@ -90,11 +90,19 @@ src/components/collected/<kebab-name>/
 ### Phase 4: Verify
 
 ```bash
-npm run generate:registry   # picks up the new item
+npm run generate:registry   # JSON + MDX generation for the new item
 tsc --noEmit                # zero type errors
 ```
 
-Confirm the item appears in the registry output.
+Confirm:
+- Item appears in registry output with correct file count (TSX + CSS = 2 files)
+- CSS file is included in the registry `files[]` array (pipeline picks up co-located `.css` automatically)
+- `_map.ts` regenerated with the new component (pipeline auto-generates this)
+- MDX doc generated in `content/registry/collected/` with `## Preview` section embedding `CollectedPreview`
+- Preview route works at `/collected/<slug>` (permanent route via `(collected-preview)` route group)
+- All props are optional with sensible defaults (required props break the preview route)
+- `prefers-reduced-motion` is handled internally (never leave elements invisible)
+- For `useEffect`-based components (Three.js, physics): ScrollTrigger instances are killed on unmount, RAF IDs stored and cancelled
 
 ---
 

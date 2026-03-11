@@ -5,6 +5,23 @@
   "title": "404 Not Found",
   "description": "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "3d",
+      "shader",
+      "animation",
+      "scroll"
+    ],
+    "tech": [
+      "r3f",
+      "three.js",
+      "glsl"
+    ],
+    "status": "shipped",
+    "poster": "/experiments/404-not-found/poster.jpg",
+    "video": "/experiments/404-not-found/preview.mp4",
+    "featured": true
+  },
   "dependencies": [
     "@react-three/drei",
     "@react-three/fiber",

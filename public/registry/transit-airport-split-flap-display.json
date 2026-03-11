@@ -5,6 +5,23 @@
   "title": "Transit/Airport Split-Flap Display",
   "description": "A split flap display for transit/airport systems with sound effects manually made with Web Audio API",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "ui",
+      "audio",
+      "animation",
+      "text-effect"
+    ],
+    "tech": [
+      "motion",
+      "web-audio",
+      "css-animations"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/transit-airport-split-flap-display/preview.mp4",
+    "featured": true
+  },
   "dependencies": [
     "motion",
     "lucide-react"

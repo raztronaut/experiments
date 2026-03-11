@@ -5,6 +5,21 @@
   "title": "Game of Life Shader",
   "description": "An attempt to implement Conway's Game of Life with the logic defining the shader",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "generative",
+      "game",
+      "animation",
+      "cursor"
+    ],
+    "tech": [
+      "canvas-2d",
+      "web-workers"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/game-of-life-shader/preview.mp4"
+  },
   "dependencies": [
     "@paper-design/shaders-react"
   ],

@@ -5,6 +5,22 @@
   "title": "rabbithole.chat Gallery Explore",
   "description": "3D floating gallery shader as an experimental explore page",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "3d",
+      "shader",
+      "gallery",
+      "scroll"
+    ],
+    "tech": [
+      "r3f",
+      "three.js",
+      "glsl"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4"
+  },
   "dependencies": [
     "@react-three/fiber",
     "three",

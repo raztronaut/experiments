@@ -279,6 +279,31 @@
     "dependencyCount": 0
   },
   {
+    "name": "clip-path-reveal",
+    "type": "registry:block",
+    "title": "ClipPathReveal",
+    "description": "ClipPathReveal component",
+    "tags": [
+      "reveal",
+      "preloader",
+      "clip-path",
+      "mask",
+      "splittext",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "gsap/SplitText",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
+  },
+  {
     "name": "console-easter-egg",
     "type": "registry:component",
     "title": "ConsoleEasterEgg",
@@ -291,6 +316,46 @@
     "category": "components",
     "fileCount": 1,
     "dependencyCount": 0
+  },
+  {
+    "name": "content-section",
+    "type": "registry:component",
+    "title": "ContentSection",
+    "description": "ContentSection component",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 12,
+    "dependencyCount": 2
+  },
+  {
+    "name": "counter-flip-reveal",
+    "type": "registry:block",
+    "title": "CounterFlipReveal",
+    "description": "CounterFlipReveal component",
+    "tags": [
+      "reveal",
+      "counter",
+      "flip",
+      "preloader",
+      "splittext",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "gsap/Flip",
+      "gsap/SplitText",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
   },
   {
     "name": "cursor-depth-explorer",
@@ -313,6 +378,55 @@
     "category": "experiments",
     "fileCount": 3,
     "dependencyCount": 5
+  },
+  {
+    "name": "curved-text-scroll",
+    "type": "registry:block",
+    "title": "CurvedTextScroll",
+    "description": "Curved 3D text paths with horizontal-scrolling cards + dot grid.",
+    "tags": [
+      "scroll",
+      "3d",
+      "text",
+      "curves",
+      "three-js",
+      "horizontal",
+      "dot-grid",
+      "gsap"
+    ],
+    "tech": [
+      "three",
+      "gsap",
+      "gsap/ScrollTrigger"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 1
+  },
+  {
+    "name": "custom-video-player",
+    "type": "registry:block",
+    "title": "CustomVideoPlayer",
+    "description": "CustomVideoPlayer component",
+    "tags": [
+      "video",
+      "player",
+      "timeline",
+      "cursor",
+      "interaction"
+    ],
+    "tech": [
+      "react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 0
   },
   {
     "name": "drawer",
@@ -339,7 +453,7 @@
     "poster": null,
     "video": null,
     "category": "components",
-    "fileCount": 10,
+    "fileCount": 8,
     "dependencyCount": 2
   },
   {
@@ -383,6 +497,53 @@
     "category": "components",
     "fileCount": 1,
     "dependencyCount": 1
+  },
+  {
+    "name": "feature-convergence",
+    "type": "registry:block",
+    "title": "FeatureConvergence",
+    "description": "FeatureConvergence component",
+    "tags": [
+      "scroll",
+      "convergence",
+      "morph",
+      "search",
+      "features",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
+  },
+  {
+    "name": "fibonacci-image-orb",
+    "type": "registry:block",
+    "title": "FibonacciImageOrb",
+    "description": "3D Fibonacci sphere of image planes.",
+    "tags": [
+      "3d",
+      "sphere",
+      "fibonacci",
+      "gallery",
+      "three-js",
+      "orbit"
+    ],
+    "tech": [
+      "three"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 0
   },
   {
     "name": "fonts",
@@ -460,6 +621,29 @@
     "video": null,
     "category": "components",
     "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
+    "name": "image-explosion",
+    "type": "registry:block",
+    "title": "ImageExplosion",
+    "description": "ImageExplosion component",
+    "tags": [
+      "physics",
+      "explosion",
+      "particles",
+      "images",
+      "scroll",
+      "interaction"
+    ],
+    "tech": [
+      "react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
     "dependencyCount": 0
   },
   {
@@ -614,6 +798,29 @@
     "dependencyCount": 1
   },
   {
+    "name": "physics-tag-cloud",
+    "type": "registry:block",
+    "title": "PhysicsTagCloud",
+    "description": "Physics-based tag cloud using Matter.js.",
+    "tags": [
+      "physics",
+      "matter-js",
+      "tags",
+      "draggable",
+      "gravity",
+      "interaction"
+    ],
+    "tech": [
+      "matter-js"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 0
+  },
+  {
     "name": "rabbithole-chat-gallery-explore",
     "type": "registry:block",
     "title": "rabbithole.chat Gallery Explore",
@@ -703,6 +910,32 @@
     "dependencyCount": 1
   },
   {
+    "name": "scroll-frame-canvas",
+    "type": "registry:block",
+    "title": "ScrollFrameCanvas",
+    "description": "ScrollFrameCanvas component",
+    "tags": [
+      "scroll",
+      "canvas",
+      "frames",
+      "video",
+      "sequence",
+      "3d",
+      "perspective",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
+  },
+  {
     "name": "separator",
     "type": "registry:component",
     "title": "separator",
@@ -777,6 +1010,126 @@
     "category": "components",
     "fileCount": 1,
     "dependencyCount": 1
+  },
+  {
+    "name": "split-card-flip",
+    "type": "registry:block",
+    "title": "SplitCardFlip",
+    "description": "SplitCardFlip component",
+    "tags": [
+      "scroll",
+      "cards",
+      "flip",
+      "3d",
+      "split",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
+  },
+  {
+    "name": "spotlight-image-stack",
+    "type": "registry:block",
+    "title": "SpotlightImageStack",
+    "description": "SpotlightImageStack component",
+    "tags": [
+      "scroll",
+      "images",
+      "spotlight",
+      "stacking",
+      "scatter",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
+  },
+  {
+    "name": "sticky-cards-fold",
+    "type": "registry:block",
+    "title": "StickyCardsFold",
+    "description": "StickyCardsFold component",
+    "tags": [
+      "scroll",
+      "sticky",
+      "cards",
+      "3d",
+      "fold",
+      "perspective",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
+  },
+  {
+    "name": "sticky-cards-scale",
+    "type": "registry:block",
+    "title": "StickyCardsScale",
+    "description": "StickyCardsScale component",
+    "tags": [
+      "scroll",
+      "sticky",
+      "cards",
+      "scale",
+      "zoom",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
+  },
+  {
+    "name": "sticky-cards-tilt",
+    "type": "registry:block",
+    "title": "StickyCardsTilt",
+    "description": "StickyCardsTilt component",
+    "tags": [
+      "scroll",
+      "sticky",
+      "cards",
+      "tilt",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "collected",
+    "fileCount": 2,
+    "dependencyCount": 2
   },
   {
     "name": "terminal-cat",

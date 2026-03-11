@@ -5,6 +5,20 @@
   "title": "Keyboard Keys",
   "description": "Interactive 3D keyboard keys with press animation and success/error animations",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "keyboard",
+      "animation",
+      "ui"
+    ],
+    "tech": [
+      "css-animations"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/keyboard-keys/preview.mp4",
+    "featured": true
+  },
   "registryDependencies": [
     "razi-style"
   ],

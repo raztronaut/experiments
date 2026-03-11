@@ -5,6 +5,20 @@
   "title": "OSX Cheetah UI with a surprise",
   "description": "Find the hidden stupid feature!",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "physics",
+      "ui",
+      "animation"
+    ],
+    "tech": [
+      "matter.js"
+    ],
+    "status": "shipped",
+    "poster": "/experiments/gravity-physics-ui-layout/preview.png",
+    "video": null,
+    "featured": true
+  },
   "dependencies": [
     "matter-js",
     "lucide-react"

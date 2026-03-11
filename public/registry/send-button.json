@@ -5,6 +5,20 @@
   "title": "Send Button",
   "description": "A cool animated send button animation",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "ui",
+      "animation",
+      "interaction"
+    ],
+    "tech": [
+      "motion"
+    ],
+    "status": "shipped",
+    "poster": "/experiments/send-button/preview-send-button.png",
+    "video": "/experiments/send-button/preview-send-button.mp4",
+    "featured": true
+  },
   "dependencies": [
     "motion",
     "lucide-react",

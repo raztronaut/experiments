@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fibonacci-image-orb",
+  "type": "registry:block",
+  "title": "FibonacciImageOrb",
+  "description": "3D Fibonacci sphere of image planes.",
+  "category": "collected",
+  "meta": {
+    "source": "https://github.com/codegridweb/cg-asset-orb-next",
+    "author": "Codegrid",
+    "license": "MIT",
+    "tags": [
+      "3d",
+      "sphere",
+      "fibonacci",
+      "gallery",
+      "three-js",
+      "orbit"
+    ],
+    "tech": [
+      "three"
+    ],
+    "previewUrl": "/collected/fibonacci-image-orb"
+  },
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "FibonacciImageOrb.tsx",
+      "type": "registry:component",
+      "content": "\"use client\"\n\nimport { useEffect, useRef } from \"react\"\nimport \"./styles.css\"\n\nexport interface FibonacciImageOrbProps {\n  images?: string[]\n  totalItems?: number\n  sphereRadius?: number\n  planeWidth?: number\n  planeHeight?: number\n  backgroundColor?: string\n  className?: string\n}\n\nconst DEFAULT_IMAGES = Array.from(\n  { length: 15 },\n  (_, i) =>\n    `https://images.unsplash.com/photo-${\n      [\n        \"1618005182384-a83a8bd57fbe\",\n        \"1614850523459-c2f4c699c52e\",\n        \"1558591710-4b4a1ae0f04d\",\n        \"1579547945413-497e1b99dac0\",\n        \"1541961017774-22349e4a1262\",\n        \"1578301978693-85fa9c0320b9\",\n        \"1549490349-8643362247b5\",\n        \"1604871000636-074fa5117945\",\n        \"1618005198919-d3d4b5a92ead\",\n        \"1635070041078-e363dbe005cb\",\n        \"1557672172-298e090bd0f1\",\n        \"1560762484-813fc97650a0\",\n        \"1567095761054-7a02e69e5b2b\",\n        \"1551376347-075b0121a65b\",\n        \"1506905925346-21bda4d32df4\",\n      ][i % 15]\n    }?w=400&q=80`\n)\n\n/**\n * 3D Fibonacci sphere of image planes.\n * Requires Three.js loaded globally or as ES module.\n * Uses vanilla Three.js (not R3F) for portability.\n */\nexport function FibonacciImageOrb({\n  images = DEFAULT_IMAGES,\n  totalItems = 100,\n  sphereRadius = 5,\n  planeWidth = 1,\n  planeHeight = 0.6,\n  backgroundColor = \"#3b3b3b\",\n  className,\n}: FibonacciImageOrbProps) {\n  const mountRef = useRef<HTMLDivElement>(null)\n\n  useEffect(() => {\n    const mount = mountRef.current\n    if (!mount) {\n      return\n    }\n\n    let disposed = false\n\n    const init = async () => {\n      const THREE = await import(\"three\")\n      const { OrbitControls } = await import(\n        \"three/examples/jsm/controls/OrbitControls.js\"\n      )\n\n      if (disposed) {\n        return\n      }\n\n      const scene = new THREE.Scene()\n      const camera = new THREE.PerspectiveCamera(\n        75,\n        mount.clientWidth / mount.clientHeight,\n        0.1,\n        1000\n      )\n\n      const renderer = new THREE.WebGLRenderer({\n        antialias: true,\n        alpha: true,\n        powerPreference: \"high-performance\",\n      })\n      renderer.setSize(mount.clientWidth, mount.clientHeight)\n      renderer.setClearColor(new THREE.Color(backgroundColor))\n      renderer.setPixelRatio(window.devicePixelRatio)\n      mount.appendChild(renderer.domElement)\n\n      const controls = new OrbitControls(camera, renderer.domElement)\n      controls.enableDamping = true\n      controls.dampingFactor = 0.05\n      controls.rotateSpeed = 1.2\n      controls.minDistance = 6\n      controls.maxDistance = 10\n      controls.enablePan = false\n\n      const textureLoader = new THREE.TextureLoader()\n      let loadedCount = 0\n\n      const getRandomImage = () =>\n        images[Math.floor(Math.random() * images.length)]\n\n      const loadImageMesh = (phi: number, theta: number) => {\n        textureLoader.load(\n          getRandomImage(),\n          (texture) => {\n            if (disposed) {\n              return\n            }\n\n            texture.generateMipmaps = false\n            texture.minFilter = THREE.LinearFilter\n            texture.magFilter = THREE.LinearFilter\n\n            const imgAspect = texture.image.width / texture.image.height\n            let w = planeWidth\n            let h = planeHeight\n            if (imgAspect > 1) {\n              h = w / imgAspect\n            } else {\n              w = h * imgAspect\n            }\n\n            const geometry = new THREE.PlaneGeometry(w, h)\n            const material = new THREE.MeshBasicMaterial({\n              map: texture,\n              side: THREE.DoubleSide,\n              depthWrite: true,\n              depthTest: true,\n            })\n            const mesh = new THREE.Mesh(geometry, material)\n\n            mesh.position.x = sphereRadius * Math.cos(theta) * Math.sin(phi)\n            mesh.position.y = sphereRadius * Math.sin(theta) * Math.sin(phi)\n            mesh.position.z = sphereRadius * Math.cos(phi)\n            mesh.lookAt(0, 0, 0)\n            mesh.rotateY(Math.PI)\n\n            scene.add(mesh)\n            loadedCount++\n            if (loadedCount === totalItems) {\n              animate()\n            }\n          },\n          undefined,\n          () => {\n            loadedCount++\n            if (loadedCount === totalItems) {\n              animate()\n            }\n          }\n        )\n      }\n\n      for (let i = 0; i < totalItems; i++) {\n        const phi = Math.acos(-1 + (2 * i) / totalItems)\n        const theta = Math.sqrt(totalItems * Math.PI) * phi\n        loadImageMesh(phi, theta)\n      }\n\n      camera.position.z = 10\n\n      const prefersReduced = window.matchMedia(\n        \"(prefers-reduced-motion: reduce)\"\n      ).matches\n\n      let rafId = 0\n      const animate = () => {\n        if (disposed) {\n          return\n        }\n        controls.update()\n        renderer.render(scene, camera)\n        if (!prefersReduced) {\n          rafId = requestAnimationFrame(animate)\n        }\n      }\n\n      const onResize = () => {\n        if (disposed) {\n          return\n        }\n        const w = mount.clientWidth\n        const h = mount.clientHeight\n        renderer.setSize(w, h)\n        camera.aspect = w / h\n        camera.updateProjectionMatrix()\n      }\n      window.addEventListener(\"resize\", onResize)\n\n      return () => {\n        disposed = true\n        cancelAnimationFrame(rafId)\n        window.removeEventListener(\"resize\", onResize)\n        controls.dispose()\n        renderer.dispose()\n        if (mount.contains(renderer.domElement)) {\n          mount.removeChild(renderer.domElement)\n        }\n        scene.traverse((obj) => {\n          if (obj instanceof THREE.Mesh) {\n            obj.geometry.dispose()\n            if (obj.material instanceof THREE.Material) {\n              obj.material.dispose()\n            }\n          }\n        })\n      }\n    }\n\n    let cleanup: (() => void) | undefined\n    init().then((c) => {\n      cleanup = c\n    })\n\n    return () => {\n      disposed = true\n      cleanup?.()\n    }\n  }, [images, totalItems, sphereRadius, planeWidth, planeHeight, backgroundColor])\n\n  return (\n    <div\n      className={`fio-container ${className ?? \"\"}`.trim()}\n      ref={mountRef}\n    />\n  )\n}\n\nexport default FibonacciImageOrb\n"
+    },
+    {
+      "name": "styles.css",
+      "type": "registry:file",
+      "target": "components/collected/fibonacci-image-orb/styles.css",
+      "content": ".fio-container {\n  width: 100%;\n  height: 100%;\n  min-height: 400px;\n}\n\n.fio-container canvas {\n  display: block;\n  width: 100%;\n  height: 100%;\n}\n"
+    }
+  ]
+}

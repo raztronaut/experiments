@@ -5,6 +5,23 @@
   "title": "Mountain Depth Map Shader Transition",
   "description": "A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape",
   "category": "experiments",
+  "meta": {
+    "tags": [
+      "shader",
+      "animation",
+      "scroll",
+      "3d"
+    ],
+    "tech": [
+      "r3f",
+      "three.js",
+      "glsl",
+      "gsap"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/mountain-transition/preview.mp4"
+  },
   "dependencies": [
     "@react-three/fiber",
     "@react-three/drei",
