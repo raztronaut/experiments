@@ -3,7 +3,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import "./registry.css";
@@ -28,7 +27,7 @@ export default function RegistryLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="dark" lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           activeFont.className,
@@ -37,13 +36,12 @@ export default function RegistryLayout({
         )}
       >
         <UmamiScript />
-        <GrainOverlay className="pointer-events-none fixed inset-0" />
         <RootProvider
           search={{
             enabled: true,
             options: { api: "/api/registry-search" },
           }}
-          theme={{ defaultTheme: "dark", enabled: false }}
+          theme={{ defaultTheme: "dark" }}
         >
           {children}
         </RootProvider>

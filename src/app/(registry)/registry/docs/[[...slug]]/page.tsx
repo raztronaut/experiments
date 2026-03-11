@@ -3,12 +3,13 @@ import {
   DocsDescription,
   DocsPage,
   DocsTitle,
-} from "fumadocs-ui/layouts/docs/page";
+  EditOnGitHub,
+} from "fumadocs-ui/layouts/flux/page";
 import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/mdx-components";
 import { registrySource } from "@/lib/registry-source";
 
-const GITHUB_REPO = "https://github.com/razisyed/experiments";
+const GITHUB_REPO = "https://github.com/raztronaut/experiments";
 const CONTENT_DIR = "content/registry";
 
 interface PageProps {
@@ -35,14 +36,9 @@ export default async function Page({ params }: PageProps) {
       <DocsBody>
         <MDXContent components={getMDXComponents()} />
       </DocsBody>
-      <a
+      <EditOnGitHub
         href={`${GITHUB_REPO}/blob/main/${CONTENT_DIR}/${slugPath}.mdx`}
-        rel="noreferrer noopener"
-        target="_blank"
-        className="mt-6 inline-block w-fit rounded-xl border border-fd-border bg-fd-secondary p-2 font-medium text-fd-secondary-foreground text-sm transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-      >
-        Edit on GitHub
-      </a>
+      />
     </DocsPage>
   );
 }

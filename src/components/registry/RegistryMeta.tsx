@@ -35,8 +35,8 @@ function MetaBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-md border border-border px-2.5 py-1",
-        "font-medium text-muted-foreground text-xs",
+        "inline-flex items-center rounded-md border border-fd-border px-2.5 py-1",
+        "font-medium text-fd-muted-foreground text-xs",
         className
       )}
     >
@@ -67,12 +67,12 @@ function RegistryMeta({
     <div className="space-y-2">
       <div className="flex flex-wrap items-center gap-2">
         {typeLabel && (
-          <MetaBadge className="border-primary/30 bg-primary/10 text-primary">
+          <MetaBadge className="border-fd-primary/30 bg-fd-primary/10 text-fd-primary">
             {typeLabel}
           </MetaBadge>
         )}
         {categoryLabel && categoryLabel !== typeLabel && (
-          <MetaBadge className="border-accent bg-accent/50 text-accent-foreground">
+          <MetaBadge className="border-fd-accent bg-fd-accent/50 text-fd-accent-foreground">
             {categoryLabel}
           </MetaBadge>
         )}
@@ -89,9 +89,9 @@ function RegistryMeta({
           {dependencies.map((dep) => (
             <a
               className={cn(
-                "inline-flex items-center rounded-md border border-border px-2.5 py-1",
-                "font-medium text-muted-foreground text-xs",
-                "transition-colors hover:border-primary/30 hover:text-primary"
+                "inline-flex items-center rounded-md border border-fd-border px-2.5 py-1",
+                "font-medium text-fd-muted-foreground text-xs",
+                "transition-colors hover:border-fd-primary/30 hover:text-fd-primary"
               )}
               href={`https://www.npmjs.com/package/${dep}`}
               key={dep}
@@ -103,7 +103,7 @@ function RegistryMeta({
           ))}
           {tech.map((t) => (
             <span
-              className="inline-flex items-center rounded-full bg-accent px-2.5 py-1 font-medium text-accent-foreground text-xs"
+              className="inline-flex items-center rounded-full bg-fd-accent px-2.5 py-1 font-medium text-fd-accent-foreground text-xs"
               key={t}
             >
               {t}
@@ -116,7 +116,7 @@ function RegistryMeta({
         <div className="flex flex-wrap items-center gap-1.5">
           {tags.map((tag) => (
             <span
-              className="inline-flex items-center rounded-full px-2 py-0.5 text-muted-foreground text-xs"
+              className="inline-flex items-center rounded-full px-2 py-0.5 text-fd-muted-foreground text-xs"
               key={tag}
             >
               {tag}
