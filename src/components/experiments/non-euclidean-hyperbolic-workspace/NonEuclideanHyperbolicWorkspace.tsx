@@ -227,7 +227,7 @@ export default function NonEuclideanHyperbolicWorkspace() {
           "relative aspect-square w-full max-w-[600px] cursor-move touch-none overflow-hidden rounded-full border border-sky-900/30",
           // Added outer glow here so it isn't clipped by overflow-hidden
           "shadow-[0_0_100px_rgba(56,189,248,0.1)]",
-          "bg-[radial-gradient(circle_at_center,_#1a1b24_0%,_#09090b_60%,_#000000_100%)]",
+          "bg-[radial-gradient(circle_at_center,#1a1b24_0%,#09090b_60%,#000000_100%)]",
           isDragging && "cursor-grabbing"
         )}
         onMouseDown={handleMouseDown}
@@ -289,7 +289,7 @@ export default function NonEuclideanHyperbolicWorkspace() {
         {/* Tiles Layer */}
         <div className="pointer-events-none absolute inset-0 z-20">
           {/* Center Crosshair - made more subtle */}
-          <div className="absolute top-1/2 left-1/2 z-[0] h-0.5 w-0.5 rounded-full bg-sky-500/30" />
+          <div className="absolute top-1/2 left-1/2 z-0 h-0.5 w-0.5 rounded-full bg-sky-500/30" />
 
           {graph.nodes.map((node) => (
             <HyperbolicTile
@@ -335,7 +335,7 @@ export default function NonEuclideanHyperbolicWorkspace() {
         </div>
 
         {/* Horizon Glow Ring - internal shadow only */}
-        <div className="pointer-events-none absolute inset-0 z-[60] rounded-full border-4 border-sky-500/20 shadow-[inset_0_0_60px_20px_rgba(0,0,0,0.6)]" />
+        <div className="pointer-events-none absolute inset-0 z-60 rounded-full border-4 border-sky-500/20 shadow-[inset_0_0_60px_20px_rgba(0,0,0,0.6)]" />
       </div>
 
       {/* Footer removed */}

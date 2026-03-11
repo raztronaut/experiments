@@ -105,7 +105,7 @@ const DesktopIcon: React.FC<DesktopIconProps> = ({
 
       {/* Label */}
       <div
-        className={`pointer-events-none max-w-full break-words rounded-full px-2 py-[2px] text-center font-medium text-[12px] leading-tight ${
+        className={`wrap-break-word pointer-events-none max-w-full rounded-full px-2 py-[2px] text-center font-medium text-[12px] leading-tight ${
           isSelected
             ? "bg-[#3333cc] text-white"
             : "text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"

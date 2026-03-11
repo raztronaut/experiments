@@ -44,7 +44,7 @@ const ThemeSwitch = ({
           // root (track)
           "peer absolute inset-0 h-full w-full rounded-full transition-colors duration-300",
           "bg-zinc-200 dark:bg-zinc-100",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           className
         )}
         onCheckedChange={handleCheckedChange}

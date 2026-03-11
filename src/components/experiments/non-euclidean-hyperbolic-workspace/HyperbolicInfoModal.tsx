@@ -49,10 +49,10 @@ export function HyperbolicInfoModal({
   }
 
   return (
-    <div className="fade-in absolute inset-0 z-[100] flex animate-in items-center justify-center bg-black/60 p-4 backdrop-blur-sm duration-200">
+    <div className="fade-in absolute inset-0 z-100 flex animate-in items-center justify-center bg-black/60 p-4 backdrop-blur-xs duration-200">
       {/* Escher Hover Preview - Hidden on mobile */}
       <div
-        className="pointer-events-none fixed z-[110] hidden overflow-hidden rounded-lg border border-white/10 bg-black/80 shadow-2xl backdrop-blur-xl transition-opacity duration-300 sm:block"
+        className="pointer-events-none fixed z-110 hidden overflow-hidden rounded-lg border border-white/10 bg-black/80 shadow-2xl backdrop-blur-xl transition-opacity duration-300 sm:block"
         style={{
           left: 0,
           top: 0,
@@ -68,7 +68,7 @@ export function HyperbolicInfoModal({
             className="h-full w-full object-contain p-2"
             src="/experiments/non-euclidean-hyperbolic-workspace/escher.png"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
         </div>
       </div>
 

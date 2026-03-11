@@ -20,7 +20,7 @@ export default function InfoModal({
           {/* Backdrop */}
           <motion.div
             animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-60 bg-black/60 backdrop-blur-xs"
             exit={{ opacity: 0 }}
             initial={{ opacity: 0 }}
             onClick={onClose}
@@ -32,7 +32,7 @@ export default function InfoModal({
           {/* Modal Content */}
           <motion.div
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center p-4"
+            className="pointer-events-none fixed inset-0 z-70 flex items-center justify-center p-4"
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.5 }}
@@ -58,7 +58,7 @@ export default function InfoModal({
                 </div>
                 <button
                   aria-label="Close"
-                  className="-mt-2 -mr-2 flex-shrink-0 rounded-full bg-white/5 p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                  className="-mt-2 -mr-2 shrink-0 rounded-full bg-white/5 p-2 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                   onClick={onClose}
                   onPointerDown={(e) => e.stopPropagation()}
                 >

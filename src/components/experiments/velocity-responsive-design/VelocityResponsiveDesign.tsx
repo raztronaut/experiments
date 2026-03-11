@@ -29,7 +29,7 @@ function FlightControl() {
     useVelocityState();
 
   return (
-    <div className="fixed bottom-8 left-1/2 z-[100] flex w-[calc(100%-2rem)] max-w-[420px] -translate-x-1/2 items-center gap-3 rounded-2xl border border-white/10 bg-zinc-900/60 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:gap-6 sm:p-4">
+    <div className="fixed bottom-8 left-1/2 z-100 flex w-[calc(100%-2rem)] max-w-[420px] -translate-x-1/2 items-center gap-3 rounded-2xl border border-white/10 bg-zinc-900/60 p-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:gap-6 sm:p-4">
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className="mb-1 flex justify-between font-mono text-[9px] text-zinc-500 uppercase tracking-widest sm:text-[10px]">
           <span className="flex items-center gap-1.5 truncate sm:gap-2">
@@ -106,7 +106,7 @@ function FlightControl() {
         </div>
       </div>
 
-      <div className="h-10 w-[1px] bg-white/10" />
+      <div className="h-10 w-px bg-white/10" />
 
       <div className="flex items-center gap-4">
         <button
@@ -248,7 +248,7 @@ export default function VelocityResponsiveDesign() {
             initial={{ opacity: 0, y: 30 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="mb-4 bg-gradient-to-b from-white to-zinc-700 bg-clip-text font-black text-5xl text-transparent text-white uppercase italic leading-[0.9] tracking-tighter sm:text-8xl">
+            <h1 className="mb-4 bg-linear-to-b from-white to-zinc-700 bg-clip-text font-black text-5xl text-transparent text-white uppercase italic leading-[0.9] tracking-tighter sm:text-8xl">
               The
               <br />
               Relativistic
@@ -257,7 +257,7 @@ export default function VelocityResponsiveDesign() {
             </h1>
 
             <div className="mt-16 flex flex-col items-center gap-4">
-              <div className="h-24 w-[1px] bg-gradient-to-b from-primary/50 to-transparent" />
+              <div className="h-24 w-px bg-linear-to-b from-primary/50 to-transparent" />
               <span className="animate-pulse font-mono text-[9px] text-zinc-600 uppercase tracking-widest">
                 Scroll to Accelerate
               </span>
@@ -296,7 +296,7 @@ export default function VelocityResponsiveDesign() {
         <FlightControl />
 
         <footer className="relative flex h-[200vh] flex-col items-center justify-center border-white/5 border-t bg-zinc-950">
-          <div className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-gradient-to-b from-white/10 to-transparent" />
+          <div className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-linear-to-b from-white/10 to-transparent" />
           <p className="mb-4 font-mono text-xs text-zinc-700 uppercase tracking-[0.4em]">
             End of Content Stream
           </p>

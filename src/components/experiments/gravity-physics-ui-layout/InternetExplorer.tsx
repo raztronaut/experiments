@@ -133,19 +133,19 @@ export default function InternetExplorer() {
   return (
     <div className="flex h-full flex-col bg-[#dddddd] font-sans">
       {/* IE Toolbar Background with Pinstripes */}
-      <div className="flex flex-col gap-2 border-gray-400 border-b bg-[#e8e8e8] bg-[url('https://www.transparenttextures.com/patterns/diagonal-stripes-light.png')] p-2 shadow-sm">
+      <div className="flex flex-col gap-2 border-gray-400 border-b bg-[#e8e8e8] bg-[url('https://www.transparenttextures.com/patterns/diagonal-stripes-light.png')] p-2 shadow-xs">
         {/* Button Row */}
         <div className="flex items-center gap-4">
           <div className="flex gap-0">
             <button
-              className={`flex h-8 w-10 items-center justify-center rounded-l-md border border-gray-400 bg-gradient-to-b from-white to-[#cccccc] p-2 shadow-sm ${historyIndex === 0 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
+              className={`flex h-8 w-10 items-center justify-center rounded-l-md border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs ${historyIndex === 0 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
               disabled={historyIndex === 0}
               onClick={handleBack}
             >
               <ChevronLeft className="text-gray-700" size={20} />
             </button>
             <button
-              className={`flex h-8 w-10 items-center justify-center rounded-r-md border border-gray-400 border-l-0 bg-gradient-to-b from-white to-[#cccccc] p-2 shadow-sm ${historyIndex === history.length - 1 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
+              className={`flex h-8 w-10 items-center justify-center rounded-r-md border border-gray-400 border-l-0 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs ${historyIndex === history.length - 1 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
               disabled={historyIndex === history.length - 1}
               onClick={handleForward}
             >
@@ -155,7 +155,7 @@ export default function InternetExplorer() {
 
           <div className="flex gap-2">
             <button
-              className="rounded border border-gray-400 bg-gradient-to-b from-white to-[#cccccc] p-1.5 shadow-sm active:bg-[#bbbbbb]"
+              className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs active:bg-[#bbbbbb]"
               onClick={handleRefresh}
             >
               <RefreshCw
@@ -164,7 +164,7 @@ export default function InternetExplorer() {
               />
             </button>
             <button
-              className="rounded border border-gray-400 bg-gradient-to-b from-white to-[#cccccc] p-1.5 shadow-sm active:bg-[#bbbbbb]"
+              className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs active:bg-[#bbbbbb]"
               onClick={handleHome}
             >
               <Home className="text-gray-700" size={16} />
@@ -176,13 +176,13 @@ export default function InternetExplorer() {
         <form className="flex items-center gap-2" onSubmit={handleGo}>
           <span className="font-semibold text-gray-600 text-xs">Address:</span>
           <input
-            className="flex-1 border border-gray-500 bg-white px-2 py-1 font-sans text-sm shadow-inner outline-none focus:ring-1 focus:ring-blue-400"
+            className="flex-1 border border-gray-500 bg-white px-2 py-1 font-sans text-sm shadow-inner outline-hidden focus:ring-1 focus:ring-blue-400"
             onChange={(e) => setInputValue(e.target.value)}
             type="text"
             value={inputValue}
           />
           <button
-            className="rounded border border-gray-500 bg-gradient-to-b from-[#dddddd] to-[#aaaaaa] px-3 py-1 font-bold text-gray-800 text-xs shadow-sm active:translate-y-[1px]"
+            className="rounded border border-gray-500 bg-linear-to-b from-[#dddddd] to-[#aaaaaa] px-3 py-1 font-bold text-gray-800 text-xs shadow-xs active:translate-y-px"
             type="submit"
           >
             Go

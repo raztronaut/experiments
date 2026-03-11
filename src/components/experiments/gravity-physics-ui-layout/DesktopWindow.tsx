@@ -88,7 +88,7 @@ const DesktopWindow: React.FC<DesktopWindowProps> = ({
       }}
     >
       {/* Window Bar */}
-      <div className="flex h-6 w-full cursor-grab items-center border-[#b4b4b4] border-b bg-gradient-to-b from-[#f6f6f6] to-[#dcdcdc] px-2 active:cursor-grabbing">
+      <div className="flex h-6 w-full cursor-grab items-center border-[#b4b4b4] border-b bg-linear-to-b from-[#f6f6f6] to-[#dcdcdc] px-2 active:cursor-grabbing">
         <div className="flex space-x-2">
           <button
             className="h-3 w-3 rounded-full border border-[#e0443e] bg-[#ff5f57] shadow-inner transition-colors hover:bg-[#ff5f57]/80 active:bg-[#bf4c46]"
@@ -97,7 +97,7 @@ const DesktopWindow: React.FC<DesktopWindowProps> = ({
           <div className="h-3 w-3 rounded-full border border-[#dea123] bg-[#ffbd2e] shadow-inner" />
           <div className="h-3 w-3 rounded-full border border-[#1aab29] bg-[#28ca41] shadow-inner" />
         </div>
-        <div className="pointer-events-none flex-1 text-center font-semibold text-gray-600 text-xs drop-shadow-sm">
+        <div className="pointer-events-none flex-1 text-center font-semibold text-gray-600 text-xs drop-shadow-xs">
           {title}
         </div>
         <div className="w-14" /> {/* Spacer for centering */}

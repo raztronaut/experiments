@@ -378,7 +378,7 @@ export default function CursorDepthExplorer({
     >
       {needsPermissionButton && !hasPermission && (
         <button
-          className="pointer-events-auto absolute bottom-8 left-8 z-50 rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs backdrop-blur transition-colors hover:bg-white/10"
+          className="pointer-events-auto absolute bottom-8 left-8 z-50 rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs backdrop-blur-sm transition-colors hover:bg-white/10"
           onClick={requestPermission}
           onPointerDown={(e) => e.stopPropagation()}
         >
@@ -399,7 +399,7 @@ export default function CursorDepthExplorer({
           {/* Depth Reveal Button */}
           <button
             aria-label="Toggle Depth Map"
-            className={`rounded-full border border-white/20 p-3 backdrop-blur transition-colors ${isRevealed ? "bg-white/30 text-white" : "bg-black/50 text-white hover:bg-white/10"}`}
+            className={`rounded-full border border-white/20 p-3 backdrop-blur-sm transition-colors ${isRevealed ? "bg-white/30 text-white" : "bg-black/50 text-white hover:bg-white/10"}`}
             onClick={() => setIsRevealed(!isRevealed)}
             onPointerDown={(e) => e.stopPropagation()}
           >
@@ -409,7 +409,7 @@ export default function CursorDepthExplorer({
           {/* Info Button */}
           <button
             aria-label="Painting Information"
-            className="rounded-full border border-white/20 bg-black/50 p-3 text-white backdrop-blur transition-colors hover:bg-white/10"
+            className="rounded-full border border-white/20 bg-black/50 p-3 text-white backdrop-blur-sm transition-colors hover:bg-white/10"
             onClick={() => setIsInfoModalOpen(true)}
             onPointerDown={(e) => e.stopPropagation()}
           >
@@ -419,7 +419,7 @@ export default function CursorDepthExplorer({
 
         {/* Next Painting Button */}
         <button
-          className="pointer-events-auto rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs tracking-wider backdrop-blur transition-colors hover:bg-white/10"
+          className="pointer-events-auto rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs tracking-wider backdrop-blur-sm transition-colors hover:bg-white/10"
           onClick={nextImage}
           onPointerDown={(e) => e.stopPropagation()}
         >

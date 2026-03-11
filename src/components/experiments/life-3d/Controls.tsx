@@ -33,7 +33,7 @@ export function Controls({
         {Object.entries(presets).map(([id, preset]) => (
           <button
             className={cn(
-              "rounded-xl px-3 py-2 font-bold text-[8px] uppercase tracking-[0.1em] transition-all duration-300 md:px-4 md:py-2 md:text-[10px] md:tracking-[0.2em]",
+              "rounded-xl px-3 py-2 font-bold text-[8px] uppercase tracking-widest transition-all duration-300 md:px-4 md:py-2 md:text-[10px] md:tracking-[0.2em]",
               currentPreset === id
                 ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.3)]"
                 : "text-white/30 hover:bg-white/5 hover:text-white"

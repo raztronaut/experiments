@@ -72,7 +72,7 @@ export default function GravityPhysicsUiLayout() {
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#2b6cb0]">
       {/* Background Gradient similar to Cheetah default */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1a4b8c] to-[#0d2a52]" />
+      <div className="absolute inset-0 bg-linear-to-br from-[#1a4b8c] to-[#0d2a52]" />
 
       <PhysicsProvider>
         <GravityDesktop>
@@ -161,8 +161,8 @@ export default function GravityPhysicsUiLayout() {
                         onDoubleClick={() => openWindow("readme_text")}
                       >
                         {/* Generic text file icon imitation */}
-                        <div className="relative flex h-14 w-12 items-center justify-center border border-gray-300 bg-white shadow-sm">
-                          <div className="absolute top-0 right-0 translate-x-0 -translate-y-0 transform border-t-[8px] border-t-white border-r-[8px] border-r-gray-200 border-b-[8px] border-b-transparent border-l-[8px] border-l-transparent bg-gray-100 shadow-sm" />
+                        <div className="relative flex h-14 w-12 items-center justify-center border border-gray-300 bg-white shadow-xs">
+                          <div className="absolute top-0 right-0 translate-x-0 translate-y-0 transform border-t-8 border-t-white border-r-8 border-r-gray-200 border-b-8 border-b-transparent border-l-8 border-l-transparent bg-gray-100 shadow-xs" />
                           <span className="mt-2 font-mono text-[8px] text-gray-400">
                             TXT
                           </span>
@@ -206,13 +206,13 @@ export default function GravityPhysicsUiLayout() {
                   >
                     <div className="flex h-full flex-col bg-white">
                       <div className="flex gap-2 border-gray-300 border-b bg-[#e8e8e8] p-1 text-xs">
-                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-sm active:bg-gray-200">
+                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs active:bg-gray-200">
                           Delete
                         </button>
-                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-sm active:bg-gray-200">
+                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs active:bg-gray-200">
                           Reply
                         </button>
-                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-sm active:bg-gray-200">
+                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs active:bg-gray-200">
                           New
                         </button>
                       </div>

@@ -28,8 +28,8 @@ export function Key({
         return {
           shadow: "bg-green-900",
           surface: isPressed
-            ? "border-green-500 bg-gradient-to-b from-green-800 to-green-900"
-            : "border-green-600 bg-gradient-to-b from-green-700 to-green-800",
+            ? "border-green-500 bg-linear-to-b from-green-800 to-green-900"
+            : "border-green-600 bg-linear-to-b from-green-700 to-green-800",
           shine: "via-green-400/30",
           sublabel: "text-green-400",
           label: "text-green-300",
@@ -38,7 +38,7 @@ export function Key({
         return {
           shadow: "bg-green-800",
           surface:
-            "border-green-500 bg-gradient-to-b from-green-600 to-green-700",
+            "border-green-500 bg-linear-to-b from-green-600 to-green-700",
           shine: "via-green-300/40",
           sublabel: "text-green-200",
           label: "text-white",
@@ -46,7 +46,7 @@ export function Key({
       case "error":
         return {
           shadow: "bg-red-900",
-          surface: "border-red-500 bg-gradient-to-b from-red-700 to-red-800",
+          surface: "border-red-500 bg-linear-to-b from-red-700 to-red-800",
           shine: "via-red-400/30",
           sublabel: "text-red-300",
           label: "text-red-200",
@@ -55,8 +55,8 @@ export function Key({
         return {
           shadow: "bg-neutral-700",
           surface: isPressed
-            ? "border-neutral-500 bg-gradient-to-b from-neutral-700 to-neutral-800"
-            : "border-neutral-500 bg-gradient-to-b from-neutral-700 to-neutral-800 ring-2 ring-neutral-500",
+            ? "border-neutral-500 bg-linear-to-b from-neutral-700 to-neutral-800"
+            : "border-neutral-500 bg-linear-to-b from-neutral-700 to-neutral-800 ring-2 ring-neutral-500",
           shine: "via-white/30",
           sublabel: "text-neutral-400",
           label: "text-neutral-200",
@@ -65,8 +65,8 @@ export function Key({
         return {
           shadow: "bg-neutral-800",
           surface: isPressed
-            ? "border-neutral-600 bg-gradient-to-b from-neutral-900 to-neutral-800"
-            : "border-neutral-700 bg-gradient-to-b from-neutral-800 to-neutral-900",
+            ? "border-neutral-600 bg-linear-to-b from-neutral-900 to-neutral-800"
+            : "border-neutral-700 bg-linear-to-b from-neutral-800 to-neutral-900",
           shine: "via-white/20",
           sublabel: "text-neutral-500",
           label: isPressed ? "text-neutral-400" : "text-neutral-300",
@@ -80,7 +80,7 @@ export function Key({
     <button
       className={cn(
         width,
-        "group relative h-16 touch-manipulation select-none rounded-xl transition-all duration-75 ease-out focus:outline-none",
+        "group relative h-16 touch-manipulation select-none rounded-xl transition-all duration-75 ease-out focus:outline-hidden",
         isPressed ? "translate-y-1" : "translate-y-0"
       )}
       onMouseDown={(e) => {
@@ -116,7 +116,7 @@ export function Key({
         {/* Shine effect */}
         <span
           className={cn(
-            "absolute inset-x-2 top-1 h-px rounded-full bg-gradient-to-r from-transparent to-transparent transition-opacity duration-75",
+            "absolute inset-x-2 top-1 h-px rounded-full bg-linear-to-r from-transparent to-transparent transition-opacity duration-75",
             styles.shine,
             isPressed ? "opacity-0" : "opacity-100"
           )}

@@ -128,7 +128,7 @@ export default function RabbitholeChatPreloader() {
 
               <div className="relative w-full">
                 <input
-                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 text-sm text-zinc-300 transition-colors focus:border-zinc-700 focus:outline-none"
+                  className="w-full rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 text-sm text-zinc-300 transition-colors focus:border-zinc-700 focus:outline-hidden"
                   placeholder="Tell me about the Vitruvian Man"
                   type="text"
                 />

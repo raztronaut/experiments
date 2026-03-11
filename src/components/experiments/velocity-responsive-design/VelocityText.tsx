@@ -53,7 +53,7 @@ export const VelocityText: React.FC<VelocityTextProps> = ({
       {normalizedVelocity > 0.5 && !isSkim && (
         <motion.div
           animate={{ scaleX: 1, opacity: 0.3 }}
-          className="absolute inset-x-0 top-1/2 h-[1px] bg-primary/20"
+          className="absolute inset-x-0 top-1/2 h-px bg-primary/20"
           initial={{ scaleX: 0, opacity: 0 }}
           style={{
             transformOrigin: "left",

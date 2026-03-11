@@ -279,7 +279,7 @@ export default function KeyboardKeys() {
     <>
       {/* Lockout Overlay */}
       {isLockedOut && (
-        <div className="fixed inset-0 z-50 flex animate-[fade-in_0.3s_ease-out] flex-col items-center justify-center gap-8 bg-black/90 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex animate-[fade-in_0.3s_ease-out] flex-col items-center justify-center gap-8 bg-black/90 backdrop-blur-xs">
           <div className="flex flex-col items-center gap-4 px-8 text-center">
             <div className="mb-4 text-6xl">🤦‍♂️</div>
             <h1 className="font-bold text-2xl text-white md:text-3xl">

@@ -115,7 +115,7 @@ export default function NotFound404() {
       </Canvas>
 
       <div className="pointer-events-none absolute inset-0 z-10 flex select-none items-center justify-center overflow-hidden">
-        <span className="translate-y-[-5%] font-black text-[45vw] text-black/[0.03] leading-none tracking-tighter">
+        <span className="translate-y-[-5%] font-black text-[45vw] text-black/3 leading-none tracking-tighter">
           404
         </span>
       </div>

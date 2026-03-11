@@ -110,7 +110,7 @@ export function SplitFlapCell({
       </AnimatePresence>
 
       {/* Decorative center line */}
-      <div className="absolute top-[calc(50%-0.5px)] left-0 z-20 h-[1px] w-full bg-black/80 shadow-sm md:top-[calc(50%-1px)] md:h-[2px]" />
+      <div className="absolute top-[calc(50%-0.5px)] left-0 z-20 h-px w-full bg-black/80 shadow-xs md:top-[calc(50%-1px)] md:h-[2px]" />
     </div>
   );
 }

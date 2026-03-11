@@ -191,7 +191,7 @@ const GravityDock: React.FC<GravityDockProps> = ({ onOpenWindow }) => {
     <>
       {/* 1. Dock Base (The Glass) */}
       <div
-        className="pointer-events-auto absolute top-0 left-0 z-[4900] flex select-none items-end justify-center rounded-t-lg border-white/50 border-t border-r border-l bg-white/40 px-4 pb-2 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] backdrop-blur-sm"
+        className="pointer-events-auto absolute top-0 left-0 z-4900 flex select-none items-end justify-center rounded-t-lg border-white/50 border-t border-r border-l bg-white/40 px-4 pb-2 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] backdrop-blur-xs"
         ref={dockBaseRef}
         style={{
           width: isSetup ? dockWidthState : 600,
@@ -204,13 +204,13 @@ const GravityDock: React.FC<GravityDockProps> = ({ onOpenWindow }) => {
         }}
       >
         {/* Visual decoration only - separator */}
-        <div className="absolute right-[60px] bottom-2 h-3/4 w-[1px] bg-black/10" />
+        <div className="absolute right-[60px] bottom-2 h-3/4 w-px bg-black/10" />
       </div>
 
       {/* 2. Dock Icons (Rendered independently but constrained) */}
       {DOCK_ICONS.map((icon, index) => (
         <div
-          className="group pointer-events-auto absolute top-0 left-0 z-[5000] h-[48px] w-[48px] cursor-pointer transition-transform duration-100 hover:scale-125"
+          className="group pointer-events-auto absolute top-0 left-0 z-5000 h-[48px] w-[48px] cursor-pointer transition-transform duration-100 hover:scale-125"
           key={icon.id}
           onClick={() => onOpenWindow(icon.action)}
           ref={(el) => {
@@ -226,7 +226,7 @@ const GravityDock: React.FC<GravityDockProps> = ({ onOpenWindow }) => {
             width={48}
           />
           {/* Hover Label */}
-          <div className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded border border-[#b4b4b4] bg-[#f9f9f9] px-2 py-0.5 font-['Lucida_Grande'] text-[12px] text-black opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+          <div className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded border border-[#b4b4b4] bg-[#f9f9f9] px-2 py-0.5 font-['Lucida_Grande'] text-[12px] text-black opacity-0 shadow-xs transition-opacity group-hover:opacity-100">
             {icon.label}
           </div>
         </div>

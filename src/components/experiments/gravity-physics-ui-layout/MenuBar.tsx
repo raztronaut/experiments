@@ -27,7 +27,7 @@ export default function MenuBar() {
 
   return (
     <div
-      className="fixed top-0 right-0 left-0 z-[9999] flex h-[22px] cursor-default select-none items-center justify-between px-3"
+      className="fixed top-0 right-0 left-0 z-9999 flex h-[22px] cursor-default select-none items-center justify-between px-3"
       style={{
         background: "linear-gradient(to bottom, #ffffff 0%, #e6e6e6 100%)",
         borderBottom: "1px solid #b4b4b4",
@@ -37,7 +37,7 @@ export default function MenuBar() {
     >
       <div className="flex h-full items-center">
         {/* Blue Apple Logo */}
-        <span className="relative top-[1px] mr-4 pb-[3px] text-[#1561ce] text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">
+        <span className="relative top-px mr-4 pb-[3px] text-[#1561ce] text-xl drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">
           
         </span>
 

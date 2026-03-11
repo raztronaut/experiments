@@ -163,7 +163,7 @@ export default function TransitAirportSplitFlapDisplay() {
               {config.logo}
             </div>
             <div>
-              <h1 className="font-black text-2xl text-white uppercase italic leading-none tracking-[0.1em] md:text-5xl">
+              <h1 className="font-black text-2xl text-white uppercase italic leading-none tracking-widest md:text-5xl">
                 {config.name}
               </h1>
               <p
@@ -238,12 +238,12 @@ export default function TransitAirportSplitFlapDisplay() {
           ) : (
             data.map((trip) => (
               <div
-                className="group flex flex-col items-start gap-3 rounded-lg border border-white/[0.02] bg-white/[0.015] px-4 py-3 shadow-sm transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] md:grid md:grid-cols-[var(--col-train)_var(--col-dest)_var(--col-time)_var(--col-plat)_var(--col-status)] md:items-center md:gap-3 md:overflow-visible md:py-4 lg:gap-6"
+                className="group flex flex-col items-start gap-3 rounded-lg border border-white/2 bg-white/1.5 px-4 py-3 shadow-xs transition-all duration-300 hover:border-white/10 hover:bg-white/4 md:grid md:grid-cols-[var(--col-train)_var(--col-dest)_var(--col-time)_var(--col-plat)_var(--col-status)] md:items-center md:gap-3 md:overflow-visible md:py-4 lg:gap-6"
                 key={trip.id}
               >
                 {/* Row 1: Train + Destination */}
                 <div className="flex w-full items-center gap-4 md:contents">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <SplitFlapRow
                       interactive={true}
                       length={3}
@@ -251,7 +251,7 @@ export default function TransitAirportSplitFlapDisplay() {
                       text={trip.trainNumber}
                     />
                   </div>
-                  <div className="min-w-0 flex-grow md:contents">
+                  <div className="min-w-0 grow md:contents">
                     <SplitFlapRow
                       className="md:hidden"
                       interactive={true}

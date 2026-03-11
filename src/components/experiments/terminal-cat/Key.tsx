@@ -46,8 +46,8 @@ export function Key({ label, sublabel, width = "w-16", keyCode }: KeyProps) {
   const styles = {
     shadow: "bg-neutral-800",
     surface: isPressed
-      ? "border-neutral-600 bg-gradient-to-b from-neutral-900 to-neutral-800"
-      : "border-neutral-700 bg-gradient-to-b from-neutral-800 to-neutral-900",
+      ? "border-neutral-600 bg-linear-to-b from-neutral-900 to-neutral-800"
+      : "border-neutral-700 bg-linear-to-b from-neutral-800 to-neutral-900",
     shine: "via-white/20",
     sublabel: "text-neutral-500",
     label: isPressed ? "text-neutral-400" : "text-neutral-300",
@@ -57,7 +57,7 @@ export function Key({ label, sublabel, width = "w-16", keyCode }: KeyProps) {
     <button
       className={cn(
         width,
-        "group relative h-16 select-none rounded-xl transition-all duration-75 ease-out focus:outline-none",
+        "group relative h-16 select-none rounded-xl transition-all duration-75 ease-out focus:outline-hidden",
         isPressed ? "translate-y-1" : "translate-y-0"
       )}
       onMouseDown={() => setIsPressed(true)}
@@ -85,7 +85,7 @@ export function Key({ label, sublabel, width = "w-16", keyCode }: KeyProps) {
         {/* Shine effect */}
         <span
           className={cn(
-            "absolute inset-x-2 top-1 h-px rounded-full bg-gradient-to-r from-transparent to-transparent transition-opacity duration-75",
+            "absolute inset-x-2 top-1 h-px rounded-full bg-linear-to-r from-transparent to-transparent transition-opacity duration-75",
             styles.shine,
             isPressed ? "opacity-0" : "opacity-100"
           )}

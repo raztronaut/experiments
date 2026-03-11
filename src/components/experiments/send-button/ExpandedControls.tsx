@@ -40,7 +40,7 @@ export function ExpandedControls({
         <button
           className={`group flex items-center gap-1 rounded-full px-4 py-2 font-medium transition-all ${
             thinkActive
-              ? "bg-blue-600/10 text-blue-950 outline outline-blue-600/60 dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
+              ? "bg-blue-600/10 text-blue-950 outline-blue-600/60 outline-solid dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
               : "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
           }`}
           onClick={(e) => {
@@ -65,7 +65,7 @@ export function ExpandedControls({
           }}
           className={`group flex items-center justify-start gap-1 overflow-hidden whitespace-nowrap rounded-full px-4 py-2 font-medium transition ${
             deepSearchActive
-              ? "bg-blue-600/10 text-blue-950 outline outline-blue-600/60 dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
+              ? "bg-blue-600/10 text-blue-950 outline-blue-600/60 outline-solid dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
               : "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
           }`}
           initial={false}

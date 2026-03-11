@@ -57,7 +57,7 @@ export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({
           >
             <motion.div
               animate={{ x: ["-100%", "200%"] }}
-              className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"
+              className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent"
               transition={{
                 duration: 1.5,
                 repeat: Number.POSITIVE_INFINITY,
