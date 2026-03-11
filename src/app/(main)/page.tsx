@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { AIWidget } from "@/components/ui/AIWidget";
 import { WithHover } from "@/components/ui/cursor/WithHover";
@@ -105,6 +106,15 @@ export default function Home() {
                 my lil playground for exploring ui interactions, shaders, and
                 web techniques.
               </p>
+            </WithHover>
+            <WithHover>
+              <Link
+                className="relative inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-muted/20 px-3 py-1 text-muted-foreground text-sm transition-colors hover:bg-muted/40 hover:text-foreground"
+                data-umami-event="registry_link_click"
+                href="/registry"
+              >
+                Browse Registry &rarr;
+              </Link>
             </WithHover>
           </div>
 

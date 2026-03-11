@@ -1,3 +1,4 @@
+import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 
 const securityHeaders = [
@@ -25,6 +26,9 @@ const nextConfig: NextConfig = {
       "@react-three/fiber",
       "@react-three/drei",
       "@codesandbox/sandpack-react",
+      "shiki",
+      "fumadocs-core",
+      "fumadocs-ui",
     ],
   },
   images: {
@@ -40,6 +44,7 @@ const nextConfig: NextConfig = {
   },
   outputFileTracingIncludes: {
     "/": ["./src/app/experiments/**/*"],
+    "/registry": ["./public/registry/**/*"],
   },
   async headers() {
     return [
@@ -68,6 +73,25 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: "/registry/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https://www.razisyed.cv",
+              "font-src 'self'",
+              "frame-src 'self'",
+              "connect-src 'self' https://cloud.umami.is",
+              "frame-ancestors 'self'",
+            ].join("; "),
+          },
+        ],
+      },
     ];
   },
   async rewrites() {
@@ -84,4 +108,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+const withMDX = createMDX();
+
+export default withMDX(nextConfig);

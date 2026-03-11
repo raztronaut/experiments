@@ -1,10 +1,10 @@
-@import '../shared-tokens.css' layer(base);
+@import "../shared-tokens.css" layer(base);
 
-@import 'tailwindcss';
-@import 'tw-animate-css';
-@import '../shared-theme.css';
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../shared-theme.css";
 
-@plugin '@tailwindcss/typography';
+@plugin "@tailwindcss/typography";
 
 @layer utilities {
   @view-transition {
