@@ -20,9 +20,9 @@ import experiment from "../../experiment.json";
 /*
  * To use article-specific components from ./components.tsx in the MDX:
  * 1. Import them here: import { MyDemo } from "./components";
- * 2. Merge into the components prop: components=\{{ ...articleComponents, MyDemo }}
+ * 2. Spread into the MDXRemote components prop alongside articleComponents
  * 3. Use in content.mdx directly: <MyDemo />
- * 
+ *
  * Do NOT use `import` statements inside .mdx files — next-mdx-remote
  * does not support them. All components must be passed via the components prop.
  */

@@ -3,46 +3,59 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import experiment from "./experiment.json";
+
+const content = (experiment as Record<string, unknown>).content as
+  | Record<string, boolean>
+  | undefined;
 
 export const metadata = {
   metadataBase: new URL("https://www.razisyed.cv"),
-  title: "Velocity-Responsive Design",
-  description:
-    "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
+  title: experiment.title,
+  description: experiment.description,
   openGraph: {
-    title: "Velocity-Responsive Design",
-    description:
-      "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
-    url: "https://www.razisyed.cv/experiments/velocity-responsive-design",
+    title: experiment.title,
+    description: experiment.description,
+    url: `https://www.razisyed.cv/experiments/${experiment.slug}`,
     images: ["/experiments/velocity-responsive-design/poster.jpg"],
-    videos: ["/experiments/velocity-responsive-design/preview.mp4"],
+    videos: experiment.video ? [experiment.video] : [],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Velocity-Responsive Design",
-    description:
-      "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
+    card: "summary_large_image" as const,
+    title: experiment.title,
+    description: experiment.description,
     images: ["/experiments/velocity-responsive-design/poster.jpg"],
   },
   alternates: {
-    canonical: "https://www.razisyed.cv/experiments/velocity-responsive-design",
+    canonical: `https://www.razisyed.cv/experiments/${experiment.slug}`,
   },
   authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="font-canvas antialiased">
         <DevToolsInjector />
-        <UmamiScript />
         <ExperimentJsonLd
-          description={metadata.description as string}
-          slug="velocity-responsive-design"
-          title={metadata.title as string}
+          description={experiment.description}
+          slug={experiment.slug}
+          tags={experiment.tags as string[]}
+          title={experiment.title}
         />
-        <ExperimentNav />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          disableTransitionOnChange
+          enableSystem
+        >
+          <UmamiScript />
+          <ExperimentNav
+            articleSlug={content?.article ? experiment.slug : undefined}
+          />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -29,7 +29,7 @@ updatedAt: "{{createdDate}}"
   WIRING (critical — MDX imports don't work with next-mdx-remote):
   1. Build demo components in ./components.tsx
   2. Import them in page.tsx: import { Step1Demo } from "./components";
-  3. Merge into components prop: components={{ ...articleComponents, Step1Demo }}
+  3. Merge into components prop: components=\{{ ...articleComponents, Step1Demo }}
   4. Use directly in this MDX: <InteractiveWidget title="..."><Step1Demo /></InteractiveWidget>
 */}
 

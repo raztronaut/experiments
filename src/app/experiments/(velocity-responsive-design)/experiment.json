@@ -8,8 +8,28 @@
   "video": "/experiments/velocity-responsive-design/preview.mp4",
   "status": "shipped",
   "complexity": "intermediate",
-  "tags": ["scroll", "animation", "ui", "generative"],
-  "tech": ["lenis", "motion", "canvas-2d"],
-  "articleLenses": ["concept", "implementation"],
-  "content": {}
+  "tags": [
+    "scroll",
+    "animation",
+    "ui",
+    "generative"
+  ],
+  "tech": [
+    "lenis",
+    "motion",
+    "canvas-2d"
+  ],
+  "articleLenses": [
+    "concept",
+    "implementation"
+  ],
+  "publishable": true,
+  "content": {
+    "article": true,
+    "labNote": true,
+    "architecture": true,
+    "snippet": true,
+    "social": true,
+    "changelog": true
+  }
 }
