@@ -172,6 +172,10 @@ async function buildRegistry() {
       category: item.category,
     };
 
+    if (item.meta && Object.keys(item.meta).length > 0) {
+      output.meta = item.meta;
+    }
+
     if (Array.isArray(item.dependencies) && item.dependencies.length > 0) {
       output.dependencies = item.dependencies;
     }

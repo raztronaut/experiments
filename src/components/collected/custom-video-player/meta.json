@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/cg-video-player",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["video", "player", "timeline", "cursor", "interaction"],
+  "tech": ["react"]
+}

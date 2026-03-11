@@ -1,0 +1,63 @@
+.sis-container {
+  position: relative;
+  width: 100%;
+}
+
+.sis-spotlight {
+  position: relative;
+  align-content: center;
+  width: 100%;
+  height: 100svh;
+  padding: 1rem;
+  overflow: hidden;
+  background-color: var(--sis-bg, #edf1e8);
+}
+
+.sis-spotlight-header {
+  position: relative;
+  z-index: 1;
+}
+
+.sis-spotlight-header h1 {
+  width: 50%;
+  margin: 0 auto;
+  font-size: clamp(2rem, 10vw, 5rem);
+  font-weight: 500;
+  line-height: 0.9;
+  color: var(--sis-fg, #141414);
+  text-align: center;
+  letter-spacing: -0.1rem;
+}
+
+.sis-spotlight-images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sis-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(20rem, 25vw, 40rem);
+  aspect-ratio: 7 / 5;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  transform: translate(-50%, 200%);
+  will-change: transform;
+}
+
+.sis-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1000px) {
+  .sis-spotlight-header h1 {
+    width: 100%;
+  }
+}

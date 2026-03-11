@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/codegrid-deepjudge-scroll-animation",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["scroll", "convergence", "morph", "search", "features", "gsap"],
+  "tech": ["gsap", "@gsap/react"]
+}

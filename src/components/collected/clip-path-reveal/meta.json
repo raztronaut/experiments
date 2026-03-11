@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/codegrid-capsules-landing-page-reveal-animation",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["reveal", "preloader", "clip-path", "mask", "splittext", "gsap"],
+  "tech": ["gsap", "gsap/SplitText", "@gsap/react"]
+}

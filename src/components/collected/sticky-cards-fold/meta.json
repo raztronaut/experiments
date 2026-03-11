@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/cg-phive-sticky-cards",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["scroll", "sticky", "cards", "3d", "fold", "perspective", "gsap"],
+  "tech": ["gsap", "@gsap/react"]
+}

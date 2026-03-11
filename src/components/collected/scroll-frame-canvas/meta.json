@@ -1,0 +1,17 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/cg-adaline-scroll-animation",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": [
+    "scroll",
+    "canvas",
+    "frames",
+    "video",
+    "sequence",
+    "3d",
+    "perspective",
+    "gsap"
+  ],
+  "tech": ["gsap", "@gsap/react"]
+}
