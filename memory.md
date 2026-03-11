@@ -26,7 +26,18 @@ Auto-maintained by the continual-learning skill. Do not edit manually.
 - `useDevControls` wraps leva's `useControls` and tree-shakes leva in production; opt-in with `{ production: true }` for showcase experiments
 - Component decomposition pattern: `data.ts` for constants, `sections/` folder (one file per visual section owning its own `useGSAP` scope), thin orchestrator for lifecycle and composition
 - Pre-commit hooks (lefthook) run in parallel: `ultracite fix`, `tsc --noEmit`, `validate-experiments.mjs`
-- Parallel domain-based agent execution uses structured Domain Handoff Summary format (8 sections: Completed, Extra Discoveries, Extra Changes, Intentional Skips, Judgment Calls, Cross-Domain Dependencies, Open Concerns, Files Touched)
+- Parallel domain-based agent execution is formalized in `.agents/skills/parallel-orchestration/SKILL.md` -- Task-tool-driven pipeline with domain briefs, structured handoffs (9 sections + status protocol), gating, and 4-subagent overview pass
 - `ScrollTrigger.refresh()` must be called after Lenis initialization; `createUnifiedScroll()` does not handle this internally
 - In multi-section experiments, `position: fixed` elements in pinned sections are visible before ScrollTrigger activates -- always set initial animation states via `gsap.set` before `ScrollTrigger.create`
 - When porting scroll-driven animations, content block count determines animation phase breakpoints -- never change block count without recalibrating all progress thresholds
+- Registry Lean architecture: 0 new deps, `(registry)` route group with own `<html>/<body>`, server components reading JSON from `public/registry/` via `fs.readFile` at build time, `generateStaticParams` for SSG
+- Biome/ultracite can't lint paths with parentheses (Next.js route groups); `cd` into the directory and run `ultracite check .` instead
+- `next/og` ImageResponse works without edge runtime -- Node.js runtime allows `fs.readFile` for reading data in OG image generation
+- Registry index: `index-slim.json` (22KB, 57 items, grid page) vs `index.json` (37KB, stripped content) vs individual `{slug}.json` (full content for detail pages)
+- Shared `registry:style` item (`razi-style.json`) eliminates ~120 lines of duplicated tailwind/cssVars per registry item via `registryDependencies: ["razi-style"]`
+- Registry pipeline (3-step) must clean stale outputs from `public/registry/` before building -- items removed from manifest persist and pollute indexes
+- Registry data field propagation: `registry.json` manifest puts `category` at item level but experiment metadata in `meta` sub-object -- downstream scripts must handle both locations
+- Biome enforces non-interactive HTML elements (`<nav>`, `<header>`) cannot carry interactive ARIA roles like `tablist` -- use `<div>` for composite widgets
+- Tailwind v4 uses `bg-linear-to-br` instead of `bg-gradient-to-br` -- Biome catches this automatically
+- Shiki `codeToHtml` wraps each line in `<span class="line">` -- CSS line numbers via `counter-increment` work with zero JS
+- Registry now catalogs 58 items across 4 categories: experiments (17), components (27), hooks (11), utilities (2) + 1 shared style

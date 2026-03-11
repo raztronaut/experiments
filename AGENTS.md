@@ -151,7 +151,8 @@ From Laws of UX:
   1. `ultracite fix {staged_files}` -- auto-lint+format staged files
   2. `tsc --noEmit` -- typecheck
   3. `validate-experiments.mjs` -- validate experiment.json files
-- **Stealth mode**: no AI fingerprints. No `Co-Authored-By` AI lines. No "Generated with" language. Conventional commits only.
+- **Post-commit / pre-push**: [Entire.io](https://docs.entire.io) captures agent session context as Git-native checkpoints. Metadata lives on `entire/checkpoints/v1` branch. Coexists with lefthook (which only manages `pre-commit`).
+- **Commit voice**: no `Co-Authored-By` AI lines. No "Generated with" language. Conventional commits only. Entire.io tool trailers (`Entire-Checkpoint`, `Entire-Attribution`) are acceptable -- they're structured metadata, not authorship copy.
 
 ## Guardrails
 

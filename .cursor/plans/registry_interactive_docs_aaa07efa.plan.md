@@ -2,26 +2,29 @@
 name: Registry Interactive Docs
 overview: Build a full interactive registry explorer at razisyed.cv/registry powered by Fumadocs (core + UI + story + docgen) for docs infrastructure, with custom components for the grid overview and experiment previews. Hybrid registry generation pipeline (auto-discover -> shadcn build -> post-process).
 todos:
+  - id: lean-foundation
+    content: "Lean Foundation (2026-03-11): Script bug fixes (dedup, shared razi-style.json, file type semantics, lightweight index-slim.json, parallel fs.stat, $schema). Lean route group (registry) with own <html>/<body>, dark-only layout, overview grid page, detail page with Shiki syntax highlighting, OG images. Custom components (RegistryCard, InstallCommand, ExperimentPreview, RegistryMeta). Config (noindex headers, outputFileTracingIncludes, shiki optimizePackageImports). 0 new deps, 11 files, 4 parallel domain agents."
+    status: completed
   - id: registry-pipeline
-    content: "Phase 1: Build hybrid registry generation pipeline. Split generate-registry.mjs into: (a) auto-discover script that writes registry.json, (b) shadcn build for schema-compliant output, (c) post-process for asset URL rewriting. Add registry.config.json for curation. Extend to discover shared UI, hooks, utilities."
-    status: pending
+    content: "Phase 1: Registry Pipeline (2026-03-11): Split monolithic generate-registry.mjs (541 lines) into 3-step pipeline via parallel-orchestration (4 domain agents, 1 batch). Discovery script (generate-registry-json.mjs, 734 lines) scans experiments + shared UI (28 components) + hooks (11) + selected utils, reads registry.config.json for curation, outputs registry.json manifest. Build script (build-registry.mjs, 162 lines) reads manifest, inlines content, rewrites asset URLs, outputs per-item JSON. Post-process script (post-process-registry.mjs, 183 lines) generates index.json + index-slim.json with schema validation. Config (registry.config.json) with featured/hidden/overrides/scan scope. Legacy script kept as generate:registry:legacy. NOTE: Domain 1 agent aborted before handoff but script was fully written. Verification pass + integration testing still needed."
+    status: completed
   - id: fumadocs-setup
-    content: "Phase 2: Install and configure Fumadocs. Add fumadocs-core, fumadocs-ui, fumadocs-mdx, @fumadocs/story, fumadocs-docgen. Configure content source, shadcn CSS preset, dark theme via CSS variables (--color-fd-*), custom fonts (replica, test die grotesk)."
+    content: "Phase 2: Install and configure Fumadocs. Add fumadocs-core, fumadocs-ui, fumadocs-mdx, @fumadocs/story, fumadocs-docgen. Configure content source, shadcn CSS preset, dark theme via CSS variables (--color-fd-*), custom fonts (replica, test die grotesk). NOTE: Lean layout + registry.css already exist and load shared-tokens/shared-theme -- Fumadocs CSS layers would be added on top. Registry pipeline now generates registry.json manifest + per-item JSON + indices which Fumadocs can consume via custom JSON source (skip fumadocs-mdx, avoid dual-compilation conflict)."
     status: pending
   - id: route-layout
-    content: "Phase 3: Create (registry) route group with Fumadocs DocsLayout. Mount at /registry with sidebar, Cmd+K search, breadcrumbs. Custom overview page.tsx (card grid -- not Fumadocs) + Fumadocs [[...slug]]/page.tsx for doc pages."
+    content: "Phase 3: Upgrade (registry) route group to Fumadocs DocsLayout. Add sidebar, Cmd+K search, breadcrumbs. Migrate [[...slug]] catch-all for Fumadocs doc pages alongside existing [slug] detail page. NOTE: Lean route structure already works at /registry (grid) and /registry/[slug] (detail with Shiki source code). Fumadocs upgrade replaces the layout wrapper and adds sidebar/search."
     status: pending
   - id: mdx-generation
-    content: "Phase 4: Build script to auto-generate MDX doc pages from registry JSON. Each registry item gets an MDX file in content/registry/{category}/{slug}.mdx with frontmatter, preview embed, install command, and source code blocks."
+    content: "Phase 4: Build script to auto-generate MDX doc pages from registry JSON. Each registry item gets an MDX file in content/registry/{category}/{slug}.mdx with frontmatter, preview embed, install command, and source code blocks. OR: skip MDX entirely and use custom JSON source (recommended by research -- avoids fumadocs-mdx conflict with next-mdx-remote). NOTE: registry.json manifest from Phase 1 pipeline is the natural input for either approach. Custom JSON source can use registry.json items directly via fumadocs-core loader()."
     status: pending
   - id: preview-system
-    content: "Phase 5: Build preview components. ExperimentPreview (iframe for full experiments), @fumadocs/story for shared UI components (inline with TypeScript prop controls), code-only display for hooks/utilities."
+    content: "Phase 5: Build preview components. @fumadocs/story for shared UI components (inline with TypeScript prop controls), viewport toggle (Desktop/Tablet/Mobile), code-only display for hooks/utilities. NOTE: ExperimentPreview iframe component already built in lean-foundation with sandbox, lazy loading, error state, skeleton. Pipeline now discovers shared UI components (28) and hooks (11) -- these need appropriate preview treatment (story for UI, code-only for hooks)."
     status: pending
   - id: custom-components
-    content: "Phase 6: Build custom registry components that Fumadocs doesn't provide. RegistryGrid + RegistryCard (overview page), InstallCommand (terminal-style copy block), ExperimentPreview (iframe wrapper), registry metadata display (deps, tags, tech)."
-    status: pending
+    content: "Phase 6: Build custom registry components that Fumadocs doesn't provide. RegistryGrid + RegistryCard (overview page), InstallCommand (terminal-style copy block), ExperimentPreview (iframe wrapper), registry metadata display (deps, tags, tech). DONE in lean-foundation."
+    status: completed
   - id: polish
-    content: "Phase 7: Polish. Theme tuning, responsive QA, loading states, umami analytics, link from main site nav, OG images for registry pages."
+    content: "Phase 7: Polish. Grain overlay, responsive QA, loading states, umami analytics events, link from main site nav, view transitions. NOTE: OG images, noindex, dark theme, fonts, Vercel Analytics/SpeedInsights already done in lean-foundation. Remaining: grain overlay, responsive QA, umami custom events, nav link, view transitions."
     status: pending
 isProject: false
 ---
@@ -34,9 +37,30 @@ isProject: false
 **Research agents used:** Fumadocs docs, shadcn registry schema, component registry best practices, architecture strategy, performance analysis, security audit, simplicity review, pattern recognition
 **Sections enhanced:** All 7 phases + architecture + adjacent notes
 
+### Implementation Log
+
+**2026-03-11 -- Lean Foundation shipped** (parallel-orchestration, 4 domain agents, 1 batch, all DONE):
+
+- Script overhaul: 7 bug fixes/improvements to `generate-registry.mjs` (dedup, shared razi-style.json, file type semantics, index-slim.json 9KB, parallel fs.stat, $schema, registry:block types)
+- Route structure: `(registry)` route group with own `<html>/<body>`, dark-only, grid overview (18 items), detail page with Shiki source code, OG images
+- Components: RegistryCard (hover-to-play video), InstallCommand (clipboard copy), ExperimentPreview (sandboxed iframe), RegistryMeta (badges/pills)
+- Config: noindex headers, outputFileTracingIncludes, shiki optimizePackageImports
+- Results: 0 new deps, 0 type errors, 0 lint errors, index.json 890KB→17KB, both pages return 200
+
+**2026-03-11 -- Registry Pipeline shipped** (parallel-orchestration, 4 domain agents, 1 batch, 3 DONE + 1 aborted-but-complete):
+
+- Pipeline split: monolithic `generate-registry.mjs` (541 lines) → 3-step pipeline (`generate-registry-json.mjs` 734 lines → `build-registry.mjs` 162 lines → `post-process-registry.mjs` 183 lines)
+- Discovery: extended scanning beyond experiments to shared UI (28 components), hooks (11), and selected utilities
+- Curation: `registry.config.json` with featured/hidden/overrides/scan scope controls
+- Build: reads `registry.json` manifest, inlines content, rewrites asset URLs, outputs per-item JSON to `public/registry/`
+- Post-process: generates `index.json` (content-stripped) + `index-slim.json` (lightweight grid index) with schema validation, featured-first sorting
+- Integration: `package.json` updated (`generate:registry` chains all 3 scripts), legacy script kept as `generate:registry:legacy`
+- Artifacts: `.agents/artifacts/registry-2/` (plan, 4 briefs, 4 handoffs, README)
+- Note: Domain 1 agent aborted before writing handoff but script was fully created; handoff reconstructed manually. Verification pass + pipeline integration testing still needed.
+
 ### Critical Findings
 
-1. **Tailwind v3/v4 incompatibility (HIGH)**: Latest Fumadocs (v14+) targets Tailwind v4. This project uses Tailwind v3.4. Requires either pinning Fumadocs to v13.x, upgrading Tailwind to v4, or going dependency-free.
+1. ~~**Tailwind v3/v4 incompatibility**~~ **RESOLVED**: Project migrated to Tailwind v4.2.1 with `@tailwindcss/postcss`, `@import 'tailwindcss'`, `@theme` blocks, `@custom-variant dark`, and `@plugin`. Fumadocs' CSS imports are directly compatible.
 2. **Significant over-engineering risk**: 5 dependencies + 20 files + 7 phases to display 19 items. A simpler approach (3-4 server components, 0 new deps) delivers the core value.
 3. **MDX generation is a wasteful round-trip**: Generating MDX files so Fumadocs can compile them back to pages when the data already exists in JSON. A custom page tree from JSON eliminates this entirely.
 4. **Plan text contradicts code**: Says "NOT an isolated HTML root" but the layout code renders `<html>/<body>`. The code is correct (matches project convention). Text needs fixing.
@@ -49,9 +73,9 @@ isProject: false
 | #   | Decision                   | Options                                                                                  | Recommendation                                 |
 | --- | -------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | 1   | **Architecture approach**  | Full Fumadocs (original plan) vs Lean (0 deps, 3-4 files) vs Hybrid (Fumadocs core only) | Start Lean, add Fumadocs when scale demands it |
-| 2   | **Tailwind version**       | v3.4 (current) vs v4 (migration required)                                                | Stay v3.4 for now                              |
+| 2   | ~~**Tailwind version**~~   | ~~v3.4 vs v4~~                                                                           | **RESOLVED** -- v4.2.1 is live                 |
 | 3   | **MDX strategy**           | `fumadocs-mdx` (build-time) vs custom JSON source vs no MDX at all                       | No MDX -- read JSON directly                   |
-| 4   | **Fumadocs version**       | v13.x (TW3 compat) vs v14+ (TW4 required) vs none                                        | None initially                                 |
+| 4   | **Fumadocs version**       | Latest (TW4 compatible) vs none                                                          | Latest is now viable; decide based on approach |
 | 5   | **Registry URL migration** | `public/registry/` -> `public/r/`                                                        | Yes, align with convention                     |
 
 
@@ -59,38 +83,50 @@ isProject: false
 
 ## Current State
 
-The registry infrastructure already works at the data layer:
+> **Updated 2026-03-11** after Registry Pipeline implementation.
 
-- `[scripts/generate-registry.mjs](scripts/generate-registry.mjs)` walks experiment source, resolves dependency graphs, and generates shadcn-compatible JSON per experiment
-- 19 experiment registry items live in `[public/registry/](public/registry/)` with inlined source code, npm deps, and registry deps
-- `next.config.ts` rewrites `/r/:slug` to `/registry/:slug.json` for clean install URLs
-- `npx shadcn add https://www.razisyed.cv/r/send-button` already works
-- **No UI exists** -- the registry is JSON-only, no browsing/preview/docs pages
+The registry now has a data layer (3-step pipeline), a UI layer, and a curation layer:
 
-### Known bugs in current generation script
+**Data layer (3-step pipeline):**
 
-- **Duplicate files**: dedup comparison is broken (`f.path` absolute vs `existing.path` basename)
-- **Hardcoded tailwind/cssVars**: 120 lines of identical config duplicated in every item
-- **Non-standard output path**: `public/registry/` vs convention `public/r/`
-- **No file type semantics**: everything is `registry:file` instead of proper `registry:component`, `registry:hook`, etc.
+- `scripts/generate-registry-json.mjs` (734 lines) -- discovers experiments (18), shared UI (28 components), hooks (11), selected utilities; reads `registry.config.json` for curation; outputs `registry.json` manifest
+- `scripts/build-registry.mjs` (162 lines) -- reads manifest, inlines file content, rewrites asset URLs, outputs per-item JSON to `public/registry/`
+- `scripts/post-process-registry.mjs` (183 lines) -- generates `index.json` (content-stripped) + `index-slim.json` (lightweight grid index) with schema validation, featured-first sorting
+- `scripts/generate-registry.mjs` (541 lines) -- legacy monolithic script, kept as `generate:registry:legacy` fallback
+- `registry.json` (project root) -- generated manifest consumed by build step
+- 18+ registry items in `public/registry/` with `registryDependencies: ["razi-style"]`
+- `public/registry/razi-style.json` -- shared style item referenced by all items
+- `public/registry/index-slim.json` -- lightweight index for grid page
+- `public/registry/index.json` -- full index with content stripped
+- `next.config.ts` rewrites `/r/:slug` to `/registry/:slug.json`, noindex headers, outputFileTracingIncludes
+- `npx shadcn add https://www.razisyed.cv/r/send-button` works
 
-### Research Insights: Current Generation Script
+**Curation layer (new):**
 
-**Performance bug**: The import resolver uses sequential `fs.stat` calls (O(n*m) with n=experiments, m=files). Should parallelize:
+- `registry.config.json` -- featured (5 items), hidden (`test`), overrides (3 shared UI descriptions), scan scope (experiments + sharedUI + hooks + selected utilities)
 
-```typescript
-// Current: sequential (slow)
-for (const ext of possibleExtensions) {
-  if (await fs.stat(`${resolvedDir}${ext}`).then(s => s.isFile()).catch(() => false)) { ... }
-}
+**UI layer (new -- Lean, no Fumadocs):**
 
-// Better: parallel stat checks
-const results = await Promise.all(
-  possibleExtensions.map(ext =>
-    fs.stat(`${resolvedDir}${ext}`).then(s => s.isFile() ? ext : null).catch(() => null)
-  )
-);
-```
+- `src/app/(registry)/layout.tsx` -- own `<html>/<body>`, dark-only, fonts, analytics, minimal header
+- `src/app/(registry)/registry.css` -- shared-tokens + tailwind + shared-theme + Shiki styles
+- `src/app/(registry)/registry/page.tsx` -- 3-col responsive grid reading index-slim.json
+- `src/app/(registry)/registry/[slug]/page.tsx` -- detail page with Shiki syntax-highlighted source, generateStaticParams
+- `src/app/(registry)/registry/[slug]/opengraph-image.tsx` -- dynamic OG images (Node.js runtime)
+- `src/components/registry/RegistryCard.tsx` -- hover-to-play video, poster fallback, tech pills
+- `src/components/registry/InstallCommand.tsx` -- terminal-style copy block
+- `src/components/registry/ExperimentPreview.tsx` -- lazy sandboxed iframe with skeleton + error state
+- `src/components/registry/RegistryMeta.tsx` -- file count, dep count, tech pills, tag badges
+
+### ~~Known bugs in current generation script~~ FIXED (2026-03-11)
+
+- ~~**Duplicate files**: dedup comparison is broken~~ Fixed: uses `Set` of `path.resolve()` values
+- ~~**Hardcoded tailwind/cssVars**: 120 lines of identical config duplicated~~ Fixed: extracted to `razi-style.json` shared `registryDependency`
+- **Non-standard output path**: `public/registry/` kept as-is (rewrite handles `/r/` URL mapping)
+- ~~**No file type semantics**: everything is `registry:file`~~ Fixed: `inferFileType()` classifies as `registry:component`, `registry:hook`, `registry:lib`, `registry:file`
+
+### ~~Research Insights: Current Generation Script~~ IMPLEMENTED
+
+~~**Performance bug**: The import resolver uses sequential `fs.stat` calls.~~ Fixed: `resolveImportPath()` uses `Promise.all` for parallel stat checks.
 
 **shadcn registry schema insights** (from official docs):
 
@@ -102,9 +138,9 @@ const results = await Promise.all(
 
 ---
 
-## Alternative Architecture: Lean Approach (Recommended Start)
+## Alternative Architecture: Lean Approach ~~(Recommended Start)~~ IMPLEMENTED (2026-03-11)
 
-Before detailing the Fumadocs plan, here's the simplified approach recommended by the simplicity and architecture reviews. **This delivers the core value with dramatically less complexity.**
+~~Before detailing the Fumadocs plan, here's the simplified approach recommended by the simplicity and architecture reviews.~~ **Implemented via parallel-orchestration skill (4 domain agents, 1 batch). This is the live foundation -- Fumadocs phases below build on top of it.**
 
 ### Why Lean
 
@@ -147,13 +183,13 @@ Add Fumadocs infrastructure when ANY of these are true:
 - You start hand-authoring substantial documentation per item (not just metadata)
 - You need `@fumadocs/story` for shared UI component previews with prop controls
 
-### Bug Fixes for Existing Script (Do Regardless of Approach)
+### ~~Bug Fixes for Existing Script~~ ALL FIXED (2026-03-11)
 
-1. **Fix dedup**: Compare `path.resolve(f.path)` vs `path.resolve(existing.path)` instead of mixing absolute/basename
-2. **Extract shared tailwind/cssVars**: Create a `registry:style` item as a shared `registryDependency` instead of inlining 120 lines per item
-3. **Move output**: `public/registry/` -> `public/r/`, update rewrite rule
-4. **Add file type semantics**: Use `registry:component`, `registry:hook`, `registry:lib` based on file location/name patterns
-5. **Generate lightweight index**: The full `index.json` is ~890KB. Generate a slim version with just title, slug, description, tags, poster URL for the grid page
+1. ~~**Fix dedup**~~ DONE: Uses `Set` of `path.resolve()` values
+2. ~~**Extract shared tailwind/cssVars**~~ DONE: `razi-style.json` as `registryDependency`
+3. **Move output**: Deferred -- `public/registry/` kept, rewrite handles `/r/` URL mapping
+4. ~~**Add file type semantics**~~ DONE: `inferFileType()` function
+5. ~~**Generate lightweight index**~~ DONE: `index-slim.json` (9KB) + content-stripped `index.json` (17KB)
 
 ---
 
@@ -169,11 +205,12 @@ Add Fumadocs infrastructure when ANY of these are true:
 
 ### Research Insights: Key Decision Risks
 
-**Tailwind v3/v4 incompatibility (HIGH)**:
+**Tailwind v3/v4 incompatibility -- RESOLVED**:
 
-- Latest Fumadocs (v14+) uses Tailwind v4 CSS imports (`@import 'fumadocs-ui/css/shadcn.css'`, `@theme` layer)
-- This project uses Tailwind v3.4 with PostCSS, `tailwind.config.ts`, and `@tailwind` directives
-- **Options**: (a) Pin Fumadocs to v13.x (last TW3-compatible release), (b) Upgrade to Tailwind v4 project-wide (touches ~40+ files), (c) Go dependency-free (Lean approach)
+- Project now runs Tailwind v4.2.1 with `@tailwindcss/postcss`, `@import 'tailwindcss'`, `@theme` blocks, and `@custom-variant dark (&:is(.dark *))`
+- Fumadocs' CSS imports (`@import 'fumadocs-ui/css/shadcn.css'`) are directly compatible with TW4's CSS-first config
+- The existing `shared-tokens.css` (CSS custom properties) + `shared-theme.css` (`@theme` block) pattern extends naturally to a registry CSS file that adds Fumadocs `--color-fd-`* overrides
+- No version pinning or migration needed -- use latest Fumadocs
 
 **MDX dual-compilation conflict (HIGH)**:
 
@@ -244,17 +281,17 @@ flowchart TB
 ### Research Insights: Architecture Risks
 
 
-| Risk                                          | Severity   | Mitigation                                                                    |
-| --------------------------------------------- | ---------- | ----------------------------------------------------------------------------- |
-| Tailwind v3/v4 incompatibility                | **HIGH**   | Pin Fumadocs v13.x or go dependency-free                                      |
-| MDX dual-compilation conflict                 | **HIGH**   | Skip `fumadocs-mdx`, use custom JSON source or go dependency-free             |
-| Plan text contradicts code (layout isolation) | **HIGH**   | Layout renders own `<html>/<body>` (project convention). Fix plan text.       |
-| `shadcn build` CLI coupling                   | **MEDIUM** | Pin exact version, add contract test on output, keep fallback script          |
-| Generated MDX file management                 | **MEDIUM** | Gitignore generated files, or skip MDX generation entirely                    |
-| iframe preview memory                         | **MEDIUM** | `loading="lazy"`, IntersectionObserver, poster fallback, mobile static images |
-| `next.config.ts` plugin wrapping              | **MEDIUM** | Avoid if possible; custom JSON source eliminates this need                    |
-| Bundle size on non-registry pages             | **LOW**    | Route group isolation handles this; add to `optimizePackageImports`           |
-| Orama search index exposure                   | **LOW**    | Client-side only at this scale; index is ~30-50KB                             |
+| Risk                                          | Severity              | Mitigation                                                                    |
+| --------------------------------------------- | --------------------- | ----------------------------------------------------------------------------- |
+| ~~Tailwind v3/v4 incompatibility~~            | ~~HIGH~~ **RESOLVED** | Project on TW v4.2.1; latest Fumadocs is compatible                           |
+| MDX dual-compilation conflict                 | **HIGH**              | Skip `fumadocs-mdx`, use custom JSON source or go dependency-free             |
+| Plan text contradicts code (layout isolation) | **HIGH**              | Layout renders own `<html>/<body>` (project convention). Fix plan text.       |
+| `shadcn build` CLI coupling                   | **MEDIUM**            | Pin exact version, add contract test on output, keep fallback script          |
+| Generated MDX file management                 | **MEDIUM**            | Gitignore generated files, or skip MDX generation entirely                    |
+| iframe preview memory                         | **MEDIUM**            | `loading="lazy"`, IntersectionObserver, poster fallback, mobile static images |
+| `next.config.ts` plugin wrapping              | **MEDIUM**            | Avoid if possible; custom JSON source eliminates this need                    |
+| Bundle size on non-registry pages             | **LOW**               | Route group isolation handles this; add to `optimizePackageImports`           |
+| Orama search index exposure                   | **LOW**               | Client-side only at this scale; index is ~30-50KB                             |
 
 
 ### Research Insights: Alternative Architecture (Skip MDX Generation)
@@ -367,13 +404,13 @@ This reduces initial dependency count from 5 to 3.
 
 ---
 
-## Phase 1: Hybrid Registry Generation Pipeline
+## Phase 1: Hybrid Registry Generation Pipeline ~~(Pending)~~ IMPLEMENTED (2026-03-11)
 
-Replace current monolithic `generate-registry.mjs` with a 3-step pipeline:
+~~Replace current monolithic `generate-registry.mjs` with a 3-step pipeline:~~ **Implemented via parallel-orchestration skill (4 domain agents, 1 batch). Monolithic script split into 3-step pipeline. `registry.config.json` added. Scanning extended to shared UI, hooks, utilities. Artifacts at `.agents/artifacts/registry-2/`.**
 
-### Step 1: Auto-discover -> `registry.json`
+### ~~Step 1: Auto-discover -> `registry.json`~~ DONE
 
-New script `scripts/generate-registry-json.mjs`:
+~~New~~ Created script `scripts/generate-registry-json.mjs` (734 lines):
 
 - Scans `src/app/experiments/` for experiments (existing logic)
 - Scans `src/components/ui/` for shared components (new)
@@ -431,12 +468,13 @@ The official schema for `registry.json` (consumed by `shadcn build`):
 - `$schema` field enables IDE validation
 - `registryDependencies` support the three formats: name, @namespace/name, or full URL
 
-### Step 2: `shadcn build`
+### ~~Step 2: `shadcn build`~~ DONE (custom build script instead of shadcn CLI)
 
-- Reads auto-generated `registry.json`
-- Inlines file content, resolves dependencies
-- Generates schema-compliant JSON in `public/r/`
-- Handles `$schema` references, proper types, target paths
+~~- Reads auto-generated `registry.json`~~ Created `scripts/build-registry.mjs` (162 lines) -- reads `registry.json` manifest, inlines file content, rewrites asset URLs, outputs per-item JSON to `public/registry/`. Used custom build script instead of `shadcn build` CLI because our script handles import resolution and URL rewriting that the CLI doesn't support.
+
+~~- Inlines file content, resolves dependencies~~
+~~- Generates schema-compliant JSON in `public/r/`~~
+~~- Handles `$schema` references, proper types, target paths~~
 
 ### Research Insights: `shadcn build` Details
 
@@ -447,13 +485,13 @@ The official schema for `registry.json` (consumed by `shadcn build`):
 - File `path` values must be relative to project root and must exist on disk.
 - Add a **contract test** after `shadcn build`: validate output JSON against expected schema before post-processing.
 
-### Step 3: Post-process
+### ~~Step 3: Post-process~~ DONE
 
-New script `scripts/post-process-registry.mjs`:
+~~New~~ Created script `scripts/post-process-registry.mjs` (183 lines):
 
-- Rewrites asset URLs (`/experiments/` -> `https://www.razisyed.cv/experiments/`)
-- Generates enriched index with category, tags, preview type metadata
-- Generates a **lightweight index** (title, slug, description, tags, poster URL) for the grid page -- current `index.json` is ~890KB
+- ~~Rewrites asset URLs (`/experiments/` -> `https://www.razisyed.cv/experiments/`)~~ URL rewriting moved to build step (Domain 2)
+- ~~Generates enriched index with category, tags, preview type metadata~~ Done: reads `registry.json` meta for enrichment
+- ~~Generates a **lightweight index** (title, slug, description, tags, poster URL) for the grid page~~ Done: `index-slim.json` with featured-first sorting + schema validation
 
 ### Research Insights: Pipeline Robustness
 
@@ -462,15 +500,16 @@ New script `scripts/post-process-registry.mjs`:
 - Keep the current `generate-registry.mjs` as a **fallback** during migration. Don't delete until the new pipeline is proven.
 - Pin `shadcn` CLI to exact version: `"shadcn": "2.x.x"` in `devDependencies`.
 
-### Build pipeline
+### ~~Build pipeline~~ DONE
 
 ```json
 {
-  "generate:registry": "node scripts/generate-registry-json.mjs && shadcn build --output public/r && node scripts/post-process-registry.mjs"
+  "generate:registry": "node scripts/generate-registry-json.mjs && node scripts/build-registry.mjs && node scripts/post-process-registry.mjs",
+  "generate:registry:legacy": "node scripts/generate-registry.mjs"
 }
 ```
 
-### registry.config.json
+### ~~registry.config.json~~ DONE
 
 ```json
 {
@@ -512,13 +551,43 @@ With 19 items, `registry.config.json` is arguably YAGNI. The `featured`/`hidden`
 npm i fumadocs-core fumadocs-ui fumadocs-mdx @fumadocs/story fumadocs-docgen
 ```
 
-### Research Insights: Version Pinning
+### Research Insights: Version & Compatibility
 
-**CRITICAL**: Verify Tailwind v3.4 compatibility before installing.
+**Tailwind v4.2.1 is live** -- latest Fumadocs is fully compatible. The project's CSS-first config (`@import 'tailwindcss'`, `@theme` blocks, `@custom-variant dark`, `@plugin`) aligns with Fumadocs' expected import pattern. Install latest versions directly.
 
-- Run `npm info fumadocs-ui peerDependencies` to check Tailwind version requirement
-- If latest requires Tailwind v4, find the last v3-compatible release: `npm view fumadocs-ui versions --json | tail -20`
-- Create a **spike branch** first: install Fumadocs, render one page, confirm CSS works. 30-minute validation.
+The registry layout CSS file should follow the existing pattern established by `globals.css`:
+
+```css
+/* src/app/(registry)/registry.css */
+@import '../../shared-tokens.css' layer(base);
+
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/shadcn.css';
+@import 'fumadocs-ui/css/preset.css';
+@import '../../shared-theme.css';
+
+/* Map Fumadocs --color-fd-* variables to site tokens */
+@theme {
+  --color-fd-background: hsl(var(--background));
+  --color-fd-foreground: hsl(var(--foreground));
+  --color-fd-muted: hsl(var(--muted));
+  --color-fd-muted-foreground: hsl(var(--muted-foreground));
+  --color-fd-popover: hsl(var(--popover));
+  --color-fd-popover-foreground: hsl(var(--popover-foreground));
+  --color-fd-card: hsl(var(--card));
+  --color-fd-card-foreground: hsl(var(--card-foreground));
+  --color-fd-border: hsl(var(--border));
+  --color-fd-primary: hsl(var(--primary));
+  --color-fd-primary-foreground: hsl(var(--primary-foreground));
+  --color-fd-secondary: hsl(var(--secondary));
+  --color-fd-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-fd-accent: hsl(var(--accent));
+  --color-fd-accent-foreground: hsl(var(--accent-foreground));
+  --color-fd-ring: hsl(var(--ring));
+}
+```
+
+This reuses the existing `shared-tokens.css` (CSS custom properties for light/dark) and `shared-theme.css` (`@theme` block for Tailwind color mapping), then adds Fumadocs variable overrides pointing to the same design tokens.
 
 ### Content source configuration
 
@@ -575,24 +644,40 @@ export const registrySource = loader({
 - `source.pageTree` / `source.getPageTree()` -- for sidebar
 - `source.generateParams()` -- for `generateStaticParams`
 
-### Theme: shadcn CSS preset with custom overrides
+### Theme: shadcn CSS preset with Tailwind v4 integration
+
+The registry layout CSS follows the same pattern as the site's `globals.css`, importing `shared-tokens.css` + `shared-theme.css` and adding Fumadocs CSS layers:
 
 ```css
+/* src/app/(registry)/registry.css */
+@import '../../shared-tokens.css' layer(base);
+
+@import 'tailwindcss';
 @import 'fumadocs-ui/css/shadcn.css';
 @import 'fumadocs-ui/css/preset.css';
-@import '@fumadocs/story/css/preset.css';
+@import '../../shared-theme.css';
 
-:root {
-  /* Override --color-fd-* to match site's zinc dark aesthetic */
-  --color-fd-background: hsl(240, 8.25%, 6.84%);
-  --color-fd-foreground: hsl(0, 0%, 98%);
-  /* ... map to existing site CSS variables ... */
+@custom-variant dark (&:is(.dark *));
+
+/* Override --color-fd-* to map to existing site design tokens */
+@theme {
+  --color-fd-background: hsl(var(--background));
+  --color-fd-foreground: hsl(var(--foreground));
+  --color-fd-muted: hsl(var(--muted));
+  --color-fd-muted-foreground: hsl(var(--muted-foreground));
+  --color-fd-border: hsl(var(--border));
+  --color-fd-primary: hsl(var(--primary));
+  --color-fd-primary-foreground: hsl(var(--primary-foreground));
+  --color-fd-ring: hsl(var(--ring));
+  /* ... remaining fd-* mappings ... */
 }
 ```
 
+This leverages the existing `shared-tokens.css` (light/dark CSS variables) and `shared-theme.css` (`@theme` color registration) so the registry inherits the site's zinc dark palette without duplication.
+
 ### Research Insights: Full CSS Variable Map
 
-**Fumadocs `--color-fd-`* variables to map to site's zinc palette:**
+*Fumadocs `--color-fd-` variables to map to site's zinc palette:**
 
 
 | Fumadocs Variable                 | Map to Site Value                                  |
@@ -676,7 +761,7 @@ src/components/registry/        -- Custom components
 
 `**src/components/registry/`**: This establishes a new "feature-scoped component directory" pattern alongside `ui/` and `experiments/`. Justified -- registry components aren't reusable UI primitives and aren't experiment-specific. Document in AGENTS.md.
 
-`**content/registry/**`: New top-level convention forced by Fumadocs. The project has no existing `content/` directory. Gitignore auto-generated MDX files and mark the directory as a build artifact.
+`**content/registry/`**: New top-level convention forced by Fumadocs. The project has no existing `content/` directory. Gitignore auto-generated MDX files and mark the directory as a build artifact.
 
 ### Layout
 
@@ -710,15 +795,15 @@ export default function RegistryLayout({ children }) {
 **Full DocsLayout props:**
 
 
-| Prop           | Type                  | Description                                                    |
-| -------------- | --------------------- | -------------------------------------------------------------- |
-| `tree`         | `PageTree.Root`       | **Required.** Page tree for sidebar                            |
-| `sidebar`      | `object`              | `{ enabled, collapsible, tabs, banner, prefetch, components }` |
-| `nav`          | `Partial | undefined` | Navbar config or disable                                       |
-| `links`        | `LinkItemType[]`      | Navigation links                                               |
-| `githubUrl`    | `string`              | GitHub repo URL                                                |
-| `themeSwitch`  | `object`              | `{ enabled, mode: 'light-dark' | 'light-dark-system' }`        |
-| `searchToggle` | `object`              | `{ enabled, components }`                                      |
+| Prop           | Type             | Description                                                    |
+| -------------- | ---------------- | -------------------------------------------------------------- |
+| `tree`         | `PageTree.Root`  | **Required.** Page tree for sidebar                            |
+| `sidebar`      | `object`         | `{ enabled, collapsible, tabs, banner, prefetch, components }` |
+| `nav`          | `Partial         | undefined`                                                     |
+| `links`        | `LinkItemType[]` | Navigation links                                               |
+| `githubUrl`    | `string`         | GitHub repo URL                                                |
+| `themeSwitch`  | `object`         | `{ enabled, mode: 'light-dark'                                 |
+| `searchToggle` | `object`         | `{ enabled, components }`                                      |
 
 
 **Sidebar tabs** (for category grouping):
@@ -1116,51 +1201,68 @@ These items from other tiers overlap with or are partially addressed by this wor
 
 ## Files to Create/Modify
 
-**New files (~20):**
+**New files (~20) -- tracking:**
 
-- `registry.config.json` -- curation rules
+- `registry.config.json` -- curation rules ✅ (registry-2)
 - `source.config.ts` -- Fumadocs content source config
 - `src/lib/registry-source.ts` -- Fumadocs source loader
 - `src/lib/story.ts` -- Fumadocs story factory
-- `scripts/generate-registry-json.mjs` -- auto-discover -> registry.json
-- `scripts/post-process-registry.mjs` -- asset URL rewriting + MDX generation
-- `src/app/(registry)/layout.tsx` -- Fumadocs DocsLayout
-- `src/app/(registry)/registry/page.tsx` -- custom grid overview
-- `src/app/(registry)/registry/[[...slug]]/page.tsx` -- Fumadocs doc pages
-- `src/app/(registry)/registry/[[...slug]]/opengraph-image.tsx` -- per-page OG
-- `src/components/registry/RegistryGrid.tsx`
-- `src/components/registry/RegistryCard.tsx`
-- `src/components/registry/InstallCommand.tsx`
-- `src/components/registry/ExperimentPreview.tsx`
-- `src/components/registry/RegistryMeta.tsx`
+- `scripts/generate-registry-json.mjs` -- auto-discover -> registry.json ✅ (registry-2, 734 lines)
+- `scripts/build-registry.mjs` -- manifest -> per-item JSON ✅ (registry-2, 162 lines)
+- `scripts/post-process-registry.mjs` -- indices + validation ✅ (registry-2, 183 lines)
+- `src/app/(registry)/layout.tsx` -- ~~Fumadocs DocsLayout~~ Lean layout ✅ (registry-1)
+- `src/app/(registry)/registry/page.tsx` -- custom grid overview ✅ (registry-1)
+- `src/app/(registry)/registry/[[...slug]]/page.tsx` -- Fumadocs doc pages (replaces current `[slug]`)
+- `src/app/(registry)/registry/[[...slug]]/opengraph-image.tsx` -- per-page OG (current `[slug]` version exists ✅)
+- `src/components/registry/RegistryCard.tsx` ✅ (registry-1)
+- `src/components/registry/InstallCommand.tsx` ✅ (registry-1)
+- `src/components/registry/ExperimentPreview.tsx` ✅ (registry-1)
+- `src/components/registry/RegistryMeta.tsx` ✅ (registry-1)
 - `content/registry/meta.json` -- nav structure
 - `content/registry/experiments/meta.json`
 - `content/registry/components/meta.json`
 - `content/registry/hooks/meta.json`
 - Various `*.story.tsx` files for shared UI components
 
-**Modified files (~4):**
+**Modified files (~4) -- tracking:**
 
-- `scripts/generate-registry.mjs` -- replaced by pipeline (can delete)
-- `package.json` -- add fumadocs deps + update build script
-- `next.config.ts` -- add fumadocs MDX plugin + update rewrite (`/r/` path) + CSP header + noindex
+- `scripts/generate-registry.mjs` -- ~~replaced by pipeline (can delete)~~ kept as `generate:registry:legacy` fallback ✅ (registry-2)
+- `package.json` -- ~~add fumadocs deps +~~ update build script ✅ (registry-2, pipeline wired)
+- `next.config.ts` -- ~~add fumadocs MDX plugin +~~ update rewrite (`/r/` path) + CSP header + noindex ✅ (registry-1)
 - `src/app/(main)/page.tsx` or shared nav -- add "Registry" link
 
-### Research Insights: Lean Alternative File Count
+### ~~Research Insights: Lean Alternative File Count~~ IMPLEMENTED (2026-03-11)
 
-If following the Lean approach instead:
+**New files (10) -- CREATED:**
+
+- `src/app/(registry)/layout.tsx` ✅
+- `src/app/(registry)/registry.css` ✅
+- `src/app/(registry)/registry/page.tsx` ✅
+- `src/app/(registry)/registry/[slug]/page.tsx` ✅
+- `src/app/(registry)/registry/[slug]/opengraph-image.tsx` ✅
+- `src/components/registry/RegistryCard.tsx` ✅
+- `src/components/registry/InstallCommand.tsx` ✅
+- `src/components/registry/ExperimentPreview.tsx` ✅
+- `src/components/registry/RegistryMeta.tsx` ✅
+- `public/registry/razi-style.json` ✅ (generated)
+
+**Modified files (2) -- DONE:**
+
+- `scripts/generate-registry.mjs` -- complete overhaul (dedup, shared style, file types, slim index, parallel stat, $schema) ✅
+- `next.config.ts` -- noindex headers, outputFileTracingIncludes, shiki optimizePackageImports ✅
+
+### Registry Pipeline Files -- CREATED (2026-03-11)
 
 **New files (4):**
 
-- `src/app/(registry)/layout.tsx`
-- `src/app/(registry)/registry/page.tsx`
-- `src/app/(registry)/registry/[slug]/page.tsx`
-- `src/app/(registry)/registry/[slug]/opengraph-image.tsx`
+- `scripts/generate-registry-json.mjs` ✅ (734 lines -- discovery + scanning + manifest output)
+- `scripts/build-registry.mjs` ✅ (162 lines -- manifest → per-item JSON with inlined content)
+- `scripts/post-process-registry.mjs` ✅ (183 lines -- indices + schema validation)
+- `registry.config.json` ✅ (featured/hidden/overrides/scan config)
 
-**Modified files (2):**
+**Modified files (1):**
 
-- `scripts/generate-registry.mjs` -- fix 4 known bugs
-- `next.config.ts` -- update rewrite + add noindex
+- `package.json` -- `generate:registry` now chains 3-step pipeline, added `generate:registry:legacy` ✅
 
 ---
 

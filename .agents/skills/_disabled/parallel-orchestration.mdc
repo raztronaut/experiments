@@ -1,0 +1,6 @@
+---
+description: Trigger parallel domain orchestration for large multi-domain tasks
+alwaysApply: true
+---
+
+For tasks spanning 5+ files across 3+ conceptual areas with independent work streams, read `.agents/skills/parallel-orchestration/SKILL.md` and consider delegating to the `orchestrator` subagent. The orchestrator automates decomposition, parallel domain execution, structured handoffs, and verification -- all via the Task tool from a single conversation.
