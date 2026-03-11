@@ -443,6 +443,12 @@ async function scanExperiments() {
       continue;
     }
 
+    const listing = metadata.listing || "experiment";
+    if (listing === "unlisted") {
+      console.log(`  Skipping unlisted experiment: ${experimentName}`);
+      continue;
+    }
+
     const componentDir = path.join(COMPONENTS_EXPERIMENTS_DIR, experimentName);
     const componentFiles = await getAllComponentFiles(componentDir);
 
@@ -498,7 +504,7 @@ async function scanExperiments() {
       type: itemType,
       title: metadata.title,
       description: metadata.description,
-      category: "experiments",
+      category: listing === "collected" ? "collected" : "experiments",
       registryDependencies: regDeps,
       dependencies: Array.from(allNpmDeps),
       files: allFiles,

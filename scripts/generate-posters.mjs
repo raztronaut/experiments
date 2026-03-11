@@ -28,6 +28,10 @@ async function generatePosters() {
         continue;
       }
 
+      if (config.listing && config.listing !== "experiment") {
+        continue;
+      }
+
       const slug = config.slug;
 
       if (config.video) {

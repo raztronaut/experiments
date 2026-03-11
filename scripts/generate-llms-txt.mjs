@@ -39,6 +39,10 @@ function loadExperiments() {
       continue;
     }
 
+    if (data.listing && data.listing !== "experiment") {
+      continue;
+    }
+
     const hasArticle = fs.existsSync(
       path.join(EXPERIMENTS_DIR, routeGroup, slug, "article", "content.mdx")
     );

@@ -16,6 +16,8 @@ export type ExperimentStatus = "wip" | "shipped" | "archived";
 
 export type ExperimentComplexity = "beginner" | "intermediate" | "advanced";
 
+export type ExperimentListing = "experiment" | "collected" | "unlisted";
+
 const VALID_PROFILES: ExperimentProfile[] = [
   "r3f-scene",
   "r3f-shader",
@@ -32,6 +34,11 @@ const VALID_COMPLEXITIES: ExperimentComplexity[] = [
   "intermediate",
   "advanced",
 ];
+const VALID_LISTINGS: ExperimentListing[] = [
+  "experiment",
+  "collected",
+  "unlisted",
+];
 
 export interface Experiment {
   complexity?: ExperimentComplexity;
@@ -42,6 +49,7 @@ export interface Experiment {
   image?: string;
   inspiration?: { title: string; url: string }[];
   legacy?: boolean;
+  listing?: ExperimentListing;
   poster?: string;
   profile?: ExperimentProfile;
   publishable?: boolean;
@@ -57,6 +65,7 @@ export interface Experiment {
 
 export interface ExperimentFilter {
   includeArchived?: boolean;
+  listing?: ExperimentListing[];
   profile?: ExperimentProfile;
   status?: ExperimentStatus[];
   tags?: string[];
@@ -109,6 +118,16 @@ function validateExperiment(raw: unknown): Experiment | null {
   ) {
     console.warn(
       `Invalid complexity "${obj.complexity}" in experiment "${obj.slug}"`
+    );
+    return null;
+  }
+
+  if (
+    obj.listing !== undefined &&
+    !VALID_LISTINGS.includes(obj.listing as ExperimentListing)
+  ) {
+    console.warn(
+      `Invalid listing "${obj.listing}" in experiment "${obj.slug}"`
     );
     return null;
   }
@@ -173,6 +192,16 @@ export const getExperiments = cache(async function getExperiments(
 
     if (!filter?.includeArchived) {
       results = results.filter((exp) => exp.status !== "archived");
+    }
+
+    if (filter?.listing?.length) {
+      results = results.filter((exp) =>
+        filter.listing!.includes(exp.listing ?? "experiment")
+      );
+    } else {
+      results = results.filter(
+        (exp) => (exp.listing ?? "experiment") === "experiment"
+      );
     }
 
     if (filter?.status?.length) {

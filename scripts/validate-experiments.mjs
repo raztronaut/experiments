@@ -25,6 +25,7 @@ const VALID_PROFILES = [
   "blank",
 ];
 const VALID_COMPLEXITY = ["beginner", "intermediate", "advanced"];
+const VALID_LISTINGS = ["experiment", "collected", "unlisted"];
 const REQUIRED_FIELDS = ["title", "description", "slug"];
 
 let errors = 0;
@@ -99,6 +100,13 @@ try {
       error(
         relPath,
         `Invalid complexity "${config.complexity}". Must be one of: ${VALID_COMPLEXITY.join(", ")}`
+      );
+    }
+
+    if (config.listing && !VALID_LISTINGS.includes(config.listing)) {
+      error(
+        relPath,
+        `Invalid listing "${config.listing}". Must be one of: ${VALID_LISTINGS.join(", ")}`
       );
     }
 

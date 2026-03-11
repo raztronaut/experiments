@@ -24,6 +24,17 @@ Never modify `src/app/(main)/` for experiment-specific code. Never add experimen
 ## Profile Detection
 Check `experiment.json` for a `profile` field. When present, activate the matching profile from `.agents/profiles/` to get experiment-type-specific behavioral guidance.
 
+## Listing Control
+The `listing` field in `experiment.json` controls where an experiment appears in generated output (orthogonal to `status` which tracks lifecycle):
+
+| Value | Homepage | Registry | Posters | llms.txt |
+|-------|----------|----------|---------|----------|
+| `"experiment"` (default) | Yes | experiments section | Yes | Yes |
+| `"collected"` | No | collected section | No | No |
+| `"unlisted"` | No | No | No | No |
+
+Use `"collected"` for reference experiments, study ports, or experiments that should appear only in the registry. Use `"unlisted"` for fully private experiments excluded from all output. The route remains accessible in all cases (Next.js App Router requires the files); `listing` only controls generated/listed surfaces.
+
 ## Component Decomposition
 
 ### File Budget (lines)

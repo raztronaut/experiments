@@ -80,7 +80,7 @@ Each experiment is an isolated Next.js route group with its own `<html>`/`<body>
 ```
 src/app/experiments/(experiment-name)/
 ├── layout.tsx              # Own HTML root, metadata, dev tools
-├── experiment.json         # Metadata (title, slug, profile, status, tags, tech)
+├── experiment.json         # Metadata (title, slug, profile, status, listing, tags, tech)
 └── experiment-name/
     ├── page.tsx            # Imports main component
     └── error.tsx           # Error boundary
@@ -202,6 +202,7 @@ When tool output exceeds ~2K tokens, write it to a scratch file and return a sum
 - **18 legacy experiments** (`legacy: true`, `status: "shipped"`) -- untouchable. No layout migration, no code changes.
 - **Biome is deliberately permissive** -- 30+ rules disabled for legacy creative code. AGENTS.md defines stricter standards.
 - **Generation scripts filter `wip`** -- `generate:registry`, `generate:posters`, `generate:llms-txt` skip `status: "wip"`.
+- **`listing` controls visibility** -- `"experiment"` (default): full public visibility. `"collected"`: appears in registry collected section only, hidden from homepage/posters/llms.txt. `"unlisted"`: excluded from all generated output.
 - **Deferred items** (don't attempt to fix): Cursor.tsx `getCursorColor` perf bug, Biome strictness tightening, `useExhaustiveDependencies` enforcement, ArticleLayout TOC scroll-spy.
 
 ## Reference Docs (.agents/)
