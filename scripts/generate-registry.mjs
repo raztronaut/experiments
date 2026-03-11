@@ -9,12 +9,130 @@ const PUBLIC_REGISTRY_DIR = path.join(ROOT_DIR, "public", "registry");
 const APP_EXPERIMENTS_DIR = path.join(ROOT_DIR, "src", "app", "experiments");
 const COMPONENTS_DIR = path.join(ROOT_DIR, "src", "components", "experiments");
 
-// The base URL where assets are served from in production
 const ASSET_BASE_URL = "https://www.razisyed.cv";
+const ITEM_SCHEMA = "https://ui.shadcn.com/schema/registry-item.json";
 
-/**
- * Extracts all imports from a given file content
- */
+const SHARED_TAILWIND = {
+  config: {
+    theme: {
+      extend: {
+        colors: {
+          background: "hsl(var(--background))",
+          foreground: "hsl(var(--foreground))",
+          card: {
+            DEFAULT: "hsl(var(--card))",
+            foreground: "hsl(var(--card-foreground))",
+          },
+          popover: {
+            DEFAULT: "hsl(var(--popover))",
+            foreground: "hsl(var(--popover-foreground))",
+          },
+          primary: {
+            DEFAULT: "hsl(var(--primary))",
+            foreground: "hsl(var(--primary-foreground))",
+          },
+          secondary: {
+            DEFAULT: "hsl(var(--secondary))",
+            foreground: "hsl(var(--secondary-foreground))",
+          },
+          muted: {
+            DEFAULT: "hsl(var(--muted))",
+            foreground: "hsl(var(--muted-foreground))",
+          },
+          accent: {
+            DEFAULT: "hsl(var(--accent))",
+            foreground: "hsl(var(--accent-foreground))",
+          },
+          destructive: {
+            DEFAULT: "hsl(var(--destructive))",
+            foreground: "hsl(var(--destructive-foreground))",
+          },
+          border: "hsl(var(--border))",
+          input: "hsl(var(--input))",
+          ring: "hsl(var(--ring))",
+          chart: {
+            1: "hsl(var(--chart-1))",
+            2: "hsl(var(--chart-2))",
+            3: "hsl(var(--chart-3))",
+            4: "hsl(var(--chart-4))",
+            5: "hsl(var(--chart-5))",
+          },
+        },
+        borderRadius: {
+          lg: "var(--radius)",
+          md: "calc(var(--radius) - 2px)",
+          sm: "calc(var(--radius) - 4px)",
+        },
+        keyframes: {
+          "static-noise-fade": {
+            "0%": { opacity: "1" },
+            "100%": { opacity: "0" },
+          },
+        },
+        animation: {
+          "static-noise": "static-noise-fade 0.8s ease-in-out forwards",
+        },
+      },
+    },
+  },
+};
+
+const SHARED_CSS_VARS = {
+  light: {
+    background: "35 50% 95.29%",
+    foreground: "240 10% 3.9%",
+    card: "35 50% 95.29%",
+    "card-foreground": "240 10% 3.9%",
+    popover: "35 50% 95.29%",
+    "popover-foreground": "240 10% 3.9%",
+    primary: "240 5.9% 10%",
+    "primary-foreground": "0 0% 98%",
+    secondary: "35 30% 90%",
+    "secondary-foreground": "240 5.9% 10%",
+    muted: "35 30% 90%",
+    "muted-foreground": "35 10% 45%",
+    accent: "35 30% 90%",
+    "accent-foreground": "240 5.9% 10%",
+    destructive: "0 84.2% 60.2%",
+    "destructive-foreground": "0 0% 98%",
+    border: "35 25% 85%",
+    input: "35 25% 85%",
+    ring: "240 10% 3.9%",
+    radius: "0.5rem",
+    "chart-1": "12 76% 61%",
+    "chart-2": "173 58% 39%",
+    "chart-3": "197 37% 24%",
+    "chart-4": "43 74% 66%",
+    "chart-5": "27 87% 67%",
+  },
+  dark: {
+    background: "240 8.25% 6.84%",
+    foreground: "0 0% 98%",
+    card: "240 8.25% 6.84%",
+    "card-foreground": "0 0% 98%",
+    popover: "240 8.25% 6.84%",
+    "popover-foreground": "0 0% 98%",
+    primary: "0 0% 98%",
+    "primary-foreground": "240 5.9% 10%",
+    secondary: "240 3.7% 15.9%",
+    "secondary-foreground": "0 0% 98%",
+    muted: "240 3.7% 15.9%",
+    "muted-foreground": "240 5% 64.9%",
+    accent: "240 3.7% 15.9%",
+    "accent-foreground": "0 0% 98%",
+    destructive: "0 62.8% 30.6%",
+    "destructive-foreground": "0 0% 98%",
+    border: "240 3.7% 15.9%",
+    input: "240 3.7% 15.9%",
+    ring: "240 4.9% 83.9%",
+    "chart-1": "220 70% 50%",
+    "chart-2": "160 60% 45%",
+    "chart-3": "30 80% 55%",
+    "chart-4": "280 65% 60%",
+    "chart-5": "340 75% 55%",
+  },
+};
+
 function extractImports(content) {
   const importRegex = /import\s+.*?from\s+['"](.*?)['"]/g;
   const imports = [];
@@ -25,14 +143,6 @@ function extractImports(content) {
   return imports;
 }
 
-/**
- * Categorizes an import as either a regular NPM dependency, a shadcn registry dependency, or local code.
- * By default for experiments:
- * - anything starting with a word character and NOT starting with "." or "@/" or "src/" or "@" (excluding known scoped packages) is an npm dep.
- * - anything starting with "@radix-ui", "framer-motion", "lucide-react", "three", "@react-three", "gsap", etc are npm dependencies.
- * - anything starting with "@/components/ui/" is a registry dependency (we just use the component name as the registry dep)
- * - anything starting with "." or "./" or "../" or "@/components/experiments/" is local code that should be included in the file array.
- */
 function categorizeImport(importPath) {
   if (importPath.startsWith("@/components/ui/")) {
     const parts = importPath.split("/");
@@ -40,8 +150,6 @@ function categorizeImport(importPath) {
     return { type: "registry", name: componentName };
   }
 
-  // Not strictly comprehensive, but handles our typical stack.
-  // NextJS aliases like @/app, @/lib are local.
   if (
     importPath.startsWith(".") ||
     importPath.startsWith("@/") ||
@@ -50,19 +158,45 @@ function categorizeImport(importPath) {
     return { type: "local", path: importPath };
   }
 
-  // Otherwise it's an NPM dependency
   return { type: "npm", name: importPath };
 }
 
 /**
- * Recursively find all TypeScript/TSX/JS/JSX files in a directory
+ * Infers the shadcn registry file type from the file path and content.
  */
+function inferFileType(filePath, content) {
+  const basename = path.basename(filePath);
+  const ext = path.extname(filePath);
+
+  if ([".glsl", ".frag", ".vert"].includes(ext)) {
+    return "registry:file";
+  }
+
+  const relDir = path.dirname(filePath);
+  if (/[\\/]hooks[\\/]/.test(relDir) || basename.startsWith("use")) {
+    return "registry:hook";
+  }
+  if (/[\\/](lib|utils)[\\/]/.test(relDir)) {
+    return "registry:lib";
+  }
+
+  if ([".tsx", ".jsx"].includes(ext)) {
+    const hasJSX = /<[A-Z]/.test(content) || /return\s*\(?\s*</.test(content);
+    const hasCapitalExport =
+      /export\s+(default\s+)?(?:function|const)\s+[A-Z]/.test(content);
+    if (hasJSX || hasCapitalExport) {
+      return "registry:component";
+    }
+  }
+
+  return "registry:file";
+}
+
 async function getAllComponentFiles(dirPath) {
   let results = [];
   try {
     const list = await fs.readdir(dirPath, { withFileTypes: true });
     for (const file of list) {
-      // Skip hidden files and tests
       if (file.name.startsWith(".") || file.name.includes(".test.")) {
         continue;
       }
@@ -70,7 +204,7 @@ async function getAllComponentFiles(dirPath) {
       const fullPath = path.join(dirPath, file.name);
       if (file.isDirectory()) {
         results = results.concat(await getAllComponentFiles(fullPath));
-      } else if (file.name.match(/\.(tsx?|jsx?)$/)) {
+      } else if (file.name.match(/\.(tsx?|jsx?|glsl|frag|vert)$/)) {
         results.push(fullPath);
       }
     }
@@ -84,8 +218,48 @@ async function getAllComponentFiles(dirPath) {
 }
 
 /**
- * Follows local imports within the experiment component directory to build up the 'files' array
+ * Resolves an import to a file path using parallel fs.stat calls.
  */
+async function resolveImportPath(basePath) {
+  const possibleExtensions = [".tsx", ".ts", ".jsx", ".js"];
+
+  // 1. Parallel direct file match
+  const fileResults = await Promise.all(
+    possibleExtensions.map((ext) =>
+      fs
+        .stat(`${basePath}${ext}`)
+        .then((s) => (s.isFile() ? ext : null))
+        .catch(() => null)
+    )
+  );
+  const foundExt = fileResults.find((r) => r !== null);
+  if (foundExt) {
+    return `${basePath}${foundExt}`;
+  }
+
+  // 2. Directory with index match (parallel)
+  const isDir = await fs
+    .stat(basePath)
+    .then((s) => s.isDirectory())
+    .catch(() => false);
+  if (isDir) {
+    const indexResults = await Promise.all(
+      possibleExtensions.map((ext) =>
+        fs
+          .stat(path.join(basePath, `index${ext}`))
+          .then((s) => (s.isFile() ? ext : null))
+          .catch(() => null)
+      )
+    );
+    const foundIdx = indexResults.find((r) => r !== null);
+    if (foundIdx) {
+      return path.join(basePath, `index${foundIdx}`);
+    }
+  }
+
+  return null;
+}
+
 async function resolveLocalFiles(startFile) {
   const fileQueue = [startFile];
   const processedFiles = new Set();
@@ -107,18 +281,15 @@ async function resolveLocalFiles(startFile) {
         currentFile
       );
 
-      // Replace any hardcoded absolute paths to /experiments/ with the CDN URL
-      // e.g. "/experiments/basketball-replay-center/poster.jpg" -> "https://experiments.raztronaut.space/experiments/..."
-      // Also handles template literals like `/experiments/...`
       content = content.replace(
         /(['"`])\/experiments\//g,
         `$1${ASSET_BASE_URL}/experiments/`
       );
 
       resolvedFiles.push({
-        name: path.basename(currentFile), // Simple basename for registry structure
-        path: currentFile,
-        relativePath: relativeToComponents, // e.g. experiments/basketball-replay-center/ReplayPreloader.tsx
+        absolutePath: currentFile,
+        name: path.basename(currentFile),
+        relativePath: relativeToComponents,
         content,
       });
 
@@ -126,7 +297,6 @@ async function resolveLocalFiles(startFile) {
       for (const imp of imports) {
         const categorized = categorizeImport(imp);
         if (categorized.type === "npm") {
-          // Extract base package name for scoped and unscoped
           let rootDep = categorized.name;
           if (rootDep.startsWith("@")) {
             const parts = rootDep.split("/");
@@ -136,7 +306,6 @@ async function resolveLocalFiles(startFile) {
           } else {
             rootDep = rootDep.split("/")[0];
           }
-          // Filter out types and native node modules and other weirdness
           if (
             !(rootDep.startsWith("next") || rootDep.startsWith("react")) &&
             rootDep !== "three/examples" &&
@@ -147,52 +316,13 @@ async function resolveLocalFiles(startFile) {
         } else if (categorized.type === "registry") {
           registryDependencies.add(categorized.name);
         } else if (categorized.type === "local") {
-          // Handle relative imports by resolving them against the current file's directory
+          let resolvedPath = null;
+
           if (categorized.path.startsWith(".")) {
             const currentDir = path.dirname(currentFile);
             const resolvedDir = path.resolve(currentDir, categorized.path);
-
-            // It could be a file without extension, or a directory with index.tsx
-            const possibleExtensions = [".tsx", ".ts", ".jsx", ".js"];
-            let found = false;
-
-            // 1. Direct file match
-            for (const ext of possibleExtensions) {
-              if (
-                await fs
-                  .stat(`${resolvedDir}${ext}`)
-                  .then((s) => s.isFile())
-                  .catch(() => false)
-              ) {
-                fileQueue.push(`${resolvedDir}${ext}`);
-                found = true;
-                break;
-              }
-            }
-
-            // 2. Directory with index match
-            if (
-              !found &&
-              (await fs
-                .stat(resolvedDir)
-                .then((s) => s.isDirectory())
-                .catch(() => false))
-            ) {
-              for (const ext of possibleExtensions) {
-                if (
-                  await fs
-                    .stat(path.join(resolvedDir, `index${ext}`))
-                    .then((s) => s.isFile())
-                    .catch(() => false)
-                ) {
-                  fileQueue.push(path.join(resolvedDir, `index${ext}`));
-                  found = true;
-                  break;
-                }
-              }
-            }
+            resolvedPath = await resolveImportPath(resolvedDir);
           } else if (categorized.path.startsWith("@/components/experiments/")) {
-            // Absolute import but within components
             const relativePath = categorized.path.replace("@/components/", "");
             const fullPathBase = path.join(
               ROOT_DIR,
@@ -200,19 +330,11 @@ async function resolveLocalFiles(startFile) {
               "components",
               relativePath
             );
+            resolvedPath = await resolveImportPath(fullPathBase);
+          }
 
-            const possibleExtensions = [".tsx", ".ts", ".jsx", ".js"];
-            for (const ext of possibleExtensions) {
-              if (
-                await fs
-                  .stat(`${fullPathBase}${ext}`)
-                  .then((s) => s.isFile())
-                  .catch(() => false)
-              ) {
-                fileQueue.push(`${fullPathBase}${ext}`);
-                break;
-              }
-            }
+          if (resolvedPath) {
+            fileQueue.push(resolvedPath);
           }
         }
       }
@@ -232,16 +354,32 @@ async function generateRegistry() {
   try {
     await fs.mkdir(PUBLIC_REGISTRY_DIR, { recursive: true });
 
-    // 1. Find all experiments by looking in src/app/experiments
+    // Generate shared style item
+    const raziStyle = {
+      $schema: ITEM_SCHEMA,
+      name: "razi-style",
+      type: "registry:style",
+      title: "Razi Style",
+      description:
+        "Shared design tokens and CSS variables for Razi's experiments",
+      tailwind: SHARED_TAILWIND,
+      cssVars: SHARED_CSS_VARS,
+      files: [],
+    };
+    await fs.writeFile(
+      path.join(PUBLIC_REGISTRY_DIR, "razi-style.json"),
+      JSON.stringify(raziStyle, null, 2)
+    );
+    console.log("✅ Generated shared style: razi-style.json");
+
     const experimentDirs = await fs.readdir(APP_EXPERIMENTS_DIR, {
       withFileTypes: true,
     });
     const registryItems = [];
+    const slimItems = [];
 
     const EXCLUDE_EXPERIMENTS = ["3-d-basketball-court-hero"];
     for (const dir of experimentDirs) {
-      // Our architecture looks like: src/app/experiments/(experiment-name)/experiment-name/page.tsx
-      // So 'dir' is the route group, like (basketball-replay-center)
       if (!(dir.isDirectory() && dir.name.startsWith("("))) {
         continue;
       }
@@ -253,7 +391,6 @@ async function generateRegistry() {
         continue;
       }
 
-      // Load experiment.json to get metadata if it exists
       let metadata = {
         title: experimentName,
         description: `Component for ${experimentName}`,
@@ -275,7 +412,6 @@ async function generateRegistry() {
         continue;
       }
 
-      // 2. Find the root component for this experiment in src/components/experiments/[name]
       const componentDir = path.join(COMPONENTS_DIR, experimentName);
       const componentFiles = await getAllComponentFiles(componentDir);
 
@@ -286,170 +422,83 @@ async function generateRegistry() {
         continue;
       }
 
-      // To avoid generating massive registries for complex experiments, we just bundle ALL files in the component dir
-      // rather than trying to perfectly tree-shake from a single entry point (since some experiments have multiple exported components)
       console.log(`Analyzing ${experimentName}...`);
 
       const allFiles = [];
+      const seenAbsolutePaths = new Set();
       const allNpmDeps = new Set();
       const allRegistryDeps = new Set();
 
       for (const startFile of componentFiles) {
         const result = await resolveLocalFiles(startFile);
-        result.files.forEach((f) => {
-          if (!allFiles.find((existing) => existing.path === f.path)) {
-            allFiles.push({
-              name: f.name,
-              type: "registry:file",
-              path: f.name,
-              target: `components/experiments/${experimentName}/${f.name}`,
-              content: f.content,
-            });
+        for (const f of result.files) {
+          const resolved = path.resolve(f.absolutePath);
+          if (seenAbsolutePaths.has(resolved)) {
+            continue;
           }
-        });
-        result.dependencies.forEach((d) => allNpmDeps.add(d));
-        result.registryDependencies.forEach((d) => allRegistryDeps.add(d));
+          seenAbsolutePaths.add(resolved);
+
+          const target = `components/experiments/${experimentName}/${f.name}`;
+          const fileType = inferFileType(f.absolutePath, f.content);
+
+          allFiles.push({
+            name: f.name,
+            type: fileType,
+            ...(fileType === "registry:file" ? { target } : {}),
+            content: f.content,
+          });
+        }
+        for (const d of result.dependencies) {
+          allNpmDeps.add(d);
+        }
+        for (const d of result.registryDependencies) {
+          allRegistryDeps.add(d);
+        }
       }
 
       if (allFiles.length > 0) {
+        const isMultiFile = allFiles.length > 1;
+        const itemType = isMultiFile ? "registry:block" : "registry:component";
+
+        const regDeps = Array.from(allRegistryDeps);
+        regDeps.push("razi-style");
+
         const registryItem = {
+          $schema: ITEM_SCHEMA,
           name: experimentName,
-          type: "registry:ui",
+          type: itemType,
           title: metadata.title,
           description: metadata.description,
           dependencies: Array.from(allNpmDeps),
-          registryDependencies: Array.from(allRegistryDeps),
-          tailwind: {
-            config: {
-              theme: {
-                extend: {
-                  colors: {
-                    background: "hsl(var(--background))",
-                    foreground: "hsl(var(--foreground))",
-                    card: {
-                      DEFAULT: "hsl(var(--card))",
-                      foreground: "hsl(var(--card-foreground))",
-                    },
-                    popover: {
-                      DEFAULT: "hsl(var(--popover))",
-                      foreground: "hsl(var(--popover-foreground))",
-                    },
-                    primary: {
-                      DEFAULT: "hsl(var(--primary))",
-                      foreground: "hsl(var(--primary-foreground))",
-                    },
-                    secondary: {
-                      DEFAULT: "hsl(var(--secondary))",
-                      foreground: "hsl(var(--secondary-foreground))",
-                    },
-                    muted: {
-                      DEFAULT: "hsl(var(--muted))",
-                      foreground: "hsl(var(--muted-foreground))",
-                    },
-                    accent: {
-                      DEFAULT: "hsl(var(--accent))",
-                      foreground: "hsl(var(--accent-foreground))",
-                    },
-                    destructive: {
-                      DEFAULT: "hsl(var(--destructive))",
-                      foreground: "hsl(var(--destructive-foreground))",
-                    },
-                    border: "hsl(var(--border))",
-                    input: "hsl(var(--input))",
-                    ring: "hsl(var(--ring))",
-                    chart: {
-                      1: "hsl(var(--chart-1))",
-                      2: "hsl(var(--chart-2))",
-                      3: "hsl(var(--chart-3))",
-                      4: "hsl(var(--chart-4))",
-                      5: "hsl(var(--chart-5))",
-                    },
-                  },
-                  borderRadius: {
-                    lg: "var(--radius)",
-                    md: "calc(var(--radius) - 2px)",
-                    sm: "calc(var(--radius) - 4px)",
-                  },
-                  keyframes: {
-                    "static-noise-fade": {
-                      "0%": { opacity: "1" },
-                      "100%": { opacity: "0" },
-                    },
-                  },
-                  animation: {
-                    "static-noise":
-                      "static-noise-fade 0.8s ease-in-out forwards",
-                  },
-                },
-              },
-            },
-          },
-          cssVars: {
-            light: {
-              background: "35 50% 95.29%",
-              foreground: "240 10% 3.9%",
-              card: "35 50% 95.29%",
-              "card-foreground": "240 10% 3.9%",
-              popover: "35 50% 95.29%",
-              "popover-foreground": "240 10% 3.9%",
-              primary: "240 5.9% 10%",
-              "primary-foreground": "0 0% 98%",
-              secondary: "35 30% 90%",
-              "secondary-foreground": "240 5.9% 10%",
-              muted: "35 30% 90%",
-              "muted-foreground": "35 10% 45%",
-              accent: "35 30% 90%",
-              "accent-foreground": "240 5.9% 10%",
-              destructive: "0 84.2% 60.2%",
-              "destructive-foreground": "0 0% 98%",
-              border: "35 25% 85%",
-              input: "35 25% 85%",
-              ring: "240 10% 3.9%",
-              radius: "0.5rem",
-              "chart-1": "12 76% 61%",
-              "chart-2": "173 58% 39%",
-              "chart-3": "197 37% 24%",
-              "chart-4": "43 74% 66%",
-              "chart-5": "27 87% 67%",
-            },
-            dark: {
-              background: "240 8.25% 6.84%",
-              foreground: "0 0% 98%",
-              card: "240 8.25% 6.84%",
-              "card-foreground": "0 0% 98%",
-              popover: "240 8.25% 6.84%",
-              "popover-foreground": "0 0% 98%",
-              primary: "0 0% 98%",
-              "primary-foreground": "240 5.9% 10%",
-              secondary: "240 3.7% 15.9%",
-              "secondary-foreground": "0 0% 98%",
-              muted: "240 3.7% 15.9%",
-              "muted-foreground": "240 5% 64.9%",
-              accent: "240 3.7% 15.9%",
-              "accent-foreground": "0 0% 98%",
-              destructive: "0 62.8% 30.6%",
-              "destructive-foreground": "0 0% 98%",
-              border: "240 3.7% 15.9%",
-              input: "240 3.7% 15.9%",
-              ring: "240 4.9% 83.9%",
-              "chart-1": "220 70% 50%",
-              "chart-2": "160 60% 45%",
-              "chart-3": "30 80% 55%",
-              "chart-4": "280 65% 60%",
-              "chart-5": "340 75% 55%",
-            },
-          },
+          registryDependencies: regDeps,
           files: allFiles,
         };
 
         registryItems.push({
           name: registryItem.name,
+          type: registryItem.type,
           title: registryItem.title,
           description: registryItem.description,
           dependencies: registryItem.dependencies,
           registryDependencies: registryItem.registryDependencies,
-          type: registryItem.type,
           files: registryItem.files,
+        });
+
+        const posterField = metadata.poster || metadata.image || null;
+        const videoField = metadata.video || null;
+
+        slimItems.push({
+          name: experimentName,
+          title: metadata.title,
+          description: metadata.description,
+          tags: metadata.tags || [],
+          tech: metadata.tech || [],
+          status: metadata.status || "shipped",
+          poster: posterField,
+          video: videoField,
+          category: "experiments",
+          fileCount: allFiles.length,
+          dependencyCount: Array.from(allNpmDeps).length,
         });
 
         const outputPath = path.join(
@@ -461,12 +510,23 @@ async function generateRegistry() {
       }
     }
 
-    // Also generate an index.json to index all available components
+    // Full index: strip content from files to reduce size
+    const indexItems = registryItems.map((item) => ({
+      ...item,
+      files: item.files.map(({ content, ...rest }) => rest),
+    }));
     await fs.writeFile(
       path.join(PUBLIC_REGISTRY_DIR, "index.json"),
-      JSON.stringify(registryItems, null, 2)
+      JSON.stringify(indexItems, null, 2)
     );
     console.log("✅ Generated registry index at public/registry/index.json");
+
+    // Slim index for the grid overview page
+    await fs.writeFile(
+      path.join(PUBLIC_REGISTRY_DIR, "index-slim.json"),
+      JSON.stringify(slimItems, null, 2)
+    );
+    console.log("✅ Generated slim index at public/registry/index-slim.json");
 
     console.log(
       `🚀 Registry generation complete. Generated ${registryItems.length} items.`
