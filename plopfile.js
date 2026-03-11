@@ -53,8 +53,10 @@ module.exports = (plop) => {
             name: "DOM Effect (CSS/shader effects on DOM)",
             value: "dom-effect",
           },
-          // Mixed experiments (scroll + 3D + interaction): use scrollytelling
-          // as base, then manually compose. See .agent/profiles/mixed.md.
+          {
+            name: "Mixed (scroll + 3D + interaction)",
+            value: "mixed",
+          },
         ],
         default: "blank",
       },
@@ -63,7 +65,7 @@ module.exports = (plop) => {
         name: "includeToolkit",
         message: "Include toolkit wiring? (Lenis + Tempus + GSAP unified RAF)",
         default: (answers) =>
-          ["scrollytelling", "r3f-scene", "r3f-shader"].includes(
+          ["scrollytelling", "r3f-scene", "r3f-shader", "mixed"].includes(
             answers.profile
           ),
         when: (answers) => answers.profile !== "blank",

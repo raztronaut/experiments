@@ -49,7 +49,7 @@ description: Work on an existing experiment following isolation rules
 
 6. **Toolkit integration** (when `includeToolkit` was selected during scaffolding):
 
-   **Scroll experiments** (scrollytelling profile or any experiment with scroll-driven animation):
+   **Scroll experiments** (scrollytelling or mixed profiles):
    ```tsx
    import { createUnifiedScroll } from "@/lib/toolkit/scroll";
    import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
@@ -71,7 +71,7 @@ description: Work on an existing experiment following isolation rules
    ```
    Import `ExperimentCanvas` directly from `@/lib/toolkit/r3f` (not via the barrel) to avoid pulling R3F into non-3D experiments.
 
-   **Mixed experiments** (scroll + 3D + interaction): See `.agents/profiles/mixed.md` for the layer-cake pattern and state bridging between DOM and R3F.
+   **Mixed experiments** (mixed profile): Combines both scroll and R3F toolkit wiring. Uses the layer-cake pattern (fixed Canvas + scrolling DOM). Bridge scroll progress to R3F via refs or Zustand `store.getState()` inside `useFrame`. See `.agents/profiles/mixed.md` for full architecture.
 
 7. **Debug tools**:
    - `useDevControls(folder, schema)` wraps Leva for production-safe parameter tweaking. Dead-code eliminated in production by default.

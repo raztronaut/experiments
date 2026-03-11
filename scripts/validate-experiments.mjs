@@ -21,6 +21,7 @@ const VALID_PROFILES = [
   "interaction",
   "dom-effect",
   "web-audio",
+  "mixed",
   "blank",
 ];
 const VALID_COMPLEXITY = ["beginner", "intermediate", "advanced"];

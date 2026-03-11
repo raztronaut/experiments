@@ -12,7 +12,7 @@
  *   --name        (required) Experiment name
  *   --description (optional) Short description
  *   --complexity  (optional) beginner | intermediate | advanced (default: intermediate)
- *   --profile     (optional) blank | r3f-scene | r3f-shader | scrollytelling | interaction | web-audio | dom-effect (default: blank)
+ *   --profile     (optional) blank | r3f-scene | r3f-shader | scrollytelling | interaction | web-audio | dom-effect | mixed (default: blank)
  *   --toolkit     (optional) Include toolkit wiring. Defaults to true for scrollytelling/r3f-scene/r3f-shader.
  *   --no-toolkit  (optional) Explicitly disable toolkit wiring.
  *   --leva        (optional) Include leva debug GUI (default: false)
@@ -32,9 +32,15 @@ const VALID_PROFILES = [
   "interaction",
   "web-audio",
   "dom-effect",
+  "mixed",
 ];
 const VALID_COMPLEXITY = ["beginner", "intermediate", "advanced"];
-const TOOLKIT_DEFAULT_PROFILES = ["scrollytelling", "r3f-scene", "r3f-shader"];
+const TOOLKIT_DEFAULT_PROFILES = [
+  "scrollytelling",
+  "r3f-scene",
+  "r3f-shader",
+  "mixed",
+];
 
 function parseArgs(argv) {
   const args = {};

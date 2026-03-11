@@ -50,7 +50,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("font-canvas antialiased", activeFont.variable)}>
-        <style>{\`body { view-transition-name: experiment-page-{{dashCase name}}; }\`}</style>
+        <style>
+          {"body { view-transition-name: experiment-page-{{dashCase name}}; }"}
+        </style>
         <DevToolsInjector />
         <ExperimentJsonLd
           description={experiment.description}

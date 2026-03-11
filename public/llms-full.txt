@@ -4,6 +4,15 @@
 
 ## Published Articles
 
+### 404 Not Found
+
+- URL: https://www.razisyed.cv/experiments/404-not-found/article
+- Experiment: https://www.razisyed.cv/experiments/404-not-found
+- Published: 2026-03-11T00:00:00.000Z
+- Description: A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.
+- Tags: 3d, shader, animation, scroll
+- Technologies: r3f, three.js, glsl
+
 ### Basketball Replay Center
 
 - URL: https://www.razisyed.cv/experiments/basketball-replay-center/article
@@ -34,6 +43,7 @@
 - Created: 2026-01-26T20:45:55.003Z
 - Tags: 3d, shader, animation, scroll
 - Technologies: r3f, three.js, glsl
+- Article: https://www.razisyed.cv/experiments/404-not-found/article
 
 ### Basketball Replay Center
 
@@ -211,7 +221,7 @@
 - Status: shipped
 - Created: 2025-12-31T04:46:03.740Z
 - Tags: scroll, animation, ui, generative
-- Technologies: motion, canvas-2d
+- Technologies: lenis, motion, canvas-2d
 
 ## Technical Stack
 

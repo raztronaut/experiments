@@ -2,7 +2,7 @@
 
 import { FileCode, Terminal } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import type React from "react";
+import { cn } from "@/lib/utils";
 import { SPRING_CONFIGS } from "./constants";
 import { useVelocityState } from "./VelocityContext";
 
@@ -12,12 +12,12 @@ interface VelocityCodeBlockProps {
   language: string;
 }
 
-export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({
+export function VelocityCodeBlock({
   filename,
   language,
   code,
-}) => {
-  const { readingState } = useVelocityState();
+}: VelocityCodeBlockProps) {
+  const { readingState, reducedMotion } = useVelocityState();
   const isSkim = readingState === "skim";
 
   return (
@@ -26,13 +26,14 @@ export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({
         scale: isSkim ? 0.98 : 1,
         opacity: isSkim ? 0.8 : 1,
       }}
-      className={`my-8 overflow-hidden rounded-lg border ${
+      className={cn(
+        "my-8 overflow-hidden rounded-lg border",
         isSkim
           ? "border-primary/20 bg-primary/5"
           : "border-white/10 bg-zinc-950"
-      }`}
-      layout
-      transition={SPRING_CONFIGS.TRANSITION}
+      )}
+      layout={!reducedMotion}
+      transition={reducedMotion ? { duration: 0 } : SPRING_CONFIGS.TRANSITION}
     >
       <div className="flex items-center justify-between border-white/5 border-b bg-white/5 px-4 py-2">
         <div className="flex items-center gap-2">
@@ -54,16 +55,19 @@ export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({
             exit={{ opacity: 0, scale: 0.98 }}
             initial={{ opacity: 0, scale: 1.02 }}
             key="skim"
+            transition={reducedMotion ? { duration: 0 } : undefined}
           >
-            <motion.div
-              animate={{ x: ["-100%", "200%"] }}
-              className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent"
-              transition={{
-                duration: 1.5,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-            />
+            {!reducedMotion && (
+              <motion.div
+                animate={{ x: ["-100%", "200%"] }}
+                className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent"
+                transition={{
+                  duration: 1.5,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
+              />
+            )}
             <Terminal size={14} />
             <span>Implementation details collapsed for speed...</span>
           </motion.div>
@@ -74,6 +78,7 @@ export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({
             exit={{ opacity: 0, scale: 1.02 }}
             initial={{ opacity: 0, scale: 0.98 }}
             key="detailed"
+            transition={reducedMotion ? { duration: 0 } : undefined}
           >
             <pre className="font-mono text-sm text-zinc-300">
               <code>{code}</code>
@@ -83,4 +88,4 @@ export const VelocityCodeBlock: React.FC<VelocityCodeBlockProps> = ({
       </AnimatePresence>
     </motion.div>
   );
-};
+}

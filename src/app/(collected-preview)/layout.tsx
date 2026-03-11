@@ -19,7 +19,7 @@ export default function CollectedPreviewLayout({
         className={cn(
           activeFont.className,
           activeFont.variable,
-          "font-canvas antialiased",
+          "font-canvas antialiased"
         )}
         style={{
           margin: 0,

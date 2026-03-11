@@ -6,8 +6,8 @@ import {
   PageLastUpdate,
 } from "fumadocs-ui/layouts/flux/page";
 import { notFound } from "next/navigation";
-import { getMDXComponents } from "@/mdx-components";
 import { registrySource } from "@/lib/registry-source";
+import { getMDXComponents } from "@/mdx-components";
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>;
@@ -22,15 +22,13 @@ export default async function Page({ params }: PageProps) {
 
   const MDXContent = page.data.body;
   const frontmatter = page.data as unknown as Record<string, unknown>;
-  const lastModified = typeof frontmatter.lastModified === "string"
-    ? new Date(frontmatter.lastModified)
-    : null;
+  const lastModified =
+    typeof frontmatter.lastModified === "string"
+      ? new Date(frontmatter.lastModified)
+      : null;
 
   return (
-    <DocsPage
-      toc={page.data.toc}
-      tableOfContent={{ style: "clerk" }}
-    >
+    <DocsPage tableOfContent={{ style: "clerk" }} toc={page.data.toc}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
@@ -53,7 +51,9 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   const itemSlug = slug?.[slug.length - 1];
-  const ogImage = itemSlug ? `/registry/${itemSlug}/opengraph-image` : undefined;
+  const ogImage = itemSlug
+    ? `/registry/${itemSlug}/opengraph-image`
+    : undefined;
 
   return {
     title: page.data.title,

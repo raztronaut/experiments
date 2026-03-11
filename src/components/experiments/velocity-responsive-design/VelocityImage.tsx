@@ -2,7 +2,6 @@
 
 import { AlertCircle, ImageIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import type React from "react";
 import { useState } from "react";
 import { SPRING_CONFIGS } from "./constants";
 import { useVelocityState } from "./VelocityContext";
@@ -12,14 +11,15 @@ interface VelocityImageProps {
   src: string;
 }
 
-export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
-  const { normalizedVelocity, readingState } = useVelocityState();
+export function VelocityImage({ src, alt }: VelocityImageProps) {
+  const { normalizedVelocity, readingState, reducedMotion } =
+    useVelocityState();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const isSkim = readingState === "skim";
-
   const opacity = 0.8 + (1 - normalizedVelocity) * 0.2;
+  const instant = { duration: 0 };
 
   return (
     <motion.div
@@ -32,23 +32,20 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
       }}
       className="relative w-full overflow-hidden px-4 sm:px-0"
       initial={false}
-      layout="position"
-      transition={SPRING_CONFIGS.IMAGE_TRANSITION}
+      layout={reducedMotion ? undefined : "position"}
+      transition={reducedMotion ? instant : SPRING_CONFIGS.IMAGE_TRANSITION}
     >
       <motion.div
         animate={{
           opacity,
-          y: isSkim ? -normalizedVelocity * 20 : 0,
+          y: reducedMotion ? 0 : isSkim ? -normalizedVelocity * 20 : 0,
         }}
         className="relative z-10 flex aspect-video min-h-[200px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 shadow-[0_0_50px_rgba(0,0,0,0.5)] sm:min-h-[300px]"
-        style={{
-          transformOrigin: "center center",
-        }}
-        transition={SPRING_CONFIGS.IMAGE_MOTION}
+        style={{ transformOrigin: "center center" }}
+        transition={reducedMotion ? instant : SPRING_CONFIGS.IMAGE_MOTION}
       >
         <AnimatePresence mode="wait">
-          {/* Only render image if we are skimming or transitioning */}
-          {(isSkim || normalizedVelocity > 0.1) && !error ? (
+          {isSkim && !error ? (
             <motion.div
               animate={{ opacity: 1 }}
               className="relative h-full w-full"
@@ -71,7 +68,7 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
                 onError={() => setError(true)}
                 onLoad={() => setLoading(false)}
                 src={src}
-                transition={{ duration: 0.5 }}
+                transition={reducedMotion ? instant : { duration: 0.5 }}
               />
             </motion.div>
           ) : null}
@@ -101,23 +98,22 @@ export const VelocityImage: React.FC<VelocityImageProps> = ({ src, alt }) => {
           className="pointer-events-none absolute inset-0"
         />
 
-        {/* Subtle highlight instead of blur */}
-        {normalizedVelocity > 0.4 && !error ? (
+        {!reducedMotion && normalizedVelocity > 0.4 && !error ? (
           <motion.div
             className="pointer-events-none absolute inset-0 bg-white/5 mix-blend-overlay"
-            style={{
-              opacity: (normalizedVelocity - 0.4) * 1.5,
-            }}
+            style={{ opacity: (normalizedVelocity - 0.4) * 1.5 }}
           />
         ) : null}
       </motion.div>
 
-      <motion.div
-        animate={{
-          opacity: isSkim && !error ? normalizedVelocity * 0.3 : 0,
-        }}
-        className="absolute inset-0 -z-10 rounded-full bg-primary/20 blur-[100px]"
-      />
+      {!reducedMotion && (
+        <motion.div
+          animate={{
+            opacity: isSkim && !error ? normalizedVelocity * 0.3 : 0,
+          }}
+          className="absolute inset-0 -z-10 rounded-full bg-primary/20 blur-[100px]"
+        />
+      )}
     </motion.div>
   );
-};
+}

@@ -1360,6 +1360,7 @@
       "generative"
     ],
     "tech": [
+      "lenis",
       "motion",
       "canvas-2d"
     ],
@@ -1367,8 +1368,8 @@
     "poster": null,
     "video": "/experiments/velocity-responsive-design/preview.mp4",
     "category": "experiments",
-    "fileCount": 8,
-    "dependencyCount": 2
+    "fileCount": 11,
+    "dependencyCount": 4
   },
   {
     "name": "wave-background",

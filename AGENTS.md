@@ -19,7 +19,7 @@ npm run fix                    # ultracite fix (Biome autofix)
 # Scaffold (AI agents -- non-interactive)
 npm run new:experiment:auto -- --name "fluid sim" --profile r3f-scene --toolkit --leva
 # Flags: --name (required), --profile (blank|r3f-scene|r3f-shader|scrollytelling|
-#   interaction|web-audio|dom-effect), --complexity (beginner|intermediate|advanced),
+#   interaction|web-audio|dom-effect|mixed), --complexity (beginner|intermediate|advanced),
 #   --toolkit/--no-toolkit, --leva, --description "text"
 
 # Scaffold (humans -- interactive)

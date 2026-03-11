@@ -3,22 +3,19 @@
  */
 
 export const VELOCITY_THRESHOLDS = {
-  SKIM_ENTER: 2500, // Transition to skim mode at 2500 px/s
-  SKIM_EXIT: 400, // Must drop below 400 px/s to trigger exit countdown
+  VELOCITY_SCALE: 10, // Lenis velocity amplifier (lerp-smoothed → display-scale)
+  SKIM_ENTER: 500, // Transition to skim mode at 500 (scaled) px/s
+  SKIM_EXIT: 400, // Must drop below 400 (scaled) px/s to trigger exit countdown
   IS_SCROLLING: 10,
   NORMALIZATION_MAX: 3000, // Visual effects scale relative to this peak
 };
 
 export const TIMINGS = {
   SKIM_EXIT_DELAY: 2500, // Duration to stay in skim mode after speed drops
-  SCROLL_LOCK_DURATION: 350, // Duration to lock velocity tracking during programmatic scrolls
+  SCROLL_LOCK_DURATION: 700, // Duration to lock velocity tracking during programmatic scrolls (covers spring animation)
 };
 
 export const SPRING_CONFIGS = {
-  VELOCITY_SMOOTHING: {
-    damping: 50,
-    stiffness: 400,
-  },
   TRANSITION: {
     duration: 0.6,
     type: "spring" as const,

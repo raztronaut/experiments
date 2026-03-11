@@ -16,7 +16,7 @@ description: Create a new isolated experiment with all required scaffolding
    ```bash
    npm run new:experiment:auto -- --name "fluid simulation" --profile r3f-scene --toolkit --leva
    ```
-   Flags: `--name` (required), `--profile` (blank|r3f-scene|r3f-shader|scrollytelling|interaction|web-audio|dom-effect), `--complexity` (beginner|intermediate|advanced), `--toolkit`, `--no-toolkit`, `--leva`, `--description "text"`. Toolkit defaults to true for scrollytelling/r3f profiles.
+   Flags: `--name` (required), `--profile` (blank|r3f-scene|r3f-shader|scrollytelling|interaction|web-audio|dom-effect|mixed), `--complexity` (beginner|intermediate|advanced), `--toolkit`, `--no-toolkit`, `--leva`, `--description "text"`. Toolkit defaults to true for scrollytelling/r3f/mixed profiles.
 
    **Profile selection guidance:**
    - Pure scroll narrative → `scrollytelling`
@@ -25,7 +25,7 @@ description: Create a new isolated experiment with all required scaffolding
    - Drag/spring/gesture focused → `interaction`
    - Sound design → `web-audio`
    - CSS/shader effects on DOM → `dom-effect`
-   - **Mixed (scroll + 3D + interaction)** → scaffold with `scrollytelling` as base, then manually add Canvas and interaction layers. See `.agents/profiles/mixed.md` for architecture guidance.
+   - **Mixed (scroll + 3D + interaction)** → use `mixed` profile. Scaffolds layer-cake layout with unified scroll + fixed Canvas + DOM sections. See `.agents/profiles/mixed.md` for architecture guidance.
 
    When scaffolding for a port (external demo/website/repo), see `.agents/skills/porting-demos/SKILL.md` Phase 1 for profile selection based on source characteristics.
 

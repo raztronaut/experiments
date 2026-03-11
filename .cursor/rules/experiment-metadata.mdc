@@ -21,7 +21,7 @@ alwaysApply: false
 ## Enum Values
 
 - **status**: `wip`, `shipped`, `archived`
-- **profile**: `r3f-scene`, `r3f-shader`, `scrollytelling`, `interaction`, `dom-effect`, `web-audio`, `blank`
+- **profile**: `r3f-scene`, `r3f-shader`, `scrollytelling`, `interaction`, `dom-effect`, `web-audio`, `mixed`, `blank`
 - **complexity**: `beginner`, `intermediate`, `advanced`
 
 ## Content Object

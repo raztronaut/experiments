@@ -42,10 +42,7 @@ function ContentSkeleton() {
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div
-            className="space-y-3"
-            key={`skel-${i.toString()}`}
-          >
+          <div className="space-y-3" key={`skel-${i.toString()}`}>
             <div className="aspect-video animate-pulse rounded-xl bg-muted/10" />
             <div className="h-4 w-24 animate-pulse rounded bg-muted/10" />
             <div className="h-5 w-40 animate-pulse rounded bg-muted/10" />

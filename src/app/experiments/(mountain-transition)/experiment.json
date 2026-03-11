@@ -2,7 +2,7 @@
   "title": "Mountain Depth Map Shader Transition",
   "description": "A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape",
   "slug": "mountain-transition",
-  "profile": "r3f-shader",
+  "profile": "mixed",
   "created": "2026-01-22T21:59:04.491Z",
   "video": "/experiments/mountain-transition/preview.mp4",
   "status": "shipped",

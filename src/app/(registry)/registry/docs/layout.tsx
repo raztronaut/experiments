@@ -39,9 +39,8 @@ export default function RegistryDocsLayout({
 }) {
   return (
     <DocsLayout
-      tree={registrySource.getPageTree()}
-      nav={{ title: "razi's registry", url: "/registry/docs" }}
       githubUrl="https://github.com/raztronaut/experiments"
+      nav={{ title: "razi's registry", url: "/registry/docs" }}
       sidebar={{
         defaultOpenLevel: 1,
         tabs: [
@@ -54,6 +53,7 @@ export default function RegistryDocsLayout({
         banner: <SidebarBanner />,
         footer: <SidebarFooter />,
       }}
+      tree={registrySource.getPageTree()}
     >
       {children}
     </DocsLayout>

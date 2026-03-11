@@ -51,7 +51,7 @@ ScrollTrigger.refresh(); // recalculate trigger positions after Lenis changes sc
 
 Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). Do NOT use the old `gsap.ticker.add` pattern -- it is superseded by `createUnifiedScroll`.
 
-**Always call `ScrollTrigger.refresh()`** after `createUnifiedScroll` returns. Lenis modifies scroll behavior, so ScrollTrigger needs to recalculate all trigger positions. Both darkroom and tambo do this.
+**Always call `ScrollTrigger.refresh()`** after `createUnifiedScroll` returns. Lenis modifies scroll behavior, so ScrollTrigger needs to recalculate all trigger positions. Both [darkroom.engineering](https://github.com/darkroomengineering/satus) and [tambo-ai/tambo-landing](https://github.com/tambo-ai/tambo-landing) do this.
 
 Pass `{ debug: true }` (gated behind `?debug`) to expose `window.__scrollToSection(index)` and `window.__scrollToProgress(0-1)` for MCP browser tool scrolling.
 

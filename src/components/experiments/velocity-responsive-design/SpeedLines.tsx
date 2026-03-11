@@ -1,114 +1,135 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { useTempus } from "tempus/react";
 import { useVelocityState } from "./VelocityContext";
 
-export const SpeedLines: React.FC = () => {
+interface Particle {
+  length: number;
+  speed: number;
+  x: number;
+  y: number;
+}
+
+const PARTICLE_COUNT = 40;
+
+export function SpeedLines() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { normalizedVelocity } = useVelocityState();
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const { normalizedVelocity, reducedMotion } = useVelocityState();
   const velocityRef = useRef(normalizedVelocity);
-  const particlesRef = useRef<
-    { x: number; y: number; length: number; speed: number }[]
-  >([]);
+  const particlesRef = useRef<Particle[]>([]);
+  const sizeRef = useRef({ w: 0, h: 0 });
 
   useEffect(() => {
     velocityRef.current = normalizedVelocity;
   }, [normalizedVelocity]);
 
-  useEffect(() => {
+  const resize = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
       return;
     }
 
+    const dpr = window.devicePixelRatio || 1;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = `${w}px`;
+    canvas.style.height = `${h}px`;
+
     const ctx = canvas.getContext("2d");
-    if (!ctx) {
+    if (ctx) {
+      ctx.scale(dpr, dpr);
+      ctxRef.current = ctx;
+    }
+
+    sizeRef.current = { w, h };
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) {
       return;
     }
 
-    let animationFrameId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    resize();
 
-    const particleCount = 40;
     if (particlesRef.current.length === 0) {
-      for (let i = 0; i < particleCount; i++) {
+      const { w, h } = sizeRef.current;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
         particlesRef.current.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
+          x: Math.random() * w,
+          y: Math.random() * h,
           length: Math.random() * 100 + 50,
           speed: Math.random() * 5 + 2,
         });
       }
     }
 
-    const draw = () => {
-      const v = velocityRef.current;
-      ctx.clearRect(0, 0, width, height);
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, [reducedMotion, resize]);
 
-      if (v < 0.1) {
-        animationFrameId = requestAnimationFrame(draw);
+  useTempus(
+    () => {
+      if (reducedMotion) {
         return;
       }
 
-      const centerX = width / 2;
-      const centerY = height / 2;
+      const ctx = ctxRef.current;
+      if (!ctx) {
+        return;
+      }
 
-      particlesRef.current.forEach((p) => {
-        const distanceX = p.x - centerX;
-        const distanceY = p.y - centerY;
-        const angle = Math.atan2(distanceY, distanceX);
-        const distance = Math.sqrt(
-          distanceX * distanceX + distanceY * distanceY
-        );
+      const { w, h } = sizeRef.current;
+      const v = velocityRef.current;
+      ctx.clearRect(0, 0, w, h);
 
-        // Opacity based on velocity and distance from center
-        const opacity = v * 0.5 * (distance / (width / 2));
-        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+      if (v < 0.1) {
+        return;
+      }
+
+      const centerX = w / 2;
+      const centerY = h / 2;
+      const halfW = w / 2;
+
+      for (const p of particlesRef.current) {
+        const dx = p.x - centerX;
+        const dy = p.y - centerY;
+        const angle = Math.atan2(dy, dx);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const distRatio = distance / halfW;
+
+        ctx.strokeStyle = `rgba(255, 255, 255, ${v * 0.5 * distRatio})`;
         ctx.lineWidth = 0.5 + v * 1.5;
 
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
 
-        // Line length increases with velocity and distance from center
-        const lineLength = p.length * v * (distance / (width / 2));
-        const endX = p.x + Math.cos(angle) * lineLength;
-        const endY = p.y + Math.sin(angle) * lineLength;
-
-        ctx.lineTo(endX, endY);
+        const lineLength = p.length * v * distRatio;
+        ctx.lineTo(
+          p.x + Math.cos(angle) * lineLength,
+          p.y + Math.sin(angle) * lineLength
+        );
         ctx.stroke();
 
-        // Move particles away from center
         const speed = p.speed * v * 20;
         p.x += Math.cos(angle) * speed;
         p.y += Math.sin(angle) * speed;
 
-        // Reset particles if they go off screen
-        if (p.x < 0 || p.x > width || p.y < 0 || p.y > height) {
+        if (p.x < 0 || p.x > w || p.y < 0 || p.y > h) {
           const startAngle = Math.random() * Math.PI * 2;
           const startDistance = Math.random() * 200;
           p.x = centerX + Math.cos(startAngle) * startDistance;
           p.y = centerY + Math.sin(startAngle) * startDistance;
           p.length = Math.random() * 80 + 20;
         }
-      });
-
-      animationFrameId = requestAnimationFrame(draw);
-    };
-
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener("resize", handleResize);
-    animationFrameId = requestAnimationFrame(draw);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+      }
+    },
+    { priority: 2 }
+  );
 
   return (
     <canvas
@@ -116,4 +137,4 @@ export const SpeedLines: React.FC = () => {
       ref={canvasRef}
     />
   );
-};
+}

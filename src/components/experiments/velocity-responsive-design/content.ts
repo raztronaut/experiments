@@ -1,13 +1,7 @@
-export interface ContentItem {
-  alt?: string;
-  code?: string;
-  detailed?: string;
-  filename?: string;
-  language?: string;
-  src?: string;
-  summary?: string;
-  type: "text" | "image" | "code";
-}
+export type ContentItem =
+  | { type: "text"; detailed: string; summary: string }
+  | { type: "image"; src: string; alt: string }
+  | { type: "code"; code: string; filename: string; language: string };
 
 export const CONTENT: ContentItem[] = [
   {

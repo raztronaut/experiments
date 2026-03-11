@@ -1,6 +1,6 @@
 # Mixed Profile
 
-> Activate when an experiment combines **two or more** of: scrollytelling, R3F/WebGL, interaction, DOM effects. Also appropriate when `experiment.json` has `"profile": "scrollytelling"` or `"r3f-scene"` but the experiment clearly needs both scroll narrative and 3D or heavy interaction.
+> Activate when `experiment.json` has `"profile": "mixed"`. Also consult when an experiment combines **two or more** of: scrollytelling, R3F/WebGL, interaction, DOM effects.
 
 ## Behavioral Mode
 **Compositional thinking, layered systems, clear ownership boundaries.** Mixed experiments are the most complex to build well. The primary risk is tangled state and conflicting animation systems. Each layer (scroll, 3D, interaction) must have well-defined responsibilities and communication interfaces.
@@ -24,7 +24,7 @@ If an experiment is purely scroll with no 3D or gestures, use `scrollytelling`. 
 
 ## The Layer-Cake Pattern
 
-The most common mixed layout. Darkroom, basement, and tambo all use variations:
+The most common mixed layout. [darkroom.engineering](https://darkroom.engineering) ([satus](https://github.com/darkroomengineering/satus)), [basement.studio](https://basement.studio) ([website-2k25](https://github.com/basementstudio/website-2k25)), and [tambo-ai/tambo-landing](https://github.com/tambo-ai/tambo-landing) all use variations:
 
 ```
 ┌─────────────────────────────┐

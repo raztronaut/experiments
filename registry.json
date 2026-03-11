@@ -677,19 +677,31 @@
       "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
       "category": "experiments",
       "registryDependencies": ["AIWidget", "razi-style"],
-      "dependencies": ["motion", "lucide-react"],
+      "dependencies": ["lucide-react", "motion", "lenis", "gsap"],
       "files": [
         {
-          "path": "src/components/experiments/velocity-responsive-design/SpeedLines.tsx",
+          "path": "src/components/experiments/velocity-responsive-design/FlightControl.tsx",
           "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/constants.ts",
+          "type": "registry:file"
         },
         {
           "path": "src/components/experiments/velocity-responsive-design/VelocityContext.tsx",
           "type": "registry:component"
         },
         {
-          "path": "src/components/experiments/velocity-responsive-design/constants.ts",
-          "type": "registry:file"
+          "path": "src/components/experiments/velocity-responsive-design/IntelligentScroller.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/hooks/useScrollStabilizer.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/SpeedLines.tsx",
+          "type": "registry:component"
         },
         {
           "path": "src/components/experiments/velocity-responsive-design/VelocityCodeBlock.tsx",
@@ -714,7 +726,7 @@
       ],
       "meta": {
         "tags": ["scroll", "animation", "ui", "generative"],
-        "tech": ["motion", "canvas-2d"],
+        "tech": ["lenis", "motion", "canvas-2d"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/velocity-responsive-design/preview.mp4",

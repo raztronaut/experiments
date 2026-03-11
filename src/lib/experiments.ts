@@ -9,6 +9,7 @@ export type ExperimentProfile =
   | "interaction"
   | "dom-effect"
   | "web-audio"
+  | "mixed"
   | "blank";
 
 export type ExperimentStatus = "wip" | "shipped" | "archived";
@@ -22,6 +23,7 @@ const VALID_PROFILES: ExperimentProfile[] = [
   "interaction",
   "dom-effect",
   "web-audio",
+  "mixed",
   "blank",
 ];
 const VALID_STATUSES: ExperimentStatus[] = ["wip", "shipped", "archived"];

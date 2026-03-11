@@ -3,6 +3,7 @@
 > A creative coding lab exploring shaders, 3D graphics, animation, and interaction design. Each experiment is isolated, interactive, and close to publishable.
 
 ## Articles
+- [404 Not Found](https://www.razisyed.cv/experiments/404-not-found/article): Building a cinematic 404 page with procedurally animated 3D ribbons, a dual-face GLSL shader, and scroll-velocity-driven text animation in React Three Fiber
 - [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center/article): Building a sports control room preloader with CRT shaders, barrel distortion, and GSAP-driven uniform animation in React Three Fiber
 - [Send Button](https://www.razisyed.cv/experiments/send-button/article): A satisfying animated send button with state transitions
 

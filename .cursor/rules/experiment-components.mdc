@@ -40,3 +40,4 @@ Check `experiment.json` for the `profile` field, then read `.agents/profiles/<pr
 - `r3f-scene` / `r3f-shader` → R3F Canvas, useFrame, drei
 - `interaction` → gestures, springs, drag
 - `dom-effect` → CSS/shader effects on DOM
+- `mixed` → scroll + 3D + interaction layer-cake composition

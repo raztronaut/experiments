@@ -2537,6 +2537,7 @@
         "generative"
       ],
       "tech": [
+        "lenis",
         "motion",
         "canvas-2d"
       ],
@@ -2546,8 +2547,10 @@
       "created": "2025-12-31T04:46:03.740Z"
     },
     "dependencies": [
+      "lucide-react",
       "motion",
-      "lucide-react"
+      "lenis",
+      "gsap"
     ],
     "registryDependencies": [
       "AIWidget",
@@ -2555,17 +2558,29 @@
     ],
     "files": [
       {
-        "name": "SpeedLines.tsx",
-        "type": "registry:component"
-      },
-      {
-        "name": "VelocityContext.tsx",
+        "name": "FlightControl.tsx",
         "type": "registry:component"
       },
       {
         "name": "constants.ts",
         "type": "registry:file",
         "target": "components/experiments/velocity-responsive-design/constants.ts"
+      },
+      {
+        "name": "VelocityContext.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "IntelligentScroller.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "useScrollStabilizer.ts",
+        "type": "registry:hook"
+      },
+      {
+        "name": "SpeedLines.tsx",
+        "type": "registry:component"
       },
       {
         "name": "VelocityCodeBlock.tsx",
