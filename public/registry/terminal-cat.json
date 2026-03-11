@@ -17,7 +17,8 @@
     ],
     "status": "shipped",
     "poster": "/experiments/terminal-cat/preview.gif",
-    "video": null
+    "video": null,
+    "created": "2025-12-24T01:50:06.164Z"
   },
   "dependencies": [
     "sonner"

@@ -20,7 +20,8 @@
     ],
     "status": "shipped",
     "poster": null,
-    "video": "/experiments/rabbithole-chat-preloader/preview.mp4"
+    "video": "/experiments/rabbithole-chat-preloader/preview.mp4",
+    "created": "2026-01-09T03:35:21.030Z"
   },
   "dependencies": [
     "gsap",

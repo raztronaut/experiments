@@ -20,7 +20,8 @@
     ],
     "status": "shipped",
     "poster": null,
-    "video": "/experiments/mountain-transition/preview.mp4"
+    "video": "/experiments/mountain-transition/preview.mp4",
+    "created": "2026-01-22T21:59:04.491Z"
   },
   "dependencies": [
     "@react-three/fiber",

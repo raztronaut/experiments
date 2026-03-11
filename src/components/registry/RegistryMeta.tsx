@@ -8,6 +8,7 @@ interface RegistryMetaProps {
   tags: string[];
   tech: string[];
   type?: string;
+  verified?: boolean;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -53,6 +54,7 @@ function RegistryMeta({
   tech = [],
   fileCount = 0,
   type,
+  verified = false,
 }: Partial<RegistryMetaProps>) {
   const typeLabel = type ? (TYPE_LABELS[type] ?? "Block") : null;
   const categoryLabel = category ? CATEGORY_LABELS[category] : null;
@@ -66,6 +68,15 @@ function RegistryMeta({
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-center gap-2">
+        {verified ? (
+          <MetaBadge className="border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+            Verified
+          </MetaBadge>
+        ) : (
+          <MetaBadge className="border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400">
+            Not Verified
+          </MetaBadge>
+        )}
         {typeLabel && (
           <MetaBadge className="border-fd-primary/30 bg-fd-primary/10 text-fd-primary">
             {typeLabel}

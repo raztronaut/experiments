@@ -281,6 +281,20 @@ function buildRelatedSection(related) {
   return ["## Related", "", "<Cards>", cards, "</Cards>"].join("\n");
 }
 
+function buildFrontmatter(title, description, lastModified) {
+  const lines = [
+    "---",
+    GENERATED_MARKER_YAML,
+    `title: ${yamlQuote(title)}`,
+    `description: ${yamlQuote(description)}`,
+  ];
+  if (lastModified) {
+    lines.push(`lastModified: ${yamlQuote(lastModified)}`);
+  }
+  lines.push("---");
+  return lines;
+}
+
 function buildExperimentMdx(item, allValidItems) {
   const { name, title, description, type, category } = item;
   const deps = item.dependencies ?? [];
@@ -288,14 +302,11 @@ function buildExperimentMdx(item, allValidItems) {
   const tags = item.meta?.tags ?? [];
   const tech = item.meta?.tech ?? [];
   const fileCount = item.files?.length ?? 0;
+  const lastModified = item.meta?.created ?? null;
   const related = findRelated(item, allValidItems);
 
   const lines = [
-    "---",
-    GENERATED_MARKER_YAML,
-    `title: ${yamlQuote(title)}`,
-    `description: ${yamlQuote(description)}`,
-    "---",
+    ...buildFrontmatter(title, description, lastModified),
     "",
     'import { ExperimentPreview } from "@/components/registry/ExperimentPreview";',
     'import { InstallCommand } from "@/components/registry/InstallCommand";',
@@ -310,6 +321,7 @@ function buildExperimentMdx(item, allValidItems) {
     `  tags={${toJSArray(tags)}}`,
     `  tech={${toJSArray(tech)}}`,
     `  fileCount={${fileCount}}`,
+    "  verified={false}",
     "/>",
     "",
     "## Preview",
@@ -350,14 +362,11 @@ function buildNonExperimentMdx(item, allValidItems) {
   const tags = item.meta?.tags ?? [];
   const tech = item.meta?.tech ?? [];
   const fileCount = item.files?.length ?? 0;
+  const lastModified = item.meta?.created ?? null;
   const related = findRelated(item, allValidItems);
 
   const lines = [
-    "---",
-    GENERATED_MARKER_YAML,
-    `title: ${yamlQuote(title)}`,
-    `description: ${yamlQuote(description)}`,
-    "---",
+    ...buildFrontmatter(title, description, lastModified),
     "",
     'import { InstallCommand } from "@/components/registry/InstallCommand";',
     'import { RegistryMeta } from "@/components/registry/RegistryMeta";',
@@ -371,6 +380,7 @@ function buildNonExperimentMdx(item, allValidItems) {
     `  tags={${toJSArray(tags)}}`,
     `  tech={${toJSArray(tech)}}`,
     `  fileCount={${fileCount}}`,
+    "  verified={false}",
     "/>",
     "",
     "## Install",
@@ -405,13 +415,10 @@ function buildCollectedReferenceMdx(item) {
   const source = meta.source || "";
   const library = meta.library || "";
   const libraryUrl = meta.libraryUrl || "";
+  const lastModified = meta.created ?? null;
 
   const lines = [
-    "---",
-    GENERATED_MARKER_YAML,
-    `title: ${yamlQuote(title)}`,
-    `description: ${yamlQuote(description)}`,
-    "---",
+    ...buildFrontmatter(title, description, lastModified),
     "",
     'import { RegistryMeta } from "@/components/registry/RegistryMeta";',
     "",
@@ -423,6 +430,7 @@ function buildCollectedReferenceMdx(item) {
     `  tags={${toJSArray(tags)}}`,
     "  tech={[]}",
     "  fileCount={0}",
+    "  verified={false}",
     "/>",
     "",
   ];
@@ -451,16 +459,13 @@ function buildCollectedPortedMdx(item, allValidItems) {
   const fileCount = item.files?.length ?? 0;
   const source = meta.source || "";
   const author = meta.author || "";
+  const lastModified = meta.created ?? null;
   const related = findRelated(item, allValidItems);
 
   const previewUrl = meta.previewUrl || "";
 
   const lines = [
-    "---",
-    GENERATED_MARKER_YAML,
-    `title: ${yamlQuote(title)}`,
-    `description: ${yamlQuote(description)}`,
-    "---",
+    ...buildFrontmatter(title, description, lastModified),
     "",
     'import { CollectedPreview } from "@/components/registry/CollectedPreview";',
     'import { InstallCommand } from "@/components/registry/InstallCommand";',
@@ -475,6 +480,7 @@ function buildCollectedPortedMdx(item, allValidItems) {
     `  tags={${toJSArray(tags)}}`,
     `  tech={${toJSArray(tech)}}`,
     `  fileCount={${fileCount}}`,
+    "  verified={false}",
     "/>",
     "",
   ];
@@ -598,19 +604,15 @@ function sortItems(items) {
 }
 
 /**
- * Build meta.json pages array with "---" separator between featured and rest.
+ * Build meta.json pages array. Featured items are pinned first, then "..." rest
+ * operator auto-includes remaining pages alphabetically.
  */
 function buildPagesArray(items) {
   const featured = items.filter((i) => i.meta?.featured);
-  const rest = items.filter((i) => !i.meta?.featured);
   featured.sort((a, b) => a.name.localeCompare(b.name));
-  rest.sort((a, b) => a.name.localeCompare(b.name));
 
   const pages = featured.map((i) => i.name);
-  if (featured.length > 0 && rest.length > 0) {
-    pages.push("---");
-  }
-  pages.push(...rest.map((i) => i.name));
+  pages.push("...");
   return pages;
 }
 

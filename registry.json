@@ -63,6 +63,7 @@
         "status": "shipped",
         "poster": "/experiments/404-not-found/poster.jpg",
         "video": "/experiments/404-not-found/preview.mp4",
+        "created": "2026-01-26T20:45:55.003Z",
         "featured": true
       }
     },
@@ -105,7 +106,8 @@
         "tech": ["r3f", "three.js", "glsl", "gsap", "next-themes"],
         "status": "shipped",
         "poster": "/experiments/basketball-replay-center/poster.jpg",
-        "video": "/experiments/basketball-replay-center/preview.mp4"
+        "video": "/experiments/basketball-replay-center/preview.mp4",
+        "created": "2026-02-20T17:04:36.701Z"
       }
     },
     {
@@ -139,7 +141,8 @@
         "tech": ["canvas-2d", "web-workers", "@paper-design/shaders"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4"
+        "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4",
+        "created": "2025-12-24T05:54:41.000Z"
       }
     },
     {
@@ -175,7 +178,8 @@
         "tech": ["r3f", "three.js", "glsl"],
         "status": "shipped",
         "poster": "/experiments/cursor-depth-explorer/poster.jpg",
-        "video": "/experiments/cursor-depth-explorer/preview.mp4"
+        "video": "/experiments/cursor-depth-explorer/preview.mp4",
+        "created": "2026-01-26T05:11:34.490Z"
       }
     },
     {
@@ -209,7 +213,8 @@
         "tech": ["canvas-2d", "web-workers"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/game-of-life-shader/preview.mp4"
+        "video": "/experiments/game-of-life-shader/preview.mp4",
+        "created": "2025-12-24T04:56:14.074Z"
       }
     },
     {
@@ -260,6 +265,7 @@
         "status": "shipped",
         "poster": "/experiments/gravity-physics-ui-layout/preview.png",
         "video": null,
+        "created": "2025-12-30T14:56:07.296Z",
         "featured": true
       }
     },
@@ -287,6 +293,7 @@
         "status": "shipped",
         "poster": null,
         "video": "/experiments/keyboard-keys/preview.mp4",
+        "created": "2025-12-24T03:26:10.067Z",
         "featured": true
       }
     },
@@ -334,7 +341,8 @@
         "tech": ["r3f", "three.js", "postprocessing"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/life-3d/preview.mp4"
+        "video": "/experiments/life-3d/preview.mp4",
+        "created": "2026-01-03T11:55:42.770Z"
       }
     },
     {
@@ -369,7 +377,8 @@
         "tech": ["r3f", "three.js", "glsl", "gsap"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/mountain-transition/preview.mp4"
+        "video": "/experiments/mountain-transition/preview.mp4",
+        "created": "2026-01-22T21:59:04.491Z"
       }
     },
     {
@@ -415,7 +424,8 @@
         "tech": ["svg"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4"
+        "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
+        "created": "2025-12-31T00:41:44.181Z"
       }
     },
     {
@@ -449,7 +459,8 @@
         "tech": ["r3f", "three.js", "glsl"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4"
+        "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4",
+        "created": "2026-01-09T07:50:46.767Z"
       }
     },
     {
@@ -489,7 +500,8 @@
         "tech": ["three.js", "glsl", "motion"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/rabbithole-chat-preloader/preview.mp4"
+        "video": "/experiments/rabbithole-chat-preloader/preview.mp4",
+        "created": "2026-01-09T03:35:21.030Z"
       }
     },
     {
@@ -540,6 +552,7 @@
         "status": "shipped",
         "poster": "/experiments/send-button/preview-send-button.png",
         "video": "/experiments/send-button/preview-send-button.mp4",
+        "created": "2025-12-23T20:09:01.977Z",
         "featured": true
       }
     },
@@ -570,7 +583,8 @@
         "tech": ["three.js", "glsl"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/shader-landing/preview-shader-landing.mp4"
+        "video": "/experiments/shader-landing/preview-shader-landing.mp4",
+        "created": "2025-12-02T00:00:00.000Z"
       }
     },
     {
@@ -604,7 +618,8 @@
         "tech": ["console-api"],
         "status": "shipped",
         "poster": "/experiments/terminal-cat/preview.gif",
-        "video": null
+        "video": null,
+        "created": "2025-12-24T01:50:06.164Z"
       }
     },
     {
@@ -651,6 +666,7 @@
         "status": "shipped",
         "poster": null,
         "video": "/experiments/transit-airport-split-flap-display/preview.mp4",
+        "created": "2025-12-30T02:53:58.656Z",
         "featured": true
       }
     },
@@ -701,7 +717,8 @@
         "tech": ["motion", "canvas-2d"],
         "status": "shipped",
         "poster": null,
-        "video": "/experiments/velocity-responsive-design/preview.mp4"
+        "video": "/experiments/velocity-responsive-design/preview.mp4",
+        "created": "2025-12-31T04:46:03.740Z"
       }
     },
     {
@@ -1487,7 +1504,7 @@
       "description": "ClipPathReveal component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/clip-path-reveal/ClipPathReveal.tsx",
@@ -1521,7 +1538,7 @@
       "description": "CounterFlipReveal component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/counter-flip-reveal/CounterFlipReveal.tsx",
@@ -1611,7 +1628,7 @@
       "description": "FeatureConvergence component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/feature-convergence/FeatureConvergence.tsx",
@@ -1740,7 +1757,7 @@
       "description": "ScrollFrameCanvas component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/scroll-frame-canvas/ScrollFrameCanvas.tsx",
@@ -1776,7 +1793,7 @@
       "description": "SplitCardFlip component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/split-card-flip/SplitCardFlip.tsx",
@@ -1803,7 +1820,7 @@
       "description": "SpotlightImageStack component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/spotlight-image-stack/SpotlightImageStack.tsx",
@@ -1837,7 +1854,7 @@
       "description": "StickyCardsFold component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/sticky-cards-fold/StickyCardsFold.tsx",
@@ -1872,7 +1889,7 @@
       "description": "StickyCardsScale component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/sticky-cards-scale/StickyCardsScale.tsx",
@@ -1899,7 +1916,7 @@
       "description": "StickyCardsTilt component",
       "category": "collected",
       "registryDependencies": ["razi-style"],
-      "dependencies": ["gsap", "@gsap/react"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/sticky-cards-tilt/StickyCardsTilt.tsx",

@@ -16,7 +16,8 @@
     ],
     "status": "shipped",
     "poster": null,
-    "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4"
+    "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
+    "created": "2025-12-31T00:41:44.181Z"
   },
   "dependencies": [
     "lucide-react"

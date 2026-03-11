@@ -508,6 +508,7 @@ async function scanExperiments() {
         status: metadata.status || "shipped",
         poster: posterField,
         video: videoField,
+        created: metadata.created || null,
       },
     });
   }

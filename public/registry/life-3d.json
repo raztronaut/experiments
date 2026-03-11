@@ -19,7 +19,8 @@
     ],
     "status": "shipped",
     "poster": null,
-    "video": "/experiments/life-3d/preview.mp4"
+    "video": "/experiments/life-3d/preview.mp4",
+    "created": "2026-01-03T11:55:42.770Z"
   },
   "dependencies": [
     "lucide-react",

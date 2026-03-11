@@ -18,7 +18,8 @@
     ],
     "status": "shipped",
     "poster": null,
-    "video": "/experiments/velocity-responsive-design/preview.mp4"
+    "video": "/experiments/velocity-responsive-design/preview.mp4",
+    "created": "2025-12-31T04:46:03.740Z"
   },
   "dependencies": [
     "motion",

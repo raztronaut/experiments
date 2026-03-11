@@ -17,6 +17,7 @@
     "status": "shipped",
     "poster": "/experiments/send-button/preview-send-button.png",
     "video": "/experiments/send-button/preview-send-button.mp4",
+    "created": "2025-12-23T20:09:01.977Z",
     "featured": true
   },
   "dependencies": [

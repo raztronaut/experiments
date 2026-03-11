@@ -19,7 +19,8 @@
     ],
     "status": "shipped",
     "poster": null,
-    "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4"
+    "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4",
+    "created": "2026-01-09T07:50:46.767Z"
   },
   "dependencies": [
     "@react-three/fiber",

@@ -20,7 +20,8 @@
     ],
     "status": "shipped",
     "poster": "/experiments/basketball-replay-center/poster.jpg",
-    "video": "/experiments/basketball-replay-center/preview.mp4"
+    "video": "/experiments/basketball-replay-center/preview.mp4",
+    "created": "2026-02-20T17:04:36.701Z"
   },
   "dependencies": [
     "@react-three/fiber",

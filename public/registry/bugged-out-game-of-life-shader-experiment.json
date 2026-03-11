@@ -19,7 +19,8 @@
     ],
     "status": "shipped",
     "poster": null,
-    "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4"
+    "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4",
+    "created": "2025-12-24T05:54:41.000Z"
   },
   "dependencies": [
     "@paper-design/shaders-react"

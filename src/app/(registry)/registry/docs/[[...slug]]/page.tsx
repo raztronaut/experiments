@@ -3,14 +3,11 @@ import {
   DocsDescription,
   DocsPage,
   DocsTitle,
-  EditOnGitHub,
+  PageLastUpdate,
 } from "fumadocs-ui/layouts/flux/page";
 import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/mdx-components";
 import { registrySource } from "@/lib/registry-source";
-
-const GITHUB_REPO = "https://github.com/raztronaut/experiments";
-const CONTENT_DIR = "content/registry";
 
 interface PageProps {
   params: Promise<{ slug?: string[] }>;
@@ -24,7 +21,10 @@ export default async function Page({ params }: PageProps) {
   }
 
   const MDXContent = page.data.body;
-  const slugPath = slug?.join("/") ?? "";
+  const frontmatter = page.data as unknown as Record<string, unknown>;
+  const lastModified = typeof frontmatter.lastModified === "string"
+    ? new Date(frontmatter.lastModified)
+    : null;
 
   return (
     <DocsPage
@@ -36,9 +36,7 @@ export default async function Page({ params }: PageProps) {
       <DocsBody>
         <MDXContent components={getMDXComponents()} />
       </DocsBody>
-      <EditOnGitHub
-        href={`${GITHUB_REPO}/blob/main/${CONTENT_DIR}/${slugPath}.mdx`}
-      />
+      {lastModified && <PageLastUpdate date={lastModified} />}
     </DocsPage>
   );
 }
