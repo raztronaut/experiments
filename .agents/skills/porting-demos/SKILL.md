@@ -82,6 +82,17 @@ scroll -> section 1 pin (start: "top top", end: "+=200%")
        -> section 2 parallax (scrub: true)
 ```
 
+### Content-to-timing coupling
+
+Scroll-driven animations calibrate phase breakpoints (progress thresholds like 0.4, 0.5, 0.75) to the original's content block count. The scroll distance is typically `blockCount * viewportHeight`, so each block maps to a fixed progress range. Adding or removing content blocks changes the denominator, misaligning every phase.
+
+Before implementing, verify:
+1. How many content blocks does the original have?
+2. What is the scroll distance (`end` value in ScrollTrigger)?
+3. Which phase breakpoints align with which content blocks?
+
+If the port changes the content structure, ALL phase breakpoints must be recalibrated.
+
 ## Phase 1: Classify and Choose Profile
 
 ### Source type classification
@@ -220,6 +231,9 @@ In multi-section ports, each section can use its own prefix (`<slug>-section1-`,
 | Asset 404 | Paths still reference source structure (e.g., `/hero.jpg`) | Transform all paths to `/experiments/<name>/file.ext` |
 | Three.js memory leak in R3F | Resources not disposed on unmount | Use `useEffect` cleanup to dispose geometries, materials, textures; R3F auto-disposes declarative objects |
 | `<style>` JSX specificity conflict | Multiple sections embed overlapping selectors | Use unique prefixes per section or consolidate into a single CSS file |
+| Animation phases misaligned | Port adds/removes content blocks without recalibrating scroll breakpoints | Verify original block count matches port; recalibrate all phase thresholds if structure changes (see Phase 0 "Content-to-timing coupling") |
+| `position: fixed` elements flash wrong state | Pinned section sits below preloader/other sections; fixed children visible before ScrollTrigger activates | Set initial animation states via `gsap.set` before `ScrollTrigger.create`; see `scrollytelling.md` "Fixed-Position Elements" |
+| Lenis not active when ScrollTrigger created | Orchestrator uses `useEffect` for `createUnifiedScroll`; child `useGSAP` fires first | Use `useLayoutEffect` in orchestrator (see `scroll.md` canonical pattern) |
 
 ## Phase 6: Reduced Motion
 

@@ -60,12 +60,14 @@ gsap.ticker.lagSmoothing(0)
 import { createUnifiedScroll } from "@/lib/toolkit/scroll"
 import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll"
 
-useEffect(() => {
+useLayoutEffect(() => {
   const handle = createUnifiedScroll()
   ScrollTrigger.refresh()
   return () => handle.destroy()
 }, [])
 ```
+
+**Why `useLayoutEffect`**: child sections' `useGSAP` (which uses `useLayoutEffect` internally) fires before the parent's effects. `useLayoutEffect` in the orchestrator ensures Lenis + `ScrollTrigger.refresh()` runs before the first paint. Using `useEffect` leaves a frame gap where ScrollTriggers exist without Lenis, causing visual jumps.
 
 Remove all manual Lenis instantiation and GSAP ticker integration from the source. `createUnifiedScroll` handles Lenis (priority -1) + GSAP (priority 0) on Tempus RAF. See `.agents/skills/lenis-scroll/SKILL.md`.
 

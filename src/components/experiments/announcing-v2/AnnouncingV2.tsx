@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   startTransition,
   useCallback,
-  useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -25,7 +25,7 @@ export default function AnnouncingV2() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const { isMobile, isReducedMotion } = useDeviceCapabilities();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!preloaderDone) {
       document.body.style.overflow = "hidden";
       return;

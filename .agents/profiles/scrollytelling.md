@@ -72,6 +72,26 @@ useGSAP(() => {
 }, { scope: sectionRef, dependencies: [scrub] })
 ```
 
+## Fixed-Position Elements in Pinned Sections
+
+Elements with `position: fixed` inside a pinned section are visible across the entire viewport -- even before the user scrolls to the trigger point. If those elements are animated via `onUpdate` (not a scrubbed timeline), their initial state must be set explicitly before `ScrollTrigger.create`:
+
+```tsx
+gsap.set(maskRef.current, { scale: 2.5 });
+gsap.set(overlayRef.current, { opacity: 0 });
+gsap.set(markerRef.current, { opacity: 0 });
+
+ScrollTrigger.create({
+  trigger: ".section",
+  start: "top top",
+  pin: true,
+  scrub: 1,
+  onUpdate: (self) => { /* ... */ },
+});
+```
+
+This is distinct from standard FOUC prevention (CSS `opacity-0` classes). Fixed-position elements bypass the section's overflow and stacking -- they need explicit `gsap.set` initialization regardless of CSS.
+
 ## Multi-Section Snap
 ```tsx
 ScrollTrigger.create({
@@ -156,3 +176,4 @@ nodes.forEach((node, i) => {
 | Every section looks the same | Vary motion signatures per section (see Motion Vocabulary in `animations.md`) |
 | MCP tools can't scroll Lenis | Pass `{ debug: true }` to `createUnifiedScroll`, use `window.__scrollToSection(i)` |
 | Monolithic component | Decompose at ~200 lines (see Decomposition Architecture above) |
+| Fixed elements visible before pin activates | `position: fixed` children are viewport-scoped, not section-scoped | Set initial states via `gsap.set` before `ScrollTrigger.create` (see "Fixed-Position Elements" above) |

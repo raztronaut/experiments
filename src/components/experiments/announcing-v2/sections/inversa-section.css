@@ -181,8 +181,7 @@
   align-items: center;
   justify-content: flex-end;
 }
-.inversa-hero-content-block:nth-child(3),
-.inversa-hero-content-block:nth-child(5) {
+.inversa-hero-content-block:nth-child(3) {
   align-items: center;
 }
 

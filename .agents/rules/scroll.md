@@ -15,6 +15,8 @@ const handle = createUnifiedScroll({ debug: isDebug });
 
 Drives Lenis from Tempus (priority -1), GSAP from Tempus (priority 0). GSAP-Tempus binding is reference-counted. Pass `{ debug: true }` (gated behind `?debug`) to expose MCP scroll helpers.
 
+**Why `useLayoutEffect`**: In orchestrator + sections architectures, child `useGSAP` hooks (layout effects) fire before the parent. `useLayoutEffect` ensures Lenis + `ScrollTrigger.refresh()` runs before paint -- `useEffect` would leave a frame gap where ScrollTriggers exist without Lenis.
+
 ## Legacy: Lenis + GSAP Ticker (pre-V2)
 ```tsx
 // Superseded by createUnifiedScroll. Only for reference when reading legacy experiments.

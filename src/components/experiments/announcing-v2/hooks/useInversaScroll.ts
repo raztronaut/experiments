@@ -66,13 +66,14 @@ export function useInversaScroll(
       const heroImgHeight = heroImg.offsetHeight;
       const heroImgMoveDistance = heroImgHeight - viewportHeight;
 
+      gsap.set(heroMask, { scale: scrollParams.maskScaleMax });
+      gsap.set(heroImgElement, { filter: "saturate(1)" });
+      gsap.set(heroImg, { "--overlay-opacity": 0.35 });
+      gsap.set(heroGridOverlay, { opacity: 0 });
+      gsap.set(marker1, { opacity: 0 });
+      gsap.set(marker2, { opacity: 0 });
+
       if (reducedMotion) {
-        gsap.set(heroMask, { scale: 2.5 });
-        gsap.set(heroImgElement, { filter: "saturate(1)" });
-        gsap.set(heroImg, { "--overlay-opacity": 0.35 });
-        gsap.set(heroGridOverlay, { opacity: 0 });
-        gsap.set(marker1, { opacity: 0 });
-        gsap.set(marker2, { opacity: 0 });
         return;
       }
 

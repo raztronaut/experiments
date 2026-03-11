@@ -114,10 +114,6 @@ export const INVERSA_CONTENT = {
       heading: "Spatial Center",
       text: "3D scenes, custom shaders, scroll-driven animation, interactive physics — each one isolated, each one publishable.",
     },
-    {
-      heading: "Final State",
-      text: "18 experiments. 42+ shaders. 3200+ lines of GLSL. Built from the ground up.",
-    },
   ],
   markers: [
     { label: "AI Scaffolding", color: "#dc5935" },
