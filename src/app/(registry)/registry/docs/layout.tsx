@@ -48,6 +48,7 @@ export default function RegistryDocsLayout({
         defaultOpenLevel: 1,
         tabs: [
           { title: "Experiments", url: "/registry/docs/experiments" },
+          { title: "Collected", url: "/registry/docs/collected" },
           { title: "Components", url: "/registry/docs/components" },
           { title: "Hooks", url: "/registry/docs/hooks" },
           { title: "Utilities", url: "/registry/docs/utilities" },

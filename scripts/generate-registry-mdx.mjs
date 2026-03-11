@@ -409,6 +409,8 @@ function buildCollectedPortedMdx(item, allValidItems) {
   const author = meta.author || "";
   const related = findRelated(item, allValidItems);
 
+  const previewUrl = meta.previewUrl || "";
+
   const lines = [
     "---",
     GENERATED_MARKER_YAML,
@@ -416,6 +418,7 @@ function buildCollectedPortedMdx(item, allValidItems) {
     `description: ${yamlQuote(description)}`,
     "---",
     "",
+    'import { CollectedPreview } from "@/components/registry/CollectedPreview";',
     'import { InstallCommand } from "@/components/registry/InstallCommand";',
     'import { RegistryMeta } from "@/components/registry/RegistryMeta";',
     'import { RegistrySourceCode } from "@/components/registry/RegistrySourceCode";',
@@ -437,6 +440,18 @@ function buildCollectedPortedMdx(item, allValidItems) {
       ? `Ported from [${author}](${source})`
       : `Ported from [source](${source})`;
     lines.push("> [!NOTE]", `> ${attribution}`, "");
+  }
+
+  if (previewUrl) {
+    lines.push(
+      "## Preview",
+      "",
+      `<CollectedPreview slug="${name}" title="${title}" />`,
+      "",
+      "> [!TIP]",
+      "> Open in full screen for the best experience.",
+      ""
+    );
   }
 
   lines.push("## Install", "", `<InstallCommand slug="${name}" />`, "");
