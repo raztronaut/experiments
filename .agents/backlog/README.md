@@ -11,13 +11,26 @@ Last audited: 2026-03-11
 | Tier | File | Pending | Effort | Theme |
 |------|------|---------|--------|-------|
 | 1 | [t1-infrastructure.md](t1-infrastructure.md) | 5 | Mixed | Deploy workflow, CI, testing, coverage |
-| 2 | [t2-content-registry.md](t2-content-registry.md) | 12 | Large | Articles, registry (7-phase plan), TOC, schema |
+| 2 | [t2-content-registry.md](t2-content-registry.md) | 11 | Large | Articles, registry output review, curated collection, TOC, schema |
 | 3 | [t3-agent-docs.md](t3-agent-docs.md) | 3 | Small | 1 remaining item + overview pass |
 | 4 | [t4-announcing-v2.md](t4-announcing-v2.md) | 10 | Medium | Ship the first V2 experiment |
 | 5 | [t5-toolkit-platform.md](t5-toolkit-platform.md) | 11 | Large | Toolkit adoption, MCP, scroll docs, porting skill, Entire.io |
-| 6 | [t6-deferred.md](t6-deferred.md) | 4 | Varies | AGENTS.md deferred items |
+| 6 | [t6-deferred.md](t6-deferred.md) | 5 | Varies | AGENTS.md deferred items |
 | 7 | [t7-nice-to-have.md](t7-nice-to-have.md) | 10 | Low | Low-priority improvements, Tailwind v4 opportunities |
 | -- | [completed.md](completed.md) | -- | -- | Archive of done work |
+
+## Plans Attached
+
+Backlog items that already have `.cursor/plans/` files. Check these before creating new plans to avoid duplication.
+
+| Backlog Item | Tier | Plan File(s) | Status |
+|---|---|---|---|
+| Curated Component Collection | T2 | [s-tier_collected_registry](../../.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md), [collected_registry_+_quick_port_skill](../../.cursor/plans/collected_registry_+_quick_port_skill_4bd06c54.plan.md) | Future improvement |
+| Entire.io Integration | T5 | [entire.io_integration](../../.cursor/plans/entire.io_integration_f067a72e.plan.md) | Pending |
+| Agent-Native Audit Fixes | Cross | [agent-native_audit_fixes](../../.cursor/plans/agent-native_audit_fixes_9349af8c.plan.md) | Pending |
+
+**Completed plans** (archived in [completed.md](completed.md)):
+Registry V2 (5 plans: `registry_interactive_docs`, `fumadocs_registry_v2`, `registry_fumadocs_audit_fix`, `registry_v2_fix_crash`, `registry_ui_pass`)
 
 ## How to Use
 
@@ -39,6 +52,7 @@ Consolidated from 42 `.cursor/plans/` files and these chats:
 - [Lusion learnings](2d76c04c-856a-4e5d-baa8-29009d5e69e3)
 - [Darkroom/Basement research](152608fd-216c-4d2e-b656-38ef8d482a25)
 - [Vercel deploy best practices](CURRENT_SESSION) -- Vercel prod/preview model, branching strategy for v2 launch, GitHub branch protection
-- [Registry interactive docs plan](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md) -- Fumadocs-powered registry explorer, 7-phase build, adjacent opportunities (component collector, personal library, access control, porting skill Phase 11)
+- [Registry interactive docs plan](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md) -- (done) Fumadocs-powered registry explorer, 7-phase build
+- [Curated component collection plan](../../.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md) -- (future) Personal component mood board with collection.json, CLI, web management UI, agent skill
 
 Canonical plan file: `.cursor/plans/v2_pending_work_inventory_80c82495.plan.md` (superseded by this backlog).

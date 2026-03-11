@@ -1,0 +1,198 @@
+---
+name: quick-component
+description: "Ports external components/snippets into the collected registry, or indexes an entire library's component catalog for browsing. Lightweight alternative to porting-demos -- no experiment infrastructure, just a component in src/components/collected/."
+---
+
+# Quick Component
+
+> Port a component or index a library into the collected registry.
+
+## When to Use
+
+**Use this skill when:**
+- User provides a single component, CodePen, GitHub file, or snippet to port
+- User provides a library/collection URL to index (e.g., SmoothUI, Aceternity, Magic UI)
+- User asks to "collect", "save", "port", or "add to registry" an external component
+
+**Do NOT use for:**
+- Full-page demos with scroll, 3D, or multi-section layout -- use `.agents/skills/porting-demos/SKILL.md`
+- Building from scratch (concepts, ideas) -- use `.agents/workflows/new-experiment.md`
+- Modifying existing experiments -- use `.agents/workflows/develop-experiment.md`
+
+## Routing
+
+```
+Input --> Library/collection site with many components?
+  Yes --> Mode B: Index Library (3 phases)
+  No  --> Complex? Needs its own route, scroll, 3D?
+    Yes --> Escalate to porting-demos skill
+    No  --> Mode A: Port Component (4 phases)
+```
+
+---
+
+## Mode A: Port Component
+
+For a single component, snippet, CodePen, GitHub file, npm package code, etc.
+
+### Phase 1: Analyze
+
+1. Read the source code (browser tools for URLs, file tools for local, user-provided for snippets)
+2. Classify: React / Vue / Svelte / vanilla JS / class component
+3. List npm dependencies
+4. Identify CSS approach: Tailwind, CSS modules, styled-components, global CSS, inline
+
+### Phase 2: Transform
+
+Convert to a self-contained React component following these patterns:
+
+| Source Pattern | Target Pattern |
+|---|---|
+| Vanilla JS + DOM | React refs + useEffect |
+| Vue SFC / Svelte | Function component + hooks |
+| Class component | Function component + hooks |
+| CSS-in-JS (styled-components, emotion) | CSS file or Tailwind classes |
+| Global CSS | Scoped CSS file imported in component |
+| External state (Redux, Vuex) | Local state or Zustand |
+| jQuery | React refs |
+
+Rules:
+- Add `"use client"` if the component uses hooks, browser APIs, or event handlers
+- Extract hardcoded strings/config into component props with sensible defaults
+- Keep it self-contained -- no Lenis, no ScrollTrigger, no ExperimentCanvas unless truly needed
+- For GSAP, Motion, R3F, or shader-specific transforms, consult the relevant skill doc
+
+### Phase 3: Place
+
+Create the folder and files:
+
+```
+src/components/collected/<kebab-name>/
+  ComponentName.tsx          # Main component
+  meta.json                  # Source attribution
+  [styles.css]               # Co-located styles if needed
+  [ComponentName.story.tsx]  # Optional story for visual variants
+```
+
+`meta.json` schema:
+
+```json
+{
+  "type": "component",
+  "source": "https://...",
+  "author": "Original Author",
+  "license": "MIT",
+  "tags": ["interaction", "hover"],
+  "tech": ["motion/react"]
+}
+```
+
+### Phase 4: Verify
+
+```bash
+npm run generate:registry   # picks up the new item
+tsc --noEmit                # zero type errors
+```
+
+Confirm the item appears in the registry output.
+
+---
+
+## Mode B: Index Library
+
+For a library URL like `https://smoothui.dev/docs/components`.
+
+### Phase 1: Navigate and Scrape
+
+Use browser tools (pinchtab or browser-devtools) to:
+
+1. Navigate to the library URL
+2. Take a snapshot to identify the component list structure
+3. Extract each component's name, description, individual URL, and grouping
+4. Handle pagination or sub-pages if the library spans multiple routes
+
+### Phase 2: Generate library.json
+
+Create the folder and file:
+
+```
+src/components/collected/<library-name>/
+  library.json
+```
+
+`library.json` schema:
+
+```json
+{
+  "type": "library",
+  "title": "SmoothUI",
+  "url": "https://smoothui.dev",
+  "description": "Beautiful, animated UI components built with React, Motion, and GSAP",
+  "tags": ["animation", "motion", "gsap", "react"],
+  "indexed": "2026-03-11T00:00:00Z",
+  "components": [
+    {
+      "name": "magnetic-button",
+      "title": "Magnetic Button",
+      "description": "Button that magnetically follows cursor on hover",
+      "url": "https://smoothui.dev/docs/components/magnetic-button",
+      "group": "Button",
+      "tags": ["button", "magnetic", "hover"]
+    }
+  ]
+}
+```
+
+Set `indexed` to the current ISO timestamp. Use kebab-case for component `name` fields.
+
+### Phase 3: Verify
+
+```bash
+npm run generate:registry
+```
+
+Confirm items appear as `<library>--<component>` entries in the output.
+
+---
+
+## Re-indexing
+
+When user says "update smoothui" or "re-index smoothui":
+
+1. Read existing `library.json` to get the URL
+2. Re-scrape following Phase 1
+3. Regenerate `library.json` (Phase 2)
+4. Run `npm run generate:registry`
+
+New components appear, removed components disappear.
+
+## Port from Indexed Library
+
+When user says "port magnetic-button from smoothui":
+
+1. Read `src/components/collected/smoothui/library.json`
+2. Find the component entry and its URL
+3. Navigate to that URL, read the source code
+4. Follow Mode A phases 1-4
+5. Place in `src/components/collected/magnetic-button/` (not inside the library folder)
+
+The ported version (`magnetic-button`) coexists with the reference (`smoothui--magnetic-button`). The ported version takes precedence in the UI since it has actual code.
+
+## Skill Cross-References
+
+Consult these for specific transformation patterns -- do not duplicate their content:
+
+- `.agents/skills/gsap-modern/SKILL.md` -- source uses GSAP
+- `.agents/skills/motion-react/SKILL.md` -- source uses Motion / Framer Motion
+- `.agents/skills/r3f-core/SKILL.md` -- source uses Three.js
+- `.agents/skills/porting-demos/SKILL.md` Phase 3 + `transformations.md` -- full transformation reference
+- `.agents/skills/visual-qa/SKILL.md` -- visual verification after porting
+
+## Escalation
+
+If the source requires any of the following, redirect to `porting-demos` + `new-experiment` workflow:
+
+- Scroll-driven animation (ScrollTrigger pins, Lenis, scrub)
+- Multi-section page composition
+- Its own route / layout / HTML root
+- Experiment infrastructure (experiment.json, error boundary, dev tooling)

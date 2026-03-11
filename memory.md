@@ -40,4 +40,9 @@ Auto-maintained by the continual-learning skill. Do not edit manually.
 - Biome enforces non-interactive HTML elements (`<nav>`, `<header>`) cannot carry interactive ARIA roles like `tablist` -- use `<div>` for composite widgets
 - Tailwind v4 uses `bg-linear-to-br` instead of `bg-gradient-to-br` -- Biome catches this automatically
 - Shiki `codeToHtml` wraps each line in `<span class="line">` -- CSS line numbers via `counter-increment` work with zero JS
-- Registry now catalogs 58 items across 4 categories: experiments (17), components (27), hooks (11), utilities (2) + 1 shared style
+- Registry now catalogs 58+ items across 5 categories: experiments, components, collected, hooks, utilities + 1 shared style
+- Collected components live in `src/components/collected/<name>/` with `meta.json` (ported code) or `library.json` (indexed external library)
+- Library reference naming convention: `<library>--<component>` to avoid collisions with ported components
+- `scanCollected()` in `generate-registry-json.mjs` handles both modes: folders with `.tsx` = ported components, folders with `library.json` = indexed references
+- Quick-component skill (`.agents/skills/quick-component/SKILL.md`) is the lightweight alternative to porting-demos -- Mode A ports a single component, Mode B indexes a library
+- Registry V2 is complete (2026-03-11): 7-phase build with Fumadocs, hybrid pipeline, MDX auto-gen, custom components, 58+ items across 5 categories. Curated Component Collection (s-tier plan) remains as a future improvement.

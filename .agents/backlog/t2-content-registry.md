@@ -16,20 +16,17 @@ The largest body of remaining work. Infrastructure is complete but barely used.
 
 ## Registry
 
-- [ ] **Registry V2: Interactive Docs Explorer** -- Full plan in [`.cursor/plans/registry_interactive_docs_aaa07efa.plan.md`](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md). Registry JSON generation works (`generate-registry.mjs`) but has known bugs (duplicate files, hardcoded tailwind/cssVars, non-standard output path, no file type semantics). 7-phase build:
-  1. **Hybrid pipeline** -- Split monolithic `generate-registry.mjs` into auto-discover → `shadcn build` → post-process. Add `registry.config.json` for curation. Extend to discover shared UI, hooks, utilities.
-  2. **Fumadocs setup** -- `fumadocs-core`, `fumadocs-ui`, `fumadocs-mdx`, `@fumadocs/story`, `fumadocs-docgen`. Content source, shadcn CSS preset, dark theme.
-  3. **Route structure** -- `(registry)` route group with Fumadocs DocsLayout. Custom overview `page.tsx` (card grid) + Fumadocs `[[...slug]]/page.tsx` for doc pages.
-  4. **MDX auto-generation** -- Script generates MDX doc pages from registry JSON per item (preview embed, install command, source code blocks).
-  5. **Preview system** -- iframe for experiments, `@fumadocs/story` for shared UI (inline prop controls), code-only for hooks/utilities.
-  6. **Custom components** -- `RegistryGrid`, `RegistryCard`, `InstallCommand`, `ExperimentPreview`, `RegistryMeta`.
-  7. **Polish** -- Theme tuning, responsive QA, loading states, umami analytics, OG images, nav link.
-  - ~20 new files, ~4 modified. Partially addresses: T2 Content Dashboard, T2 Social Asset Automation (OG images), T5 Package Extraction (motivates completing it). Synergizes with T7 `next-view-transitions` (registry page transitions) and T7 Tier 2/3 library adoption (consume upstream registries, adapt, redistribute).
-  - Source: [Component registry chat](4924b037-3555-402a-aac8-9b88984b0d30), [Registry interactive docs plan](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md)
-- [ ] **Quick Component Collector skill** -- New skill at `.agents/skills/component-collector/SKILL.md` for rapidly adding discovered components, snippets, and effects into the registry without full experiment scaffolding. Use cases: CodePen finds, forked library components, one-off utility hooks, CSS techniques. Lighter than porting skill -- just "save this thing to my collection." Depends on: Registry V2 pipeline.
-  - Source: [Registry interactive docs plan -- "Adjacent Notes"](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md)
-- [ ] **Registry as personal library** -- Add `origin`/`status` fields to registry items to track collected (bookmarked), adapted (ported), and original (built from scratch) items. Flips registry from "things I distribute" to "things I know about." Optional `collections/` directory for curated external references that aren't experiments.
-  - Source: [Registry interactive docs plan -- "Adjacent Notes"](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md)
+- [x] **Registry V2: Interactive Docs Explorer** -- Complete. 7-phase build delivered: hybrid pipeline (auto-discover → shadcn build → post-process with `registry.config.json`), Fumadocs setup, `(registry)` route group, MDX auto-generation, preview system (iframe for experiments, code for hooks/utils), custom components (RegistryGrid, RegistryCard, RegistryMeta, RegistrySourceCode), polish pass (theme, responsive, loading states, OG images). Minor UI tweaks ongoing.
+  - Plans: [registry_interactive_docs](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md), [fumadocs_registry_v2](../../.cursor/plans/fumadocs_registry_v2_c44c07e3.plan.md), [registry_fumadocs_audit_fix](../../.cursor/plans/registry_fumadocs_audit_fix_b10b5838.plan.md), [registry_v2_fix_crash](../../.cursor/plans/registry_v2_fix_crash_7c0b2691.plan.md), [registry_ui_pass](../../.cursor/plans/registry_ui_pass_da5a051b.plan.md)
+- [ ] **Curated Component Collection** -- Personal component mood board (Are.na / Raindrop.io for UI components). Single `collection.json` manifest as the database, CLI (`npm run collect add <url>`) with auto-enrichment (OG metadata + shadcn registry probe), web management UI at `/registry/collected` with boards/tags/ratings/status tracking, dev-mode server actions for write-back, and `quick-component` agent skill (save/port/manage modes). Three phases:
+  1. **Data + CLI** -- `collection.json` schema (items, boards, statuses, ratings, notes), `scripts/collect.mjs` with add/list/tag/rate/note/status/board/remove/stats subcommands, auto-enrichment pipeline, update `scanCollected()` to read from `collection.json`.
+  2. **Web UI** -- `/registry/collected` page with board tabs, status/tag/rating filters, search, CollectedGrid + CollectedCard components, dev-mode server actions for inline management.
+  3. **Agent skill** -- `.agents/skills/quick-component/SKILL.md` with save mode (URL to collection), port mode (collection to code, shadcn sources skip transformation), manage mode (tag/rate/organize via natural language).
+  - Supersedes: "Quick Component Collector skill" and "Registry as personal library" items.
+  - Full plan: [`.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md`](../../.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md)
+  - Depends on: Registry V2 pipeline (done)
+  - Source: [Curated collection planning](CURRENT_SESSION), [Registry interactive docs plan -- "Adjacent Notes"](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md)
+- [ ] **Registry V2 generated output review** -- Deep audit of generated MDX pages, registry JSON, and detail pages for all 58+ items. Check for: incomplete/missing descriptions, broken preview iframes, source code rendering issues, install command accuracy, category mismatches, metadata gaps, Fumadocs layout quirks, mobile rendering, and any rough edges in the auto-generated content. Identify concrete improvements to the generation scripts or templates.
 - [ ] **Registry access control** -- Start with unlisted + noindex (zero code). Add basic password gate later if needed (middleware + cookie). JSON endpoints for `npx shadcn add` stay public regardless.
   - Source: [Registry interactive docs plan -- "Adjacent Notes"](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md)
 

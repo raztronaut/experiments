@@ -48,6 +48,17 @@ Archive of work that's been finished. Moved here from tier files when fully comp
 - [x] CSS cleanup: removed dead `:nth-child(5)` selector from `inversa-section.css`
 - [x] Post-mortem docs propagation: updated porting skill (Phase 0 content-to-timing coupling, 3 new pitfalls), scrollytelling profile (fixed-position elements section + gotcha), transformations.md (`useLayoutEffect` fix), scroll rules (`useLayoutEffect` rationale), memory.md (2 new facts)
 
+## 2026-03-11 -- Registry V2: Interactive Docs Explorer
+
+- [x] Phase 1: Hybrid pipeline -- split monolithic `generate-registry.mjs` into auto-discover → `shadcn build` → post-process. Added `registry.config.json` for curation. Extended to discover shared UI, hooks, utilities.
+- [x] Phase 2: Fumadocs setup -- `fumadocs-core`, `fumadocs-ui`, `fumadocs-mdx` content source, shadcn CSS preset, dark theme.
+- [x] Phase 3: Route structure -- `(registry)` route group with Fumadocs DocsLayout. Custom overview `page.tsx` (card grid) + Fumadocs `[[...slug]]/page.tsx` for doc pages.
+- [x] Phase 4: MDX auto-generation -- script generates MDX doc pages from registry JSON per item (preview embed, install command, source code blocks).
+- [x] Phase 5: Preview system -- iframe for experiments, code-only for hooks/utilities.
+- [x] Phase 6: Custom components -- RegistryGrid, RegistryCard, RegistryMeta, RegistrySourceCode, InstallCommand.
+- [x] Phase 7: Polish -- theme tuning, responsive QA, loading states, OG images.
+- Plans: `registry_interactive_docs_aaa07efa`, `fumadocs_registry_v2_c44c07e3`, `registry_fumadocs_audit_fix_b10b5838`, `registry_v2_fix_crash_7c0b2691`, `registry_ui_pass_da5a051b`
+
 ## N/A -- Removed or No Longer Relevant
 
 - ~~STATUS.md update~~ -- File never created. Status lives in `experiment.json` + generation scripts.
