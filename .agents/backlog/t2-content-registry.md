@@ -4,7 +4,7 @@ The largest body of remaining work. Infrastructure is complete but barely used.
 
 ## Articles
 
-- **Generate articles for 16 experiments** -- Only `send-button` and `basketball-replay-center` have articles. The remaining 16 have `content: {}`. This is the single largest content gap. Execution tools: `.cursor/skills/publish-content/SKILL.md` (workflow), `.cursor/agents/content-writer.md` (writing persona), `.cursor/skills/audit-content/SKILL.md` (coverage tracking).
+- **Generate articles for 15 experiments** -- `send-button`, `basketball-replay-center`, and `404-not-found` have articles. The remaining 15 have `content: {}`. This is the single largest content gap. Execution tools: `.cursor/skills/publish-content/SKILL.md` (workflow), `.cursor/agents/content-writer.md` (writing persona), `.cursor/skills/audit-content/SKILL.md` (coverage tracking).
   - Source: [V2 review `content-pipeline-execution](../../.cursor/plans/v2_comprehensive_review_9100ae49.plan.md)`
 
 ## Schema Fields
@@ -26,7 +26,8 @@ The largest body of remaining work. Infrastructure is complete but barely used.
   - Full plan: [`.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md`](../../.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md)
   - Depends on: Registry V2 pipeline (done)
   - Source: [Curated collection planning](CURRENT_SESSION), [Registry interactive docs plan -- "Adjacent Notes"](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md)
-- [ ] **Registry V2 generated output review** -- Deep audit of generated MDX pages, registry JSON, and detail pages for all 58+ items. Check for: incomplete/missing descriptions, broken preview iframes, source code rendering issues, install command accuracy, category mismatches, metadata gaps, Fumadocs layout quirks, mobile rendering, and any rough edges in the auto-generated content. Identify concrete improvements to the generation scripts or templates.
+- [ ] **Review 14 collected codegrid components** -- Visual smoke test all 14 ported components, verify animations match originals, confirm registry install flow works end-to-end (TSX + CSS both installed). Priority: curved-text-scroll, fibonacci-image-orb, physics-tag-cloud (most complex).
+- [ ] **Registry V2 generated output review** -- Deep audit of generated MDX pages, registry JSON, and detail pages for all 82+ items. Check for: incomplete/missing descriptions, broken preview iframes, source code rendering issues, install command accuracy, category mismatches, metadata gaps, Fumadocs layout quirks, mobile rendering, and any rough edges in the auto-generated content. Identify concrete improvements to the generation scripts or templates.
 - [ ] **Registry access control** -- Start with unlisted + noindex (zero code). Add basic password gate later if needed (middleware + cookie). JSON endpoints for `npx shadcn add` stay public regardless.
   - Source: [Registry interactive docs plan -- "Adjacent Notes"](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md)
 

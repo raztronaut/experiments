@@ -115,13 +115,13 @@ Quick check: `npm run validate:experiments`
 
 ## Reference Implementation
 
-**basketball-replay-center** -- the only experiment with all 6 content types complete. Study it before writing your first article:
-- Progressive Canvas 2D demos (CRT effect + barrel distortion)
+**basketball-replay-center** and **404-not-found** -- the two experiments with all 6 content types complete. Study them before writing your first article:
+- Progressive Canvas 2D demos reimplementing shader techniques with interactive sliders
 - Full MDX wiring pattern with custom `components.tsx`
 - All 5 docs formats populated with real content
 
 ## Current State
 
-- 2/18 experiments have articles (`send-button`, `basketball-replay-center`)
-- 16 experiments have `content: {}` -- the largest content gap
+- 3/18 experiments have articles (`send-button`, `basketball-replay-center`, `404-not-found`)
+- 15 experiments have `content: {}` -- the largest content gap
 - `updated`, `inspiration`, `related` fields empty across most experiments
