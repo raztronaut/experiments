@@ -30,8 +30,9 @@ Copy this checklist and track progress:
 ### Phase 1: Preparation
 
 1. Read all source files: `src/components/experiments/<slug>/` and `src/app/experiments/(<slug>)/`
-2. Identify **2-3 most interesting/novel techniques** worth sharing
-3. Scaffold content structure:
+2. **Verify layout has ThemeProvider.** Check `src/app/experiments/(<slug>)/layout.tsx` for `ThemeProvider` wrapping children, `suppressHydrationWarning` on `<html>`, and `font-canvas antialiased` on `<body>`. Legacy layouts (pre-2026-03) lack these -- modernize to match the `basketball-replay-center` layout pattern before writing article content, or the article will be stuck in light mode.
+3. Identify **2-3 most interesting/novel techniques** worth sharing
+4. Scaffold content structure:
 
 ```bash
 npm run new:article
@@ -44,19 +45,19 @@ This creates 8 files: `article/page.tsx`, `article/content.mdx`, `article/compon
 
 **Audience**: Engineers, designers, creative coders.
 
-4. **Plan demos BEFORE writing.** For each technique from step 2, plan one interactive demo. Complex experiments (3+ techniques) get a progressive series:
+5. **Plan demos BEFORE writing.** For each technique from step 3, plan one interactive demo. Complex experiments (3+ techniques) get a progressive series:
    - `Step1Demo` → basic effect only
    - `Step2Demo` → basic + next layer
    - `Step3Demo` → adds another technique
    - `<LiveDemo>` → full experiment at the end
 
-5. **Build demos** in `article/components.tsx` (`"use client"`):
+6. **Build demos** in `article/components.tsx` (`"use client"`):
    - For shader/WebGL: Use Canvas 2D or CSS to recreate effects with parameter sliders. No R3F.
    - For DOM/CSS: Import simplified component versions.
    - For animation: Use CSS transitions or Motion for timing/easing concepts.
    - Wrap in `<InteractiveWidget title="...">` for consistent styling.
 
-6. **Wire demos** into `article/page.tsx`:
+7. **Wire demos** into `article/page.tsx`:
 
 ```tsx
 import { Step1Demo, Step2Demo } from "./components";
@@ -65,7 +66,7 @@ import { Step1Demo, Step2Demo } from "./components";
 
 **CRITICAL**: Do NOT use `import` in MDX files -- `next-mdx-remote` doesn't support it.
 
-7. **Write the article** in `content.mdx` following the structure:
+8. **Write the article** in `content.mdx` following the structure:
    - **Hook** (1-2 paragraphs): What and why
    - **Basic version** + `<InteractiveWidget>` demo
    - **Enhancement** + demo per technique
@@ -73,33 +74,33 @@ import { Step1Demo, Step2Demo } from "./components";
    - **Full thing**: `<LiveDemo slug="<slug>" height="500px" />`
    - **What I'd do differently**: Honest reflection
 
-8. Fill in `publishedAt` and `description` in MDX frontmatter.
+9. Fill in `publishedAt` and `description` in MDX frontmatter.
 
 **Quality gate**: Article renders at `/experiments/<slug>/article`.
 
 ### Phase 3: Documentation
 
-9. **`docs/lab-note.md`**: Context, what was tried (including dead ends), what worked, reflection, open questions. Internal voice.
-10. **`docs/architecture.md`**: Overview, component tree (text diagram), key patterns, data flow, dependencies table, performance notes.
-11. **`docs/snippet.md`**: Install command, minimal working example, props/API table, gotchas.
-12. **`docs/changelog.md`**: Origin, iterations (versioned), current state, related ideas.
+10. **`docs/lab-note.md`**: Context, what was tried (including dead ends), what worked, reflection, open questions. Internal voice.
+11. **`docs/architecture.md`**: Overview, component tree (text diagram), key patterns, data flow, dependencies table, performance notes.
+12. **`docs/snippet.md`**: Install command, minimal working example, props/API table, gotchas.
+13. **`docs/changelog.md`**: Origin, iterations (versioned), current state, related ideas.
 
 **Quality gate**: All docs populated, no template placeholders remaining.
 
 ### Phase 4: Social
 
-13. **`docs/social.md`**: X thread (5-8 tweets):
+14. **`docs/social.md`**: X thread (5-8 tweets):
     - Tweet 1: Hook with visual media
     - Tweets 2-3: Basic version and key technique
     - Tweets 4-5: Non-obvious insight
     - Tweet 6: Full demo link
     - Last: What was learned, article link
-14. Also write: launch post (single tweet), one-liner caption (Discord/Slack).
+15. Also write: launch post (single tweet), one-liner caption (Discord/Slack).
 
 ### Phase 5: Finalization
 
-15. Generate OG image: `npm run capture <slug> -- --og` (skip if no dev server).
-16. Update `experiment.json`:
+16. Generate OG image: `npm run capture <slug> -- --og` (skip if no dev server).
+17. Update `experiment.json`:
 
 ```json
 {
@@ -115,7 +116,7 @@ import { Step1Demo, Step2Demo } from "./components";
 }
 ```
 
-17. Final verification:
+18. Final verification:
     - Article renders with interactive demos
     - All 5 docs populated
     - `components.tsx` has real demos, not placeholders

@@ -3,6 +3,7 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";
@@ -46,24 +47,29 @@ export const metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  // Add "dark" to <html> className for dark-mode experiments, or other
-  // class-based theming. Custom bg colors go on <body>.
   return (
-    <html lang="en">
-      <body className={cn(activeFont.variable)}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn("font-canvas antialiased", activeFont.variable)}>
         <style>{\`body { view-transition-name: experiment-page-{{dashCase name}}; }\`}</style>
         <DevToolsInjector />
-        <UmamiScript />
         <ExperimentJsonLd
           description={experiment.description}
           slug={experiment.slug}
           tags={experiment.tags as string[]}
           title={experiment.title}
         />
-        <ExperimentNav
-          articleSlug={content?.article ? experiment.slug : undefined}
-        />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          disableTransitionOnChange
+          enableSystem
+        >
+          <UmamiScript />
+          <ExperimentNav
+            articleSlug={content?.article ? experiment.slug : undefined}
+          />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
