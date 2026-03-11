@@ -1,0 +1,42 @@
+---
+description: Component size discipline, decomposition patterns, and animation standards for experiment components
+globs: "src/components/experiments/**/*.tsx"
+alwaysApply: false
+---
+
+# Experiment Component Rules
+
+Read `.agents/rules/experiments.md` for isolation rules and `.agents/rules/animations.md` for animation patterns.
+
+## Size Discipline
+
+| File Type | Target | Hard Limit |
+|-----------|--------|------------|
+| Orchestrator | ~120 lines | 200 |
+| Section | ~60-90 lines | 150 |
+| Data constants | ~100 lines | 150 |
+| Hook | ~30-50 lines | 80 |
+
+## Decomposition (trigger: >200 lines or 3+ visual sections)
+
+```
+ExperimentName.tsx     → thin orchestrator (lifecycle, shared state, composition)
+data.ts                → all constants and configuration
+sections/SectionN.tsx  → each visual section owns its own useGSAP scope
+hooks/, shaders/       → extracted as needed
+```
+
+## Animation Standards
+
+- Always respect `prefers-reduced-motion` -- use `gsap.set` to reveal, never early return
+- Vary motion vocabulary per section (clip-path, blur, scale, text split, parallax) -- don't repeat `opacity: 0, y: 40` everywhere
+- Easing: ease-out for entrances, ease-in for exits. Never `linear` for UI.
+- FOUC prevention: start hidden in CSS classes, not `gsap.set`
+
+## Profile-Based Guidance
+
+Check `experiment.json` for the `profile` field, then read `.agents/profiles/<profile>.md`:
+- `scrollytelling` → Lenis + GSAP ScrollTrigger patterns
+- `r3f-scene` / `r3f-shader` → R3F Canvas, useFrame, drei
+- `interaction` → gestures, springs, drag
+- `dom-effect` → CSS/shader effects on DOM

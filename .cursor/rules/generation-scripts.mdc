@@ -1,0 +1,38 @@
+---
+description: Pipeline architecture, dependency chain, and output artifacts for generation scripts
+globs: "scripts/generate-*.mjs"
+alwaysApply: false
+---
+
+# Generation Script Rules
+
+## Registry Pipeline (4-step sequential chain)
+
+`npm run generate:registry` runs these in order:
+
+1. **generate-registry-json.mjs** → Discovery phase. Scans 5 categories, resolves import graphs, produces `registry.json`
+2. **build-registry.mjs** → Reads manifest + file contents, writes per-item `public/registry/{name}.json` (shadcn-compatible)
+3. **post-process-registry.mjs** → Validates items, generates `index.json` (full metadata) and `index-slim.json` (~22KB grid index)
+4. **generate-registry-mdx.mjs** → Generates Fumadocs MDX pages in `content/registry/` with previews, install commands, source code
+
+## Skip Logic
+
+- `status: "wip"` experiments are skipped by registry, posters, and llms-txt generation
+- `status: "archived"` experiments are skipped by llms-txt
+
+## Curation Layer
+
+`registry.config.json` controls: `featured` (sorted to top), `hidden` (excluded), `overrides` (patch descriptions/categories), `scan` (which directories to crawl)
+
+## Clean Before Build
+
+Stale outputs from deleted experiments persist in `public/registry/` and pollute indexes. Clean before full rebuilds.
+
+## Other Generators
+
+- `generate-posters.mjs` → `ffmpeg` first-frame extraction from preview videos → `poster.jpg` at 1200px
+- `generate-llms-txt.mjs` → `public/llms.txt` + `public/llms-full.txt` (v1.1.1 spec)
+
+## Build Order
+
+`npm run build` = posters → registry (4-step) → llms-txt → `next build`

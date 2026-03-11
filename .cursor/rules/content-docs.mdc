@@ -1,0 +1,47 @@
+---
+description: Template structure for experiment documentation formats (lab note, architecture, snippet, social, changelog)
+globs: "src/app/experiments/**/docs/*.md"
+alwaysApply: false
+---
+
+# Content Documentation Rules
+
+Read `.agents/contexts/writing-voice.md` for full format templates.
+
+## Format Templates
+
+### Lab Note (`lab-note.md`)
+Internal, honest, stream-of-consciousness. Sections:
+- **Context**: Why this experiment exists
+- **What I Tried**: Approaches, including dead ends
+- **What Worked**: The solution and why
+- **What I'd Do Differently**: Honest reflection
+- **Open Questions**: Unresolved ideas
+
+### Architecture (`architecture.md`)
+For engineers. Terse. Sections:
+- **Overview**: 1 paragraph
+- **Component Tree**: Text diagram
+- **Key Patterns**: Bullet list
+- **Data Flow**: How data moves through the system
+- **Dependencies**: Table (name, version, purpose)
+- **Performance Notes**: If relevant
+
+### Snippet (`snippet.md`)
+Copy-paste ready. Sections:
+- **Install**: One command
+- **Usage**: Minimal working example
+- **Props/API**: Table
+- **Notes**: Gotchas and caveats
+
+### Social (`social.md`)
+X thread (5-8 tweets). Progressive reveal:
+- Tweet 1: Hook with visual media
+- Tweets 2-3: Basic version and key technique
+- Tweets 4-5: Non-obvious insight
+- Tweet 6: Full demo link
+- Last: What was learned, article link
+- Also: launch post (single tweet), one-liner caption
+
+### Changelog (`changelog.md`)
+Idea lineage. Sections: Origin, Iterations (versioned), Current State, Related Ideas.

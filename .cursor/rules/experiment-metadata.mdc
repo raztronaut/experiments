@@ -1,0 +1,43 @@
+---
+description: Schema, lifecycle, and validation rules for experiment metadata
+globs: "**/experiment.json"
+alwaysApply: false
+---
+
+# experiment.json Rules
+
+## Status Lifecycle
+
+`wip` → `shipped` → (publish workflow) → `publishable: true`
+
+- `wip`: generation scripts skip this experiment entirely
+- `shipped`: ready for content constellation (publish workflow)
+- `publishable`: OUTPUT of the publish workflow, not an input gate
+
+## Required Fields
+
+`title`, `description`, `slug` (kebab-case)
+
+## Enum Values
+
+- **status**: `wip`, `shipped`, `archived`
+- **profile**: `r3f-scene`, `r3f-shader`, `scrollytelling`, `interaction`, `dom-effect`, `web-audio`, `blank`
+- **complexity**: `beginner`, `intermediate`, `advanced`
+
+## Content Object
+
+Tracks which content formats exist. Pre-commit validator cross-checks these flags against actual files on disk:
+
+- `article` → `article/content.mdx` must exist
+- `labNote` → `docs/lab-note.md`
+- `architecture` → `docs/architecture.md`
+- `snippet` → `docs/snippet.md`
+- `social` → `docs/social.md`
+- `changelog` → `docs/changelog.md`
+
+## Key Semantics
+
+- `legacy: true` experiments are untouchable (18 pre-V2 experiments)
+- `updated`, `inspiration`, `related` are often empty -- populate when known
+- Read `.agents/rules/experiments.md` for full isolation rules and decomposition guidance
+- Check `profile` field and read `.agents/profiles/<profile>.md` for type-specific guidance

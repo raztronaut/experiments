@@ -217,11 +217,12 @@ Read the relevant doc BEFORE working in that domain:
 | Experiments | `.agents/rules/experiments.md` | Creating or modifying any experiment (always read) |
 | Porting | `.agents/skills/porting-demos/SKILL.md` | Porting external demos, websites, repos, or code snippets into experiments |
 | Quick Component | `.agents/skills/quick-component/SKILL.md` | Porting external code or indexing libraries into collected registry |
+| Content | `.agents/contexts/content-constellation.md` | Writing articles, publishing experiments, auditing content coverage |
 
 **Profile-specific guidance**: read `experiment.json` `"profile"` field, then `.agents/profiles/<profile>.md`
 
 **Skills** (library-specific patterns): `.agents/skills/<name>/SKILL.md`
-- gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa, porting-demos, quick-component
+- gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa, porting-demos, quick-component, continual-learning
 
 **Workflows** (step-by-step procedures): `.agents/workflows/<name>.md`
 - new-experiment, develop-experiment, publish-experiment, add-experiment-component, add-experiment-assets, cleanup-experiment, visual-qa
@@ -229,6 +230,20 @@ Read the relevant doc BEFORE working in that domain:
 **Architecture reference**: `.agents/contexts/architecture.md`
 **Toolkit inventory**: `.agents/contexts/toolkit.md`
 **Writing voice**: `.agents/contexts/writing-voice.md`
+**Content constellation**: `.agents/contexts/content-constellation.md`
 
 **Backlog**: `.agents/backlog/README.md` -- canonical running list of all pending work (read when planning or starting a session)
 **Learned memory**: `memory.md` -- auto-maintained user preferences and workspace facts (always read)
+
+### Cursor-Native Tools (.cursor/)
+
+Auto-inject rules, task-triggered skills, and specialized subagents for content and experiment workflows:
+
+**Rules** (auto-inject context when matching files are open): `.cursor/rules/*.mdc`
+- experiment-metadata, article-writing, experiment-components, content-docs, generation-scripts, registry-curation
+
+**Skills** (discoverable task workflows): `.cursor/skills/<name>/SKILL.md`
+- publish-content, audit-content, run-generation
+
+**Subagents** (specialized personas): `.cursor/agents/*.md`
+- content-writer, content-auditor

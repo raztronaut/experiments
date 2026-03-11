@@ -1,0 +1,41 @@
+---
+description: Writing voice, article structure, MDX wiring, and interactive demo patterns for experiment articles
+globs: "**/article/content.mdx"
+alwaysApply: false
+---
+
+# Article Writing Rules
+
+Read `.agents/contexts/writing-voice.md` for full voice guide.
+
+## Voice
+
+First-person, code-forward, process-oriented. Casual confidence ("Nothing fancy here", "That's it"). Short paragraphs (max 3 sentences). No AI fingerprints ("let's dive in", "in this article we'll explore", "without further ado").
+
+## Article Structure
+
+1. **Hook** (1-2 paragraphs) → 2. **Basic version** + interactive demo → 3. **Enhancement** + demo → 4. Repeat per technique → 5. **Key insight** → 6. **Full thing** (`<LiveDemo>`) → 7. **What I'd do differently**
+
+## MDX Wiring (CRITICAL)
+
+`next-mdx-remote` does NOT support `import` in MDX files. All custom components must be:
+1. Built in `article/components.tsx` (`"use client"`)
+2. Imported in `article/page.tsx`
+3. Spread into components prop: `components={{ ...articleComponents, MyDemo }}`
+4. Used directly in MDX: `<InteractiveWidget title="..."><MyDemo /></InteractiveWidget>`
+
+## Interactive Components
+
+- **`<InteractiveWidget>`**: Primary tool. Wrap custom demos with sliders/controls.
+- **`<SandpackDemo>`**: Editable code playgrounds. Best for self-contained CSS/React tricks.
+- **`<LiveDemo>`**: Full experiment iframe embed. Use once at the end.
+
+## Demo Strategy
+
+Use Canvas 2D or CSS for article demos, NOT R3F/WebGL (avoids loading Three.js). For shader experiments, recreate effects in Canvas 2D with parameter sliders. Reference: `basketball-replay-center` article.
+
+## Typography
+
+CSS-first via `experiments.css` (Sylph port). Do NOT add Tailwind typography overrides to the MDX component map -- the CSS handles headings, paragraphs, lists, and code blocks.
+
+## The `# Title` h1 in the MDX IS the visual page title. The layout header only shows metadata.

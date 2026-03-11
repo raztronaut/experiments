@@ -25,9 +25,11 @@ Backlog items that already have `.cursor/plans/` files. Check these before creat
 
 | Backlog Item | Tier | Plan File(s) | Status |
 |---|---|---|---|
+| Vercel Preview Deploy Workflow | T1 | [vercel_deployment_workflow](../../.cursor/plans/vercel_deployment_workflow_9c2fd421.plan.md) | Pending |
 | Curated Component Collection | T2 | [s-tier_collected_registry](../../.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md), [collected_registry_+_quick_port_skill](../../.cursor/plans/collected_registry_+_quick_port_skill_4bd06c54.plan.md) | Future improvement |
 | Entire.io Integration | T5 | [entire.io_integration](../../.cursor/plans/entire.io_integration_f067a72e.plan.md) | Pending |
-| Agent-Native Audit Fixes | Cross | [agent-native_audit_fixes](../../.cursor/plans/agent-native_audit_fixes_9349af8c.plan.md) | Pending |
+| Agent-Native Audit Fixes | Cross | [agent-native_audit_fixes](../../.cursor/plans/agent-native_audit_fixes_9349af8c.plan.md) | Pending (todo 3a partially addressed by content rules) |
+| Content Constellation Cursor Integration | Cross | [content_constellation_cursor_integration](../../.cursor/plans/content_constellation_cursor_integration_690d3f3e.plan.md) | Done -- 6 rules, 3 skills, 2 subagents |
 
 **Completed plans** (archived in [completed.md](completed.md)):
 Registry V2 (5 plans: `registry_interactive_docs`, `fumadocs_registry_v2`, `registry_fumadocs_audit_fix`, `registry_v2_fix_crash`, `registry_ui_pass`)

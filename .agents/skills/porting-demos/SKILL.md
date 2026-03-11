@@ -18,7 +18,7 @@ description: "Ports external demos, websites, repos, snippets, and components in
 **Do NOT use for:**
 - Building experiments from scratch (use `.agents/workflows/new-experiment.md`)
 - Modifying an existing experiment (use `.agents/workflows/develop-experiment.md`)
-- Publishing or writing about an experiment (use `.agents/workflows/publish-experiment.md`)
+- Publishing or writing about an experiment (use `.agents/workflows/publish-experiment.md` or Cursor skill `.cursor/skills/publish-content/SKILL.md`)
 
 ## Entry Points
 

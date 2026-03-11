@@ -6,6 +6,8 @@ description: Multi-format content generation for publishable experiments
 
 Turn a shipped experiment into a content constellation: public article, internal docs, social assets, and reusable snippets. Each format has a specific audience and purpose.
 
+**Cursor integration:** This workflow is available as a Cursor skill at `.cursor/skills/publish-content/SKILL.md` (auto-discovered by task description). Article-writing context auto-injects via `.cursor/rules/article-writing.mdc` when editing `.mdx` files. The `content-writer` subagent at `.cursor/agents/content-writer.md` can be delegated to for article writing. System overview: `.agents/contexts/content-constellation.md`.
+
 ## Prerequisites
 
 - Experiment is `status: "shipped"` (or close)
