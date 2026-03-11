@@ -4,34 +4,34 @@ overview: "Full Fumadocs-powered registry: fumadocs-core + fumadocs-ui + fumadoc
 todos:
   - id: phase-1-deps
     content: "Phase 1: Install all 5 Fumadocs packages (fumadocs-core, fumadocs-ui, fumadocs-mdx, @fumadocs/story, fumadocs-docgen), update next.config.ts with createMDX wrapper + optimizePackageImports"
-    status: in_progress
+    status: completed
   - id: phase-2-source-config
     content: "Phase 2: Create source.config.ts (defineDocs for content/registry), src/lib/registry-source.ts (loader + createMDXSource), mdx-components.tsx with Fumadocs CodeBlock/Pre + custom registry components"
-    status: pending
+    status: completed
   - id: phase-3-mdx-generation
     content: "Phase 3: Build generate-registry-mdx.mjs -- auto-generate content/registry/ with meta.json nav structure per category, per-item MDX stubs (preview, install tabs, metadata, source code blocks), preserve hand-authored overrides"
-    status: pending
+    status: completed
   - id: phase-4-route-structure
     content: "Phase 4: Route restructure -- nested layouts (root RootProvider, docs/layout.tsx DocsLayout with sidebar tabs), docs/[[...slug]]/page.tsx (DocsPage/DocsBody), keep registry/page.tsx grid outside DocsLayout"
-    status: pending
+    status: completed
   - id: phase-5-search
     content: "Phase 5: Orama search API route (createSearchAPI with structured data from MDX pages), Cmd+K wired via RootProvider search config"
-    status: pending
+    status: completed
   - id: phase-6-css-theme
     content: "Phase 6: Full CSS integration -- fumadocs-ui/css/neutral.css + preset.css + @fumadocs/story/css/preset.css, @source directive, complete --color-fd-* to zinc palette mapping, GrainOverlay z-index below search dialog"
-    status: pending
+    status: completed
   - id: phase-7-story-files
     content: "Phase 7: @fumadocs/story factory (src/lib/story.ts) + 10 story files for shared UI (Button, Badge, Card, Separator, GrainOverlay, ScrambleTicker, LiquidGlassFilter, Waves, ViewModeToggle, LottieWeatherIcon), reference in auto-generated MDX"
-    status: pending
+    status: completed
   - id: phase-8-detail-upgrade
     content: "Phase 8: Rich detail pages -- Fumadocs CodeBlock with copy buttons, dependency linking between registry items, related items by category/tags, viewport toggle for experiment previews, per-file code tabs"
-    status: pending
+    status: completed
   - id: phase-9-polish
     content: "Phase 9: OG images for [[...slug]] catch-all, Umami analytics events, next-view-transitions between registry pages, responsive QA"
-    status: pending
+    status: completed
   - id: phase-10-qa-ship
     content: "Phase 10: Full verification -- tsc --noEmit, next build, all pages 200, sidebar/search/breadcrumbs/TOC/code-copy/story-previews working, performance budget (<150KB First Load JS), update AGENTS.md + backlog"
-    status: pending
+    status: completed
 isProject: false
 ---
 
