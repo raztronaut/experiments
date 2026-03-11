@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge.story",
+  "type": "registry:component",
+  "title": "badge.story",
+  "description": "badge.story component",
+  "category": "components",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "badge.story.tsx",
+      "type": "registry:file",
+      "target": "components/ui/badge.story.tsx",
+      "content": "import { defineStory } from \"@/lib/story\";\nimport { Badge } from \"./badge\";\n\nexport const story = defineStory(import.meta.url, {\n  Component: Badge,\n  args: [\n    {\n      variant: \"Default\",\n      initial: { variant: \"default\", children: \"Default\" },\n    },\n    {\n      variant: \"Secondary\",\n      initial: { variant: \"secondary\", children: \"Secondary\" },\n    },\n    {\n      variant: \"Destructive\",\n      initial: { variant: \"destructive\", children: \"Destructive\" },\n    },\n    {\n      variant: \"Outline\",\n      initial: { variant: \"outline\", children: \"Outline\" },\n    },\n  ],\n});\n"
+    },
+    {
+      "name": "badge.tsx",
+      "type": "registry:component",
+      "content": "import { cva, type VariantProps } from \"class-variance-authority\";\nimport type * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst badgeVariants = cva(\n  \"inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold text-xs transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2\",\n  {\n    variants: {\n      variant: {\n        default:\n          \"border-transparent bg-primary text-primary-foreground shadow-sm hover:bg-primary/80\",\n        secondary:\n          \"border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80\",\n        destructive:\n          \"border-transparent bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/80\",\n        outline: \"text-foreground\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n    },\n  }\n);\n\nexport interface BadgeProps\n  extends React.HTMLAttributes<HTMLDivElement>,\n    VariantProps<typeof badgeVariants> {}\n\nfunction Badge({ className, variant, ...props }: BadgeProps) {\n  return (\n    <div className={cn(badgeVariants({ variant }), className)} {...props} />\n  );\n}\n\nexport { Badge, badgeVariants };\n"
+    }
+  ]
+}

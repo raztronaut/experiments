@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grain-overlay.story",
+  "type": "registry:component",
+  "title": "GrainOverlay.story",
+  "description": "GrainOverlay.story component",
+  "category": "components",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "GrainOverlay.story.tsx",
+      "type": "registry:file",
+      "target": "components/ui/GrainOverlay.story.tsx",
+      "content": "import { defineStory } from \"@/lib/story\";\nimport { GrainOverlay } from \"./GrainOverlay\";\n\nexport const story = defineStory(import.meta.url, {\n  Component: GrainOverlay,\n  args: [\n    {\n      variant: \"Default\",\n      initial: { className: \"relative h-48 w-full\" },\n    },\n  ],\n});\n"
+    },
+    {
+      "name": "GrainOverlay.tsx",
+      "type": "registry:component",
+      "content": "import { cn } from \"@/lib/utils\";\n\ninterface GrainOverlayProps {\n  className?: string;\n}\n\nexport function GrainOverlay({ className }: GrainOverlayProps) {\n  return (\n    <div\n      aria-hidden=\"true\"\n      className={cn(\n        \"pointer-events-none absolute inset-0 z-[-1] select-none\",\n        \"bg-[url('/grain.gif')]\",\n        \"opacity-[0.02] dark:opacity-[0.07]\",\n        \"mix-blend-multiply\",\n        className\n      )}\n    />\n  );\n}\n"
+    }
+  ]
+}

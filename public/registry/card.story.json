@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card.story",
+  "type": "registry:component",
+  "title": "card.story",
+  "description": "card.story component",
+  "category": "components",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "card.story.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { defineStory } from \"@/lib/story\";\nimport {\n  Card,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n} from \"./card\";\n\nfunction CardDemo() {\n  return (\n    <Card className=\"w-[350px]\">\n      <CardHeader>\n        <CardTitle>Card Title</CardTitle>\n        <CardDescription>Card description goes here.</CardDescription>\n      </CardHeader>\n      <CardContent>\n        <p>Card content with some example text.</p>\n      </CardContent>\n      <CardFooter>\n        <p className=\"text-muted-foreground text-sm\">Card footer</p>\n      </CardFooter>\n    </Card>\n  );\n}\n\nexport const story = defineStory(import.meta.url, {\n  Component: CardDemo,\n  args: [{ variant: \"Full Card\", initial: {} }],\n});\n"
+    }
+  ]
+}
