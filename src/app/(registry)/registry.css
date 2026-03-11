@@ -1,0 +1,80 @@
+@import "../shared-tokens.css" layer(base);
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../shared-theme.css";
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  *::selection {
+    color: hsl(0 0% 98%);
+    background-color: hsl(240 5% 30%);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  main {
+    animation: registry-fade-in 0.5s ease-out both;
+  }
+
+  @keyframes registry-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    main {
+      animation: none;
+    }
+  }
+
+  html {
+    scrollbar-gutter: stable;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Shiki code blocks (dark-only) */
+  pre {
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    border-radius: 0.5rem;
+  }
+
+  pre code {
+    font-family:
+      ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+      "Liberation Mono", monospace;
+  }
+}
