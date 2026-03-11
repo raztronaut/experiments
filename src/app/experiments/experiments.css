@@ -1,11 +1,15 @@
-@import "../shared-tokens.css";
+@import "../shared-tokens.css" layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../shared-theme.css";
 
-@view-transition {
-  navigation: auto;
+@plugin "@tailwindcss/typography";
+
+@layer utilities {
+  @view-transition {
+    navigation: auto;
+  }
 }
 
 @layer base {
