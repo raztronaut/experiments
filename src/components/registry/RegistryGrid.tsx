@@ -9,8 +9,12 @@ interface RegistrySlimItem {
   category?: string;
   description: string;
   featured?: boolean;
+  library?: string;
+  libraryUrl?: string;
   name: string;
   poster?: string | null;
+  reference?: boolean;
+  source?: string;
   status?: string;
   tags?: string[];
   tech?: string[];
@@ -27,6 +31,7 @@ const CATEGORY_ORDER = [
   "all",
   "experiments",
   "components",
+  "collected",
   "hooks",
   "utilities",
 ] as const;
@@ -35,6 +40,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   all: "All",
   experiments: "Experiments",
   components: "Components",
+  collected: "Collected",
   hooks: "Hooks",
   utilities: "Utilities",
 };
@@ -53,11 +59,16 @@ function useDebounce(delay: number) {
   );
 }
 
-function RegistryGrid({ items }: RegistryGridProps) {
+function RegistryGrid({ items: rawItems }: RegistryGridProps) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const debounce = useDebounce(200);
+
+  const items = useMemo(
+    () => rawItems.filter((item) => !item.name.endsWith(".story")),
+    [rawItems]
+  );
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,7 +108,11 @@ function RegistryGrid({ items }: RegistryGridProps) {
       if (query) {
         const titleMatch = item.title.toLowerCase().includes(query);
         const descMatch = item.description.toLowerCase().includes(query);
-        if (!(titleMatch || descMatch)) {
+        const tagMatch = item.tags?.some((t) =>
+          t.toLowerCase().includes(query)
+        );
+        const libMatch = item.library?.toLowerCase().includes(query);
+        if (!(titleMatch || descMatch || tagMatch || libMatch)) {
           return false;
         }
       }
@@ -219,8 +234,11 @@ function RegistryGrid({ items }: RegistryGridProps) {
                 category={item.category ?? "experiments"}
                 description={item.description}
                 key={item.name}
+                library={item.library}
                 poster={item.poster ?? ""}
+                reference={item.reference}
                 slug={item.name}
+                source={item.source}
                 tags={item.tags ?? []}
                 tech={item.tech ?? []}
                 title={item.title}
@@ -244,8 +262,11 @@ function RegistryGrid({ items }: RegistryGridProps) {
                 category={item.category ?? "experiments"}
                 description={item.description}
                 key={item.name}
+                library={item.library}
                 poster={item.poster ?? ""}
+                reference={item.reference}
                 slug={item.name}
+                source={item.source}
                 tags={item.tags ?? []}
                 tech={item.tech ?? []}
                 title={item.title}

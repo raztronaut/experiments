@@ -1,4 +1,3 @@
-import type { MDXComponents } from "mdx/types";
 import dynamic from "next/dynamic";
 import type React from "react";
 import { Callout } from "./Callout";
@@ -15,7 +14,8 @@ function isExternalUrl(href: string): boolean {
   return /^https?:\/\//.test(href) && !href.includes("razisyed.cv");
 }
 
-export const articleComponents: MDXComponents = {
+// biome-ignore lint: MDXComponents type is overly strict with intrinsic element props
+export const articleComponents: Record<string, React.ComponentType<any>> = {
   h2: ({
     children,
     id,

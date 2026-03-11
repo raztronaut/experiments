@@ -1,42 +1,37 @@
 @import "../shared-tokens.css" layer(base);
 
 @import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@import "@fumadocs/story/css/preset.css";
 @import "tw-animate-css";
 @import "../shared-theme.css";
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+@source "../../../node_modules/fumadocs-ui/dist/**/*.js";
 
+@theme {
+  --color-fd-background: hsl(var(--background));
+  --color-fd-foreground: hsl(var(--foreground));
+  --color-fd-muted: hsl(var(--muted));
+  --color-fd-muted-foreground: hsl(var(--muted-foreground));
+  --color-fd-popover: hsl(var(--popover));
+  --color-fd-popover-foreground: hsl(var(--popover-foreground));
+  --color-fd-card: hsl(var(--card));
+  --color-fd-card-foreground: hsl(var(--card-foreground));
+  --color-fd-border: hsl(var(--border));
+  --color-fd-primary: hsl(var(--primary));
+  --color-fd-primary-foreground: hsl(var(--primary-foreground));
+  --color-fd-secondary: hsl(var(--secondary));
+  --color-fd-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-fd-accent: hsl(var(--accent));
+  --color-fd-accent-foreground: hsl(var(--accent-foreground));
+  --color-fd-ring: hsl(var(--ring));
+}
+
+@layer base {
   *::selection {
     color: hsl(0 0% 98%);
     background-color: hsl(240 5% 30%);
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  main {
-    animation: registry-fade-in 0.5s ease-out both;
-  }
-
-  @keyframes registry-fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    main {
-      animation: none;
-    }
   }
 
   html {
@@ -61,20 +56,5 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--muted-foreground) / 0.5);
-  }
-
-  /* Shiki code blocks (dark-only) */
-  pre {
-    padding: 1rem;
-    overflow-x: auto;
-    font-size: 13px;
-    line-height: 1.6;
-    border-radius: 0.5rem;
-  }
-
-  pre code {
-    font-family:
-      ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-      "Liberation Mono", monospace;
   }
 }

@@ -90,7 +90,7 @@ export default async function ArticlePage() {
         updatedAt={frontmatter.updatedAt}
       >
         <MDXRemote
-          components={articleComponents}
+          components={articleComponents as any}
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],

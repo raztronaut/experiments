@@ -5,11 +5,24 @@ import { useCallback, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
+const GENERIC_PATTERNS = [
+  /^Shared UI component:/,
+  /^\w+ component$/,
+  /^\w+ hook$/,
+  /^\w+ utility$/,
+];
+function isGenericDescription(desc: string): boolean {
+  return GENERIC_PATTERNS.some((p) => p.test(desc));
+}
+
 interface RegistryCardProps {
   category: string;
   description: string;
+  library?: string;
   poster?: string;
+  reference?: boolean;
   slug: string;
+  source?: string;
   tags: string[];
   tech: string[];
   title: string;
@@ -74,6 +87,24 @@ const CATEGORY_CONFIG: Record<
     ),
     gradient: "from-amber-500/20 to-orange-500/10",
   },
+  collected: {
+    icon: (
+      <svg
+        className="h-8 w-8 text-muted-foreground/50"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.5}
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+    gradient: "from-emerald-500/20 to-teal-500/10",
+  },
   experiments: {
     icon: (
       <svg
@@ -98,10 +129,29 @@ function getCategoryLabel(category: string): string {
   const labels: Record<string, string> = {
     experiments: "experiment",
     components: "component",
+    collected: "collected",
     hooks: "hook",
     utilities: "utility",
   };
   return labels[category] ?? category;
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg
+      className="inline-block h-3.5 w-3.5 shrink-0 text-muted-foreground/70"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
 function RegistryCard({
@@ -113,6 +163,9 @@ function RegistryCard({
   tags,
   tech,
   category,
+  reference,
+  library,
+  source,
 }: RegistryCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -133,20 +186,16 @@ function RegistryCard({
   const categoryLabel = getCategoryLabel(category);
   const config = CATEGORY_CONFIG[category] ?? CATEGORY_CONFIG.experiments;
 
-  return (
-    <Link
-      aria-label={`View ${title} ${categoryLabel}`}
-      className={cn(
-        "group flex flex-col overflow-hidden rounded-lg border border-border",
-        "bg-card text-card-foreground",
-        "transition-colors duration-200",
-        "hover:border-muted-foreground/30",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      )}
-      href={`/registry/${slug}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+  const cardClassName = cn(
+    "group flex flex-col overflow-hidden rounded-lg border border-border",
+    "bg-card text-card-foreground",
+    "transition-colors duration-200",
+    "hover:border-muted-foreground/30",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+  );
+
+  const cardContent = (
+    <>
       <div className="relative aspect-video overflow-hidden bg-muted">
         {hasMedia ? (
           <>
@@ -193,29 +242,69 @@ function RegistryCard({
         <span className="absolute top-2 left-2 rounded-md bg-background/80 px-2 py-0.5 font-medium text-[11px] text-muted-foreground capitalize backdrop-blur-sm">
           {categoryLabel}
         </span>
+
+        {reference && (
+          <span className="absolute top-2 right-2">
+            <ExternalLinkIcon />
+          </span>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="truncate font-semibold text-foreground text-sm">
+        <h3 className="flex items-center gap-1.5 truncate font-semibold text-foreground text-sm">
           {title}
+          {reference && <ExternalLinkIcon />}
         </h3>
-        <p className="line-clamp-2 text-muted-foreground text-xs leading-relaxed">
-          {description}
-        </p>
-
-        {tech.length > 0 && (
-          <div className="mt-auto flex flex-wrap gap-1 pt-2">
-            {tech.map((t) => (
-              <span
-                className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
-                key={t}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
+        {description && !isGenericDescription(description) && (
+          <p className="line-clamp-2 text-muted-foreground text-xs leading-relaxed">
+            {description}
+          </p>
         )}
+
+        <div className="mt-auto flex flex-wrap gap-1 pt-2">
+          {library && (
+            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-medium text-[10px] text-emerald-600 dark:text-emerald-400">
+              {library}
+            </span>
+          )}
+          {tech.map((t) => (
+            <span
+              className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
+              key={t}
+            >
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
+    </>
+  );
+
+  if (reference && source) {
+    return (
+      <a
+        aria-label={`View ${title} (external)`}
+        className={cardClassName}
+        href={source}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {cardContent}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      aria-label={`View ${title} ${categoryLabel}`}
+      className={cardClassName}
+      href={`/registry/docs/${category || "experiments"}/${slug}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {cardContent}
     </Link>
   );
 }

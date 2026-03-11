@@ -37,14 +37,13 @@ function MetaBadge({
 }
 
 function RegistryMeta({
-  dependencies,
-  registryDependencies,
-  tags,
-  tech,
-  fileCount,
+  dependencies = [],
+  registryDependencies = [],
+  tags = [],
+  tech = [],
+  fileCount = 0,
   type,
-}: RegistryMetaProps) {
-  const depCount = dependencies.length + registryDependencies.length;
+}: Partial<RegistryMetaProps>) {
   const typeLabel = type ? (TYPE_LABELS[type] ?? "Block") : null;
 
   return (
@@ -59,11 +58,25 @@ function RegistryMeta({
         {fileCount} {fileCount === 1 ? "file" : "files"}
       </MetaBadge>
 
-      {depCount > 0 && (
-        <MetaBadge>
-          {depCount} {depCount === 1 ? "dep" : "deps"}
-        </MetaBadge>
-      )}
+      {registryDependencies.map((dep) => (
+        <MetaBadge key={dep}>{dep}</MetaBadge>
+      ))}
+
+      {dependencies.map((dep) => (
+        <a
+          className={cn(
+            "inline-flex items-center rounded-md border border-border px-2.5 py-1",
+            "font-medium text-muted-foreground text-xs",
+            "transition-colors hover:border-primary/30 hover:text-primary"
+          )}
+          href={`https://www.npmjs.com/package/${dep}`}
+          key={dep}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {dep}
+        </a>
+      ))}
 
       {tech.map((t) => (
         <span
