@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "article-layout",
+  "type": "registry:component",
+  "title": "ArticleLayout",
+  "description": "Shared UI component: ArticleLayout",
+  "category": "components",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ArticleLayout.tsx",
+      "type": "registry:component",
+      "content": "import { ChevronLeft, ChevronRight } from \"lucide-react\";\nimport Link from \"next/link\";\nimport type React from \"react\";\n\ninterface ArticleNavItem {\n  href: string;\n  title: string;\n}\n\ninterface ArticleLayoutProps {\n  children: React.ReactNode;\n  experimentSlug: string;\n  experimentTitle: string;\n  next?: ArticleNavItem;\n  prev?: ArticleNavItem;\n  publishedAt: string;\n  readingTime: string;\n  title: string;\n  updatedAt?: string;\n}\n\nfunction formatDate(iso: string): string {\n  return new Date(iso).toLocaleDateString(\"en-US\", {\n    year: \"numeric\",\n    month: \"long\",\n    day: \"numeric\",\n    timeZone: \"UTC\",\n  });\n}\n\nexport function ArticleLayout({\n  title,\n  publishedAt,\n  updatedAt,\n  readingTime,\n  experimentSlug,\n  experimentTitle,\n  children,\n  prev,\n  next,\n}: ArticleLayoutProps) {\n  return (\n    <div className=\"mx-auto max-w-3xl px-4 py-16 sm:px-6\">\n      <nav className=\"mb-6 flex items-center gap-1.5 text-muted-foreground text-sm\">\n        <Link className=\"transition-colors hover:text-foreground\" href=\"/\">\n          Home\n        </Link>\n        <span>&gt;</span>\n        <Link\n          className=\"transition-colors hover:text-foreground\"\n          href={`https://www.razisyed.cv/experiments/${experimentSlug}`}\n        >\n          {experimentTitle}\n        </Link>\n        <span>&gt;</span>\n        <span className=\"text-foreground\">Article</span>\n      </nav>\n\n      <header className=\"mb-10\">\n        <p className=\"font-semibold text-foreground\">{title}</p>\n        <div className=\"mt-1 flex flex-wrap items-center gap-x-1 text-muted-foreground text-sm\">\n          <span>Published {formatDate(publishedAt)}</span>\n          {updatedAt && updatedAt !== publishedAt && (\n            <>\n              <span>&middot;</span>\n              <span>Updated {formatDate(updatedAt)}</span>\n            </>\n          )}\n          <span>&middot;</span>\n          <span>{readingTime}</span>\n        </div>\n      </header>\n\n      {/* TOC commented out for now -- will re-enable after styling is finalized */}\n      {/* <MobileTOC /> */}\n\n      <article className=\"min-w-0\">{children}</article>\n\n      {(prev || next) && (\n        <nav className=\"mt-16 flex items-stretch gap-4 border-border border-t pt-8\">\n          {prev ? (\n            <Link\n              className=\"group flex flex-1 flex-col gap-1 rounded-lg border border-border p-4 transition-colors hover:border-foreground/20\"\n              href={prev.href}\n            >\n              <span className=\"flex items-center gap-1 text-muted-foreground text-xs\">\n                <ChevronLeft className=\"h-3 w-3\" />\n                Previous\n              </span>\n              <span className=\"font-medium text-sm transition-colors group-hover:text-foreground\">\n                {prev.title}\n              </span>\n            </Link>\n          ) : (\n            <div className=\"flex-1\" />\n          )}\n          {next ? (\n            <Link\n              className=\"group flex flex-1 flex-col items-end gap-1 rounded-lg border border-border p-4 text-right transition-colors hover:border-foreground/20\"\n              href={next.href}\n            >\n              <span className=\"flex items-center gap-1 text-muted-foreground text-xs\">\n                Next\n                <ChevronRight className=\"h-3 w-3\" />\n              </span>\n              <span className=\"font-medium text-sm transition-colors group-hover:text-foreground\">\n                {next.title}\n              </span>\n            </Link>\n          ) : (\n            <div className=\"flex-1\" />\n          )}\n        </nav>\n      )}\n    </div>\n  );\n}\n"
+    }
+  ]
+}

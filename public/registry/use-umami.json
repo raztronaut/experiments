@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-umami",
+  "type": "registry:hook",
+  "title": "useUmami",
+  "description": "Hook: useUmami",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useUmami.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport { useCallback } from \"react\";\n\n// Event categories for consistent naming\nexport const UmamiEvents = {\n  // Navigation events\n  EXPERIMENT_VIEW: \"experiment_view\",\n  EXPERIMENT_OPEN_DRAWER: \"experiment_open_drawer\",\n  EXPERIMENT_OPEN_FULL: \"experiment_open_full\",\n  DRAWER_CLOSE: \"drawer_close\",\n  BACK_BUTTON_CLICK: \"back_button_click\",\n\n  // External links\n  OUTBOUND_LINK: \"outbound_link\",\n  GITHUB_CLICK: \"github_click\",\n  SOCIAL_CLICK: \"social_click\",\n} as const;\n\nexport type UmamiEventName = (typeof UmamiEvents)[keyof typeof UmamiEvents];\n\nexport function useUmami() {\n  const track = useCallback(\n    (event: string, data?: Record<string, string | number | boolean>) => {\n      if (typeof window !== \"undefined\" && window.umami) {\n        window.umami.track(event, data);\n      }\n    },\n    []\n  );\n\n  const trackExperiment = useCallback(\n    (\n      action: string,\n      experiment: {\n        slug: string;\n        title: string;\n      }\n    ) => {\n      track(action, {\n        experiment_slug: experiment.slug,\n        experiment_title: experiment.title,\n      });\n    },\n    [track]\n  );\n\n  const trackOutboundLink = useCallback(\n    (url: string, label?: string) => {\n      track(UmamiEvents.OUTBOUND_LINK, {\n        url,\n        label: label || url,\n      });\n    },\n    [track]\n  );\n\n  return { track, trackExperiment, trackOutboundLink };\n}\n"
+    }
+  ]
+}

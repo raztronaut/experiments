@@ -1,169 +1,35 @@
 {
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "terminal-cat",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Terminal Cat",
   "description": "Animating ASCII art in the browser console logs",
+  "category": "experiments",
   "dependencies": [
     "sonner"
   ],
-  "registryDependencies": [],
-  "tailwind": {
-    "config": {
-      "theme": {
-        "extend": {
-          "colors": {
-            "background": "hsl(var(--background))",
-            "foreground": "hsl(var(--foreground))",
-            "card": {
-              "DEFAULT": "hsl(var(--card))",
-              "foreground": "hsl(var(--card-foreground))"
-            },
-            "popover": {
-              "DEFAULT": "hsl(var(--popover))",
-              "foreground": "hsl(var(--popover-foreground))"
-            },
-            "primary": {
-              "DEFAULT": "hsl(var(--primary))",
-              "foreground": "hsl(var(--primary-foreground))"
-            },
-            "secondary": {
-              "DEFAULT": "hsl(var(--secondary))",
-              "foreground": "hsl(var(--secondary-foreground))"
-            },
-            "muted": {
-              "DEFAULT": "hsl(var(--muted))",
-              "foreground": "hsl(var(--muted-foreground))"
-            },
-            "accent": {
-              "DEFAULT": "hsl(var(--accent))",
-              "foreground": "hsl(var(--accent-foreground))"
-            },
-            "destructive": {
-              "DEFAULT": "hsl(var(--destructive))",
-              "foreground": "hsl(var(--destructive-foreground))"
-            },
-            "border": "hsl(var(--border))",
-            "input": "hsl(var(--input))",
-            "ring": "hsl(var(--ring))",
-            "chart": {
-              "1": "hsl(var(--chart-1))",
-              "2": "hsl(var(--chart-2))",
-              "3": "hsl(var(--chart-3))",
-              "4": "hsl(var(--chart-4))",
-              "5": "hsl(var(--chart-5))"
-            }
-          },
-          "borderRadius": {
-            "lg": "var(--radius)",
-            "md": "calc(var(--radius) - 2px)",
-            "sm": "calc(var(--radius) - 4px)"
-          },
-          "keyframes": {
-            "static-noise-fade": {
-              "0%": {
-                "opacity": "1"
-              },
-              "100%": {
-                "opacity": "0"
-              }
-            }
-          },
-          "animation": {
-            "static-noise": "static-noise-fade 0.8s ease-in-out forwards"
-          }
-        }
-      }
-    }
-  },
-  "cssVars": {
-    "light": {
-      "background": "35 50% 95.29%",
-      "foreground": "240 10% 3.9%",
-      "card": "35 50% 95.29%",
-      "card-foreground": "240 10% 3.9%",
-      "popover": "35 50% 95.29%",
-      "popover-foreground": "240 10% 3.9%",
-      "primary": "240 5.9% 10%",
-      "primary-foreground": "0 0% 98%",
-      "secondary": "35 30% 90%",
-      "secondary-foreground": "240 5.9% 10%",
-      "muted": "35 30% 90%",
-      "muted-foreground": "35 10% 45%",
-      "accent": "35 30% 90%",
-      "accent-foreground": "240 5.9% 10%",
-      "destructive": "0 84.2% 60.2%",
-      "destructive-foreground": "0 0% 98%",
-      "border": "35 25% 85%",
-      "input": "35 25% 85%",
-      "ring": "240 10% 3.9%",
-      "radius": "0.5rem",
-      "chart-1": "12 76% 61%",
-      "chart-2": "173 58% 39%",
-      "chart-3": "197 37% 24%",
-      "chart-4": "43 74% 66%",
-      "chart-5": "27 87% 67%"
-    },
-    "dark": {
-      "background": "240 8.25% 6.84%",
-      "foreground": "0 0% 98%",
-      "card": "240 8.25% 6.84%",
-      "card-foreground": "0 0% 98%",
-      "popover": "240 8.25% 6.84%",
-      "popover-foreground": "0 0% 98%",
-      "primary": "0 0% 98%",
-      "primary-foreground": "240 5.9% 10%",
-      "secondary": "240 3.7% 15.9%",
-      "secondary-foreground": "0 0% 98%",
-      "muted": "240 3.7% 15.9%",
-      "muted-foreground": "240 5% 64.9%",
-      "accent": "240 3.7% 15.9%",
-      "accent-foreground": "0 0% 98%",
-      "destructive": "0 62.8% 30.6%",
-      "destructive-foreground": "0 0% 98%",
-      "border": "240 3.7% 15.9%",
-      "input": "240 3.7% 15.9%",
-      "ring": "240 4.9% 83.9%",
-      "chart-1": "220 70% 50%",
-      "chart-2": "160 60% 45%",
-      "chart-3": "30 80% 55%",
-      "chart-4": "280 65% 60%",
-      "chart-5": "340 75% 55%"
-    }
-  },
+  "registryDependencies": [
+    "razi-style"
+  ],
   "files": [
     {
       "name": "DevToolsKeyboard.tsx",
-      "type": "registry:file",
-      "path": "DevToolsKeyboard.tsx",
-      "target": "components/experiments/terminal-cat/DevToolsKeyboard.tsx",
+      "type": "registry:component",
       "content": "\"use client\";\n\nimport { useState } from \"react\";\nimport { Key } from \"./Key\";\n\nexport function DevToolsKeyboard() {\n  const [isMac] = useState(() => {\n    if (typeof navigator !== \"undefined\") {\n      return navigator.platform.toUpperCase().includes(\"MAC\");\n    }\n    return false;\n  });\n\n  return (\n    <div className=\"inline-flex flex-col items-center gap-3\">\n      <p className=\"font-medium text-neutral-500 text-xs uppercase tracking-widest\">\n        Press\n      </p>\n      <div className=\"flex items-center gap-1.5 rounded-xl border border-neutral-800 bg-neutral-950 p-3 shadow-2xl shadow-black/50\">\n        {isMac ? (\n          <>\n            <Key keyCode=\"Meta\" label=\"⌘\" />\n            <Key keyCode=\"Alt\" label=\"⌥\" />\n            <Key keyCode=\"i\" label=\"I\" />\n          </>\n        ) : (\n          <>\n            <Key keyCode=\"Control\" label=\"Ctrl\" width=\"w-20\" />\n            <Key keyCode=\"Shift\" label=\"⇧\" />\n            <Key keyCode=\"i\" label=\"I\" />\n          </>\n        )}\n      </div>\n    </div>\n  );\n}\n"
     },
     {
       "name": "Key.tsx",
-      "type": "registry:file",
-      "path": "Key.tsx",
-      "target": "components/experiments/terminal-cat/Key.tsx",
-      "content": "\"use client\";\n\nimport { useCallback, useEffect, useState } from \"react\";\nimport { cn } from \"@/lib/utils\";\n\ninterface KeyProps {\n  keyCode?: string;\n  label: string;\n  sublabel?: string;\n  width?: string;\n}\n\nexport function Key({ label, sublabel, width = \"w-16\", keyCode }: KeyProps) {\n  const [isPressed, setIsPressed] = useState(false);\n\n  const handleKeyDown = useCallback(\n    (e: KeyboardEvent) => {\n      if (keyCode && e.key.toLowerCase() === keyCode.toLowerCase()) {\n        setIsPressed(true);\n      }\n    },\n    [keyCode]\n  );\n\n  const handleKeyUp = useCallback(\n    (e: KeyboardEvent) => {\n      if (keyCode && e.key.toLowerCase() === keyCode.toLowerCase()) {\n        setIsPressed(false);\n      }\n    },\n    [keyCode]\n  );\n\n  useEffect(() => {\n    if (keyCode) {\n      window.addEventListener(\"keydown\", handleKeyDown);\n      window.addEventListener(\"keyup\", handleKeyUp);\n      return () => {\n        window.removeEventListener(\"keydown\", handleKeyDown);\n        window.removeEventListener(\"keyup\", handleKeyUp);\n      };\n    }\n  }, [keyCode, handleKeyDown, handleKeyUp]);\n\n  // Dark-only styles for this experiment's dark background\n  const styles = {\n    shadow: \"bg-neutral-800\",\n    surface: isPressed\n      ? \"border-neutral-600 bg-linear-to-b from-neutral-900 to-neutral-800\"\n      : \"border-neutral-700 bg-linear-to-b from-neutral-800 to-neutral-900\",\n    shine: \"via-white/20\",\n    sublabel: \"text-neutral-500\",\n    label: isPressed ? \"text-neutral-400\" : \"text-neutral-300\",\n  };\n\n  return (\n    <button\n      className={cn(\n        width,\n        \"group relative h-16 select-none rounded-xl transition-all duration-75 ease-out focus:outline-hidden\",\n        isPressed ? \"translate-y-1\" : \"translate-y-0\"\n      )}\n      onMouseDown={() => setIsPressed(true)}\n      onMouseLeave={() => setIsPressed(false)}\n      onMouseUp={() => setIsPressed(false)}\n      onTouchEnd={() => setIsPressed(false)}\n      onTouchStart={() => setIsPressed(true)}\n    >\n      {/* Shadow/depth layer */}\n      <span\n        className={cn(\n          \"absolute inset-0 rounded-xl transition-all duration-75\",\n          styles.shadow,\n          isPressed ? \"translate-y-0\" : \"translate-y-1\"\n        )}\n      />\n\n      {/* Main key surface */}\n      <span\n        className={cn(\n          \"absolute inset-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-75\",\n          styles.surface\n        )}\n      >\n        {/* Shine effect */}\n        <span\n          className={cn(\n            \"absolute inset-x-2 top-1 h-px rounded-full bg-linear-to-r from-transparent to-transparent transition-opacity duration-75\",\n            styles.shine,\n            isPressed ? \"opacity-0\" : \"opacity-100\"\n          )}\n        />\n\n        {/* Key label */}\n        <span className=\"relative z-10 flex flex-col items-center justify-center gap-0.5\">\n          {sublabel && (\n            <span className={cn(\"font-medium text-[10px]\", styles.sublabel)}>\n              {sublabel}\n            </span>\n          )}\n          <span\n            className={cn(\n              \"font-semibold text-base tracking-wide transition-colors duration-75\",\n              styles.label\n            )}\n          >\n            {label}\n          </span>\n        </span>\n      </span>\n    </button>\n  );\n}\n"
-    },
-    {
-      "name": "Key.tsx",
-      "type": "registry:file",
-      "path": "Key.tsx",
-      "target": "components/experiments/terminal-cat/Key.tsx",
+      "type": "registry:component",
       "content": "\"use client\";\n\nimport { useCallback, useEffect, useState } from \"react\";\nimport { cn } from \"@/lib/utils\";\n\ninterface KeyProps {\n  keyCode?: string;\n  label: string;\n  sublabel?: string;\n  width?: string;\n}\n\nexport function Key({ label, sublabel, width = \"w-16\", keyCode }: KeyProps) {\n  const [isPressed, setIsPressed] = useState(false);\n\n  const handleKeyDown = useCallback(\n    (e: KeyboardEvent) => {\n      if (keyCode && e.key.toLowerCase() === keyCode.toLowerCase()) {\n        setIsPressed(true);\n      }\n    },\n    [keyCode]\n  );\n\n  const handleKeyUp = useCallback(\n    (e: KeyboardEvent) => {\n      if (keyCode && e.key.toLowerCase() === keyCode.toLowerCase()) {\n        setIsPressed(false);\n      }\n    },\n    [keyCode]\n  );\n\n  useEffect(() => {\n    if (keyCode) {\n      window.addEventListener(\"keydown\", handleKeyDown);\n      window.addEventListener(\"keyup\", handleKeyUp);\n      return () => {\n        window.removeEventListener(\"keydown\", handleKeyDown);\n        window.removeEventListener(\"keyup\", handleKeyUp);\n      };\n    }\n  }, [keyCode, handleKeyDown, handleKeyUp]);\n\n  // Dark-only styles for this experiment's dark background\n  const styles = {\n    shadow: \"bg-neutral-800\",\n    surface: isPressed\n      ? \"border-neutral-600 bg-linear-to-b from-neutral-900 to-neutral-800\"\n      : \"border-neutral-700 bg-linear-to-b from-neutral-800 to-neutral-900\",\n    shine: \"via-white/20\",\n    sublabel: \"text-neutral-500\",\n    label: isPressed ? \"text-neutral-400\" : \"text-neutral-300\",\n  };\n\n  return (\n    <button\n      className={cn(\n        width,\n        \"group relative h-16 select-none rounded-xl transition-all duration-75 ease-out focus:outline-hidden\",\n        isPressed ? \"translate-y-1\" : \"translate-y-0\"\n      )}\n      onMouseDown={() => setIsPressed(true)}\n      onMouseLeave={() => setIsPressed(false)}\n      onMouseUp={() => setIsPressed(false)}\n      onTouchEnd={() => setIsPressed(false)}\n      onTouchStart={() => setIsPressed(true)}\n    >\n      {/* Shadow/depth layer */}\n      <span\n        className={cn(\n          \"absolute inset-0 rounded-xl transition-all duration-75\",\n          styles.shadow,\n          isPressed ? \"translate-y-0\" : \"translate-y-1\"\n        )}\n      />\n\n      {/* Main key surface */}\n      <span\n        className={cn(\n          \"absolute inset-0 flex flex-col items-center justify-center rounded-xl border transition-all duration-75\",\n          styles.surface\n        )}\n      >\n        {/* Shine effect */}\n        <span\n          className={cn(\n            \"absolute inset-x-2 top-1 h-px rounded-full bg-linear-to-r from-transparent to-transparent transition-opacity duration-75\",\n            styles.shine,\n            isPressed ? \"opacity-0\" : \"opacity-100\"\n          )}\n        />\n\n        {/* Key label */}\n        <span className=\"relative z-10 flex flex-col items-center justify-center gap-0.5\">\n          {sublabel && (\n            <span className={cn(\"font-medium text-[10px]\", styles.sublabel)}>\n              {sublabel}\n            </span>\n          )}\n          <span\n            className={cn(\n              \"font-semibold text-base tracking-wide transition-colors duration-75\",\n              styles.label\n            )}\n          >\n            {label}\n          </span>\n        </span>\n      </span>\n    </button>\n  );\n}\n"
     },
     {
       "name": "MobileNotice.tsx",
-      "type": "registry:file",
-      "path": "MobileNotice.tsx",
-      "target": "components/experiments/terminal-cat/MobileNotice.tsx",
+      "type": "registry:component",
       "content": "\"use client\";\n\nimport { useEffect } from \"react\";\nimport { toast } from \"sonner\";\n\nexport function MobileNotice() {\n  useEffect(() => {\n    const isMobile =\n      /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||\n      window.innerWidth < 768;\n\n    if (isMobile) {\n      toast.info(\"Best viewed on desktop\", {\n        description: \"Open Developer Tools to see the console cat animation!\",\n        duration: Number.POSITIVE_INFINITY,\n        dismissible: true,\n      });\n    }\n  }, []);\n\n  return null;\n}\n"
     },
     {
       "name": "useConsoleCat.ts",
-      "type": "registry:file",
-      "path": "useConsoleCat.ts",
-      "target": "components/experiments/terminal-cat/useConsoleCat.ts",
+      "type": "registry:hook",
       "content": "import { useEffect, useRef } from \"react\";\n\n// ASCII Frames\n// Standard Cat (Fallback)\nconst CAT_BODY = [\n  [\"     /\\\\_ /\\\\\", \" ___ / o o \\\\\", \"/ ___   =-= /\", \"\\\\____)-m-m)\"],\n  [\"     /\\\\_/\\\\\", \" ___/ o o \\\\\", \"/___   =-= /\", \"\\\\____)mm__)\"],\n  [\"     /\\\\_/\\\\\", \" ___/ · · \\\\\", \"/___   =-= /\", \"\\\\___)-m__m)\"],\n  [\"     /\\\\_/\\\\\", \" ___/ o o \\\\\", \"/___   =-= /\", \"\\\\____)-mm-)\"],\n];\n\n// Christmas Cat (With Hat)\nconst CAT_BODY_WITH_HAT = [\n  [\n    \"       *\",\n    \"      /o\\\\\",\n    \"     {/\\\\_/\\\\}\",\n    \"  ___/ o o \\\\\",\n    \" /___  =-= /\",\n    \" \\\\____)-m-m)\",\n  ],\n  [\n    \"       *\",\n    \"      /o\\\\\",\n    \"     {/\\\\_/\\\\}\",\n    \"  ___/ o o \\\\\",\n    \" /___  =-= /\",\n    \" \\\\____)mm__)\",\n  ],\n  [\n    \"       *\",\n    \"      /o\\\\\",\n    \"     {/\\\\_/\\\\}\",\n    \"  ___/ · · \\\\\",\n    \" /___  =-= /\",\n    \" \\\\___)-m__m)\",\n  ],\n  [\n    \"       *\",\n    \"      /o\\\\\",\n    \"     {/\\\\_/\\\\}\",\n    \"  ___/ o o \\\\\",\n    \" /___  =-= /\",\n    \" \\\\____)-mm-)\",\n  ],\n];\n\nconst CHRISTMAS_PHRASES = [\n  \"Meowy Xmas!\",\n  \"Ho Ho Ho!\",\n  \"Coding in the snow...\",\n  \"Where's my gift?\",\n  \"*Purr*\",\n  \"Santa is coming!\",\n  \"Jingle Bells~\",\n];\n\nconst SNOW_TERRAIN_CHARS = [\"_\", \"_\", \"_\", \".\", \"*\", \" \"];\n\n// Helper to check for Christmas season logic (always true if user asks for theme, but keeping logic for robustness)\nconst isChristmasSeason = (): boolean => {\n  // For this demo, we can just return true or checking logic.\n  // Since user explicitly asked for Christmas theme, let's force it if needed,\n  // but for the hook's general reusability I'll keep the date check OR default to true for the sake of the demo request.\n  // Actually, I'll stick to the date check but expand it to encompass \"now\" since they are running it now.\n  return true;\n};\n\nexport const useConsoleCat = (enabled = true) => {\n  const intervalRef = useRef<NodeJS.Timeout | null>(null);\n\n  // Animation State Refs (to persist across renders without re-triggering effect if not needed)\n  const stateRef = useRef({\n    frame: 0,\n    pos: 0,\n    direction: 1, // 1 = right, -1 = left\n    terrainOffset: 0,\n    speech: {\n      text: \"\",\n      timer: 0,\n      visible: false,\n    },\n  });\n\n  useEffect(() => {\n    if (!enabled) {\n      if (intervalRef.current) {\n        clearInterval(intervalRef.current);\n      }\n      return;\n    }\n\n    const frames = isChristmasSeason() ? CAT_BODY_WITH_HAT : CAT_BODY;\n    const catWidth = 15;\n    const termWidth = 60;\n\n    // Generate a static wide terrain string that we can slice/scroll\n    const fullTerrainWidth = 200;\n    let baseTerrain = \"\";\n    for (let i = 0; i < fullTerrainWidth; i++) {\n      baseTerrain +=\n        SNOW_TERRAIN_CHARS[\n          Math.floor(Math.random() * SNOW_TERRAIN_CHARS.length)\n        ];\n    }\n\n    const render = () => {\n      const state = stateRef.current;\n      state.frame++;\n      state.terrainOffset = (state.terrainOffset + 1) % fullTerrainWidth;\n\n      // Ping-pong movement logic\n      // let maxPos = termWidth - catWidth;\n      // For scrolling feel, maybe we stay in middle?\n      // User asked for \"scrolling terrain\", usually implies character stays relatively static or moves slightly while world moves.\n      // Let's keep the ping-pong for run variety but add terrain scrolling.\n\n      let maxPos = termWidth - catWidth;\n      if (maxPos < 0) {\n        maxPos = 0;\n      }\n\n      // Update Position\n      // state.pos += state.direction;\n      // if (state.pos >= maxPos || state.pos <= 0) {\n      //   state.direction *= -1;\n      // }\n      // Smoother ping pong based on frame\n      let cycleLength = maxPos * 2;\n      if (cycleLength === 0) {\n        cycleLength = 1;\n      }\n      const tick = state.frame % cycleLength;\n      state.pos = tick > maxPos ? cycleLength - tick : tick;\n\n      // Speech Logic\n      if (state.speech.visible) {\n        state.speech.timer--;\n        if (state.speech.timer <= 0) {\n          state.speech.visible = false;\n        }\n      } else {\n        // Random chance to speak\n        if (Math.random() < 0.05) {\n          // 5% chance per frame\n          state.speech.text =\n            CHRISTMAS_PHRASES[\n              Math.floor(Math.random() * CHRISTMAS_PHRASES.length)\n            ];\n          state.speech.visible = true;\n          state.speech.timer = 20; // Show for ~3 seconds (20 * 150ms)\n        }\n      }\n\n      // -- Render Composition --\n      // Access console indirectly via window.console -- SWC's removeConsole\n      // transform (next.config.ts) strips direct console.X() calls in production,\n      // but this alias pattern survives the AST-level rewrite.\n      const c = window.console;\n      c.clear();\n\n      let outputBuffer = \"\";\n      const styles: string[] = [];\n\n      const padding = \" \".repeat(state.pos);\n\n      // 1. Speech Bubble\n      if (state.speech.visible) {\n        const bubble = `  🗨️  ${state.speech.text}`;\n        outputBuffer += `%c${padding}${bubble}\\n`;\n        // Green text for Christmas speech\n        styles.push(\"color: #50fa7b; font-weight: bold;\");\n      } else {\n        // Empty line to keep vertical stability?\n        // console.clear() handles it, but maybe better to print empty line to push cat down?\n        // Let's just not print it, console.clear is absolute.\n        outputBuffer += \"\\n\";\n      }\n\n      // 2. Cat Body\n      const bodyIdx = state.frame % frames.length;\n      const body = frames[bodyIdx];\n\n      body.forEach((line, index) => {\n        const isHat = isChristmasSeason() && index < 3;\n        const hatColor =\n          \"color: #ff5555; font-weight: bold; font-family: monospace;\"; // Red\n        const bodyColor =\n          \"color: #ff79c6; font-weight: bold; font-family: monospace;\"; // Pink\n\n        outputBuffer += `%c${padding}${line}\\n`;\n        styles.push(isHat ? hatColor : bodyColor);\n      });\n\n      // 3. Scrolling Terrain\n      // Slice a window of the terrain\n      // We want the terrain to move \"left\" so indices increase\n      const viewWidth = termWidth + 10;\n      const start = state.terrainOffset % (fullTerrainWidth - viewWidth);\n      const terrainSlice = baseTerrain.substring(start, start + viewWidth);\n\n      outputBuffer += `%c${terrainSlice}`;\n      styles.push(\"color: #8be9fd; font-weight: bold;\"); // Cyan/Ice color for snow\n\n      c.log(outputBuffer, ...styles);\n    };\n\n    intervalRef.current = setInterval(render, 150);\n\n    return () => {\n      if (intervalRef.current) {\n        clearInterval(intervalRef.current);\n      }\n    };\n  }, [enabled]);\n};\n"
     }
   ]

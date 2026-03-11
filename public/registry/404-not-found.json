@@ -1,325 +1,77 @@
 {
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "404-not-found",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "404 Not Found",
   "description": "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
+  "category": "experiments",
   "dependencies": [
     "@react-three/drei",
     "@react-three/fiber",
     "three"
   ],
-  "registryDependencies": [],
-  "tailwind": {
-    "config": {
-      "theme": {
-        "extend": {
-          "colors": {
-            "background": "hsl(var(--background))",
-            "foreground": "hsl(var(--foreground))",
-            "card": {
-              "DEFAULT": "hsl(var(--card))",
-              "foreground": "hsl(var(--card-foreground))"
-            },
-            "popover": {
-              "DEFAULT": "hsl(var(--popover))",
-              "foreground": "hsl(var(--popover-foreground))"
-            },
-            "primary": {
-              "DEFAULT": "hsl(var(--primary))",
-              "foreground": "hsl(var(--primary-foreground))"
-            },
-            "secondary": {
-              "DEFAULT": "hsl(var(--secondary))",
-              "foreground": "hsl(var(--secondary-foreground))"
-            },
-            "muted": {
-              "DEFAULT": "hsl(var(--muted))",
-              "foreground": "hsl(var(--muted-foreground))"
-            },
-            "accent": {
-              "DEFAULT": "hsl(var(--accent))",
-              "foreground": "hsl(var(--accent-foreground))"
-            },
-            "destructive": {
-              "DEFAULT": "hsl(var(--destructive))",
-              "foreground": "hsl(var(--destructive-foreground))"
-            },
-            "border": "hsl(var(--border))",
-            "input": "hsl(var(--input))",
-            "ring": "hsl(var(--ring))",
-            "chart": {
-              "1": "hsl(var(--chart-1))",
-              "2": "hsl(var(--chart-2))",
-              "3": "hsl(var(--chart-3))",
-              "4": "hsl(var(--chart-4))",
-              "5": "hsl(var(--chart-5))"
-            }
-          },
-          "borderRadius": {
-            "lg": "var(--radius)",
-            "md": "calc(var(--radius) - 2px)",
-            "sm": "calc(var(--radius) - 4px)"
-          },
-          "keyframes": {
-            "static-noise-fade": {
-              "0%": {
-                "opacity": "1"
-              },
-              "100%": {
-                "opacity": "0"
-              }
-            }
-          },
-          "animation": {
-            "static-noise": "static-noise-fade 0.8s ease-in-out forwards"
-          }
-        }
-      }
-    }
-  },
-  "cssVars": {
-    "light": {
-      "background": "35 50% 95.29%",
-      "foreground": "240 10% 3.9%",
-      "card": "35 50% 95.29%",
-      "card-foreground": "240 10% 3.9%",
-      "popover": "35 50% 95.29%",
-      "popover-foreground": "240 10% 3.9%",
-      "primary": "240 5.9% 10%",
-      "primary-foreground": "0 0% 98%",
-      "secondary": "35 30% 90%",
-      "secondary-foreground": "240 5.9% 10%",
-      "muted": "35 30% 90%",
-      "muted-foreground": "35 10% 45%",
-      "accent": "35 30% 90%",
-      "accent-foreground": "240 5.9% 10%",
-      "destructive": "0 84.2% 60.2%",
-      "destructive-foreground": "0 0% 98%",
-      "border": "35 25% 85%",
-      "input": "35 25% 85%",
-      "ring": "240 10% 3.9%",
-      "radius": "0.5rem",
-      "chart-1": "12 76% 61%",
-      "chart-2": "173 58% 39%",
-      "chart-3": "197 37% 24%",
-      "chart-4": "43 74% 66%",
-      "chart-5": "27 87% 67%"
-    },
-    "dark": {
-      "background": "240 8.25% 6.84%",
-      "foreground": "0 0% 98%",
-      "card": "240 8.25% 6.84%",
-      "card-foreground": "0 0% 98%",
-      "popover": "240 8.25% 6.84%",
-      "popover-foreground": "0 0% 98%",
-      "primary": "0 0% 98%",
-      "primary-foreground": "240 5.9% 10%",
-      "secondary": "240 3.7% 15.9%",
-      "secondary-foreground": "0 0% 98%",
-      "muted": "240 3.7% 15.9%",
-      "muted-foreground": "240 5% 64.9%",
-      "accent": "240 3.7% 15.9%",
-      "accent-foreground": "0 0% 98%",
-      "destructive": "0 62.8% 30.6%",
-      "destructive-foreground": "0 0% 98%",
-      "border": "240 3.7% 15.9%",
-      "input": "240 3.7% 15.9%",
-      "ring": "240 4.9% 83.9%",
-      "chart-1": "220 70% 50%",
-      "chart-2": "160 60% 45%",
-      "chart-3": "30 80% 55%",
-      "chart-4": "280 65% 60%",
-      "chart-5": "340 75% 55%"
-    }
-  },
+  "registryDependencies": [
+    "razi-style"
+  ],
   "files": [
     {
       "name": "404NotFound.tsx",
-      "type": "registry:file",
-      "path": "404NotFound.tsx",
-      "target": "components/experiments/404-not-found/404NotFound.tsx",
+      "type": "registry:component",
       "content": "\"use client\";\n\nimport { OrbitControls, PerspectiveCamera } from \"@react-three/drei\";\nimport { Canvas, useFrame } from \"@react-three/fiber\";\nimport React, { Suspense, useRef } from \"react\";\nimport * as THREE from \"three\";\nimport Ribbon from \"./Ribbon\";\nimport { scrollVelocityRef } from \"./scrollState\";\nimport { useResponsiveCamera } from \"./useResponsiveCamera\";\nimport { useRibbons } from \"./useRibbons\";\n\nfunction ScrollManager() {\n  useFrame(() => {\n    // Decay scroll velocity\n    scrollVelocityRef.current = THREE.MathUtils.lerp(\n      scrollVelocityRef.current,\n      0,\n      0.05\n    );\n  });\n\n  React.useEffect(() => {\n    const handleWheel = (e: WheelEvent) => {\n      // Prevent native page scroll\n      e.preventDefault();\n\n      // Accumulate velocity based on wheel delta\n      // Increased sensitivity for snappier response\n      const sensitivity = 0.2;\n      scrollVelocityRef.current += e.deltaY * sensitivity;\n      // Clamp max speed if needed\n      scrollVelocityRef.current = THREE.MathUtils.clamp(\n        scrollVelocityRef.current,\n        -5,\n        5\n      );\n    };\n\n    window.addEventListener(\"wheel\", handleWheel, { passive: false });\n    return () => window.removeEventListener(\"wheel\", handleWheel);\n  }, []);\n\n  return null;\n}\n\nfunction InteractivityLayer({ children }: { children: React.ReactNode }) {\n  const groupRef = useRef<THREE.Group>(null);\n  const mouse = useRef(new THREE.Vector2(0, 0));\n\n  useFrame((state) => {\n    if (groupRef.current) {\n      mouse.current.x = THREE.MathUtils.lerp(\n        mouse.current.x,\n        state.mouse.x,\n        0.02\n      );\n      mouse.current.y = THREE.MathUtils.lerp(\n        mouse.current.y,\n        state.mouse.y,\n        0.02\n      );\n\n      groupRef.current.rotation.y = mouse.current.x * 0.12;\n      groupRef.current.rotation.x = -mouse.current.y * 0.08;\n    }\n  });\n\n  return <group ref={groupRef}>{children}</group>;\n}\n\nfunction Scene() {\n  const ribbons = useRibbons();\n  useResponsiveCamera(); // Handle camera responsiveness\n\n  return (\n    <>\n      <ScrollManager />\n      <PerspectiveCamera fov={65} makeDefault position={[0, 0, 32]} />\n      <color args={[\"#fff9c4\"]} attach=\"background\" />\n\n      <ambientLight color=\"#fffcf0\" intensity={2} />\n      <spotLight\n        angle={0.3}\n        castShadow\n        color=\"#ffffff\"\n        intensity={20}\n        penumbra={1}\n        position={[50, 100, 50]}\n      />\n      <pointLight color=\"#fff1f1\" intensity={6.0} position={[-40, 20, 20]} />\n\n      <InteractivityLayer>\n        <group rotation={[-0.15, -0.4, 0.02]}>\n          {ribbons.map((ribbon, i) => (\n            <Ribbon key={i} {...ribbon} />\n          ))}\n        </group>\n      </InteractivityLayer>\n\n      <OrbitControls enablePan={false} enableZoom={false} />\n    </>\n  );\n}\n\nexport default function NotFound404() {\n  return (\n    <div className=\"relative h-screen w-full overflow-hidden bg-[#fff9c4] font-sans\">\n      <Canvas\n        dpr={[1, 2]}\n        gl={{ antialias: true, stencil: false, depth: true }}\n      >\n        <Suspense fallback={null}>\n          <Scene />\n        </Suspense>\n      </Canvas>\n\n      <div className=\"pointer-events-none absolute inset-0 z-10 flex select-none items-center justify-center overflow-hidden\">\n        <span className=\"translate-y-[-5%] font-black text-[45vw] text-black/3 leading-none tracking-tighter\">\n          404\n        </span>\n      </div>\n    </div>\n  );\n}\n"
     },
     {
       "name": "Ribbon.tsx",
-      "type": "registry:file",
-      "path": "Ribbon.tsx",
-      "target": "components/experiments/404-not-found/Ribbon.tsx",
+      "type": "registry:component",
       "content": "import { useFrame } from \"@react-three/fiber\";\nimport React, { useMemo, useRef } from \"react\";\nimport * as THREE from \"three\";\nimport { RIBBON_TEXT_SPEED_MULTIPLIER } from \"./constants\";\nimport { fragmentShader, vertexShader } from \"./ribbonShader\";\nimport { scrollVelocityRef } from \"./scrollState\";\nimport type { RibbonProps } from \"./types\";\nimport { useCachedTexture } from \"./useCachedTexture\";\nimport { useFontsReady } from \"./useFontsReady\";\nimport {\n  generateBackTexture,\n  generateFrontTexture,\n} from \"./utils/textureGenerators\";\n\n// 1x1 pixel transparent texture for safe initialization\nconst DATA_ONE_PIXEL = new Uint8Array([0, 0, 0, 0]);\nconst EMPTY_TEXTURE = new THREE.DataTexture(\n  DATA_ONE_PIXEL,\n  1,\n  1,\n  THREE.RGBAFormat\n);\nEMPTY_TEXTURE.needsUpdate = true;\n\nconst Ribbon = function Ribbon({\n  text,\n  position,\n  rotation,\n  color,\n  width = 10,\n  height = 1.5,\n  thickness = 0.5,\n  speed = 1.0,\n  frequency = 0.5,\n  amplitude = 0.3,\n  padding = 40,\n  subscript = \"\",\n  backsideText = \"\",\n  backsideImage = null,\n  backOffset = [0, 0],\n  backScale = [1, 1],\n  backClamp = 0.0,\n  textSpeed = 0.2,\n}: RibbonProps) {\n  const meshRef = useRef<THREE.Mesh>(null);\n  const materialRef = useRef<THREE.ShaderMaterial>(null);\n  const fontsReady = useFontsReady();\n\n  // Generate unique key for front texture\n  // NOTE: Color removed from key as it is now applied in shader\n  const frontTextureKey = `front_${text}_${subscript}_NOCOLOR_${width}_${height}_${fontsReady}`;\n\n  const texture = useCachedTexture(frontTextureKey, () =>\n    generateFrontTexture({\n      text,\n      subscript,\n      color: \"transparent\", // Only used for unused invalidation, essentially ignored by new generator\n      width,\n      height,\n      padding,\n      fontsReady,\n    })\n  );\n\n  // Generate unique key for back texture\n  const backTextureKey = backsideImage\n    ? null\n    : `back_${backsideText || \"DEFAULT\"}_NOCOLOR_${width}_${height}_${fontsReady}`;\n\n  const generatedBackTexture = useCachedTexture(backTextureKey || \"\", () =>\n    generateBackTexture({\n      text: backsideText,\n      color,\n      width,\n      height,\n      fontsReady,\n    })\n  );\n\n  const finalBacksideTexture = backsideImage || generatedBackTexture;\n\n  // STABLE UNIFORMS: Created once via useMemo, values updated imperatively\n  const uniforms = useMemo(\n    () => ({\n      uTime: { value: 0 },\n      uTexture: { value: EMPTY_TEXTURE as THREE.Texture },\n      uBackTexture: { value: EMPTY_TEXTURE as THREE.Texture },\n      uBackOffset: { value: new THREE.Vector2(0, 0) },\n      uBackScale: { value: new THREE.Vector2(1, 1) },\n      uBackClamp: { value: 0 },\n      uColor: { value: new THREE.Color(color) },\n      uFrequency: { value: frequency },\n      uAmplitude: { value: amplitude },\n      uOpacity: { value: 1.0 },\n      uTextSpeed: { value: textSpeed },\n      uRunTime: { value: 0 },\n      uRepeat: { value: new THREE.Vector2(1, 1) },\n      uBackRepeat: { value: new THREE.Vector2(1, 1) },\n    }),\n    [amplitude, color, frequency, textSpeed]\n  ); // Empty deps = created once and stable forever\n\n  // Update uniforms when props change\n  // This avoids recreating the uniforms object which can reset the material\n  React.useLayoutEffect(() => {\n    uniforms.uBackOffset.value.set(backOffset[0], backOffset[1]);\n    uniforms.uBackScale.value.set(backScale[0], backScale[1]);\n    uniforms.uBackClamp.value = backClamp;\n    uniforms.uColor.value.set(color);\n    uniforms.uFrequency.value = frequency;\n    uniforms.uAmplitude.value = amplitude;\n    uniforms.uTextSpeed.value = textSpeed * RIBBON_TEXT_SPEED_MULTIPLIER;\n\n    if (texture) {\n      uniforms.uTexture.value = texture;\n      uniforms.uRepeat.value.copy(texture.repeat);\n    }\n\n    if (finalBacksideTexture) {\n      uniforms.uBackTexture.value = finalBacksideTexture;\n      if (finalBacksideTexture instanceof THREE.Texture) {\n        uniforms.uBackRepeat.value.copy(finalBacksideTexture.repeat);\n      }\n    }\n  }, [\n    texture,\n    finalBacksideTexture,\n    backOffset,\n    backScale,\n    backClamp,\n    color,\n    frequency,\n    amplitude,\n    textSpeed,\n    uniforms,\n  ]);\n\n  // ... inside Ribbon component\n\n  // Track accumulated offset manually to handle variable speed\n  const offsetRef = useRef(0);\n\n  useFrame((state, delta) => {\n    if (materialRef.current) {\n      // uTime is scaled by `speed` (wave frequency)\n      const time = state.clock.getElapsedTime() * speed;\n      materialRef.current.uniforms.uTime.value = time;\n\n      // Update accumulated offset\n      // Base speed is 1.0 (accumulated over time), plus scroll velocity\n      // Multiplier 2.0 makes scroll effect more pronounced\n      const scrollInfluence = scrollVelocityRef.current * 2.0;\n\n      // Accumulate: offset += (1 + scrollBoost) * delta\n      // We adding 1.0 to represent the \"base\" flow of time\n      offsetRef.current += (1.0 + scrollInfluence) * delta;\n\n      materialRef.current.uniforms.uRunTime.value = offsetRef.current;\n    }\n  });\n\n  return (\n    <mesh position={position} ref={meshRef} rotation={rotation}>\n      <boxGeometry args={[width, height, thickness, 256, 16, 1]} />\n      <shaderMaterial\n        fragmentShader={fragmentShader}\n        ref={materialRef}\n        side={THREE.DoubleSide}\n        transparent\n        uniforms={uniforms}\n        vertexShader={vertexShader}\n      />\n    </mesh>\n  );\n};\n\nexport default Ribbon;\n"
     },
     {
       "name": "scrollState.ts",
       "type": "registry:file",
-      "path": "scrollState.ts",
       "target": "components/experiments/404-not-found/scrollState.ts",
       "content": "// Shared mutable state for scroll velocity\n// Using a simple object ref avoids React Context overhead for high-frequency updates (60fps)\nexport const scrollVelocityRef = { current: 0 };\n"
     },
     {
       "name": "useResponsiveCamera.ts",
-      "type": "registry:file",
-      "path": "useResponsiveCamera.ts",
-      "target": "components/experiments/404-not-found/useResponsiveCamera.ts",
+      "type": "registry:hook",
       "content": "import { useThree } from \"@react-three/fiber\";\nimport { useEffect } from \"react\";\nimport * as THREE from \"three\";\n\n/**\n * Adjusts the camera position based on the viewport width (responsiveness).\n * On mobile, we move the camera back so the ribbons fit better.\n */\nexport function useResponsiveCamera() {\n  const { camera, size } = useThree();\n\n  useEffect(() => {\n    if (!(camera instanceof THREE.PerspectiveCamera)) {\n      return;\n    }\n\n    // Simple breakpoint logic\n    // If width < 768 (mobile/tablet portrait), move camera back\n    const isMobile = size.width < 768;\n\n    // Base Z position for desktop is 32 (from original code)\n    // For mobile, we push it back significantly, e.g., 65\n    const targetZ = isMobile ? 65 : 32;\n\n    camera.position.setZ(targetZ);\n    camera.updateProjectionMatrix();\n  }, [camera, size.width]);\n}\n"
     },
     {
       "name": "useRibbons.ts",
-      "type": "registry:file",
-      "path": "useRibbons.ts",
-      "target": "components/experiments/404-not-found/useRibbons.ts",
+      "type": "registry:hook",
       "content": "import { useTexture } from \"@react-three/drei\";\nimport { useMemo } from \"react\";\nimport {\n  BACKSIDE_IMAGE_PATH,\n  BACKSIDE_TEXT,\n  RIBBON_BASE_HEIGHT,\n  RIBBON_BASE_THICKNESS,\n  RIBBON_COLORS,\n  RIBBON_FONTS,\n  RIBBON_IMAGE_ROWS,\n  RIBBON_IMAGE_START_IDX,\n  RIBBON_STRIP_COUNT,\n  RIBBON_TEXT_SPEED_RANGE,\n  RIBBON_TEXTS,\n  RIBBON_VERTICAL_SPREAD,\n  RIBBON_WAVE_SPEED_IMAGE_SECTION,\n  RIBBON_WAVE_SPEED_MIN,\n  RIBBON_WAVE_SPEED_VARIANCE,\n  RIBBON_WIDTH,\n} from \"./constants\";\nimport type { RibbonProps } from \"./types\";\n\nexport function useRibbons() {\n  // We can call hooks conditionally here if we assume this component is always rendered the same way,\n  // but better practice is to just use useTexture at top level.\n  // However, since this is a custom hook intended for the component, it's fine.\n  const dayjobTexture = useTexture(BACKSIDE_IMAGE_PATH);\n\n  const ribbons = useMemo(() => {\n    const totalHeight =\n      RIBBON_STRIP_COUNT * (RIBBON_BASE_HEIGHT + RIBBON_VERTICAL_SPREAD);\n    const startY = totalHeight / 2;\n    const imageEndIdx = RIBBON_IMAGE_START_IDX + RIBBON_IMAGE_ROWS;\n\n    return Array.from({ length: RIBBON_STRIP_COUNT }).map((_, i) => {\n      const seedVal = i * 777.77;\n      const random = (s: number) => {\n        const x = Math.sin(s + seedVal) * 10_000;\n        return x - Math.floor(x);\n      };\n\n      // Calculate precise Y to ensure no overlapping\n      const y = startY - i * (RIBBON_BASE_HEIGHT + RIBBON_VERTICAL_SPREAD);\n\n      const isInImageSection =\n        i >= RIBBON_IMAGE_START_IDX - 1 && i < imageEndIdx;\n\n      const xJitter = isInImageSection ? 0 : (random(3) - 0.5) * 4;\n      const rotZ = isInImageSection ? 0 : (random(2) - 0.5) * 0.1;\n\n      // Synchronize wave parameters for the image section so it moves like a single sheet\n      const amplitude = isInImageSection ? 3.0 : 2.5 + random(5) * 1.0;\n      const frequency = isInImageSection ? 0.04 : 0.03 + random(6) * 0.02;\n      const speed = isInImageSection\n        ? RIBBON_WAVE_SPEED_IMAGE_SECTION\n        : RIBBON_WAVE_SPEED_MIN + random(4) * RIBBON_WAVE_SPEED_VARIANCE;\n\n      // Subtle rotation and Z staggering to look like a \"pile\"\n      // Subtle rotation and Z staggering to look like a \"pile\"\n      const z = (random(1) - 0.5) * 2;\n\n      // Use deterministic but scattered index to ensure ALL texts are shown\n      // (i * 3) % length covers all indices since 3 is coprime to 8 (length)\n      const textIndex = (i * 3) % RIBBON_TEXTS.length;\n      const text = RIBBON_TEXTS[textIndex];\n\n      // Backside Image Logic (Instagram feed style)\n      let backsideImage = null;\n      let backOffset: [number, number] = [0, 0];\n      let backScale: [number, number] = [1, 1];\n      let backClamp = 0.0;\n\n      if (i >= RIBBON_IMAGE_START_IDX && i < imageEndIdx) {\n        backsideImage = dayjobTexture;\n        backClamp = 1.0;\n        const rowIndex = i - RIBBON_IMAGE_START_IDX;\n\n        // Total height the image spans in 3D units\n        const totalImageHeight =\n          RIBBON_IMAGE_ROWS * RIBBON_BASE_HEIGHT +\n          (RIBBON_IMAGE_ROWS - 1) * RIBBON_VERTICAL_SPREAD;\n        const imageAspect = 2624 / 1838; // 1.4276\n        const totalImageWidth = totalImageHeight * imageAspect;\n\n        // scaleX = ribbon_width / target_image_width\n        const scaleX = RIBBON_WIDTH / totalImageWidth;\n        const scaleY = RIBBON_BASE_HEIGHT / totalImageHeight;\n\n        // No jitter anymore in image section, so offsetX is simpler\n        const offsetX = 0.5 * (1 - scaleX);\n\n        const offsetY =\n          ((RIBBON_IMAGE_ROWS - 1 - rowIndex) *\n            (RIBBON_BASE_HEIGHT + RIBBON_VERTICAL_SPREAD)) /\n          totalImageHeight;\n\n        backOffset = [offsetX, offsetY];\n        backScale = [scaleX, scaleY];\n      }\n\n      const ribbon: RibbonProps = {\n        text,\n        subscript: text.includes(\"404\") && i % 8 === 3 ? \"4\" : \"\",\n        color: RIBBON_COLORS[i % RIBBON_COLORS.length],\n        fontFamily: RIBBON_FONTS[0],\n        position: [xJitter, y, z],\n        rotation: [-0.08, 0, rotZ],\n        speed,\n        width: RIBBON_WIDTH,\n        height: RIBBON_BASE_HEIGHT,\n        thickness: RIBBON_BASE_THICKNESS,\n        amplitude,\n        frequency,\n        fontWeight: \"900\",\n        padding: 120,\n        seed: seedVal,\n        backsideText: BACKSIDE_TEXT,\n        backsideImage,\n        backOffset,\n        backScale,\n        backClamp,\n        textSpeed: (random(7) - 0.5) * RIBBON_TEXT_SPEED_RANGE,\n      };\n\n      return ribbon;\n    });\n  }, [dayjobTexture]);\n\n  return ribbons;\n}\n"
     },
     {
       "name": "constants.ts",
       "type": "registry:file",
-      "path": "constants.ts",
       "target": "components/experiments/404-not-found/constants.ts",
       "content": "export const RIBBON_STRIP_COUNT = 35;\nexport const RIBBON_BASE_HEIGHT = 4.0;\nexport const RIBBON_BASE_THICKNESS = 4.0;\nexport const RIBBON_VERTICAL_SPREAD = 0.65;\nexport const RIBBON_IMAGE_START_IDX = 12;\nexport const RIBBON_IMAGE_ROWS = 10;\nexport const RIBBON_WIDTH = 220;\n\nexport const RIBBON_COLORS = [\n  \"#E6DDB5\", // Muted Parchment\n  \"#DCCCA3\", // Aged Tape\n  \"#E8DFC5\", // Pale Beige\n  \"#D4C596\", // Dull Yellow\n  \"#A63D3A\", // Muted Brick Red (Accent)\n  \"#C8B88A\", // Greyish Gold\n];\n\nexport const RIBBON_FONTS = [\"Inter, sans-serif\", \"system-ui, sans-serif\"];\n\nexport const RIBBON_TEXTS = [\n  \"404 NOT FOUND\",\n  \"PAGE NOT FOUND\",\n  \"ERROR 404\",\n  \"NOT FOUND\",\n  \"404\",\n  \"SYSTEM ERROR\",\n  \"LOST IN SPACE\",\n  \"NOT FOUND 404\",\n];\n\nexport const BACKSIDE_TEXT = \"INSPIRED BY DAY JOB\";\nexport const BACKSIDE_IMAGE_PATH = \"https://www.razisyed.cv/experiments/404-not-found/dayjob.png\";\n\n// Animation Constants\nexport const RIBBON_TEXT_SPEED_RANGE = 6.0;\nexport const RIBBON_TEXT_SPEED_MULTIPLIER = 0.05;\n\nexport const RIBBON_WAVE_SPEED_MIN = 0.01;\nexport const RIBBON_WAVE_SPEED_VARIANCE = 0.015;\nexport const RIBBON_WAVE_SPEED_IMAGE_SECTION = 0.015;\n"
     },
     {
       "name": "ribbonShader.ts",
       "type": "registry:file",
-      "path": "ribbonShader.ts",
       "target": "components/experiments/404-not-found/ribbonShader.ts",
       "content": "export const vertexShader = `\nuniform float uTime;\nuniform float uFrequency;\nuniform float uAmplitude;\n\nvarying vec2 vUv;\nvarying vec3 vNormal;\nvarying vec3 vWorldPosition;\nvarying vec3 vModelNormal;\nvarying float vIndent;\n\nvoid main() {\n  vUv = uv;\n  vModelNormal = normal;\n  \n  vec3 newPosition = position;\n  \n  // Position-based offset for variety between ribbons\n  float xPos = position.x * uFrequency + uTime;\n  \n  // Main curve - only in Z (depth) to prevent vertical clipping\n  float indent = sin(xPos) * uAmplitude;\n  \n  // Add some layered noise/harmonics for paper-like character\n  indent += sin(xPos * 2.1 + 0.4) * uAmplitude * 0.3;\n  indent += sin(xPos * 4.4 + 1.2) * uAmplitude * 0.1;\n\n  newPosition.z += indent;\n  \n  vIndent = indent;\n  vNormal = normalize(normalMatrix * normal);\n  vWorldPosition = (modelMatrix * vec4(newPosition, 1.0)).xyz;\n\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);\n}\n`;\n\nexport const fragmentShader = `\nuniform sampler2D uTexture;\nuniform sampler2D uBackTexture;\nuniform vec2 uBackOffset;\nuniform vec2 uBackScale;\nuniform float uOpacity;\nuniform float uTime;\nuniform float uRunTime;\nuniform vec3 uColor;\nuniform vec2 uRepeat;\nuniform vec2 uBackRepeat;\nuniform float uBackClamp;\nuniform float uTextSpeed;\n\nvarying vec2 vUv;\nvarying vec3 vNormal;\nvarying vec3 vWorldPosition;\nvarying vec3 vModelNormal;\nvarying float vIndent;\n\nfloat random(vec2 co) {\n    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\nvoid main() {\n  vec3 normal = normalize(vNormal);\n  vec3 viewDir = normalize(cameraPosition - vWorldPosition);\n  \n  vec4 texColor;\n  \n  // Front face is positive Z model normal, back face is negative Z\n  if (vModelNormal.z > 0.5) {\n      // Scroll the text using independent scroll time\n      // uTextSpeed is now pre-multiplied by JS\n      float scrollOffset = uRunTime * uTextSpeed;\n      vec2 tiledUv = vUv * uRepeat + vec2(scrollOffset, 0.0);\n      vec4 sampleCol = texture2D(uTexture, tiledUv);\n      \n      // Composite: Texture (Text/Lines) over Background (uColor)\n      texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);\n      \n  } else if (vModelNormal.z < -0.5) {\n      // Use normal UV for the back side\n      vec2 backUv;\n      \n      if (uBackClamp > 0.5) {\n          // Clamped/Masked Image (Instagram feed style)\n          backUv = vec2(vUv.x, vUv.y) * uBackScale + uBackOffset;\n          if (backUv.x >= 0.0 && backUv.x <= 1.0 && backUv.y >= 0.0 && backUv.y <= 1.0) {\n              texColor = texture2D(uBackTexture, backUv);\n          } else {\n              texColor = vec4(uColor, 1.0);\n          }\n      } else {\n          // Repeating Text (Backside)\n          backUv = vUv * uBackRepeat;\n          vec4 sampleCol = texture2D(uBackTexture, backUv);\n          texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);\n      }\n  } else {\n      texColor = vec4(uColor, 1.0);\n  }\n  \n  // Lighting setup - matching mockup's warm, directional light\n  // Key light: From top-right, more front-facing to fix darkness\n  vec3 lightDir1 = normalize(vec3(0.5, 0.8, 0.8));\n  float diff1 = max(dot(normal, lightDir1), 0.0);\n  \n  // Subtle fill from bottom-left\n  vec3 lightDir2 = normalize(vec3(-0.5, -0.2, 0.4));\n  float diff2 = max(dot(normal, lightDir2), 0.0) * 0.3;\n  \n  // Specular Reflection (the \"nice reflection\" the user likes)\n  vec3 halfDir = normalize(lightDir1 + viewDir);\n  float spec = pow(max(dot(normal, halfDir), 0.0), 32.0) * 0.4;\n  \n  vec3 faceColor = texColor.rgb;\n  \n  // Deepening shadows in \"valleys\"\n  float shadow = smoothstep(1.0, -1.0, vIndent);\n  shadow = mix(0.6, 1.0, shadow);\n  \n  // Ambient occlusion simulation\n  float edgeAO = smoothstep(0.0, 0.12, vUv.y) * smoothstep(1.0, 0.88, vUv.y);\n  edgeAO = mix(0.7, 1.0, edgeAO);\n  \n  // Rim lighting\n  float rim = 1.0 - max(dot(viewDir, normal), 0.0);\n  rim = pow(rim, 6.0) * 0.25;\n  \n  // High-frequency Grain\n  float grain = (random(vUv * 100.0 + uTime * 0.001) - 0.5) * 0.03;\n  \n  vec3 finalColor = faceColor;\n  \n  // Apply lighting: Key + Fill + Spec + Shadow + EdgeAO + Rim\n  finalColor *= (diff1 * 0.8 + diff2 + 0.25);\n  finalColor *= shadow;\n  finalColor *= edgeAO;\n  \n  // Add Specular and Rim on top\n  finalColor += spec * vec3(1.0, 0.95, 0.8) * diff1; // Warm specular tied to key light\n  finalColor += rim * vec3(1.0, 0.98, 0.95);\n  finalColor += grain;\n  \n  gl_FragColor = vec4(finalColor, uOpacity * texColor.a);\n}\n`;\n"
     },
     {
       "name": "types.ts",
       "type": "registry:file",
-      "path": "types.ts",
       "target": "components/experiments/404-not-found/types.ts",
       "content": "import type * as THREE from \"three\";\n\nexport interface RibbonProps {\n  amplitude?: number;\n  backClamp?: number;\n  backOffset?: [number, number];\n  backScale?: [number, number];\n  backsideImage?: THREE.Texture | null;\n  backsideText?: string;\n  color: string;\n  fontFamily?: string;\n  fontWeight?: string;\n  frequency?: number;\n  height?: number;\n  padding?: number;\n  position: [number, number, number];\n  rotation: [number, number, number];\n  seed?: number;\n  speed?: number;\n  subscript?: string;\n  text: string;\n  textSpeed?: number;\n  thickness?: number;\n  width?: number;\n}\n"
     },
     {
       "name": "useCachedTexture.ts",
-      "type": "registry:file",
-      "path": "useCachedTexture.ts",
-      "target": "components/experiments/404-not-found/useCachedTexture.ts",
+      "type": "registry:hook",
       "content": "import React, { useEffect } from \"react\";\nimport type * as THREE from \"three\";\n\n// Global cache for texture sharing across instances\n// Map key -> { texture, refCount }\nconst textureCache = new Map<\n  string,\n  { texture: THREE.CanvasTexture; refCount: number }\n>();\n\ntype TextureGenerator = () => THREE.CanvasTexture | null;\n\nexport function useCachedTexture(\n  key: string,\n  generator: TextureGenerator\n): THREE.CanvasTexture | null {\n  // 1. Synchronously get or create texture\n  const texture = React.useMemo(() => {\n    if (!key) {\n      return null;\n    }\n\n    const cachedItem = textureCache.get(key);\n\n    if (cachedItem) {\n      // Found in cache\n      return cachedItem.texture;\n    }\n    // Not in cache, generate immediately\n    const newTexture = generator();\n    if (newTexture) {\n      textureCache.set(key, { texture: newTexture, refCount: 0 }); // refCount init at 0, will increment in effect\n      return newTexture;\n    }\n    return null;\n    // We do NOT include dependencies here because the 'key' should already include all dependencies encoded in the string.\n    // If we included dependencies, useMemo might re-run even if key is same, which is not what we want for a global cache.\n    // The generator is called only when key changes or cache misses.\n  }, [key, generator]);\n\n  // 2. Manage ref counting and memory disposal via effect\n  useEffect(() => {\n    if (!(key && texture)) {\n      return;\n    }\n\n    const item = textureCache.get(key);\n    if (item) {\n      item.refCount++;\n    }\n\n    return () => {\n      const currentItem = textureCache.get(key);\n      if (currentItem) {\n        currentItem.refCount--;\n        if (currentItem.refCount <= 0) {\n          currentItem.texture.dispose();\n          textureCache.delete(key);\n        }\n      }\n    };\n  }, [key, texture]);\n\n  return texture;\n}\n"
     },
     {
       "name": "useFontsReady.ts",
-      "type": "registry:file",
-      "path": "useFontsReady.ts",
-      "target": "components/experiments/404-not-found/useFontsReady.ts",
+      "type": "registry:hook",
       "content": "import { useEffect, useState } from \"react\";\n\nexport function useFontsReady() {\n  const [ready, setReady] = useState(false);\n\n  useEffect(() => {\n    document.fonts.ready.then(() => {\n      setReady(true);\n    });\n  }, []);\n\n  return ready;\n}\n"
-    },
-    {
-      "name": "Ribbon.tsx",
-      "type": "registry:file",
-      "path": "Ribbon.tsx",
-      "target": "components/experiments/404-not-found/Ribbon.tsx",
-      "content": "import { useFrame } from \"@react-three/fiber\";\nimport React, { useMemo, useRef } from \"react\";\nimport * as THREE from \"three\";\nimport { RIBBON_TEXT_SPEED_MULTIPLIER } from \"./constants\";\nimport { fragmentShader, vertexShader } from \"./ribbonShader\";\nimport { scrollVelocityRef } from \"./scrollState\";\nimport type { RibbonProps } from \"./types\";\nimport { useCachedTexture } from \"./useCachedTexture\";\nimport { useFontsReady } from \"./useFontsReady\";\nimport {\n  generateBackTexture,\n  generateFrontTexture,\n} from \"./utils/textureGenerators\";\n\n// 1x1 pixel transparent texture for safe initialization\nconst DATA_ONE_PIXEL = new Uint8Array([0, 0, 0, 0]);\nconst EMPTY_TEXTURE = new THREE.DataTexture(\n  DATA_ONE_PIXEL,\n  1,\n  1,\n  THREE.RGBAFormat\n);\nEMPTY_TEXTURE.needsUpdate = true;\n\nconst Ribbon = function Ribbon({\n  text,\n  position,\n  rotation,\n  color,\n  width = 10,\n  height = 1.5,\n  thickness = 0.5,\n  speed = 1.0,\n  frequency = 0.5,\n  amplitude = 0.3,\n  padding = 40,\n  subscript = \"\",\n  backsideText = \"\",\n  backsideImage = null,\n  backOffset = [0, 0],\n  backScale = [1, 1],\n  backClamp = 0.0,\n  textSpeed = 0.2,\n}: RibbonProps) {\n  const meshRef = useRef<THREE.Mesh>(null);\n  const materialRef = useRef<THREE.ShaderMaterial>(null);\n  const fontsReady = useFontsReady();\n\n  // Generate unique key for front texture\n  // NOTE: Color removed from key as it is now applied in shader\n  const frontTextureKey = `front_${text}_${subscript}_NOCOLOR_${width}_${height}_${fontsReady}`;\n\n  const texture = useCachedTexture(frontTextureKey, () =>\n    generateFrontTexture({\n      text,\n      subscript,\n      color: \"transparent\", // Only used for unused invalidation, essentially ignored by new generator\n      width,\n      height,\n      padding,\n      fontsReady,\n    })\n  );\n\n  // Generate unique key for back texture\n  const backTextureKey = backsideImage\n    ? null\n    : `back_${backsideText || \"DEFAULT\"}_NOCOLOR_${width}_${height}_${fontsReady}`;\n\n  const generatedBackTexture = useCachedTexture(backTextureKey || \"\", () =>\n    generateBackTexture({\n      text: backsideText,\n      color,\n      width,\n      height,\n      fontsReady,\n    })\n  );\n\n  const finalBacksideTexture = backsideImage || generatedBackTexture;\n\n  // STABLE UNIFORMS: Created once via useMemo, values updated imperatively\n  const uniforms = useMemo(\n    () => ({\n      uTime: { value: 0 },\n      uTexture: { value: EMPTY_TEXTURE as THREE.Texture },\n      uBackTexture: { value: EMPTY_TEXTURE as THREE.Texture },\n      uBackOffset: { value: new THREE.Vector2(0, 0) },\n      uBackScale: { value: new THREE.Vector2(1, 1) },\n      uBackClamp: { value: 0 },\n      uColor: { value: new THREE.Color(color) },\n      uFrequency: { value: frequency },\n      uAmplitude: { value: amplitude },\n      uOpacity: { value: 1.0 },\n      uTextSpeed: { value: textSpeed },\n      uRunTime: { value: 0 },\n      uRepeat: { value: new THREE.Vector2(1, 1) },\n      uBackRepeat: { value: new THREE.Vector2(1, 1) },\n    }),\n    [amplitude, color, frequency, textSpeed]\n  ); // Empty deps = created once and stable forever\n\n  // Update uniforms when props change\n  // This avoids recreating the uniforms object which can reset the material\n  React.useLayoutEffect(() => {\n    uniforms.uBackOffset.value.set(backOffset[0], backOffset[1]);\n    uniforms.uBackScale.value.set(backScale[0], backScale[1]);\n    uniforms.uBackClamp.value = backClamp;\n    uniforms.uColor.value.set(color);\n    uniforms.uFrequency.value = frequency;\n    uniforms.uAmplitude.value = amplitude;\n    uniforms.uTextSpeed.value = textSpeed * RIBBON_TEXT_SPEED_MULTIPLIER;\n\n    if (texture) {\n      uniforms.uTexture.value = texture;\n      uniforms.uRepeat.value.copy(texture.repeat);\n    }\n\n    if (finalBacksideTexture) {\n      uniforms.uBackTexture.value = finalBacksideTexture;\n      if (finalBacksideTexture instanceof THREE.Texture) {\n        uniforms.uBackRepeat.value.copy(finalBacksideTexture.repeat);\n      }\n    }\n  }, [\n    texture,\n    finalBacksideTexture,\n    backOffset,\n    backScale,\n    backClamp,\n    color,\n    frequency,\n    amplitude,\n    textSpeed,\n    uniforms,\n  ]);\n\n  // ... inside Ribbon component\n\n  // Track accumulated offset manually to handle variable speed\n  const offsetRef = useRef(0);\n\n  useFrame((state, delta) => {\n    if (materialRef.current) {\n      // uTime is scaled by `speed` (wave frequency)\n      const time = state.clock.getElapsedTime() * speed;\n      materialRef.current.uniforms.uTime.value = time;\n\n      // Update accumulated offset\n      // Base speed is 1.0 (accumulated over time), plus scroll velocity\n      // Multiplier 2.0 makes scroll effect more pronounced\n      const scrollInfluence = scrollVelocityRef.current * 2.0;\n\n      // Accumulate: offset += (1 + scrollBoost) * delta\n      // We adding 1.0 to represent the \"base\" flow of time\n      offsetRef.current += (1.0 + scrollInfluence) * delta;\n\n      materialRef.current.uniforms.uRunTime.value = offsetRef.current;\n    }\n  });\n\n  return (\n    <mesh position={position} ref={meshRef} rotation={rotation}>\n      <boxGeometry args={[width, height, thickness, 256, 16, 1]} />\n      <shaderMaterial\n        fragmentShader={fragmentShader}\n        ref={materialRef}\n        side={THREE.DoubleSide}\n        transparent\n        uniforms={uniforms}\n        vertexShader={vertexShader}\n      />\n    </mesh>\n  );\n};\n\nexport default Ribbon;\n"
-    },
-    {
-      "name": "constants.ts",
-      "type": "registry:file",
-      "path": "constants.ts",
-      "target": "components/experiments/404-not-found/constants.ts",
-      "content": "export const RIBBON_STRIP_COUNT = 35;\nexport const RIBBON_BASE_HEIGHT = 4.0;\nexport const RIBBON_BASE_THICKNESS = 4.0;\nexport const RIBBON_VERTICAL_SPREAD = 0.65;\nexport const RIBBON_IMAGE_START_IDX = 12;\nexport const RIBBON_IMAGE_ROWS = 10;\nexport const RIBBON_WIDTH = 220;\n\nexport const RIBBON_COLORS = [\n  \"#E6DDB5\", // Muted Parchment\n  \"#DCCCA3\", // Aged Tape\n  \"#E8DFC5\", // Pale Beige\n  \"#D4C596\", // Dull Yellow\n  \"#A63D3A\", // Muted Brick Red (Accent)\n  \"#C8B88A\", // Greyish Gold\n];\n\nexport const RIBBON_FONTS = [\"Inter, sans-serif\", \"system-ui, sans-serif\"];\n\nexport const RIBBON_TEXTS = [\n  \"404 NOT FOUND\",\n  \"PAGE NOT FOUND\",\n  \"ERROR 404\",\n  \"NOT FOUND\",\n  \"404\",\n  \"SYSTEM ERROR\",\n  \"LOST IN SPACE\",\n  \"NOT FOUND 404\",\n];\n\nexport const BACKSIDE_TEXT = \"INSPIRED BY DAY JOB\";\nexport const BACKSIDE_IMAGE_PATH = \"https://www.razisyed.cv/experiments/404-not-found/dayjob.png\";\n\n// Animation Constants\nexport const RIBBON_TEXT_SPEED_RANGE = 6.0;\nexport const RIBBON_TEXT_SPEED_MULTIPLIER = 0.05;\n\nexport const RIBBON_WAVE_SPEED_MIN = 0.01;\nexport const RIBBON_WAVE_SPEED_VARIANCE = 0.015;\nexport const RIBBON_WAVE_SPEED_IMAGE_SECTION = 0.015;\n"
-    },
-    {
-      "name": "ribbonShader.ts",
-      "type": "registry:file",
-      "path": "ribbonShader.ts",
-      "target": "components/experiments/404-not-found/ribbonShader.ts",
-      "content": "export const vertexShader = `\nuniform float uTime;\nuniform float uFrequency;\nuniform float uAmplitude;\n\nvarying vec2 vUv;\nvarying vec3 vNormal;\nvarying vec3 vWorldPosition;\nvarying vec3 vModelNormal;\nvarying float vIndent;\n\nvoid main() {\n  vUv = uv;\n  vModelNormal = normal;\n  \n  vec3 newPosition = position;\n  \n  // Position-based offset for variety between ribbons\n  float xPos = position.x * uFrequency + uTime;\n  \n  // Main curve - only in Z (depth) to prevent vertical clipping\n  float indent = sin(xPos) * uAmplitude;\n  \n  // Add some layered noise/harmonics for paper-like character\n  indent += sin(xPos * 2.1 + 0.4) * uAmplitude * 0.3;\n  indent += sin(xPos * 4.4 + 1.2) * uAmplitude * 0.1;\n\n  newPosition.z += indent;\n  \n  vIndent = indent;\n  vNormal = normalize(normalMatrix * normal);\n  vWorldPosition = (modelMatrix * vec4(newPosition, 1.0)).xyz;\n\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);\n}\n`;\n\nexport const fragmentShader = `\nuniform sampler2D uTexture;\nuniform sampler2D uBackTexture;\nuniform vec2 uBackOffset;\nuniform vec2 uBackScale;\nuniform float uOpacity;\nuniform float uTime;\nuniform float uRunTime;\nuniform vec3 uColor;\nuniform vec2 uRepeat;\nuniform vec2 uBackRepeat;\nuniform float uBackClamp;\nuniform float uTextSpeed;\n\nvarying vec2 vUv;\nvarying vec3 vNormal;\nvarying vec3 vWorldPosition;\nvarying vec3 vModelNormal;\nvarying float vIndent;\n\nfloat random(vec2 co) {\n    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\nvoid main() {\n  vec3 normal = normalize(vNormal);\n  vec3 viewDir = normalize(cameraPosition - vWorldPosition);\n  \n  vec4 texColor;\n  \n  // Front face is positive Z model normal, back face is negative Z\n  if (vModelNormal.z > 0.5) {\n      // Scroll the text using independent scroll time\n      // uTextSpeed is now pre-multiplied by JS\n      float scrollOffset = uRunTime * uTextSpeed;\n      vec2 tiledUv = vUv * uRepeat + vec2(scrollOffset, 0.0);\n      vec4 sampleCol = texture2D(uTexture, tiledUv);\n      \n      // Composite: Texture (Text/Lines) over Background (uColor)\n      texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);\n      \n  } else if (vModelNormal.z < -0.5) {\n      // Use normal UV for the back side\n      vec2 backUv;\n      \n      if (uBackClamp > 0.5) {\n          // Clamped/Masked Image (Instagram feed style)\n          backUv = vec2(vUv.x, vUv.y) * uBackScale + uBackOffset;\n          if (backUv.x >= 0.0 && backUv.x <= 1.0 && backUv.y >= 0.0 && backUv.y <= 1.0) {\n              texColor = texture2D(uBackTexture, backUv);\n          } else {\n              texColor = vec4(uColor, 1.0);\n          }\n      } else {\n          // Repeating Text (Backside)\n          backUv = vUv * uBackRepeat;\n          vec4 sampleCol = texture2D(uBackTexture, backUv);\n          texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);\n      }\n  } else {\n      texColor = vec4(uColor, 1.0);\n  }\n  \n  // Lighting setup - matching mockup's warm, directional light\n  // Key light: From top-right, more front-facing to fix darkness\n  vec3 lightDir1 = normalize(vec3(0.5, 0.8, 0.8));\n  float diff1 = max(dot(normal, lightDir1), 0.0);\n  \n  // Subtle fill from bottom-left\n  vec3 lightDir2 = normalize(vec3(-0.5, -0.2, 0.4));\n  float diff2 = max(dot(normal, lightDir2), 0.0) * 0.3;\n  \n  // Specular Reflection (the \"nice reflection\" the user likes)\n  vec3 halfDir = normalize(lightDir1 + viewDir);\n  float spec = pow(max(dot(normal, halfDir), 0.0), 32.0) * 0.4;\n  \n  vec3 faceColor = texColor.rgb;\n  \n  // Deepening shadows in \"valleys\"\n  float shadow = smoothstep(1.0, -1.0, vIndent);\n  shadow = mix(0.6, 1.0, shadow);\n  \n  // Ambient occlusion simulation\n  float edgeAO = smoothstep(0.0, 0.12, vUv.y) * smoothstep(1.0, 0.88, vUv.y);\n  edgeAO = mix(0.7, 1.0, edgeAO);\n  \n  // Rim lighting\n  float rim = 1.0 - max(dot(viewDir, normal), 0.0);\n  rim = pow(rim, 6.0) * 0.25;\n  \n  // High-frequency Grain\n  float grain = (random(vUv * 100.0 + uTime * 0.001) - 0.5) * 0.03;\n  \n  vec3 finalColor = faceColor;\n  \n  // Apply lighting: Key + Fill + Spec + Shadow + EdgeAO + Rim\n  finalColor *= (diff1 * 0.8 + diff2 + 0.25);\n  finalColor *= shadow;\n  finalColor *= edgeAO;\n  \n  // Add Specular and Rim on top\n  finalColor += spec * vec3(1.0, 0.95, 0.8) * diff1; // Warm specular tied to key light\n  finalColor += rim * vec3(1.0, 0.98, 0.95);\n  finalColor += grain;\n  \n  gl_FragColor = vec4(finalColor, uOpacity * texColor.a);\n}\n`;\n"
-    },
-    {
-      "name": "scrollState.ts",
-      "type": "registry:file",
-      "path": "scrollState.ts",
-      "target": "components/experiments/404-not-found/scrollState.ts",
-      "content": "// Shared mutable state for scroll velocity\n// Using a simple object ref avoids React Context overhead for high-frequency updates (60fps)\nexport const scrollVelocityRef = { current: 0 };\n"
-    },
-    {
-      "name": "types.ts",
-      "type": "registry:file",
-      "path": "types.ts",
-      "target": "components/experiments/404-not-found/types.ts",
-      "content": "import type * as THREE from \"three\";\n\nexport interface RibbonProps {\n  amplitude?: number;\n  backClamp?: number;\n  backOffset?: [number, number];\n  backScale?: [number, number];\n  backsideImage?: THREE.Texture | null;\n  backsideText?: string;\n  color: string;\n  fontFamily?: string;\n  fontWeight?: string;\n  frequency?: number;\n  height?: number;\n  padding?: number;\n  position: [number, number, number];\n  rotation: [number, number, number];\n  seed?: number;\n  speed?: number;\n  subscript?: string;\n  text: string;\n  textSpeed?: number;\n  thickness?: number;\n  width?: number;\n}\n"
-    },
-    {
-      "name": "useCachedTexture.ts",
-      "type": "registry:file",
-      "path": "useCachedTexture.ts",
-      "target": "components/experiments/404-not-found/useCachedTexture.ts",
-      "content": "import React, { useEffect } from \"react\";\nimport type * as THREE from \"three\";\n\n// Global cache for texture sharing across instances\n// Map key -> { texture, refCount }\nconst textureCache = new Map<\n  string,\n  { texture: THREE.CanvasTexture; refCount: number }\n>();\n\ntype TextureGenerator = () => THREE.CanvasTexture | null;\n\nexport function useCachedTexture(\n  key: string,\n  generator: TextureGenerator\n): THREE.CanvasTexture | null {\n  // 1. Synchronously get or create texture\n  const texture = React.useMemo(() => {\n    if (!key) {\n      return null;\n    }\n\n    const cachedItem = textureCache.get(key);\n\n    if (cachedItem) {\n      // Found in cache\n      return cachedItem.texture;\n    }\n    // Not in cache, generate immediately\n    const newTexture = generator();\n    if (newTexture) {\n      textureCache.set(key, { texture: newTexture, refCount: 0 }); // refCount init at 0, will increment in effect\n      return newTexture;\n    }\n    return null;\n    // We do NOT include dependencies here because the 'key' should already include all dependencies encoded in the string.\n    // If we included dependencies, useMemo might re-run even if key is same, which is not what we want for a global cache.\n    // The generator is called only when key changes or cache misses.\n  }, [key, generator]);\n\n  // 2. Manage ref counting and memory disposal via effect\n  useEffect(() => {\n    if (!(key && texture)) {\n      return;\n    }\n\n    const item = textureCache.get(key);\n    if (item) {\n      item.refCount++;\n    }\n\n    return () => {\n      const currentItem = textureCache.get(key);\n      if (currentItem) {\n        currentItem.refCount--;\n        if (currentItem.refCount <= 0) {\n          currentItem.texture.dispose();\n          textureCache.delete(key);\n        }\n      }\n    };\n  }, [key, texture]);\n\n  return texture;\n}\n"
-    },
-    {
-      "name": "useFontsReady.ts",
-      "type": "registry:file",
-      "path": "useFontsReady.ts",
-      "target": "components/experiments/404-not-found/useFontsReady.ts",
-      "content": "import { useEffect, useState } from \"react\";\n\nexport function useFontsReady() {\n  const [ready, setReady] = useState(false);\n\n  useEffect(() => {\n    document.fonts.ready.then(() => {\n      setReady(true);\n    });\n  }, []);\n\n  return ready;\n}\n"
-    },
-    {
-      "name": "constants.ts",
-      "type": "registry:file",
-      "path": "constants.ts",
-      "target": "components/experiments/404-not-found/constants.ts",
-      "content": "export const RIBBON_STRIP_COUNT = 35;\nexport const RIBBON_BASE_HEIGHT = 4.0;\nexport const RIBBON_BASE_THICKNESS = 4.0;\nexport const RIBBON_VERTICAL_SPREAD = 0.65;\nexport const RIBBON_IMAGE_START_IDX = 12;\nexport const RIBBON_IMAGE_ROWS = 10;\nexport const RIBBON_WIDTH = 220;\n\nexport const RIBBON_COLORS = [\n  \"#E6DDB5\", // Muted Parchment\n  \"#DCCCA3\", // Aged Tape\n  \"#E8DFC5\", // Pale Beige\n  \"#D4C596\", // Dull Yellow\n  \"#A63D3A\", // Muted Brick Red (Accent)\n  \"#C8B88A\", // Greyish Gold\n];\n\nexport const RIBBON_FONTS = [\"Inter, sans-serif\", \"system-ui, sans-serif\"];\n\nexport const RIBBON_TEXTS = [\n  \"404 NOT FOUND\",\n  \"PAGE NOT FOUND\",\n  \"ERROR 404\",\n  \"NOT FOUND\",\n  \"404\",\n  \"SYSTEM ERROR\",\n  \"LOST IN SPACE\",\n  \"NOT FOUND 404\",\n];\n\nexport const BACKSIDE_TEXT = \"INSPIRED BY DAY JOB\";\nexport const BACKSIDE_IMAGE_PATH = \"https://www.razisyed.cv/experiments/404-not-found/dayjob.png\";\n\n// Animation Constants\nexport const RIBBON_TEXT_SPEED_RANGE = 6.0;\nexport const RIBBON_TEXT_SPEED_MULTIPLIER = 0.05;\n\nexport const RIBBON_WAVE_SPEED_MIN = 0.01;\nexport const RIBBON_WAVE_SPEED_VARIANCE = 0.015;\nexport const RIBBON_WAVE_SPEED_IMAGE_SECTION = 0.015;\n"
-    },
-    {
-      "name": "ribbonShader.ts",
-      "type": "registry:file",
-      "path": "ribbonShader.ts",
-      "target": "components/experiments/404-not-found/ribbonShader.ts",
-      "content": "export const vertexShader = `\nuniform float uTime;\nuniform float uFrequency;\nuniform float uAmplitude;\n\nvarying vec2 vUv;\nvarying vec3 vNormal;\nvarying vec3 vWorldPosition;\nvarying vec3 vModelNormal;\nvarying float vIndent;\n\nvoid main() {\n  vUv = uv;\n  vModelNormal = normal;\n  \n  vec3 newPosition = position;\n  \n  // Position-based offset for variety between ribbons\n  float xPos = position.x * uFrequency + uTime;\n  \n  // Main curve - only in Z (depth) to prevent vertical clipping\n  float indent = sin(xPos) * uAmplitude;\n  \n  // Add some layered noise/harmonics for paper-like character\n  indent += sin(xPos * 2.1 + 0.4) * uAmplitude * 0.3;\n  indent += sin(xPos * 4.4 + 1.2) * uAmplitude * 0.1;\n\n  newPosition.z += indent;\n  \n  vIndent = indent;\n  vNormal = normalize(normalMatrix * normal);\n  vWorldPosition = (modelMatrix * vec4(newPosition, 1.0)).xyz;\n\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);\n}\n`;\n\nexport const fragmentShader = `\nuniform sampler2D uTexture;\nuniform sampler2D uBackTexture;\nuniform vec2 uBackOffset;\nuniform vec2 uBackScale;\nuniform float uOpacity;\nuniform float uTime;\nuniform float uRunTime;\nuniform vec3 uColor;\nuniform vec2 uRepeat;\nuniform vec2 uBackRepeat;\nuniform float uBackClamp;\nuniform float uTextSpeed;\n\nvarying vec2 vUv;\nvarying vec3 vNormal;\nvarying vec3 vWorldPosition;\nvarying vec3 vModelNormal;\nvarying float vIndent;\n\nfloat random(vec2 co) {\n    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\nvoid main() {\n  vec3 normal = normalize(vNormal);\n  vec3 viewDir = normalize(cameraPosition - vWorldPosition);\n  \n  vec4 texColor;\n  \n  // Front face is positive Z model normal, back face is negative Z\n  if (vModelNormal.z > 0.5) {\n      // Scroll the text using independent scroll time\n      // uTextSpeed is now pre-multiplied by JS\n      float scrollOffset = uRunTime * uTextSpeed;\n      vec2 tiledUv = vUv * uRepeat + vec2(scrollOffset, 0.0);\n      vec4 sampleCol = texture2D(uTexture, tiledUv);\n      \n      // Composite: Texture (Text/Lines) over Background (uColor)\n      texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);\n      \n  } else if (vModelNormal.z < -0.5) {\n      // Use normal UV for the back side\n      vec2 backUv;\n      \n      if (uBackClamp > 0.5) {\n          // Clamped/Masked Image (Instagram feed style)\n          backUv = vec2(vUv.x, vUv.y) * uBackScale + uBackOffset;\n          if (backUv.x >= 0.0 && backUv.x <= 1.0 && backUv.y >= 0.0 && backUv.y <= 1.0) {\n              texColor = texture2D(uBackTexture, backUv);\n          } else {\n              texColor = vec4(uColor, 1.0);\n          }\n      } else {\n          // Repeating Text (Backside)\n          backUv = vUv * uBackRepeat;\n          vec4 sampleCol = texture2D(uBackTexture, backUv);\n          texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);\n      }\n  } else {\n      texColor = vec4(uColor, 1.0);\n  }\n  \n  // Lighting setup - matching mockup's warm, directional light\n  // Key light: From top-right, more front-facing to fix darkness\n  vec3 lightDir1 = normalize(vec3(0.5, 0.8, 0.8));\n  float diff1 = max(dot(normal, lightDir1), 0.0);\n  \n  // Subtle fill from bottom-left\n  vec3 lightDir2 = normalize(vec3(-0.5, -0.2, 0.4));\n  float diff2 = max(dot(normal, lightDir2), 0.0) * 0.3;\n  \n  // Specular Reflection (the \"nice reflection\" the user likes)\n  vec3 halfDir = normalize(lightDir1 + viewDir);\n  float spec = pow(max(dot(normal, halfDir), 0.0), 32.0) * 0.4;\n  \n  vec3 faceColor = texColor.rgb;\n  \n  // Deepening shadows in \"valleys\"\n  float shadow = smoothstep(1.0, -1.0, vIndent);\n  shadow = mix(0.6, 1.0, shadow);\n  \n  // Ambient occlusion simulation\n  float edgeAO = smoothstep(0.0, 0.12, vUv.y) * smoothstep(1.0, 0.88, vUv.y);\n  edgeAO = mix(0.7, 1.0, edgeAO);\n  \n  // Rim lighting\n  float rim = 1.0 - max(dot(viewDir, normal), 0.0);\n  rim = pow(rim, 6.0) * 0.25;\n  \n  // High-frequency Grain\n  float grain = (random(vUv * 100.0 + uTime * 0.001) - 0.5) * 0.03;\n  \n  vec3 finalColor = faceColor;\n  \n  // Apply lighting: Key + Fill + Spec + Shadow + EdgeAO + Rim\n  finalColor *= (diff1 * 0.8 + diff2 + 0.25);\n  finalColor *= shadow;\n  finalColor *= edgeAO;\n  \n  // Add Specular and Rim on top\n  finalColor += spec * vec3(1.0, 0.95, 0.8) * diff1; // Warm specular tied to key light\n  finalColor += rim * vec3(1.0, 0.98, 0.95);\n  finalColor += grain;\n  \n  gl_FragColor = vec4(finalColor, uOpacity * texColor.a);\n}\n`;\n"
-    },
-    {
-      "name": "scrollState.ts",
-      "type": "registry:file",
-      "path": "scrollState.ts",
-      "target": "components/experiments/404-not-found/scrollState.ts",
-      "content": "// Shared mutable state for scroll velocity\n// Using a simple object ref avoids React Context overhead for high-frequency updates (60fps)\nexport const scrollVelocityRef = { current: 0 };\n"
-    },
-    {
-      "name": "types.ts",
-      "type": "registry:file",
-      "path": "types.ts",
-      "target": "components/experiments/404-not-found/types.ts",
-      "content": "import type * as THREE from \"three\";\n\nexport interface RibbonProps {\n  amplitude?: number;\n  backClamp?: number;\n  backOffset?: [number, number];\n  backScale?: [number, number];\n  backsideImage?: THREE.Texture | null;\n  backsideText?: string;\n  color: string;\n  fontFamily?: string;\n  fontWeight?: string;\n  frequency?: number;\n  height?: number;\n  padding?: number;\n  position: [number, number, number];\n  rotation: [number, number, number];\n  seed?: number;\n  speed?: number;\n  subscript?: string;\n  text: string;\n  textSpeed?: number;\n  thickness?: number;\n  width?: number;\n}\n"
-    },
-    {
-      "name": "useCachedTexture.ts",
-      "type": "registry:file",
-      "path": "useCachedTexture.ts",
-      "target": "components/experiments/404-not-found/useCachedTexture.ts",
-      "content": "import React, { useEffect } from \"react\";\nimport type * as THREE from \"three\";\n\n// Global cache for texture sharing across instances\n// Map key -> { texture, refCount }\nconst textureCache = new Map<\n  string,\n  { texture: THREE.CanvasTexture; refCount: number }\n>();\n\ntype TextureGenerator = () => THREE.CanvasTexture | null;\n\nexport function useCachedTexture(\n  key: string,\n  generator: TextureGenerator\n): THREE.CanvasTexture | null {\n  // 1. Synchronously get or create texture\n  const texture = React.useMemo(() => {\n    if (!key) {\n      return null;\n    }\n\n    const cachedItem = textureCache.get(key);\n\n    if (cachedItem) {\n      // Found in cache\n      return cachedItem.texture;\n    }\n    // Not in cache, generate immediately\n    const newTexture = generator();\n    if (newTexture) {\n      textureCache.set(key, { texture: newTexture, refCount: 0 }); // refCount init at 0, will increment in effect\n      return newTexture;\n    }\n    return null;\n    // We do NOT include dependencies here because the 'key' should already include all dependencies encoded in the string.\n    // If we included dependencies, useMemo might re-run even if key is same, which is not what we want for a global cache.\n    // The generator is called only when key changes or cache misses.\n  }, [key, generator]);\n\n  // 2. Manage ref counting and memory disposal via effect\n  useEffect(() => {\n    if (!(key && texture)) {\n      return;\n    }\n\n    const item = textureCache.get(key);\n    if (item) {\n      item.refCount++;\n    }\n\n    return () => {\n      const currentItem = textureCache.get(key);\n      if (currentItem) {\n        currentItem.refCount--;\n        if (currentItem.refCount <= 0) {\n          currentItem.texture.dispose();\n          textureCache.delete(key);\n        }\n      }\n    };\n  }, [key, texture]);\n\n  return texture;\n}\n"
-    },
-    {
-      "name": "useFontsReady.ts",
-      "type": "registry:file",
-      "path": "useFontsReady.ts",
-      "target": "components/experiments/404-not-found/useFontsReady.ts",
-      "content": "import { useEffect, useState } from \"react\";\n\nexport function useFontsReady() {\n  const [ready, setReady] = useState(false);\n\n  useEffect(() => {\n    document.fonts.ready.then(() => {\n      setReady(true);\n    });\n  }, []);\n\n  return ready;\n}\n"
-    },
-    {
-      "name": "useResponsiveCamera.ts",
-      "type": "registry:file",
-      "path": "useResponsiveCamera.ts",
-      "target": "components/experiments/404-not-found/useResponsiveCamera.ts",
-      "content": "import { useThree } from \"@react-three/fiber\";\nimport { useEffect } from \"react\";\nimport * as THREE from \"three\";\n\n/**\n * Adjusts the camera position based on the viewport width (responsiveness).\n * On mobile, we move the camera back so the ribbons fit better.\n */\nexport function useResponsiveCamera() {\n  const { camera, size } = useThree();\n\n  useEffect(() => {\n    if (!(camera instanceof THREE.PerspectiveCamera)) {\n      return;\n    }\n\n    // Simple breakpoint logic\n    // If width < 768 (mobile/tablet portrait), move camera back\n    const isMobile = size.width < 768;\n\n    // Base Z position for desktop is 32 (from original code)\n    // For mobile, we push it back significantly, e.g., 65\n    const targetZ = isMobile ? 65 : 32;\n\n    camera.position.setZ(targetZ);\n    camera.updateProjectionMatrix();\n  }, [camera, size.width]);\n}\n"
-    },
-    {
-      "name": "useRibbons.ts",
-      "type": "registry:file",
-      "path": "useRibbons.ts",
-      "target": "components/experiments/404-not-found/useRibbons.ts",
-      "content": "import { useTexture } from \"@react-three/drei\";\nimport { useMemo } from \"react\";\nimport {\n  BACKSIDE_IMAGE_PATH,\n  BACKSIDE_TEXT,\n  RIBBON_BASE_HEIGHT,\n  RIBBON_BASE_THICKNESS,\n  RIBBON_COLORS,\n  RIBBON_FONTS,\n  RIBBON_IMAGE_ROWS,\n  RIBBON_IMAGE_START_IDX,\n  RIBBON_STRIP_COUNT,\n  RIBBON_TEXT_SPEED_RANGE,\n  RIBBON_TEXTS,\n  RIBBON_VERTICAL_SPREAD,\n  RIBBON_WAVE_SPEED_IMAGE_SECTION,\n  RIBBON_WAVE_SPEED_MIN,\n  RIBBON_WAVE_SPEED_VARIANCE,\n  RIBBON_WIDTH,\n} from \"./constants\";\nimport type { RibbonProps } from \"./types\";\n\nexport function useRibbons() {\n  // We can call hooks conditionally here if we assume this component is always rendered the same way,\n  // but better practice is to just use useTexture at top level.\n  // However, since this is a custom hook intended for the component, it's fine.\n  const dayjobTexture = useTexture(BACKSIDE_IMAGE_PATH);\n\n  const ribbons = useMemo(() => {\n    const totalHeight =\n      RIBBON_STRIP_COUNT * (RIBBON_BASE_HEIGHT + RIBBON_VERTICAL_SPREAD);\n    const startY = totalHeight / 2;\n    const imageEndIdx = RIBBON_IMAGE_START_IDX + RIBBON_IMAGE_ROWS;\n\n    return Array.from({ length: RIBBON_STRIP_COUNT }).map((_, i) => {\n      const seedVal = i * 777.77;\n      const random = (s: number) => {\n        const x = Math.sin(s + seedVal) * 10_000;\n        return x - Math.floor(x);\n      };\n\n      // Calculate precise Y to ensure no overlapping\n      const y = startY - i * (RIBBON_BASE_HEIGHT + RIBBON_VERTICAL_SPREAD);\n\n      const isInImageSection =\n        i >= RIBBON_IMAGE_START_IDX - 1 && i < imageEndIdx;\n\n      const xJitter = isInImageSection ? 0 : (random(3) - 0.5) * 4;\n      const rotZ = isInImageSection ? 0 : (random(2) - 0.5) * 0.1;\n\n      // Synchronize wave parameters for the image section so it moves like a single sheet\n      const amplitude = isInImageSection ? 3.0 : 2.5 + random(5) * 1.0;\n      const frequency = isInImageSection ? 0.04 : 0.03 + random(6) * 0.02;\n      const speed = isInImageSection\n        ? RIBBON_WAVE_SPEED_IMAGE_SECTION\n        : RIBBON_WAVE_SPEED_MIN + random(4) * RIBBON_WAVE_SPEED_VARIANCE;\n\n      // Subtle rotation and Z staggering to look like a \"pile\"\n      // Subtle rotation and Z staggering to look like a \"pile\"\n      const z = (random(1) - 0.5) * 2;\n\n      // Use deterministic but scattered index to ensure ALL texts are shown\n      // (i * 3) % length covers all indices since 3 is coprime to 8 (length)\n      const textIndex = (i * 3) % RIBBON_TEXTS.length;\n      const text = RIBBON_TEXTS[textIndex];\n\n      // Backside Image Logic (Instagram feed style)\n      let backsideImage = null;\n      let backOffset: [number, number] = [0, 0];\n      let backScale: [number, number] = [1, 1];\n      let backClamp = 0.0;\n\n      if (i >= RIBBON_IMAGE_START_IDX && i < imageEndIdx) {\n        backsideImage = dayjobTexture;\n        backClamp = 1.0;\n        const rowIndex = i - RIBBON_IMAGE_START_IDX;\n\n        // Total height the image spans in 3D units\n        const totalImageHeight =\n          RIBBON_IMAGE_ROWS * RIBBON_BASE_HEIGHT +\n          (RIBBON_IMAGE_ROWS - 1) * RIBBON_VERTICAL_SPREAD;\n        const imageAspect = 2624 / 1838; // 1.4276\n        const totalImageWidth = totalImageHeight * imageAspect;\n\n        // scaleX = ribbon_width / target_image_width\n        const scaleX = RIBBON_WIDTH / totalImageWidth;\n        const scaleY = RIBBON_BASE_HEIGHT / totalImageHeight;\n\n        // No jitter anymore in image section, so offsetX is simpler\n        const offsetX = 0.5 * (1 - scaleX);\n\n        const offsetY =\n          ((RIBBON_IMAGE_ROWS - 1 - rowIndex) *\n            (RIBBON_BASE_HEIGHT + RIBBON_VERTICAL_SPREAD)) /\n          totalImageHeight;\n\n        backOffset = [offsetX, offsetY];\n        backScale = [scaleX, scaleY];\n      }\n\n      const ribbon: RibbonProps = {\n        text,\n        subscript: text.includes(\"404\") && i % 8 === 3 ? \"4\" : \"\",\n        color: RIBBON_COLORS[i % RIBBON_COLORS.length],\n        fontFamily: RIBBON_FONTS[0],\n        position: [xJitter, y, z],\n        rotation: [-0.08, 0, rotZ],\n        speed,\n        width: RIBBON_WIDTH,\n        height: RIBBON_BASE_HEIGHT,\n        thickness: RIBBON_BASE_THICKNESS,\n        amplitude,\n        frequency,\n        fontWeight: \"900\",\n        padding: 120,\n        seed: seedVal,\n        backsideText: BACKSIDE_TEXT,\n        backsideImage,\n        backOffset,\n        backScale,\n        backClamp,\n        textSpeed: (random(7) - 0.5) * RIBBON_TEXT_SPEED_RANGE,\n      };\n\n      return ribbon;\n    });\n  }, [dayjobTexture]);\n\n  return ribbons;\n}\n"
-    },
-    {
-      "name": "types.ts",
-      "type": "registry:file",
-      "path": "types.ts",
-      "target": "components/experiments/404-not-found/types.ts",
-      "content": "import type * as THREE from \"three\";\n\nexport interface RibbonProps {\n  amplitude?: number;\n  backClamp?: number;\n  backOffset?: [number, number];\n  backScale?: [number, number];\n  backsideImage?: THREE.Texture | null;\n  backsideText?: string;\n  color: string;\n  fontFamily?: string;\n  fontWeight?: string;\n  frequency?: number;\n  height?: number;\n  padding?: number;\n  position: [number, number, number];\n  rotation: [number, number, number];\n  seed?: number;\n  speed?: number;\n  subscript?: string;\n  text: string;\n  textSpeed?: number;\n  thickness?: number;\n  width?: number;\n}\n"
     },
     {
       "name": "textureGenerators.ts",
       "type": "registry:file",
-      "path": "textureGenerators.ts",
-      "target": "components/experiments/404-not-found/textureGenerators.ts",
+      "target": "components/experiments/404-not-found/utils/textureGenerators.ts",
       "content": "import * as THREE from \"three\";\n\nexport interface FrontTextureParams {\n  color: string;\n  fontsReady: boolean;\n  height: number;\n  padding: number;\n  subscript: string;\n  text: string;\n  width: number;\n}\n\nexport interface BackTextureParams {\n  color: string;\n  fontsReady: boolean;\n  height: number;\n  text?: string;\n  width: number;\n}\n\nexport const generateFrontTexture = ({\n  text,\n  subscript,\n  // color, // Removed as unused\n  width,\n  height,\n  padding,\n}: FrontTextureParams): THREE.CanvasTexture | null => {\n  const canvas = document.createElement(\"canvas\");\n  const ctx = canvas.getContext(\"2d\");\n  if (!ctx) {\n    return null;\n  }\n\n  const canvasHeight = 256;\n  ctx.font = `900 ${canvasHeight * 0.6}px \"Inter\", \"Arial Black\", sans-serif`;\n  const textMetrics = ctx.measureText(text);\n  const textWidth = textMetrics.width;\n\n  let totalTextWidth = textWidth;\n  if (subscript) {\n    ctx.font = `900 ${canvasHeight * 0.3}px \"Inter\", \"Arial Black\", sans-serif`;\n    totalTextWidth += ctx.measureText(subscript).width + 8;\n  }\n\n  const unitWidth = totalTextWidth + padding * 2;\n  const canvasWidth = unitWidth;\n\n  canvas.width = canvasWidth;\n  canvas.height = canvasHeight;\n\n  // Draw background - TRANSPARENT\n  ctx.clearRect(0, 0, canvasWidth, canvasHeight);\n\n  // Draw red guide lines\n  ctx.strokeStyle = \"#be123c\";\n  ctx.lineWidth = 6;\n  ctx.globalAlpha = 0.8;\n  ctx.beginPath();\n  ctx.moveTo(0, canvasHeight * 0.18);\n  ctx.lineTo(canvasWidth, canvasHeight * 0.18);\n  ctx.moveTo(0, canvasHeight * 0.82);\n  ctx.lineTo(canvasWidth, canvasHeight * 0.82);\n  ctx.stroke();\n  ctx.globalAlpha = 1.0;\n\n  // Draw text\n  ctx.font = `900 ${canvasHeight * 0.6}px \"Inter\", \"Arial Black\", sans-serif`;\n  ctx.fillStyle = \"#0c0c0c\";\n  ctx.textAlign = \"left\";\n  ctx.textBaseline = \"middle\";\n  ctx.letterSpacing = \"-2px\";\n  ctx.fillText(text, padding, canvasHeight * 0.52);\n\n  if (subscript) {\n    ctx.font = `900 ${canvasHeight * 0.3}px \"Inter\", \"Arial Black\", sans-serif`;\n    ctx.fillText(subscript, padding + textWidth - 4, canvasHeight * 0.65);\n  }\n\n  const tex = new THREE.CanvasTexture(canvas);\n  tex.wrapS = THREE.RepeatWrapping;\n  tex.wrapT = THREE.RepeatWrapping;\n\n  const unitAspect = unitWidth / canvasHeight;\n  const geomAspect = width / height;\n  tex.repeat.set(geomAspect / unitAspect, 1);\n\n  tex.anisotropy = 16;\n  return tex;\n};\n\nexport const generateBackTexture = ({\n  text,\n  // color, // Unused\n  width,\n  height,\n}: BackTextureParams): THREE.CanvasTexture | null => {\n  // If no specifically provided text, we still want the \"INSPIRED BY\" repeating\n  const baseBackText = text || \"INSPIRED BY DAY JOB\";\n\n  const canvas = document.createElement(\"canvas\");\n  const ctx = canvas.getContext(\"2d\");\n  if (!ctx) {\n    return null;\n  }\n\n  const canvasHeight = 256;\n  // Match front side style but maybe different font variant\n  ctx.font = `italic 900 ${canvasHeight * 0.45}px \"Inter\", \"system-ui\", sans-serif`;\n  const textWidth = ctx.measureText(baseBackText).width;\n\n  const backPadding = 120; // Nice loose spacing for repetition\n  const unitWidth = textWidth + backPadding * 2;\n\n  canvas.width = unitWidth;\n  canvas.height = canvasHeight;\n\n  // Transparent background, color handled in shader\n  ctx.clearRect(0, 0, unitWidth, canvasHeight);\n\n  // Guide lines\n  ctx.strokeStyle = \"#be123c\";\n  ctx.lineWidth = 6;\n  ctx.globalAlpha = 0.8;\n  ctx.beginPath();\n  ctx.moveTo(0, canvasHeight * 0.18);\n  ctx.lineTo(unitWidth, canvasHeight * 0.18);\n  ctx.moveTo(0, canvasHeight * 0.82);\n  ctx.lineTo(unitWidth, canvasHeight * 0.82);\n  ctx.stroke();\n  ctx.globalAlpha = 1.0;\n\n  // Text\n  ctx.font = `italic 900 ${canvasHeight * 0.45}px \"Inter\", \"system-ui\", sans-serif`;\n  ctx.fillStyle = \"#0c0c0c\";\n  ctx.textAlign = \"center\";\n  ctx.textBaseline = \"middle\";\n  ctx.fillText(baseBackText, unitWidth / 2, canvasHeight * 0.52);\n\n  const tex = new THREE.CanvasTexture(canvas);\n  tex.wrapS = THREE.RepeatWrapping;\n  tex.wrapT = THREE.RepeatWrapping;\n\n  // Calculate repeat for text mode\n  const unitAspect = unitWidth / canvasHeight;\n  const geomAspect = width / height;\n  tex.repeat.set(geomAspect / unitAspect, 1);\n\n  return tex;\n};\n"
     }
   ]

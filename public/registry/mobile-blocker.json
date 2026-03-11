@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mobile-blocker",
+  "type": "registry:component",
+  "title": "MobileBlocker",
+  "description": "Shared UI component: MobileBlocker",
+  "category": "components",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "MobileBlocker.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { memo, useSyncExternalStore } from \"react\";\n\n/**\n * Hook to determine if the current device should be blocked (mobile).\n * Uses useSyncExternalStore for robust window size synchronization and to avoid lint errors.\n * @see rerender-defer-reads\n */\nexport function useMobileBlocker() {\n  return useSyncExternalStore(\n    (callback) => {\n      window.addEventListener(\"resize\", callback);\n      return () => window.removeEventListener(\"resize\", callback);\n    },\n    () => window.innerWidth < 768,\n    () => false // SSR fallback\n  );\n}\n\n/**\n * Static JSX hoisted outside the component to reduce re-render overhead.\n * @see rendering-hoist-jsx\n */\nconst StaticBlockerContent = (\n  <div className=\"max-w-md space-y-4\">\n    <div className=\"mb-2 text-4xl\">🖥️</div>\n    <h2 className=\"font-semibold text-xl\">Desktop Experience Required</h2>\n    <p className=\"text-zinc-400 leading-relaxed\">\n      This experiment is not currently supported on mobile devices. Please visit\n      on a desktop browser for the full experience.\n    </p>\n  </div>\n);\n\n/**\n * MobileBlocker component that displays a message for mobile users.\n * Memoized to avoid unnecessary re-renders.\n * @see rerender-memo\n */\nexport const MobileBlocker = memo(function MobileBlocker() {\n  return (\n    <div className=\"fixed inset-0 z-50 flex flex-col items-center justify-center bg-zinc-900 p-8 text-center font-sans text-zinc-100\">\n      {StaticBlockerContent}\n    </div>\n  );\n});\n"
+    }
+  ]
+}

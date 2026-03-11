@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-provider",
+  "type": "registry:component",
+  "title": "ThemeProvider",
+  "description": "Shared UI component: ThemeProvider",
+  "category": "components",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ThemeProvider.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport {\n  ThemeProvider as NextThemesProvider,\n  type ThemeProviderProps,\n  useTheme,\n} from \"next-themes\";\nimport * as React from \"react\";\n\nfunction ThemeReset() {\n  const { setTheme } = useTheme();\n  const mountedRef = React.useRef(false);\n\n  React.useEffect(() => {\n    // Only reset to system on the very first mount of the session (refresh)\n    if (!mountedRef.current) {\n      setTheme(\"system\");\n      mountedRef.current = true;\n    }\n  }, [setTheme]);\n\n  return null;\n}\n\nexport function ThemeProvider({ children, ...props }: ThemeProviderProps) {\n  return (\n    <NextThemesProvider {...props}>\n      <ThemeReset />\n      {children}\n    </NextThemesProvider>\n  );\n}\n"
+    }
+  ]
+}

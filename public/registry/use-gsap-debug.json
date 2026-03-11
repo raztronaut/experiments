@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-gsap-debug",
+  "type": "registry:hook",
+  "title": "useGSAPDebug",
+  "description": "Hook: useGSAPDebug",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useGSAPDebug.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport { useEffect, useRef } from \"react\";\nimport { useDebug } from \"./useDebug\";\n\n/**\n * Links a GSAP timeline to GSDevTools when ?debug is active.\n * Per the official docs, linking to a specific animation is the best practice\n * (avoids global timeline sync issues, enables scene jumping via id).\n *\n * Usage:\n * ```tsx\n * const tl = useRef<gsap.core.Timeline>(null);\n * useGSAP(() => {\n *   tl.current = gsap.timeline({ id: \"hero\" });\n *   tl.current.to(\".box\", { x: 100, id: \"box-slide\" });\n * }, { scope: containerRef });\n * useGSAPDebug(tl.current, \"hero\");\n * ```\n */\nexport function useGSAPDebug(\n  timeline: gsap.core.Timeline | null | undefined,\n  id: string\n) {\n  const isDebug = useDebug();\n  const instanceRef = useRef<any>(null);\n\n  useEffect(() => {\n    if (!(isDebug && timeline)) {\n      return;\n    }\n\n    let cancelled = false;\n\n    async function init() {\n      try {\n        const gsapMod = await import(\"gsap\");\n        const gsap = gsapMod.default || gsapMod.gsap;\n        if (!gsap || cancelled) {\n          return;\n        }\n\n        const { GSDevTools } = await import(\"gsap/GSDevTools\");\n        if (cancelled) {\n          return;\n        }\n\n        gsap.registerPlugin(GSDevTools);\n\n        instanceRef.current = GSDevTools.create({\n          animation: timeline!,\n          id,\n          minimal: false,\n        });\n      } catch {\n        // GSDevTools not available\n      }\n    }\n\n    init();\n\n    return () => {\n      cancelled = true;\n      if (instanceRef.current?.kill) {\n        instanceRef.current.kill();\n        instanceRef.current = null;\n      }\n    };\n  }, [isDebug, timeline, id]);\n}\n"
+    },
+    {
+      "name": "useDebug.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport { useSearchParams } from \"next/navigation\";\n\n/**\n * Returns true when `?debug` is present in the URL.\n * Follows the basement.studio Daylight pattern -- lets collaborators,\n * designers, and AI agents toggle debug views on any experiment without\n * needing the full dev environment.\n */\nexport function useDebug() {\n  const searchParams = useSearchParams();\n  return searchParams.get(\"debug\") !== null;\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-liquid-glass-style",
+  "type": "registry:hook",
+  "title": "useLiquidGlassStyle",
+  "description": "Hook: useLiquidGlassStyle",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useLiquidGlassStyle.ts",
+      "type": "registry:hook",
+      "content": "import { useEffect, useMemo, useState } from \"react\";\nimport { useMounted } from \"./useMounted\";\n\ninterface LiquidGlassStyleOptions {\n  fallbackBlur?: number;\n  filterId: string;\n}\n\nexport function useLiquidGlassStyle({\n  filterId,\n  fallbackBlur = 20,\n}: LiquidGlassStyleOptions) {\n  const [isChromium, setIsChromium] = useState(false);\n  const mounted = useMounted();\n\n  useEffect(() => {\n    // Improved Chromium detection (Chrome, Edge, Brave, Arc, etc.)\n    // Safari and Firefox do not support SVG filters in backdrop-filter as of early 2024\n    const hasChrome = typeof window !== \"undefined\" && \"chrome\" in window;\n    const isChromium =\n      hasChrome ||\n      (/Chrome/.test(navigator.userAgent) &&\n        !/Edge/.test(navigator.userAgent) &&\n        !/OPR/.test(navigator.userAgent)) ||\n      /Edg/.test(navigator.userAgent);\n\n    // Explicitly exclude Safari (WebKit) which often reports as \"Chrome\" but isn't Chromium\n    const isSafari =\n      /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);\n\n    setIsChromium(isChromium && !isSafari);\n  }, []);\n\n  return useMemo(() => {\n    if (!mounted) {\n      return {}; // Return empty on server/initial render\n    }\n\n    if (isChromium) {\n      return {\n        backdropFilter: `url(#${filterId})`,\n        WebkitBackdropFilter: `url(#${filterId})`,\n        transform: \"translate3d(0,0,0)\", // Force GPU\n      };\n    }\n\n    // Fallback for Safari/Firefox\n    return {\n      backdropFilter: `blur(${fallbackBlur}px)`,\n      WebkitBackdropFilter: `blur(${fallbackBlur}px)`,\n      backgroundColor: \"rgba(255, 255, 255, 0.05)\", // Slight tint for glass feel\n    };\n  }, [filterId, isChromium, mounted, fallbackBlur]);\n}\n"
+    },
+    {
+      "name": "useMounted.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\n\nexport function useMounted() {\n  const [mounted, setMounted] = useState(false);\n\n  useEffect(() => {\n    setMounted(true);\n  }, []);\n\n  return mounted;\n}\n"
+    }
+  ]
+}

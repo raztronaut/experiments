@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-debug",
+  "type": "registry:hook",
+  "title": "useDebug",
+  "description": "Hook: useDebug",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useDebug.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport { useSearchParams } from \"next/navigation\";\n\n/**\n * Returns true when `?debug` is present in the URL.\n * Follows the basement.studio Daylight pattern -- lets collaborators,\n * designers, and AI agents toggle debug views on any experiment without\n * needing the full dev environment.\n */\nexport function useDebug() {\n  const searchParams = useSearchParams();\n  return searchParams.get(\"debug\") !== null;\n}\n"
+    }
+  ]
+}

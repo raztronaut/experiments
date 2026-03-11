@@ -1,10 +1,9 @@
 {
-  "name": "test",
-  "type": "registry:ui",
-  "title": "Test",
-  "description": "test",
-  "dependencies": [],
-  "registryDependencies": [],
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "razi-style",
+  "type": "registry:style",
+  "title": "Razi Style",
+  "description": "Shared design tokens and CSS variables for Razi's experiments",
   "tailwind": {
     "config": {
       "theme": {
@@ -128,13 +127,5 @@
       "chart-5": "340 75% 55%"
     }
   },
-  "files": [
-    {
-      "name": "Test.tsx",
-      "type": "registry:file",
-      "path": "Test.tsx",
-      "target": "components/experiments/test/Test.tsx",
-      "content": "\"use client\";\n\nexport default function Test() {\n  return (\n    <div className=\"flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-4\">\n      <h1 className=\"mb-2 font-bold text-2xl\">Test</h1>\n      <p className=\"text-muted-foreground\">\n        Start building your experiment here.\n      </p>\n    </div>\n  );\n}\n"
-    }
-  ]
+  "files": []
 }

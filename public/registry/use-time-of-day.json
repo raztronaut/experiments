@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-time-of-day",
+  "type": "registry:hook",
+  "title": "useTimeOfDay",
+  "description": "Hook: useTimeOfDay",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useTimeOfDay.ts",
+      "type": "registry:hook",
+      "content": "import { useEffect, useState } from \"react\";\n\nexport function useTimeOfDay() {\n  // Initialize with current time, but only update every minute\n  const [time, setTime] = useState(new Date());\n\n  useEffect(() => {\n    // Sync to the next minute start for cleaner updates\n    const now = new Date();\n    const secondsUntilNextMinute = 60 - now.getSeconds();\n\n    // Initial timeout to align with minute boundary\n    const timeoutId = setTimeout(() => {\n      setTime(new Date());\n\n      // Then set interval for subsequent minutes\n      const intervalId = setInterval(() => {\n        setTime(new Date());\n      }, 60_000); // Update every minute\n\n      return () => clearInterval(intervalId);\n    }, secondsUntilNextMinute * 1000);\n\n    return () => clearTimeout(timeoutId);\n  }, []);\n\n  const hour = time.getHours();\n  const isNight = hour >= 18 || hour < 6;\n\n  return {\n    time,\n    hour,\n    isNight,\n  };\n}\n"
+    }
+  ]
+}

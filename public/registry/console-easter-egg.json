@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "console-easter-egg",
+  "type": "registry:component",
+  "title": "ConsoleEasterEgg",
+  "description": "Shared UI component: ConsoleEasterEgg",
+  "category": "components",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ConsoleEasterEgg.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { useEffect, useRef } from \"react\";\n\nconst ASCII_CAT_FRAMES = [\n  \"     /\\\\_ /\\\\\\n ___ / o o \\\\\\n/ ___   =-= /\\n\\\\____)-m-m)\",\n  \"     /\\\\_/\\\\\\n ___/ o o \\\\\\n/___   =-= /\\n\\\\____)mm__)\",\n  \"     /\\\\_/\\\\\\n ___/ · · \\\\\\n/___   =-= /\\n\\\\___)-m__m)\",\n  \"     /\\\\_/\\\\\\n ___/ o o \\\\\\n/___   =-= /\\n\\\\____)-mm-)\",\n];\n\nexport function ConsoleEasterEgg() {\n  const isPlaying = useRef(false);\n\n  useEffect(() => {\n    // ... styles ...\n    const welcomeStyle = [\n      \"background: linear-gradient(to right, #2dd4bf, #06b6d4)\",\n      \"color: white\",\n      \"padding: 8px 12px\",\n      \"border-radius: 6px\",\n      \"font-size: 14px\",\n      \"font-weight: bold\",\n      \"font-family: system-ui, -apple-system, sans-serif\",\n      \"text-shadow: 0 1px 2px rgba(0,0,0,0.2)\",\n    ].join(\";\");\n\n    const hintStyle =\n      \"color: #8be9fd; font-style: italic; font-size: 11px; margin-top: 4px;\";\n\n    // Wait for initial page-load noise to settle (HMR, initial analytics, etc)\n    const initTimer = setTimeout(() => {\n      // Bypass Next.js removeConsole compiler option\n      const c = window.console;\n      c.clear();\n      c.log(\"%c✨ RAZI'S EXPERIMENTS ✨\", welcomeStyle);\n      c.log(\n        \"%cCuriosity killed the cat... or did it? %ctry surpriseMe()\",\n        \"color: #f8f8f2;\",\n        hintStyle\n      );\n    }, 1000);\n\n    // 2. Secret Command\n    (window as any).surpriseMe = () => {\n      if (isPlaying.current) {\n        return \"Already purring! 🐾\";\n      }\n      isPlaying.current = true;\n\n      let frame = 0;\n      const style =\n        \"color: #ff79c6; font-weight: bold; font-family: monospace; line-height: 1.2;\";\n\n      const interval = setInterval(() => {\n        const c = window.console;\n        c.clear();\n        c.log(`%c${ASCII_CAT_FRAMES[frame % ASCII_CAT_FRAMES.length]}`, style);\n        c.log(\n          \"%c%s\",\n          \"color: #50fa7b; font-weight: bold;\",\n          \"\\n  🐾 Purr... Purr... (refresh to stop)\"\n        );\n        frame++;\n      }, 150);\n\n      // Store interval to stop if needed, though we tell user to refresh\n      (window as any)._stopSurprise = () => {\n        clearInterval(interval);\n        isPlaying.current = false;\n        const c = window.console;\n        c.clear();\n        return \"Cat is sleeping now. 😴\";\n      };\n\n      return \"Watch the console! 🐈✨\";\n    };\n\n    return () => {\n      clearTimeout(initTimer);\n      if (typeof (window as any)._stopSurprise === \"function\") {\n        (window as any)._stopSurprise();\n      }\n      (window as any).surpriseMe = undefined;\n      (window as any)._stopSurprise = undefined;\n    };\n  }, []);\n\n  return null; // Side-effect only component\n}\n"
+    }
+  ]
+}
