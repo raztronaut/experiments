@@ -196,7 +196,7 @@ export const Cursor: React.FC = () => {
 
   return (
     <div
-      className="pointer-events-none fixed top-0 left-0 z-[10000]"
+      className="pointer-events-none fixed top-0 left-0 z-10000"
       ref={cursorRef}
       style={{
         transform: "translate3d(-100px, -100px, 0)",

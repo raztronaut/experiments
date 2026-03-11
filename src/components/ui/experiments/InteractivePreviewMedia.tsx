@@ -111,7 +111,7 @@ export const InteractivePreviewMedia = ({
       )}
       {/* Fallback */}
       {!(staticImage || experiment.video) && (
-        <div className="absolute inset-0 z-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
+        <div className="absolute inset-0 z-0 flex h-full w-full items-center justify-center bg-linear-to-br from-primary/10 to-primary/5">
           <span className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
             No Preview
           </span>
@@ -120,13 +120,13 @@ export const InteractivePreviewMedia = ({
 
       {!(experiment.video || experiment.image) && (
         <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-black/20">
-          <span className="-rotate-6 transform rounded-lg border-2 border-white/50 bg-black/40 px-3 py-1.5 font-['Comic_Sans_MS'] font-bold text-sm text-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] backdrop-blur-sm transition-transform hover:scale-110">
+          <span className="-rotate-6 transform rounded-lg border-2 border-white/50 bg-black/40 px-3 py-1.5 font-['Comic_Sans_MS'] font-bold text-sm text-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] backdrop-blur-xs transition-transform hover:scale-110">
             NO PREVIEW YET
           </span>
         </div>
       )}
 
-      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-background/20 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-background/20 to-transparent" />
     </div>
   );
 };

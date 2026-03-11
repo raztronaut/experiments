@@ -138,7 +138,7 @@ export function LottieWeatherIcon({
   return (
     <div
       className={cn(
-        "relative z-[50] -my-1 flex h-6 w-6 items-center justify-center transition-all duration-300 md:h-8 md:w-8",
+        "relative z-50 -my-1 flex h-6 w-6 items-center justify-center transition-all duration-300 md:h-8 md:w-8",
         isLightMode && "brightness-[0.4] saturate-[1.2]"
       )}
     >

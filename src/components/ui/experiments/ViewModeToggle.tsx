@@ -23,7 +23,7 @@ export function ViewModeToggle({
             aria-label="Grid view"
             className={`rounded-md p-1.5 transition-all ${
               viewMode === "grid"
-                ? "bg-background text-foreground shadow-sm"
+                ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
             }`}
             onClick={() => onViewModeChange("grid")}
@@ -36,7 +36,7 @@ export function ViewModeToggle({
             aria-label="List view"
             className={`rounded-md p-1.5 transition-all ${
               viewMode === "list"
-                ? "bg-background text-foreground shadow-sm"
+                ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
             }`}
             onClick={() => onViewModeChange("list")}

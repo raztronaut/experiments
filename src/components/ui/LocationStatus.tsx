@@ -72,7 +72,7 @@ export function LocationStatus() {
       />
       <motion.div
         className={cn(
-          "flex min-h-[28px] w-full items-center justify-between gap-0.5 rounded-md border border-border/50 bg-muted/20 px-3 py-1 shadow-sm md:min-h-[46px] md:w-auto md:justify-start md:gap-1 md:rounded-xl md:px-2.5 md:py-1.5",
+          "flex min-h-[28px] w-full items-center justify-between gap-0.5 rounded-md border border-border/50 bg-muted/20 px-3 py-1 shadow-xs md:min-h-[46px] md:w-auto md:justify-start md:gap-1 md:rounded-xl md:px-2.5 md:py-1.5",
           "group/pill relative transition-shadow duration-500",
           effectiveIsNight ? "shadow-blue-500/5" : "shadow-orange-500/5"
         )}

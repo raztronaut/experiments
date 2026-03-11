@@ -44,7 +44,7 @@ export function SiteFooter() {
           <WithHover config={HOVER_OFFSET_CONFIG}>
             <button
               aria-label="Toggle theme"
-              className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-[0.7rem] text-muted-foreground/60 uppercase tracking-[0.1em] transition-colors hover:bg-muted/40 hover:text-foreground"
+              className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-[0.7rem] text-muted-foreground/60 uppercase tracking-widest transition-colors hover:bg-muted/40 hover:text-foreground"
               data-umami-event="theme_toggle"
               onClick={toggleTheme}
               {...(mounted && {

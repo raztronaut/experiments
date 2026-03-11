@@ -37,7 +37,7 @@ export const ExperimentGridCard = memo(
 
     return (
       <div
-        className="group flex h-full cursor-pointer flex-col gap-3 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="group flex h-full cursor-pointer flex-col gap-3 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         onClick={() => onClick(experiment)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -54,7 +54,7 @@ export const ExperimentGridCard = memo(
       >
         {/* Media Container */}
         <div
-          className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted/30 shadow-sm transition-[border-color,box-shadow] duration-300 group-hover:border-foreground/20 group-hover:shadow-md"
+          className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted/30 shadow-xs transition-[border-color,box-shadow] duration-300 group-hover:border-foreground/20 group-hover:shadow-md"
           style={{ viewTransitionName: `experiment-media-${experiment.slug}` }}
         >
           <StaticExperimentMedia

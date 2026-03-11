@@ -56,7 +56,7 @@ export function WritingSection({ articles }: WritingSectionProps) {
         {articles.map((article) => (
           <WithHover key={article.slug}>
             <Link
-              className="group flex flex-col gap-3 rounded-xl border border-border p-5 transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-sm"
+              className="group flex flex-col gap-3 rounded-xl border border-border p-5 transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xs"
               data-umami-event="article_click"
               data-umami-event-article={article.slug}
               href={article.href}

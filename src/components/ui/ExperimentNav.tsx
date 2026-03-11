@@ -9,7 +9,7 @@ interface ExperimentNavProps {
 }
 
 const pillClass =
-  "flex items-center gap-2 rounded-full border border-white/10 bg-zinc-900/50 px-4 py-2 font-medium text-sm text-white backdrop-blur-sm transition-colors hover:bg-zinc-900/70";
+  "flex items-center gap-2 rounded-full border border-white/10 bg-zinc-900/50 px-4 py-2 font-medium text-sm text-white backdrop-blur-xs transition-colors hover:bg-zinc-900/70";
 
 export function ExperimentNav({ articleSlug }: ExperimentNavProps) {
   const pathname = usePathname();

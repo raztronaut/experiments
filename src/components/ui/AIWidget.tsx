@@ -88,7 +88,7 @@ export function AIWidget() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className="fixed right-6 bottom-6 z-[9999] flex flex-col items-end gap-2">
+      <div className="fixed right-6 bottom-6 z-9999 flex flex-col items-end gap-2">
         <LiquidGlassFilter
           displacementScale={32}
           height={height}
@@ -113,7 +113,7 @@ export function AIWidget() {
                 className={cn(
                   "relative rounded-md p-2 text-muted-foreground transition-all duration-200",
                   "hover:bg-muted hover:text-foreground active:scale-95",
-                  "focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  "focus:outline-hidden focus:ring-2 focus:ring-primary/20"
                 )}
                 onClick={() => handleSummarize(service)}
                 title={`Summarize with ${service.name}`}
