@@ -30,7 +30,8 @@ npm run delete:experiment <name>        # with confirmation
 npm run delete:experiment <name> --yes  # skip confirmation
 
 # Article
-npm run new:article                     # scaffold article for existing experiment
+npm run new:article                     # scaffold article for existing experiment (interactive)
+npm run new:article:auto -- --name <slug>  # scaffold article (AI agents -- non-interactive)
 npm run delete:article <slug>           # remove article content
 ```
 

@@ -5,6 +5,7 @@ Archive of work that's been finished. Moved here from tier files when fully comp
 ## 2025 -- V2 Platform Build
 
 - [x] `new:experiment:auto` non-interactive scaffolding (in `package.json`)
+- [x] `new:article:auto` non-interactive article scaffolding (`scripts/create-article.mjs`)
 - [x] `CLAUDE.md` root pointer file
 - [x] Toolkit layer fully built (`scroll.ts`, `raf.ts`, `r3f.tsx` with AdaptiveDpr, error boundaries, Tempus binding)
 - [x] `generate-registry.mjs` shadcn-compatible registry generation

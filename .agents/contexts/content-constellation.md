@@ -48,7 +48,8 @@ src/app/experiments/(slug)/slug/
 ## Scaffolding
 
 ```bash
-npm run new:article          # creates 8 files, sets content.article: true
+npm run new:article              # creates 8 files, sets content.article: true (interactive)
+npm run new:article:auto -- --name <slug>  # non-interactive equivalent for AI agents
 npm run delete:article <slug> # removes article/ + docs/, resets content + publishable
 ```
 

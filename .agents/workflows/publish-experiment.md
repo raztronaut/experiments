@@ -24,8 +24,8 @@ Note: `publishable: true` is the OUTPUT of this workflow (set in step 17), not a
 3. Scaffold the content structure:
 
 ```bash
-npm run new:article
-# Enter the experiment slug when prompted
+npm run new:article:auto -- --name "<slug>"
+# Flags: --name (required), --description (optional)
 ```
 
 This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab-note.md, architecture.md, snippet.md, social.md, changelog.md).
