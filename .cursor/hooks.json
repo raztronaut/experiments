@@ -1,6 +1,11 @@
 {
   "version": 1,
   "hooks": {
+    "sessionStart": [
+      {
+        "command": "node .cursor/hooks/continual-learning-start.mjs"
+      }
+    ],
     "stop": [
       {
         "command": "node .cursor/hooks/continual-learning-stop.mjs"

@@ -17,7 +17,7 @@ const TRIAL_DEFAULT_MIN_TURNS = 3;
 const TRIAL_DEFAULT_MIN_MINUTES = 15;
 const TRIAL_DEFAULT_DURATION_MINUTES = 24 * 60;
 
-const FOLLOWUP_MESSAGE = `Run the \`continual-learning\` skill now. First read existing \`memory.md\` and update existing entries in place (do not only append). Use incremental transcript processing with index file \`${INCREMENTAL_INDEX_PATH}\`: only read transcripts not in the index or transcripts whose mtime is newer than indexed mtime (re-read changed transcripts). After processing, write back the updated index mtimes and remove entries for deleted transcripts. Update \`memory.md\` only for high-signal, repeated user-correction patterns or durable workspace facts. Exclude one-off/transient details and secrets. Keep each learned section to at most 12 bullets. Write plain bullet points only, with no evidence/confidence tags or other metadata annotations. If no meaningful updates exist, respond exactly: No high-signal memory updates.`;
+const DUE_FLAG_PATH = resolve(".cursor/hooks/state/learning-due.json");
 
 function parsePositiveInt(value, fallback) {
   if (!value) {
@@ -226,11 +226,17 @@ async function main() {
       state.lastTranscriptMtimeMs = transcriptMtimeMs;
       saveState(state);
 
-      console.log(
-        JSON.stringify({
-          followup_message: FOLLOWUP_MESSAGE,
-        })
+      const flagDir = dirname(DUE_FLAG_PATH);
+      if (!existsSync(flagDir)) {
+        mkdirSync(flagDir, { recursive: true });
+      }
+      writeFileSync(
+        DUE_FLAG_PATH,
+        `${JSON.stringify({ dueAt: now, dueAtIso: new Date(now).toISOString() }, null, 2)}\n`,
+        "utf-8"
       );
+
+      console.log(JSON.stringify({}));
       return 0;
     }
 
