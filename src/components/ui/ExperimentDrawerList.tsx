@@ -9,7 +9,6 @@ import type { Experiment } from "@/lib/experiments";
 import { useCursor } from "./cursor/Context";
 import { ExperimentGridCard } from "./experiments/ExperimentGridCard";
 import { ExperimentListItem } from "./experiments/ExperimentListItem";
-import { ViewModeToggle } from "./experiments/ViewModeToggle";
 
 const InteractivePreviewMedia = dynamic(
   () =>
@@ -29,6 +28,7 @@ const ExperimentPreviewDrawer = dynamic(
 
 interface ExperimentDrawerListProps {
   experiments: Experiment[];
+  viewMode: "list" | "grid";
 }
 
 const lerp = (start: number, end: number, factor: number) => {
@@ -53,12 +53,12 @@ const formatDate = (isoDate: string): string => {
  */
 export function ExperimentDrawerList({
   experiments,
+  viewMode,
 }: ExperimentDrawerListProps) {
   const router = useRouter();
   const [selectedExperiment, setSelectedExperiment] =
     useState<Experiment | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<"list" | "grid">("grid");
   const [mobilePreviewExperiment, setMobilePreviewExperiment] =
     useState<Experiment | null>(null);
   const touchStartRef = useRef<number | null>(null);
@@ -265,10 +265,6 @@ export function ExperimentDrawerList({
         onMouseMove={handleMouseMove}
         ref={listRef}
       >
-        <div className="flex items-center justify-end">
-          <ViewModeToggle onViewModeChange={setViewMode} viewMode={viewMode} />
-        </div>
-
         {viewMode === "list" ? (
           <div className="relative w-full">
             {/* Floating preview that follows cursor */}

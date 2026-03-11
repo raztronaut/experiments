@@ -66,7 +66,7 @@ export const ExperimentGridCard = memo(
         </div>
 
         {/* Content */}
-        <div className="flex flex-1 flex-col space-y-1">
+        <div className="flex flex-1 flex-col space-y-1.5">
           <div className="flex flex-col gap-1">
             {experiment.created && (
               <span
@@ -80,18 +80,34 @@ export const ExperimentGridCard = memo(
                 })}
               </span>
             )}
-            <div className="flex items-center gap-1.5">
-              <h3 className="font-semibold text-foreground leading-tight tracking-tight transition-colors group-hover:text-primary">
-                {experiment.title}
-              </h3>
-              {experiment.content?.article && (
-                <FileText className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />
-              )}
-            </div>
+            <h3 className="font-semibold text-foreground leading-tight tracking-tight transition-colors group-hover:text-primary">
+              {experiment.title}
+            </h3>
           </div>
           <p className="line-clamp-3 text-pretty text-muted-foreground text-sm leading-relaxed">
             {experiment.description}
           </p>
+          <div className="mt-auto flex flex-wrap gap-1 pt-1">
+            {experiment.content?.article && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 font-medium text-[10px] text-primary">
+                <FileText className="h-3 w-3" />
+                Article
+              </span>
+            )}
+            {experiment.tech?.slice(0, 3).map((t) => (
+              <span
+                className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
+                key={t}
+              >
+                {t}
+              </span>
+            ))}
+            {(experiment.tech?.length ?? 0) > 3 && (
+              <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
+                +{experiment.tech!.length - 3}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     );

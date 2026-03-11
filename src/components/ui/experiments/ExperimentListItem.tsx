@@ -67,23 +67,41 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
         {/* Content */}
         <div className="pointer-events-none relative z-10 flex flex-col items-start justify-between gap-1 md:flex-row md:gap-4">
           <div className="order-last w-full min-w-0 flex-1 md:order-first">
-            <div className="mb-1 flex items-center gap-2">
+            <div className="mb-1">
               <h2
                 className={`font-bold text-lg tracking-tight transition-colors duration-300 md:text-2xl ${isMobileActive ? "opacity-0" : "text-foreground"}`}
               >
                 {experiment.title}
               </h2>
-              {experiment.content?.article && (
-                <FileText
-                  className={`h-4 w-4 shrink-0 transition-opacity duration-300 ${isMobileActive ? "opacity-0" : "text-muted-foreground/60"}`}
-                />
-              )}
             </div>
             <p
               className={`text-[13px] leading-relaxed transition-colors duration-300 md:text-base ${isMobileActive ? "opacity-0" : "text-muted-foreground"}`}
             >
               {experiment.description}
             </p>
+            <div
+              className={`mt-2 flex flex-wrap gap-1 transition-opacity duration-300 ${isMobileActive ? "opacity-0" : ""}`}
+            >
+              {experiment.content?.article && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 font-medium text-[10px] text-primary">
+                  <FileText className="h-3 w-3" />
+                  Article
+                </span>
+              )}
+              {experiment.tech?.slice(0, 3).map((t) => (
+                <span
+                  className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
+                  key={t}
+                >
+                  {t}
+                </span>
+              ))}
+              {(experiment.tech?.length ?? 0) > 3 && (
+                <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
+                  +{experiment.tech!.length - 3}
+                </span>
+              )}
+            </div>
           </div>
 
           {formattedDate && (

@@ -9,9 +9,11 @@ export interface Article {
   experimentHref: string;
   experimentSlug: string;
   href: string;
+  poster?: string;
   publishedAt: string;
   readingMinutes: number;
   slug: string;
+  tech?: string[];
   title: string;
   updatedAt?: string;
 }
@@ -50,6 +52,20 @@ export const getArticles = cache(async (): Promise<Article[]> => {
           const raw = await fs.readFile(contentPath, "utf-8");
           const { data, content } = matter(raw);
 
+          let tech: string[] | undefined;
+          let poster: string | undefined;
+          try {
+            const expJson = await fs.readFile(
+              path.join(groupPath, "experiment.json"),
+              "utf-8"
+            );
+            const exp = JSON.parse(expJson);
+            tech = exp.tech;
+            poster = exp.poster;
+          } catch {
+            // experiment.json not found or invalid -- skip enrichment
+          }
+
           return {
             title: data.title || name,
             description: data.description,
@@ -63,6 +79,8 @@ export const getArticles = cache(async (): Promise<Article[]> => {
             updatedAt: data.updatedAt || data.time?.updated,
             href: `/experiments/${name}/article`,
             experimentHref: `/experiments/${name}`,
+            tech,
+            poster,
           };
         } catch {
           return null;

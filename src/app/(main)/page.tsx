@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AIWidget } from "@/components/ui/AIWidget";
+import { ContentSection } from "@/components/ui/ContentSection";
 import { WithHover } from "@/components/ui/cursor/WithHover";
-import { ExperimentDrawerList } from "@/components/ui/ExperimentDrawerList";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { Icons } from "@/components/ui/icons";
 import { LocationStatus } from "@/components/ui/LocationStatus";
 import { SiteFooter } from "@/components/ui/SiteFooter";
 import { ThemeAwareWaves } from "@/components/ui/ThemeAwareWaves";
-import { WritingSection } from "@/components/ui/WritingSection";
 import { getArticles } from "@/lib/articles";
 import { getExperiments } from "@/lib/experiments";
 import { replica, testDieGrotesk } from "@/lib/fonts";
@@ -24,41 +23,35 @@ const TEXT_SCALE_CONFIG = { scale: 1.5 } as const;
 // Solution: Apply isolation: isolate to the hero container to force a new stacking context,
 // preventing the blend mode from "leaking" or distorting against the complex background layers.
 
-async function WritingSectionAsync() {
-  const articles = await getArticles();
-  return <WritingSection articles={articles} />;
+async function ContentSectionAsync() {
+  const [articles, experiments] = await Promise.all([
+    getArticles(),
+    getExperiments(),
+  ]);
+  return <ContentSection articles={articles} experiments={experiments} />;
 }
 
-async function ExperimentListAsync() {
-  const experiments = await getExperiments();
-  return <ExperimentDrawerList experiments={experiments} />;
-}
-
-function WritingSkeleton() {
+function ContentSkeleton() {
   return (
-    <div className="mb-16 space-y-4">
-      <div className="h-8 w-32 animate-pulse rounded bg-muted/20" />
-      <div className="space-y-3">
-        <div className="h-20 animate-pulse rounded-lg bg-muted/10" />
-        <div className="h-20 animate-pulse rounded-lg bg-muted/10" />
-      </div>
-    </div>
-  );
-}
-
-function ExperimentsSkeleton() {
-  return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div className="h-8 w-40 animate-pulse rounded bg-muted/20" />
-        <div className="h-8 w-20 animate-pulse rounded bg-muted/20" />
+        <div className="flex gap-1">
+          <div className="h-8 w-28 animate-pulse rounded-md bg-muted/20" />
+          <div className="h-8 w-20 animate-pulse rounded-md bg-muted/20" />
+        </div>
+        <div className="h-8 w-20 animate-pulse rounded-md bg-muted/20" />
       </div>
-      <div className="space-y-3">
-        {Array.from({ length: 4 }).map((_, i) => (
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
           <div
-            className="h-16 animate-pulse rounded-lg bg-muted/10"
+            className="space-y-3"
             key={`skel-${i.toString()}`}
-          />
+          >
+            <div className="aspect-video animate-pulse rounded-xl bg-muted/10" />
+            <div className="h-4 w-24 animate-pulse rounded bg-muted/10" />
+            <div className="h-5 w-40 animate-pulse rounded bg-muted/10" />
+            <div className="h-4 w-full animate-pulse rounded bg-muted/10" />
+          </div>
         ))}
       </div>
     </div>
@@ -162,11 +155,8 @@ export default function Home() {
           </div>
         </div>
 
-        <Suspense fallback={<WritingSkeleton />}>
-          <WritingSectionAsync />
-        </Suspense>
-        <Suspense fallback={<ExperimentsSkeleton />}>
-          <ExperimentListAsync />
+        <Suspense fallback={<ContentSkeleton />}>
+          <ContentSectionAsync />
         </Suspense>
       </main>
       <div className="mx-auto w-full max-w-6xl px-8 md:px-24">
