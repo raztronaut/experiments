@@ -52,7 +52,7 @@ npm run optimize:videos        # compress experiment preview videos
 | Next.js | 16.1 | `next` -- App Router, React 19 |
 | React | 19.2 | `react`, `react-dom` |
 | TypeScript | ^5 | strict mode |
-| Tailwind CSS | 3.4 | with shadcn/ui, class-variance-authority |
+| Tailwind CSS | 4.2 | CSS-first config, `@tailwindcss/postcss`, shadcn/ui, class-variance-authority |
 | GSAP | 3.14 | `gsap`, `gsap/ScrollTrigger`, `@gsap/react` -- always dynamic import |
 | Motion | 12.x | `motion/react` -- layout animations, gestures, springs |
 | Lenis | 1.3 | `lenis`, `lenis/react` -- smooth scroll |
@@ -228,4 +228,5 @@ Read the relevant doc BEFORE working in that domain:
 **Toolkit inventory**: `.agents/contexts/toolkit.md`
 **Writing voice**: `.agents/contexts/writing-voice.md`
 
+**Backlog**: `.agents/backlog/README.md` -- canonical running list of all pending work (read when planning or starting a session)
 **Learned memory**: `memory.md` -- auto-maintained user preferences and workspace facts (always read)

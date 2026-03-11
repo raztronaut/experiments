@@ -546,7 +546,7 @@ function Dashboard() {
         <SceneB />
       </View>
       <Canvas
-        className="!fixed top-0 left-0 w-full h-full pointer-events-none"
+        className="fixed! top-0 left-0 w-full h-full pointer-events-none"
         eventSource={document.getElementById('root')!}
       >
         <View.Port />

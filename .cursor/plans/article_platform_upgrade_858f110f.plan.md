@@ -137,7 +137,7 @@ Update the **Article Structure** section to include:
 - Fixed position: `top-4 left-[calc(ExperimentBackButton_width + gap)]` -- positioned to the right of the back button
 - Only renders when an `articleHref` prop is provided
 - Pill shape with `FileText` icon from lucide-react: "View Article"
-- Same backdrop-blur glass style as ExperimentBackButton
+- Same backdrop-blur-sm glass style as ExperimentBackButton
 - Hides in iframes (same `window.self === window.top` check)
 
 **Update experiment layouts to include it:**

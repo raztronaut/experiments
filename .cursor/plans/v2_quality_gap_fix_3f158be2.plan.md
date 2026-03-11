@@ -98,7 +98,7 @@ The article at `/experiments/send-button/article` inherits the experiment layout
 
 **D. Port TOC highlight** -- Sylph's `data-highlight` pattern on heading click (yellow flash via CSS `::before`, 2s transition).
 
-**E. Port staggered fade-in entrances** -- Spring-physics animations (`opacity`, `y`, `blur`) with `staggerChildren` using framer-motion (already installed).
+**E. Port staggered fade-in entrances** -- Spring-physics animations (`opacity`, `y`, `blur-sm`) with `staggerChildren` using framer-motion (already installed).
 
 **F. Add prev/next article navigation** -- Port Sylph's `post-navigation` pattern for linking between articles. Add breadcrumb on article pages.
 
