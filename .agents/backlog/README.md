@@ -4,7 +4,7 @@ Single source of truth for all pending work in the experiments lab. Organized by
 
 **Maintain this, not `.cursor/plans/`.** Plan files are ephemeral -- they capture a session's intent. This backlog persists across sessions. When work completes, check it off here. When new work surfaces, add it here.
 
-Last audited: 2026-03-11
+Last audited: 2026-03-11 (T8 added)
 
 ## Quick View
 
@@ -17,6 +17,7 @@ Last audited: 2026-03-11
 | 5 | [t5-toolkit-platform.md](t5-toolkit-platform.md) | 11 | Large | Toolkit adoption, MCP, scroll docs, porting skill, Entire.io |
 | 6 | [t6-deferred.md](t6-deferred.md) | 5 | Varies | AGENTS.md deferred items |
 | 7 | [t7-nice-to-have.md](t7-nice-to-have.md) | 10 | Low | Low-priority improvements, Tailwind v4 opportunities |
+| 8 | [t8-architecture-restructuring.md](t8-architecture-restructuring.md) | 14 | Large | Unify MDX on Fumadocs, dynamic articles, pipeline consolidation, dead dep cleanup |
 | -- | [completed.md](completed.md) | -- | -- | Archive of done work |
 
 ## Plans Attached
@@ -30,6 +31,7 @@ Backlog items that already have `.cursor/plans/` files. Check these before creat
 | Entire.io Integration | T5 | [entire.io_integration](../../.cursor/plans/entire.io_integration_f067a72e.plan.md) | Pending |
 | Agent-Native Audit Fixes | Cross | [agent-native_audit_fixes](../../.cursor/plans/agent-native_audit_fixes_9349af8c.plan.md) | Pending (todo 3a partially addressed by content rules) |
 | Content Constellation Cursor Integration | Cross | [content_constellation_cursor_integration](../../.cursor/plans/content_constellation_cursor_integration_690d3f3e.plan.md) | Done -- 6 rules, 3 skills, 2 subagents |
+| Architecture Restructuring | T8 | [architecture_restructuring_investigation](../../.cursor/plans/architecture_restructuring_investigation_79b46e55.plan.md) | Pending -- 4 phases (foundation, content unification, pipeline, tooling) |
 
 **Completed plans** (archived in [completed.md](completed.md)):
 Registry V2 (5 plans: `registry_interactive_docs`, `fumadocs_registry_v2`, `registry_fumadocs_audit_fix`, `registry_v2_fix_crash`, `registry_ui_pass`)
@@ -56,5 +58,6 @@ Consolidated from 42 `.cursor/plans/` files and these chats:
 - [Vercel deploy best practices](CURRENT_SESSION) -- Vercel prod/preview model, branching strategy for v2 launch, GitHub branch protection
 - [Registry interactive docs plan](../../.cursor/plans/registry_interactive_docs_aaa07efa.plan.md) -- (done) Fumadocs-powered registry explorer, 7-phase build
 - [Curated component collection plan](../../.cursor/plans/s-tier_collected_registry_ca7692d5.plan.md) -- (future) Personal component mood board with collection.json, CLI, web management UI, agent skill
+- [Architecture restructuring investigation](CURRENT_SESSION) -- Dual-MDX unification, dead dep cleanup, pipeline consolidation, content-first architecture
 
 Canonical plan file: `.cursor/plans/v2_pending_work_inventory_80c82495.plan.md` (superseded by this backlog).
