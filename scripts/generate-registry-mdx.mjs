@@ -227,6 +227,45 @@ function buildNpmBlock(deps) {
 }
 
 /**
+ * Build a Usage code snippet showing import + basic render.
+ */
+function buildUsageSection(item) {
+  const mainFile = item.files?.find(
+    (f) =>
+      f.path?.endsWith(".tsx") &&
+      !f.path?.includes(".test.") &&
+      !f.path?.includes(".story.")
+  );
+  if (!mainFile) {
+    return "";
+  }
+
+  const filename = mainFile.name ?? mainFile.path?.split("/").pop() ?? "";
+  const componentName = filename.replace(/\.(tsx|ts|jsx|js)$/, "");
+  if (!componentName) {
+    return "";
+  }
+
+  const targetDir = mainFile.target
+    ? mainFile.target.replace(/\/[^/]+$/, "")
+    : `components/${item.category}/${item.name}`;
+
+  const lines = [
+    "## Usage",
+    "",
+    "```tsx",
+    `import { ${componentName} } from "@/${targetDir}/${componentName}";`,
+    "",
+    "export default function Example() {",
+    `  return <${componentName} />;`,
+    "}",
+    "```",
+  ];
+
+  return lines.join("\n");
+}
+
+/**
  * Build Related section using Fumadocs Cards.
  */
 function buildRelatedSection(related) {
@@ -344,6 +383,11 @@ function buildNonExperimentMdx(item, allValidItems) {
     lines.push("### Dependencies", "", buildNpmBlock(deps), "");
   }
 
+  const usageSection = buildUsageSection(item);
+  if (usageSection) {
+    lines.push(usageSection, "");
+  }
+
   lines.push("## Source", "", `<RegistrySourceCode slug="${name}" />`, "");
 
   const relatedSection = buildRelatedSection(related);
@@ -458,6 +502,11 @@ function buildCollectedPortedMdx(item, allValidItems) {
 
   if (deps.length > 0) {
     lines.push("### Dependencies", "", buildNpmBlock(deps), "");
+  }
+
+  const usageSection = buildUsageSection(item);
+  if (usageSection) {
+    lines.push(usageSection, "");
   }
 
   lines.push("## Source", "", `<RegistrySourceCode slug="${name}" />`, "");

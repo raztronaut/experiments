@@ -1,4 +1,6 @@
-import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
+"use client";
+
+import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 
 interface InstallCommandProps {
   slug: string;
@@ -6,13 +8,7 @@ interface InstallCommandProps {
 
 function InstallCommand({ slug }: InstallCommandProps) {
   const command = `npx shadcn add https://www.razisyed.cv/r/${slug}`;
-  return (
-    <CodeBlock>
-      <Pre>
-        <code>{command}</code>
-      </Pre>
-    </CodeBlock>
-  );
+  return <DynamicCodeBlock code={command} lang="bash" />;
 }
 
 export { InstallCommand };

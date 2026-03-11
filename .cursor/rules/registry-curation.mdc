@@ -32,10 +32,17 @@ alwaysApply: false
 - **scan toggles**: Control which directories `generate-registry-json.mjs` crawls
 - **utilities**: Explicit file paths (not auto-discovered like other categories)
 
+## Code Display
+
+- Source code on docs pages uses `DynamicCodeBlock` from `fumadocs-ui/components/dynamic-codeblock` for runtime Shiki syntax highlighting
+- Install commands also use `DynamicCodeBlock` with `lang="bash"`
+- For shared UI components (`category: "components"`), hand-authored MDX in `content/registry/components/` renders components directly with inline JSX previews (do NOT import `.story.tsx` files in MDX -- `@fumadocs/story` barrel export pulls `node:fs/promises` which breaks Turbopack)
+- For experiments and collected, iframe previews use `ComponentPreview` (unified component with `basePath` prop)
+
 ## After Changes
 
 Re-run `npm run generate:registry` to regenerate all outputs:
 - `registry.json` (manifest)
 - `public/registry/{name}.json` (per-item, shadcn-compatible)
 - `public/registry/index.json` + `index-slim.json` (indexes)
-- `content/registry/**/*.mdx` (Fumadocs docs)
+- `content/registry/**/*.mdx` (Fumadocs docs -- hand-authored files without `.generated` marker are preserved)

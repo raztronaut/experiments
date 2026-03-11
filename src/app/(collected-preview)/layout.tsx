@@ -1,4 +1,7 @@
 import type { ReactNode } from "react";
+import { activeFont } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import "./collected-preview.css";
 
 export const metadata = {
   title: "Collected Component Preview",
@@ -13,11 +16,16 @@ export default function CollectedPreviewLayout({
   return (
     <html className="dark" lang="en">
       <body
+        className={cn(
+          activeFont.className,
+          activeFont.variable,
+          "font-canvas antialiased",
+        )}
         style={{
           margin: 0,
           padding: 0,
-          backgroundColor: "#0a0a0a",
-          color: "#fff",
+          backgroundColor: "hsl(var(--background))",
+          color: "hsl(var(--foreground))",
           overflow: "auto",
           overscrollBehavior: "none",
         }}

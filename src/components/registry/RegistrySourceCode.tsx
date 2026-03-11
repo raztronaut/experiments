@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
+import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { useEffect, useState } from "react";
 
 interface RegistryFile {
@@ -143,11 +143,9 @@ function RegistrySourceCode({ slug }: { slug: string }) {
                 </span>
               )}
             </summary>
-            <CodeBlock className="rounded-none border-0 border-fd-border border-t">
-              <Pre className="max-h-[500px]">
-                <code className={`language-${lang}`}>{file.content}</code>
-              </Pre>
-            </CodeBlock>
+            <div className="max-h-[500px] overflow-auto border-fd-border border-t [&_pre]:rounded-none [&_pre]:border-0">
+              <DynamicCodeBlock code={file.content} lang={lang} />
+            </div>
           </details>
         );
       })}

@@ -15,6 +15,8 @@
     "new:experiment:auto": "node scripts/create-experiment.mjs",
     "new:article": "plop article",
     "new:article:auto": "node scripts/create-article.mjs",
+    "new:collected": "plop collected",
+    "new:collected:auto": "node scripts/create-collected.mjs",
     "delete:experiment": "node scripts/delete-experiment.mjs",
     "delete:article": "node scripts/delete-article.mjs",
     "generate:posters": "node scripts/generate-posters.mjs",

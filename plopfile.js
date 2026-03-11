@@ -142,6 +142,66 @@ module.exports = (plop) => {
     },
   });
 
+  plop.setGenerator("collected", {
+    description: "Scaffold a collected component (ported external demo)",
+    prompts: [
+      {
+        type: "input",
+        name: "name",
+        message: "Component name:",
+        validate: (value) => {
+          if (!/.+/.test(value)) {
+            return "name is required";
+          }
+          const fs = require("node:fs");
+          const dashCase = plop.getHelper("dashCase");
+          const slug = dashCase(value);
+          const dir = `src/components/collected/${slug}`;
+          if (fs.existsSync(dir)) {
+            return `Component already exists at ${dir}.`;
+          }
+          return true;
+        },
+      },
+      {
+        type: "input",
+        name: "source",
+        message: "Source URL (GitHub repo or demo URL):",
+        validate: (value) =>
+          /.+/.test(value) ? true : "source URL is required",
+      },
+      {
+        type: "input",
+        name: "author",
+        message: "Original author:",
+        validate: (value) => (/.+/.test(value) ? true : "author is required"),
+      },
+      {
+        type: "input",
+        name: "license",
+        message: "License:",
+        default: "MIT",
+      },
+    ],
+    actions: [
+      {
+        type: "add",
+        path: "src/components/collected/{{dashCase name}}/{{pascalCase name}}.tsx",
+        templateFile: "plop-templates/collected/component.tsx.hbs",
+      },
+      {
+        type: "add",
+        path: "src/components/collected/{{dashCase name}}/meta.json",
+        templateFile: "plop-templates/collected/meta.json.hbs",
+      },
+      {
+        type: "add",
+        path: "src/components/collected/{{dashCase name}}/styles.css",
+        templateFile: "plop-templates/collected/styles.css.hbs",
+      },
+    ],
+  });
+
   plop.setGenerator("article", {
     description: "Create article + docs for an existing experiment",
     prompts: [
