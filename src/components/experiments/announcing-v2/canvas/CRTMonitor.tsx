@@ -10,84 +10,18 @@ import { EXPERIMENTS } from "../data";
 import { usePrefersReducedMotion } from "../hooks";
 import { crtFragmentShader, crtVertexShader } from "../shaders/crtShader";
 import { useAnnouncingStore } from "../store";
-
-const SCREEN_W = 0.28;
-const SCREEN_H = 0.235;
-const SCREEN_ASPECT = SCREEN_W / SCREEN_H;
-const SCREEN_CORNER_R = 0.03;
-
-let textureLoader: THREE.TextureLoader | null = null;
-const textureCache = new Map<string, THREE.Texture>();
-
-function getLoader() {
-  if (!textureLoader) {
-    textureLoader = new THREE.TextureLoader();
-  }
-  return textureLoader;
-}
-
-function loadTexture(src: string, onLoaded?: (t: THREE.Texture) => void) {
-  const cached = textureCache.get(src);
-  if (cached) {
-    onLoaded?.(cached);
-    return cached;
-  }
-
-  if (src.endsWith(".mp4")) {
-    const video = document.createElement("video");
-    video.crossOrigin = "anonymous";
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    video.src = src;
-    video.play().catch(() => {});
-
-    const tex = new THREE.VideoTexture(video);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    textureCache.set(src, tex);
-    // Video textures don't have a load callback in the same way,
-    // but the video element has videoWidth/videoHeight once loaded.
-    video.addEventListener("loadedmetadata", () => {
-      onLoaded?.(tex);
-    });
-    return tex;
-  }
-
-  const tex = getLoader().load(src, (t) => onLoaded?.(t));
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.minFilter = THREE.LinearFilter;
-  tex.magFilter = THREE.LinearFilter;
-  textureCache.set(src, tex);
-  return tex;
-}
-
-function createScreenGeometry(w: number, h: number, r: number) {
-  const shape = new THREE.Shape();
-  const x = -w / 2;
-  const y = -h / 2;
-
-  shape.moveTo(x + r, y);
-  shape.lineTo(x + w - r, y);
-  shape.quadraticCurveTo(x + w, y, x + w, y + r);
-  shape.lineTo(x + w, y + h - r);
-  shape.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  shape.lineTo(x + r, y + h);
-  shape.quadraticCurveTo(x, y + h, x, y + h - r);
-  shape.lineTo(x, y + r);
-  shape.quadraticCurveTo(x, y, x + r, y);
-
-  const geometry = new THREE.ShapeGeometry(shape);
-  const positions = geometry.attributes.position;
-  const uvs = new Float32Array(positions.count * 2);
-
-  for (let i = 0; i < positions.count; i++) {
-    uvs[i * 2] = (positions.getX(i) - x) / w;
-    uvs[i * 2 + 1] = (positions.getY(i) - y) / h;
-  }
-
-  geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
-  return geometry;
-}
+import {
+  createScreenGeometry,
+  SCREEN_ASPECT,
+  SCREEN_CORNER_R,
+  SCREEN_H,
+  SCREEN_W,
+} from "./screenGeometry";
+import {
+  disposeAllTextures,
+  loadTexture,
+  pauseAllVideos,
+} from "./textureLoader";
 
 useGLTF.preload("/experiments/announcing-v2/monitor.glb");
 
@@ -150,18 +84,7 @@ export function CRTMonitor() {
   }, [monitorModel]);
 
   useEffect(() => {
-    return () => {
-      for (const tex of textureCache.values()) {
-        if (tex instanceof THREE.VideoTexture) {
-          const video = tex.image as HTMLVideoElement;
-          video.pause();
-          video.src = "";
-        }
-        tex.dispose();
-      }
-      textureCache.clear();
-      textureLoader = null;
-    };
+    return () => disposeAllTextures();
   }, []);
 
   useFrame(({ clock }) => {
@@ -179,14 +102,7 @@ export function CRTMonitor() {
     if (activeExperimentSlug !== currentSlugRef.current) {
       currentSlugRef.current = activeExperimentSlug;
 
-      textureCache.forEach((tex) => {
-        if (tex instanceof THREE.VideoTexture) {
-          const video = tex.image as HTMLVideoElement;
-          if (video && !video.paused) {
-            video.pause();
-          }
-        }
-      });
+      pauseAllVideos();
 
       if (glitchAnimRef.current) {
         glitchAnimRef.current.kill();

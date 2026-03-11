@@ -54,6 +54,10 @@ vi.mock("gsap/SplitText", () => ({
   },
 }));
 
+vi.mock("@/hooks/useGSAPDebug", () => ({
+  useGSAPDebug: vi.fn(),
+}));
+
 vi.mock("@react-three/fiber", () => ({
   useFrame: vi.fn(),
   useThree: vi.fn(() => ({

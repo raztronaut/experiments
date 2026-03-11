@@ -1,0 +1,74 @@
+.fiddle-section {
+  position: relative;
+  width: 100%;
+  background-color: #e3e3db;
+}
+
+.fiddle-nav,
+.fiddle-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2rem;
+}
+.fiddle-nav p,
+.fiddle-footer p {
+  font-family: "Inter", "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  letter-spacing: -0.01rem;
+}
+
+.fiddle-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100svh;
+  min-height: 500px;
+  padding: 0 2rem;
+}
+
+.fiddle-hover-img {
+  position: relative;
+  width: 700px;
+  max-width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+.fiddle-hover-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fiddle-grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.fiddle-grid-block {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 20px;
+  font-weight: 400;
+  color: #e3e3db;
+  background-color: #1a1a1a;
+  opacity: 0;
+}
+.fiddle-grid-block.active {
+  opacity: 1;
+}

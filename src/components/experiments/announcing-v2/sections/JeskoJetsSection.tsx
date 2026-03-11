@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { useDevControls } from "@/hooks/useDevControls";
 import { JESKOJETS_CONTENT } from "../data";
 import { usePrefersReducedMotion } from "../hooks";
+import "./jesko-jets-section.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -121,120 +122,6 @@ export function JeskoJetsSection() {
       <section className="jesko-outro">
         <h1>{JESKOJETS_CONTENT.outroText}</h1>
       </section>
-
-      <style>{`
-        .jesko-hero {
-          position: relative;
-          width: 100%;
-          height: 100svh;
-          overflow: hidden;
-          perspective: 1000px;
-          color: #fff;
-        }
-
-        .jesko-outro {
-          position: relative;
-          width: 100%;
-          height: 100svh;
-          overflow: hidden;
-          padding: 2rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          background-color: #fff;
-          color: #0f0f0f;
-        }
-        .jesko-outro h1 {
-          font-family: "Instrument Serif", serif;
-          font-size: clamp(5rem, 6vw, 7rem);
-          font-weight: 500;
-          line-height: 0.8;
-        }
-
-        .jesko-sky-container,
-        .jesko-hero-copy,
-        .jesko-window-container,
-        .jesko-hero-header {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          will-change: transform;
-        }
-
-        .jesko-sky-container {
-          height: 350svh;
-        }
-        .jesko-sky-container img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .jesko-hero-copy {
-          height: 100svh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .jesko-hero-copy h1 {
-          width: 85%;
-          font-family: "Instrument Serif", serif;
-          font-size: clamp(5rem, 6vw, 7rem);
-          font-weight: 500;
-          line-height: 0.8;
-        }
-
-        .jesko-window-container {
-          height: 100svh;
-        }
-        .jesko-window-container img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .jesko-hero-header {
-          height: 100svh;
-          padding: 2rem;
-          display: flex;
-          transform-style: preserve-3d;
-        }
-
-        .jesko-col {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        .jesko-col h1 {
-          font-family: "Instrument Serif", serif;
-          font-size: clamp(5rem, 6vw, 7rem);
-          font-weight: 500;
-          line-height: 0.8;
-          white-space: pre-line;
-        }
-        .jesko-col p {
-          font-family: "Instrument Serif", serif;
-          font-size: 1.35rem;
-          line-height: 1;
-          width: 50%;
-        }
-        .jesko-col:nth-child(2) {
-          align-items: flex-end;
-          text-align: right;
-        }
-
-        @media (max-width: 1000px) {
-          .jesko-col h1 {
-            font-size: 3rem;
-          }
-          .jesko-col p {
-            font-size: 1.125rem;
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,0 +1,146 @@
+.preloader-counter {
+  position: fixed;
+  top: 50svh;
+  left: 2rem;
+  z-index: 52;
+  transform: translateY(-50%) scale(0.25);
+  transform-origin: left bottom;
+  will-change: transform;
+}
+.preloader-counter h1 {
+  font-family: "DM Sans", sans-serif;
+  font-size: clamp(2.5rem, 25vw, 25rem);
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+}
+
+.preloader-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  color: #fff;
+  background-color: #0f0f0f;
+}
+
+.preloader-nav {
+  position: fixed;
+  z-index: 51;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2rem;
+}
+.preloader-nav a {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+  text-decoration: none;
+}
+.preloader-nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.preloader-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  will-change: clip-path, transform;
+}
+.preloader-hero-bg img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%) scale(2);
+  will-change: transform;
+}
+
+.preloader-header {
+  position: absolute;
+  bottom: 4rem;
+  width: 100%;
+  padding: 0 2rem;
+}
+.preloader-header h1 {
+  font-family: "Instrument Serif", serif;
+  font-size: clamp(4rem, 12vw, 15rem);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.preloader-hero-footer {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 2rem;
+}
+.preloader-hero-footer p {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+}
+
+.preloader-progress-bar {
+  position: absolute;
+  bottom: 6rem;
+  left: 2rem;
+  width: calc(100% - 4rem);
+  height: 1.5px;
+  overflow: hidden;
+  background-color: #3a3a3a;
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+.preloader-progress {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
+.preloader-char,
+.preloader-word,
+.preloader-digit {
+  position: relative;
+  will-change: transform, clip-path;
+}
+
+@media (max-width: 1000px) {
+  .preloader-nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+  }
+  .preloader-header {
+    top: 50svh;
+    bottom: unset;
+    display: flex;
+    justify-content: center;
+    transform: translateY(-50%);
+  }
+  .preloader-header h1 {
+    font-size: 4rem;
+  }
+}
