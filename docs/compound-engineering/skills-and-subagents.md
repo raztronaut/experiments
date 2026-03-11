@@ -29,7 +29,19 @@ Ask for these explicitly when relevant:
 | `agent-native-architecture` | Designing systems where agents are first-class |
 | `gemini-imagegen` | Generating or editing images via Gemini API |
 | `rclone` | Uploading files to S3/R2/B2/cloud storage |
-| `compound-docs` | Documenting solved problems with YAML frontmatter |
+
+### Hidden skills (`disable-model-invocation: true`)
+
+These don't auto-activate but can be used by asking explicitly:
+
+| Skill | How to invoke | What it does |
+|-------|-------------|-------------|
+| `setup` | "Run the compound engineering setup skill" | Configures review agents |
+| `compound-docs` | "Document this solved problem" | Creates solution docs in `docs/solutions/` |
+| `resolve-pr-parallel` | "Resolve PR review comments" | Addresses PR feedback with parallel agents |
+| `file-todos` | "Create a file-based todo" | Todo tracking in `todos/` directory |
+| `skill-creator` | "Help me create a new skill" | Guides SKILL.md authoring |
+| `orchestrating-swarms` | N/A | Requires Claude Code `Teammate()` -- unusable in Cursor |
 
 ### Not relevant to this project
 
