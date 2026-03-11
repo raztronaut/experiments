@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
 import type {
-  AmbientLight,
   Group,
   LineBasicMaterial,
   Material,
@@ -8,6 +7,7 @@ import type {
   Object3D,
   PerspectiveCamera,
   PointLight,
+  Scene,
   WebGLRenderer,
 } from "three";
 import {
@@ -31,6 +31,8 @@ export interface AirplaneScene {
   views: View[];
 }
 
+// ── Dynamic imports ──
+
 async function loadDeps() {
   const [three, objModule] = await Promise.all([
     import("three"),
@@ -39,32 +41,29 @@ async function loadDeps() {
   return { three, OBJLoader: objModule.OBJLoader };
 }
 
-function createScene(
+// ── Scene construction helpers ──
+
+function createRenderer(
   three: typeof import("three"),
-  model: Object3D,
   container: HTMLElement
-): AirplaneScene {
+): WebGLRenderer {
+  const renderer = new three.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = three.PCFSoftShadowMap;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.domElement.classList.add("airplanes-canvas");
+  container.appendChild(renderer.domElement);
+  return renderer;
+}
+
+function createViewCameras(three: typeof import("three")): View[] {
   const views: View[] = [
     { bottom: 0, height: 1, camera: null },
     { bottom: 0, height: 0, camera: null },
   ];
 
-  const renderer: WebGLRenderer = new three.WebGLRenderer({
-    antialias: true,
-    alpha: true,
-  });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = three.PCFSoftShadowMap;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  renderer.domElement.classList.add("airplanes-canvas");
-  container.appendChild(renderer.domElement);
-
-  const scene = new three.Scene();
-
   for (let i = 0; i < views.length; i++) {
-    const view = views[i];
     const camera = new three.PerspectiveCamera(
       45,
       window.innerWidth / window.innerHeight,
@@ -74,10 +73,17 @@ function createScene(
     camera.position.set(0, 0, INITIAL_CAMERA_Z);
     camera.layers.disableAll();
     camera.layers.enable(i);
-    view.camera = camera;
     camera.lookAt(new three.Vector3(0, 5, 0));
+    views[i].camera = camera;
   }
 
+  return views;
+}
+
+function createLighting(
+  three: typeof import("three"),
+  scene: Scene
+): PointLight {
   const light = new three.PointLight(
     LIGHT_CONFIG.point.color,
     LIGHT_CONFIG.point.intensity
@@ -89,12 +95,19 @@ function createScene(
   );
   scene.add(light);
 
-  const softLight: AmbientLight = new three.AmbientLight(
+  const ambient = new three.AmbientLight(
     LIGHT_CONFIG.ambient.color,
     LIGHT_CONFIG.ambient.intensity
   );
-  scene.add(softLight);
+  scene.add(ambient);
 
+  return light;
+}
+
+function createModelGroup(
+  three: typeof import("three"),
+  model: Object3D
+): Group {
   const firstChild = model.children[0] as Mesh | undefined;
   if (!firstChild?.geometry) {
     throw new Error("Model has no valid geometry");
@@ -102,16 +115,35 @@ function createScene(
 
   const edges = new three.EdgesGeometry(firstChild.geometry);
   const line = new three.LineSegments(edges);
-  (line.material as LineBasicMaterial).depthTest = false;
-  (line.material as LineBasicMaterial).opacity = 0.5;
-  (line.material as LineBasicMaterial).transparent = true;
+
+  const mat = line.material as LineBasicMaterial;
+  mat.depthTest = false;
+  mat.opacity = 0.5;
+  mat.transparent = true;
+
   line.position.set(0.5, 0.2, -1);
 
-  const modelGroup: Group = new three.Group();
+  const group = new three.Group();
   model.layers.set(0);
   line.layers.set(1);
-  modelGroup.add(model);
-  modelGroup.add(line);
+  group.add(model);
+  group.add(line);
+
+  return group;
+}
+
+// ── Scene assembly ──
+
+function createScene(
+  three: typeof import("three"),
+  model: Object3D,
+  container: HTMLElement
+): AirplaneScene {
+  const renderer = createRenderer(three, container);
+  const views = createViewCameras(three);
+  const scene = new three.Scene();
+  const light = createLighting(three, scene);
+  const modelGroup = createModelGroup(three, model);
   scene.add(modelGroup);
 
   let w = window.innerWidth;
@@ -119,8 +151,7 @@ function createScene(
 
   const render = () => {
     for (const view of views) {
-      const camera = view.camera;
-      if (!camera) {
+      if (!view.camera) {
         continue;
       }
       const bottom = Math.floor(h * view.bottom);
@@ -128,8 +159,7 @@ function createScene(
       renderer.setViewport(0, 0, w, h);
       renderer.setScissor(0, bottom, w, height);
       renderer.setScissorTest(true);
-      camera.aspect = w / h;
-      renderer.render(scene, camera);
+      renderer.render(scene, view.camera);
     }
   };
 
@@ -137,14 +167,16 @@ function createScene(
     w = window.innerWidth;
     h = window.innerHeight;
     for (const view of views) {
-      const camera = view.camera;
-      if (!camera) {
+      if (!view.camera) {
         continue;
       }
-      camera.aspect = w / h;
+      view.camera.aspect = w / h;
+      // Adaptive zoom: when the browser is narrower than the physical screen,
+      // push the camera back proportionally so the model stays visible.
       const camZ = (screen.width - w) / 3;
-      camera.position.z = camZ < INITIAL_CAMERA_Z ? INITIAL_CAMERA_Z : camZ;
-      camera.updateProjectionMatrix();
+      view.camera.position.z =
+        camZ < INITIAL_CAMERA_Z ? INITIAL_CAMERA_Z : camZ;
+      view.camera.updateProjectionMatrix();
     }
     renderer.setSize(w, h);
     render();
@@ -175,6 +207,8 @@ function createScene(
   return { modelGroup, render, views, light, destroy };
 }
 
+// ── Model loading ──
+
 async function loadModel() {
   const { three, OBJLoader } = await loadDeps();
 
@@ -204,6 +238,8 @@ async function loadModel() {
   return { three, model };
 }
 
+// ── Hook ──
+
 export function useAirplaneScene() {
   const sceneRef = useRef<AirplaneScene | null>(null);
   const readyRef = useRef(false);
@@ -230,5 +266,5 @@ export function useAirplaneScene() {
     };
   }, []);
 
-  return { init, sceneRef };
+  return { init };
 }

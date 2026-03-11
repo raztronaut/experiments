@@ -1,5 +1,3 @@
-"use client";
-
 import { HERO } from "../data";
 
 export function HeroSection() {

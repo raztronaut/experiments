@@ -1,5 +1,3 @@
-"use client";
-
 import { BLUEPRINT_FACTS } from "../data";
 
 function BlueprintSVG() {
@@ -44,10 +42,7 @@ export function BlueprintSection() {
         <h3>Lets get into the nitty gritty...</h3>
       </section>
       {BLUEPRINT_FACTS.map((fact, i) => (
-        <section
-          className={`airplanes-section dark ${fact.label === "Length." ? "length" : ""} ${fact.label === "Wing Span." ? "wingspan" : ""} ${fact.label === "Left Phalange" ? "phalange" : ""}`}
-          key={i}
-        >
+        <section className={`airplanes-section dark ${fact.className}`} key={i}>
           <h2>{fact.label}</h2>
           <h3>{fact.value}</h3>
         </section>

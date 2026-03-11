@@ -1,5 +1,3 @@
-"use client";
-
 import { NARRATIVE_SECTIONS } from "../data";
 
 export function NarrativeSection() {

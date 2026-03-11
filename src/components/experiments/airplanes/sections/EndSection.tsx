@@ -1,5 +1,3 @@
-"use client";
-
 import { END } from "../data";
 
 export function EndSection() {
