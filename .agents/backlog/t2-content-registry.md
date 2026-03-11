@@ -4,7 +4,15 @@ The largest body of remaining work. Infrastructure is complete but barely used.
 
 ## Articles
 
-- **Generate articles for 15 experiments** -- `send-button`, `basketball-replay-center`, and `404-not-found` have articles. The remaining 15 have `content: {}`. This is the single largest content gap. Execution tools: `.cursor/skills/publish-content/SKILL.md` (workflow), `.cursor/agents/content-writer.md` (writing persona), `.cursor/skills/audit-content/SKILL.md` (coverage tracking).
+- **Generate articles for 15 experiments** -- `send-button`, `basketball-replay-center`, and `404-not-found` have articles. The remaining 15 have `content: {}`. This is the single largest content gap. Articles now use a **lens-based system** (implementation/concept/exploration) -- the content-writer runs a lens analysis and asks the user for direction before writing. Concept-rich experiments are currently underserved since all 3 existing articles are implementation-heavy. Execution tools: `.cursor/skills/publish-content/SKILL.md` (workflow), `.cursor/agents/content-writer.md` (writing persona), `.cursor/skills/audit-content/SKILL.md` (coverage tracking).
+  - Lens-strength observations (not prescriptions -- final emphasis decided with user at article brief time):
+    - `velocity-responsive-design`: strong **concept** (kinetic intent, cognitive bandwidth, relativistic metaphor)
+    - `non-euclidean-hyperbolic-workspace`: strong **concept** (non-Euclidean geometry as UI paradigm)
+    - `gravity-physics-ui-layout`: strong **concept** (physics as layout engine)
+    - `game-of-life-shader` / `life-3d`: strong **implementation** (shader technique, GPU compute)
+    - `keyboard-keys`: strong **implementation** (CSS/DOM craft)
+    - `mountain-transition`, `shader-landing`: strong **implementation** (scroll animation, shader effects)
+    - `transit-airport-split-flap-display`: mixed **concept** (physical interface as digital metaphor) + **implementation**
   - Source: [V2 review `content-pipeline-execution](../../.cursor/plans/v2_comprehensive_review_9100ae49.plan.md)`
 
 ## Schema Fields

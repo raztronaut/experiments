@@ -19,9 +19,13 @@ Note: `publishable: true` is the OUTPUT of this workflow (set in step 17), not a
 
 ## Phase 1: Preparation
 
-1. Read all source files for the experiment (`src/components/experiments/<slug>/`, `src/app/experiments/(<slug>)/`)
-2. Identify the **2-3 most interesting/novel techniques** worth sharing
-3. Scaffold the content structure:
+1. Read all source files for the experiment (`src/components/experiments/<slug>/` including README, content.ts; `src/app/experiments/(<slug>)/` including experiment.json, any docs/)
+2. **Lens analysis**: Assess what's interesting across all 3 article lenses (see `writing-voice.md`):
+   - **Implementation**: novel code patterns, shader techniques, animation systems, architecture decisions
+   - **Concept**: conceptual README, cross-disciplinary metaphors, novel UI paradigms, design philosophy
+   - **Exploration**: documented iterations, dead ends, pivots, changelog history, open questions
+3. **Article Brief (USER INPUT CHECKPOINT)**: Present the lens analysis to the user. Suggest which lenses to emphasize and why. Ask: "What's the story you want to tell? Which lenses matter most? Anything specific?" **Wait for user direction before proceeding.**
+4. Scaffold the content structure:
 
 ```bash
 npm run new:article:auto -- --name "<slug>"
@@ -36,25 +40,22 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
 
 **Voice**: First-person, conversational, code-forward. Reference `.agents/contexts/writing-voice.md`.
 
-4. Open `article/content.mdx`. The scaffolded file has an MDX comment listing all available components and the article structure. Follow it.
+5. **Propose section outline (USER INPUT CHECKPOINT).** Based on user direction from step 3, assemble an outline from the section building blocks in `writing-voice.md`:
+   - Shared blocks (always): Hook, Full Thing (LiveDemo), Reflection
+   - Implementation blocks: Basic Version + Demo, Enhancement + Demo, Key Insight
+   - Concept blocks: The Core Idea, Implications / What If, Design Rationale, Broader Connections
+   - Exploration blocks: Origin Story, What I Tried, The Pivot, Open Questions
+
+   Present the outline and ask: "Does this capture it? Want to shift emphasis?"
+
+6. **Plan interactive demos matched to sections (USER INPUT CHECKPOINT).** Demo types vary by lens:
+   - Implementation sections: Canvas 2D recreations with parameter sliders, progressive layering
+   - Concept sections: interactive diagrams, before/after comparisons, parameter spaces, annotated live embeds
+   - Exploration sections: side-by-side version comparisons, timeline widgets, expected-vs-actual toggles
+
+   Present the demo plan and ask: "These are the interactive elements I'd build -- any changes?"
 
 **Important**: The `# Title` h1 in the MDX IS the visual page title. The layout header only shows a small metadata line — all visual hierarchy comes from the MDX content itself.
-
-5. Write the article following the structure in writing-voice.md:
-   - **Hook**: 1-2 paragraphs. What it is, why it's interesting.
-   - **Basic version**: Simplest working code. Show it, explain it.
-   - **Enhancement**: Layer on the key technique step by step.
-   - **Key insight**: The non-obvious part. The "aha" moment.
-   - **Full thing**: Embed the live experiment with `<LiveDemo slug="<slug>" height="500px" />`.
-   - **What I'd do differently**: Honest reflection, dead ends, trade-offs.
-
-6. **Plan interactive demos BEFORE writing content.** For each major technique identified in step 2, plan one interactive demo component. Complex experiments (3+ techniques) should have a progressive series where each demo adds one layer:
-   - `Step1Demo` → basic effect only (e.g., just scanlines)
-   - `Step2Demo` → basic + next layer (e.g., scanlines + noise + vignette)
-   - `Step3Demo` → adds the next technique (e.g., barrel distortion)
-   - `<LiveDemo>` → the full experiment at the end
-
-   Each demo should have sliders/controls for the parameters introduced in that section.
 
 7. Build the demo components in `article/components.tsx`, then wire them into `article/page.tsx`:
    - Import the components in `page.tsx`: `import { Step1Demo, Step2Demo } from "./components";`
@@ -66,44 +67,45 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
    - For **shader/WebGL experiments**: Use Canvas 2D or CSS to create simplified 2D versions of each effect layer with parameter sliders. No R3F Canvas needed.
    - For **DOM/CSS experiments**: Import simplified versions of the actual components.
    - For **animation experiments**: Use CSS transitions or Motion to show the timing/easing concepts.
+   - For **concept sections**: Build interactive diagrams, comparison toggles, or parameter space explorers.
    - Wrap all demos in `<InteractiveWidget title="...">` for consistent styling.
    - Use `<SandpackDemo>` only for self-contained code that benefits from live editing (CSS tricks, small React components — NOT full WebGL setups).
 
-8. Fill in the `publishedAt` and `description` fields in the MDX frontmatter.
+8. Write the article in `content.mdx` following the confirmed outline from step 5. Reference `.agents/contexts/writing-voice.md` for voice guidance per lens.
 
-9. Verify the article renders: visit `/experiments/<slug>/article` in the dev server.
+9. Fill in the `publishedAt` and `description` fields in the MDX frontmatter.
+
+10. Verify the article renders: visit `/experiments/<slug>/article` in the dev server.
 
 ## Phase 3: Documentation (Internal + Shareable)
 
 **Audience**: Future you, collaborators, anyone evaluating the code.
 
-10. **`docs/lab-note.md`**: What was learned. What didn't work. Decisions made and why. Include dead ends — they're useful context. Internal voice, stream-of-consciousness is fine.
+11. **`docs/lab-note.md`**: What was learned. What didn't work. Decisions made and why. Include dead ends — they're useful context. Internal voice, stream-of-consciousness is fine.
 
-11. **`docs/architecture.md`**: Terse technical overview. Component tree as text diagram. Key patterns as bullet list. Dependencies as table. Performance notes if relevant.
+12. **`docs/architecture.md`**: Terse technical overview. Component tree as text diagram. Key patterns as bullet list. Dependencies as table. Performance notes if relevant.
 
-12. **`docs/snippet.md`**: The reusable extract. One install command, one minimal working example. Props/API as table. Gotchas in notes. Ready to copy-paste into another project.
+13. **`docs/snippet.md`**: The reusable extract. One install command, one minimal working example. Props/API as table. Gotchas in notes. Ready to copy-paste into another project.
 
-13. **`docs/changelog.md`**: Idea lineage. Where it came from (tweet, conversation, reference), how it evolved through iterations, current state.
+14. **`docs/changelog.md`**: Idea lineage. Where it came from (tweet, conversation, reference), how it evolved through iterations, current state.
 
 ## Phase 4: Social Content
 
 **Audience**: Twitter/X followers, Discord communities, LinkedIn.
 
-14. **`docs/social.md`**: Write an X thread (5-8 tweets):
-    - Tweet 1: Hook with visual media (video/gif of the experiment)
-    - Tweet 2-3: The basic version and key technique
-    - Tweet 4-5: The non-obvious insight
-    - Tweet 6: Full demo link
-    - Last: What was learned, link to article
+15. **`docs/social.md`**: Write an X thread (5-8 tweets). Lead the thread with whichever lens is strongest:
+    - Implementation-heavy: technique hook -> progressive reveal -> demo link -> article link
+    - Concept-heavy: provocative question -> the idea explained -> experiment as proof -> article link
+    - Exploration-heavy: "I tried X and it failed" -> the pivot -> what worked -> article link
     - No hashtags unless genuinely useful. No "🧵" thread emoji.
 
-15. Write a launch post (single tweet), a one-liner caption (Discord/Slack), and an optional LinkedIn post.
+16. Write a launch post (single tweet), a one-liner caption (Discord/Slack), and an optional LinkedIn post.
 
 ## Phase 5: Finalization
 
-16. Generate OG image: `npm run capture <slug> -- --og` for screenshot-based OG, or verify the dynamic `/api/og` route works with the experiment title. (Skip if no dev server available.)
+17. Generate OG image: `npm run capture <slug> -- --og` for screenshot-based OG, or verify the dynamic `/api/og` route works with the experiment title. (Skip if no dev server available.)
 
-17. Update `experiment.json`:
+18. Update `experiment.json`:
 
 ```json
 {
@@ -119,7 +121,7 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
 }
 ```
 
-18. Verify all content:
+19. Verify all content:
     - Article renders at `/experiments/<slug>/article`
     - All docs files are populated (no template placeholders remaining)
     - `article/components.tsx` has real interactive demos, not placeholder divs

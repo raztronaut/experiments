@@ -45,26 +45,38 @@ Flag experiments with empty fields that should be populated:
 - `related`: empty (should cross-reference related experiments)
 - `tags` / `tech`: present but verify completeness
 
-### Step 4: Generate status report
+### Step 4: Assess lens-strength signals
+
+For each non-legacy experiment, check which article lenses have strong material:
+
+| Signal | Lens | Look for |
+|--------|------|----------|
+| `I` | Implementation | Novel code patterns, shader techniques, animation systems, architecture decisions |
+| `C` | Concept | Rich README with conceptual language, cross-disciplinary metaphors, novel UI paradigms, design philosophy, content.ts with idea-heavy text |
+| `E` | Exploration | Documented iterations, lab notes, changelog history, dead ends, pivots |
+
+Also check `experiment.json` for an optional `articleLenses` field (advisory hint from the user).
+
+### Step 5: Generate status report
 
 Output a markdown table:
 
 ```markdown
 ## Content Coverage Report
 
-| Experiment | Status | Article | Lab Note | Arch | Snippet | Social | Changelog | Publishable |
-|------------|--------|---------|----------|------|---------|--------|-----------|-------------|
-| slug-name  | shipped | x | - | - | - | - | - | false |
+| Experiment | Status | Article | Lab Note | Arch | Snippet | Social | Changelog | Lenses | Publishable |
+|------------|--------|---------|----------|------|---------|--------|-----------|--------|-------------|
+| slug-name  | shipped | x | - | - | - | - | - | **C** I | false |
 ```
 
-Use `x` for present, `-` for missing. Sort by: publishable experiments first, then shipped, then wip.
+Use `x` for present, `-` for missing. In the Lenses column, list `I`, `C`, `E` for whichever signals are present. Bold the strongest. Sort by: publishable first, then shipped, then wip.
 
-### Step 5: Prioritize next actions
+### Step 6: Prioritize next actions
 
 Based on the report, recommend:
 
 1. Which experiments are closest to publishable (most content already exists)
-2. Which shipped experiments should get content next (most interesting/novel techniques)
+2. Which shipped experiments should get content next — consider both novelty and lens diversity (concept-rich experiments are currently underserved since all existing articles are implementation-heavy)
 3. Schema fields that need bulk backfill (`updated`, `inspiration`, `related`)
 
 Skip `legacy: true` experiments for content recommendations (they're untouchable).

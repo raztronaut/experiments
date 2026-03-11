@@ -35,12 +35,11 @@ Copy-paste ready. Sections:
 - **Notes**: Gotchas and caveats
 
 ### Social (`social.md`)
-X thread (5-8 tweets). Progressive reveal:
-- Tweet 1: Hook with visual media
-- Tweets 2-3: Basic version and key technique
-- Tweets 4-5: Non-obvious insight
-- Tweet 6: Full demo link
-- Last: What was learned, article link
+X thread (5-8 tweets). Lead the thread with whichever article lens is strongest:
+- **Implementation-heavy**: technique hook -> progressive reveal -> demo link -> article link
+- **Concept-heavy**: provocative question -> the idea explained -> experiment as proof -> article link
+- **Exploration-heavy**: "I tried X and it failed" -> the pivot -> what worked -> article link
+- **Mixed**: writer's judgment -- lead with the strongest lens
 - Also: launch post (single tweet), one-liner caption
 
 ### Changelog (`changelog.md`)

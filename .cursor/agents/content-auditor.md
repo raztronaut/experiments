@@ -47,6 +47,18 @@ When reviewing generated registry output:
 - Check for broken preview iframes, missing descriptions, or install command errors
 - Validate that `registry.config.json` featured/hidden lists are current
 
+## Lens-Strength Signals
+
+For each experiment, assess which article lenses have strong material. This surfaces experiments that are concept-rich or exploration-rich -- they'd be underserved by a purely implementation-focused article.
+
+| Signal | Lens | Look for |
+|--------|------|----------|
+| `I` | Implementation | Novel code patterns, shader techniques, animation systems, architecture decisions |
+| `C` | Concept | Rich README with conceptual language, cross-disciplinary metaphors, novel UI paradigms, design philosophy |
+| `E` | Exploration | Documented iterations, lab notes, changelog history, dead ends, pivots |
+
+Include lens signals in the Content Coverage table. These are observations to help the user decide article direction, not prescriptions.
+
 ## Report Format
 
 Output a markdown table sorted by: publishable first, then shipped, then wip. Skip `legacy: true` for content recommendations.
@@ -54,9 +66,9 @@ Output a markdown table sorted by: publishable first, then shipped, then wip. Sk
 ```markdown
 ## Content Coverage
 
-| Experiment | Status | Art | Lab | Arch | Snip | Social | CLog | Publishable |
-|------------|--------|-----|-----|------|------|--------|------|-------------|
-| name       | shipped | x  | -   | -    | -    | -      | -    | false       |
+| Experiment | Status | Art | Lab | Arch | Snip | Social | CLog | Lenses | Publishable |
+|------------|--------|-----|-----|------|------|--------|------|--------|-------------|
+| name       | shipped | x  | -   | -    | -    | -      | -    | I C    | false       |
 
 ## Schema Gaps
 
@@ -68,6 +80,8 @@ Output a markdown table sorted by: publishable first, then shipped, then wip. Sk
 
 1. [Prioritized list of next actions]
 ```
+
+In the Lenses column, list whichever of `I`, `C`, `E` have strong signals. Bold the strongest. This helps prioritize: concept-rich experiments (like velocity-responsive-design) are currently underserved and may benefit from early article attention.
 
 ## Quick Validation
 

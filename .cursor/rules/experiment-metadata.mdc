@@ -35,6 +35,10 @@ Tracks which content formats exist. Pre-commit validator cross-checks these flag
 - `social` → `docs/social.md`
 - `changelog` → `docs/changelog.md`
 
+## Optional Fields
+
+- `articleLenses`: array of `"implementation"` | `"concept"` | `"exploration"` -- advisory hint for which article lenses have strong material for this experiment. Not enforced by validator. Content-writer and content-auditor read this as a starting point but always do their own lens analysis.
+
 ## Key Semantics
 
 - `legacy: true` experiments are untouchable (18 pre-V2 experiments)

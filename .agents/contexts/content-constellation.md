@@ -58,7 +58,8 @@ npm run delete:article <slug> # removes article/ + docs/, resets content + publi
 - **No `import` in MDX** -- `next-mdx-remote` doesn't support it. Build demos in `components.tsx`, import in `page.tsx`, spread into `components` prop.
 - **Canvas 2D / CSS for article demos** -- avoid loading Three.js in article context. For shader experiments, recreate effects in Canvas 2D with parameter sliders.
 - **Typography is CSS-first** -- `experiments.css` (Sylph port) handles all article typography. MDX component map does NOT override heading/paragraph styles.
-- **Progressive demo pattern** -- for complex experiments, build a series of demos where each adds one technique layer (Step1Demo → Step2Demo → ... → LiveDemo at the end).
+- **Article lenses** -- articles blend three lenses (implementation, concept, exploration) in any proportion. See `writing-voice.md` for section building blocks and demo patterns per lens. The agent should present a lens analysis and ask the user for direction before committing to a structure.
+- **Lens emphasis informs other formats** -- concept-heavy experiments benefit from idea-hook social threads; implementation-heavy experiments from technique-hook threads. Lab notes and changelogs naturally lean exploration. The lenses are guidance, not enforcement.
 
 ## Tooling Inventory
 
@@ -87,15 +88,15 @@ npm run delete:article <slug> # removes article/ + docs/, resets content + publi
 
 | Agent | Purpose |
 |-------|---------|
-| `content-writer` | RNDR Realm + Maxime Heckel voice, progressive demo planning |
-| `content-auditor` | Content coverage scanning, schema gap reporting |
+| `content-writer` | Lens analysis, user-collaborative brief, article writing in RNDR Realm + Maxime Heckel voice |
+| `content-auditor` | Content coverage scanning, lens-strength signals, schema gap reporting |
 
 ### Agent Knowledge Base (`.agents/`)
 
 | Doc | Role |
 |-----|------|
 | `workflows/publish-experiment.md` | Canonical 5-phase, 18-step publish procedure |
-| `contexts/writing-voice.md` | Voice characteristics, anti-patterns, format templates |
+| `contexts/writing-voice.md` | Voice characteristics, article lenses, section building blocks, demo patterns, format templates |
 
 ### Generation Pipeline
 

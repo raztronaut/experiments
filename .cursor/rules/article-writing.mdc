@@ -1,20 +1,33 @@
 ---
-description: Writing voice, article structure, MDX wiring, and interactive demo patterns for experiment articles
+description: Writing voice, article lenses, section building blocks, MDX wiring, and demo patterns for experiment articles
 globs: "**/article/content.mdx"
 alwaysApply: false
 ---
 
 # Article Writing Rules
 
-Read `.agents/contexts/writing-voice.md` for full voice guide.
+Read `.agents/contexts/writing-voice.md` for full voice guide, section building blocks, and demo patterns.
 
 ## Voice
 
-First-person, code-forward, process-oriented. Casual confidence ("Nothing fancy here", "That's it"). Short paragraphs (max 3 sentences). No AI fingerprints ("let's dive in", "in this article we'll explore", "without further ado").
+First-person, process-oriented. Casual confidence ("Nothing fancy here", "That's it"). Short paragraphs (max 3 sentences). No AI fingerprints ("let's dive in", "in this article we'll explore", "without further ado").
 
-## Article Structure
+## Article Lenses
 
-1. **Hook** (1-2 paragraphs) → 2. **Basic version** + interactive demo → 3. **Enhancement** + demo → 4. Repeat per technique → 5. **Key insight** → 6. **Full thing** (`<LiveDemo>`) → 7. **What I'd do differently**
+Articles blend 3 lenses in any proportion. Ask the user which to emphasize before committing to a structure.
+
+- **Implementation**: how it works -- code, technique layering, progressive demos
+- **Concept**: why the idea matters -- design rationale, analogies, "what if" framing
+- **Exploration**: the journey -- dead ends, pivots, decisions, honest uncertainty
+
+## Section Building Blocks
+
+Pick from these based on lens emphasis. See `writing-voice.md` for details.
+
+**Shared** (always): Hook, Full Thing (LiveDemo), Reflection
+**Implementation**: Basic Version + Demo, Enhancement + Demo, Key Insight
+**Concept**: The Core Idea, Implications / What If, Design Rationale, Broader Connections
+**Exploration**: Origin Story, What I Tried, The Pivot, Open Questions
 
 ## MDX Wiring (CRITICAL)
 
@@ -26,13 +39,18 @@ First-person, code-forward, process-oriented. Casual confidence ("Nothing fancy 
 
 ## Interactive Components
 
-- **`<InteractiveWidget>`**: Primary tool. Wrap custom demos with sliders/controls.
+- **`<InteractiveWidget>`**: Primary tool. Wrap custom demos -- works for all lens types.
 - **`<SandpackDemo>`**: Editable code playgrounds. Best for self-contained CSS/React tricks.
-- **`<LiveDemo>`**: Full experiment iframe embed. Use once at the end.
+- **`<LiveDemo>`**: Full experiment iframe embed. Use once, near the end.
 
 ## Demo Strategy
 
-Use Canvas 2D or CSS for article demos, NOT R3F/WebGL (avoids loading Three.js). For shader experiments, recreate effects in Canvas 2D with parameter sliders. Reference: `basketball-replay-center` article.
+Match demos to lens emphasis:
+- Implementation: Canvas 2D recreations with parameter sliders, progressive layering
+- Concept: interactive diagrams, before/after comparisons, parameter spaces, annotated live embeds
+- Exploration: side-by-side version comparisons, expected-vs-actual toggles
+
+Avoid R3F/WebGL in article demos (prevents loading Three.js). Reference: `basketball-replay-center` article.
 
 ## Typography
 
