@@ -1,0 +1,8 @@
+README and Documentation Overhaul
+
+What's Wrong
+
+The @experiments/README.md was written during the V1 era and is significantly stale. It doesn't mention: the article system, RSS/Atom/JSON feeds, llms.txt, the /dev dashboard, the metadata system (status/listing/legacy), GSAP/Lenis/Tempus in the tech stack, Biome for linting, the toolkit layer, Entire.io, conventional commits, the deploy workflow, or Fumadocs
+
+
+along with updating the readme, i want to create a docs/ folder and readmes/guides/etc that comprehensively cover each major thing that should be documented / explained

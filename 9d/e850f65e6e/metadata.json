@@ -3,9 +3,10 @@
   "checkpoint_id": "9de850f65e6e",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 4,
+  "checkpoints_count": 5,
   "files_touched": [
-    "src/components/experiments/announcing-v2/AnnouncingV2.test.tsx"
+    "src/components/experiments/announcing-v2/AnnouncingV2.test.tsx",
+    "vitest.config.ts"
   ],
   "sessions": [
     {
@@ -25,6 +26,12 @@
       "transcript": "/9d/e850f65e6e/2/full.jsonl",
       "content_hash": "/9d/e850f65e6e/2/content_hash.txt",
       "prompt": "/9d/e850f65e6e/2/prompt.txt"
+    },
+    {
+      "metadata": "/9d/e850f65e6e/3/metadata.json",
+      "transcript": "/9d/e850f65e6e/3/full.jsonl",
+      "content_hash": "/9d/e850f65e6e/3/content_hash.txt",
+      "prompt": "/9d/e850f65e6e/3/prompt.txt"
     }
   ]
 }
