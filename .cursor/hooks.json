@@ -1,15 +1,46 @@
 {
-  "version": 1,
   "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": "entire hooks cursor before-submit-prompt"
+      }
+    ],
+    "preCompact": [
+      {
+        "command": "entire hooks cursor pre-compact"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "entire hooks cursor session-end"
+      }
+    ],
     "sessionStart": [
       {
         "command": "node .cursor/hooks/continual-learning-start.mjs"
+      },
+      {
+        "command": "entire hooks cursor session-start"
       }
     ],
     "stop": [
       {
         "command": "node .cursor/hooks/continual-learning-stop.mjs"
+      },
+      {
+        "command": "entire hooks cursor stop"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "entire hooks cursor subagent-start"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "entire hooks cursor subagent-stop"
       }
     ]
-  }
+  },
+  "version": 1
 }

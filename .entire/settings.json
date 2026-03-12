@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "log_level": "warn",
+  "telemetry": false
+}

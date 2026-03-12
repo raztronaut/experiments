@@ -3,6 +3,12 @@
 # and if the stash pop fails (formatting touched overlapping lines), unstaged work
 # is silently lost as an orphaned stash. Use `check` mode instead — fail fast,
 # fix manually.
+#
+# Hook ownership:
+#   Lefthook: pre-commit (this file)
+#   Entire.io: prepare-commit-msg, commit-msg, post-commit, pre-push (.git/hooks/)
+#   Conventional Commits grep is inlined in .git/hooks/commit-msg alongside Entire.
+#   Re-apply after `entire enable` (which overwrites .git/hooks/commit-msg).
 pre-commit:
   parallel: true
   commands:
