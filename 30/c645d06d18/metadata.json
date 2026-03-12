@@ -3,7 +3,7 @@
   "checkpoint_id": "30c645d06d18",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 41,
+  "checkpoints_count": 42,
   "files_touched": [
     ".agents/skills/continual-learning/SKILL.md",
     ".cursor/hooks.json",
@@ -73,6 +73,12 @@
       "transcript": "/30/c645d06d18/9/full.jsonl",
       "content_hash": "/30/c645d06d18/9/content_hash.txt",
       "prompt": "/30/c645d06d18/9/prompt.txt"
+    },
+    {
+      "metadata": "/30/c645d06d18/10/metadata.json",
+      "transcript": "/30/c645d06d18/10/full.jsonl",
+      "content_hash": "/30/c645d06d18/10/content_hash.txt",
+      "prompt": "/30/c645d06d18/10/prompt.txt"
     }
   ]
 }
