@@ -1,4 +1,4 @@
-import { getArticleContent, getArticles } from "@/lib/articles";
+import { getArticles } from "@/lib/articles";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/constants";
 import { escapeXml, mdxToPlainMarkdown } from "@/lib/feed-utils";
 
@@ -7,21 +7,18 @@ export const revalidate = 3600;
 export async function GET() {
   const articles = await getArticles();
 
-  const items = await Promise.all(
-    articles.map(async (article) => {
-      const full = await getArticleContent(article.slug);
-      const contentBlock = full
-        ? `\n      <content:encoded><![CDATA[${mdxToPlainMarkdown(full.content)}]]></content:encoded>`
-        : "";
+  const items = articles.map((article) => {
+    const contentBlock = article.content
+      ? `\n      <content:encoded><![CDATA[${mdxToPlainMarkdown(article.content)}]]></content:encoded>`
+      : "";
 
-      return `    <item>
+    return `    <item>
       <title>${escapeXml(article.title)}</title>
       <link>${SITE_URL}${article.href}</link>
       <guid isPermaLink="true">${SITE_URL}${article.href}</guid>${article.description ? `\n      <description>${escapeXml(article.description)}</description>` : ""}${contentBlock}
       <pubDate>${new Date(article.publishedAt).toUTCString()}</pubDate>
     </item>`;
-    })
-  );
+  });
 
   const lastBuildDate =
     articles.length > 0
