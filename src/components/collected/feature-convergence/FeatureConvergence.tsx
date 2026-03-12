@@ -55,6 +55,7 @@ export function FeatureConvergence({
       return { width: rect.width, height: rect.height };
     });
     setStartDimensions(dims);
+    // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure DOM when feature count changes
   }, [features.length]);
 
   useGSAP(

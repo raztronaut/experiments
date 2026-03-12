@@ -237,6 +237,7 @@ export function PhysicsTagCloud({
         Matter.Engine.clear(engineRef.current);
       }
     };
+    // biome-ignore lint/correctness/useExhaustiveDependencies: rebuild physics sim when tag count changes
   }, [tags.length, gravity, restitution, friction]);
 
   return (
