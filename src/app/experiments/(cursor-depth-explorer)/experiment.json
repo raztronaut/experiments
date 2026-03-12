@@ -5,11 +5,10 @@
   "profile": "r3f-shader",
   "created": "2026-01-26T05:11:34.490Z",
   "video": "/experiments/cursor-depth-explorer/preview.mp4",
-  "poster": "/experiments/cursor-depth-explorer/poster.jpg",
   "status": "shipped",
   "complexity": "advanced",
   "legacy": true,
   "tags": ["shader", "cursor", "3d"],
   "tech": ["r3f", "three.js", "glsl"],
-  "content": {}
+  "listing": "public"
 }

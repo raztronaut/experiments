@@ -10,5 +10,5 @@
   "legacy": true,
   "tags": ["shader", "animation", "scroll", "3d"],
   "tech": ["r3f", "three.js", "glsl", "gsap"],
-  "content": {}
+  "listing": "public"
 }

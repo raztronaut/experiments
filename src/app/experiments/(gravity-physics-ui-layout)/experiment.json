@@ -10,5 +10,5 @@
   "legacy": true,
   "tags": ["physics", "ui", "animation"],
   "tech": ["matter.js"],
-  "content": {}
+  "listing": "public"
 }

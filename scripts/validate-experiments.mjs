@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const EXPERIMENTS_DIR = path.resolve(__dirname, "..", "src/app/experiments");
 
-const VALID_STATUS = ["wip", "shipped", "archived"];
+const VALID_STATUS = ["wip", "shipped"];
 const VALID_PROFILES = [
   "r3f-scene",
   "r3f-shader",
@@ -25,7 +25,7 @@ const VALID_PROFILES = [
   "blank",
 ];
 const VALID_COMPLEXITY = ["beginner", "intermediate", "advanced"];
-const VALID_LISTINGS = ["experiment", "collected", "unlisted"];
+const VALID_LISTINGS = ["public", "dev", "registry"];
 const REQUIRED_FIELDS = ["title", "description", "slug"];
 
 let errors = 0;
@@ -128,97 +128,17 @@ try {
       );
     }
 
-    if (config.content !== undefined) {
-      if (typeof config.content !== "object" || Array.isArray(config.content)) {
-        error(
-          relPath,
-          `"content" must be an object, got ${typeof config.content}`
-        );
-      }
-    }
-
-    // Cross-check content.article against article/content.mdx on disk
-    if (config.slug) {
-      const slugDirs = fs
-        .readdirSync(path.join(EXPERIMENTS_DIR, group.name), {
-          withFileTypes: true,
-        })
-        .filter((d) => d.isDirectory() && !d.name.startsWith("."));
-
-      for (const slugDir of slugDirs) {
-        const articlePath = path.join(
-          EXPERIMENTS_DIR,
-          group.name,
-          slugDir.name,
-          "article",
-          "content.mdx"
-        );
-        const hasArticleOnDisk = fs.existsSync(articlePath);
-        const hasArticleInJson = config.content?.article === true;
-
-        if (hasArticleOnDisk && !hasArticleInJson) {
-          warn(
-            relPath,
-            "article/content.mdx exists on disk but content.article is not true in experiment.json"
-          );
-        }
-        if (hasArticleInJson && !hasArticleOnDisk) {
-          warn(
-            relPath,
-            "content.article is true but article/content.mdx does not exist on disk"
-          );
-        }
-
-        const docsMapping = [
-          { flag: "labNote", file: "docs/lab-note.md" },
-          { flag: "architecture", file: "docs/architecture.md" },
-          { flag: "snippet", file: "docs/snippet.md" },
-          { flag: "social", file: "docs/social.md" },
-          { flag: "changelog", file: "docs/changelog.md" },
-        ];
-
-        for (const { flag, file } of docsMapping) {
-          const docPath = path.join(
-            EXPERIMENTS_DIR,
-            group.name,
-            slugDir.name,
-            file
-          );
-          const hasFileOnDisk = fs.existsSync(docPath);
-          const hasFlagInJson = config.content?.[flag] === true;
-
-          if (hasFileOnDisk && !hasFlagInJson) {
-            warn(
-              relPath,
-              `${file} exists on disk but content.${flag} is not true in experiment.json`
-            );
-          }
-          if (hasFlagInJson && !hasFileOnDisk) {
-            warn(
-              relPath,
-              `content.${flag} is true but ${file} does not exist on disk`
-            );
-          }
-        }
-      }
-    }
-
-    if (config.publishable === true && config.content?.article !== true) {
-      warn(relPath, "publishable is true but content.article is not set");
-    }
-
-    if (
-      config.content?.article === true &&
-      config.content?.labNote === true &&
-      config.content?.architecture === true &&
-      config.content?.snippet === true &&
-      config.content?.social === true &&
-      config.content?.changelog === true &&
-      config.publishable !== true
-    ) {
+    if (config.listing === "public" && !config.video) {
       warn(
         relPath,
-        "full content constellation exists but publishable is not set (run publish workflow finalization?)"
+        "listing is public but no video field set (public experiments should have previews)"
+      );
+    }
+
+    if (!config.listing) {
+      warn(
+        relPath,
+        "missing explicit listing field (should be public, dev, or registry)"
       );
     }
   }

@@ -5,19 +5,10 @@
   "profile": "r3f-shader",
   "created": "2026-02-20T17:04:36.701Z",
   "video": "/experiments/basketball-replay-center/preview.mp4",
-  "poster": "/experiments/basketball-replay-center/poster.jpg",
   "status": "shipped",
   "complexity": "advanced",
   "legacy": true,
   "tags": ["preloader", "broadcast", "crt"],
   "tech": ["r3f", "three.js", "glsl", "gsap", "next-themes"],
-  "publishable": true,
-  "content": {
-    "article": true,
-    "labNote": true,
-    "architecture": true,
-    "snippet": true,
-    "social": true,
-    "changelog": true
-  }
+  "listing": "public"
 }

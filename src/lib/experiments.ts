@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { cache } from "react";
+import { showDevContent } from "./env";
 
 export type ExperimentProfile =
   | "r3f-scene"
@@ -12,11 +13,11 @@ export type ExperimentProfile =
   | "mixed"
   | "blank";
 
-export type ExperimentStatus = "wip" | "shipped" | "archived";
+export type ExperimentStatus = "wip" | "shipped";
 
 export type ExperimentComplexity = "beginner" | "intermediate" | "advanced";
 
-export type ExperimentListing = "experiment" | "collected" | "unlisted";
+export type ExperimentListing = "public" | "dev" | "registry";
 
 const VALID_PROFILES: ExperimentProfile[] = [
   "r3f-scene",
@@ -28,21 +29,16 @@ const VALID_PROFILES: ExperimentProfile[] = [
   "mixed",
   "blank",
 ];
-const VALID_STATUSES: ExperimentStatus[] = ["wip", "shipped", "archived"];
+const VALID_STATUSES: ExperimentStatus[] = ["wip", "shipped"];
 const VALID_COMPLEXITIES: ExperimentComplexity[] = [
   "beginner",
   "intermediate",
   "advanced",
 ];
-const VALID_LISTINGS: ExperimentListing[] = [
-  "experiment",
-  "collected",
-  "unlisted",
-];
+const VALID_LISTINGS: ExperimentListing[] = ["public", "dev", "registry"];
 
 export interface Experiment {
   complexity?: ExperimentComplexity;
-  content?: Record<string, boolean>;
   created: string;
   description: string;
   href: string;
@@ -52,7 +48,6 @@ export interface Experiment {
   listing?: ExperimentListing;
   poster?: string;
   profile?: ExperimentProfile;
-  publishable?: boolean;
   related?: string[];
   slug: string;
   status?: ExperimentStatus;
@@ -64,7 +59,6 @@ export interface Experiment {
 }
 
 export interface ExperimentFilter {
-  includeArchived?: boolean;
   listing?: ExperimentListing[];
   profile?: ExperimentProfile;
   status?: ExperimentStatus[];
@@ -190,18 +184,24 @@ export const getExperiments = cache(async function getExperiments(
 
     let results = experiments.filter((exp): exp is Experiment => exp !== null);
 
-    if (!filter?.includeArchived) {
-      results = results.filter((exp) => exp.status !== "archived");
+    // WIP experiments: visible only in dev/preview environments
+    if (!showDevContent) {
+      results = results.filter((exp) => exp.status !== "wip");
     }
 
+    // Listing gate
     if (filter?.listing?.length) {
       results = results.filter((exp) =>
-        filter.listing!.includes(exp.listing ?? "experiment")
+        filter.listing!.includes(exp.listing ?? "public")
+      );
+    } else if (showDevContent) {
+      // Dev/preview: show public + dev + wip (everything except registry-only)
+      results = results.filter(
+        (exp) => (exp.listing ?? "public") !== "registry"
       );
     } else {
-      results = results.filter(
-        (exp) => (exp.listing ?? "experiment") === "experiment"
-      );
+      // Production: only public
+      results = results.filter((exp) => (exp.listing ?? "public") === "public");
     }
 
     if (filter?.status?.length) {

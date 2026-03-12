@@ -8,10 +8,14 @@ import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import experiment from "./experiment.json";
 
 const hasArticle = existsSync(
-  path.join(process.cwd(), `src/app/experiments/(${experiment.slug})/${experiment.slug}/article/content.mdx`)
+  path.join(
+    process.cwd(),
+    `src/app/experiments/(${experiment.slug})/${experiment.slug}/article/content.mdx`
+  )
 );
 
-const isPublic = experiment.status === "shipped" &&
+const isPublic =
+  experiment.status === "shipped" &&
   (!experiment.listing || experiment.listing === "public");
 
 export const metadata = {
@@ -55,9 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           slug="non-euclidean-hyperbolic-workspace"
           title={metadata.title as string}
         />
-        <ExperimentNav
-          articleSlug={hasArticle ? experiment.slug : undefined}
-        />
+        <ExperimentNav articleSlug={hasArticle ? experiment.slug : undefined} />
         {children}
       </body>
     </html>

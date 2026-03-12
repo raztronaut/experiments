@@ -5,12 +5,10 @@
   "created": "2026-03-11T22:37:00.630Z",
   "profile": "mixed",
   "status": "shipped",
-  "listing": "unlisted",
+  "listing": "dev",
   "complexity": "intermediate",
   "tags": ["scroll-driven", "3d", "storytelling"],
   "tech": ["gsap", "three.js", "lenis"],
   "image": "",
-  "video": "",
-  "poster": "/experiments/airplanes/poster.jpg",
-  "publishable": false
+  "video": ""
 }

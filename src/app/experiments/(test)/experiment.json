@@ -5,10 +5,10 @@
   "profile": "blank",
   "created": "2025-01-01T00:00:00.000Z",
   "image": "",
-  "status": "archived",
+  "status": "shipped",
   "complexity": "beginner",
   "legacy": true,
   "tags": ["test"],
   "tech": [],
-  "content": {}
+  "listing": "registry"
 }

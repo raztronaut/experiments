@@ -10,5 +10,5 @@
   "legacy": true,
   "tags": ["generative", "game", "animation", "cursor"],
   "tech": ["canvas-2d", "web-workers"],
-  "content": {}
+  "listing": "public"
 }

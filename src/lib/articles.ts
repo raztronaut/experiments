@@ -3,16 +3,19 @@ import path from "node:path";
 import matter from "gray-matter";
 import { cache } from "react";
 import { readingTime } from "reading-time-estimator";
+import { showDevContent } from "./env";
 
 export interface Article {
   description?: string;
   experimentHref: string;
   experimentSlug: string;
   href: string;
+  listing?: string;
   poster?: string;
   publishedAt: string;
   readingMinutes: number;
   slug: string;
+  status?: string;
   tech?: string[];
   title: string;
   updatedAt?: string;
@@ -54,6 +57,8 @@ export const getArticles = cache(async (): Promise<Article[]> => {
 
           let tech: string[] | undefined;
           let poster: string | undefined;
+          let status: string | undefined;
+          let listing: string | undefined;
           try {
             const expJson = await fs.readFile(
               path.join(groupPath, "experiment.json"),
@@ -62,6 +67,8 @@ export const getArticles = cache(async (): Promise<Article[]> => {
             const exp = JSON.parse(expJson);
             tech = exp.tech;
             poster = exp.poster;
+            status = exp.status;
+            listing = exp.listing;
           } catch {
             // experiment.json not found or invalid -- skip enrichment
           }
@@ -81,6 +88,8 @@ export const getArticles = cache(async (): Promise<Article[]> => {
             experimentHref: `/experiments/${name}`,
             tech,
             poster,
+            status,
+            listing,
           };
         } catch {
           return null;
@@ -88,7 +97,15 @@ export const getArticles = cache(async (): Promise<Article[]> => {
       })
     );
 
-    const articles = results.filter((a): a is Article => a !== null);
+    let articles = results.filter((a): a is Article => a !== null);
+
+    // WIP articles are never shown publicly
+    articles = articles.filter((a) => a.status !== "wip");
+
+    // In production, only show articles for public experiments
+    if (!showDevContent) {
+      articles = articles.filter((a) => (a.listing ?? "public") === "public");
+    }
 
     return articles.sort(
       (a, b) =>

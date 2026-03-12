@@ -10,6 +10,5 @@
   "tech": ["lenis", "gsap", "r3f", "glsl", "motion", "zustand"],
   "image": "",
   "video": "",
-  "poster": "/experiments/announcing-v2/poster.jpg",
-  "publishable": true
+  "listing": "dev"
 }

@@ -1,8 +1,22 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import experiment from "./experiment.json";
+
+const hasArticle = existsSync(
+  path.join(
+    process.cwd(),
+    `src/app/experiments/(${experiment.slug})/${experiment.slug}/article/content.mdx`
+  )
+);
+
+const isPublic =
+  experiment.status === "shipped" &&
+  (!experiment.listing || experiment.listing === "public");
 
 export const metadata = {
   metadataBase: new URL("https://www.razisyed.cv"),
@@ -25,6 +39,9 @@ export const metadata = {
     canonical: "https://www.razisyed.cv/experiments/shader-landing",
   },
   authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
+  robots: isPublic
+    ? { index: true, follow: true, googleBot: { index: true, follow: true } }
+    : { index: false, follow: false },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -38,7 +55,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           slug="shader-landing"
           title={metadata.title as string}
         />
-        <ExperimentNav />
+        <ExperimentNav articleSlug={hasArticle ? experiment.slug : undefined} />
         {children}
       </body>
     </html>

@@ -10,5 +10,5 @@
   "legacy": true,
   "tags": ["ui", "audio", "animation", "text-effect"],
   "tech": ["motion", "web-audio", "css-animations"],
-  "content": {}
+  "listing": "public"
 }

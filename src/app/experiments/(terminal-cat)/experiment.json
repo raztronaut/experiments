@@ -10,5 +10,5 @@
   "legacy": true,
   "tags": ["ascii-art", "animation", "keyboard", "console"],
   "tech": ["console-api"],
-  "content": {}
+  "listing": "public"
 }

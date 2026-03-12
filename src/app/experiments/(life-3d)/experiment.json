@@ -10,5 +10,5 @@
   "legacy": true,
   "tags": ["3d", "game", "generative", "animation"],
   "tech": ["r3f", "three.js", "postprocessing"],
-  "content": {}
+  "listing": "public"
 }
