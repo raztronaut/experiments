@@ -8,7 +8,13 @@
   "status": "shipped",
   "complexity": "advanced",
   "legacy": true,
-  "tags": ["generative", "ui", "cursor"],
-  "tech": ["svg"],
-  "content": {}
+  "tags": [
+    "generative",
+    "ui",
+    "cursor"
+  ],
+  "tech": [
+    "svg"
+  ],
+  "listing": "public"
 }

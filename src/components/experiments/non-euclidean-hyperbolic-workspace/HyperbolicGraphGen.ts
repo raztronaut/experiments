@@ -129,9 +129,7 @@ export const generateHyperbolicTree = (): {
       let label = `Note ${nodeCount}`;
       if (level === 0) {
         type = "area";
-        label =
-          ["Dev", "Writing", "Health", "Art", "Finance", "Travel"][i % 6] ||
-          "Area";
+        label = ["Dev", "Writing", "Health", "Art", "Finance", "Travel"][i % 6];
       } else if (level === 1) {
         type = "project";
         label = `Project ${String.fromCharCode(65 + i)}`;
@@ -151,7 +149,7 @@ export const generateHyperbolicTree = (): {
         logicalPos: pos,
         label,
         type,
-        icon: level < 3 ? RandomIcon : undefined,
+        icon: RandomIcon,
       };
 
       nodes.push(newNode);

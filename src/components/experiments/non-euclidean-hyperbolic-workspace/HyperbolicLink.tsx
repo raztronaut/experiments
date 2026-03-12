@@ -18,22 +18,11 @@ export const HyperbolicLink = React.memo(function HyperbolicLink({
   viewCenter,
   viewportRadius,
 }: HyperbolicLinkProps) {
-  // 1. Transform logical coordinates to visual coordinates based on current view
-  // ViewCenter -> Origin
-  const vStart = useMemo(
-    () => mobiusTransform(start, viewCenter),
-    [start, viewCenter]
-  );
-  const vEnd = useMemo(
-    () => mobiusTransform(end, viewCenter),
-    [end, viewCenter]
-  );
-
-  // 2. Generate SVG Path for the geodesic
-  // We pass the viewport radius so the path string has pixel coordinates
   const pathD = useMemo(() => {
+    const vStart = mobiusTransform(start, viewCenter);
+    const vEnd = mobiusTransform(end, viewCenter);
     return getGeodesicPath(vStart, vEnd, viewportRadius);
-  }, [vStart, vEnd, viewportRadius]);
+  }, [start, end, viewCenter, viewportRadius]);
 
   return (
     <path
@@ -43,7 +32,6 @@ export const HyperbolicLink = React.memo(function HyperbolicLink({
       pointerEvents="none"
       stroke="url(#link-gradient)"
       strokeWidth="1.5"
-      style={{ filter: "url(#glow)" }}
     />
   );
 });

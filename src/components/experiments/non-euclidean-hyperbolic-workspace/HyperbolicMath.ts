@@ -4,10 +4,6 @@ export class Complex {
     public im: number
   ) {}
 
-  static from(re: number, im = 0) {
-    return new Complex(re, im);
-  }
-
   add(other: Complex): Complex {
     return new Complex(this.re + other.re, this.im + other.im);
   }
@@ -42,10 +38,12 @@ export class Complex {
     return Math.sqrt(this.re * this.re + this.im * this.im);
   }
 
-  // Returns arguments between -pi and pi
   arg(): number {
     return Math.atan2(this.im, this.re);
   }
+
+  static readonly ONE = new Complex(1, 0);
+  static readonly ZERO = new Complex(0, 0);
 }
 
 /**
@@ -55,46 +53,9 @@ export class Complex {
  * 'a' conceptually represents the "center" of the view in Poincaré coordinates.
  */
 export function mobiusTransform(z: Complex, a: Complex): Complex {
-  // Numerator: z - a
   const num = z.sub(a);
-
-  // Denominator: 1 - conj(a) * z
-  const aConj = a.conj();
-  const prod = aConj.mul(z);
-  const one = new Complex(1, 0);
-  const den = one.sub(prod);
-
+  const den = Complex.ONE.sub(a.conj().mul(z));
   return num.div(den);
-}
-
-/**
- * Inverse Möbius transformation.
- * effectively mobiusTransform(z, -a) but careful with signs in the denominator logic
- * Actually, the inverse of M_a(z) = (z - a)/(1 - a_bar z) is M_-a(z) = (z + a)/(1 + a_bar z)
- */
-export function inverseMobiusTransform(z: Complex, a: Complex): Complex {
-  const num = z.add(a);
-  const aConj = a.conj();
-  const prod = aConj.mul(z);
-  const one = new Complex(1, 0);
-  const den = one.add(prod);
-  return num.div(den);
-}
-
-/**
- * Converts screen coordinates (relative to center, normalized to [-1, 1])
- * to a Complex number representing a point on the Poincaré disk.
- */
-export function screenToPoincare(x: number, y: number): Complex {
-  // Ensure we are within the unit disk
-  const dist = Math.sqrt(x * x + y * y);
-  if (dist >= 1) {
-    // If outside, clamp to edge (or handle as needed, maybe strictly < 1)
-    // Using 0.999 to avoid singularity at the boundary
-    const angle = Math.atan2(y, x);
-    return new Complex(0.999 * Math.cos(angle), 0.999 * Math.sin(angle));
-  }
-  return new Complex(x, y);
 }
 
 /**
@@ -103,23 +64,6 @@ export function screenToPoincare(x: number, y: number): Complex {
  */
 export function poincareToScreen(z: Complex): { x: number; y: number } {
   return { x: z.re, y: z.im };
-}
-
-/**
- * Calculates the hyperbolic distance between two points on the Poincaré disk.
- * d(a, b) = 2 * tanh^-1( |(a-b)/(1-a_bar*b)| )
- */
-export function hyperbolicDistance(a: Complex, b: Complex): number {
-  const diff = a.sub(b);
-  const aConj = a.conj();
-  const denTerm = aConj.mul(b);
-  const complexOne = new Complex(1, 0);
-  const den = complexOne.sub(denTerm);
-
-  const fraction = diff.div(den);
-  const r = Math.min(fraction.abs(), 0.999_999);
-
-  return 2 * Math.atanh(r);
 }
 
 /**
@@ -157,7 +101,7 @@ export function getGeodesicPath(z1: Complex, z2: Complex, r: number): string {
     return `M ${p1x.toFixed(2)} ${p1y.toFixed(2)} L ${p2x.toFixed(2)} ${p2y.toFixed(2)}`;
   }
 
-  const z1Inv = new Complex(z1.re / denom, -z1.im / denom); // 1/conj(z1)
+  const z1Inv = new Complex(z1.re / denom, z1.im / denom); // 1/conj(z1) = z1/|z1|^2
 
   // Now find circle passing through z1, z2, z1Inv.
   // Circle equation: |z - c|^2 = R^2
@@ -191,14 +135,11 @@ export function getGeodesicPath(z1: Complex, z2: Complex, r: number): string {
   // Convert circle params to screen space
   const R_screen = R_unit * r;
 
-  // SVG Arc Command: A rx ry x-axis-rotation large-arc-flag sweep-flag x y
-  // For orthogonal circles in the Poincaré disk, the center of the defining circle is always
-  // outside the unit disk. The arc connecting two points inside the unit disk is unique
-  // and relatively short (never > 180 degrees of the orthogonal circle if contained in unit disk).
-  // Thus large-arc-flag is 0.
-  // sweep-flag '1' works for the standard coordinate system where +y is down,
-  // assuming consistent vertex ordering. If needed, a cross-product check can enforce
-  // convexity towards the origin, but current visual tests show stability.
+  // SVG Arc: large-arc-flag is 0 (short arc inside the disk).
+  // Sweep-flag determined by cross product of (z1-C) x (z2-C) to ensure the
+  // arc bows toward the origin (correct geodesic direction).
+  const crossSweep = (x1 - cx) * (y2 - cy) - (y1 - cy) * (x2 - cx);
+  const sweepFlag = crossSweep > 0 ? 1 : 0;
 
-  return `M ${p1x.toFixed(2)} ${p1y.toFixed(2)} A ${R_screen.toFixed(2)} ${R_screen.toFixed(2)} 0 0 1 ${p2x.toFixed(2)} ${p2y.toFixed(2)}`;
+  return `M ${p1x.toFixed(2)} ${p1y.toFixed(2)} A ${R_screen.toFixed(2)} ${R_screen.toFixed(2)} 0 0 ${sweepFlag} ${p2x.toFixed(2)} ${p2y.toFixed(2)}`;
 }
