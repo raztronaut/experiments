@@ -1,0 +1,31 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "7e721d1ce903",
+  "session_id": "64c70fcf-3508-411e-9e78-33066996df52",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:20:48.758485Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "public/registry/non-euclidean-hyperbolic-workspace.json",
+    "src/app/experiments/(non-euclidean-hyperbolic-workspace)/experiment.json",
+    "src/app/experiments/(non-euclidean-hyperbolic-workspace)/layout.tsx"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "ecedbf7d784f",
+  "checkpoint_transcript_start": 8,
+  "transcript_lines_at_start": 8,
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:20:48.752869Z",
+    "agent_lines": 38,
+    "human_added": 1633,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1671,
+    "agent_percentage": 2.2740873728306403
+  }
+}

@@ -21,6 +21,12 @@
       "transcript": "/7e/721d1ce903/1/full.jsonl",
       "content_hash": "/7e/721d1ce903/1/content_hash.txt",
       "prompt": "/7e/721d1ce903/1/prompt.txt"
+    },
+    {
+      "metadata": "/7e/721d1ce903/2/metadata.json",
+      "transcript": "/7e/721d1ce903/2/full.jsonl",
+      "content_hash": "/7e/721d1ce903/2/content_hash.txt",
+      "prompt": "/7e/721d1ce903/2/prompt.txt"
     }
   ]
 }
