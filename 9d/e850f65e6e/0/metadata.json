@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "9de850f65e6e",
+  "session_id": "3df3ef28-1d60-429e-a9cd-11c22d805cac",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T08:11:35.881159Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "src/components/experiments/announcing-v2/AnnouncingV2.test.tsx"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "f81dae66e261",
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T08:11:35.861467Z",
+    "agent_lines": 39,
+    "human_added": 24,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 63,
+    "agent_percentage": 61.904761904761905
+  }
+}

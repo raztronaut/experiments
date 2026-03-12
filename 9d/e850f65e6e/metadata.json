@@ -1,0 +1,18 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "9de850f65e6e",
+  "strategy": "manual-commit",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "src/components/experiments/announcing-v2/AnnouncingV2.test.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/9d/e850f65e6e/0/metadata.json",
+      "transcript": "/9d/e850f65e6e/0/full.jsonl",
+      "content_hash": "/9d/e850f65e6e/0/content_hash.txt",
+      "prompt": "/9d/e850f65e6e/0/prompt.txt"
+    }
+  ]
+}
