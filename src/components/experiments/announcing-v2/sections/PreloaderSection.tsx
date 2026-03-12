@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { PRELOADER_CONTENT } from "../data";
-import { usePrefersReducedMotion } from "../hooks";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { usePreloaderTimeline } from "../hooks/usePreloaderTimeline";
 import "./preloader-section.css";
 

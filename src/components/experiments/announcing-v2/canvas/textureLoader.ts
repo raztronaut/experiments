@@ -31,6 +31,9 @@ export function loadTexture(
 
     const tex = new THREE.VideoTexture(video);
     tex.colorSpace = THREE.SRGBColorSpace;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = false;
     cache.set(src, tex);
     video.addEventListener("loadedmetadata", () => {
       onLoaded?.(tex);
@@ -42,6 +45,7 @@ export function loadTexture(
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.minFilter = THREE.LinearFilter;
   tex.magFilter = THREE.LinearFilter;
+  tex.generateMipmaps = false;
   cache.set(src, tex);
   return tex;
 }

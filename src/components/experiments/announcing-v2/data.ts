@@ -99,57 +99,92 @@ export const EXPERIMENTS: ExperimentItem[] = [
   },
 ];
 
-export const INVERSA_CONTENT = {
-  title: "Location Framework",
-  blocks: [
+export const PRELOADER_CONTENT = {
+  logo: "V2 Lab",
+  navLinks: ["Blueprint", "Process", "Showcase", "Control"],
+  header: "The Lab, Rebuilt",
+  footerItems: ["Creative Coding", "AI-Partnered", "2026"],
+  heroImage: "/experiments/announcing-v2/death.jpg",
+};
+
+export const BLUEPRINT_CONTENT = {
+  sectionTitle: "THE PRACTICE",
+  subtitle: "A creative coding laboratory, rebuilt from the ground up.",
+  panels: [
     {
-      heading: "Coordinate Mapping",
-      text: "A creative coding laboratory where every experiment pushes the boundary between art and engineering.",
+      id: "creative-coding",
+      label: "01. CREATIVE CODING",
+      heading: "Art Meets Engineering",
+      text: "Code as a creative medium, not just a tool. Every experiment pushes the boundary between visual art and software craft.",
     },
     {
-      heading: "Active Locations",
-      text: "Scaffolded by AI agents. Refined by hand. Shipped with intent.",
+      id: "isolation",
+      label: "02. ISOLATION",
+      heading: "Each Experiment, Its Own World",
+      text: "Own HTML root, own dependencies, no cross-contamination. Constraints become creative catalysts.",
     },
     {
-      heading: "Spatial Center",
-      text: "3D scenes, custom shaders, scroll-driven animation, interactive physics — each one isolated, each one publishable.",
+      id: "ai-partnership",
+      label: "03. AI PARTNERSHIP",
+      heading: "Scaffolded by AI, Refined by Hand",
+      text: "AI agents generate the foundation. The human curates, shapes, and pushes toward publishable quality.",
+    },
+    {
+      id: "shipping",
+      label: "04. SHIP OR IT DIDN'T HAPPEN",
+      heading: "Every Experiment Ships",
+      text: "Not prototypes. Not drafts. Published artifacts — each one production-grade, each one live.",
     },
   ],
-  markers: [
-    { label: "AI Scaffolding", color: "#dc5935" },
-    { label: "Human Refinement", color: "#d3ef76" },
+  stats: [
+    { label: "EXPERIMENTS", value: 18 },
+    { label: "SHADERS", value: 6 },
+    { label: "TECHNOLOGIES", value: 12 },
+    { label: "COMPONENTS", value: 45 },
   ],
-  outroText: "The system has reached its final spatial state.",
+};
+
+export const PROCESS_CONTENT = {
+  phases: [
+    {
+      label: "PHASE 01",
+      title: "Scaffolded by AI",
+      text: "AI agents generate the skeleton — layout, boilerplate, initial animation structure. Raw potential, shaped by prompts.",
+    },
+    {
+      label: "PHASE 02",
+      title: "Refined by Hand",
+      text: "Human craft takes over. Timing, easing, visual weight, the details that separate a demo from an experience.",
+    },
+    {
+      label: "PHASE 03",
+      title: "Shipped with Intent",
+      text: "Every experiment pushed to production. Not a prototype — a finished artifact, live on the web.",
+    },
+  ],
+};
+
+export const MISSION_CONTROL_CONTENT = {
+  stationLabel: "EXPERIMENT LAB // DIAGNOSTIC READOUT",
+  stats: [
+    { label: "EXPERIMENTS SHIPPED", value: 18, unit: "" },
+    { label: "CUSTOM SHADERS", value: 6, unit: "" },
+    { label: "TECHNOLOGIES", value: 12, unit: "" },
+    { label: "COMPONENTS BUILT", value: 45, unit: "" },
+    { label: "UPTIME", value: 99.7, unit: "%" },
+  ],
 };
 
 export const JESKOJETS_CONTENT = {
   headerLeft: {
-    title: "V2 is\nlive",
+    title: "See for\nyourself",
     description:
-      "A creative coding laboratory rebuilt from the ground up. AI agents as creative partners, every experiment isolated and publishable.",
+      "3D scenes, custom shaders, scroll-driven animation, interactive physics — every experiment isolated, every one publishable.",
   },
   headerRight: {
     label: "razisyed.cv",
     title: "Explore\nthe lab",
   },
   copy: "What unfolds here is not a portfolio, but a practice. A sustained commitment where code becomes craft, constraints become catalysts, and each experiment teaches something the last one couldn't.",
-  outroText: "End of view.",
+  outroText: "The practice continues.",
 };
-
-export const PRELOADER_CONTENT = {
-  logo: "V2 Lab",
-  navLinks: ["Experiments", "Shaders", "Process", "Info"],
-  header: "Experiments",
-  footerItems: ["Creative Coding", "AI-Native", "V2"],
-  heroImage: "/experiments/announcing-v2/death.jpg",
-};
-
-export const FIDDLE_CONTENT = {
-  navLeft: "AI as Creative Partner",
-  navRight: "razisyed.cv/v2",
-  footerLeft: "Experiment Lab",
-  footerRight: "Built with AI Agents",
-  heroImage: "/experiments/announcing-v2/fiddle-img.jpg",
-};
-
-export const GRID_SYMBOLS = ["O", "X", "*", ">", "$", "W"];

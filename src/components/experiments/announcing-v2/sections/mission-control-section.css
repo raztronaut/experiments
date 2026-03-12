@@ -1,0 +1,165 @@
+.mission-control-section {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100svh;
+  padding: 8rem 3rem;
+  overflow: hidden;
+  color: #a0a0b0;
+  background: transparent;
+}
+
+/* NASA Film Grain + CRT Overlay */
+.mission-control-section::after {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  content: "";
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0 0 0 / 0.1) 2px,
+      rgba(0 0 0 / 0.1) 4px
+    );
+  mix-blend-mode: overlay;
+  opacity: 0.05;
+}
+
+.mission-control-header {
+  margin-bottom: 4rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(15px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.mission-control-reveal .mission-control-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mission-control-station-label {
+  margin: 0 0 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: rgba(255 255 255 / 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+}
+
+.mission-control-title {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(255 255 255 / 0.8);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px rgba(255 255 255 / 0.1);
+}
+
+/* Gauge grid */
+.mission-control-gauges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.mission-control-gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: rgba(8, 8, 10, 0.4);
+  border: 1px solid rgba(255 255 255 / 0.05);
+  border-radius: 2px;
+  opacity: 0;
+  backdrop-filter: blur(10px);
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.mission-control-gauge-value {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.mission-control-gauge-label {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: rgba(255 255 255 / 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* Scanner line effect */
+.mission-control-section::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 2px;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 68, 68, 0.2),
+    rgba(255, 68, 68, 0.8),
+    rgba(255, 68, 68, 0.2),
+    transparent
+  );
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+  animation: mission-control-scan 4s linear infinite;
+}
+
+@keyframes mission-control-scan {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(200vh);
+  }
+}
+
+@media (max-width: 768px) {
+  .mission-control-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .mission-control-gauges {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .mission-control-gauge {
+    padding: 1.5rem 1rem;
+  }
+
+  .mission-control-dial {
+    width: 90px;
+    height: 90px;
+  }
+}

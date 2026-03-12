@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { useDevControls } from "@/hooks/useDevControls";
 import { JESKOJETS_CONTENT } from "../data";
-import { usePrefersReducedMotion } from "../hooks";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import "./jesko-jets-section.css";
 
 gsap.registerPlugin(ScrollTrigger);

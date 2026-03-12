@@ -11,12 +11,20 @@ import {
 } from "react";
 import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
 import { createUnifiedScroll } from "@/lib/toolkit/scroll";
-import { useDeviceCapabilities } from "./hooks";
-import { FiddleHoverSection } from "./sections/FiddleHoverSection";
-import { InversaSection } from "./sections/InversaSection";
+import { CRTMonitor } from "./canvas/CRTMonitor";
+import { ExperimentCanvas } from "./canvas/ExperimentCanvas";
+import { MissionControlCanvas } from "./canvas/MissionControlCanvas";
+import { TempleScene } from "./canvas/TempleScene";
+import { VolumetricLightScene } from "./canvas/VolumetricLightScene";
+import { useDeviceCapabilities } from "./hooks/useDeviceCapabilities";
+import { BlueprintSection } from "./sections/BlueprintSection";
+import { ClosingSection } from "./sections/ClosingSection";
 import { JeskoJetsSection } from "./sections/JeskoJetsSection";
+import { MissionControlSection } from "./sections/MissionControlSection";
 import { PreloaderSection } from "./sections/PreloaderSection";
+import { ProcessSection } from "./sections/ProcessSection";
 import { ShowcaseSection } from "./sections/ShowcaseSection";
+import { ProgressIndicator } from "./ui/ProgressIndicator";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +56,15 @@ export default function AnnouncingV2() {
   }, []);
 
   return (
-    <main>
+    <div className="announcing-v2-container">
+      <ProgressIndicator />
+      <ExperimentCanvas>
+        <VolumetricLightScene />
+        <CRTMonitor />
+        <TempleScene />
+        <MissionControlCanvas />
+      </ExperimentCanvas>
+
       <PreloaderSection
         onComplete={
           isReducedMotion
@@ -56,14 +72,17 @@ export default function AnnouncingV2() {
             : handlePreloaderComplete
         }
       />
+
       {preloaderDone && (
         <>
-          <InversaSection />
+          <BlueprintSection />
+          <ProcessSection />
           <ShowcaseSection isMobile={isMobile} />
-          <FiddleHoverSection />
+          <MissionControlSection />
+          <ClosingSection />
           <JeskoJetsSection />
         </>
       )}
-    </main>
+    </div>
   );
 }

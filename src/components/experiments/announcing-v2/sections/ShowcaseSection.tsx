@@ -6,6 +6,7 @@ import { ExperimentCanvas } from "@/lib/toolkit/r3f";
 import { CRTMonitor } from "../canvas/CRTMonitor";
 import { EXPERIMENTS } from "../data";
 import { useAnnouncingStore } from "../store";
+import "./showcase-section.css";
 
 export function ShowcaseSection({ isMobile }: { isMobile: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -85,88 +86,6 @@ export function ShowcaseSection({ isMobile }: { isMobile: boolean }) {
           </li>
         ))}
       </ul>
-
-      <style>{`
-        .showcase-hero {
-          position: relative;
-          width: 100%;
-          height: 100svh;
-          background-color: #b0b0b0;
-          overflow: hidden;
-        }
-
-        .showcase-canvas-wrap {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-        }
-
-        .showcase-canvas-fallback {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #b0b0b0;
-        }
-
-        .showcase-projects {
-          position: absolute;
-          left: 50%;
-          bottom: 4rem;
-          transform: translateX(-50%);
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          list-style: none;
-          z-index: 2;
-          margin: 0;
-          padding: 0;
-        }
-
-        .showcase-projects li {
-          text-transform: uppercase;
-          font-family: "Geist Mono", "IBM Plex Mono", monospace;
-          font-size: 0.7rem;
-          font-weight: 450;
-          color: #000;
-          width: max-content;
-          padding: 0.5rem 1rem;
-          background-color: #fff;
-          border: 1px solid #000;
-          box-shadow: 4px 4px 0px -1px rgba(0, 0, 0, 1);
-          cursor: pointer;
-          transition: color 0.15s, background-color 0.15s;
-        }
-        .showcase-projects li:hover {
-          color: #fff;
-          background-color: #000;
-        }
-
-        .showcase-mobile-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 0.5rem;
-          padding: 2rem;
-          height: 100%;
-          align-content: center;
-        }
-        .showcase-mobile-img {
-          width: 100%;
-          aspect-ratio: 16/9;
-          object-fit: cover;
-          border-radius: 4px;
-          border: 1px solid rgba(0,0,0,0.1);
-        }
-
-        @media (max-width: 1000px) {
-          .showcase-projects {
-            flex-wrap: wrap;
-            padding: 0 4rem;
-          }
-        }
-      `}</style>
     </section>
   );
 }

@@ -8,69 +8,78 @@ export const crtVertexShader = /* glsl */ `
 `;
 
 export const crtFragmentShader = /* glsl */ `
+  varying vec2 vUv;
   uniform sampler2D map;
+  uniform float time;
+  uniform float glitchIntensity;
   uniform float imageAspect;
   uniform float planeAspect;
-  uniform float glitchIntensity;
-  uniform float time;
   uniform vec2 iResolution;
-  varying vec2 vUv;
+  uniform float rs;
 
   float hash(float n) {
     return fract(sin(n) * 43758.5453123);
   }
 
+  // Branchless aspect-ratio-correct UV (like CSS object-fit: cover)
   vec2 coverUV(vec2 uv) {
-    if (planeAspect > imageAspect) {
-      float s = imageAspect / planeAspect;
-      uv.y = uv.y * s + (1.0 - s) * 0.5;
-    } else {
-      float s = planeAspect / imageAspect;
-      uv.x = uv.x * s + (1.0 - s) * 0.5;
-    }
+    float ratioA = imageAspect / planeAspect;
+    float ratioB = planeAspect / imageAspect;
+    float sel = step(planeAspect, imageAspect);
+    float sX = mix(1.0, ratioB, sel);
+    float sY = mix(ratioA, 1.0, sel);
+    uv.x = uv.x * sX + (1.0 - sX) * 0.5;
+    uv.y = uv.y * sY + (1.0 - sY) * 0.5;
+    return uv;
+  }
+
+  vec2 curve(vec2 uv) {
+    uv = (uv - 0.5) * 2.0;
+    uv *= 1.1; // Slight scale up to hide black edges
+    uv.x *= 1.0 + pow((abs(uv.y) / 5.0), 2.0);
+    uv.y *= 1.0 + pow((abs(uv.x) / 4.0), 2.0);
+    uv = (uv / 2.0) + 0.5;
     return uv;
   }
 
   void main() {
-    vec2 uv = vUv;
-    float gi = glitchIntensity;
+    vec2 uv = curve(vUv);
+    
+    // Mask out of bounds
+    if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+      gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+      return;
+    }
 
-    // Horizontal scanline jitter
-    uv.x += (hash(floor(uv.y * 20.0 + time * 80.0) + time * 7.0) - 0.5) * 2.0 * gi * 0.15;
-    // Vertical frame jump
-    uv.y += (hash(floor(time * 50.0)) - 0.5) * gi * 0.06;
-
-    // Chromatic aberration split
-    float rs = 0.001 + gi * 0.025;
-
+    // Chromatic aberration
     vec3 col;
-    col.r = texture2D(map, coverUV(vec2(uv.x + rs, uv.y + rs))).r + 0.05;
-    col.g = texture2D(map, coverUV(vec2(uv.x, uv.y - rs * 2.0))).g + 0.05;
-    col.b = texture2D(map, coverUV(vec2(uv.x - rs * 2.0, uv.y))).b + 0.05;
+    col.r = texture2D(map, coverUV(vec2(uv.x + rs, uv.y))).r;
+    col.g = texture2D(map, coverUV(vec2(uv.x, uv.y))).g;
+    col.b = texture2D(map, coverUV(vec2(uv.x - rs, uv.y))).b;
 
-    // Secondary chromatic bleed
-    col.r += 0.08 * texture2D(map, coverUV(vec2(uv.x + 0.026, uv.y - 0.026))).r;
-    col.g += 0.05 * texture2D(map, coverUV(vec2(uv.x - 0.022, uv.y - 0.022))).g;
-    col.b += 0.08 * texture2D(map, coverUV(vec2(uv.x - 0.022, uv.y - 0.018))).b;
-
-    // Soft glow / bloom
-    col = clamp(col * 0.93 + 0.07 * col * col, 0.0, 1.0);
-
-    // Vignette
-    col *= vec3(pow(16.0 * uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y), 0.12));
-
-    // Phosphor green tint + brightness
-    col *= vec3(0.95, 1.05, 0.95) * 2.5;
+    // RGB Subpixel simulation
+    float subpixelX = uv.x * iResolution.x * 2.5; 
+    vec3 subpixel = vec3(
+        0.5 + 0.5 * cos(subpixelX),
+        0.5 + 0.5 * cos(subpixelX + 2.094),
+        0.5 + 0.5 * cos(subpixelX + 4.188)
+    );
+    col *= subpixel;
 
     // Scanlines
-    col *= vec3(0.6 + 0.4 * pow(clamp(0.35 + 0.35 * sin(uv.y * iResolution.y * 1.5), 0.0, 1.0), 1.2));
+    float scanline = 0.7 + 0.3 * sin(uv.y * iResolution.y * 1.2);
+    col *= scanline;
 
-    // RGB sub-pixel columns
-    col *= 1.0 - 0.65 * vec3(clamp((mod(vUv.x * iResolution.x, 2.0) - 1.0) * 2.0, 0.0, 1.0));
+    // Phosphor glow
+    col += col * col * 0.2;
 
-    // Static noise
-    col += vec3(hash(uv.x * 100.0 + uv.y * 1000.0 + time * 300.0) * gi * 0.3);
+    // Vignette
+    float vig = 16.0 * uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y);
+    col *= vec3(pow(vig, 0.25));
 
-    gl_FragColor = vec4(col, 1.0);
+    // Dither
+    col += (hash(uv.x * 12.0 + uv.y * 42.0 + time) - 0.5) / 255.0;
+
+    gl_FragColor = vec4(col * 1.8, 1.0);
   }
 `;
