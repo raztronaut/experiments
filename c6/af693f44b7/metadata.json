@@ -1,0 +1,23 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "c6af693f44b7",
+  "strategy": "manual-commit",
+  "branch": "v2/platform",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "src/app/experiments/(announcing-v2)/experiment.json",
+    "src/app/experiments/(basketball-replay-center)/experiment.json",
+    "src/app/experiments/(bugged-out-game-of-life-shader-experiment)/experiment.json",
+    "src/app/experiments/(game-of-life-shader)/experiment.json",
+    "src/app/experiments/(rabbithole-chat-preloader)/experiment.json",
+    "src/app/experiments/(shader-landing)/experiment.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/c6/af693f44b7/0/metadata.json",
+      "transcript": "/c6/af693f44b7/0/full.jsonl",
+      "content_hash": "/c6/af693f44b7/0/content_hash.txt",
+      "prompt": "/c6/af693f44b7/0/prompt.txt"
+    }
+  ]
+}
