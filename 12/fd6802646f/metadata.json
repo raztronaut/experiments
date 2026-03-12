@@ -3,13 +3,14 @@
   "checkpoint_id": "12fd6802646f",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 3,
+  "checkpoints_count": 4,
   "files_touched": [
     ".agents/contexts/content-constellation.md",
     ".agents/workflows/publish-experiment.md",
     ".cursor/agents/content-writer.md",
     ".cursor/rules/article-writing.mdc",
     ".cursor/skills/publish-content/SKILL.md",
+    "plop-templates/article/components-index.ts.hbs",
     "plop-templates/article/page.tsx.hbs",
     "plopfile.js"
   ],
@@ -61,6 +62,12 @@
       "transcript": "/12/fd6802646f/7/full.jsonl",
       "content_hash": "/12/fd6802646f/7/content_hash.txt",
       "prompt": "/12/fd6802646f/7/prompt.txt"
+    },
+    {
+      "metadata": "/12/fd6802646f/8/metadata.json",
+      "transcript": "/12/fd6802646f/8/full.jsonl",
+      "content_hash": "/12/fd6802646f/8/content_hash.txt",
+      "prompt": "/12/fd6802646f/8/prompt.txt"
     }
   ]
 }
