@@ -9,10 +9,13 @@
   "status": "shipped",
   "complexity": "intermediate",
   "legacy": true,
-  "publishable": true,
-  "tags": ["ui", "animation", "interaction"],
-  "tech": ["motion"],
-  "content": {
-    "article": true
-  }
+  "publishable": false,
+  "tags": [
+    "ui",
+    "animation",
+    "interaction"
+  ],
+  "tech": [
+    "motion"
+  ]
 }
