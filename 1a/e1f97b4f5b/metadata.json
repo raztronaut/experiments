@@ -3,7 +3,7 @@
   "checkpoint_id": "1ae1f97b4f5b",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "package-lock.json",
     "package.json",
@@ -16,6 +16,12 @@
       "transcript": "/1a/e1f97b4f5b/0/full.jsonl",
       "content_hash": "/1a/e1f97b4f5b/0/content_hash.txt",
       "prompt": "/1a/e1f97b4f5b/0/prompt.txt"
+    },
+    {
+      "metadata": "/1a/e1f97b4f5b/1/metadata.json",
+      "transcript": "/1a/e1f97b4f5b/1/full.jsonl",
+      "content_hash": "/1a/e1f97b4f5b/1/content_hash.txt",
+      "prompt": "/1a/e1f97b4f5b/1/prompt.txt"
     }
   ]
 }
