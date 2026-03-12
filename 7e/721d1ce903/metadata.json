@@ -3,9 +3,10 @@
   "checkpoint_id": "7e721d1ce903",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "public/registry/non-euclidean-hyperbolic-workspace.json",
+    "src/app/experiments/(non-euclidean-hyperbolic-workspace)/experiment.json",
     "src/app/experiments/(non-euclidean-hyperbolic-workspace)/layout.tsx"
   ],
   "sessions": [
@@ -14,6 +15,12 @@
       "transcript": "/7e/721d1ce903/0/full.jsonl",
       "content_hash": "/7e/721d1ce903/0/content_hash.txt",
       "prompt": "/7e/721d1ce903/0/prompt.txt"
+    },
+    {
+      "metadata": "/7e/721d1ce903/1/metadata.json",
+      "transcript": "/7e/721d1ce903/1/full.jsonl",
+      "content_hash": "/7e/721d1ce903/1/content_hash.txt",
+      "prompt": "/7e/721d1ce903/1/prompt.txt"
     }
   ]
 }
