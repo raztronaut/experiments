@@ -9,3 +9,18 @@ feel free to make this longer than current ones. make the title something like X
 Implement the plan as specified, it is attached for your reference. Do NOT edit the plan file itself.
 
 To-do's from the plan have already been created. Do not create them again. Mark them as in_progress as you work, starting with the first one. Don't stop until you have completed all the to-dos.
+
+---
+
+fix this
+
+## Error Type
+Console Error
+
+## Error Message
+[next-mdx-remote] error compiling MDX:
+Could not parse expression with acorn
+
+More information: https://mdxjs.com/docs/troubleshooting-mdx
+
+Next.js version: 16.1.6 (Turbopack)
