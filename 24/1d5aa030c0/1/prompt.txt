@@ -11,3 +11,7 @@ make a plan to address all those. make sure it follows best practices and curren
 ---
 
 this is agent first so anything that improves my ability to do stuff shouldnt be focused on for this plan
+
+---
+
+are you sure this was all correct?
