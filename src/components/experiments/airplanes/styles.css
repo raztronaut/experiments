@@ -1,0 +1,227 @@
+.airplanes-root {
+  --airplanes-padding: 10vmin;
+  --airplanes-bg: #d0cbc7;
+  --airplanes-font-lg: 8vw;
+  --airplanes-font-md: 4vw;
+  --airplanes-font-sm: 2vw;
+  min-width: 100%;
+  min-height: 100%;
+
+  margin: 0;
+  overflow-x: hidden;
+  font-family: var(--font-libre), serif;
+  font-size: var(--airplanes-font-sm);
+  font-weight: 400;
+  background-color: var(--airplanes-bg);
+}
+
+@media (min-width: 800px) {
+  .airplanes-root {
+    --airplanes-font-lg: 64px;
+    --airplanes-font-md: 32px;
+    --airplanes-font-sm: 16px;
+  }
+}
+
+@media (max-width: 500px) {
+  .airplanes-root {
+    --airplanes-font-lg: 40px;
+    --airplanes-font-md: 20px;
+    --airplanes-font-sm: 14px;
+  }
+}
+
+/* ── Canvas ── */
+.airplanes-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ── Content wrapper ── */
+.airplanes-content {
+  position: relative;
+  z-index: 1;
+}
+
+.airplanes-content a {
+  color: white;
+}
+
+.airplanes-content ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.airplanes-content li {
+  margin-top: 10px;
+}
+
+/* ── Section base ── */
+.airplanes-section {
+  --pad2: calc(var(--airplanes-padding) * 2);
+  position: relative;
+  z-index: 2;
+  width: calc(100vw - var(--pad2));
+  height: calc(100vh - var(--pad2));
+  padding: var(--airplanes-padding);
+  margin: 0 auto;
+}
+
+.airplanes-section.dark {
+  color: white;
+  background-color: black;
+}
+
+.airplanes-section.right {
+  text-align: right;
+}
+
+/* ── Headings ── */
+.airplanes-content h1,
+.airplanes-content h2 {
+  display: inline;
+  margin: 0 0 2vmin;
+  font-size: var(--airplanes-font-lg);
+  font-weight: 700;
+}
+
+.airplanes-content h3 {
+  margin: 0;
+  font-size: var(--airplanes-font-md);
+  font-weight: 400;
+}
+
+/* ── Hero: ground + clouds parallax ── */
+.airplanes-ground-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.airplanes-parallax {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: -100px;
+  left: 0;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  transform-origin: top center;
+}
+
+.airplanes-ground {
+  z-index: -1;
+  background-image: url("/experiments/airplanes/background-reduced.jpg");
+}
+
+.airplanes-clouds {
+  z-index: 2;
+  background-image: url("/experiments/airplanes/clouds.png");
+}
+
+.airplanes-scroll-cta {
+  position: absolute;
+  bottom: var(--airplanes-padding);
+  font-size: var(--airplanes-font-md);
+  opacity: 0;
+}
+
+/* ── Blueprint section ── */
+.airplanes-blueprint {
+  position: relative;
+  background-color: #131c2a;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-attachment: fixed;
+  background-position:
+    -2px -2px,
+    -2px -2px,
+    -1px -1px,
+    -1px -1px;
+  background-size:
+    100px 100px,
+    100px 100px,
+    20px 20px,
+    20px 20px;
+}
+
+.airplanes-blueprint svg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  stroke: white;
+}
+
+.airplanes-blueprint .airplanes-section.dark {
+  background-color: transparent;
+}
+
+/* ── Solid / wireframe clip masks ── */
+.airplanes-solid {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.airplanes-wireframe {
+  clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+}
+
+/* ── Sunset / end ── */
+.airplanes-sunset {
+  background: url("/experiments/airplanes/sunset-reduced.jpg") no-repeat top
+    center;
+  background-size: cover;
+  transform-origin: top center;
+}
+
+.airplanes-end h2 {
+  margin-bottom: 50vh;
+}
+
+.airplanes-credits {
+  position: absolute;
+  bottom: var(--airplanes-padding);
+}
+
+/* ── Loading ── */
+.airplanes-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  font-size: var(--airplanes-font-md);
+  background-color: var(--airplanes-bg);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .airplanes-canvas {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .airplanes-scroll-cta {
+    opacity: 1;
+  }
+
+  .airplanes-loading {
+    display: none;
+  }
+}

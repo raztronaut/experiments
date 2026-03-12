@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-interactive-widget",
+  "type": "registry:component",
+  "title": "InteractiveWidget",
+  "description": "InteractiveWidget MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "InteractiveWidget.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport type React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\ninterface InteractiveWidgetProps {\n  children: React.ReactNode;\n  layout?: \"bottom\" | \"sidebar\";\n  title?: string;\n}\n\nconst PREVIEW_ROLE = Symbol.for(\"mdx-widget-preview\");\nconst CONTROLS_ROLE = Symbol.for(\"mdx-widget-controls\");\n\nfunction Preview({ children }: { children: React.ReactNode }) {\n  return <div className=\"h-full w-full\">{children}</div>;\n}\n(Preview as unknown as Record<symbol, symbol>)[PREVIEW_ROLE] = PREVIEW_ROLE;\n\nfunction Controls({ children }: { children: React.ReactNode }) {\n  return <div className=\"space-y-4\">{children}</div>;\n}\n(Controls as unknown as Record<symbol, symbol>)[CONTROLS_ROLE] = CONTROLS_ROLE;\n\nfunction findChild(children: React.ReactNode, role: symbol) {\n  const arr = Array.isArray(children) ? children : [children];\n  return arr.find(\n    (child) =>\n      child &&\n      typeof child === \"object\" &&\n      \"type\" in child &&\n      typeof child.type !== \"string\" &&\n      (child.type as Record<symbol, symbol>)[role] === role\n  );\n}\n\nexport function InteractiveWidget({\n  title,\n  children,\n  layout = \"bottom\",\n}: InteractiveWidgetProps) {\n  const previewChild = findChild(children, PREVIEW_ROLE);\n  const controlsChild = findChild(children, CONTROLS_ROLE);\n  const isCompound = previewChild || controlsChild;\n\n  if (!isCompound) {\n    return (\n      <figure className=\"my-8 overflow-hidden rounded-lg border border-border\">\n        {title && (\n          <div className=\"border-border border-b px-4 py-2.5\">\n            <span className=\"text-muted-foreground text-sm\">{title}</span>\n          </div>\n        )}\n        <div className=\"p-6\">{children}</div>\n      </figure>\n    );\n  }\n\n  return (\n    <figure className=\"my-8 overflow-hidden rounded-lg border border-border\">\n      {title && (\n        <div className=\"border-border border-b px-4 py-2.5\">\n          <span className=\"text-muted-foreground text-sm\">{title}</span>\n        </div>\n      )}\n      <div\n        className={cn(\n          layout === \"sidebar\" ? \"flex flex-col md:flex-row\" : \"flex flex-col\"\n        )}\n      >\n        {layout === \"sidebar\" && controlsChild && (\n          <div className=\"border-border p-4 md:w-[260px] md:shrink-0 md:border-r\">\n            {controlsChild}\n          </div>\n        )}\n        {previewChild && (\n          <div\n            className={cn(\n              \"flex-1 overflow-hidden\",\n              layout === \"sidebar\" ? \"border-border border-t md:border-t-0\" : \"\"\n            )}\n          >\n            {previewChild}\n          </div>\n        )}\n        {layout === \"bottom\" && controlsChild && (\n          <div className=\"border-border border-t p-4\">{controlsChild}</div>\n        )}\n      </div>\n    </figure>\n  );\n}\n\nInteractiveWidget.Preview = Preview;\nInteractiveWidget.Controls = Controls;\n"
+    }
+  ]
+}

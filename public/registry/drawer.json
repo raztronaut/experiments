@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "drawer",
+  "type": "registry:component",
+  "title": "drawer",
+  "description": "drawer component",
+  "category": "components",
+  "dependencies": [
+    "vaul"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "drawer.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport type * as React from \"react\";\nimport { Drawer as DrawerPrimitive } from \"vaul\";\nimport { cn } from \"@/lib/utils\";\nimport { GrainOverlay } from \"./GrainOverlay\";\n\nconst Drawer = ({\n  shouldScaleBackground = true,\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (\n  <DrawerPrimitive.Root\n    shouldScaleBackground={shouldScaleBackground}\n    {...props}\n  />\n);\n\nfunction DrawerTrigger({\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {\n  return <DrawerPrimitive.Trigger data-slot=\"drawer-trigger\" {...props} />;\n}\n\nfunction DrawerPortal({\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Portal>) {\n  return <DrawerPrimitive.Portal data-slot=\"drawer-portal\" {...props} />;\n}\n\nfunction DrawerClose({\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Close>) {\n  return <DrawerPrimitive.Close data-slot=\"drawer-close\" {...props} />;\n}\n\nfunction DrawerOverlay({\n  className,\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {\n  return (\n    <DrawerPrimitive.Overlay\n      className={cn(\"fixed inset-0 z-50 bg-black/80\", className)}\n      data-slot=\"drawer-overlay\"\n      {...props}\n    />\n  );\n}\n\nfunction DrawerContent({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Content>) {\n  return (\n    <DrawerPortal>\n      <DrawerOverlay />\n      <DrawerPrimitive.Content\n        className={cn(\n          \"fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background\",\n          className\n        )}\n        data-slot=\"drawer-content\"\n        {...props}\n      >\n        <GrainOverlay />\n        <div className=\"mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted\" />\n        {children}\n      </DrawerPrimitive.Content>\n    </DrawerPortal>\n  );\n}\n\nconst DrawerHeader = ({\n  className,\n  ...props\n}: React.HTMLAttributes<HTMLDivElement>) => (\n  <div\n    className={cn(\"grid gap-1.5 p-4 text-center sm:text-left\", className)}\n    data-slot=\"drawer-header\"\n    {...props}\n  />\n);\n\nconst DrawerFooter = ({\n  className,\n  ...props\n}: React.HTMLAttributes<HTMLDivElement>) => (\n  <div\n    className={cn(\"mt-auto flex flex-col gap-2 p-4\", className)}\n    data-slot=\"drawer-footer\"\n    {...props}\n  />\n);\n\nfunction DrawerTitle({\n  className,\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Title>) {\n  return (\n    <DrawerPrimitive.Title\n      className={cn(\n        \"font-semibold text-lg leading-none tracking-tight\",\n        className\n      )}\n      data-slot=\"drawer-title\"\n      {...props}\n    />\n  );\n}\n\nfunction DrawerDescription({\n  className,\n  ...props\n}: React.ComponentProps<typeof DrawerPrimitive.Description>) {\n  return (\n    <DrawerPrimitive.Description\n      className={cn(\"text-muted-foreground text-sm\", className)}\n      data-slot=\"drawer-description\"\n      {...props}\n    />\n  );\n}\n\nexport {\n  Drawer,\n  DrawerClose,\n  DrawerContent,\n  DrawerDescription,\n  DrawerFooter,\n  DrawerHeader,\n  DrawerOverlay,\n  DrawerPortal,\n  DrawerTitle,\n  DrawerTrigger,\n};\n"
+    },
+    {
+      "name": "GrainOverlay.tsx",
+      "type": "registry:component",
+      "content": "import { cn } from \"@/lib/utils\";\n\ninterface GrainOverlayProps {\n  className?: string;\n}\n\nexport function GrainOverlay({ className }: GrainOverlayProps) {\n  return (\n    <div\n      aria-hidden=\"true\"\n      className={cn(\n        \"pointer-events-none absolute inset-0 z-[-1] select-none\",\n        \"bg-[url('/grain.gif')]\",\n        \"opacity-[0.02] dark:opacity-[0.07]\",\n        \"mix-blend-multiply\",\n        className\n      )}\n    />\n  );\n}\n"
+    }
+  ]
+}

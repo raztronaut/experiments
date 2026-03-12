@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-element-size",
+  "type": "registry:hook",
+  "title": "useElementSize",
+  "description": "useElementSize hook",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useElementSize.ts",
+      "type": "registry:hook",
+      "content": "import { useCallback, useEffect, useState } from \"react\";\n\ninterface Size {\n  height: number;\n  width: number;\n}\n\nexport function useElementSize<T extends HTMLElement = HTMLDivElement>() {\n  const [element, setElement] = useState<T | null>(null);\n  const [size, setSize] = useState<Size>({ width: 0, height: 0 });\n\n  // Callback ref to handle elements that appear/disappear (e.g. conditional rendering)\n  const ref = useCallback((node: T | null) => {\n    if (node !== null) {\n      setElement(node);\n    }\n  }, []);\n\n  useEffect(() => {\n    if (!element) {\n      return;\n    }\n\n    const observer = new ResizeObserver((entries) => {\n      const entry = entries[0];\n      if (!entry) {\n        return;\n      }\n\n      // We prefer borderBoxSize for filters that cover the whole element\n      const width =\n        entry.borderBoxSize?.[0]?.inlineSize ?? entry.contentRect.width;\n      const height =\n        entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height;\n\n      // Update state with newly measured dimensions\n      setSize((prev) => {\n        if (\n          Math.abs(prev.width - width) < 0.1 &&\n          Math.abs(prev.height - height) < 0.1\n        ) {\n          return prev;\n        }\n        return { width, height };\n      });\n    });\n\n    observer.observe(element);\n    return () => observer.disconnect();\n  }, [element]);\n\n  return { ref, width: size.width, height: size.height };\n}\n"
+    }
+  ]
+}

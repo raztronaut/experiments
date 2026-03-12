@@ -1,88 +1,112 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Experiment } from '@/lib/experiments';
-import { InteractivePreviewMedia } from './InteractivePreviewMedia';
-import { MobileSwipeTutorialOverlay } from './MobileSwipeTutorialOverlay';
+import React from "react";
+import type { Experiment } from "@/lib/experiments";
+import { InteractivePreviewMedia } from "./InteractivePreviewMedia";
+import { MobileSwipeTutorialOverlay } from "./MobileSwipeTutorialOverlay";
 
 interface ExperimentListItemProps {
-    experiment: Experiment;
-    formattedDate: string | undefined;
-    isMobileActive: boolean;
-    onMouseEnter: () => void;
-    onMouseLeave: () => void;
-    onClick: () => void;
-    onTouchStart: (e: React.TouchEvent) => void;
-    onTouchEnd: (e: React.TouchEvent) => void;
-    showTutorial?: boolean;
+  experiment: Experiment;
+  formattedDate: string | undefined;
+  isMobileActive: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onTouchEnd: (e: React.TouchEvent) => void;
+  onTouchStart: (e: React.TouchEvent) => void;
+  showTutorial?: boolean;
 }
 
 /**
  * A single experiment item in list view with hover preview support.
  */
-export function ExperimentListItem({
-    experiment,
-    formattedDate,
-    isMobileActive,
-    onMouseEnter,
-    onMouseLeave,
-    onClick,
-    onTouchStart,
-    onTouchEnd,
-    showTutorial
+export const ExperimentListItem = React.memo(function ExperimentListItem({
+  experiment,
+  formattedDate,
+  isMobileActive,
+  onMouseEnter,
+  onMouseLeave,
+  onClick,
+  onTouchStart,
+  onTouchEnd,
+  showTutorial,
 }: ExperimentListItemProps) {
-    const [isTutorialActive, setIsTutorialActive] = React.useState(false);
+  const [isTutorialActive, setIsTutorialActive] = React.useState(false);
 
-    return (
+  return (
+    <div
+      className="group relative block cursor-pointer"
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onTouchEnd={onTouchEnd}
+      onTouchStart={onTouchStart}
+      style={{ contentVisibility: "auto", containIntrinsicSize: "0 100px" }}
+    >
+      <div className="relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-colors duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 md:p-6">
+        {/* Mobile preview background */}
         <div
-            className="group relative block cursor-pointer"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            onClick={onClick}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-            style={{ contentVisibility: 'auto', containIntrinsicSize: '0 100px' }}
+          className={`pointer-events-none absolute inset-0 z-0 transition-opacity duration-500 ${isMobileActive ? "opacity-100" : isTutorialActive ? "opacity-40 md:opacity-0" : "opacity-0"}`}
         >
-            <div className="relative p-4 md:p-6 border border-border rounded-xl bg-card transition-all duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 overflow-hidden">
-                {/* Mobile preview background */}
-                <div className={`absolute inset-0 z-0 transition-opacity duration-500 pointer-events-none ${isMobileActive ? 'opacity-100' : (isTutorialActive ? 'opacity-40 md:opacity-0' : 'opacity-0')}`}>
-                    {(showTutorial || isMobileActive || isTutorialActive) && (
-                        <InteractivePreviewMedia
-                            experiment={experiment}
-                            isHovered={isMobileActive}
-                            forceStatic={(showTutorial || isTutorialActive) && !isMobileActive}
-                        />
-                    )}
+          {(showTutorial || isMobileActive || isTutorialActive) && (
+            <InteractivePreviewMedia
+              experiment={experiment}
+              forceStatic={
+                (showTutorial || isTutorialActive) && !isMobileActive
+              }
+              isHovered={isMobileActive}
+            />
+          )}
 
-                    <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isMobileActive ? 'opacity-100' : 'opacity-0'}`} />
-
-                </div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-1 md:gap-4 pointer-events-none">
-                    <div className="flex-1 min-w-0 order-last md:order-first w-full">
-                        <h2 className={`font-bold text-lg md:text-2xl tracking-tight mb-1 transition-colors duration-300 ${isMobileActive ? 'opacity-0' : 'text-foreground'}`}>
-                            {experiment.title}
-                        </h2>
-                        <p className={`text-[13px] md:text-base leading-relaxed transition-colors duration-300 ${isMobileActive ? 'opacity-0' : 'text-muted-foreground'}`}>
-                            {experiment.description}
-                        </p>
-                    </div>
-
-                    {formattedDate && (
-                        <div className="text-left md:text-right w-full md:w-auto order-first md:order-last mb-0 md:mb-0">
-                            <span
-                                className={`text-[11px] md:text-sm font-mono tabular-nums transition-colors duration-300 ${isMobileActive ? 'opacity-0' : 'text-muted-foreground opacity-60'}`}
-                                suppressHydrationWarning
-                            >
-                                {formattedDate}
-                            </span>
-                        </div>
-                    )}
-                </div>
-            </div>
-            {showTutorial && !isMobileActive && <MobileSwipeTutorialOverlay onVisibilityChange={setIsTutorialActive} />}
+          <div
+            className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isMobileActive ? "opacity-100" : "opacity-0"}`}
+          />
         </div>
 
-    );
-}
+        {/* Content */}
+        <div className="pointer-events-none relative z-10 flex flex-col items-start justify-between gap-1 md:flex-row md:gap-4">
+          <div className="order-last w-full min-w-0 flex-1 md:order-first">
+            <div className="mb-1">
+              <h2
+                className={`font-bold text-lg tracking-tight transition-colors duration-300 md:text-2xl ${isMobileActive ? "opacity-0" : "text-foreground"}`}
+              >
+                {experiment.title}
+              </h2>
+            </div>
+            <p
+              className={`text-[13px] leading-relaxed transition-colors duration-300 md:text-base ${isMobileActive ? "opacity-0" : "text-muted-foreground"}`}
+            >
+              {experiment.description}
+            </p>
+            <div
+              className={`mt-2 flex flex-wrap gap-1 transition-opacity duration-300 ${isMobileActive ? "opacity-0" : ""}`}
+            >
+              {experiment.tech?.map((t) => (
+                <span
+                  className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
+                  key={t}
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {formattedDate && (
+            <div className="order-first mb-0 w-full text-left md:order-last md:mb-0 md:w-auto md:text-right">
+              <span
+                className={`font-mono text-[11px] tabular-nums transition-colors duration-300 md:text-sm ${isMobileActive ? "opacity-0" : "text-muted-foreground opacity-60"}`}
+                suppressHydrationWarning
+              >
+                {formattedDate}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+      {showTutorial && !isMobileActive && (
+        <MobileSwipeTutorialOverlay onVisibilityChange={setIsTutorialActive} />
+      )}
+    </div>
+  );
+});

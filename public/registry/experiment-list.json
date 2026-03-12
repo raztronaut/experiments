@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "experiment-list",
+  "type": "registry:component",
+  "title": "ExperimentList",
+  "description": "ExperimentList component",
+  "category": "components",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ExperimentList.tsx",
+      "type": "registry:component",
+      "content": "import Link from \"next/link\";\nimport {\n  Card,\n  CardDescription,\n  CardHeader,\n  CardTitle,\n} from \"@/components/ui/card\";\nimport type { Experiment } from \"@/lib/experiments\";\n\ninterface ExperimentListProps {\n  experiments: Experiment[];\n}\n\nexport function ExperimentList({ experiments }: ExperimentListProps) {\n  return (\n    <div className=\"grid grid-cols-1 gap-4\">\n      {experiments.map((experiment) => (\n        <Link href={experiment.href} key={experiment.href}>\n          <Card className=\"h-full cursor-pointer border-zinc-200 transition-colors hover:bg-muted/50 dark:border-zinc-800\">\n            <CardHeader>\n              <div className=\"flex items-start justify-between\">\n                <CardTitle className=\"text-lg\">{experiment.title}</CardTitle>\n                {experiment.created && (\n                  <span\n                    className=\"text-muted-foreground text-xs tabular-nums\"\n                    suppressHydrationWarning\n                  >\n                    {new Date(experiment.created).toLocaleDateString()}\n                  </span>\n                )}\n              </div>\n              <CardDescription>{experiment.description}</CardDescription>\n            </CardHeader>\n          </Card>\n        </Link>\n      ))}\n\n      {experiments.length === 0 && (\n        <div className=\"rounded-lg border border-dashed p-8 text-center text-muted-foreground\">\n          No experiments found. Run{\" \"}\n          <code className=\"rounded bg-muted px-1 py-0.5\">\n            npm run new:experiment\n          </code>{\" \"}\n          to create one.\n        </div>\n      )}\n    </div>\n  );\n}\n"
+    }
+  ]
+}

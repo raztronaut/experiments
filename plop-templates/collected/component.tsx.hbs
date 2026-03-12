@@ -1,0 +1,44 @@
+"use client"
+
+// Decomposition guide (200-line soft limit, 300-line hard limit):
+//   data.ts        -- constants, default props, configuration arrays
+//   hooks/          -- custom hooks (useAnimation, usePhysics, etc.)
+//   sections/       -- visual sub-sections, each with own useGSAP scope
+//   {{pascalCase name}}.tsx -- thin orchestrator: lifecycle, shared state, composition
+
+import { useRef } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
+import "./styles.css"
+
+gsap.registerPlugin(ScrollTrigger)
+
+interface {{pascalCase name}}Props {
+  className?: string
+}
+
+export function {{pascalCase name}}({ className }: {{pascalCase name}}Props) {
+  const container = useRef<HTMLDivElement>(null)
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Animation logic here
+      })
+    },
+    { scope: container },
+  )
+
+  return (
+    <div
+      className={`{{dashCase name}} ${className ?? ""}`.trim()}
+      ref={container}
+    >
+      <p>{{pascalCase name}}</p>
+    </div>
+  )
+}
+
+export default {{pascalCase name}}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-page-actions",
+  "type": "registry:component",
+  "title": "PageActions",
+  "description": "PageActions MDX component",
+  "category": "mdx",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "PageActions.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { AlertCircle, Check, Copy, ExternalLink } from \"lucide-react\";\nimport { useCallback, useState } from \"react\";\n\ntype CopyState = \"idle\" | \"copied\" | \"error\";\n\ninterface PageActionsProps {\n  markdownUrl: string;\n}\n\nexport function PageActions({ markdownUrl }: PageActionsProps) {\n  const [copyState, setCopyState] = useState<CopyState>(\"idle\");\n\n  const handleCopy = useCallback(async () => {\n    try {\n      const res = await fetch(markdownUrl);\n      if (!res.ok) {\n        throw new Error(\"Failed to fetch\");\n      }\n      const text = await res.text();\n      await navigator.clipboard.writeText(text);\n      setCopyState(\"copied\");\n      setTimeout(() => setCopyState(\"idle\"), 2000);\n    } catch {\n      setCopyState(\"error\");\n      setTimeout(() => setCopyState(\"idle\"), 2000);\n    }\n  }, [markdownUrl]);\n\n  return (\n    <div className=\"flex items-center gap-2 border-border border-b pb-4\">\n      <button\n        aria-label=\"Copy article as Markdown\"\n        className=\"inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:border-foreground/20 hover:text-foreground\"\n        onClick={handleCopy}\n        type=\"button\"\n      >\n        {copyState === \"copied\" && (\n          <>\n            <Check className=\"h-3.5 w-3.5\" />\n            Copied\n          </>\n        )}\n        {copyState === \"error\" && (\n          <>\n            <AlertCircle className=\"h-3.5 w-3.5\" />\n            Failed\n          </>\n        )}\n        {copyState === \"idle\" && (\n          <>\n            <Copy className=\"h-3.5 w-3.5\" />\n            Copy as Markdown\n          </>\n        )}\n      </button>\n      <a\n        className=\"inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:border-foreground/20 hover:text-foreground\"\n        href={markdownUrl}\n        rel=\"noopener noreferrer\"\n        target=\"_blank\"\n      >\n        <ExternalLink className=\"h-3.5 w-3.5\" />\n        View Markdown\n      </a>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

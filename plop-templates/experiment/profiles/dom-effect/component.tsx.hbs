@@ -1,0 +1,68 @@
+"use client";
+
+import { motion } from "motion/react";
+{{#if includeLeva}}
+import { useDevControls } from "@/hooks/useDevControls";
+{{/if}}
+
+export default function {{pascalCase name}}() {
+{{#if includeLeva}}
+  const { duration, delay } = useDevControls("Animation", {
+    duration: { value: 1.2, min: 0.2, max: 3, step: 0.1 },
+    delay: { value: 0.4, min: 0, max: 2, step: 0.1 },
+  });
+{{/if}}
+
+  return (
+    <div className="flex flex-col items-center gap-12 px-8">
+      <motion.h1
+        className="relative font-bold text-6xl text-transparent bg-clip-text md:text-8xl"
+        style=\{{
+          backgroundImage: "linear-gradient(90deg, #fff 0%, #fff 50%, transparent 50%, transparent 100%)",
+          backgroundSize: "200% 100%",
+        }}
+        initial=\{{ backgroundPositionX: "100%", opacity: 0, y: 20 }}
+        animate=\{{ backgroundPositionX: "0%", opacity: 1, y: 0 }}
+{{#if includeLeva}}
+        transition=\{{ duration, ease: [0.22, 1, 0.36, 1] }}
+{{else}}
+        transition=\{{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+{{/if}}
+      >
+        {{titleCase name}}
+      </motion.h1>
+
+      <motion.div
+        className="h-px w-full max-w-md"
+        style=\{{ background: "linear-gradient(90deg, transparent, #667eea, transparent)" }}
+        initial=\{{ scaleX: 0, opacity: 0 }}
+        animate=\{{ scaleX: 1, opacity: 1 }}
+{{#if includeLeva}}
+        transition=\{{ duration: 0.8, delay, ease: "easeOut" }}
+{{else}}
+        transition=\{{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+{{/if}}
+      />
+
+      <motion.p
+        className="max-w-lg text-center text-lg text-neutral-400"
+        initial=\{{ opacity: 0, y: 10 }}
+        animate=\{{ opacity: 1, y: 0 }}
+{{#if includeLeva}}
+        transition=\{{ duration: 0.6, delay: delay + 0.2 }}
+{{else}}
+        transition=\{{ duration: 0.6, delay: 0.6 }}
+{{/if}}
+      >
+        A DOM effect experiment with Motion entrance animations and CSS shimmer.
+      </motion.p>
+
+      <style jsx global>{`
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+      `}</style>
+    </div>
+  );
+}

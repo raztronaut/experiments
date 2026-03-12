@@ -1,51 +1,49 @@
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { fileURLToPath } from 'node:url';
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
-import { playwright } from '@vitest/browser-playwright';
-const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vitest/config";
 
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
+function getWipExperimentExcludes(): string[] {
+  const experimentsDir = "src/app/experiments";
+  const dirs = readdirSync(experimentsDir, { withFileTypes: true }).filter(
+    (d) => d.isDirectory()
+  );
+
+  const wipSlugs: string[] = [];
+  for (const dir of dirs) {
+    const jsonPath = path.join(experimentsDir, dir.name, "experiment.json");
+    try {
+      const data = JSON.parse(readFileSync(jsonPath, "utf-8"));
+      if (data.status === "wip") {
+        wipSlugs.push(data.slug);
+      }
+    } catch {
+      // No experiment.json in this directory -- skip (e.g. route group wrappers)
+    }
+  }
+
+  return wipSlugs.map((slug) => `src/components/experiments/${slug}/**`);
+}
+
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: 'jsdom',
+    environment: "jsdom",
     globals: true,
-    setupFiles: ['./src/setupTests.ts'],
+    setupFiles: ["./src/setupTests.ts"],
     alias: {
-      '@': path.resolve(__dirname, './src')
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
     projects: [
       {
         extends: true,
         test: {
-          name: 'unit',
-          include: ['**/*.test.{ts,tsx}'],
-          exclude: ['node_modules', '.next'],
-          environment: 'jsdom',
-        }
+          name: "unit",
+          include: ["**/*.test.{ts,tsx}"],
+          exclude: ["node_modules", ".next", ...getWipExperimentExcludes()],
+          environment: "jsdom",
+        },
       },
-      {
-        extends: true,
-        plugins: [
-          // The plugin will run tests for the stories defined in your Storybook config
-          // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-          storybookTest({
-            configDir: path.join(dirname, '.storybook')
-          })],
-        test: {
-          name: 'storybook',
-          browser: {
-            enabled: true,
-            headless: true,
-            provider: playwright({}),
-            instances: [{
-              browser: 'chromium'
-            }]
-          },
-          setupFiles: ['.storybook/vitest.setup.ts']
-        }
-      }]
-  }
+    ],
+  },
 });

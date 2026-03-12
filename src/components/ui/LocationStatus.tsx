@@ -1,170 +1,185 @@
 "use client";
 
-import { useState, useId } from "react";
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { spaceGrotesk } from "@/lib/fonts";
-
-import { usePreferences } from "@/hooks/usePreferences";
-import { useWeather } from "@/hooks/useWeather";
-import { useTimeOfDay } from "@/hooks/useTimeOfDay";
+import { motion } from "motion/react";
+import { useId, useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
 import { useLiquidGlassStyle } from "@/hooks/useLiquidGlassStyle";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { usePreferences } from "@/hooks/usePreferences";
+import { useTimeOfDay } from "@/hooks/useTimeOfDay";
+import { useWeather } from "@/hooks/useWeather";
+import { spaceGrotesk } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 
 import { LiquidGlassFilter } from "./LiquidGlassFilter";
 import { LocationPill } from "./location/LocationPill";
+import { SocialPills } from "./location/SocialPills";
 import { TimePill } from "./location/TimePill";
 import { WeatherPill } from "./location/WeatherPill";
-import { SocialPills } from "./location/SocialPills";
 
-const layoutTransition = { type: "spring", stiffness: 350, damping: 35, mass: 1 } as const;
+const layoutTransition = {
+  type: "spring",
+  stiffness: 350,
+  damping: 35,
+  mass: 1,
+} as const;
 
 export function LocationStatus() {
-    const {
-        showCoords, setShowCoords,
-        use24Hour, setUse24Hour,
-        tempUnit, toggleUnit, tempUnitLabel,
-        mounted
-    } = usePreferences();
+  const {
+    showCoords,
+    setShowCoords,
+    use24Hour,
+    setUse24Hour,
+    tempUnit,
+    toggleUnit,
+    tempUnitLabel,
+    mounted,
+  } = usePreferences();
 
-    const { weather: torontoWeather, tempValue } = useWeather(tempUnit);
-    const { isNight: effectiveIsNight } = useTimeOfDay();
-    const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const { weather: torontoWeather, tempValue } = useWeather(tempUnit);
+  const { isNight: effectiveIsNight } = useTimeOfDay();
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-    const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
-    // Measure size for Liquid Glass Filter
-    const { ref: pillRef, width, height } = useElementSize<HTMLDivElement>();
-    const RADIUS = isDesktop ? 12 : 6;
-    const filterId = useId().replace(/:/g, "");
+  // Measure size for Liquid Glass Filter
+  const { ref: pillRef, width, height } = useElementSize<HTMLDivElement>();
+  const RADIUS = isDesktop ? 12 : 6;
+  const filterId = useId().replace(/:/g, "");
 
-    const glassStyle = useLiquidGlassStyle({
-        filterId: `liquid-glass-${filterId}`,
-        fallbackBlur: 10
-    });
+  const glassStyle = useLiquidGlassStyle({
+    filterId: `liquid-glass-${filterId}`,
+    fallbackBlur: 10,
+  });
 
-    const hasSize = width > 0 && height > 0;
+  const hasSize = width > 0 && height > 0;
 
-    return (
-        <motion.div
-            layout
-            transition={layoutTransition}
-            className={cn("flex flex-wrap items-center gap-2 text-sm md:text-base select-none w-full md:w-auto", spaceGrotesk.className)}
-        >
-            <LiquidGlassFilter
-                id={`liquid-glass-${filterId}`}
-                width={width}
-                height={height}
-                radius={RADIUS}
-                displacementScale={isDesktop ? 16 : 12}
-            />
+  return (
+    <motion.div
+      className={cn(
+        "flex w-full select-none flex-wrap items-center gap-2 text-sm md:w-auto md:text-base",
+        spaceGrotesk.className
+      )}
+      layout
+      transition={layoutTransition}
+    >
+      <LiquidGlassFilter
+        displacementScale={isDesktop ? 16 : 12}
+        height={height}
+        id={`liquid-glass-${filterId}`}
+        radius={RADIUS}
+        width={width}
+      />
+      <motion.div
+        className={cn(
+          "flex min-h-[28px] w-full items-center justify-between gap-0.5 rounded-md border border-border/50 bg-muted/20 px-3 py-1 shadow-xs md:min-h-[46px] md:w-auto md:justify-start md:gap-1 md:rounded-xl md:px-2.5 md:py-1.5",
+          "group/pill relative transition-shadow duration-500",
+          effectiveIsNight ? "shadow-blue-500/5" : "shadow-orange-500/5"
+        )}
+        layout
+        ref={pillRef}
+        style={hasSize ? glassStyle : {}}
+        transition={layoutTransition}
+      >
+        {mounted ? (
+          <>
             <motion.div
-                ref={pillRef}
-                layout
-                transition={layoutTransition}
-                style={hasSize ? glassStyle : {}}
-                className={cn(
-                    "flex items-center gap-0.5 md:gap-1 bg-muted/20 border border-border/50 px-3 py-1 md:px-2.5 md:py-1.5 rounded-md md:rounded-xl shadow-sm w-full md:w-auto justify-between md:justify-start min-h-[28px] md:min-h-[46px]",
-                    "relative group/pill transition-shadow duration-500",
-                    effectiveIsNight ? "shadow-blue-500/5" : "shadow-orange-500/5"
-                )}
+              className="flex flex-1 justify-start md:flex-none"
+              layout
+              transition={layoutTransition}
             >
-                {mounted ? (
-                    <>
-                        <motion.div layout transition={layoutTransition} className="flex-1 flex justify-start md:flex-none">
-                            <LocationPill
-                                showCoords={showCoords}
-                                setShowCoords={setShowCoords}
-                                hoveredId={hoveredId}
-                                setHoveredId={setHoveredId}
-                                layoutTransition={layoutTransition}
-                            />
-                        </motion.div>
-
-                        <motion.div layout transition={layoutTransition} className="flex items-center">
-                            <motion.span
-                                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                                transition={{
-                                    opacity: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-                                }}
-                                className="opacity-20 font-light select-none cursor-default"
-                            >
-                                •
-                            </motion.span>
-                        </motion.div>
-
-                        <motion.div layout transition={layoutTransition} className="flex-1 flex justify-center md:flex-none">
-                            <TimePill
-                                use24Hour={use24Hour}
-                                setUse24Hour={setUse24Hour}
-                                hoveredId={hoveredId}
-                                setHoveredId={setHoveredId}
-                                layoutTransition={layoutTransition}
-                            />
-                        </motion.div>
-
-                        <motion.div layout transition={layoutTransition} className="flex items-center">
-                            <motion.span
-                                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                                transition={{
-                                    opacity: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }
-                                }}
-                                className="opacity-20 font-light select-none cursor-default"
-                            >
-                                •
-                            </motion.span>
-                        </motion.div>
-
-                        <motion.div layout transition={layoutTransition} className="flex-1 flex justify-end md:flex-none">
-                            <WeatherPill
-                                weather={torontoWeather}
-                                tempValue={tempValue}
-                                tempUnitLabel={tempUnitLabel}
-                                toggleUnit={toggleUnit}
-                                hoveredId={hoveredId}
-                                setHoveredId={setHoveredId}
-                                layoutTransition={layoutTransition}
-                            />
-                        </motion.div>
-
-                        <motion.div layout transition={layoutTransition} className="hidden md:flex items-center">
-                            <motion.span
-                                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                                transition={{
-                                    opacity: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 2.5 }
-                                }}
-                                className="opacity-20 font-light select-none cursor-default"
-                            >
-                                •
-                            </motion.span>
-                        </motion.div>
-
-                        <motion.div layout transition={layoutTransition} className="hidden md:block">
-                            <SocialPills
-                                hoveredId={hoveredId}
-                                setHoveredId={setHoveredId}
-                                layoutTransition={layoutTransition}
-                            />
-                        </motion.div>
-                    </>
-                ) : (
-                    <div className="flex items-center w-full md:w-auto opacity-20 md:gap-4">
-                        <div className="flex-1 flex justify-start md:flex-none">
-                            <div className="w-16 h-4 bg-foreground/20 rounded-full animate-pulse" />
-                        </div>
-                        <div className="flex-1 flex justify-center md:flex-none">
-                            <div className="w-12 h-4 bg-foreground/20 rounded-full animate-pulse" />
-                        </div>
-                        <div className="flex-1 flex justify-end md:flex-none">
-                            <div className="w-14 h-4 bg-foreground/20 rounded-full animate-pulse" />
-                        </div>
-                        <div className="hidden md:block">
-                            <div className="w-24 h-4 bg-foreground/20 rounded-full animate-pulse" />
-                        </div>
-                    </div>
-                )}
+              <LocationPill
+                hoveredId={hoveredId}
+                layoutTransition={layoutTransition}
+                setHoveredId={setHoveredId}
+                setShowCoords={setShowCoords}
+                showCoords={showCoords}
+              />
             </motion.div>
-        </motion.div>
-    );
+
+            <div className="flex items-center">
+              <span className="animate-dot-pulse cursor-default select-none font-light opacity-20">
+                •
+              </span>
+            </div>
+
+            <motion.div
+              className="flex flex-1 justify-center md:flex-none"
+              layout
+              transition={layoutTransition}
+            >
+              <TimePill
+                hoveredId={hoveredId}
+                layoutTransition={layoutTransition}
+                setHoveredId={setHoveredId}
+                setUse24Hour={setUse24Hour}
+                use24Hour={use24Hour}
+              />
+            </motion.div>
+
+            <div className="flex items-center">
+              <span
+                className="animate-dot-pulse cursor-default select-none font-light opacity-20"
+                style={{ animationDelay: "1.5s" }}
+              >
+                •
+              </span>
+            </div>
+
+            <motion.div
+              className="flex flex-1 justify-end md:flex-none"
+              layout
+              transition={layoutTransition}
+            >
+              <WeatherPill
+                hoveredId={hoveredId}
+                layoutTransition={layoutTransition}
+                setHoveredId={setHoveredId}
+                tempUnitLabel={tempUnitLabel}
+                tempValue={tempValue}
+                toggleUnit={toggleUnit}
+                weather={torontoWeather}
+              />
+            </motion.div>
+
+            <div className="hidden items-center md:flex">
+              <span
+                className="animate-dot-pulse cursor-default select-none font-light opacity-20"
+                style={{ animationDelay: "2.5s" }}
+              >
+                •
+              </span>
+            </div>
+
+            <motion.div
+              className="hidden md:block"
+              layout
+              transition={layoutTransition}
+            >
+              <SocialPills
+                hoveredId={hoveredId}
+                layoutTransition={layoutTransition}
+                setHoveredId={setHoveredId}
+              />
+            </motion.div>
+          </>
+        ) : (
+          <div className="flex w-full items-center opacity-20 md:w-auto md:gap-4">
+            <div className="flex flex-1 justify-start md:flex-none">
+              <div className="h-4 w-16 animate-pulse rounded-full bg-foreground/20" />
+            </div>
+            <div className="flex flex-1 justify-center md:flex-none">
+              <div className="h-4 w-12 animate-pulse rounded-full bg-foreground/20" />
+            </div>
+            <div className="flex flex-1 justify-end md:flex-none">
+              <div className="h-4 w-14 animate-pulse rounded-full bg-foreground/20" />
+            </div>
+            <div className="hidden md:block">
+              <div className="h-4 w-24 animate-pulse rounded-full bg-foreground/20" />
+            </div>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
 }

@@ -1,0 +1,39 @@
+{
+  "$comment": "Curation rules for the registry pipeline. Read by generate-registry-json.mjs.",
+  "categories": [
+    "experiments",
+    "components",
+    "collected",
+    "hooks",
+    "utilities",
+    "mdx",
+    "styles"
+  ],
+  "featured": [
+    "send-button",
+    "404-not-found",
+    "keyboard-keys",
+    "transit-airport-split-flap-display",
+    "gravity-physics-ui-layout"
+  ],
+  "hidden": ["test"],
+  "overrides": {
+    "experiment-drawer-list": {
+      "description": "macOS-style drawer list with grid/list toggle"
+    },
+    "grain-overlay": {
+      "description": "Subtle film grain overlay effect"
+    },
+    "scramble-ticker": {
+      "description": "Text scramble/ticker animation effect"
+    }
+  },
+  "scan": {
+    "experiments": true,
+    "sharedUI": true,
+    "collected": true,
+    "hooks": true,
+    "mdx": true,
+    "utilities": ["src/lib/utils.ts", "src/lib/fonts.ts"]
+  }
+}

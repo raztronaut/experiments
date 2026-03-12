@@ -1,29 +1,32 @@
-'use client';
+"use client";
 
-import * as React from "react"
-import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
-import { type ThemeProviderProps } from "next-themes"
+import {
+  ThemeProvider as NextThemesProvider,
+  type ThemeProviderProps,
+  useTheme,
+} from "next-themes";
+import * as React from "react";
 
 function ThemeReset() {
-    const { setTheme } = useTheme()
-    const mountedRef = React.useRef(false)
+  const { setTheme } = useTheme();
+  const mountedRef = React.useRef(false);
 
-    React.useEffect(() => {
-        // Only reset to system on the very first mount of the session (refresh)
-        if (!mountedRef.current) {
-            setTheme("system")
-            mountedRef.current = true
-        }
-    }, [setTheme])
+  React.useEffect(() => {
+    // Only reset to system on the very first mount of the session (refresh)
+    if (!mountedRef.current) {
+      setTheme("system");
+      mountedRef.current = true;
+    }
+  }, [setTheme]);
 
-    return null
+  return null;
 }
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-    return (
-        <NextThemesProvider {...props}>
-            <ThemeReset />
-            {children}
-        </NextThemesProvider>
-    )
+  return (
+    <NextThemesProvider {...props}>
+      <ThemeReset />
+      {children}
+    </NextThemesProvider>
+  );
 }

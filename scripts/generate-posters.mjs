@@ -1,56 +1,78 @@
-import fs from 'fs';
-import path from 'path';
-import { execSync } from 'child_process';
+import { execSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 
-const EXPERIMENTS_DIR = path.join(process.cwd(), 'src/app/experiments');
-const PUBLIC_DIR = path.join(process.cwd(), 'public');
+const EXPERIMENTS_DIR = path.join(process.cwd(), "src/app/experiments");
+const PUBLIC_DIR = path.join(process.cwd(), "public");
 
 async function generatePosters() {
-    console.log('🔍 Scanning experiments for videos...');
+  console.log("🔍 Scanning experiments for videos...");
 
-    try {
-        const entries = fs.readdirSync(EXPERIMENTS_DIR, { withFileTypes: true });
+  try {
+    const entries = fs.readdirSync(EXPERIMENTS_DIR, { withFileTypes: true });
 
-        const experimentDirs = entries
-            .filter(dirent => dirent.isDirectory() && dirent.name.startsWith('('))
-            .map(dirent => dirent.name);
+    const experimentDirs = entries
+      .filter((dirent) => dirent.isDirectory() && dirent.name.startsWith("("))
+      .map((dirent) => dirent.name);
 
-        for (const dirName of experimentDirs) {
-            const configPath = path.join(EXPERIMENTS_DIR, dirName, 'experiment.json');
+    for (const dirName of experimentDirs) {
+      const configPath = path.join(EXPERIMENTS_DIR, dirName, "experiment.json");
 
-            if (!fs.existsSync(configPath)) continue;
+      if (!fs.existsSync(configPath)) {
+        continue;
+      }
 
-            const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-            const slug = config.slug;
+      const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 
-            if (config.video) {
-                const videoRelativePath = config.video;
-                const videoPath = path.join(PUBLIC_DIR, videoRelativePath);
-                const posterPath = path.join(PUBLIC_DIR, 'experiments', slug, 'poster.jpg');
+      if (config.status === "wip") {
+        continue;
+      }
 
-                if (fs.existsSync(videoPath)) {
-                    if (!fs.existsSync(posterPath)) {
-                        console.log(`🎬 Generating poster for: ${slug}...`);
-                        try {
-                            // Extract first frame, resize to max 1200w, text quality high (q:v 5 is decent for jpg)
-                            execSync(`ffmpeg -y -i "${videoPath}" -ss 00:00:00.000 -vframes 1 -vf "scale=1200:-1" -q:v 5 "${posterPath}"`, { stdio: 'inherit' });
-                            console.log(`✅ Generated poster: ${posterPath}`);
-                        } catch (error) {
-                            console.error(`❌ Failed to generate poster for ${slug}:`, error.message);
-                        }
-                    } else {
-                        // console.log(`⏩ Poster already exists for: ${slug}`);
-                    }
-                } else {
-                    console.warn(`⚠️ Video file not found: ${videoPath}`);
-                }
+      if ((config.listing || "public") !== "public") {
+        continue;
+      }
+
+      const slug = config.slug;
+
+      if (config.video) {
+        const videoRelativePath = config.video;
+        const videoPath = path.join(PUBLIC_DIR, videoRelativePath);
+        const posterPath = path.join(
+          PUBLIC_DIR,
+          "experiments",
+          slug,
+          "poster.jpg"
+        );
+
+        if (fs.existsSync(videoPath)) {
+          if (fs.existsSync(posterPath)) {
+            // console.log(`⏩ Poster already exists for: ${slug}`);
+          } else {
+            console.log(`🎬 Generating poster for: ${slug}...`);
+            try {
+              // Extract first frame, resize to max 1200w, text quality high (q:v 5 is decent for jpg)
+              execSync(
+                `ffmpeg -y -i "${videoPath}" -ss 00:00:00.000 -vframes 1 -vf "scale=1200:-1" -q:v 5 "${posterPath}"`,
+                { stdio: "inherit" }
+              );
+              console.log(`✅ Generated poster: ${posterPath}`);
+            } catch (error) {
+              console.error(
+                `❌ Failed to generate poster for ${slug}:`,
+                error.message
+              );
             }
+          }
+        } else {
+          console.warn(`⚠️ Video file not found: ${videoPath}`);
         }
-
-        console.log('✨ Poster generation complete.');
-    } catch (error) {
-        console.error('❌ Error reading experiments directory:', error);
+      }
     }
+
+    console.log("✨ Poster generation complete.");
+  } catch (error) {
+    console.error("❌ Error reading experiments directory:", error);
+  }
 }
 
 generatePosters();

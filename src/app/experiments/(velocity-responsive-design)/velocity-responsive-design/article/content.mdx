@@ -1,0 +1,134 @@
+---
+title: "Velocity-Responsive Design"
+description: "What if responsive design responded to how you read, not just what you read on?"
+publishedAt: "2026-03-11T00:00:00.000Z"
+updatedAt: "2026-03-11T00:00:00.000Z"
+---
+
+# Velocity-Responsive Design
+
+Responsive design has two axes: screen size and input modality. Desktop vs. mobile. Touch vs. pointer. We've been refining these for fifteen years.
+
+But there's a third axis hiding in plain sight: **how fast you're reading**.
+
+When you scroll slowly through an article, you're in a different cognitive mode than when you're flinging the page with your thumb. Slow scroll means "teach me." Fast scroll means "show me the highlights." The screen size hasn't changed. The input device hasn't changed. But your information needs have completely shifted.
+
+I built an experiment to explore what happens when the UI actually responds to that shift.
+
+## The core idea
+
+Traditional responsive design is spatial: it reacts to the dimensions of the viewport. Velocity-Responsive Design (VRD) is temporal: it reacts to the speed of the reader. The UI adapts content density, typography, and visual treatment based on scroll velocity.
+
+Two reading states:
+
+- **Detailed** (slow scroll): Serif typography, full paragraphs, expanded code blocks. Optimized for comprehension.
+- **Skim** (fast scroll): Bold sans-serif, one-line summaries, collapsed code signatures. Optimized for pattern recognition.
+
+The transition between them should feel like a physical property of the content itself, like how highway signs are larger and simpler than street signs. You don't think about why. The information just meets you where you are.
+
+Try it. Drag the speed slider and watch the content morph:
+
+<InteractiveWidget title="Scroll Speed → Content Density">
+  <ScrollDensityDemo />
+</InteractiveWidget>
+
+The concept draws from cognitive science: when we scroll quickly, our brain redirects processing capacity from deep comprehension to pattern recognition. The interface should respect that shift by serving high-signal summaries instead of hiding content. We're not removing information; we're compressing it into a form that matches the reader's metabolic rate of intake.
+
+## Hysteresis: borrowing from control systems
+
+The naive implementation is a single threshold: above 500 px/s, switch to skim. Below, switch back. This flickers constantly. Your scroll speed oscillates around any threshold, and the UI ping-pongs between states faster than you can read either one.
+
+The fix comes from electrical engineering. A [Schmitt trigger](https://en.wikipedia.org/wiki/Schmitt_trigger) uses **hysteresis**, meaning different thresholds for entering and exiting a state. The gap between them creates a dead zone where the current state holds.
+
+VRD uses the same pattern:
+
+- **Enter skim** at 500 px/s
+- **Exit skim** only when velocity drops below 400 px/s *and stays there for 2.5 seconds*
+
+The asymmetric thresholds prevent oscillation. The exit delay prevents false exits during brief pauses (repositioning your hand on the trackpad, reaching the bottom of a scroll gesture).
+
+<InteractiveWidget title="Hysteresis State Machine">
+  <HysteresisDemo />
+</InteractiveWidget>
+
+The yellow regions are skim mode. The gap between the red enter line and the blue exit line is the dead zone, where velocity can bounce around without triggering a transition. Drag the thresholds to see how the dead zone width affects stability.
+
+Here's the core of the state machine:
+
+```typescript
+if (v > config.skimEnter) {
+  setReadingState("skim");
+  // Cancel any pending exit timer
+  if (exitTimer) clearTimeout(exitTimer);
+} else if (v < config.skimExit) {
+  // Don't exit immediately, start a countdown
+  if (readingState === "skim" && !exitTimer) {
+    exitTimer = setTimeout(() => {
+      setReadingState("detailed");
+    }, config.skimExitDelay);
+  }
+} else {
+  // In the dead zone: cancel exit timer, hold current state
+  if (exitTimer) clearTimeout(exitTimer);
+}
+```
+
+Three branches. Enter is instant. Exit is delayed. Dead zone preserves the status quo.
+
+## Reading Lenis's pulse
+
+The velocity engine taps into [Lenis](https://lenis.darkroom.engineering/) smooth scroll. Lenis provides a native `velocity` property on every scroll event, so there's no need to compute deltas manually.
+
+The `useVelocityEngine` hook subscribes to Lenis scroll events, scales the raw velocity (Lenis reports values that are small due to its lerp smoothing), feeds the scaled value through the hysteresis machine, and normalizes it to a 0–1 range for driving visual effects.
+
+```typescript
+const onScroll = (lenis: Lenis) => {
+  const absV = Math.floor(Math.abs(lenis.velocity) * config.velocityScale);
+  setScrollV(absV);
+  updateReadingState(absV);
+};
+```
+
+The normalization ceiling is 3000 px/s. Anything above gets clamped to 1.0. This normalized value drives the SpeedLines particle intensity, image parallax offset, and the velocity bar fill in the FlightControl dashboard.
+
+<InteractiveWidget title="Velocity Normalization">
+  <VelocityTrackingDemo />
+</InteractiveWidget>
+
+Drag the slider to simulate scroll velocity. The waveform shows history, the threshold lines show where state transitions happen, and the `norm` readout shows the 0–1 value that drives all the visual effects downstream.
+
+## The scroll stabilizer
+
+This was the hardest problem in the experiment and the code I'm most proud of.
+
+When the reading state changes from detailed to skim, text blocks collapse from full paragraphs to one-line summaries. The page height can drop by thousands of pixels in a single frame. Without compensation, the viewport jumps. The content you were looking at disappears and you land somewhere completely different.
+
+The fix is an anchor-based correction loop. Before the state transition, the system records which child element is closest to 40% of the viewport height and its exact pixel offset. After the transition (in `useLayoutEffect`, before paint), it measures the anchor's new position and scrolls by the difference:
+
+```typescript
+const anchor = lastAnchorRef.current;
+const target = container.children[anchor.index];
+const delta = target.getBoundingClientRect().top - anchor.viewportOffset;
+
+if (Math.abs(delta) > 0.5) {
+  window.scrollBy({ top: delta, behavior: "instant" });
+}
+```
+
+One correction isn't enough. The text morphing uses Motion springs that animate over ~600ms. As the springs settle, heights keep shifting. So the stabilizer runs a 36-frame correction loop, recalculating and compensating on every animation frame until the spring animation completes.
+
+During this correction window, the velocity engine locks. Otherwise, the programmatic `scrollBy` calls would register as user scroll events and potentially trigger another state transition, creating an infinite loop.
+
+## Full thing
+
+<LiveDemo slug="velocity-responsive-design" height="600px" />
+
+Scroll slowly to read, quickly to skim. The FlightControl dashboard at the bottom shows your velocity in real-time. Click the gear icon to toggle manual override, then drag the slider to sweep through velocities and watch the content adapt.
+
+## What I'd do differently
+
+The binary state machine (detailed vs. skim) was the right starting point, but the concept wants a continuous spectrum. What if font weight, line height, and content density all varied smoothly with velocity instead of snapping between two presets? A normalized velocity of 0.3 could mean slightly condensed paragraphs. 0.7 could mean bold keywords only.
+
+The 36-frame correction loop in the scroll stabilizer works but it's a brute-force solution. A proper fix would use the [View Transitions API](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API) or CSS `content-visibility` to manage layout shifts natively.
+
+The FlightControl dashboard started as a debug tool for calibrating thresholds. It turned out to be the best way to understand what the experiment does, because you can sweep through the velocity range and watch every element respond. Sometimes the debug tool *is* the feature.

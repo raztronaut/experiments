@@ -1,0 +1,80 @@
+---
+description: Writing voice, article lenses, section building blocks, MDX wiring, and demo patterns for experiment articles
+globs: "**/article/content.mdx"
+alwaysApply: false
+---
+
+# Article Writing Rules
+
+Read `.agents/contexts/writing-voice.md` for full voice guide, section building blocks, and demo patterns.
+
+## Voice
+
+First-person, process-oriented. Casual confidence ("Nothing fancy here", "That's it"). Short paragraphs (max 3 sentences). No AI fingerprints ("let's dive in", "in this article we'll explore", "without further ado").
+
+## Article Lenses
+
+Articles blend 3 lenses in any proportion. Ask the user which to emphasize before committing to a structure.
+
+- **Implementation**: how it works -- code, technique layering, progressive demos
+- **Concept**: why the idea matters -- design rationale, analogies, "what if" framing
+- **Exploration**: the journey -- dead ends, pivots, decisions, honest uncertainty
+
+## Section Building Blocks
+
+Pick from these based on lens emphasis. See `writing-voice.md` for details.
+
+**Shared** (always): Hook, Full Thing (LiveDemo), Reflection
+**Implementation**: Basic Version + Demo, Enhancement + Demo, Key Insight
+**Concept**: The Core Idea, Implications / What If, Design Rationale, Broader Connections
+**Exploration**: Origin Story, What I Tried, The Pivot, Open Questions
+
+## MDX Wiring (CRITICAL)
+
+`next-mdx-remote` does NOT support `import` in MDX files. All custom components must be:
+1. Built in `article/components/DemoName.tsx` (`"use client"`, one file per demo)
+2. Re-exported from `article/components/index.ts`
+3. Imported in `article/page.tsx`: `import { MyDemo } from "./components"`
+4. Spread into components prop: `components={{ ...articleComponents, MyDemo }}`
+5. Used directly in MDX: `<InteractiveWidget title="..."><MyDemo /></InteractiveWidget>`
+
+### Demo Component Decomposition
+
+- One demo per file in `article/components/`. Shared math/drawing helpers go in `utils.ts`.
+- Barrel re-export in `index.ts` keeps the `page.tsx` import path unchanged.
+- Target 200 lines per file, hard limit 300.
+
+## Interactive Components
+
+### Demo Containers
+- **`<InteractiveWidget>`**: Primary tool. Supports compound layout: `<InteractiveWidget.Preview>` + `<InteractiveWidget.Controls>` with `layout="sidebar"` or `layout="bottom"`.
+- **`<SandpackDemo>`**: Editable code playgrounds. Best for self-contained CSS/React tricks.
+- **`<LiveDemo>`**: Full experiment iframe embed with integrated toolbar. Use once, near the end.
+
+### Demo Controls (from `src/components/mdx/controls/`)
+- **`<Range>`**: Styled slider with label, value display, gradient fill, optional debounce.
+- **`<Checkbox>`**: Styled checkbox with animated checkmark.
+- **`<Switch>`**: Toggle switch with animated handle.
+- **`<ControlGroup columns={2}>`**: Grid layout for arranging controls.
+
+### Content Components
+- **`<BeforeAfterImage>`**: Drag-to-compare two images. For shader/effect comparisons.
+- **`<Slideshow>`**: Image gallery with keyboard nav and dot indicators.
+- **`<Details>`**: Animated collapsible (`Details.Summary` + `Details.Content`).
+- **`<Pill>`**: Semantic badge (`info`, `success`, `warning`, `danger`).
+- **`<Fullbleed>`**: Full-width breakout from article container.
+
+## Demo Strategy
+
+Match demos to lens emphasis:
+- Implementation: Canvas 2D recreations with `Range`/`Checkbox` controls in `InteractiveWidget` sidebar layout, progressive layering
+- Concept: `BeforeAfterImage` for comparisons, interactive diagrams, parameter spaces, `Slideshow` for multi-step explanations
+- Exploration: side-by-side version comparisons, expected-vs-actual toggles, `Details` for supplementary context
+
+Use shared controls (`Range`, `Checkbox`, `Switch`) instead of raw `<input>` elements. Avoid R3F/WebGL in article demos. Reference: `basketball-replay-center` article.
+
+## Typography
+
+CSS-first via `experiments.css` (Sylph port). Do NOT add Tailwind typography overrides to the MDX component map -- the CSS handles headings, paragraphs, lists, and code blocks.
+
+## The `# Title` h1 in the MDX IS the visual page title. The layout header only shows metadata.

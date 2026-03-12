@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap");
+
+.crt-display-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background-color: #b0b0b0;
+}
+
+.crt-display-projects {
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  transform: translateX(-50%);
+}
+
+.crt-display-projects button {
+  width: max-content;
+  padding: 0.5rem 1rem;
+  font-family: "Geist Mono", Arial, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 450;
+  color: #000;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #000;
+  box-shadow: 4px 4px 0px -1px rgba(0, 0, 0, 1);
+}
+
+.crt-display-projects button:hover,
+.crt-display-projects button:focus-visible {
+  color: #fff;
+  background-color: #000;
+}
+
+@media (max-width: 1000px) {
+  .crt-display-projects {
+    flex-wrap: wrap;
+    padding: 0 4rem;
+  }
+}

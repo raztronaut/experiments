@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-code-block",
+  "type": "registry:component",
+  "title": "CodeBlock",
+  "description": "CodeBlock MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "CodeBlock.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport type React from \"react\";\nimport { useRef, useState } from \"react\";\n\ninterface CodeBlockProps {\n  children: React.ReactNode;\n  \"data-language\"?: string;\n  \"data-theme\"?: string;\n  raw?: string;\n}\n\nexport function CodeBlock({ children, raw, ...props }: CodeBlockProps) {\n  const [copied, setCopied] = useState(false);\n  const preRef = useRef<HTMLPreElement>(null);\n\n  const language = props[\"data-language\"];\n\n  const handleCopy = async () => {\n    const text = raw || preRef.current?.textContent || \"\";\n    await navigator.clipboard.writeText(text).catch(() => {});\n    setCopied(true);\n    setTimeout(() => setCopied(false), 2000);\n  };\n\n  return (\n    <div className=\"group relative\">\n      {language && (\n        <div className=\"flex items-center justify-between border-border/30 border-b px-4 py-2 text-muted-foreground text-xs\">\n          <span className=\"font-mono uppercase tracking-wider\">{language}</span>\n          <button\n            aria-label=\"Copy code\"\n            className=\"text-muted-foreground opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100\"\n            onClick={handleCopy}\n          >\n            {copied ? \"Copied\" : \"Copy\"}\n          </button>\n        </div>\n      )}\n      <pre\n        className=\"overflow-x-auto p-4 text-sm leading-relaxed\"\n        ref={preRef}\n        {...props}\n      >\n        {children}\n      </pre>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,404 @@
+/* Control primitives — ported from @maximeheckel/design-system */
+
+/* Checkbox — 24x24 matching Maxime's original */
+.mdx-checkbox {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  accent-color: transparent;
+  cursor: pointer;
+  outline: none;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: none;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    box-shadow 0.2s;
+}
+
+.mdx-checkbox::after {
+  position: absolute;
+  top: 4px;
+  left: 7px;
+  display: block;
+  width: 6px;
+  height: 10px;
+  content: "";
+  border: 2px solid hsl(var(--background));
+  border-top: 0;
+  border-left: 0;
+  opacity: 0;
+  transform: rotate(20deg);
+  transition:
+    transform 0.3s ease,
+    opacity 0.2s;
+}
+
+.mdx-checkbox:checked {
+  background: hsl(var(--foreground));
+  border-color: hsl(var(--foreground));
+}
+
+.mdx-checkbox:checked::after {
+  opacity: 1;
+  transform: rotate(43deg);
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.85, 0.32, 1.2) 0.1s,
+    opacity 0.3s;
+}
+
+.mdx-checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mdx-checkbox:not(:disabled):not(:checked):hover {
+    border-color: hsl(var(--foreground));
+  }
+  .mdx-checkbox:not(:disabled):hover {
+    box-shadow: 0 2px 20px 3px hsl(var(--foreground) / 0.08);
+  }
+}
+
+.mdx-checkbox:focus-visible {
+  border-color: hsl(var(--foreground));
+  box-shadow: 0 2px 20px 3px hsl(var(--foreground) / 0.08);
+}
+
+/* Switch — 44x24 matching Maxime's original */
+.mdx-switch {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 44px;
+  height: 24px;
+  margin: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  box-shadow: none;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    box-shadow 0.2s;
+}
+
+.mdx-switch::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: block;
+  width: 18px;
+  height: 18px;
+  content: "";
+  background: hsl(var(--muted-foreground));
+  border-radius: 50%;
+  transform: translateX(0);
+  transition:
+    transform 0.3s ease,
+    background 0.3s,
+    box-shadow 0.2s;
+}
+
+.mdx-switch:checked {
+  background: hsl(var(--foreground));
+  border-color: hsl(var(--foreground));
+}
+
+.mdx-switch:checked::after {
+  background: hsl(var(--background));
+  box-shadow:
+    inset 0px 1px 1px rgba(255, 255, 255, 0.3),
+    inset 0px -1px 0.5px rgba(0, 0, 0, 0.3);
+  transform: translateX(20px);
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.85, 0.32, 1.2),
+    background 0.3s;
+}
+
+.mdx-switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mdx-switch:not(:disabled):not(:checked):hover {
+    border-color: hsl(var(--foreground));
+  }
+  .mdx-switch:not(:disabled):hover {
+    box-shadow: 0 2px 20px 3px hsl(var(--foreground) / 0.08);
+  }
+}
+
+.mdx-switch:focus-visible {
+  border-color: hsl(var(--foreground));
+  box-shadow: 0 2px 20px 3px hsl(var(--foreground) / 0.08);
+}
+
+/* Radio — 24x24 circle, dot-in-ring checked state */
+.mdx-radio {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 50%;
+  box-shadow: none;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    box-shadow 0.2s;
+}
+
+.mdx-radio::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 22px;
+  height: 22px;
+  content: "";
+  background: hsl(var(--background));
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    transform 0.3s ease,
+    opacity 0.2s;
+}
+
+.mdx-radio:checked {
+  background: hsl(var(--foreground));
+  border-color: hsl(var(--foreground));
+}
+
+.mdx-radio:checked::after {
+  opacity: 1;
+  transform: scale(0.5);
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.85, 0.32, 1.2),
+    opacity 0.3s;
+}
+
+.mdx-radio:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mdx-radio:not(:disabled):not(:checked):hover {
+    border-color: hsl(var(--foreground));
+  }
+  .mdx-radio:not(:disabled):hover {
+    box-shadow: 0 2px 20px 3px hsl(var(--foreground) / 0.08);
+  }
+}
+
+.mdx-radio:focus-visible {
+  border-color: hsl(var(--foreground));
+  box-shadow: 0 2px 20px 3px hsl(var(--foreground) / 0.08);
+}
+
+/* Range — pill slider matching blog.maximeheckel.com */
+.mdx-slider-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  background-color: hsl(var(--muted) / 0.5);
+}
+
+.mdx-slider-pill:active {
+  cursor: grabbing;
+}
+
+.mdx-slider-pill--sm {
+  height: 34px;
+  border-radius: 8px;
+}
+
+.mdx-slider-pill--md {
+  height: 48px;
+  border-radius: 12px;
+}
+
+.mdx-slider-pill[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(0.25);
+}
+
+.mdx-slider-pill:has(:focus-visible) {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Invisible native input stretched over the pill */
+.mdx-slider-input {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: inherit;
+  opacity: 0;
+}
+
+/* Fill indicator with vertical line at right edge */
+.mdx-slider-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  pointer-events: none;
+}
+
+.mdx-slider-fill::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 2px;
+  height: 20px;
+  content: "";
+  background-color: hsl(var(--foreground) / 0.5);
+  border-radius: 9999px;
+  transform: translate(50%, -50%);
+  transition: opacity 0.15s ease-in-out;
+}
+
+/* Step dots */
+.mdx-slider-dots {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.mdx-slider-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: hsl(var(--foreground) / 0.4);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.2s;
+}
+
+/* Labels overlay */
+.mdx-slider-labels {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 16px;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.mdx-slider-label-left {
+  font-size: 12px;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  letter-spacing: -0.022em;
+  opacity: 0.9;
+}
+
+.mdx-slider-label-right {
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: hsl(var(--muted-foreground));
+  letter-spacing: -0.022em;
+  opacity: 0.9;
+}
+
+/* Button — action trigger matching pill slider dimensions */
+.mdx-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  color: hsl(var(--muted-foreground));
+  background-color: hsl(var(--muted) / 0.5);
+  transition:
+    background-color 0.15s ease-in-out,
+    color 0.15s ease-in-out;
+}
+
+.mdx-control-button--sm {
+  height: 34px;
+  border-radius: 8px;
+}
+
+.mdx-control-button--md {
+  height: 48px;
+  border-radius: 12px;
+}
+
+.mdx-control-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mdx-control-button:not(:disabled):hover {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--foreground));
+  }
+}
+
+.mdx-control-button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mdx-checkbox::after,
+  .mdx-checkbox:checked::after,
+  .mdx-switch::after,
+  .mdx-switch:checked::after,
+  .mdx-radio::after,
+  .mdx-radio:checked::after {
+    transition: none;
+  }
+}

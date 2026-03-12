@@ -1,9 +1,8 @@
-import { expect, test } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import {{pascalCase name}} from './{{pascalCase name}}';
+import { render, screen } from "@testing-library/react";
+import { expect, test } from "vitest";
+import {{pascalCase name}} from "./{{pascalCase name}}";
 
-test('{{titleCase name}} renders correctly', () => {
-render(
-<{{pascalCase name}} />);
-expect(screen.getByText('{{titleCase name}}')).toBeDefined();
+test("{{titleCase name}} renders correctly", () => {
+  render(<{{pascalCase name}} />);
+  expect(screen.getByText("{{titleCase name}}")).toBeDefined();
 });

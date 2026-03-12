@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-media-query",
+  "type": "registry:hook",
+  "title": "useMediaQuery",
+  "description": "useMediaQuery hook",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useMediaQuery.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\n\nexport function useMediaQuery(query: string): boolean {\n  const [matches, setMatches] = useState(() => {\n    if (typeof window === \"undefined\") {\n      return false;\n    }\n    return window.matchMedia(query).matches;\n  });\n\n  useEffect(() => {\n    const mql = window.matchMedia(query);\n\n    const onChange = (e: MediaQueryListEvent) => setMatches(e.matches);\n    mql.addEventListener(\"change\", onChange);\n    return () => mql.removeEventListener(\"change\", onChange);\n  }, [query]);\n\n  return matches;\n}\n"
+    }
+  ]
+}

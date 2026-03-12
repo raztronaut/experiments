@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scramble-ticker.story",
+  "type": "registry:component",
+  "title": "ScrambleTicker.story",
+  "description": "ScrambleTicker.story component",
+  "category": "components",
+  "dependencies": [
+    "motion",
+    "use-scramble"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ScrambleTicker.story.tsx",
+      "type": "registry:file",
+      "target": "components/ui/ScrambleTicker.story.tsx",
+      "content": "import { defineStory } from \"@/lib/story\";\nimport { ScrambleTicker } from \"./ScrambleTicker\";\n\nexport const story = defineStory(import.meta.url, {\n  Component: ScrambleTicker,\n  args: [\n    { variant: \"Default\", initial: { text: \"Hello World\", align: \"left\" } },\n    {\n      variant: \"Centered\",\n      initial: { text: \"Centered Text\", align: \"center\" },\n    },\n    {\n      variant: \"Right Aligned\",\n      initial: { text: \"Right Aligned\", align: \"right\" },\n    },\n  ],\n});\n"
+    },
+    {
+      "name": "ScrambleTicker.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { motion, type Transition } from \"motion/react\";\nimport { type UseScrambleProps, useScramble } from \"use-scramble\";\nimport { cn } from \"@/lib/utils\";\n\ninterface ScrambleTickerProps {\n  align?: \"left\" | \"center\" | \"right\";\n  className?: string;\n  layout?: boolean | \"position\" | \"preserve-aspect\";\n  layoutTransition?: Transition;\n  scrambleProps?: Partial<UseScrambleProps>;\n  text: string;\n}\n\n/**\n * A reusable component that implements the \"Ghost Text\" strategy for use-scramble.\n * Reserves space invisibly to prevent layout jitter while the scramble reveal plays.\n */\nexport function ScrambleTicker({\n  text,\n  className,\n  scrambleProps,\n  align = \"left\",\n  layoutTransition,\n  layout = true,\n}: ScrambleTickerProps) {\n  const { ref } = useScramble({\n    text,\n    speed: 0.6,\n    tick: 1,\n    step: 1,\n    scramble: 3,\n    seed: 2,\n    playOnMount: false,\n    ...scrambleProps,\n  });\n\n  return (\n    <motion.div\n      className={cn(\n        \"relative inline-flex items-center overflow-hidden px-0.5\",\n        className\n      )}\n      layout={layout}\n      transition={layoutTransition}\n    >\n      {/* Ghost text drives width/height and is the layout anchor */}\n      <motion.span\n        aria-hidden=\"true\"\n        className=\"pointer-events-none invisible select-none whitespace-nowrap opacity-0\"\n        layout={layout}\n        transition={layoutTransition}\n      >\n        {text}\n      </motion.span>\n\n      {/* Scramble reveal is absolutely positioned over the ghost to prevent jitter */}\n      <motion.span\n        className={cn(\n          \"absolute inset-x-0.5 inset-y-0 flex items-center whitespace-nowrap\",\n          align === \"left\" && \"justify-start\",\n          align === \"center\" && \"justify-center\",\n          align === \"right\" && \"justify-end\"\n        )}\n        layout={layout}\n        ref={ref}\n        transition={layoutTransition}\n      />\n    </motion.div>\n  );\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/codegrid-sticky-cards-nextjs",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["scroll", "sticky", "cards", "tilt", "gsap"],
+  "tech": ["gsap", "@gsap/react"]
+}

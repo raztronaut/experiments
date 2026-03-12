@@ -1,3 +1,271 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "../shared-tokens.css" layer(base);
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../shared-theme.css";
+
+@plugin "@tailwindcss/typography";
+
+@layer utilities {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-rendering: optimizeLegibility;
+  }
+
+  *::selection {
+    color: hsl(var(--selection-foreground));
+    background-color: hsl(var(--selection-background));
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    scrollbar-width: thin;
+  }
+
+  @media (min-width: 640px) {
+    html {
+      scrollbar-gutter: stable;
+    }
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* ——— Article Typography (ported from Sylph) ——— */
+
+  article {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.09px;
+    text-align: justify;
+    hyphens: auto;
+    text-wrap: pretty;
+    font-variant-ligatures: common-ligatures;
+    text-rendering: optimizeLegibility;
+  }
+
+  article h1,
+  article h2,
+  article h3,
+  article h4,
+  article h5,
+  article h6 {
+    @apply font-medium text-foreground;
+    text-align: left;
+    hyphens: manual;
+  }
+
+  article h2,
+  article h3 {
+    color: hsl(var(--foreground) / 0.7);
+  }
+
+  article h1 + h2 {
+    margin-top: 4px !important;
+  }
+
+  article h1 + p,
+  article h2 + p {
+    margin-top: 8px !important;
+  }
+
+  article figure + h1,
+  article p + h1 {
+    margin-top: 48px !important;
+  }
+
+  article p:not(:first-child),
+  article h1:not(:first-child),
+  article h2:not(:first-child),
+  article h3:not(:first-child),
+  article h4:not(:first-child),
+  article h5:not(:first-child),
+  article h6:not(:first-child),
+  article blockquote:not(:first-child),
+  article ul:not(:first-child),
+  article ol:not(:first-child),
+  article pre:not(:first-child),
+  article figure[data-rehype-pretty-code-figure]:not(:first-child),
+  article .katex-display:not(:first-child) {
+    margin-top: 24px;
+  }
+
+  article .katex-display {
+    overflow-x: auto;
+    text-align: center;
+  }
+
+  article ol {
+    padding-left: 1.5em;
+    list-style: decimal;
+  }
+
+  article ul {
+    padding-left: 1.5em;
+    list-style: disc;
+  }
+
+  article a {
+    @apply transition hover:opacity-50;
+  }
+
+  /* ——— TOC heading highlight animation (ported from Sylph) ——— */
+
+  article [data-highlight] {
+    @apply relative;
+  }
+
+  article [data-highlight]::before {
+    margin-right: -4px;
+    margin-left: -4px;
+    content: "";
+    transform: scaleY(1);
+    @apply absolute inset-0 -z-10 bg-transparent transition-all duration-500;
+  }
+
+  article [data-highlight="true"]::before {
+    color: hsl(var(--highlight-foreground));
+    background-color: hsl(var(--highlight-background));
+    transform: scaleY(1.1);
+  }
+
+  article [data-highlight="false"]::before {
+    background-color: transparent;
+    transform: scaleY(1);
+  }
+
+  /* ——— Dual-theme code blocks (ported from Sylph) ——— */
+
+  html code[data-theme*=" "],
+  html code[data-theme*=" "] span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+  }
+
+  html.dark code[data-theme*=" "],
+  html.dark code[data-theme*=" "] span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+
+  /* ——— Line numbers in code blocks ——— */
+
+  html code[data-line-numbers] {
+    counter-reset: line;
+  }
+
+  html code[data-line-numbers] > [data-line]::before {
+    display: inline-block;
+    width: 12px;
+    margin-right: 2rem;
+    color: hsl(var(--muted-foreground) / 0.4);
+    text-align: right;
+    content: counter(line);
+    counter-increment: line;
+  }
+
+  html code[data-line-numbers-max-digits="2"] > [data-line]::before {
+    width: 1.25rem;
+  }
+
+  html code[data-line-numbers-max-digits="3"] > [data-line]::before {
+    width: 1.75rem;
+  }
+
+  /* ——— Inline code as keyboard-style pills ——— */
+
+  article :not(pre) > code {
+    display: inline-block;
+    padding: 0 6px;
+    font-size: 12px;
+    line-height: 20px;
+    background: var(--kbd-background);
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px var(--kbd-border);
+  }
+
+  /* ——— Code block figure wrappers ——— */
+
+  article figure[data-rehype-pretty-code-figure] {
+    width: 100%;
+    margin-top: 4px;
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    border-radius: 8px;
+  }
+
+  article pre {
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 12px;
+  }
+
+  article pre [data-line] {
+    margin-top: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

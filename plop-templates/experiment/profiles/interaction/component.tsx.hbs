@@ -1,0 +1,60 @@
+"use client";
+
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+{{#if includeLeva}}
+import { useDevControls } from "@/hooks/useDevControls";
+{{/if}}
+import { useRef } from "react";
+
+export default function {{pascalCase name}}() {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const isDragging = useMotionValue(0);
+{{#if includeLeva}}
+  const { stiffness, damping } = useDevControls("Spring", {
+    stiffness: { value: 300, min: 50, max: 1000, step: 10 },
+    damping: { value: 20, min: 1, max: 100, step: 1 },
+  });
+
+  const springX = useSpring(x, { stiffness, damping });
+  const springY = useSpring(y, { stiffness, damping });
+{{else}}
+  const springX = useSpring(x, { stiffness: 300, damping: 20 });
+  const springY = useSpring(y, { stiffness: 300, damping: 20 });
+{{/if}}
+  const scale = useSpring(useTransform(isDragging, [0, 1], [1, 1.05]), {
+    stiffness: 400,
+    damping: 25,
+  });
+  const rotate = useTransform(springX, [-200, 200], [-8, 8]);
+
+  return (
+    <motion.div
+      className="h-96 w-72 cursor-grab select-none rounded-2xl active:cursor-grabbing"
+      drag
+      dragConstraints=\{{ top: 0, bottom: 0, left: 0, right: 0 }}
+      dragElastic={0.6}
+      onDragEnd={() => isDragging.set(0)}
+      onDragStart={() => isDragging.set(1)}
+      ref={cardRef}
+      style=\{{
+        x: springX,
+        y: springY,
+        scale,
+        rotate,
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+      }}
+      whileHover=\{{ scale: 1.02 }}
+      whileTap=\{{ scale: 0.98 }}
+    >
+      <div className="flex h-full flex-col items-center justify-center p-8 text-white">
+        <h2 className="mb-2 font-bold text-2xl">{{titleCase name}}</h2>
+        <p className="text-center text-sm text-white/70">
+          Drag me around. I spring back with physics.
+        </p>
+      </div>
+    </motion.div>
+  );
+}

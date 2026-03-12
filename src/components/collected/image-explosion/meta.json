@@ -1,0 +1,15 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/codegrid-image-explosion-scroll-animation-nextjs",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": [
+    "physics",
+    "explosion",
+    "particles",
+    "images",
+    "scroll",
+    "interaction"
+  ],
+  "tech": ["react"]
+}

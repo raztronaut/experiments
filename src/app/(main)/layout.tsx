@@ -1,37 +1,72 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { activeFont } from "@/lib/fonts";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import { UmamiScript } from "@/components/analytics/UmamiScript";
-import { ConsoleEasterEgg } from "@/components/ui/ConsoleEasterEgg";
-import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import dynamic from "next/dynamic";
+import { GlobalTracking } from "@/components/analytics/GlobalTracking";
+import { UmamiScript } from "@/components/analytics/UmamiScript";
+
+const ConsoleEasterEgg = dynamic(() =>
+  import("@/components/ui/ConsoleEasterEgg").then((m) => m.ConsoleEasterEgg)
+);
+
+import { CursorProvider } from "@/components/ui/cursor/Provider";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import {
+  generateWebSiteJsonLd,
+  safeJsonLdStringify,
+} from "@/lib/structured-data";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: {
     default: "Razi's Experiments",
     template: "%s | Razi's Experiments",
   },
-  description: "A playground for exploring UI interactions, shaders, and modern web techniques.",
-  keywords: ["Next.js", "React", "Three.js", "Shaders", "Creative Coding", "Experiment", "Portfolio", "Razi Syed"],
-  authors: [{ name: 'Razi Syed', url: 'https://www.razisyed.cv' }],
+  description:
+    "A playground for exploring UI interactions, shaders, and modern web techniques.",
+  keywords: [
+    "Next.js",
+    "React",
+    "Three.js",
+    "Shaders",
+    "Creative Coding",
+    "Experiment",
+    "Portfolio",
+    "Razi Syed",
+    "WebGL",
+    "GSAP",
+    "Design Engineering",
+    "Interactive",
+    "Animation",
+    "R3F",
+  ],
+  authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
   creator: "Razi Syed",
   publisher: "Razi Syed",
   applicationName: "Razi's Experiments",
+  category: "technology",
   alternates: {
-    canonical: '/',
+    canonical: "/",
+    types: {
+      "application/rss+xml": "/feed.xml",
+      "application/atom+xml": "/atom.xml",
+      "application/feed+json": "/feed.json",
+    },
   },
-  metadataBase: new URL('https://www.razisyed.cv'),
+  metadataBase: new URL("https://www.razisyed.cv"),
   openGraph: {
     title: "Razi's Experiments",
-    description: "A playground for exploring UI interactions, shaders, and modern web techniques.",
-    url: 'https://www.razisyed.cv',
+    description:
+      "A playground for exploring UI interactions, shaders, and modern web techniques.",
+    url: "https://www.razisyed.cv",
     siteName: "Razi's Experiments",
-    locale: 'en_US',
-    type: 'website',
+    locale: "en_US",
+    type: "website",
     images: [
       {
-        url: '/og-image.png',
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Razi's Experiments Preview",
@@ -39,10 +74,12 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     title: "Razi's Experiments",
-    description: "A playground for exploring UI interactions, shaders, and modern web techniques.",
-    images: ['/og-image.png'],
+    description:
+      "A playground for exploring UI interactions, shaders, and modern web techniques.",
+    creator: "@raztronaut",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -50,16 +87,22 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
+  },
+  other: {
+    "msapplication-TileColor": "#111115",
   },
 };
 
-import { CursorProvider } from "@/components/ui/cursor/Provider";
-import { Analytics } from '@vercel/analytics/next';
-import { GlobalTracking } from "@/components/analytics/GlobalTracking";
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#111115" },
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -69,13 +112,42 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* 
-            Attempt 1: Early execution script to suppress cursor immediately on load.
-            This prevents the "flash" of the system cursor before React hydrates.
-          */}
-
+        <link href="https://cloud.umami.is" rel="dns-prefetch" />
+        <link
+          href="https://webmention.io/www.razisyed.cv/webmention"
+          rel="webmention"
+        />
+        <link
+          href="https://webmention.io/www.razisyed.cv/xmlrpc"
+          rel="pingback"
+        />
       </head>
-      <body className={cn(activeFont.className, activeFont.variable, "min-h-screen bg-background font-canvas antialiased text-foreground")}>
+      <body
+        className={cn(
+          activeFont.className,
+          activeFont.variable,
+          "min-h-screen bg-background font-canvas text-foreground antialiased"
+        )}
+      >
+        <div className="sr-only h-card" hidden>
+          <a className="u-url p-name" href="https://www.razisyed.cv" rel="me">
+            Razi Syed
+          </a>
+          <span className="p-job-title">Design Engineer</span>
+          <a className="u-url" href="https://github.com/raztronaut" rel="me">
+            GitHub
+          </a>
+          <a className="u-url" href="https://x.com/raztronaut" rel="me">
+            X
+          </a>
+          <a
+            className="u-url"
+            href="https://linkedin.com/in/raztronaut"
+            rel="me"
+          >
+            LinkedIn
+          </a>
+        </div>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -84,28 +156,14 @@ export default function RootLayout({
                   document.documentElement.setAttribute('data-cursor-hidden', 'true');
                 }
               } catch (e) {}
-            `
+            `,
           }}
         />
         <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Person',
-              name: 'Razi Syed',
-              url: 'https://www.razisyed.cv',
-              sameAs: [
-                'https://github.com/raztronaut',
-                'https://twitter.com/razisyed',
-              ],
-              jobTitle: 'Design Engineer',
-              worksFor: {
-                '@type': 'Organization',
-                name: 'Independent',
-              },
-            }),
+            __html: safeJsonLdStringify(generateWebSiteJsonLd()),
           }}
+          type="application/ld+json"
         />
         <UmamiScript />
         <GlobalTracking />
@@ -113,12 +171,10 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
-          enableSystem
           disableTransitionOnChange
+          enableSystem
         >
-          <CursorProvider>
-            {children}
-          </CursorProvider>
+          <CursorProvider>{children}</CursorProvider>
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

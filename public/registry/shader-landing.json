@@ -1,173 +1,41 @@
 {
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "shader-landing",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Shader Landing",
   "description": "A random shader experiment",
-  "dependencies": [],
-  "registryDependencies": [],
-  "tailwind": {
-    "config": {
-      "theme": {
-        "extend": {
-          "colors": {
-            "background": "hsl(var(--background))",
-            "foreground": "hsl(var(--foreground))",
-            "card": {
-              "DEFAULT": "hsl(var(--card))",
-              "foreground": "hsl(var(--card-foreground))"
-            },
-            "popover": {
-              "DEFAULT": "hsl(var(--popover))",
-              "foreground": "hsl(var(--popover-foreground))"
-            },
-            "primary": {
-              "DEFAULT": "hsl(var(--primary))",
-              "foreground": "hsl(var(--primary-foreground))"
-            },
-            "secondary": {
-              "DEFAULT": "hsl(var(--secondary))",
-              "foreground": "hsl(var(--secondary-foreground))"
-            },
-            "muted": {
-              "DEFAULT": "hsl(var(--muted))",
-              "foreground": "hsl(var(--muted-foreground))"
-            },
-            "accent": {
-              "DEFAULT": "hsl(var(--accent))",
-              "foreground": "hsl(var(--accent-foreground))"
-            },
-            "destructive": {
-              "DEFAULT": "hsl(var(--destructive))",
-              "foreground": "hsl(var(--destructive-foreground))"
-            },
-            "border": "hsl(var(--border))",
-            "input": "hsl(var(--input))",
-            "ring": "hsl(var(--ring))",
-            "chart": {
-              "1": "hsl(var(--chart-1))",
-              "2": "hsl(var(--chart-2))",
-              "3": "hsl(var(--chart-3))",
-              "4": "hsl(var(--chart-4))",
-              "5": "hsl(var(--chart-5))"
-            }
-          },
-          "borderRadius": {
-            "lg": "var(--radius)",
-            "md": "calc(var(--radius) - 2px)",
-            "sm": "calc(var(--radius) - 4px)"
-          },
-          "keyframes": {
-            "static-noise-fade": {
-              "0%": {
-                "opacity": "1"
-              },
-              "100%": {
-                "opacity": "0"
-              }
-            }
-          },
-          "animation": {
-            "static-noise": "static-noise-fade 0.8s ease-in-out forwards"
-          }
-        }
-      }
-    }
+  "category": "experiments",
+  "meta": {
+    "tags": [
+      "shader",
+      "generative"
+    ],
+    "tech": [
+      "three.js",
+      "glsl"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": "/experiments/shader-landing/preview-shader-landing.mp4",
+    "created": "2025-12-02T00:00:00.000Z"
   },
-  "cssVars": {
-    "light": {
-      "background": "35 50% 95.29%",
-      "foreground": "240 10% 3.9%",
-      "card": "35 50% 95.29%",
-      "card-foreground": "240 10% 3.9%",
-      "popover": "35 50% 95.29%",
-      "popover-foreground": "240 10% 3.9%",
-      "primary": "240 5.9% 10%",
-      "primary-foreground": "0 0% 98%",
-      "secondary": "35 30% 90%",
-      "secondary-foreground": "240 5.9% 10%",
-      "muted": "35 30% 90%",
-      "muted-foreground": "35 10% 45%",
-      "accent": "35 30% 90%",
-      "accent-foreground": "240 5.9% 10%",
-      "destructive": "0 84.2% 60.2%",
-      "destructive-foreground": "0 0% 98%",
-      "border": "35 25% 85%",
-      "input": "35 25% 85%",
-      "ring": "240 10% 3.9%",
-      "radius": "0.5rem",
-      "chart-1": "12 76% 61%",
-      "chart-2": "173 58% 39%",
-      "chart-3": "197 37% 24%",
-      "chart-4": "43 74% 66%",
-      "chart-5": "27 87% 67%"
-    },
-    "dark": {
-      "background": "240 8.25% 6.84%",
-      "foreground": "0 0% 98%",
-      "card": "240 8.25% 6.84%",
-      "card-foreground": "0 0% 98%",
-      "popover": "240 8.25% 6.84%",
-      "popover-foreground": "0 0% 98%",
-      "primary": "0 0% 98%",
-      "primary-foreground": "240 5.9% 10%",
-      "secondary": "240 3.7% 15.9%",
-      "secondary-foreground": "0 0% 98%",
-      "muted": "240 3.7% 15.9%",
-      "muted-foreground": "240 5% 64.9%",
-      "accent": "240 3.7% 15.9%",
-      "accent-foreground": "0 0% 98%",
-      "destructive": "0 62.8% 30.6%",
-      "destructive-foreground": "0 0% 98%",
-      "border": "240 3.7% 15.9%",
-      "input": "240 3.7% 15.9%",
-      "ring": "240 4.9% 83.9%",
-      "chart-1": "220 70% 50%",
-      "chart-2": "160 60% 45%",
-      "chart-3": "30 80% 55%",
-      "chart-4": "280 65% 60%",
-      "chart-5": "340 75% 55%"
-    }
-  },
+  "registryDependencies": [
+    "razi-style"
+  ],
   "files": [
     {
       "name": "ShaderLanding.tsx",
-      "type": "registry:file",
-      "path": "ShaderLanding.tsx",
-      "target": "components/experiments/shader-landing/ShaderLanding.tsx",
-      "content": "\"use client\";\n\nimport { useRef } from \"react\";\nimport { useThreeShader } from \"./useThreeShader\";\n\n/**\n * Shader landing component displaying a pixelated mosaic radial wave effect.\n * Uses Three.js loaded dynamically from CDN for WebGL rendering.\n */\nexport function ShaderLanding() {\n    const containerRef = useRef<HTMLDivElement>(null);\n    useThreeShader(containerRef);\n\n    return <div ref={containerRef} className=\"w-full h-full absolute\" />;\n}\n"
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { useRef } from \"react\";\nimport { useThreeShader } from \"./useThreeShader\";\n\n/**\n * Shader landing component displaying a pixelated mosaic radial wave effect.\n * Uses Three.js loaded dynamically from CDN for WebGL rendering.\n */\nexport function ShaderLanding() {\n  const containerRef = useRef<HTMLDivElement>(null);\n  useThreeShader(containerRef);\n\n  return <div className=\"absolute h-full w-full\" ref={containerRef} />;\n}\n"
     },
     {
       "name": "useThreeShader.ts",
-      "type": "registry:file",
-      "path": "useThreeShader.ts",
-      "target": "components/experiments/shader-landing/useThreeShader.ts",
-      "content": "\"use client\";\n\nimport { useEffect, useRef, RefObject, useCallback } from \"react\";\nimport { vertexShader, fragmentShader } from \"./shaders\";\n\ndeclare global {\n    interface Window {\n        THREE: typeof import(\"three\") | undefined;\n    }\n}\n\n// Using generic types since THREE is loaded dynamically from CDN\ninterface SceneState {\n    camera: object | null;\n    scene: object | null;\n    renderer: { dispose: () => void } | null;\n    uniforms: { time: { value: number }; resolution: { value: { x: number; y: number } } } | null;\n    animationId: number | null;\n    onWindowResize: (() => void) | null;\n}\n\nconst THREE_CDN_URL = \"https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js\";\n\n/**\n * Custom hook for managing a Three.js shader scene.\n * Handles dynamic loading, initialization, animation, and complete cleanup.\n */\nexport function useThreeShader(containerRef: RefObject<HTMLDivElement | null>) {\n    const sceneRef = useRef<SceneState>({\n        camera: null,\n        scene: null,\n        renderer: null,\n        uniforms: null,\n        animationId: null,\n        onWindowResize: null,\n    });\n\n    const cleanup = useCallback(() => {\n        const state = sceneRef.current;\n\n        if (state.animationId !== null) {\n            cancelAnimationFrame(state.animationId);\n        }\n\n        if (state.onWindowResize) {\n            window.removeEventListener(\"resize\", state.onWindowResize);\n        }\n\n        if (state.renderer) {\n            state.renderer.dispose();\n        }\n\n        sceneRef.current = {\n            camera: null,\n            scene: null,\n            renderer: null,\n            uniforms: null,\n            animationId: null,\n            onWindowResize: null,\n        };\n    }, []);\n\n    const initThreeJS = useCallback(() => {\n        if (!containerRef.current || !window.THREE) return;\n\n        // Cast to any since CDN version (r89) has different API than @types/three\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        const THREE = window.THREE as any;\n        const container = containerRef.current;\n\n        // Clear any existing content\n        container.innerHTML = \"\";\n\n        // Initialize camera\n        const camera = new THREE.Camera();\n        camera.position.z = 1;\n\n        // Initialize scene\n        const scene = new THREE.Scene();\n\n        // Create geometry\n        const geometry = new THREE.PlaneBufferGeometry(2, 2);\n\n        // Define uniforms\n        const uniforms = {\n            time: { value: 1.0 },\n            resolution: { value: new THREE.Vector2() },\n        };\n\n        // Create material\n        const material = new THREE.ShaderMaterial({\n            uniforms,\n            vertexShader,\n            fragmentShader,\n        });\n\n        // Create mesh and add to scene\n        const mesh = new THREE.Mesh(geometry, material);\n        scene.add(mesh);\n\n        // Initialize renderer\n        const renderer = new THREE.WebGLRenderer();\n        renderer.setPixelRatio(window.devicePixelRatio);\n        container.appendChild(renderer.domElement);\n\n        // Handle resize\n        const onWindowResize = () => {\n            const rect = container.getBoundingClientRect();\n            renderer.setSize(rect.width, rect.height);\n            uniforms.resolution.value.x = renderer.domElement.width;\n            uniforms.resolution.value.y = renderer.domElement.height;\n        };\n\n        onWindowResize();\n        window.addEventListener(\"resize\", onWindowResize, false);\n\n        // Store references\n        sceneRef.current = {\n            camera,\n            scene,\n            renderer,\n            uniforms,\n            animationId: null,\n            onWindowResize,\n        };\n\n        // Animation loop\n        const animate = () => {\n            sceneRef.current.animationId = requestAnimationFrame(animate);\n            uniforms.time.value += 0.05;\n            renderer.render(scene, camera);\n        };\n\n        animate();\n    }, [containerRef]);\n\n    useEffect(() => {\n        const script = document.createElement(\"script\");\n        script.src = THREE_CDN_URL;\n\n        script.onload = () => {\n            if (containerRef.current && window.THREE) {\n                initThreeJS();\n            }\n        };\n\n        document.head.appendChild(script);\n\n        return () => {\n            cleanup();\n            if (script.parentNode) {\n                document.head.removeChild(script);\n            }\n        };\n    }, [containerRef, initThreeJS, cleanup]);\n}\n"
+      "type": "registry:hook",
+      "content": "\"use client\";\n\nimport { type RefObject, useCallback, useEffect, useRef } from \"react\";\nimport { fragmentShader, vertexShader } from \"./shaders\";\n\ndeclare global {\n  interface Window {\n    THREE: typeof import(\"three\") | undefined;\n  }\n}\n\n// Using generic types since THREE is loaded dynamically from CDN\ninterface SceneState {\n  animationId: number | null;\n  camera: object | null;\n  onWindowResize: (() => void) | null;\n  renderer: { dispose: () => void } | null;\n  scene: object | null;\n  uniforms: {\n    time: { value: number };\n    resolution: { value: { x: number; y: number } };\n  } | null;\n}\n\nconst THREE_CDN_URL =\n  \"https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js\";\n\n/**\n * Custom hook for managing a Three.js shader scene.\n * Handles dynamic loading, initialization, animation, and complete cleanup.\n */\nexport function useThreeShader(containerRef: RefObject<HTMLDivElement | null>) {\n  const sceneRef = useRef<SceneState>({\n    camera: null,\n    scene: null,\n    renderer: null,\n    uniforms: null,\n    animationId: null,\n    onWindowResize: null,\n  });\n\n  const cleanup = useCallback(() => {\n    const state = sceneRef.current;\n\n    if (state.animationId !== null) {\n      cancelAnimationFrame(state.animationId);\n    }\n\n    if (state.onWindowResize) {\n      window.removeEventListener(\"resize\", state.onWindowResize);\n    }\n\n    if (state.renderer) {\n      state.renderer.dispose();\n    }\n\n    sceneRef.current = {\n      camera: null,\n      scene: null,\n      renderer: null,\n      uniforms: null,\n      animationId: null,\n      onWindowResize: null,\n    };\n  }, []);\n\n  const initThreeJS = useCallback(() => {\n    if (!(containerRef.current && window.THREE)) {\n      return;\n    }\n\n    // Cast to any since CDN version (r89) has different API than @types/three\n    const THREE = window.THREE as any;\n    const container = containerRef.current;\n\n    // Clear any existing content\n    container.innerHTML = \"\";\n\n    // Initialize camera\n    const camera = new THREE.Camera();\n    camera.position.z = 1;\n\n    // Initialize scene\n    const scene = new THREE.Scene();\n\n    // Create geometry\n    const geometry = new THREE.PlaneBufferGeometry(2, 2);\n\n    // Define uniforms\n    const uniforms = {\n      time: { value: 1.0 },\n      resolution: { value: new THREE.Vector2() },\n    };\n\n    // Create material\n    const material = new THREE.ShaderMaterial({\n      uniforms,\n      vertexShader,\n      fragmentShader,\n    });\n\n    // Create mesh and add to scene\n    const mesh = new THREE.Mesh(geometry, material);\n    scene.add(mesh);\n\n    // Initialize renderer\n    const renderer = new THREE.WebGLRenderer();\n    renderer.setPixelRatio(window.devicePixelRatio);\n    container.appendChild(renderer.domElement);\n\n    // Handle resize\n    const onWindowResize = () => {\n      const rect = container.getBoundingClientRect();\n      renderer.setSize(rect.width, rect.height);\n      uniforms.resolution.value.x = renderer.domElement.width;\n      uniforms.resolution.value.y = renderer.domElement.height;\n    };\n\n    onWindowResize();\n    window.addEventListener(\"resize\", onWindowResize, false);\n\n    // Store references\n    sceneRef.current = {\n      camera,\n      scene,\n      renderer,\n      uniforms,\n      animationId: null,\n      onWindowResize,\n    };\n\n    // Animation loop\n    const animate = () => {\n      sceneRef.current.animationId = requestAnimationFrame(animate);\n      uniforms.time.value += 0.05;\n      renderer.render(scene, camera);\n    };\n\n    animate();\n  }, [containerRef]);\n\n  useEffect(() => {\n    const script = document.createElement(\"script\");\n    script.src = THREE_CDN_URL;\n\n    script.onload = () => {\n      if (containerRef.current && window.THREE) {\n        initThreeJS();\n      }\n    };\n\n    document.head.appendChild(script);\n\n    return () => {\n      cleanup();\n      if (script.parentNode) {\n        document.head.removeChild(script);\n      }\n    };\n  }, [containerRef, initThreeJS, cleanup]);\n}\n"
     },
     {
       "name": "shaders.ts",
       "type": "registry:file",
-      "path": "shaders.ts",
-      "target": "components/experiments/shader-landing/shaders.ts",
-      "content": "/**\n * Shader code for the mosaic radial wave effect\n */\n\nexport const vertexShader = `\n  void main() {\n    gl_Position = vec4(position, 1.0);\n  }\n`;\n\nexport const fragmentShader = `\n  #define TWO_PI 6.2831853072\n  #define PI 3.14159265359\n\n  precision highp float;\n  uniform vec2 resolution;\n  uniform float time;\n\n  float random(in float x) {\n    return fract(sin(x) * 1e4);\n  }\n\n  float random(vec2 st) {\n    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);\n  }\n\n  varying vec2 vUv;\n\n  void main(void) {\n    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);\n\n    vec2 fMosaicScal = vec2(8.0, 2.0);\n    vec2 vScreenSize = vec2(256, 256);\n    uv.x = floor(uv.x * vScreenSize.x / fMosaicScal.x) / (vScreenSize.x / fMosaicScal.x);\n    uv.y = floor(uv.y * vScreenSize.y / fMosaicScal.y) / (vScreenSize.y / fMosaicScal.y);\n\n    float t = time * 0.06 + random(uv.x) * 0.4;\n    float lineWidth = 0.0008;\n\n    vec3 color = vec3(0.0);\n    for (int j = 0; j < 3; j++) {\n      for (int i = 0; i < 5; i++) {\n        color[j] += lineWidth * float(i * i) / abs(fract(t - 0.01 * float(j) + float(i) * 0.01) * 1.0 - length(uv));\n      }\n    }\n\n    gl_FragColor = vec4(color[2], color[1], color[0], 1.0);\n  }\n`;\n"
-    },
-    {
-      "name": "shaders.ts",
-      "type": "registry:file",
-      "path": "shaders.ts",
-      "target": "components/experiments/shader-landing/shaders.ts",
-      "content": "/**\n * Shader code for the mosaic radial wave effect\n */\n\nexport const vertexShader = `\n  void main() {\n    gl_Position = vec4(position, 1.0);\n  }\n`;\n\nexport const fragmentShader = `\n  #define TWO_PI 6.2831853072\n  #define PI 3.14159265359\n\n  precision highp float;\n  uniform vec2 resolution;\n  uniform float time;\n\n  float random(in float x) {\n    return fract(sin(x) * 1e4);\n  }\n\n  float random(vec2 st) {\n    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);\n  }\n\n  varying vec2 vUv;\n\n  void main(void) {\n    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);\n\n    vec2 fMosaicScal = vec2(8.0, 2.0);\n    vec2 vScreenSize = vec2(256, 256);\n    uv.x = floor(uv.x * vScreenSize.x / fMosaicScal.x) / (vScreenSize.x / fMosaicScal.x);\n    uv.y = floor(uv.y * vScreenSize.y / fMosaicScal.y) / (vScreenSize.y / fMosaicScal.y);\n\n    float t = time * 0.06 + random(uv.x) * 0.4;\n    float lineWidth = 0.0008;\n\n    vec3 color = vec3(0.0);\n    for (int j = 0; j < 3; j++) {\n      for (int i = 0; i < 5; i++) {\n        color[j] += lineWidth * float(i * i) / abs(fract(t - 0.01 * float(j) + float(i) * 0.01) * 1.0 - length(uv));\n      }\n    }\n\n    gl_FragColor = vec4(color[2], color[1], color[0], 1.0);\n  }\n`;\n"
-    },
-    {
-      "name": "useThreeShader.ts",
-      "type": "registry:file",
-      "path": "useThreeShader.ts",
-      "target": "components/experiments/shader-landing/useThreeShader.ts",
-      "content": "\"use client\";\n\nimport { useEffect, useRef, RefObject, useCallback } from \"react\";\nimport { vertexShader, fragmentShader } from \"./shaders\";\n\ndeclare global {\n    interface Window {\n        THREE: typeof import(\"three\") | undefined;\n    }\n}\n\n// Using generic types since THREE is loaded dynamically from CDN\ninterface SceneState {\n    camera: object | null;\n    scene: object | null;\n    renderer: { dispose: () => void } | null;\n    uniforms: { time: { value: number }; resolution: { value: { x: number; y: number } } } | null;\n    animationId: number | null;\n    onWindowResize: (() => void) | null;\n}\n\nconst THREE_CDN_URL = \"https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js\";\n\n/**\n * Custom hook for managing a Three.js shader scene.\n * Handles dynamic loading, initialization, animation, and complete cleanup.\n */\nexport function useThreeShader(containerRef: RefObject<HTMLDivElement | null>) {\n    const sceneRef = useRef<SceneState>({\n        camera: null,\n        scene: null,\n        renderer: null,\n        uniforms: null,\n        animationId: null,\n        onWindowResize: null,\n    });\n\n    const cleanup = useCallback(() => {\n        const state = sceneRef.current;\n\n        if (state.animationId !== null) {\n            cancelAnimationFrame(state.animationId);\n        }\n\n        if (state.onWindowResize) {\n            window.removeEventListener(\"resize\", state.onWindowResize);\n        }\n\n        if (state.renderer) {\n            state.renderer.dispose();\n        }\n\n        sceneRef.current = {\n            camera: null,\n            scene: null,\n            renderer: null,\n            uniforms: null,\n            animationId: null,\n            onWindowResize: null,\n        };\n    }, []);\n\n    const initThreeJS = useCallback(() => {\n        if (!containerRef.current || !window.THREE) return;\n\n        // Cast to any since CDN version (r89) has different API than @types/three\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        const THREE = window.THREE as any;\n        const container = containerRef.current;\n\n        // Clear any existing content\n        container.innerHTML = \"\";\n\n        // Initialize camera\n        const camera = new THREE.Camera();\n        camera.position.z = 1;\n\n        // Initialize scene\n        const scene = new THREE.Scene();\n\n        // Create geometry\n        const geometry = new THREE.PlaneBufferGeometry(2, 2);\n\n        // Define uniforms\n        const uniforms = {\n            time: { value: 1.0 },\n            resolution: { value: new THREE.Vector2() },\n        };\n\n        // Create material\n        const material = new THREE.ShaderMaterial({\n            uniforms,\n            vertexShader,\n            fragmentShader,\n        });\n\n        // Create mesh and add to scene\n        const mesh = new THREE.Mesh(geometry, material);\n        scene.add(mesh);\n\n        // Initialize renderer\n        const renderer = new THREE.WebGLRenderer();\n        renderer.setPixelRatio(window.devicePixelRatio);\n        container.appendChild(renderer.domElement);\n\n        // Handle resize\n        const onWindowResize = () => {\n            const rect = container.getBoundingClientRect();\n            renderer.setSize(rect.width, rect.height);\n            uniforms.resolution.value.x = renderer.domElement.width;\n            uniforms.resolution.value.y = renderer.domElement.height;\n        };\n\n        onWindowResize();\n        window.addEventListener(\"resize\", onWindowResize, false);\n\n        // Store references\n        sceneRef.current = {\n            camera,\n            scene,\n            renderer,\n            uniforms,\n            animationId: null,\n            onWindowResize,\n        };\n\n        // Animation loop\n        const animate = () => {\n            sceneRef.current.animationId = requestAnimationFrame(animate);\n            uniforms.time.value += 0.05;\n            renderer.render(scene, camera);\n        };\n\n        animate();\n    }, [containerRef]);\n\n    useEffect(() => {\n        const script = document.createElement(\"script\");\n        script.src = THREE_CDN_URL;\n\n        script.onload = () => {\n            if (containerRef.current && window.THREE) {\n                initThreeJS();\n            }\n        };\n\n        document.head.appendChild(script);\n\n        return () => {\n            cleanup();\n            if (script.parentNode) {\n                document.head.removeChild(script);\n            }\n        };\n    }, [containerRef, initThreeJS, cleanup]);\n}\n"
-    },
-    {
-      "name": "shaders.ts",
-      "type": "registry:file",
-      "path": "shaders.ts",
       "target": "components/experiments/shader-landing/shaders.ts",
       "content": "/**\n * Shader code for the mosaic radial wave effect\n */\n\nexport const vertexShader = `\n  void main() {\n    gl_Position = vec4(position, 1.0);\n  }\n`;\n\nexport const fragmentShader = `\n  #define TWO_PI 6.2831853072\n  #define PI 3.14159265359\n\n  precision highp float;\n  uniform vec2 resolution;\n  uniform float time;\n\n  float random(in float x) {\n    return fract(sin(x) * 1e4);\n  }\n\n  float random(vec2 st) {\n    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);\n  }\n\n  varying vec2 vUv;\n\n  void main(void) {\n    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);\n\n    vec2 fMosaicScal = vec2(8.0, 2.0);\n    vec2 vScreenSize = vec2(256, 256);\n    uv.x = floor(uv.x * vScreenSize.x / fMosaicScal.x) / (vScreenSize.x / fMosaicScal.x);\n    uv.y = floor(uv.y * vScreenSize.y / fMosaicScal.y) / (vScreenSize.y / fMosaicScal.y);\n\n    float t = time * 0.06 + random(uv.x) * 0.4;\n    float lineWidth = 0.0008;\n\n    vec3 color = vec3(0.0);\n    for (int j = 0; j < 3; j++) {\n      for (int i = 0; i < 5; i++) {\n        color[j] += lineWidth * float(i * i) / abs(fract(t - 0.01 * float(j) + float(i) * 0.01) * 1.0 - length(uv));\n      }\n    }\n\n    gl_FragColor = vec4(color[2], color[1], color[0], 1.0);\n  }\n`;\n"
     }

@@ -1,159 +1,109 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { useScroll, useVelocity, useSpring } from "framer-motion";
-import { VELOCITY_THRESHOLDS, TIMINGS, SPRING_CONFIGS } from "./constants";
+import type Lenis from "lenis";
+import { useReducedMotion } from "motion/react";
+import type React from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import { useDevControls } from "@/hooks/useDevControls";
+import { TIMINGS, VELOCITY_THRESHOLDS } from "./constants";
+import { useVelocityEngine } from "./hooks/useVelocityEngine";
 
 type ReadingState = "detailed" | "skim";
 
 interface VelocityContextType {
-    velocity: number;
-    normalizedVelocity: number; // 0 to 1
-    readingState: ReadingState;
-    isScrolling: boolean;
-    manualVelocity: number | null;
-    setManualVelocity: (v: number | null) => void;
-    lockVelocity: () => void;
+  isScrolling: boolean;
+  lockVelocity: () => void;
+  manualVelocity: number | null;
+  normalizedVelocity: number;
+  readingState: ReadingState;
+  reducedMotion: boolean;
+  setManualVelocity: (v: number | null) => void;
+  velocity: number;
 }
 
-const VelocityContext = createContext<VelocityContextType | undefined>(undefined);
+const VelocityContext = createContext<VelocityContextType | undefined>(
+  undefined
+);
 
-export const VelocityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const { scrollY } = useScroll();
-    const scrollVelocity = useVelocity(scrollY);
+interface VelocityProviderProps {
+  children: React.ReactNode;
+  lenis: Lenis | null;
+}
 
-    // Use a spring to smooth out the velocity values for UI transitions
-    const smoothVelocity = useSpring(scrollVelocity, SPRING_CONFIGS.VELOCITY_SMOOTHING);
+export function VelocityProvider({ children, lenis }: VelocityProviderProps) {
+  const reducedMotion = useReducedMotion() ?? false;
+  const [manualVelocity, setManualVelocityRaw] = useState<number | null>(null);
 
-    const [scrollV, setScrollV] = useState(0);
-    const [manualVelocity, setManualVelocity] = useState<number | null>(null);
-    const [readingState, setReadingState] = useState<ReadingState>("detailed");
-    const [isVelocityLocked, setIsVelocityLocked] = useState(false);
+  const config = useDevControls("Velocity Thresholds", {
+    velocityScale: {
+      value: VELOCITY_THRESHOLDS.VELOCITY_SCALE,
+      min: 1,
+      max: 50,
+      step: 1,
+    },
+    skimEnter: {
+      value: VELOCITY_THRESHOLDS.SKIM_ENTER,
+      min: 500,
+      max: 5000,
+      step: 100,
+    },
+    skimExit: {
+      value: VELOCITY_THRESHOLDS.SKIM_EXIT,
+      min: 50,
+      max: 2000,
+      step: 50,
+    },
+    skimExitDelay: {
+      value: TIMINGS.SKIM_EXIT_DELAY,
+      min: 500,
+      max: 5000,
+      step: 100,
+    },
+    normalizationMax: {
+      value: VELOCITY_THRESHOLDS.NORMALIZATION_MAX,
+      min: 1000,
+      max: 6000,
+      step: 100,
+    },
+  });
 
-    // Use a ref to manage the exit timer identity
-    const exitTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+  const engine = useVelocityEngine(lenis, config, {
+    reducedMotion,
+    manualVelocity,
+  });
 
-    // Unified logic to update reading state based on current velocity
-    const updateReadingState = React.useCallback((v: number) => {
-        // Clear timer if we exceed skim entrance threshold
-        if (v > VELOCITY_THRESHOLDS.SKIM_ENTER) {
-            setReadingState("skim");
-            if (exitTimerRef.current) {
-                clearTimeout(exitTimerRef.current);
-                exitTimerRef.current = null;
-            }
-        }
-        // Start or continue exit timer if below exit threshold
-        else if (v < VELOCITY_THRESHOLDS.SKIM_EXIT) {
-            setReadingState(prev => {
-                if (prev === "skim" && !exitTimerRef.current) {
-                    exitTimerRef.current = setTimeout(() => {
-                        setReadingState("detailed");
-                        exitTimerRef.current = null;
-                    }, TIMINGS.SKIM_EXIT_DELAY);
-                }
-                return prev;
-            });
-        }
-        // Intermediate zone: cancel exit timer if user speeds up slightly
-        else if (v >= VELOCITY_THRESHOLDS.SKIM_EXIT && v <= VELOCITY_THRESHOLDS.SKIM_ENTER) {
-            if (exitTimerRef.current) {
-                clearTimeout(exitTimerRef.current);
-                exitTimerRef.current = null;
-            }
-        }
-    }, []);
+  const setManualVelocity = useCallback(
+    (v: number | null) => setManualVelocityRaw(v),
+    []
+  );
 
-    // effectiveVelocity is either manual override or scroll velocity
-    const velocity = manualVelocity !== null ? manualVelocity : scrollV;
+  const value = useMemo<VelocityContextType>(
+    () => ({
+      ...engine,
+      manualVelocity,
+      reducedMotion,
+      setManualVelocity,
+    }),
+    [engine, manualVelocity, reducedMotion, setManualVelocity]
+  );
 
-    useEffect(() => {
-        const unsubscribe = smoothVelocity.on("change", (v) => {
-            if (isVelocityLocked) return;
-            const absV = Math.floor(Math.abs(v));
-            if (absV !== Math.floor(scrollV)) {
-                setScrollV(absV);
+  return (
+    <VelocityContext.Provider value={value}>
+      {children}
+    </VelocityContext.Provider>
+  );
+}
 
-                // Update reading state based on new scroll velocity (only if manual override is OFF)
-                if (manualVelocity === null) {
-                    updateReadingState(absV);
-                }
-            }
-        });
-
-        return () => unsubscribe();
-    }, [smoothVelocity, scrollV, isVelocityLocked, manualVelocity, updateReadingState]);
-
-    const lockVelocity = React.useCallback(() => {
-        setIsVelocityLocked(true);
-        // Neutralize the underlying MotionValues to prevent the spring from "momentum-swallowing" the spike
-        scrollVelocity.set(0);
-        smoothVelocity.set(0);
-
-        if (exitTimerRef.current) {
-            clearTimeout(exitTimerRef.current);
-            exitTimerRef.current = null;
-        }
-
-        // A slightly longer lock ensures the browser and framer-motion have fully settled
-        setTimeout(() => setIsVelocityLocked(false), TIMINGS.SCROLL_LOCK_DURATION + 100);
-    }, [scrollVelocity, smoothVelocity]);
-
-    const handleSetManualVelocity = React.useCallback((v: number | null) => {
-        setManualVelocity(v);
-        if (v !== null) {
-            updateReadingState(v);
-        }
-    }, [updateReadingState]);
-
-    useEffect(() => {
-        const unsubscribe = scrollY.on("change", (latest) => {
-            if (latest <= 0) {
-                updateReadingState(0);
-            }
-        });
-        return () => unsubscribe();
-    }, [scrollY, updateReadingState]);
-
-    // Optimize derived values and context object
-    const normalizedVelocity = React.useMemo(() =>
-        Math.min(velocity / VELOCITY_THRESHOLDS.NORMALIZATION_MAX, 1),
-        [velocity]);
-
-    const isScrolling = React.useMemo(() =>
-        velocity > VELOCITY_THRESHOLDS.IS_SCROLLING || manualVelocity !== null,
-        [velocity, manualVelocity]);
-
-    const contextValue = React.useMemo(() => ({
-        velocity,
-        normalizedVelocity,
-        readingState,
-        isScrolling,
-        manualVelocity,
-        setManualVelocity: handleSetManualVelocity,
-        lockVelocity
-    }), [
-        velocity,
-        normalizedVelocity,
-        readingState,
-        isScrolling,
-        manualVelocity,
-        handleSetManualVelocity,
-        lockVelocity
-    ]);
-
-    return (
-        <VelocityContext.Provider value={contextValue}>
-            {children}
-        </VelocityContext.Provider>
-    );
-};
-
-export const useVelocityState = () => {
-    const context = useContext(VelocityContext);
-    if (context === undefined) {
-        throw new Error("useVelocityState must be used within a VelocityProvider");
-    }
-    return context;
-};
-
+export function useVelocityState() {
+  const context = useContext(VelocityContext);
+  if (context === undefined) {
+    throw new Error("useVelocityState must be used within a VelocityProvider");
+  }
+  return context;
+}

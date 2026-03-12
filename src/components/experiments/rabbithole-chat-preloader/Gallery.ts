@@ -1,22 +1,27 @@
-import * as THREE from "three";
 import gsap from "gsap";
-import { vertexShader, fragmentShader, centerVertexShader, centerFragmentShader } from "./shaders";
+import * as THREE from "three";
+import {
+  centerFragmentShader,
+  centerVertexShader,
+  fragmentShader,
+  vertexShader,
+} from "./shaders";
 
 interface Props {
-  scene: THREE.Scene;
   cameraZ: number;
+  scene: THREE.Scene;
 }
 
 interface ImageInfo {
-  width: number;
-  height: number;
   aspectRatio: number;
+  height: number;
   uvs: {
     xStart: number;
     xEnd: number;
     yStart: number;
     yEnd: number;
   };
+  width: number;
 }
 
 export default class Gallery {
@@ -34,8 +39,8 @@ export default class Gallery {
     direction: number;
   };
   cameraZ: number;
-  isScrolling: boolean = false;
-  textureIndex: number = 0;
+  isScrolling = false;
+  textureIndex = 0;
 
   constructor({ scene, cameraZ }: Props) {
     this.scene = scene;
@@ -174,7 +179,9 @@ export default class Gallery {
 
     const TOTAL = COUNT;
 
-    if (!this.atlasTexture) return;
+    if (!this.atlasTexture) {
+      return;
+    }
 
     this.instancedMaterial = new THREE.ShaderMaterial({
       vertexShader,
@@ -285,7 +292,9 @@ export default class Gallery {
   }
 
   createCenteredMesh() {
-    if (!this.atlasTexture || this.imageInfos.length === 0) return;
+    if (!this.atlasTexture || this.imageInfos.length === 0) {
+      return;
+    }
 
     const geometry = new THREE.PlaneGeometry(1.7, 2.3);
     this.material = new THREE.ShaderMaterial({
@@ -315,11 +324,15 @@ export default class Gallery {
       this.scrollY.speedTarget += 0.005 * this.scrollY.direction;
 
       this.textureIndex = Math.abs(
-        Math.floor(this.scrollY.speedTarget % (this.imageInfos.length))
+        Math.floor(this.scrollY.speedTarget % this.imageInfos.length)
       );
       // Safety check for index
-      if (this.textureIndex >= this.imageInfos.length) this.textureIndex = 0;
-      if (Number.isNaN(this.textureIndex)) this.textureIndex = 0;
+      if (this.textureIndex >= this.imageInfos.length) {
+        this.textureIndex = 0;
+      }
+      if (Number.isNaN(this.textureIndex)) {
+        this.textureIndex = 0;
+      }
 
       this.material.uniforms.uTextureCoords.value.set(
         this.imageInfos[this.textureIndex].uvs.xStart,

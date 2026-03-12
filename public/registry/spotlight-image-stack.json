@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spotlight-image-stack",
+  "type": "registry:block",
+  "title": "SpotlightImageStack",
+  "description": "SpotlightImageStack component",
+  "category": "collected",
+  "meta": {
+    "source": "https://github.com/codegridweb/codegrid-senseitech-scroll-animation",
+    "author": "Codegrid",
+    "license": "MIT",
+    "tags": [
+      "scroll",
+      "images",
+      "spotlight",
+      "stacking",
+      "scatter",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "previewUrl": "/collected/spotlight-image-stack"
+  },
+  "dependencies": [
+    "@gsap/react",
+    "gsap"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "SpotlightImageStack.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { useGSAP } from \"@gsap/react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\nimport { useRef } from \"react\";\nimport \"./styles.css\";\n\ngsap.registerPlugin(ScrollTrigger);\n\nexport interface SpotlightImageStackProps {\n  className?: string;\n  finalPositions?: [number, number][];\n  headerText?: string;\n  images?: string[];\n}\n\nconst DEFAULT_IMAGES = [\n  \"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80\",\n  \"https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=800&q=80\",\n  \"https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=800&q=80\",\n  \"https://images.unsplash.com/photo-1579547945413-497e1b99dac0?w=800&q=80\",\n];\n\nconst DEFAULT_FINAL_POSITIONS: [number, number][] = [\n  [-140, -140],\n  [40, -130],\n  [-160, 40],\n  [20, 30],\n];\n\nexport function SpotlightImageStack({\n  images = DEFAULT_IMAGES,\n  headerText = \"Time stretches differently inside this frame.\",\n  finalPositions = DEFAULT_FINAL_POSITIONS,\n  className,\n}: SpotlightImageStackProps) {\n  const container = useRef<HTMLDivElement>(null);\n\n  useGSAP(\n    () => {\n      const prefersReduced = window.matchMedia(\n        \"(prefers-reduced-motion: reduce)\"\n      ).matches;\n      const imgEls = gsap.utils.toArray<HTMLElement>(\".sis-img\");\n\n      if (prefersReduced) {\n        imgEls.forEach((img, i) => {\n          const [fx, fy] = finalPositions[i] ?? [0, 0];\n          gsap.set(img, {\n            transform: `translate(${fx}%, ${fy}%) rotate(0deg)`,\n          });\n        });\n        return;\n      }\n\n      const initialRotations = [5, -3, 3.5, -1];\n      const phase1Offsets = [0, 0.1, 0.2, 0.3];\n      const phase2Offsets = [0.5, 0.55, 0.6, 0.65];\n\n      ScrollTrigger.create({\n        trigger: \".sis-spotlight\",\n        start: \"top top\",\n        end: `+=${window.innerHeight * 6}px`,\n        pin: true,\n        pinSpacing: true,\n        scrub: 1,\n        onUpdate: (self) => {\n          const progress = self.progress;\n\n          imgEls.forEach((img, index) => {\n            const initRot = initialRotations[index] ?? 0;\n            const p1Start = phase1Offsets[index] ?? 0;\n            const p1End = Math.min(p1Start + (0.45 - p1Start) * 0.9, 0.45);\n\n            let x = -50;\n            let y: number;\n            let rotation: number;\n\n            if (progress < p1Start) {\n              y = 200;\n              rotation = initRot;\n            } else if (progress <= 0.45) {\n              const p1Progress =\n                progress >= p1End\n                  ? 1\n                  : 1 - (1 - (progress - p1Start) / (p1End - p1Start)) ** 3;\n              y = 200 - p1Progress * 250;\n              rotation = initRot;\n            } else {\n              y = -50;\n              rotation = initRot;\n            }\n\n            const p2Start = phase2Offsets[index] ?? 0.5;\n            const p2End = Math.min(p2Start + (0.95 - p2Start) * 0.9, 0.95);\n            const [finalX, finalY] = finalPositions[index] ?? [0, 0];\n\n            if (progress >= p2Start && progress <= 0.95) {\n              const p2Progress =\n                progress >= p2End\n                  ? 1\n                  : 1 - (1 - (progress - p2Start) / (p2End - p2Start)) ** 3;\n              x = -50 + (finalX + 50) * p2Progress;\n              y = -50 + (finalY + 50) * p2Progress;\n              rotation = initRot * (1 - p2Progress);\n            } else if (progress > 0.95) {\n              x = finalX;\n              y = finalY;\n              rotation = 0;\n            }\n\n            gsap.set(img, {\n              transform: `translate(${x}%, ${y}%) rotate(${rotation}deg)`,\n            });\n          });\n        },\n      });\n    },\n    { scope: container }\n  );\n\n  return (\n    <div className={`sis-container ${className ?? \"\"}`.trim()} ref={container}>\n      <section className=\"sis-spotlight\">\n        <div className=\"sis-spotlight-header\">\n          <h1>{headerText}</h1>\n        </div>\n        <div className=\"sis-spotlight-images\">\n          {images.map((img, i) => (\n            <div className=\"sis-img\" key={i}>\n              <img alt=\"\" src={img} />\n            </div>\n          ))}\n        </div>\n      </section>\n    </div>\n  );\n}\n\nexport default SpotlightImageStack;\n"
+    },
+    {
+      "name": "styles.css",
+      "type": "registry:file",
+      "target": "components/collected/spotlight-image-stack/styles.css",
+      "content": ".sis-container {\n  position: relative;\n  width: 100%;\n}\n\n.sis-spotlight {\n  position: relative;\n  align-content: center;\n  width: 100%;\n  height: 100svh;\n  padding: 1rem;\n  overflow: hidden;\n  background-color: var(--sis-bg, #edf1e8);\n}\n\n.sis-spotlight-header {\n  position: relative;\n  z-index: 1;\n}\n\n.sis-spotlight-header h1 {\n  width: 50%;\n  margin: 0 auto;\n  font-size: clamp(2rem, 10vw, 5rem);\n  font-weight: 500;\n  line-height: 0.9;\n  color: var(--sis-fg, #141414);\n  text-align: center;\n  letter-spacing: -0.1rem;\n}\n\n.sis-spotlight-images {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n}\n\n.sis-img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: clamp(20rem, 25vw, 40rem);\n  aspect-ratio: 7 / 5;\n  overflow: hidden;\n  border-radius: 0.5rem;\n  transform: translate(-50%, 200%);\n  will-change: transform;\n}\n\n.sis-img img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n\n@media (max-width: 1000px) {\n  .sis-spotlight-header h1 {\n    width: 100%;\n  }\n}\n"
+    }
+  ]
+}

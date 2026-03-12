@@ -1,0 +1,48 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-frame-canvas",
+  "type": "registry:block",
+  "title": "ScrollFrameCanvas",
+  "description": "ScrollFrameCanvas component",
+  "category": "collected",
+  "meta": {
+    "source": "https://github.com/codegridweb/cg-adaline-scroll-animation",
+    "author": "Codegrid",
+    "license": "MIT",
+    "tags": [
+      "scroll",
+      "canvas",
+      "frames",
+      "video",
+      "sequence",
+      "3d",
+      "perspective",
+      "gsap"
+    ],
+    "tech": [
+      "gsap",
+      "@gsap/react"
+    ],
+    "previewUrl": "/collected/scroll-frame-canvas"
+  },
+  "dependencies": [
+    "@gsap/react",
+    "gsap"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ScrollFrameCanvas.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { useGSAP } from \"@gsap/react\";\nimport gsap from \"gsap\";\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\nimport { useCallback, useEffect, useRef } from \"react\";\nimport \"./styles.css\";\n\ngsap.registerPlugin(ScrollTrigger);\n\nconst DEMO_FRAMES = Array.from(\n  { length: 60 },\n  (_, i) =>\n    `https://picsum.photos/seed/frame${String(i).padStart(3, \"0\")}/1920/1080`\n);\n\nexport interface ScrollFrameCanvasProps {\n  className?: string;\n  dashboardImage?: string;\n  frameUrls?: string[];\n  headerText?: string;\n}\n\nexport function ScrollFrameCanvas({\n  frameUrls = DEMO_FRAMES,\n  headerText = \"One unified workspace to build, test, and ship AI faster\",\n  dashboardImage,\n  className,\n}: ScrollFrameCanvasProps) {\n  const container = useRef<HTMLDivElement>(null);\n  const canvasRef = useRef<HTMLCanvasElement>(null);\n  const imagesRef = useRef<HTMLImageElement[]>([]);\n  const frameRef = useRef({ frame: 0 });\n  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);\n\n  const render = useCallback(() => {\n    const ctx = ctxRef.current;\n    const canvas = canvasRef.current;\n    if (!(ctx && canvas)) {\n      return;\n    }\n\n    const w = window.innerWidth;\n    const h = window.innerHeight;\n    ctx.clearRect(0, 0, w, h);\n\n    const img = imagesRef.current[frameRef.current.frame];\n    if (!(img?.complete && img.naturalWidth > 0)) {\n      return;\n    }\n\n    const imgAspect = img.naturalWidth / img.naturalHeight;\n    const canvasAspect = w / h;\n    let dw: number;\n    let dh: number;\n    let dx: number;\n    let dy: number;\n\n    if (imgAspect > canvasAspect) {\n      dh = h;\n      dw = dh * imgAspect;\n      dx = (w - dw) / 2;\n      dy = 0;\n    } else {\n      dw = w;\n      dh = dw / imgAspect;\n      dx = 0;\n      dy = (h - dh) / 2;\n    }\n\n    ctx.drawImage(img, dx, dy, dw, dh);\n  }, []);\n\n  useEffect(() => {\n    const canvas = canvasRef.current;\n    if (!canvas) {\n      return;\n    }\n    const dpr = window.devicePixelRatio || 1;\n    canvas.width = window.innerWidth * dpr;\n    canvas.height = window.innerHeight * dpr;\n    canvas.style.width = `${window.innerWidth}px`;\n    canvas.style.height = `${window.innerHeight}px`;\n    const ctx = canvas.getContext(\"2d\");\n    if (ctx) {\n      ctx.scale(dpr, dpr);\n      ctxRef.current = ctx;\n    }\n\n    let loaded = 0;\n    const total = frameUrls.length;\n    imagesRef.current = frameUrls.map((url) => {\n      const img = new Image();\n      img.onload = () => {\n        loaded++;\n        if (loaded === total) {\n          render();\n        }\n      };\n      img.onerror = () => {\n        loaded++;\n      };\n      img.src = url;\n      return img;\n    });\n\n    const onResize = () => {\n      const r = window.devicePixelRatio || 1;\n      canvas.width = window.innerWidth * r;\n      canvas.height = window.innerHeight * r;\n      canvas.style.width = `${window.innerWidth}px`;\n      canvas.style.height = `${window.innerHeight}px`;\n      const c = canvas.getContext(\"2d\");\n      if (c) {\n        c.scale(r, r);\n        ctxRef.current = c;\n      }\n      render();\n      ScrollTrigger.refresh();\n    };\n    window.addEventListener(\"resize\", onResize);\n    return () => window.removeEventListener(\"resize\", onResize);\n  }, [frameUrls, render]);\n\n  useGSAP(\n    () => {\n      const prefersReduced = window.matchMedia(\n        \"(prefers-reduced-motion: reduce)\"\n      ).matches;\n      if (prefersReduced) {\n        return;\n      }\n\n      const frameCount = frameUrls.length;\n\n      ScrollTrigger.create({\n        trigger: \".sfc-hero\",\n        start: \"top top\",\n        end: `+=${window.innerHeight * 7}px`,\n        pin: true,\n        pinSpacing: true,\n        scrub: 1,\n        onUpdate: (self) => {\n          const progress = self.progress;\n          const animProgress = Math.min(progress / 0.9, 1);\n          frameRef.current.frame = Math.round(animProgress * (frameCount - 1));\n          render();\n\n          if (progress <= 0.25) {\n            const zProg = progress / 0.25;\n            const tz = zProg * -500;\n            let opacity = 1;\n            if (progress >= 0.2) {\n              opacity = 1 - Math.min((progress - 0.2) / 0.05, 1);\n            }\n            gsap.set(\".sfc-header\", {\n              transform: `translate(-50%, -50%) translateZ(${tz}px)`,\n              opacity,\n            });\n          } else {\n            gsap.set(\".sfc-header\", { opacity: 0 });\n          }\n\n          if (dashboardImage) {\n            if (progress < 0.6) {\n              gsap.set(\".sfc-hero-img\", {\n                transform: \"translateZ(1000px)\",\n                opacity: 0,\n              });\n            } else if (progress <= 0.9) {\n              const ip = (progress - 0.6) / 0.3;\n              const tz = 1000 - ip * 1000;\n              const op = progress <= 0.8 ? (progress - 0.6) / 0.2 : 1;\n              gsap.set(\".sfc-hero-img\", {\n                transform: `translateZ(${tz}px)`,\n                opacity: op,\n              });\n            } else {\n              gsap.set(\".sfc-hero-img\", {\n                transform: \"translateZ(0px)\",\n                opacity: 1,\n              });\n            }\n          }\n        },\n      });\n    },\n    { scope: container, dependencies: [frameUrls.length, dashboardImage] }\n  );\n\n  return (\n    <div className={`sfc-container ${className ?? \"\"}`.trim()} ref={container}>\n      <section className=\"sfc-hero\">\n        <canvas className=\"sfc-canvas\" ref={canvasRef} />\n\n        <div className=\"sfc-hero-content\">\n          <div className=\"sfc-header\">\n            <h1>{headerText}</h1>\n          </div>\n        </div>\n\n        {dashboardImage && (\n          <div className=\"sfc-hero-img-container\">\n            <div className=\"sfc-hero-img\">\n              <img alt=\"\" src={dashboardImage} />\n            </div>\n          </div>\n        )}\n      </section>\n    </div>\n  );\n}\n\nexport default ScrollFrameCanvas;\n"
+    },
+    {
+      "name": "styles.css",
+      "type": "registry:file",
+      "target": "components/collected/scroll-frame-canvas/styles.css",
+      "content": ".sfc-container {\n  position: relative;\n  width: 100%;\n}\n\n.sfc-hero {\n  position: relative;\n  width: 100%;\n  height: 100svh;\n  overflow: hidden;\n}\n\n.sfc-canvas {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n\n.sfc-hero-content {\n  position: absolute;\n  top: 25%;\n  left: 50%;\n  padding: 0.5rem 0;\n  transform: translateX(-50%);\n  transform-style: preserve-3d;\n  perspective: 1000px;\n}\n\n.sfc-header {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  display: flex;\n  flex-direction: column;\n  gap: 1.5rem;\n  align-items: center;\n  width: 100vw;\n  color: var(--sfc-fg, #241910);\n  text-align: center;\n  transform: translate(-50%, -50%);\n  transform-origin: center;\n  will-change: transform, opacity;\n}\n\n.sfc-header h1 {\n  width: 50%;\n  font-size: 3rem;\n  font-weight: 400;\n  line-height: 1.1;\n}\n\n.sfc-hero-img-container {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 50%;\n  transform: translate(-50%, -50%);\n  transform-style: preserve-3d;\n  perspective: 1000px;\n}\n\n.sfc-hero-img {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  transform: translateZ(1000px);\n  will-change: transform, opacity;\n}\n\n.sfc-hero-img img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}\n\n@media (max-width: 1000px) {\n  .sfc-header h1 {\n    font-size: 2rem;\n  }\n\n  .sfc-header h1,\n  .sfc-hero-img-container {\n    width: calc(100% - 4rem);\n  }\n}\n"
+    }
+  ]
+}

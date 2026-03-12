@@ -1,0 +1,48 @@
+---
+description: Registry curation config schema and downstream impact
+globs: "**/registry.config.json"
+alwaysApply: false
+---
+
+# Registry Curation Rules
+
+## Config Schema
+
+```json
+{
+  "categories": ["experiments", "components", "collected", "hooks", "utilities", "styles"],
+  "featured": ["slug1", "slug2"],
+  "hidden": ["slug-to-exclude"],
+  "overrides": { "slug": { "description": "..." } },
+  "scan": {
+    "experiments": true,
+    "sharedUI": true,
+    "collected": true,
+    "hooks": true,
+    "utilities": ["src/lib/utils.ts", "src/lib/fonts.ts"]
+  }
+}
+```
+
+## Downstream Impact
+
+- **featured**: Items sorted to top of grid display in `index-slim.json`
+- **hidden**: Excluded from all outputs (per-item JSON, indexes, MDX docs)
+- **overrides**: Patches description or category on specific items (useful for terse component names)
+- **scan toggles**: Control which directories `generate-registry-json.mjs` crawls
+- **utilities**: Explicit file paths (not auto-discovered like other categories)
+
+## Code Display
+
+- Source code on docs pages uses `DynamicCodeBlock` from `fumadocs-ui/components/dynamic-codeblock` for runtime Shiki syntax highlighting
+- Install commands also use `DynamicCodeBlock` with `lang="bash"`
+- For shared UI components (`category: "components"`), hand-authored MDX in `content/registry/components/` renders components directly with inline JSX previews (do NOT import `.story.tsx` files in MDX -- `@fumadocs/story` barrel export pulls `node:fs/promises` which breaks Turbopack)
+- For experiments and collected, iframe previews use `ComponentPreview` (unified component with `basePath` prop)
+
+## After Changes
+
+Re-run `npm run generate:registry` to regenerate all outputs:
+- `registry.json` (manifest)
+- `public/registry/{name}.json` (per-item, shadcn-compatible)
+- `public/registry/index.json` + `index-slim.json` (indexes)
+- `content/registry/**/*.mdx` (Fumadocs docs -- hand-authored files without `.generated` marker are preserved)

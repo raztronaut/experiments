@@ -1,70 +1,234 @@
-import fs from 'fs/promises';
-import path from 'path';
+import fs from "node:fs/promises";
+import path from "node:path";
+import { cache } from "react";
+import { showDevContent } from "./env";
+
+export type ExperimentProfile =
+  | "r3f-scene"
+  | "r3f-shader"
+  | "scrollytelling"
+  | "interaction"
+  | "dom-effect"
+  | "web-audio"
+  | "mixed"
+  | "blank";
+
+export type ExperimentStatus = "wip" | "shipped";
+
+export type ExperimentComplexity = "beginner" | "intermediate" | "advanced";
+
+export type ExperimentListing = "public" | "dev" | "registry";
+
+const VALID_PROFILES: ExperimentProfile[] = [
+  "r3f-scene",
+  "r3f-shader",
+  "scrollytelling",
+  "interaction",
+  "dom-effect",
+  "web-audio",
+  "mixed",
+  "blank",
+];
+const VALID_STATUSES: ExperimentStatus[] = ["wip", "shipped"];
+const VALID_COMPLEXITIES: ExperimentComplexity[] = [
+  "beginner",
+  "intermediate",
+  "advanced",
+];
+const VALID_LISTINGS: ExperimentListing[] = ["public", "dev", "registry"];
 
 export interface Experiment {
-    title: string;
-    description: string;
-    slug: string;
-    href: string;
-    created: string;
-    image?: string;
-    video?: string;
-    poster?: string;
-    isPlaceholder?: boolean;
+  complexity?: ExperimentComplexity;
+  created: string;
+  description: string;
+  href: string;
+  image?: string;
+  inspiration?: { title: string; url: string }[];
+  legacy?: boolean;
+  listing?: ExperimentListing;
+  poster?: string;
+  profile?: ExperimentProfile;
+  related?: string[];
+  slug: string;
+  status?: ExperimentStatus;
+  tags?: string[];
+  tech?: string[];
+  title: string;
+  updated?: string;
+  video?: string;
 }
 
-export async function getExperiments(): Promise<Experiment[]> {
-    const experimentsDir = path.join(process.cwd(), 'src/app/experiments');
+export interface ExperimentFilter {
+  listing?: ExperimentListing[];
+  profile?: ExperimentProfile;
+  status?: ExperimentStatus[];
+  tags?: string[];
+  tech?: string[];
+}
 
+function validateExperiment(raw: unknown): Experiment | null {
+  if (!raw || typeof raw !== "object") {
+    return null;
+  }
+  const obj = raw as Record<string, unknown>;
 
-    try {
-        const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
+  if (typeof obj.title !== "string" || !obj.title) {
+    return null;
+  }
+  if (typeof obj.description !== "string" || !obj.description) {
+    return null;
+  }
+  if (typeof obj.slug !== "string" || !obj.slug) {
+    return null;
+  }
+  if (typeof obj.created !== "string") {
+    return null;
+  }
+  if (typeof obj.href !== "string") {
+    return null;
+  }
 
-        // Filter for directories that look like Route Groups: "(name)"
-        // Exclude special route groups like (index) that aren't experiments
-        const experimentDirs = entries
-            .filter(dirent =>
-                dirent.isDirectory() &&
-                dirent.name.startsWith('(') &&
-                dirent.name !== '(index)'
-            )
-            .map(dirent => dirent.name);
+  if (
+    obj.status !== undefined &&
+    !VALID_STATUSES.includes(obj.status as ExperimentStatus)
+  ) {
+    console.warn(`Invalid status "${obj.status}" in experiment "${obj.slug}"`);
+    return null;
+  }
 
-        const experiments = await Promise.all(
-            experimentDirs.map(async (dirName) => {
-                const configPath = path.join(experimentsDir, dirName, 'experiment.json');
-                try {
-                    const content = await fs.readFile(configPath, 'utf-8');
-                    const config = JSON.parse(content);
+  if (
+    obj.profile !== undefined &&
+    !VALID_PROFILES.includes(obj.profile as ExperimentProfile)
+  ) {
+    console.warn(
+      `Invalid profile "${obj.profile}" in experiment "${obj.slug}"`
+    );
+    return null;
+  }
 
-                    // Check for poster.jpg
-                    // The slug usually matches the directory name, but let's blindly rely on config.slug for the public path map
-                    // Assumption: public/experiments/{slug}/poster.jpg
+  if (
+    obj.complexity !== undefined &&
+    !VALID_COMPLEXITIES.includes(obj.complexity as ExperimentComplexity)
+  ) {
+    console.warn(
+      `Invalid complexity "${obj.complexity}" in experiment "${obj.slug}"`
+    );
+    return null;
+  }
 
-                    // We assume the poster exists to avoid 'fs.access' on public folder
-                    // which causes Vercel to bundle all public assets (videos) into the API function.
-                    const posterPath = config.video ? `/experiments/${config.slug}/poster.jpg` : undefined;
+  if (
+    obj.listing !== undefined &&
+    !VALID_LISTINGS.includes(obj.listing as ExperimentListing)
+  ) {
+    console.warn(
+      `Invalid listing "${obj.listing}" in experiment "${obj.slug}"`
+    );
+    return null;
+  }
 
-                    return {
-                        ...config,
-                        href: `/experiments/${config.slug}`,
-                        poster: posterPath
-                    } as Experiment;
-                } catch (error) {
-                    console.warn(`Could not read config for ${dirName}:`, error);
-                    return null;
-                }
-            })
+  return obj as unknown as Experiment;
+}
+
+// React.cache() deduplicates within a single server render pass.
+// Caveat: uses Object.is for args -- inline filter objects will miss cache.
+// All current callers pass undefined (no filter), which deduplicates correctly.
+export const getExperiments = cache(async function getExperiments(
+  filter?: ExperimentFilter
+): Promise<Experiment[]> {
+  const experimentsDir = path.join(process.cwd(), "src/app/experiments");
+
+  try {
+    const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
+
+    const experimentDirs = entries
+      .filter(
+        (dirent) =>
+          dirent.isDirectory() &&
+          dirent.name.startsWith("(") &&
+          dirent.name !== "(index)"
+      )
+      .map((dirent) => dirent.name);
+
+    const experiments = await Promise.all(
+      experimentDirs.map(async (dirName) => {
+        const configPath = path.join(
+          experimentsDir,
+          dirName,
+          "experiment.json"
         );
+        try {
+          const content = await fs.readFile(configPath, "utf-8");
+          const config = JSON.parse(content);
 
-        // Filter out nulls and sort by date descending (newest first)
-        // ISO 8601 strings are lexicographically sortable, so we can avoid Date parsing
-        return experiments
-            .filter((exp): exp is Experiment => exp !== null)
-            .sort((a, b) => b.created.localeCompare(a.created));
+          const posterPath = config.video
+            ? `/experiments/${config.slug}/poster.jpg`
+            : undefined;
 
-    } catch (error) {
-        console.error("Error reading experiments directory:", error);
-        return [];
+          const experiment = validateExperiment({
+            ...config,
+            href: `/experiments/${config.slug}`,
+            poster: posterPath,
+          });
+
+          if (!experiment) {
+            console.warn(`Validation failed for ${dirName}`);
+          }
+
+          return experiment;
+        } catch (error) {
+          console.warn(`Could not read config for ${dirName}:`, error);
+          return null;
+        }
+      })
+    );
+
+    let results = experiments.filter((exp): exp is Experiment => exp !== null);
+
+    // WIP experiments: visible only in dev/preview environments
+    if (!showDevContent) {
+      results = results.filter((exp) => exp.status !== "wip");
     }
-}
+
+    // Listing gate
+    if (filter?.listing?.length) {
+      results = results.filter((exp) =>
+        filter.listing!.includes(exp.listing ?? "public")
+      );
+    } else if (showDevContent) {
+      // Dev/preview: show public + dev + wip (everything except registry-only)
+      results = results.filter(
+        (exp) => (exp.listing ?? "public") !== "registry"
+      );
+    } else {
+      // Production: only public
+      results = results.filter((exp) => (exp.listing ?? "public") === "public");
+    }
+
+    if (filter?.status?.length) {
+      results = results.filter(
+        (exp) => exp.status && filter.status!.includes(exp.status)
+      );
+    }
+
+    if (filter?.tags?.length) {
+      results = results.filter((exp) =>
+        exp.tags?.some((tag) => filter.tags!.includes(tag))
+      );
+    }
+
+    if (filter?.tech?.length) {
+      results = results.filter((exp) =>
+        exp.tech?.some((t) => filter.tech!.includes(t))
+      );
+    }
+
+    if (filter?.profile) {
+      results = results.filter((exp) => exp.profile === filter.profile);
+    }
+
+    return results.sort((a, b) => b.created.localeCompare(a.created));
+  } catch (error) {
+    console.error("Error reading experiments directory:", error);
+    return [];
+  }
+});

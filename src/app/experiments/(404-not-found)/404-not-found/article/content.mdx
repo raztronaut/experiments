@@ -1,0 +1,145 @@
+---
+title: "404 Not Found"
+description: "Building a cinematic 404 page with procedurally animated 3D ribbons, a dual-face GLSL shader, and scroll-velocity-driven text animation in React Three Fiber"
+publishedAt: "2026-03-11T00:00:00.000Z"
+updatedAt: "2026-03-11T00:00:00.000Z"
+---
+
+# 404 Not Found
+
+I wanted a 404 page that felt like something physical: a stack of parchment ribbons drifting in space, each one stamped with "404 NOT FOUND" in heavy type, red guide lines running across them like a ruled notebook. The text scrolls across the ribbons, and when you scroll the page, everything speeds up or reverses. Flip them over and the back face says "INSPIRED BY DAY JOB."
+
+The whole thing is 35 ribbons in React Three Fiber, each with a custom GLSL shader that handles both faces, plus a scroll-velocity system that bypasses React entirely for 60fps updates. Three things worth explaining: the wave deformation, the dual-face shader, and the scroll-velocity bridge.
+
+## Wave deformation
+
+Each ribbon is a `boxGeometry` with 256 segments along its length. That's a lot of vertices for a box, but you need the subdivision for smooth sine-wave displacement in the vertex shader.
+
+The main curve is a sine wave applied only to the Z axis (depth). Displacing in Y would make ribbons clip through each other. Keeping it in Z gives the paper-curl look without overlap issues:
+
+```glsl
+float indent = sin(xPos) * uAmplitude;
+```
+
+One sine wave looks mechanical. Two more layers at different frequencies give it organic character:
+
+```glsl
+indent += sin(xPos * 2.1 + 0.4) * uAmplitude * 0.3;
+indent += sin(xPos * 4.4 + 1.2) * uAmplitude * 0.1;
+```
+
+The second harmonic runs at 2.1x the base frequency with 30% amplitude. The third at 4.4x with 10%. Those ratios aren't magic; they just avoid integer multiples so the harmonics don't reinforce the base wave into a sharp peak.
+
+The `indent` value also flows to the fragment shader as a `varying` called `vIndent`. Valley shadows use it later.
+
+<InteractiveWidget title="Wave Deformation">
+  <WaveDeformationDemo />
+</InteractiveWidget>
+
+Turn off "Harmonic layers" to see the difference. A single sine wave reads as a sheet of metal. The harmonics make it read as paper.
+
+## Dual-face shader
+
+Each ribbon renders both sides with `THREE.DoubleSide`. The fragment shader checks `vModelNormal.z` to figure out which face it's rendering:
+
+```glsl
+if (vModelNormal.z > 0.5) {
+    // Front face: scrolling text
+    float scrollOffset = uRunTime * uTextSpeed;
+    vec2 tiledUv = vUv * uRepeat + vec2(scrollOffset, 0.0);
+    vec4 sampleCol = texture2D(uTexture, tiledUv);
+    texColor = vec4(mix(uColor, sampleCol.rgb, sampleCol.a), 1.0);
+
+} else if (vModelNormal.z < -0.5) {
+    // Back face: tiled italic text or clamped image
+    // ...
+} else {
+    // Edge: solid color
+    texColor = vec4(uColor, 1.0);
+}
+```
+
+Front face samples a repeating text texture and scrolls it horizontally by offsetting the UV. The texture is composited over the ribbon's base color using the texture alpha: text is opaque, background is transparent, so you get colored parchment with dark text on top.
+
+Back face has two modes. Most ribbons tile an italic "INSPIRED BY DAY JOB" texture. But ribbons 12 through 21 display a clamped image that spans all 10 ribbons as a single picture, using UV offset and scale to position each ribbon's slice.
+
+The textures aren't loaded from files. They're generated at runtime with Canvas 2D: `document.createElement('canvas')`, draw the text with Inter 900 weight, add the red guide lines, wrap in a `CanvasTexture` with `RepeatWrapping`. A global cache with ref-counting prevents 35 ribbons from generating the same texture 35 times.
+
+<InteractiveWidget title="Dual-Face Rendering">
+  <DualFaceTextureDemo />
+</InteractiveWidget>
+
+Switch to "Back" to see the italic text mode. On the front, each ribbon scrolls its text independently, some left, some right, at different speeds.
+
+After the face check, the shader layers on a full lighting model:
+
+```glsl
+float diff1 = max(dot(normal, lightDir1), 0.0);       // Key light
+float diff2 = max(dot(normal, lightDir2), 0.0) * 0.3; // Fill light
+float spec = pow(max(dot(normal, halfDir), 0.0), 32.0) * 0.4; // Blinn-Phong
+float shadow = smoothstep(1.0, -1.0, vIndent);         // Valley darkening
+float edgeAO = smoothstep(0.0, 0.12, vUv.y) * smoothstep(1.0, 0.88, vUv.y);
+float rim = pow(1.0 - max(dot(viewDir, normal), 0.0), 6.0) * 0.25;
+float grain = (random(vUv * 100.0 + uTime * 0.001) - 0.5) * 0.03;
+```
+
+The valley shadow is the most important one. `vIndent` from the vertex shader tells the fragment shader how deep into a wave trough this pixel sits. `smoothstep` maps that into a darkening factor. Without it, the waves look like a texture on a flat surface. With it, the concave sections darken and the convex sections catch light.
+
+## Scroll-velocity-driven text
+
+The ribbons have a base text scroll speed, but when you scroll the page, the text accelerates or reverses based on your scroll velocity. The system is deliberately minimal: no Lenis, no GSAP ScrollTrigger, just a wheel event listener and a mutable ref.
+
+```tsx
+export const scrollVelocityRef = { current: 0 };
+```
+
+That's the entire state. A plain object, not a React ref, not a Context, not a store.
+
+`ScrollManager` captures wheel events and clamps the velocity:
+
+```tsx
+scrollVelocityRef.current += e.deltaY * 0.2;
+scrollVelocityRef.current = clamp(scrollVelocityRef.current, -5, 5);
+```
+
+Each frame, it decays toward zero:
+
+```tsx
+scrollVelocityRef.current = lerp(scrollVelocityRef.current, 0, 0.05);
+```
+
+And each `Ribbon` reads the velocity in its `useFrame` to accumulate a running offset:
+
+```tsx
+const scrollInfluence = scrollVelocityRef.current * 2.0;
+offsetRef.current += (1.0 + scrollInfluence) * delta;
+materialRef.current.uniforms.uRunTime.value = offsetRef.current;
+```
+
+The `1.0` in `(1.0 + scrollInfluence)` is the base flow: text scrolls even when you're not scrolling. The scroll influence adds on top. The result feeds into `uRunTime`, which the fragment shader uses to offset the text UV.
+
+<InteractiveWidget title="Scroll Velocity">
+  <ScrollVelocityDemo />
+</InteractiveWidget>
+
+Scroll inside the demo to see the velocity bar spike and decay. The decay rate slider controls the `lerp` factor, where lower values give a floatier, ice-on-glass feel. The default 0.05 is responsive but smooth.
+
+## The mutable ref trick
+
+The key architectural decision is using a plain `{ current: 0 }` object for scroll state instead of React state, Context, or Zustand.
+
+Thirty-five ribbons read this value 60 times per second. If it were React state, each update would trigger a re-render of every ribbon. If it were Context, every consumer would re-render on change. Even Zustand's `getState()` pattern (which the codebase uses elsewhere for R3F) is more machinery than needed here.
+
+A mutable ref sits outside React's render cycle entirely. The scroll event writes to it. `useFrame` reads from it. React never knows or cares. For single-value, high-frequency state that only matters inside the render loop, this is the right tool.
+
+## Full thing
+
+<LiveDemo slug="404-not-found" height="500px" />
+
+## What I'd do differently
+
+The custom scroll system works but it's a one-off. Every other experiment in this lab uses Lenis + ScrollTrigger through the toolkit integration layer. A unified approach would mean scroll velocity is automatically available to any component without wiring up raw wheel events. The mutable ref pattern would stay; only the event capture needs to be shared.
+
+The texture cache with ref-counting is clever but fragile. If a component re-renders and generates a new cache key (because a dependency changed), the old texture gets orphaned until its ref count drops to zero. A WeakRef-based approach or just using Three.js's built-in `Cache` would be more robust.
+
+The responsive camera (`useResponsiveCamera`) pushes the camera from Z=32 to Z=65 on mobile based on `size.width < 768`. This is a binary jump. A continuous function mapping viewport width to camera distance would eliminate the jarring switch on tablets near the breakpoint.

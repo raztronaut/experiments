@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fonts",
+  "type": "registry:lib",
+  "title": "fonts",
+  "description": "fonts utility",
+  "category": "utilities",
+  "files": [
+    {
+      "name": "fonts.ts",
+      "type": "registry:file",
+      "target": "lib/fonts.ts",
+      "content": "import { Space_Grotesk } from \"next/font/google\";\nimport localFont from \"next/font/local\";\n\nexport const testDieGrotesk = localFont({\n  src: [\n    {\n      path: \"../../public/fonts/Test Die Grotesk/test-die-grotesk-vf-roman.woff2\",\n      style: \"normal\",\n    },\n    {\n      path: \"../../public/fonts/Test Die Grotesk/test-die-grotesk-vf-italic.woff2\",\n      style: \"italic\",\n    },\n  ],\n  weight: \"100 900\",\n  variable: \"--font-app\",\n  display: \"swap\",\n});\n\nexport const replica = localFont({\n  src: [\n    {\n      path: \"../../public/fonts/Replica/ReplicaTrial-Regular.woff2\",\n      weight: \"400\",\n      style: \"normal\",\n    },\n    {\n      path: \"../../public/fonts/Replica/ReplicaTrial-Bold.woff2\",\n      weight: \"700\",\n      style: \"normal\",\n    },\n  ],\n  variable: \"--font-replica\",\n  display: \"swap\",\n});\n\nexport const spaceGrotesk = Space_Grotesk({\n  subsets: [\"latin\"],\n  variable: \"--font-space\",\n  display: \"swap\",\n});\n\nexport const activeFont = testDieGrotesk;\n"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/codegrid-sticky-cards-ashfall-rebuild-nextjs",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["scroll", "sticky", "cards", "scale", "zoom", "gsap"],
+  "tech": ["gsap", "@gsap/react"]
+}

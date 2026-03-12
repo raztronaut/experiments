@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/cg-konpo-lp-reveal",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["reveal", "counter", "flip", "preloader", "splittext", "gsap"],
+  "tech": ["gsap", "gsap/Flip", "gsap/SplitText", "@gsap/react"]
+}

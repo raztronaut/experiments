@@ -1,0 +1,23 @@
+# SAFETY: never use `stage_fixed: true` with a formatter/fixer (ultracite fix,
+# biome fix, prettier --write). Lefthook stashes unstaged changes before running,
+# and if the stash pop fails (formatting touched overlapping lines), unstaged work
+# is silently lost as an orphaned stash. Use `check` mode instead — fail fast,
+# fix manually.
+#
+# Hook ownership:
+#   Lefthook: pre-commit (this file)
+#   Entire.io: prepare-commit-msg, commit-msg, post-commit, pre-push (.git/hooks/)
+#   Conventional Commits grep is inlined in .git/hooks/commit-msg alongside Entire.
+#   Re-apply after `entire enable` (which overwrites .git/hooks/commit-msg).
+pre-commit:
+  parallel: true
+  commands:
+    lint-check:
+      run: npx ultracite check {staged_files}
+      glob: "*.{ts,tsx,js,mjs,json,jsonc,css}"
+    typecheck:
+      run: npx tsc --noEmit
+      glob: "*.{ts,tsx}"
+    validate-experiments:
+      run: node scripts/validate-experiments.mjs
+      glob: "**/experiment.json"

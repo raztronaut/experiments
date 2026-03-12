@@ -1,0 +1,8 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/codegrid-senseitech-scroll-animation",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": ["scroll", "images", "spotlight", "stacking", "scatter", "gsap"],
+  "tech": ["gsap", "@gsap/react"]
+}

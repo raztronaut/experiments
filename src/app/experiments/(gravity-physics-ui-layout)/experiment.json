@@ -2,7 +2,13 @@
   "title": "OSX Cheetah UI with a surprise",
   "description": "Find the hidden stupid feature!",
   "slug": "gravity-physics-ui-layout",
+  "profile": "interaction",
   "created": "2025-12-30T14:56:07.296Z",
   "image": "/experiments/gravity-physics-ui-layout/preview.png",
-  "isPlaceholder": false
+  "status": "shipped",
+  "complexity": "advanced",
+  "legacy": true,
+  "tags": ["physics", "ui", "animation"],
+  "tech": ["matter.js"],
+  "listing": "public"
 }

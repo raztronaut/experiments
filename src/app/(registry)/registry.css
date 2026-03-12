@@ -1,0 +1,41 @@
+@import "../shared-tokens.css" layer(base);
+
+@import "tailwindcss";
+@import "fumadocs-ui/css/solar.css";
+@import "fumadocs-ui/css/preset.css";
+@import "@fumadocs/story/css/preset.css";
+@import "tw-animate-css";
+@import "../shared-theme.css";
+
+@source "../../../node_modules/fumadocs-ui/dist/**/*.js";
+
+@layer base {
+  *::selection {
+    color: hsl(0 0% 98%);
+    background-color: hsl(240 5% 30%);
+  }
+
+  html {
+    scrollbar-gutter: stable;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+}

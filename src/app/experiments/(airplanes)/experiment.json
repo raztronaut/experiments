@@ -1,0 +1,14 @@
+{
+  "title": "Airplanes",
+  "description": "Scroll-driven 3D airplane storytelling with dual solid/wireframe rendering, parallax backgrounds, and SVG line drawing annotations",
+  "slug": "airplanes",
+  "created": "2026-03-11T22:37:00.630Z",
+  "profile": "mixed",
+  "status": "shipped",
+  "listing": "dev",
+  "complexity": "intermediate",
+  "tags": ["scroll-driven", "3d", "storytelling"],
+  "tech": ["gsap", "three.js", "lenis"],
+  "image": "",
+  "video": ""
+}

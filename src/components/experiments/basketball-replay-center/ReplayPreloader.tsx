@@ -1,150 +1,158 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import { useTheme } from "next-themes";
 import { Canvas, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import ReplayGrid, { type ReplayGridHandle } from "./ReplayGrid";
+import { useTheme } from "next-themes";
+import React, { useEffect, useRef } from "react";
+import type * as THREE from "three";
 import DistortionPass from "./DistortionPass";
+import ReplayGrid, { type ReplayGridHandle } from "./ReplayGrid";
 import usePreloaderTimeline from "./usePreloaderTimeline";
 
 // Ambient camera movement that reacts to mouse — uses a group wrapper
 function CameraRig() {
-    const groupRef = useRef<THREE.Group>(null);
-    const mouse = useRef({ x: 0, y: 0 });
-    const target = useRef({ x: 0, y: 0 });
+  const groupRef = useRef<THREE.Group>(null);
+  const mouse = useRef({ x: 0, y: 0 });
+  const target = useRef({ x: 0, y: 0 });
 
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            mouse.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouse.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
-        };
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouse.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
-    useFrame(() => {
-        if (!groupRef.current) return;
-        // Smooth lerp toward mouse position
-        target.current.x += (mouse.current.x * 0.15 - target.current.x) * 0.05;
-        target.current.y += (-mouse.current.y * 0.1 - target.current.y) * 0.05;
+  useFrame(() => {
+    if (!groupRef.current) {
+      return;
+    }
+    // Smooth lerp toward mouse position
+    target.current.x += (mouse.current.x * 0.15 - target.current.x) * 0.05;
+    target.current.y += (-mouse.current.y * 0.1 - target.current.y) * 0.05;
 
-        groupRef.current.position.x = target.current.x;
-        groupRef.current.position.y = target.current.y;
-    });
+    groupRef.current.position.x = target.current.x;
+    groupRef.current.position.y = target.current.y;
+  });
 
-    return <group ref={groupRef} />;
+  return <group ref={groupRef} />;
 }
-
 
 // Inner scene that lives inside the Canvas
 function PreloaderScene({
-    onComplete,
-    bgColor,
-    isDark
+  onComplete,
+  bgColor,
+  isDark,
 }: {
-    onComplete?: () => void;
-    bgColor: string;
-    isDark: boolean;
+  onComplete?: () => void;
+  bgColor: string;
+  isDark: boolean;
 }) {
-    const gridRef = useRef<ReplayGridHandle>(null);
-    const distortionRef = useRef<{
-        setDistortion: (value: number) => void;
-        setGlow: (value: number) => void;
-        uniforms: Record<string, { value: number }>;
-    } | null>(null);
+  const gridRef = useRef<ReplayGridHandle>(null);
+  const distortionRef = useRef<{
+    setDistortion: (value: number) => void;
+    setGlow: (value: number) => void;
+    uniforms: Record<string, { value: number }>;
+  } | null>(null);
 
-    const { buildTimeline } = usePreloaderTimeline();
-    const hasStarted = useRef(false);
+  const { buildTimeline } = usePreloaderTimeline();
+  const hasStarted = useRef(false);
 
-    // Build and start the animation once everything is mounted
-    useFrame(() => {
-        if (hasStarted.current) return;
-        if (!gridRef.current || !distortionRef.current) return;
+  // Build and start the animation once everything is mounted
+  useFrame(() => {
+    if (hasStarted.current) {
+      return;
+    }
+    if (!(gridRef.current && distortionRef.current)) {
+      return;
+    }
 
-        const panels = gridRef.current.getPanels();
-        if (panels.length === 0) return;
+    const panels = gridRef.current.getPanels();
+    if (panels.length === 0) {
+      return;
+    }
 
-        hasStarted.current = true;
+    hasStarted.current = true;
 
-        // Small delay to ensure everything is rendered
-        setTimeout(() => {
-            buildTimeline({
-                getPanels: () => gridRef.current?.getPanels() || [],
-                distortionControl: distortionRef.current,
-                onComplete,
-            });
-        }, 100);
-    });
+    // Small delay to ensure everything is rendered
+    setTimeout(() => {
+      buildTimeline({
+        getPanels: () => gridRef.current?.getPanels() || [],
+        distortionControl: distortionRef.current,
+        onComplete,
+      });
+    }, 100);
+  });
 
-    return (
-        <>
-            <CameraRig />
-            <React.Suspense fallback={null}>
-                <ReplayGrid ref={gridRef} bgColor={bgColor} isDark={isDark} />
-            </React.Suspense>
-            <DistortionPass distortionRef={distortionRef} isDark={isDark} />
-        </>
-    );
+  return (
+    <>
+      <CameraRig />
+      <React.Suspense fallback={null}>
+        <ReplayGrid bgColor={bgColor} isDark={isDark} ref={gridRef} />
+      </React.Suspense>
+      <DistortionPass distortionRef={distortionRef} isDark={isDark} />
+    </>
+  );
 }
 
 interface ReplayPreloaderProps {
-    onComplete?: () => void;
+  onComplete?: () => void;
 }
 
 export default function ReplayPreloader({ onComplete }: ReplayPreloaderProps) {
-    const { resolvedTheme } = useTheme();
-    const isDark = resolvedTheme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
-    // Dynamic values based on theme: original dark values vs new light values
-    const bgColor = isDark ? "#050508" : "#f7f7f9";
-    const lineGradient = isDark
-        ? "rgba(255,255,255,0.03)"
-        : "rgba(0,0,0,0.04)";
+  // Dynamic values based on theme: original dark values vs new light values
+  const bgColor = isDark ? "#050508" : "#f7f7f9";
+  const lineGradient = isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.04)";
 
-    return (
-        <div
-            style={{
-                position: "fixed",
-                inset: 0,
-                background: bgColor,
-                zIndex: 100,
-                transition: "background-color 0.5s ease"
-            }}
-        >
-            {/* Subtle ambient grid lines in background */}
-            <div
-                style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundImage: `
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: bgColor,
+        zIndex: 100,
+        transition: "background-color 0.5s ease",
+      }}
+    >
+      {/* Subtle ambient grid lines in background */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `
             linear-gradient(${lineGradient} 1px, transparent 1px),
             linear-gradient(90deg, ${lineGradient} 1px, transparent 1px)
           `,
-                    backgroundSize: "40px 40px",
-                    pointerEvents: "none",
-                }}
-            />
+          backgroundSize: "40px 40px",
+          pointerEvents: "none",
+        }}
+      />
 
-            <Canvas
-                camera={{
-                    position: [0, 0, 5.2],
-                    fov: 55,
-                    near: 0.1,
-                    far: 100,
-                }}
-                gl={{
-                    antialias: true,
-                    alpha: true,
-                    powerPreference: "high-performance",
-                }}
-                dpr={[1, 2]}
-                style={{ position: "absolute", inset: 0 }}
-            >
-                <color attach="background" args={[bgColor]} />
-                <PreloaderScene onComplete={onComplete} bgColor={bgColor} isDark={isDark} />
-            </Canvas>
-
-        </div>
-    );
+      <Canvas
+        camera={{
+          position: [0, 0, 5.2],
+          fov: 55,
+          near: 0.1,
+          far: 100,
+        }}
+        dpr={[1, 2]}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <color args={[bgColor]} attach="background" />
+        <PreloaderScene
+          bgColor={bgColor}
+          isDark={isDark}
+          onComplete={onComplete}
+        />
+      </Canvas>
+    </div>
+  );
 }

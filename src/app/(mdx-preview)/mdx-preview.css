@@ -1,0 +1,19 @@
+@import "../shared-tokens.css" layer(base);
+
+@import "tailwindcss";
+@import "../shared-theme.css";
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  *::selection {
+    color: hsl(var(--selection-foreground));
+    background-color: hsl(var(--selection-background));
+  }
+}

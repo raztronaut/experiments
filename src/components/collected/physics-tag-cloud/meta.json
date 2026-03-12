@@ -1,0 +1,15 @@
+{
+  "type": "component",
+  "source": "https://github.com/codegridweb/cg-playable-objects",
+  "author": "Codegrid",
+  "license": "MIT",
+  "tags": [
+    "physics",
+    "matter-js",
+    "tags",
+    "draggable",
+    "gravity",
+    "interaction"
+  ],
+  "tech": ["matter-js"]
+}

@@ -7,28 +7,25 @@ export const RIBBON_IMAGE_ROWS = 10;
 export const RIBBON_WIDTH = 220;
 
 export const RIBBON_COLORS = [
-    "#E6DDB5", // Muted Parchment
-    "#DCCCA3", // Aged Tape
-    "#E8DFC5", // Pale Beige
-    "#D4C596", // Dull Yellow
-    "#A63D3A", // Muted Brick Red (Accent)
-    "#C8B88A", // Greyish Gold
+  "#E6DDB5", // Muted Parchment
+  "#DCCCA3", // Aged Tape
+  "#E8DFC5", // Pale Beige
+  "#D4C596", // Dull Yellow
+  "#A63D3A", // Muted Brick Red (Accent)
+  "#C8B88A", // Greyish Gold
 ];
 
-export const RIBBON_FONTS = [
-    "Inter, sans-serif",
-    "system-ui, sans-serif",
-];
+export const RIBBON_FONTS = ["Inter, sans-serif", "system-ui, sans-serif"];
 
 export const RIBBON_TEXTS = [
-    "404 NOT FOUND",
-    "PAGE NOT FOUND",
-    "ERROR 404",
-    "NOT FOUND",
-    "404",
-    "SYSTEM ERROR",
-    "LOST IN SPACE",
-    "NOT FOUND 404"
+  "404 NOT FOUND",
+  "PAGE NOT FOUND",
+  "ERROR 404",
+  "NOT FOUND",
+  "404",
+  "SYSTEM ERROR",
+  "LOST IN SPACE",
+  "NOT FOUND 404",
 ];
 
 export const BACKSIDE_TEXT = "INSPIRED BY DAY JOB";

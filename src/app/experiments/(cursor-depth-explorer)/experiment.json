@@ -2,8 +2,13 @@
   "title": "Cursor/Tilt Depth Map Explorer",
   "description": "A tomographic slice style depth map viewer for paintings using your cursor or device tilt (try on mobile too!)",
   "slug": "cursor-depth-explorer",
+  "profile": "r3f-shader",
   "created": "2026-01-26T05:11:34.490Z",
   "video": "/experiments/cursor-depth-explorer/preview.mp4",
-  "poster": "/experiments/cursor-depth-explorer/poster.jpg",
-  "isPlaceholder": false
+  "status": "shipped",
+  "complexity": "advanced",
+  "legacy": true,
+  "tags": ["shader", "cursor", "3d"],
+  "tech": ["r3f", "three.js", "glsl"],
+  "listing": "public"
 }

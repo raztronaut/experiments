@@ -2,7 +2,13 @@
   "title": "rabbithole.chat Preloader Shader",
   "description": "A vortex gallery shader preloader for rabbithole.chat",
   "slug": "rabbithole-chat-preloader",
+  "profile": "r3f-shader",
   "created": "2026-01-09T03:35:21.030Z",
   "video": "/experiments/rabbithole-chat-preloader/preview.mp4",
-  "isPlaceholder": false
+  "status": "shipped",
+  "complexity": "advanced",
+  "legacy": true,
+  "tags": ["3d", "shader", "preloader", "gallery", "animation"],
+  "tech": ["r3f", "three.js", "glsl", "motion"],
+  "listing": "public"
 }

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-details",
+  "type": "registry:block",
+  "title": "Details",
+  "description": "Details MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "Details.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport type React from \"react\";\nimport { useCallback, useEffect, useRef, useState } from \"react\";\nimport { cn } from \"@/lib/utils\";\nimport \"./details.css\";\n\nexport interface DetailsProps {\n  children: React.ReactNode;\n  className?: string;\n}\n\nfunction Summary({ children }: { children: React.ReactNode }) {\n  return (\n    <summary\n      className={cn(\n        \"relative cursor-pointer select-none list-none px-4 py-3\",\n        \"font-medium text-muted-foreground text-sm\",\n        \"[&::-webkit-details-marker]:hidden [&::marker]:hidden\",\n        \"before:absolute before:top-3.5 before:left-0 before:h-4 before:w-0.5 before:rounded-full before:bg-foreground before:opacity-0 before:transition-opacity before:duration-300\",\n        \"group-open:before:opacity-100\"\n      )}\n    >\n      <div className=\"flex items-center justify-between\">\n        {children}\n        <svg\n          className=\"h-4 w-4 shrink-0 rotate-225 text-muted-foreground transition-transform duration-300 group-open:rotate-0\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          strokeLinecap=\"round\"\n          strokeLinejoin=\"round\"\n          strokeWidth={2}\n          viewBox=\"0 0 24 24\"\n        >\n          <polyline points=\"6 9 12 15 18 9\" />\n        </svg>\n      </div>\n    </summary>\n  );\n}\nSummary.displayName = \"Summary\";\n\nfunction Content({ children }: { children: React.ReactNode }) {\n  return (\n    <div className=\"px-4 pb-4 text-muted-foreground text-sm\">{children}</div>\n  );\n}\nContent.displayName = \"Content\";\n\nexport function Details({ children, className }: DetailsProps) {\n  const detailsRef = useRef<HTMLDetailsElement>(null);\n  const [isClosing, setIsClosing] = useState(false);\n  const closeTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);\n\n  const handleClick = useCallback((e: MouseEvent) => {\n    const details = detailsRef.current;\n    if (!details) {\n      return;\n    }\n\n    const summary = details.querySelector(\"summary\");\n    if (!summary) {\n      return;\n    }\n\n    const target = e.target as Element;\n    if (!summary.contains(target)) {\n      return;\n    }\n\n    if (details.hasAttribute(\"open\")) {\n      e.preventDefault();\n      setIsClosing(true);\n      closeTimerRef.current = setTimeout(() => {\n        details.removeAttribute(\"open\");\n        setIsClosing(false);\n      }, 300);\n    }\n  }, []);\n\n  useEffect(() => {\n    const el = detailsRef.current;\n    if (!el) {\n      return;\n    }\n    el.addEventListener(\"click\", handleClick);\n    return () => {\n      el.removeEventListener(\"click\", handleClick);\n      clearTimeout(closeTimerRef.current);\n    };\n  }, [handleClick]);\n\n  return (\n    <details\n      className={cn(\n        \"group my-6 overflow-hidden rounded-lg border border-border\",\n        isClosing && \"details-closing\",\n        className\n      )}\n      ref={detailsRef}\n    >\n      {children}\n    </details>\n  );\n}\n\nDetails.Summary = Summary;\nDetails.Content = Content;\n"
+    },
+    {
+      "name": "details.css",
+      "type": "registry:file",
+      "target": "components/mdx/details.css",
+      "content": "/* Details/Collapsible — ported from @maximeheckel/design-system */\n\ndetails[open] > summary ~ * {\n  animation: mdx-details-open 0.3s ease-out;\n}\n\ndetails.details-closing > summary ~ * {\n  animation: mdx-details-close 0.3s ease-out forwards;\n}\n\n@keyframes mdx-details-open {\n  from {\n    opacity: 0;\n    transform: translateY(8px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes mdx-details-close {\n  from {\n    opacity: 1;\n    transform: translateY(0);\n  }\n  to {\n    opacity: 0;\n    transform: translateY(8px);\n  }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  details[open] > summary ~ *,\n  details.details-closing > summary ~ * {\n    animation: none;\n  }\n}\n"
+    }
+  ]
+}

@@ -1,26 +1,33 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function Error({
-error,
-reset,
+  error,
+  reset,
 }: {
-error: Error & { digest?: string };
-reset: () => void;
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
-useEffect(() => {
-console.error(error);
-}, [error]);
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
 
-return (
-<div className="w-full h-screen flex flex-col items-center justify-center bg-background text-foreground gap-4">
-    <h2 className="text-xl font-bold text-red-600">Something went wrong!</h2>
-    <p className="text-muted-foreground">{error.message}</p>
-    <Button onClick={()=> reset()}>
-        Try again
-    </Button>
-</div>
-);
+  return (
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 bg-background text-foreground">
+      <h2 className="font-bold text-red-600 text-xl">Something went wrong!</h2>
+      <p className="text-muted-foreground">
+        {process.env.NODE_ENV === "development"
+          ? error.message
+          : "An unexpected error occurred."}
+      </p>
+      {error.digest && (
+        <p className="text-muted-foreground/60 text-xs">
+          Error ID: {error.digest}
+        </p>
+      )}
+      <Button onClick={() => reset()}>Try again</Button>
+    </div>
+  );
 }

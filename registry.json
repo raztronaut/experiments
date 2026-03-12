@@ -1,0 +1,2916 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "razi-experiments",
+  "homepage": "https://www.razisyed.cv",
+  "items": [
+    {
+      "name": "404-not-found",
+      "type": "registry:block",
+      "title": "404 Not Found",
+      "description": "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@react-three/drei", "@react-three/fiber", "three"],
+      "files": [
+        {
+          "path": "src/components/experiments/404-not-found/404NotFound.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/Ribbon.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/scrollState.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/useResponsiveCamera.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/useRibbons.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/constants.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/ribbonShader.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/types.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/useCachedTexture.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/useFontsReady.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/404-not-found/utils/textureGenerators.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["3d", "shader", "animation", "scroll"],
+        "tech": ["r3f", "three.js", "glsl"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/404-not-found/preview.mp4",
+        "created": "2026-01-26T20:45:55.003Z",
+        "featured": true
+      }
+    },
+    {
+      "name": "airplanes",
+      "type": "registry:block",
+      "title": "Airplanes",
+      "description": "Scroll-driven 3D airplane storytelling with dual solid/wireframe rendering, parallax backgrounds, and SVG line drawing annotations",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/experiments/airplanes/Airplanes.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/airplanes/hooks/useAirplaneScene.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/airplanes/sections/BlueprintSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/airplanes/sections/EndSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/airplanes/sections/HeroSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/airplanes/sections/NarrativeSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/airplanes/timeline.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/airplanes/data.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["scroll-driven", "3d", "storytelling"],
+        "tech": ["gsap", "three.js", "lenis"],
+        "status": "shipped",
+        "poster": null,
+        "video": null,
+        "created": "2026-03-11T22:37:00.630Z"
+      }
+    },
+    {
+      "name": "basketball-replay-center",
+      "type": "registry:block",
+      "title": "Basketball Replay Center",
+      "description": "A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@react-three/fiber", "three", "gsap"],
+      "files": [
+        {
+          "path": "src/components/experiments/basketball-replay-center/BasketballReplayCenter.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/basketball-replay-center/DistortionPass.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/basketball-replay-center/ReplayGrid.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/basketball-replay-center/ScreenPanel.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/basketball-replay-center/ReplayPreloader.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/basketball-replay-center/usePreloaderTimeline.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tags": ["preloader", "broadcast", "crt"],
+        "tech": ["r3f", "three.js", "glsl", "gsap", "next-themes"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/basketball-replay-center/preview.mp4",
+        "created": "2026-02-20T17:04:36.701Z"
+      }
+    },
+    {
+      "name": "bugged-out-game-of-life-shader-experiment",
+      "type": "registry:block",
+      "title": "Bugged Out Game of Life Shader",
+      "description": "A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@paper-design/shaders-react"],
+      "files": [
+        {
+          "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/BuggedOutGameOfLifeShaderExperiment.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/LifeSimulation.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/GradientBackground.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/simulation.worker.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["generative", "game", "animation", "cursor"],
+        "tech": ["canvas-2d", "web-workers", "@paper-design/shaders"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4",
+        "created": "2025-12-24T05:54:41.000Z"
+      }
+    },
+    {
+      "name": "cursor-depth-explorer",
+      "type": "registry:block",
+      "title": "Cursor/Tilt Depth Map Explorer",
+      "description": "A tomographic slice style depth map viewer for paintings using your cursor or device tilt (try on mobile too!)",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [
+        "@react-three/drei",
+        "@react-three/fiber",
+        "lucide-react",
+        "three",
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "src/components/experiments/cursor-depth-explorer/CursorDepthExplorer.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/cursor-depth-explorer/data.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/cursor-depth-explorer/InfoModal.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "tags": ["shader", "cursor", "3d"],
+        "tech": ["r3f", "three.js", "glsl"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/cursor-depth-explorer/preview.mp4",
+        "created": "2026-01-26T05:11:34.490Z"
+      }
+    },
+    {
+      "name": "game-of-life-shader",
+      "type": "registry:block",
+      "title": "Game of Life Shader",
+      "description": "An attempt to implement Conway's Game of Life with the logic defining the shader",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@paper-design/shaders-react"],
+      "files": [
+        {
+          "path": "src/components/experiments/game-of-life-shader/GameOfLifeShader.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/game-of-life-shader/GradientBackground.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/game-of-life-shader/LifeSimulation.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/game-of-life-shader/simulation.worker.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["generative", "game", "animation", "cursor"],
+        "tech": ["canvas-2d", "web-workers"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/game-of-life-shader/preview.mp4",
+        "created": "2025-12-24T04:56:14.074Z"
+      }
+    },
+    {
+      "name": "gravity-physics-ui-layout",
+      "type": "registry:block",
+      "title": "OSX Cheetah UI with a surprise",
+      "description": "Find the hidden stupid feature!",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["matter-js", "lucide-react"],
+      "files": [
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/DesktopIcon.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/PhysicsContext.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/DesktopWindow.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/GravityDesktop.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/GravityDock.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/GravityPhysicsUiLayout.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/InternetExplorer.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/gravity-physics-ui-layout/MenuBar.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "tags": ["physics", "ui", "animation"],
+        "tech": ["matter.js"],
+        "status": "shipped",
+        "poster": "/experiments/gravity-physics-ui-layout/preview.png",
+        "video": null,
+        "created": "2025-12-30T14:56:07.296Z",
+        "featured": true
+      }
+    },
+    {
+      "name": "keyboard-keys",
+      "type": "registry:block",
+      "title": "Keyboard Keys",
+      "description": "Interactive 3D keyboard keys with press animation and success/error animations",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/experiments/keyboard-keys/Key.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/keyboard-keys/KeyboardKeys.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "tags": ["keyboard", "animation", "ui"],
+        "tech": ["css-animations"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/keyboard-keys/preview.mp4",
+        "created": "2025-12-24T03:26:10.067Z",
+        "featured": true
+      }
+    },
+    {
+      "name": "life-3d",
+      "type": "registry:block",
+      "title": "Life 3D",
+      "description": "Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [
+        "lucide-react",
+        "@react-three/drei",
+        "@react-three/fiber",
+        "three"
+      ],
+      "files": [
+        {
+          "path": "src/components/experiments/life-3d/Controls.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/life-3d/Life_3d.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/life-3d/presets.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/life-3d/useLife3d.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/life-3d/VoxelGrid.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/life-3d/SimulationEngine.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["3d", "game", "generative", "animation"],
+        "tech": ["r3f", "three.js", "postprocessing"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/life-3d/preview.mp4",
+        "created": "2026-01-03T11:55:42.770Z"
+      }
+    },
+    {
+      "name": "mountain-transition",
+      "type": "registry:block",
+      "title": "Mountain Depth Map Shader Transition",
+      "description": "A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [
+        "@react-three/fiber",
+        "@react-three/drei",
+        "gsap",
+        "three"
+      ],
+      "files": [
+        {
+          "path": "src/components/experiments/mountain-transition/MountainTransition.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/mountain-transition/Scene.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/mountain-transition/shaders.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["shader", "animation", "scroll", "3d"],
+        "tech": ["r3f", "three.js", "glsl", "gsap"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/mountain-transition/preview.mp4",
+        "created": "2026-01-22T21:59:04.491Z"
+      }
+    },
+    {
+      "name": "non-euclidean-hyperbolic-workspace",
+      "type": "registry:block",
+      "title": "Non-Euclidean Hyperbolic Second Brain",
+      "description": "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicGraphGen.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicMath.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicInfoModal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicLink.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicTile.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/NonEuclideanHyperbolicWorkspace.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/data.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/hooks/useHyperbolicNavigation.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/hooks/useViewportRadius.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tags": ["generative", "ui", "cursor"],
+        "tech": ["svg"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
+        "created": "2025-12-31T00:41:44.181Z"
+      }
+    },
+    {
+      "name": "rabbithole-chat-gallery-explore",
+      "type": "registry:block",
+      "title": "rabbithole.chat Gallery Explore",
+      "description": "3D floating gallery shader as an experimental explore page",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@react-three/fiber", "three", "normalize-wheel"],
+      "files": [
+        {
+          "path": "src/components/experiments/rabbithole-chat-gallery-explore/GalleryExploreScene.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/rabbithole-chat-gallery-explore/VisualiserLogic.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/rabbithole-chat-gallery-explore/shaders.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/rabbithole-chat-gallery-explore/RabbitholeChatGalleryExplore.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "tags": ["3d", "shader", "gallery", "scroll"],
+        "tech": ["r3f", "three.js", "glsl"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4",
+        "created": "2026-01-09T07:50:46.767Z"
+      }
+    },
+    {
+      "name": "rabbithole-chat-preloader",
+      "type": "registry:block",
+      "title": "rabbithole.chat Preloader Shader",
+      "description": "A vortex gallery shader preloader for rabbithole.chat",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [
+        "gsap",
+        "three",
+        "normalize-wheel",
+        "lucide-react",
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "src/components/experiments/rabbithole-chat-preloader/Gallery.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/rabbithole-chat-preloader/GalleryScene.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/rabbithole-chat-preloader/RabbitholeChatPreloader.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/rabbithole-chat-preloader/shaders.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["3d", "shader", "preloader", "gallery", "animation"],
+        "tech": ["three.js", "glsl", "motion"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/rabbithole-chat-preloader/preview.mp4",
+        "created": "2026-01-09T03:35:21.030Z"
+      }
+    },
+    {
+      "name": "send-button",
+      "type": "registry:block",
+      "title": "Send Button",
+      "description": "A cool animated send button animation",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "lucide-react", "@radix-ui/react-switch"],
+      "files": [
+        {
+          "path": "src/components/experiments/send-button/AnimatedPlaceholder.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/send-button/variants.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/send-button/AnimatedSendButton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/send-button/ExpandedControls.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/send-button/SendButton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/send-button/useClickOutside.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/send-button/ThemeProvider.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/send-button/ThemeSwitch.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "tags": ["ui", "animation", "interaction"],
+        "tech": ["motion"],
+        "status": "shipped",
+        "poster": "/experiments/send-button/preview-send-button.png",
+        "video": "/experiments/send-button/preview-send-button.mp4",
+        "created": "2025-12-23T20:09:01.977Z",
+        "featured": true
+      }
+    },
+    {
+      "name": "shader-landing",
+      "type": "registry:block",
+      "title": "Shader Landing",
+      "description": "A random shader experiment",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/experiments/shader-landing/ShaderLanding.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/shader-landing/useThreeShader.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/shader-landing/shaders.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "tags": ["shader", "generative"],
+        "tech": ["three.js", "glsl"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/shader-landing/preview-shader-landing.mp4",
+        "created": "2025-12-02T00:00:00.000Z"
+      }
+    },
+    {
+      "name": "terminal-cat",
+      "type": "registry:block",
+      "title": "Terminal Cat",
+      "description": "Animating ASCII art in the browser console logs",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["sonner"],
+      "files": [
+        {
+          "path": "src/components/experiments/terminal-cat/DevToolsKeyboard.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/terminal-cat/Key.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/terminal-cat/MobileNotice.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/terminal-cat/useConsoleCat.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tags": ["ascii-art", "animation", "keyboard", "console"],
+        "tech": ["console-api"],
+        "status": "shipped",
+        "poster": "/experiments/terminal-cat/preview.gif",
+        "video": null,
+        "created": "2025-12-24T01:50:06.164Z"
+      }
+    },
+    {
+      "name": "transit-airport-split-flap-display",
+      "type": "registry:block",
+      "title": "Transit/Airport Split-Flap Display",
+      "description": "A split flap display for transit/airport systems with sound effects manually made with Web Audio API",
+      "category": "experiments",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "lucide-react"],
+      "files": [
+        {
+          "path": "src/components/experiments/transit-airport-split-flap-display/SplitFlapCell.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/transit-airport-split-flap-display/utils.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/transit-airport-split-flap-display/constants.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/transit-airport-split-flap-display/SplitFlapRow.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/transit-airport-split-flap-display/TransitAirportSplitFlapDisplay.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/transit-airport-split-flap-display/useFlapSound.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/transit-airport-split-flap-display/useTransitData.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tags": ["ui", "audio", "animation", "text-effect"],
+        "tech": ["motion", "web-audio", "css-animations"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/transit-airport-split-flap-display/preview.mp4",
+        "created": "2025-12-30T02:53:58.656Z",
+        "featured": true
+      }
+    },
+    {
+      "name": "velocity-responsive-design",
+      "type": "registry:block",
+      "title": "Velocity-Responsive Design",
+      "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
+      "category": "experiments",
+      "registryDependencies": ["use-dev-controls", "AIWidget", "razi-style"],
+      "dependencies": ["lucide-react", "motion", "lenis", "tempus"],
+      "files": [
+        {
+          "path": "src/components/experiments/velocity-responsive-design/FlightControl.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/constants.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/VelocityContext.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/hooks/useVelocityEngine.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/IntelligentScroller.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/hooks/useScrollStabilizer.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/SpeedLines.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/VelocityCodeBlock.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/VelocityImage.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/VelocityResponsiveDesign.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/content.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/VelocityText.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {
+        "tags": ["scroll", "animation", "ui", "generative"],
+        "tech": ["lenis", "motion", "canvas-2d"],
+        "status": "shipped",
+        "poster": null,
+        "video": "/experiments/velocity-responsive-design/preview.mp4",
+        "created": "2025-12-31T04:46:03.740Z"
+      }
+    },
+    {
+      "name": "ai-widget",
+      "type": "registry:component",
+      "title": "AIWidget",
+      "description": "AIWidget component",
+      "category": "components",
+      "registryDependencies": [
+        "use-element-size",
+        "use-liquid-glass-style",
+        "razi-style"
+      ],
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "src/components/ui/AIWidget.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/ai-icons.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/WithHover.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/LiquidGlassFilter.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/Context.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "article-layout",
+      "type": "registry:component",
+      "title": "ArticleLayout",
+      "description": "ArticleLayout component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "src/components/ui/ArticleLayout.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "console-easter-egg",
+      "type": "registry:component",
+      "title": "ConsoleEasterEgg",
+      "description": "ConsoleEasterEgg component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/ConsoleEasterEgg.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "content-section",
+      "type": "registry:component",
+      "title": "ContentSection",
+      "description": "ContentSection component",
+      "category": "components",
+      "registryDependencies": ["use-umami", "razi-style"],
+      "dependencies": ["lucide-react", "motion"],
+      "files": [
+        {
+          "path": "src/components/ui/ContentSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/WithHover.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/ExperimentDrawerList.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ViewModeToggle.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/WritingSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/Context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ExperimentGridCard.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ExperimentListItem.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/MobileSwipeTutorialOverlay.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/StaticExperimentMedia.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/InteractivePreviewMedia.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/constants.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "experiment-drawer-list",
+      "type": "registry:component",
+      "title": "ExperimentDrawerList",
+      "description": "macOS-style drawer list with grid/list toggle",
+      "category": "components",
+      "registryDependencies": ["use-umami", "razi-style"],
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "src/components/ui/ExperimentDrawerList.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/Context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ExperimentGridCard.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/ExperimentListItem.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/MobileSwipeTutorialOverlay.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/StaticExperimentMedia.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/InteractivePreviewMedia.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/experiments/constants.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "experiment-error-boundary",
+      "type": "registry:component",
+      "title": "ExperimentErrorBoundary",
+      "description": "Error boundary for experiment components.",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/ExperimentErrorBoundary.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "experiment-list",
+      "type": "registry:component",
+      "title": "ExperimentList",
+      "description": "ExperimentList component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/ExperimentList.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "experiment-nav",
+      "type": "registry:component",
+      "title": "ExperimentNav",
+      "description": "ExperimentNav component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "src/components/ui/ExperimentNav.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "grain-overlay.story",
+      "type": "registry:component",
+      "title": "GrainOverlay.story",
+      "description": "GrainOverlay.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/GrainOverlay.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/GrainOverlay.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "grain-overlay",
+      "type": "registry:component",
+      "title": "GrainOverlay",
+      "description": "Subtle film grain overlay effect",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/GrainOverlay.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "liquid-glass-filter.story",
+      "type": "registry:component",
+      "title": "LiquidGlassFilter.story",
+      "description": "LiquidGlassFilter.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LiquidGlassFilter.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/LiquidGlassFilter.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "liquid-glass-filter",
+      "type": "registry:component",
+      "title": "LiquidGlassFilter",
+      "description": "LiquidGlassFilter component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LiquidGlassFilter.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "location-status",
+      "type": "registry:component",
+      "title": "LocationStatus",
+      "description": "LocationStatus component",
+      "category": "components",
+      "registryDependencies": [
+        "use-element-size",
+        "use-liquid-glass-style",
+        "use-media-query",
+        "use-preferences",
+        "use-time-of-day",
+        "use-weather",
+        "use-mounted",
+        "razi-style"
+      ],
+      "dependencies": ["motion", "use-scramble"],
+      "files": [
+        {
+          "path": "src/components/ui/LocationStatus.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/LiquidGlassFilter.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/location/LocationPill.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/location/SocialPills.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/location/TimePill.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/location/WeatherPill.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/WithHover.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/ScrambleTicker.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/icons.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/LottieWeatherIcon.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/Context.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "lottie-weather-icon.story",
+      "type": "registry:component",
+      "title": "LottieWeatherIcon.story",
+      "description": "LottieWeatherIcon.story component",
+      "category": "components",
+      "registryDependencies": ["use-mounted", "razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LottieWeatherIcon.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/LottieWeatherIcon.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "lottie-weather-icon",
+      "type": "registry:component",
+      "title": "LottieWeatherIcon",
+      "description": "LottieWeatherIcon component",
+      "category": "components",
+      "registryDependencies": ["use-mounted", "razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LottieWeatherIcon.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mobile-blocker",
+      "type": "registry:component",
+      "title": "MobileBlocker",
+      "description": "Hook to determine if the current device should be blocked (mobile).",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/MobileBlocker.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "scramble-ticker.story",
+      "type": "registry:component",
+      "title": "ScrambleTicker.story",
+      "description": "ScrambleTicker.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "use-scramble"],
+      "files": [
+        {
+          "path": "src/components/ui/ScrambleTicker.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/ScrambleTicker.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "scramble-ticker",
+      "type": "registry:component",
+      "title": "ScrambleTicker",
+      "description": "Text scramble/ticker animation effect",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "use-scramble"],
+      "files": [
+        {
+          "path": "src/components/ui/ScrambleTicker.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "site-footer",
+      "type": "registry:component",
+      "title": "SiteFooter",
+      "description": "SiteFooter component",
+      "category": "components",
+      "registryDependencies": ["icons", "use-mounted", "razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/SiteFooter.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/WithHover.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/Context.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "theme-aware-waves",
+      "type": "registry:component",
+      "title": "ThemeAwareWaves",
+      "description": "ThemeAwareWaves component",
+      "category": "components",
+      "registryDependencies": ["use-mounted", "razi-style"],
+      "dependencies": ["simplex-noise"],
+      "files": [
+        {
+          "path": "src/components/ui/ThemeAwareWaves.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/wave-background.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "theme-provider",
+      "type": "registry:component",
+      "title": "ThemeProvider",
+      "description": "ThemeProvider component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/ThemeProvider.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "writing-section",
+      "type": "registry:component",
+      "title": "WritingSection",
+      "description": "WritingSection component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "src/components/ui/WritingSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/WithHover.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/cursor/Context.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "ai-icons",
+      "type": "registry:component",
+      "title": "ai-icons",
+      "description": "ai-icons component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/ai-icons.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "badge.story",
+      "type": "registry:component",
+      "title": "badge.story",
+      "description": "badge.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/badge.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "badge",
+      "type": "registry:component",
+      "title": "badge",
+      "description": "badge component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "button.story",
+      "type": "registry:component",
+      "title": "button.story",
+      "description": "button.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/button.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "button",
+      "type": "registry:component",
+      "title": "button",
+      "description": "button component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "card.story",
+      "type": "registry:component",
+      "title": "card.story",
+      "description": "card.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/card.story.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "card",
+      "type": "registry:component",
+      "title": "card",
+      "description": "card component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/card.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "drawer",
+      "type": "registry:component",
+      "title": "drawer",
+      "description": "drawer component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["vaul"],
+      "files": [
+        {
+          "path": "src/components/ui/drawer.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/GrainOverlay.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "icons",
+      "type": "registry:component",
+      "title": "icons",
+      "description": "icons component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/icons.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "input",
+      "type": "registry:component",
+      "title": "input",
+      "description": "input component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "popover",
+      "type": "registry:component",
+      "title": "popover",
+      "description": "popover component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-popover"],
+      "files": [
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "progress",
+      "type": "registry:component",
+      "title": "progress",
+      "description": "progress component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-progress"],
+      "files": [
+        {
+          "path": "src/components/ui/progress.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:component",
+      "title": "scroll-area",
+      "description": "scroll-area component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-scroll-area"],
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "separator.story",
+      "type": "registry:component",
+      "title": "separator.story",
+      "description": "separator.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-separator"],
+      "files": [
+        {
+          "path": "src/components/ui/separator.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/separator.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "separator",
+      "type": "registry:component",
+      "title": "separator",
+      "description": "separator component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-separator"],
+      "files": [
+        {
+          "path": "src/components/ui/separator.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "sonner",
+      "type": "registry:component",
+      "title": "sonner",
+      "description": "sonner component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["sonner"],
+      "files": [
+        {
+          "path": "src/components/ui/sonner.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "table",
+      "type": "registry:component",
+      "title": "table",
+      "description": "table component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/table.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "tabs",
+      "type": "registry:component",
+      "title": "tabs",
+      "description": "tabs component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-tabs"],
+      "files": [
+        {
+          "path": "src/components/ui/tabs.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:component",
+      "title": "tooltip",
+      "description": "tooltip component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-tooltip"],
+      "files": [
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "wave-background.story",
+      "type": "registry:component",
+      "title": "wave-background.story",
+      "description": "wave-background.story component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["simplex-noise"],
+      "files": [
+        {
+          "path": "src/components/ui/wave-background.story.tsx",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/ui/wave-background.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "wave-background",
+      "type": "registry:component",
+      "title": "wave-background",
+      "description": "wave-background component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["simplex-noise"],
+      "files": [
+        {
+          "path": "src/components/ui/wave-background.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "clip-path-reveal",
+      "type": "registry:block",
+      "title": "ClipPathReveal",
+      "description": "ClipPathReveal component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/clip-path-reveal/ClipPathReveal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/clip-path-reveal/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-capsules-landing-page-reveal-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "reveal",
+          "preloader",
+          "clip-path",
+          "mask",
+          "splittext",
+          "gsap"
+        ],
+        "tech": ["gsap", "gsap/SplitText", "@gsap/react"],
+        "previewUrl": "/collected/clip-path-reveal"
+      }
+    },
+    {
+      "name": "counter-flip-reveal",
+      "type": "registry:block",
+      "title": "CounterFlipReveal",
+      "description": "CounterFlipReveal component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/counter-flip-reveal/CounterFlipReveal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/counter-flip-reveal/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-konpo-lp-reveal",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["reveal", "counter", "flip", "preloader", "splittext", "gsap"],
+        "tech": ["gsap", "gsap/Flip", "gsap/SplitText", "@gsap/react"],
+        "previewUrl": "/collected/counter-flip-reveal"
+      }
+    },
+    {
+      "name": "curved-text-scroll",
+      "type": "registry:block",
+      "title": "CurvedTextScroll",
+      "description": "Curved 3D text paths with horizontal-scrolling cards + dot grid.",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/curved-text-scroll/CurvedTextScroll.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/curved-text-scroll/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-wodniack-work-section-scroll",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "3d",
+          "text",
+          "curves",
+          "three-js",
+          "horizontal",
+          "dot-grid",
+          "gsap"
+        ],
+        "tech": ["three", "gsap", "gsap/ScrollTrigger"],
+        "previewUrl": "/collected/curved-text-scroll"
+      }
+    },
+    {
+      "name": "custom-video-player",
+      "type": "registry:block",
+      "title": "CustomVideoPlayer",
+      "description": "CustomVideoPlayer component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/custom-video-player/CustomVideoPlayer.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/custom-video-player/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-video-player",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["video", "player", "timeline", "cursor", "interaction"],
+        "tech": ["react"],
+        "previewUrl": "/collected/custom-video-player"
+      }
+    },
+    {
+      "name": "feature-convergence",
+      "type": "registry:block",
+      "title": "FeatureConvergence",
+      "description": "FeatureConvergence component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/feature-convergence/FeatureConvergence.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/feature-convergence/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-deepjudge-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "convergence",
+          "morph",
+          "search",
+          "features",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/feature-convergence"
+      }
+    },
+    {
+      "name": "fibonacci-image-orb",
+      "type": "registry:block",
+      "title": "FibonacciImageOrb",
+      "description": "3D Fibonacci sphere of image planes.",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/fibonacci-image-orb/FibonacciImageOrb.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/fibonacci-image-orb/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-asset-orb-next",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["3d", "sphere", "fibonacci", "gallery", "three-js", "orbit"],
+        "tech": ["three"],
+        "previewUrl": "/collected/fibonacci-image-orb"
+      }
+    },
+    {
+      "name": "image-explosion",
+      "type": "registry:block",
+      "title": "ImageExplosion",
+      "description": "ImageExplosion component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/image-explosion/ImageExplosion.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/image-explosion/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-image-explosion-scroll-animation-nextjs",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "physics",
+          "explosion",
+          "particles",
+          "images",
+          "scroll",
+          "interaction"
+        ],
+        "tech": ["react"],
+        "previewUrl": "/collected/image-explosion"
+      }
+    },
+    {
+      "name": "physics-tag-cloud",
+      "type": "registry:block",
+      "title": "PhysicsTagCloud",
+      "description": "Physics-based tag cloud using Matter.js.",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/collected/physics-tag-cloud/PhysicsTagCloud.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/physics-tag-cloud/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-playable-objects",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "physics",
+          "matter-js",
+          "tags",
+          "draggable",
+          "gravity",
+          "interaction"
+        ],
+        "tech": ["matter-js"],
+        "previewUrl": "/collected/physics-tag-cloud"
+      }
+    },
+    {
+      "name": "scroll-frame-canvas",
+      "type": "registry:block",
+      "title": "ScrollFrameCanvas",
+      "description": "ScrollFrameCanvas component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/scroll-frame-canvas/ScrollFrameCanvas.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/scroll-frame-canvas/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-adaline-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "canvas",
+          "frames",
+          "video",
+          "sequence",
+          "3d",
+          "perspective",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/scroll-frame-canvas"
+      }
+    },
+    {
+      "name": "split-card-flip",
+      "type": "registry:block",
+      "title": "SplitCardFlip",
+      "description": "SplitCardFlip component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/split-card-flip/SplitCardFlip.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/split-card-flip/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-split-card-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["scroll", "cards", "flip", "3d", "split", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/split-card-flip"
+      }
+    },
+    {
+      "name": "spotlight-image-stack",
+      "type": "registry:block",
+      "title": "SpotlightImageStack",
+      "description": "SpotlightImageStack component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/spotlight-image-stack/SpotlightImageStack.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/spotlight-image-stack/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-senseitech-scroll-animation",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "images",
+          "spotlight",
+          "stacking",
+          "scatter",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/spotlight-image-stack"
+      }
+    },
+    {
+      "name": "sticky-cards-fold",
+      "type": "registry:block",
+      "title": "StickyCardsFold",
+      "description": "StickyCardsFold component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/sticky-cards-fold/StickyCardsFold.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/sticky-cards-fold/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/cg-phive-sticky-cards",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": [
+          "scroll",
+          "sticky",
+          "cards",
+          "3d",
+          "fold",
+          "perspective",
+          "gsap"
+        ],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/sticky-cards-fold"
+      }
+    },
+    {
+      "name": "sticky-cards-scale",
+      "type": "registry:block",
+      "title": "StickyCardsScale",
+      "description": "StickyCardsScale component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/sticky-cards-scale/StickyCardsScale.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/sticky-cards-scale/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-sticky-cards-ashfall-rebuild-nextjs",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["scroll", "sticky", "cards", "scale", "zoom", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/sticky-cards-scale"
+      }
+    },
+    {
+      "name": "sticky-cards-tilt",
+      "type": "registry:block",
+      "title": "StickyCardsTilt",
+      "description": "StickyCardsTilt component",
+      "category": "collected",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
+      "files": [
+        {
+          "path": "src/components/collected/sticky-cards-tilt/StickyCardsTilt.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/collected/sticky-cards-tilt/styles.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {
+        "source": "https://github.com/codegridweb/codegrid-sticky-cards-nextjs",
+        "author": "Codegrid",
+        "license": "MIT",
+        "tags": ["scroll", "sticky", "cards", "tilt", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
+        "previewUrl": "/collected/sticky-cards-tilt"
+      }
+    },
+    {
+      "name": "use-debounced-value",
+      "type": "registry:hook",
+      "title": "useDebouncedValue",
+      "description": "useDebouncedValue hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useDebouncedValue.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-debug",
+      "type": "registry:hook",
+      "title": "useDebug",
+      "description": "Returns true when `?debug` is present in the URL.",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useDebug.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-dev-controls",
+      "type": "registry:hook",
+      "title": "useDevControls",
+      "description": "Leva controls wrapper with dead-code elimination in production.",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useDevControls.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-element-size",
+      "type": "registry:hook",
+      "title": "useElementSize",
+      "description": "useElementSize hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useElementSize.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-gsap-debug",
+      "type": "registry:hook",
+      "title": "useGSAPDebug",
+      "description": "Links a GSAP timeline to GSDevTools when ?debug is active.",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useGSAPDebug.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/hooks/useDebug.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-liquid-glass-style",
+      "type": "registry:hook",
+      "title": "useLiquidGlassStyle",
+      "description": "useLiquidGlassStyle hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useLiquidGlassStyle.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/hooks/useMounted.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-media-query",
+      "type": "registry:hook",
+      "title": "useMediaQuery",
+      "description": "useMediaQuery hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useMediaQuery.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-mounted",
+      "type": "registry:hook",
+      "title": "useMounted",
+      "description": "useMounted hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useMounted.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-preferences",
+      "type": "registry:hook",
+      "title": "usePreferences",
+      "description": "usePreferences hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/usePreferences.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/hooks/useMounted.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-time-of-day",
+      "type": "registry:hook",
+      "title": "useTimeOfDay",
+      "description": "useTimeOfDay hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useTimeOfDay.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-umami",
+      "type": "registry:hook",
+      "title": "useUmami",
+      "description": "useUmami hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useUmami.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "use-weather",
+      "type": "registry:hook",
+      "title": "useWeather",
+      "description": "useWeather hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useWeather.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/hooks/usePreferences.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/hooks/useMounted.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-before-after-image",
+      "type": "registry:component",
+      "title": "BeforeAfterImage",
+      "description": "BeforeAfterImage MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/BeforeAfterImage.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-callout",
+      "type": "registry:component",
+      "title": "Callout",
+      "description": "Callout MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/Callout.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-code-block",
+      "type": "registry:component",
+      "title": "CodeBlock",
+      "description": "CodeBlock MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/CodeBlock.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-code-step",
+      "type": "registry:component",
+      "title": "CodeStep",
+      "description": "CodeStep MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/CodeStep.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-details",
+      "type": "registry:block",
+      "title": "Details",
+      "description": "Details MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/Details.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/details.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-fullbleed",
+      "type": "registry:component",
+      "title": "Fullbleed",
+      "description": "Fullbleed MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/Fullbleed.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-heading-link",
+      "type": "registry:component",
+      "title": "HeadingLink",
+      "description": "HeadingLink MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/HeadingLink.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-interactive-widget",
+      "type": "registry:component",
+      "title": "InteractiveWidget",
+      "description": "InteractiveWidget MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/InteractiveWidget.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-live-demo",
+      "type": "registry:component",
+      "title": "LiveDemo",
+      "description": "LiveDemo MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/LiveDemo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-page-actions",
+      "type": "registry:component",
+      "title": "PageActions",
+      "description": "PageActions MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "src/components/mdx/PageActions.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-pill",
+      "type": "registry:component",
+      "title": "Pill",
+      "description": "Pill MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "src/components/mdx/Pill.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-sandpack-demo",
+      "type": "registry:component",
+      "title": "SandpackDemo",
+      "description": "SandpackDemo MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/SandpackDemo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-slideshow",
+      "type": "registry:component",
+      "title": "Slideshow",
+      "description": "Slideshow MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "src/components/mdx/Slideshow.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-table-of-contents",
+      "type": "registry:component",
+      "title": "TableOfContents",
+      "description": "TableOfContents MDX component",
+      "category": "mdx",
+      "registryDependencies": ["razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/TableOfContents.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-_previews",
+      "type": "registry:block",
+      "title": "_previews",
+      "description": "_previews MDX component",
+      "category": "mdx",
+      "registryDependencies": ["use-debounced-value", "razi-style"],
+      "dependencies": ["class-variance-authority", "motion"],
+      "files": [
+        {
+          "path": "src/components/mdx/_previews.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/BeforeAfterImagePreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/CalloutPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/CodeBlockPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/CodeStepPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/ControlsPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/DetailsPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/FullbleedPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/InteractiveWidgetPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/LiveDemoPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/PillPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/SandpackDemoPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/SlideshowPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/TableOfContentsPreview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/BeforeAfterImage.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/previews/PreviewShell.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/Callout.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/CodeBlock.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/CodeStep.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/index.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/mdx/Details.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/Fullbleed.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/InteractiveWidget.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/LiveDemo.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/Pill.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/Slideshow.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/TableOfContents.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/Checkbox.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/ControlGroup.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/Radio.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/Range.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/Switch.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/details.css",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/mdx/controls/controls.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-controls",
+      "type": "registry:block",
+      "title": "MDX Controls",
+      "description": "Interactive control primitives for MDX articles (Checkbox, Switch, Radio, Range, ControlGroup)",
+      "category": "mdx",
+      "registryDependencies": ["use-debounced-value", "razi-style"],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/controls/index.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/mdx/controls/Checkbox.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/ControlGroup.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/Radio.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/Range.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/Switch.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/mdx/controls/controls.css",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "utils",
+      "description": "utils utility",
+      "category": "utilities",
+      "registryDependencies": [],
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "fonts",
+      "type": "registry:lib",
+      "title": "fonts",
+      "description": "fonts utility",
+      "category": "utilities",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/lib/fonts.ts",
+          "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "razi-style",
+      "type": "registry:style",
+      "title": "Razi Style",
+      "description": "Shared design tokens and CSS variables for Razi's experiments",
+      "category": "styles",
+      "tailwind": {
+        "config": {
+          "theme": {
+            "extend": {
+              "colors": {
+                "background": "hsl(var(--background))",
+                "foreground": "hsl(var(--foreground))",
+                "card": {
+                  "DEFAULT": "hsl(var(--card))",
+                  "foreground": "hsl(var(--card-foreground))"
+                },
+                "popover": {
+                  "DEFAULT": "hsl(var(--popover))",
+                  "foreground": "hsl(var(--popover-foreground))"
+                },
+                "primary": {
+                  "DEFAULT": "hsl(var(--primary))",
+                  "foreground": "hsl(var(--primary-foreground))"
+                },
+                "secondary": {
+                  "DEFAULT": "hsl(var(--secondary))",
+                  "foreground": "hsl(var(--secondary-foreground))"
+                },
+                "muted": {
+                  "DEFAULT": "hsl(var(--muted))",
+                  "foreground": "hsl(var(--muted-foreground))"
+                },
+                "accent": {
+                  "DEFAULT": "hsl(var(--accent))",
+                  "foreground": "hsl(var(--accent-foreground))"
+                },
+                "destructive": {
+                  "DEFAULT": "hsl(var(--destructive))",
+                  "foreground": "hsl(var(--destructive-foreground))"
+                },
+                "border": "hsl(var(--border))",
+                "input": "hsl(var(--input))",
+                "ring": "hsl(var(--ring))",
+                "chart": {
+                  "1": "hsl(var(--chart-1))",
+                  "2": "hsl(var(--chart-2))",
+                  "3": "hsl(var(--chart-3))",
+                  "4": "hsl(var(--chart-4))",
+                  "5": "hsl(var(--chart-5))"
+                }
+              },
+              "borderRadius": {
+                "lg": "var(--radius)",
+                "md": "calc(var(--radius) - 2px)",
+                "sm": "calc(var(--radius) - 4px)"
+              },
+              "keyframes": {
+                "static-noise-fade": {
+                  "0%": {
+                    "opacity": "1"
+                  },
+                  "100%": {
+                    "opacity": "0"
+                  }
+                }
+              },
+              "animation": {
+                "static-noise": "static-noise-fade 0.8s ease-in-out forwards"
+              }
+            }
+          }
+        }
+      },
+      "cssVars": {
+        "light": {
+          "background": "35 50% 95.29%",
+          "foreground": "240 10% 3.9%",
+          "card": "35 50% 95.29%",
+          "card-foreground": "240 10% 3.9%",
+          "popover": "35 50% 95.29%",
+          "popover-foreground": "240 10% 3.9%",
+          "primary": "240 5.9% 10%",
+          "primary-foreground": "0 0% 98%",
+          "secondary": "35 30% 90%",
+          "secondary-foreground": "240 5.9% 10%",
+          "muted": "35 30% 90%",
+          "muted-foreground": "35 10% 45%",
+          "accent": "35 30% 90%",
+          "accent-foreground": "240 5.9% 10%",
+          "destructive": "0 84.2% 60.2%",
+          "destructive-foreground": "0 0% 98%",
+          "border": "35 25% 85%",
+          "input": "35 25% 85%",
+          "ring": "240 10% 3.9%",
+          "radius": "0.5rem",
+          "chart-1": "12 76% 61%",
+          "chart-2": "173 58% 39%",
+          "chart-3": "197 37% 24%",
+          "chart-4": "43 74% 66%",
+          "chart-5": "27 87% 67%"
+        },
+        "dark": {
+          "background": "240 8.25% 6.84%",
+          "foreground": "0 0% 98%",
+          "card": "240 8.25% 6.84%",
+          "card-foreground": "0 0% 98%",
+          "popover": "240 8.25% 6.84%",
+          "popover-foreground": "0 0% 98%",
+          "primary": "0 0% 98%",
+          "primary-foreground": "240 5.9% 10%",
+          "secondary": "240 3.7% 15.9%",
+          "secondary-foreground": "0 0% 98%",
+          "muted": "240 3.7% 15.9%",
+          "muted-foreground": "240 5% 64.9%",
+          "accent": "240 3.7% 15.9%",
+          "accent-foreground": "0 0% 98%",
+          "destructive": "0 62.8% 30.6%",
+          "destructive-foreground": "0 0% 98%",
+          "border": "240 3.7% 15.9%",
+          "input": "240 3.7% 15.9%",
+          "ring": "240 4.9% 83.9%",
+          "chart-1": "220 70% 50%",
+          "chart-2": "160 60% 45%",
+          "chart-3": "30 80% 55%",
+          "chart-4": "280 65% 60%",
+          "chart-5": "340 75% 55%"
+        }
+      },
+      "files": [],
+      "meta": {}
+    }
+  ]
+}

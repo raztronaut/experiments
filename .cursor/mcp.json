@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "pinchtab": {
+      "command": "npx",
+      "args": ["-y", "pinchtab-mcp"]
+    },
+    "browser-devtools": {
+      "command": "npx",
+      "args": ["-y", "browser-devtools-mcp"]
+    },
+    "mcp-three": {
+      "command": "node",
+      "args": ["/Users/razisyed/.gemini/antigravity/mcp-three-wrapper.js"]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "type": "registry:component",
+  "title": "popover",
+  "description": "popover component",
+  "category": "components",
+  "dependencies": [
+    "@radix-ui/react-popover"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "popover.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\nimport * as PopoverPrimitive from \"@radix-ui/react-popover\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nconst Popover = PopoverPrimitive.Root;\n\nconst PopoverTrigger = PopoverPrimitive.Trigger;\n\nconst PopoverContent = React.forwardRef<\n  React.ComponentRef<typeof PopoverPrimitive.Content>,\n  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>\n>(({ className, align = \"center\", sideOffset = 4, ...props }, ref) => (\n  <PopoverPrimitive.Portal>\n    <PopoverPrimitive.Content\n      align={align}\n      className={cn(\n        \"z-50 max-h-(--radix-popover-content-available-height) min-w-[240px] max-w-[98vw] origin-(--radix-popover-content-transform-origin) overflow-y-auto rounded-xl border bg-fd-popover/60 p-2 text-fd-popover-foreground text-sm shadow-lg backdrop-blur-lg focus-visible:outline-none data-[state=closed]:animate-fd-popover-out data-[state=open]:animate-fd-popover-in\",\n        className\n      )}\n      ref={ref}\n      side=\"bottom\"\n      sideOffset={sideOffset}\n      {...props}\n    />\n  </PopoverPrimitive.Portal>\n));\nPopoverContent.displayName = PopoverPrimitive.Content.displayName;\n\nconst PopoverClose = PopoverPrimitive.PopoverClose;\n\nexport { Popover, PopoverTrigger, PopoverContent, PopoverClose };\n"
+    }
+  ]
+}

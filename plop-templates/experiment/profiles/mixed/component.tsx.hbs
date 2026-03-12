@@ -1,0 +1,194 @@
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+{{#if includeToolkit}}
+import { ExperimentCanvas } from "@/lib/toolkit/r3f";
+import { createUnifiedScroll } from "@/lib/toolkit/scroll";
+import type { UnifiedScrollHandle } from "@/lib/toolkit/scroll";
+{{else}}
+import { Canvas } from "@react-three/fiber";
+import Lenis from "lenis";
+import Tempus from "tempus";
+{{/if}}
+import { useFrame } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
+import { R3FDevToolsInjector } from "@/components/dev/R3FDevToolsInjector";
+{{#if includeLeva}}
+import { useDevControls } from "@/hooks/useDevControls";
+{{/if}}
+import type { Mesh } from "three";
+import { useEffect, useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const sections = [
+  { title: "Section One", subtitle: "Scroll to explore", transparent: true },
+  { title: "Section Two", subtitle: "Pinned -- 3D canvas visible behind", transparent: true },
+  { title: "Section Three", subtitle: "Opaque section occludes canvas", transparent: false },
+];
+
+function Scene({ scrollProgress }: { scrollProgress: React.RefObject<number> }) {
+  const meshRef = useRef<Mesh>(null);
+{{#if includeLeva}}
+  const { speed } = useDevControls("Scene", { speed: { value: 0.5, min: 0, max: 3, step: 0.1 } });
+{{/if}}
+
+  useFrame((_, delta) => {
+    if (!meshRef.current) return;
+    const p = scrollProgress.current ?? 0;
+{{#if includeLeva}}
+    meshRef.current.rotation.y += delta * speed;
+{{else}}
+    meshRef.current.rotation.y += delta * 0.5;
+{{/if}}
+    meshRef.current.position.y = p * -2;
+  });
+
+  return (
+    <>
+      <ambientLight intensity={0.4} />
+      <directionalLight intensity={1} position={[10, 10, 5]} />
+      <mesh ref={meshRef}>
+        <boxGeometry args={[1.5, 1.5, 1.5]} />
+        <meshStandardMaterial color="#ff6600" metalness={0.2} roughness={0.3} />
+      </mesh>
+      <Environment preset="city" />
+    </>
+  );
+}
+
+export default function {{pascalCase name}}() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollProgress = useRef(0);
+{{#if includeToolkit}}
+  const scrollRef = useRef<UnifiedScrollHandle | null>(null);
+
+  useEffect(() => {
+    const handle = createUnifiedScroll();
+    scrollRef.current = handle;
+    handle.lenis.on("scroll", ({ progress }: { progress: number }) => {
+      scrollProgress.current = progress;
+    });
+    ScrollTrigger.refresh();
+    return () => handle.destroy();
+  }, []);
+{{else}}
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({ autoRaf: false });
+    lenisRef.current = lenis;
+    lenis.on("scroll", ScrollTrigger.update);
+    lenis.on("scroll", ({ progress }: { progress: number }) => {
+      scrollProgress.current = progress;
+    });
+
+    const lenisDispose = Tempus.add((time: number) => lenis.raf(time), { priority: -1 });
+    gsap.ticker.remove(gsap.updateRoot);
+    const gsapDispose = Tempus.add((time: number) => gsap.updateRoot(time / 1000), { priority: 0 });
+    gsap.ticker.lagSmoothing(0);
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      lenisDispose();
+      gsapDispose();
+      gsap.ticker.add(gsap.updateRoot);
+      lenis.destroy();
+    };
+  }, []);
+{{/if}}
+{{#if includeLeva}}
+  const { scrub } = useDevControls("Scroll", { scrub: { value: 1, min: 0, max: 3, step: 0.1 } });
+{{/if}}
+
+  useGSAP(() => {
+    if (!containerRef.current) return;
+    const panels = containerRef.current.querySelectorAll<HTMLElement>(".panel");
+
+    panels.forEach((panel) => {
+      const content = panel.querySelector(".panel-content");
+      if (!content) return;
+
+      gsap.fromTo(content,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: panel,
+            start: "top 80%",
+            end: "top 20%",
+{{#if includeLeva}}
+            scrub: scrub,
+{{else}}
+            scrub: 1,
+{{/if}}
+          },
+        }
+      );
+    });
+
+    ScrollTrigger.create({
+      trigger: panels[1],
+      start: "top top",
+      end: "+=100%",
+      pin: true,
+      pinSpacing: true,
+    });
+{{#if includeLeva}}
+  }, { scope: containerRef, dependencies: [scrub] });
+{{else}}
+  }, { scope: containerRef });
+{{/if}}
+
+  return (
+    <>
+      {/* WebGL layer -- fixed behind scrolling DOM */}
+      <div className="fixed inset-0 z-0">
+{{#if includeToolkit}}
+        <ExperimentCanvas
+          camera=\{{ position: [0, 0, 4], fov: 50 }}
+          tempus
+        >
+{{else}}
+        <Canvas
+          camera=\{{ position: [0, 0, 4], fov: 50 }}
+          dpr={[1, 2]}
+        >
+{{/if}}
+          <R3FDevToolsInjector />
+          <Scene scrollProgress={scrollProgress} />
+{{#if includeToolkit}}
+        </ExperimentCanvas>
+{{else}}
+        </Canvas>
+{{/if}}
+      </div>
+
+      {/* DOM layer -- scrolls over the canvas */}
+      <main ref={containerRef} className="relative z-10">
+        {sections.map((section, i) => (
+          <section
+            key={i}
+            className={`panel flex min-h-screen items-center justify-center ${
+              section.transparent
+                ? "pointer-events-none bg-transparent"
+                : "pointer-events-auto bg-[#0a0a0a]"
+            }`}
+            style=\{{ color: "#ffffff" }}
+          >
+            <div className="panel-content px-8 text-center opacity-0">
+              <h2 className="mb-4 font-bold text-5xl md:text-7xl">{section.title}</h2>
+              <p className="text-xl opacity-70 md:text-2xl">{section.subtitle}</p>
+            </div>
+          </section>
+        ))}
+      </main>
+    </>
+  );
+}

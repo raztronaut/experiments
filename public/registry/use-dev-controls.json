@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-dev-controls",
+  "type": "registry:hook",
+  "title": "useDevControls",
+  "description": "Leva controls wrapper with dead-code elimination in production.",
+  "category": "hooks",
+  "files": [
+    {
+      "name": "useDevControls.ts",
+      "type": "registry:hook",
+      "content": "\"use client\";\n\n/**\n * Leva controls wrapper with dead-code elimination in production.\n *\n * By default, `useDevControls` returns static defaults in production and\n * leva is tree-shaken from the bundle. Pass `{ production: true }` to keep\n * leva available in production (e.g. for showcase experiments that expose\n * debug tools to visitors via `?debug`).\n */\n\ntype SchemaInput = Record<string, { value: unknown; [k: string]: unknown }>;\ntype SchemaOutput<T extends SchemaInput> = { [K in keyof T]: T[K][\"value\"] };\n\nexport function useDevControls<T extends SchemaInput>(\n  folder: string,\n  schema: T,\n  options?: { production?: boolean }\n): SchemaOutput<T> {\n  const keepInProd = options?.production === true;\n\n  if (process.env.NODE_ENV !== \"development\" && !keepInProd) {\n    const result = {} as Record<string, unknown>;\n    for (const key of Object.keys(schema)) {\n      result[key] = schema[key].value;\n    }\n    return result as SchemaOutput<T>;\n  }\n\n  // eslint-disable-next-line @typescript-eslint/no-require-imports\n  const leva = require(\"leva\") as typeof import(\"leva\");\n  // biome-ignore lint/correctness/useHookAtTopLevel: conditional is compile-time dead-code eliminated\n  return leva.useControls(folder, schema) as SchemaOutput<T>;\n}\n"
+    }
+  ]
+}
