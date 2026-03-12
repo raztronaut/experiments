@@ -1,0 +1,13 @@
+whats the best practice approach to do with the pr we have now after we've tested and everythings good?
+
+---
+
+can you explain each of those options and the overall process for someone new to github
+
+---
+
+why didnt i get a vercel preview url with this
+
+---
+
+ya figure it out. i just merged. we also did something to silence entire.io stuff. lets reienable it
