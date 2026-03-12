@@ -1,0 +1,36 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "12fd6802646f",
+  "session_id": "e5d9ef81-24ad-4529-9e51-5261168b7161",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:20:12.747667Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".agents/contexts/content-constellation.md",
+    ".agents/workflows/publish-experiment.md",
+    ".cursor/agents/content-writer.md",
+    ".cursor/rules/article-writing.mdc",
+    ".cursor/skills/publish-content/SKILL.md",
+    "plop-templates/article/page.tsx.hbs",
+    "plopfile.js"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "35b7917f4542",
+  "checkpoint_transcript_start": 18,
+  "transcript_lines_at_start": 18,
+  "session_metrics": {
+    "duration_ms": 2104755,
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:20:12.744462Z",
+    "agent_lines": 45,
+    "human_added": 29,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 74,
+    "agent_percentage": 60.810810810810814
+  }
+}
