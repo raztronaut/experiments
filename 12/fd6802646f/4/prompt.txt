@@ -1,0 +1,25 @@
+when youre viewing an article, make the "back to experiments" button a "back to articles" button
+also, add better tags for the hyperbolic experiment
+also, tags get truncated in the grid/list view and the article cards. find a better fix
+
+---
+
+wait so where are these experiment tags from?
+
+---
+
+ok add more tech for that experiment
+
+---
+
+are all the tags and metadata for experiments and articles solid now?
+
+---
+
+Implement the plan as specified, it is attached for your reference. Do NOT edit the plan file itself.
+
+To-do's from the plan have already been created. Do not create them again. Mark them as in_progress as you work, starting with the first one. Don't stop until you have completed all the to-dos.
+
+---
+
+Run the `continual-learning` skill now. First read existing `AGENTS.md` and update existing entries in place (do not only append). Use incremental transcript processing with index file `/Users/razisyed/Developer/experiments/.cursor/hooks/state/continual-learning-index.json`: only read transcripts not in the index or transcripts whose mtime is newer than indexed mtime (re-read changed transcripts). After processing, write back the updated index mtimes and remove entries for deleted transcripts. Update `AGENTS.md` only for high-signal, repeated user-correction patterns or durable workspace facts. Exclude one-off/transient details and secrets. Keep each learned section to at most 12 bullets. Write plain bullet points only, with no evidence/confidence tags or other metadata annotations. If no meaningful updates exist, respond exactly: No high-signal memory updates.
