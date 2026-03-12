@@ -61,7 +61,7 @@ export function WritingSection({ articles }: WritingSectionProps) {
                 <FlaskConical className="h-3 w-3" />
                 View Experiment
               </span>
-              {article.tech?.slice(0, 3).map((t) => (
+              {article.tech?.map((t) => (
                 <span
                   className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
                   key={t}
@@ -69,11 +69,6 @@ export function WritingSection({ articles }: WritingSectionProps) {
                   {t}
                 </span>
               ))}
-              {(article.tech?.length ?? 0) > 3 && (
-                <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
-                  +{article.tech!.length - 3}
-                </span>
-              )}
             </div>
 
             <span className="flex items-center gap-1 text-muted-foreground text-xs transition-colors group-hover:text-foreground">

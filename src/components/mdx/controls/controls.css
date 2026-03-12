@@ -345,6 +345,52 @@
   opacity: 0.9;
 }
 
+/* Button — action trigger matching pill slider dimensions */
+.mdx-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  color: hsl(var(--muted-foreground));
+  background-color: hsl(var(--muted) / 0.5);
+  transition:
+    background-color 0.15s ease-in-out,
+    color 0.15s ease-in-out;
+}
+
+.mdx-control-button--sm {
+  height: 34px;
+  border-radius: 8px;
+}
+
+.mdx-control-button--md {
+  height: 48px;
+  border-radius: 12px;
+}
+
+.mdx-control-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mdx-control-button:not(:disabled):hover {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--foreground));
+  }
+}
+
+.mdx-control-button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .mdx-checkbox::after,

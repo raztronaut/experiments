@@ -87,7 +87,7 @@ export const ExperimentGridCard = memo(
             {experiment.description}
           </p>
           <div className="mt-auto flex flex-wrap gap-1 pt-1">
-            {experiment.tech?.slice(0, 3).map((t) => (
+            {experiment.tech?.map((t) => (
               <span
                 className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
                 key={t}
@@ -95,11 +95,6 @@ export const ExperimentGridCard = memo(
                 {t}
               </span>
             ))}
-            {(experiment.tech?.length ?? 0) > 3 && (
-              <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
-                +{experiment.tech!.length - 3}
-              </span>
-            )}
           </div>
         </div>
       </div>

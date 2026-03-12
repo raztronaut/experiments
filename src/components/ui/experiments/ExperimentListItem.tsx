@@ -81,7 +81,7 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
             <div
               className={`mt-2 flex flex-wrap gap-1 transition-opacity duration-300 ${isMobileActive ? "opacity-0" : ""}`}
             >
-              {experiment.tech?.slice(0, 3).map((t) => (
+              {experiment.tech?.map((t) => (
                 <span
                   className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
                   key={t}
@@ -89,11 +89,6 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
                   {t}
                 </span>
               ))}
-              {(experiment.tech?.length ?? 0) > 3 && (
-                <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
-                  +{experiment.tech!.length - 3}
-                </span>
-              )}
             </div>
           </div>
 
