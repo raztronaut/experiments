@@ -1,0 +1,13 @@
+so wait, find the summary in /devs surfaces on the how experimients metadata works. is the build process, order, performance, etc. all good?
+
+---
+
+any way to make the build process / deployment or whatever faster / more optimized?
+
+---
+
+make a plan to address all those. make sure it follows best practices and current tools/systems approaches.
+
+---
+
+this is agent first so anything that improves my ability to do stuff shouldnt be focused on for this plan
