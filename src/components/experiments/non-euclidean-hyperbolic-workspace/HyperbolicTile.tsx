@@ -55,12 +55,15 @@ export function HyperbolicTile({
       style={{
         width: `${TILE_BASE_SIZE}px`,
         height: `${TILE_BASE_SIZE}px`,
+        willChange: "transform",
+        // Use fixed precision to avoid hydration mismatches between server (node) and client (browser) floating point stringification
         transform: `translate3d(${pixelX.toFixed(4)}px, ${pixelY.toFixed(4)}px, 0px) scale(${scale.toFixed(6)})`,
+        // Center the element at non-transformed origin so translation works from center
         marginLeft: `-${TILE_BASE_SIZE / 2}px`,
         marginTop: `-${TILE_BASE_SIZE / 2}px`,
         left: "50%",
         top: "50%",
-        zIndex: Math.floor(scale * 100),
+        zIndex: Math.floor(scale * 100), // Larger items on top
       }}
     >
       <div className="overflow-hidden p-2 text-center text-xs">
