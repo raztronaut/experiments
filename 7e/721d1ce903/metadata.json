@@ -1,0 +1,19 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "7e721d1ce903",
+  "strategy": "manual-commit",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "public/registry/non-euclidean-hyperbolic-workspace.json",
+    "src/app/experiments/(non-euclidean-hyperbolic-workspace)/layout.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/7e/721d1ce903/0/metadata.json",
+      "transcript": "/7e/721d1ce903/0/full.jsonl",
+      "content_hash": "/7e/721d1ce903/0/content_hash.txt",
+      "prompt": "/7e/721d1ce903/0/prompt.txt"
+    }
+  ]
+}
