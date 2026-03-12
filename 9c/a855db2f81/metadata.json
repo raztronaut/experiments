@@ -3,7 +3,7 @@
   "checkpoint_id": "9ca855db2f81",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     ".cursor/hooks.json",
     ".entire/.gitignore",
@@ -21,6 +21,12 @@
       "transcript": "/9c/a855db2f81/1/full.jsonl",
       "content_hash": "/9c/a855db2f81/1/content_hash.txt",
       "prompt": "/9c/a855db2f81/1/prompt.txt"
+    },
+    {
+      "metadata": "/9c/a855db2f81/2/metadata.json",
+      "transcript": "/9c/a855db2f81/2/full.jsonl",
+      "content_hash": "/9c/a855db2f81/2/content_hash.txt",
+      "prompt": ""
     }
   ]
 }
