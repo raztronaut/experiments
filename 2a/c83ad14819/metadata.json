@@ -1,0 +1,22 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "2ac83ad14819",
+  "strategy": "manual-commit",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "src/components/mdx/controls/controls.css",
+    "src/components/mdx/controls/index.ts",
+    "src/components/ui/WritingSection.tsx",
+    "src/components/ui/experiments/ExperimentGridCard.tsx",
+    "src/components/ui/experiments/ExperimentListItem.tsx"
+  ],
+  "sessions": [
+    {
+      "metadata": "/2a/c83ad14819/0/metadata.json",
+      "transcript": "/2a/c83ad14819/0/full.jsonl",
+      "content_hash": "/2a/c83ad14819/0/content_hash.txt",
+      "prompt": "/2a/c83ad14819/0/prompt.txt"
+    }
+  ]
+}
