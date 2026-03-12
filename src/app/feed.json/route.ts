@@ -22,10 +22,10 @@ export async function GET() {
         content_text: mdxToPlainMarkdown(article.content),
       }),
       date_published: new Date(article.publishedAt).toISOString(),
-        ...(article.updatedAt && {
-          date_modified: new Date(article.updatedAt).toISOString(),
-        }),
-        authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
+      ...(article.updatedAt && {
+        date_modified: new Date(article.updatedAt).toISOString(),
+      }),
+      authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
       ...(article.tech && article.tech.length > 0 && { tags: article.tech }),
     };
   });

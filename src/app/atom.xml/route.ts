@@ -19,9 +19,9 @@ export async function GET() {
 
     const updated = article.updatedAt || article.publishedAt;
 
-      const categories = (article.tech || [])
-        .map((t) => `\n    <category term="${escapeXml(t)}" />`)
-        .join("");
+    const categories = (article.tech || [])
+      .map((t) => `\n    <category term="${escapeXml(t)}" />`)
+      .join("");
 
     return `  <entry>
     <title>${escapeXml(article.title)}</title>
