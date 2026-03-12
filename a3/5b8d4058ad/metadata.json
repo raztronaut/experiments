@@ -1,0 +1,20 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "a35b8d4058ad",
+  "strategy": "manual-commit",
+  "branch": "v2/platform",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".agents/workflows/deploy.md",
+    ".agents/workflows/develop-experiment.md",
+    "AGENTS.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/a3/5b8d4058ad/0/metadata.json",
+      "transcript": "/a3/5b8d4058ad/0/full.jsonl",
+      "content_hash": "/a3/5b8d4058ad/0/content_hash.txt",
+      "prompt": ""
+    }
+  ]
+}

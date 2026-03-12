@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "a35b8d4058ad",
+  "session_id": "488067a1-2ec5-456e-8140-6afb20decbe5",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T07:36:49.8042Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".agents/workflows/deploy.md",
+    ".agents/workflows/develop-experiment.md",
+    "AGENTS.md"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "7daaeee53555",
+  "checkpoint_transcript_start": 60,
+  "transcript_lines_at_start": 60,
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T07:36:49.784387Z",
+    "agent_lines": 0,
+    "human_added": 267586,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 267586,
+    "agent_percentage": 0
+  }
+}
