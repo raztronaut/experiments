@@ -132,57 +132,70 @@ function validateExperiment(raw: unknown): Experiment | null {
 // React.cache() deduplicates within a single server render pass.
 // Caveat: uses Object.is for args -- inline filter objects will miss cache.
 // All current callers pass undefined (no filter), which deduplicates correctly.
+// Module-level cache to avoid N+1 file system reads across requests
+let experimentsCache: Experiment[] | null = null;
+
+export function __clearCacheForTesting() {
+  experimentsCache = null;
+}
+
 export const getExperiments = cache(async function getExperiments(
   filter?: ExperimentFilter
 ): Promise<Experiment[]> {
   const experimentsDir = path.join(process.cwd(), "src/app/experiments");
 
   try {
-    const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
+    if (!experimentsCache || process.env.NODE_ENV === "development") {
+      const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
 
-    const experimentDirs = entries
-      .filter(
-        (dirent) =>
-          dirent.isDirectory() &&
-          dirent.name.startsWith("(") &&
-          dirent.name !== "(index)"
-      )
-      .map((dirent) => dirent.name);
+      const experimentDirs = entries
+        .filter(
+          (dirent) =>
+            dirent.isDirectory() &&
+            dirent.name.startsWith("(") &&
+            dirent.name !== "(index)"
+        )
+        .map((dirent) => dirent.name);
 
-    const experiments = await Promise.all(
-      experimentDirs.map(async (dirName) => {
-        const configPath = path.join(
-          experimentsDir,
-          dirName,
-          "experiment.json"
-        );
-        try {
-          const content = await fs.readFile(configPath, "utf-8");
-          const config = JSON.parse(content);
+      const experiments = await Promise.all(
+        experimentDirs.map(async (dirName) => {
+          const configPath = path.join(
+            experimentsDir,
+            dirName,
+            "experiment.json"
+          );
+          try {
+            const content = await fs.readFile(configPath, "utf-8");
+            const config = JSON.parse(content);
 
-          const posterPath = config.video
-            ? `/experiments/${config.slug}/poster.jpg`
-            : undefined;
+            const posterPath = config.video
+              ? `/experiments/${config.slug}/poster.jpg`
+              : undefined;
 
-          const experiment = validateExperiment({
-            ...config,
-            href: `/experiments/${config.slug}`,
-            poster: posterPath,
-          });
+            const experiment = validateExperiment({
+              ...config,
+              href: `/experiments/${config.slug}`,
+              poster: posterPath,
+            });
 
-          if (!experiment) {
-            console.warn(`Validation failed for ${dirName}`);
+            if (!experiment) {
+              console.warn(`Validation failed for ${dirName}`);
+            }
+
+            return experiment;
+          } catch (error) {
+            console.warn(`Could not read config for ${dirName}:`, error);
+            return null;
           }
+        })
+      );
 
-          return experiment;
-        } catch (error) {
-          console.warn(`Could not read config for ${dirName}:`, error);
-          return null;
-        }
-      })
-    );
+      experimentsCache = experiments.filter(
+        (exp): exp is Experiment => exp !== null
+      );
+    }
 
-    let results = experiments.filter((exp): exp is Experiment => exp !== null);
+    let results = [...experimentsCache];
 
     // WIP experiments: visible only in dev/preview environments
     if (!showDevContent) {

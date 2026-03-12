@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import { getExperiments } from "./experiments";
+import { getExperiments, __clearCacheForTesting } from "./experiments";
+
+import { beforeEach } from "vitest";
 
 const { mockReaddir, mockReadFile } = vi.hoisted(() => ({
   mockReaddir: vi.fn(),
@@ -13,6 +15,11 @@ vi.mock("node:fs/promises", () => ({
 }));
 
 describe("getExperiments", () => {
+  beforeEach(() => {
+    // Reset the module-level cache
+    __clearCacheForTesting();
+  });
+
   it("should return experiments sorted by date descending", async () => {
     const mockEntries = [
       { isDirectory: () => true, name: "(experiment-a)" },

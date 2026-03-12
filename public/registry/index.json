@@ -288,8 +288,7 @@
         "r3f",
         "three.js",
         "glsl",
-        "gsap",
-        "next-themes"
+        "gsap"
       ],
       "status": "shipped",
       "poster": null,
@@ -342,8 +341,7 @@
       "tags": [
         "generative",
         "game",
-        "animation",
-        "cursor"
+        "animation"
       ],
       "tech": [
         "canvas-2d",
@@ -1007,8 +1005,7 @@
       "tags": [
         "generative",
         "game",
-        "animation",
-        "cursor"
+        "animation"
       ],
       "tech": [
         "canvas-2d",
@@ -1593,6 +1590,10 @@
         "type": "registry:component"
       },
       {
+        "name": "Button.tsx",
+        "type": "registry:component"
+      },
+      {
         "name": "Checkbox.tsx",
         "type": "registry:component"
       },
@@ -1708,6 +1709,10 @@
         "name": "index.ts",
         "type": "registry:file",
         "target": "components/mdx/controls/index.ts"
+      },
+      {
+        "name": "Button.tsx",
+        "type": "registry:component"
       },
       {
         "name": "Checkbox.tsx",
@@ -1996,12 +2001,16 @@
     "category": "experiments",
     "meta": {
       "tags": [
-        "generative",
-        "ui",
-        "cursor"
+        "math",
+        "geometry",
+        "interactive",
+        "data-viz"
       ],
       "tech": [
-        "svg"
+        "svg",
+        "canvas-2d",
+        "css-transforms",
+        "math"
       ],
       "status": "shipped",
       "poster": null,
@@ -2204,6 +2213,7 @@
         "animation"
       ],
       "tech": [
+        "r3f",
         "three.js",
         "glsl",
         "motion"
@@ -2481,6 +2491,7 @@
         "generative"
       ],
       "tech": [
+        "r3f",
         "three.js",
         "glsl"
       ],

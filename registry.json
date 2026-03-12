@@ -154,7 +154,7 @@
       ],
       "meta": {
         "tags": ["preloader", "broadcast", "crt"],
-        "tech": ["r3f", "three.js", "glsl", "gsap", "next-themes"],
+        "tech": ["r3f", "three.js", "glsl", "gsap"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/basketball-replay-center/preview.mp4",
@@ -188,7 +188,7 @@
         }
       ],
       "meta": {
-        "tags": ["generative", "game", "animation", "cursor"],
+        "tags": ["generative", "game", "animation"],
         "tech": ["canvas-2d", "web-workers", "@paper-design/shaders"],
         "status": "shipped",
         "poster": null,
@@ -260,7 +260,7 @@
         }
       ],
       "meta": {
-        "tags": ["generative", "game", "animation", "cursor"],
+        "tags": ["generative", "game", "animation"],
         "tech": ["canvas-2d", "web-workers"],
         "status": "shipped",
         "poster": null,
@@ -479,8 +479,8 @@
         }
       ],
       "meta": {
-        "tags": ["generative", "ui", "cursor"],
-        "tech": ["svg"],
+        "tags": ["math", "geometry", "interactive", "data-viz"],
+        "tech": ["svg", "canvas-2d", "css-transforms", "math"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
@@ -556,7 +556,7 @@
       ],
       "meta": {
         "tags": ["3d", "shader", "preloader", "gallery", "animation"],
-        "tech": ["three.js", "glsl", "motion"],
+        "tech": ["r3f", "three.js", "glsl", "motion"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/rabbithole-chat-preloader/preview.mp4",
@@ -639,7 +639,7 @@
       ],
       "meta": {
         "tags": ["shader", "generative"],
-        "tech": ["three.js", "glsl"],
+        "tech": ["r3f", "three.js", "glsl"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/shader-landing/preview-shader-landing.mp4",
@@ -2678,6 +2678,10 @@
           "type": "registry:component"
         },
         {
+          "path": "src/components/mdx/controls/Button.tsx",
+          "type": "registry:component"
+        },
+        {
           "path": "src/components/mdx/controls/Checkbox.tsx",
           "type": "registry:component"
         },
@@ -2720,6 +2724,10 @@
         {
           "path": "src/components/mdx/controls/index.ts",
           "type": "registry:file"
+        },
+        {
+          "path": "src/components/mdx/controls/Button.tsx",
+          "type": "registry:component"
         },
         {
           "path": "src/components/mdx/controls/Checkbox.tsx",
