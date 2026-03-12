@@ -1,0 +1,13 @@
+we did ui changes to the hyperbolic main experiment and tried reverting it but i dont think it worked correctly.
+
+---
+
+wait no go back
+
+---
+
+i want it at the state it was in after @/Users/razisyed/.cursor/projects/REDACTED/agent-transcripts/36d70e89-102f-4359-ad05-9957eebcab42/36d70e89-102f-4359-ad05-9957eebcab42.jsonl left it.
+
+---
+
+is there maybe a layout colour issue or something (see fix mentioned in content constellation skill). maybe issue with latex usage?
