@@ -1,0 +1,9 @@
+i dont think the regenerate button in this demo component works. also, match the button in with the styling from the slider/range (i forgot what its called)
+
+---
+
+the generate button is super ugly!
+
+---
+
+is the fix still applied?
