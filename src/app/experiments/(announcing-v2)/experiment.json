@@ -6,7 +6,7 @@
   "profile": "mixed",
   "status": "wip",
   "complexity": "advanced",
-  "tags": ["scrollytelling", "showcase", "3d", "shaders", "animation"],
+  "tags": ["scrollytelling", "showcase", "3d", "shader", "animation"],
   "tech": ["lenis", "gsap", "r3f", "glsl", "motion", "zustand"],
   "image": "",
   "video": "",

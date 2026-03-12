@@ -8,7 +8,7 @@
   "status": "shipped",
   "complexity": "intermediate",
   "legacy": true,
-  "tags": ["generative", "game", "animation", "cursor"],
+  "tags": ["generative", "game", "animation"],
   "tech": ["canvas-2d", "web-workers", "@paper-design/shaders"],
   "listing": "public"
 }

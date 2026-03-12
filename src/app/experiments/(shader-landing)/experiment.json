@@ -9,6 +9,6 @@
   "complexity": "advanced",
   "legacy": true,
   "tags": ["shader", "generative"],
-  "tech": ["three.js", "glsl"],
+  "tech": ["r3f", "three.js", "glsl"],
   "listing": "public"
 }

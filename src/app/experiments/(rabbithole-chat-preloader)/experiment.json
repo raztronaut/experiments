@@ -9,6 +9,6 @@
   "complexity": "advanced",
   "legacy": true,
   "tags": ["3d", "shader", "preloader", "gallery", "animation"],
-  "tech": ["three.js", "glsl", "motion"],
+  "tech": ["r3f", "three.js", "glsl", "motion"],
   "listing": "public"
 }

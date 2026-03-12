@@ -9,6 +9,6 @@
   "complexity": "advanced",
   "legacy": true,
   "tags": ["preloader", "broadcast", "crt"],
-  "tech": ["r3f", "three.js", "glsl", "gsap", "next-themes"],
+  "tech": ["r3f", "three.js", "glsl", "gsap"],
   "listing": "public"
 }
