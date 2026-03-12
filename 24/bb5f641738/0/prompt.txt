@@ -1,0 +1,14 @@
+17s
+Run npm run typecheck
+
+> experiments@0.1.0 typecheck
+> tsc --noEmit
+
+Error: src/app/(registry)/registry/docs/[[...slug]]/page.tsx(27,32): error TS2339: Property 'body' does not exist on type 'PageData'.
+Error: src/app/(registry)/registry/docs/[[...slug]]/page.tsx(39,66): error TS2339: Property 'toc' does not exist on type 'PageData'.
+Error: src/lib/registry-llm-text.ts(7,37): error TS2339: Property 'getText' does not exist on type 'PageData'.
+Error: src/lib/registry-source.ts(2,30): error TS2307: Cannot find module '@/.source/server' or its corresponding type declarations.
+Error: Process completed with exit code 2.
+
+03:52:29.463 ⚠️  Validation warnings (63):
+03:53:58.576 ⚠ Using edge runtime on a page currently disables static generation for that page

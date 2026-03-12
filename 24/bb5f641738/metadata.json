@@ -1,0 +1,18 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "24bb5f641738",
+  "strategy": "manual-commit",
+  "branch": "v2/platform",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/workflows/ci.yml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/24/bb5f641738/0/metadata.json",
+      "transcript": "/24/bb5f641738/0/full.jsonl",
+      "content_hash": "/24/bb5f641738/0/content_hash.txt",
+      "prompt": "/24/bb5f641738/0/prompt.txt"
+    }
+  ]
+}
