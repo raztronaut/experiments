@@ -9,14 +9,8 @@
       "title": "404 Not Found",
       "description": "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@react-three/drei",
-        "@react-three/fiber",
-        "three"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@react-three/drei", "@react-three/fiber", "three"],
       "files": [
         {
           "path": "src/components/experiments/404-not-found/404NotFound.tsx",
@@ -64,17 +58,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "3d",
-          "shader",
-          "animation",
-          "scroll"
-        ],
-        "tech": [
-          "r3f",
-          "three.js",
-          "glsl"
-        ],
+        "tags": ["3d", "shader", "animation", "scroll"],
+        "tech": ["r3f", "three.js", "glsl"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/404-not-found/preview.mp4",
@@ -88,13 +73,8 @@
       "title": "Airplanes",
       "description": "Scroll-driven 3D airplane storytelling with dual solid/wireframe rendering, parallax backgrounds, and SVG line drawing annotations",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/experiments/airplanes/Airplanes.tsx",
@@ -130,16 +110,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "scroll-driven",
-          "3d",
-          "storytelling"
-        ],
-        "tech": [
-          "gsap",
-          "three.js",
-          "lenis"
-        ],
+        "tags": ["scroll-driven", "3d", "storytelling"],
+        "tech": ["gsap", "three.js", "lenis"],
         "status": "shipped",
         "poster": null,
         "video": null,
@@ -152,14 +124,8 @@
       "title": "Basketball Replay Center",
       "description": "A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@react-three/fiber",
-        "three",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@react-three/fiber", "three", "gsap"],
       "files": [
         {
           "path": "src/components/experiments/basketball-replay-center/BasketballReplayCenter.tsx",
@@ -187,18 +153,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "preloader",
-          "broadcast",
-          "crt"
-        ],
-        "tech": [
-          "r3f",
-          "three.js",
-          "glsl",
-          "gsap",
-          "next-themes"
-        ],
+        "tags": ["preloader", "broadcast", "crt"],
+        "tech": ["r3f", "three.js", "glsl", "gsap", "next-themes"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/basketball-replay-center/preview.mp4",
@@ -211,12 +167,8 @@
       "title": "Bugged Out Game of Life Shader",
       "description": "A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@paper-design/shaders-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@paper-design/shaders-react"],
       "files": [
         {
           "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/BuggedOutGameOfLifeShaderExperiment.tsx",
@@ -236,17 +188,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "generative",
-          "game",
-          "animation",
-          "cursor"
-        ],
-        "tech": [
-          "canvas-2d",
-          "web-workers",
-          "@paper-design/shaders"
-        ],
+        "tags": ["generative", "game", "animation", "cursor"],
+        "tech": ["canvas-2d", "web-workers", "@paper-design/shaders"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4",
@@ -259,9 +202,7 @@
       "title": "Cursor/Tilt Depth Map Explorer",
       "description": "A tomographic slice style depth map viewer for paintings using your cursor or device tilt (try on mobile too!)",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [
         "@react-three/drei",
         "@react-three/fiber",
@@ -284,16 +225,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "shader",
-          "cursor",
-          "3d"
-        ],
-        "tech": [
-          "r3f",
-          "three.js",
-          "glsl"
-        ],
+        "tags": ["shader", "cursor", "3d"],
+        "tech": ["r3f", "three.js", "glsl"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/cursor-depth-explorer/preview.mp4",
@@ -306,12 +239,8 @@
       "title": "Game of Life Shader",
       "description": "An attempt to implement Conway's Game of Life with the logic defining the shader",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@paper-design/shaders-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@paper-design/shaders-react"],
       "files": [
         {
           "path": "src/components/experiments/game-of-life-shader/GameOfLifeShader.tsx",
@@ -331,16 +260,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "generative",
-          "game",
-          "animation",
-          "cursor"
-        ],
-        "tech": [
-          "canvas-2d",
-          "web-workers"
-        ],
+        "tags": ["generative", "game", "animation", "cursor"],
+        "tech": ["canvas-2d", "web-workers"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/game-of-life-shader/preview.mp4",
@@ -353,13 +274,8 @@
       "title": "OSX Cheetah UI with a surprise",
       "description": "Find the hidden stupid feature!",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "matter-js",
-        "lucide-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["matter-js", "lucide-react"],
       "files": [
         {
           "path": "src/components/experiments/gravity-physics-ui-layout/DesktopIcon.tsx",
@@ -395,14 +311,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "physics",
-          "ui",
-          "animation"
-        ],
-        "tech": [
-          "matter.js"
-        ],
+        "tags": ["physics", "ui", "animation"],
+        "tech": ["matter.js"],
         "status": "shipped",
         "poster": "/experiments/gravity-physics-ui-layout/preview.png",
         "video": null,
@@ -416,9 +326,7 @@
       "title": "Keyboard Keys",
       "description": "Interactive 3D keyboard keys with press animation and success/error animations",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -431,14 +339,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "keyboard",
-          "animation",
-          "ui"
-        ],
-        "tech": [
-          "css-animations"
-        ],
+        "tags": ["keyboard", "animation", "ui"],
+        "tech": ["css-animations"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/keyboard-keys/preview.mp4",
@@ -452,9 +354,7 @@
       "title": "Life 3D",
       "description": "Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [
         "lucide-react",
         "@react-three/drei",
@@ -488,17 +388,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "3d",
-          "game",
-          "generative",
-          "animation"
-        ],
-        "tech": [
-          "r3f",
-          "three.js",
-          "postprocessing"
-        ],
+        "tags": ["3d", "game", "generative", "animation"],
+        "tech": ["r3f", "three.js", "postprocessing"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/life-3d/preview.mp4",
@@ -511,9 +402,7 @@
       "title": "Mountain Depth Map Shader Transition",
       "description": "A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [
         "@react-three/fiber",
         "@react-three/drei",
@@ -535,18 +424,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "shader",
-          "animation",
-          "scroll",
-          "3d"
-        ],
-        "tech": [
-          "r3f",
-          "three.js",
-          "glsl",
-          "gsap"
-        ],
+        "tags": ["shader", "animation", "scroll", "3d"],
+        "tech": ["r3f", "three.js", "glsl", "gsap"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/mountain-transition/preview.mp4",
@@ -559,12 +438,8 @@
       "title": "Non-Euclidean Hyperbolic Second Brain",
       "description": "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "lucide-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
       "files": [
         {
           "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicGraphGen.ts",
@@ -604,14 +479,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "generative",
-          "ui",
-          "cursor"
-        ],
-        "tech": [
-          "svg"
-        ],
+        "tags": ["generative", "ui", "cursor"],
+        "tech": ["svg"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
@@ -624,14 +493,8 @@
       "title": "rabbithole.chat Gallery Explore",
       "description": "3D floating gallery shader as an experimental explore page",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@react-three/fiber",
-        "three",
-        "normalize-wheel"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@react-three/fiber", "three", "normalize-wheel"],
       "files": [
         {
           "path": "src/components/experiments/rabbithole-chat-gallery-explore/GalleryExploreScene.tsx",
@@ -651,17 +514,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "3d",
-          "shader",
-          "gallery",
-          "scroll"
-        ],
-        "tech": [
-          "r3f",
-          "three.js",
-          "glsl"
-        ],
+        "tags": ["3d", "shader", "gallery", "scroll"],
+        "tech": ["r3f", "three.js", "glsl"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/rabbithole-chat-gallery-explore/preview.mp4",
@@ -674,9 +528,7 @@
       "title": "rabbithole.chat Preloader Shader",
       "description": "A vortex gallery shader preloader for rabbithole.chat",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [
         "gsap",
         "three",
@@ -703,18 +555,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "3d",
-          "shader",
-          "preloader",
-          "gallery",
-          "animation"
-        ],
-        "tech": [
-          "three.js",
-          "glsl",
-          "motion"
-        ],
+        "tags": ["3d", "shader", "preloader", "gallery", "animation"],
+        "tech": ["three.js", "glsl", "motion"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/rabbithole-chat-preloader/preview.mp4",
@@ -727,14 +569,8 @@
       "title": "Send Button",
       "description": "A cool animated send button animation",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "motion",
-        "lucide-react",
-        "@radix-ui/react-switch"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "lucide-react", "@radix-ui/react-switch"],
       "files": [
         {
           "path": "src/components/experiments/send-button/AnimatedPlaceholder.tsx",
@@ -770,14 +606,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "ui",
-          "animation",
-          "interaction"
-        ],
-        "tech": [
-          "motion"
-        ],
+        "tags": ["ui", "animation", "interaction"],
+        "tech": ["motion"],
         "status": "shipped",
         "poster": "/experiments/send-button/preview-send-button.png",
         "video": "/experiments/send-button/preview-send-button.mp4",
@@ -791,9 +621,7 @@
       "title": "Shader Landing",
       "description": "A random shader experiment",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -810,14 +638,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "shader",
-          "generative"
-        ],
-        "tech": [
-          "three.js",
-          "glsl"
-        ],
+        "tags": ["shader", "generative"],
+        "tech": ["three.js", "glsl"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/shader-landing/preview-shader-landing.mp4",
@@ -830,12 +652,8 @@
       "title": "Terminal Cat",
       "description": "Animating ASCII art in the browser console logs",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "sonner"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["sonner"],
       "files": [
         {
           "path": "src/components/experiments/terminal-cat/DevToolsKeyboard.tsx",
@@ -855,15 +673,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "ascii-art",
-          "animation",
-          "keyboard",
-          "console"
-        ],
-        "tech": [
-          "console-api"
-        ],
+        "tags": ["ascii-art", "animation", "keyboard", "console"],
+        "tech": ["console-api"],
         "status": "shipped",
         "poster": "/experiments/terminal-cat/preview.gif",
         "video": null,
@@ -876,13 +687,8 @@
       "title": "Transit/Airport Split-Flap Display",
       "description": "A split flap display for transit/airport systems with sound effects manually made with Web Audio API",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "motion",
-        "lucide-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "lucide-react"],
       "files": [
         {
           "path": "src/components/experiments/transit-airport-split-flap-display/SplitFlapCell.tsx",
@@ -914,17 +720,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "ui",
-          "audio",
-          "animation",
-          "text-effect"
-        ],
-        "tech": [
-          "motion",
-          "web-audio",
-          "css-animations"
-        ],
+        "tags": ["ui", "audio", "animation", "text-effect"],
+        "tech": ["motion", "web-audio", "css-animations"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/transit-airport-split-flap-display/preview.mp4",
@@ -938,17 +735,8 @@
       "title": "Velocity-Responsive Design",
       "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
       "category": "experiments",
-      "registryDependencies": [
-        "use-dev-controls",
-        "AIWidget",
-        "razi-style"
-      ],
-      "dependencies": [
-        "lucide-react",
-        "motion",
-        "lenis",
-        "tempus"
-      ],
+      "registryDependencies": ["use-dev-controls", "AIWidget", "razi-style"],
+      "dependencies": ["lucide-react", "motion", "lenis", "tempus"],
       "files": [
         {
           "path": "src/components/experiments/velocity-responsive-design/FlightControl.tsx",
@@ -1000,17 +788,8 @@
         }
       ],
       "meta": {
-        "tags": [
-          "scroll",
-          "animation",
-          "ui",
-          "generative"
-        ],
-        "tech": [
-          "lenis",
-          "motion",
-          "canvas-2d"
-        ],
+        "tags": ["scroll", "animation", "ui", "generative"],
+        "tech": ["lenis", "motion", "canvas-2d"],
         "status": "shipped",
         "poster": null,
         "video": "/experiments/velocity-responsive-design/preview.mp4",
@@ -1028,9 +807,7 @@
         "use-liquid-glass-style",
         "razi-style"
       ],
-      "dependencies": [
-        "motion"
-      ],
+      "dependencies": ["motion"],
       "files": [
         {
           "path": "src/components/ui/AIWidget.tsx",
@@ -1061,12 +838,8 @@
       "title": "ArticleLayout",
       "description": "ArticleLayout component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "lucide-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
       "files": [
         {
           "path": "src/components/ui/ArticleLayout.tsx",
@@ -1081,9 +854,7 @@
       "title": "ConsoleEasterEgg",
       "description": "ConsoleEasterEgg component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1099,14 +870,8 @@
       "title": "ContentSection",
       "description": "ContentSection component",
       "category": "components",
-      "registryDependencies": [
-        "use-umami",
-        "razi-style"
-      ],
-      "dependencies": [
-        "lucide-react",
-        "motion"
-      ],
+      "registryDependencies": ["use-umami", "razi-style"],
+      "dependencies": ["lucide-react", "motion"],
       "files": [
         {
           "path": "src/components/ui/ContentSection.tsx",
@@ -1165,13 +930,8 @@
       "title": "ExperimentDrawerList",
       "description": "macOS-style drawer list with grid/list toggle",
       "category": "components",
-      "registryDependencies": [
-        "use-umami",
-        "razi-style"
-      ],
-      "dependencies": [
-        "motion"
-      ],
+      "registryDependencies": ["use-umami", "razi-style"],
+      "dependencies": ["motion"],
       "files": [
         {
           "path": "src/components/ui/ExperimentDrawerList.tsx",
@@ -1214,9 +974,7 @@
       "title": "ExperimentErrorBoundary",
       "description": "Error boundary for experiment components.",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1232,9 +990,7 @@
       "title": "ExperimentList",
       "description": "ExperimentList component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1250,12 +1006,8 @@
       "title": "ExperimentNav",
       "description": "ExperimentNav component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "lucide-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
       "files": [
         {
           "path": "src/components/ui/ExperimentNav.tsx",
@@ -1270,9 +1022,7 @@
       "title": "GrainOverlay.story",
       "description": "GrainOverlay.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1292,9 +1042,7 @@
       "title": "GrainOverlay",
       "description": "Subtle film grain overlay effect",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1310,9 +1058,7 @@
       "title": "LiquidGlassFilter.story",
       "description": "LiquidGlassFilter.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1332,9 +1078,7 @@
       "title": "LiquidGlassFilter",
       "description": "LiquidGlassFilter component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1360,10 +1104,7 @@
         "use-mounted",
         "razi-style"
       ],
-      "dependencies": [
-        "motion",
-        "use-scramble"
-      ],
+      "dependencies": ["motion", "use-scramble"],
       "files": [
         {
           "path": "src/components/ui/LocationStatus.tsx",
@@ -1418,10 +1159,7 @@
       "title": "LottieWeatherIcon.story",
       "description": "LottieWeatherIcon.story component",
       "category": "components",
-      "registryDependencies": [
-        "use-mounted",
-        "razi-style"
-      ],
+      "registryDependencies": ["use-mounted", "razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1441,10 +1179,7 @@
       "title": "LottieWeatherIcon",
       "description": "LottieWeatherIcon component",
       "category": "components",
-      "registryDependencies": [
-        "use-mounted",
-        "razi-style"
-      ],
+      "registryDependencies": ["use-mounted", "razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1460,9 +1195,7 @@
       "title": "MobileBlocker",
       "description": "Hook to determine if the current device should be blocked (mobile).",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1478,13 +1211,8 @@
       "title": "ScrambleTicker.story",
       "description": "ScrambleTicker.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "motion",
-        "use-scramble"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "use-scramble"],
       "files": [
         {
           "path": "src/components/ui/ScrambleTicker.story.tsx",
@@ -1503,13 +1231,8 @@
       "title": "ScrambleTicker",
       "description": "Text scramble/ticker animation effect",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "motion",
-        "use-scramble"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion", "use-scramble"],
       "files": [
         {
           "path": "src/components/ui/ScrambleTicker.tsx",
@@ -1524,11 +1247,7 @@
       "title": "SiteFooter",
       "description": "SiteFooter component",
       "category": "components",
-      "registryDependencies": [
-        "icons",
-        "use-mounted",
-        "razi-style"
-      ],
+      "registryDependencies": ["icons", "use-mounted", "razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1552,13 +1271,8 @@
       "title": "ThemeAwareWaves",
       "description": "ThemeAwareWaves component",
       "category": "components",
-      "registryDependencies": [
-        "use-mounted",
-        "razi-style"
-      ],
-      "dependencies": [
-        "simplex-noise"
-      ],
+      "registryDependencies": ["use-mounted", "razi-style"],
+      "dependencies": ["simplex-noise"],
       "files": [
         {
           "path": "src/components/ui/ThemeAwareWaves.tsx",
@@ -1577,9 +1291,7 @@
       "title": "ThemeProvider",
       "description": "ThemeProvider component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1595,12 +1307,8 @@
       "title": "WritingSection",
       "description": "WritingSection component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "lucide-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
       "files": [
         {
           "path": "src/components/ui/WritingSection.tsx",
@@ -1623,9 +1331,7 @@
       "title": "ai-icons",
       "description": "ai-icons component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1641,12 +1347,8 @@
       "title": "badge.story",
       "description": "badge.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "src/components/ui/badge.story.tsx",
@@ -1665,12 +1367,8 @@
       "title": "badge",
       "description": "badge component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "src/components/ui/badge.tsx",
@@ -1685,13 +1383,8 @@
       "title": "button.story",
       "description": "button.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-slot",
-        "class-variance-authority"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
       "files": [
         {
           "path": "src/components/ui/button.story.tsx",
@@ -1710,13 +1403,8 @@
       "title": "button",
       "description": "button component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-slot",
-        "class-variance-authority"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
       "files": [
         {
           "path": "src/components/ui/button.tsx",
@@ -1731,9 +1419,7 @@
       "title": "card.story",
       "description": "card.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1749,9 +1435,7 @@
       "title": "card",
       "description": "card component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1767,12 +1451,8 @@
       "title": "drawer",
       "description": "drawer component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "vaul"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["vaul"],
       "files": [
         {
           "path": "src/components/ui/drawer.tsx",
@@ -1791,9 +1471,7 @@
       "title": "icons",
       "description": "icons component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1809,9 +1487,7 @@
       "title": "input",
       "description": "input component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1827,12 +1503,8 @@
       "title": "popover",
       "description": "popover component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-popover"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-popover"],
       "files": [
         {
           "path": "src/components/ui/popover.tsx",
@@ -1847,12 +1519,8 @@
       "title": "progress",
       "description": "progress component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-progress"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-progress"],
       "files": [
         {
           "path": "src/components/ui/progress.tsx",
@@ -1867,12 +1535,8 @@
       "title": "scroll-area",
       "description": "scroll-area component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-scroll-area"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-scroll-area"],
       "files": [
         {
           "path": "src/components/ui/scroll-area.tsx",
@@ -1887,12 +1551,8 @@
       "title": "separator.story",
       "description": "separator.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-separator"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-separator"],
       "files": [
         {
           "path": "src/components/ui/separator.story.tsx",
@@ -1911,12 +1571,8 @@
       "title": "separator",
       "description": "separator component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-separator"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-separator"],
       "files": [
         {
           "path": "src/components/ui/separator.tsx",
@@ -1931,12 +1587,8 @@
       "title": "sonner",
       "description": "sonner component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "sonner"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["sonner"],
       "files": [
         {
           "path": "src/components/ui/sonner.tsx",
@@ -1951,9 +1603,7 @@
       "title": "table",
       "description": "table component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -1969,12 +1619,8 @@
       "title": "tabs",
       "description": "tabs component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-tabs"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-tabs"],
       "files": [
         {
           "path": "src/components/ui/tabs.tsx",
@@ -1989,12 +1635,8 @@
       "title": "tooltip",
       "description": "tooltip component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@radix-ui/react-tooltip"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-tooltip"],
       "files": [
         {
           "path": "src/components/ui/tooltip.tsx",
@@ -2009,12 +1651,8 @@
       "title": "wave-background.story",
       "description": "wave-background.story component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "simplex-noise"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["simplex-noise"],
       "files": [
         {
           "path": "src/components/ui/wave-background.story.tsx",
@@ -2033,12 +1671,8 @@
       "title": "wave-background",
       "description": "wave-background component",
       "category": "components",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "simplex-noise"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["simplex-noise"],
       "files": [
         {
           "path": "src/components/ui/wave-background.tsx",
@@ -2053,13 +1687,8 @@
       "title": "ClipPathReveal",
       "description": "ClipPathReveal component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/clip-path-reveal/ClipPathReveal.tsx",
@@ -2082,11 +1711,7 @@
           "splittext",
           "gsap"
         ],
-        "tech": [
-          "gsap",
-          "gsap/SplitText",
-          "@gsap/react"
-        ],
+        "tech": ["gsap", "gsap/SplitText", "@gsap/react"],
         "previewUrl": "/collected/clip-path-reveal"
       }
     },
@@ -2096,13 +1721,8 @@
       "title": "CounterFlipReveal",
       "description": "CounterFlipReveal component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/counter-flip-reveal/CounterFlipReveal.tsx",
@@ -2117,20 +1737,8 @@
         "source": "https://github.com/codegridweb/cg-konpo-lp-reveal",
         "author": "Codegrid",
         "license": "MIT",
-        "tags": [
-          "reveal",
-          "counter",
-          "flip",
-          "preloader",
-          "splittext",
-          "gsap"
-        ],
-        "tech": [
-          "gsap",
-          "gsap/Flip",
-          "gsap/SplitText",
-          "@gsap/react"
-        ],
+        "tags": ["reveal", "counter", "flip", "preloader", "splittext", "gsap"],
+        "tech": ["gsap", "gsap/Flip", "gsap/SplitText", "@gsap/react"],
         "previewUrl": "/collected/counter-flip-reveal"
       }
     },
@@ -2140,12 +1748,8 @@
       "title": "CurvedTextScroll",
       "description": "Curved 3D text paths with horizontal-scrolling cards + dot grid.",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["gsap"],
       "files": [
         {
           "path": "src/components/collected/curved-text-scroll/CurvedTextScroll.tsx",
@@ -2170,11 +1774,7 @@
           "dot-grid",
           "gsap"
         ],
-        "tech": [
-          "three",
-          "gsap",
-          "gsap/ScrollTrigger"
-        ],
+        "tech": ["three", "gsap", "gsap/ScrollTrigger"],
         "previewUrl": "/collected/curved-text-scroll"
       }
     },
@@ -2184,9 +1784,7 @@
       "title": "CustomVideoPlayer",
       "description": "CustomVideoPlayer component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2202,16 +1800,8 @@
         "source": "https://github.com/codegridweb/cg-video-player",
         "author": "Codegrid",
         "license": "MIT",
-        "tags": [
-          "video",
-          "player",
-          "timeline",
-          "cursor",
-          "interaction"
-        ],
-        "tech": [
-          "react"
-        ],
+        "tags": ["video", "player", "timeline", "cursor", "interaction"],
+        "tech": ["react"],
         "previewUrl": "/collected/custom-video-player"
       }
     },
@@ -2221,13 +1811,8 @@
       "title": "FeatureConvergence",
       "description": "FeatureConvergence component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/feature-convergence/FeatureConvergence.tsx",
@@ -2250,10 +1835,7 @@
           "features",
           "gsap"
         ],
-        "tech": [
-          "gsap",
-          "@gsap/react"
-        ],
+        "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/feature-convergence"
       }
     },
@@ -2263,9 +1845,7 @@
       "title": "FibonacciImageOrb",
       "description": "3D Fibonacci sphere of image planes.",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2281,17 +1861,8 @@
         "source": "https://github.com/codegridweb/cg-asset-orb-next",
         "author": "Codegrid",
         "license": "MIT",
-        "tags": [
-          "3d",
-          "sphere",
-          "fibonacci",
-          "gallery",
-          "three-js",
-          "orbit"
-        ],
-        "tech": [
-          "three"
-        ],
+        "tags": ["3d", "sphere", "fibonacci", "gallery", "three-js", "orbit"],
+        "tech": ["three"],
         "previewUrl": "/collected/fibonacci-image-orb"
       }
     },
@@ -2301,9 +1872,7 @@
       "title": "ImageExplosion",
       "description": "ImageExplosion component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2327,9 +1896,7 @@
           "scroll",
           "interaction"
         ],
-        "tech": [
-          "react"
-        ],
+        "tech": ["react"],
         "previewUrl": "/collected/image-explosion"
       }
     },
@@ -2339,9 +1906,7 @@
       "title": "PhysicsTagCloud",
       "description": "Physics-based tag cloud using Matter.js.",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2365,9 +1930,7 @@
           "gravity",
           "interaction"
         ],
-        "tech": [
-          "matter-js"
-        ],
+        "tech": ["matter-js"],
         "previewUrl": "/collected/physics-tag-cloud"
       }
     },
@@ -2377,13 +1940,8 @@
       "title": "ScrollFrameCanvas",
       "description": "ScrollFrameCanvas component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/scroll-frame-canvas/ScrollFrameCanvas.tsx",
@@ -2408,10 +1966,7 @@
           "perspective",
           "gsap"
         ],
-        "tech": [
-          "gsap",
-          "@gsap/react"
-        ],
+        "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/scroll-frame-canvas"
       }
     },
@@ -2421,13 +1976,8 @@
       "title": "SplitCardFlip",
       "description": "SplitCardFlip component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/split-card-flip/SplitCardFlip.tsx",
@@ -2442,18 +1992,8 @@
         "source": "https://github.com/codegridweb/codegrid-split-card-scroll-animation",
         "author": "Codegrid",
         "license": "MIT",
-        "tags": [
-          "scroll",
-          "cards",
-          "flip",
-          "3d",
-          "split",
-          "gsap"
-        ],
-        "tech": [
-          "gsap",
-          "@gsap/react"
-        ],
+        "tags": ["scroll", "cards", "flip", "3d", "split", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/split-card-flip"
       }
     },
@@ -2463,13 +2003,8 @@
       "title": "SpotlightImageStack",
       "description": "SpotlightImageStack component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/spotlight-image-stack/SpotlightImageStack.tsx",
@@ -2492,10 +2027,7 @@
           "scatter",
           "gsap"
         ],
-        "tech": [
-          "gsap",
-          "@gsap/react"
-        ],
+        "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/spotlight-image-stack"
       }
     },
@@ -2505,13 +2037,8 @@
       "title": "StickyCardsFold",
       "description": "StickyCardsFold component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/sticky-cards-fold/StickyCardsFold.tsx",
@@ -2535,10 +2062,7 @@
           "perspective",
           "gsap"
         ],
-        "tech": [
-          "gsap",
-          "@gsap/react"
-        ],
+        "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/sticky-cards-fold"
       }
     },
@@ -2548,13 +2072,8 @@
       "title": "StickyCardsScale",
       "description": "StickyCardsScale component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/sticky-cards-scale/StickyCardsScale.tsx",
@@ -2569,18 +2088,8 @@
         "source": "https://github.com/codegridweb/codegrid-sticky-cards-ashfall-rebuild-nextjs",
         "author": "Codegrid",
         "license": "MIT",
-        "tags": [
-          "scroll",
-          "sticky",
-          "cards",
-          "scale",
-          "zoom",
-          "gsap"
-        ],
-        "tech": [
-          "gsap",
-          "@gsap/react"
-        ],
+        "tags": ["scroll", "sticky", "cards", "scale", "zoom", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/sticky-cards-scale"
       }
     },
@@ -2590,13 +2099,8 @@
       "title": "StickyCardsTilt",
       "description": "StickyCardsTilt component",
       "category": "collected",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "@gsap/react",
-        "gsap"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@gsap/react", "gsap"],
       "files": [
         {
           "path": "src/components/collected/sticky-cards-tilt/StickyCardsTilt.tsx",
@@ -2611,17 +2115,8 @@
         "source": "https://github.com/codegridweb/codegrid-sticky-cards-nextjs",
         "author": "Codegrid",
         "license": "MIT",
-        "tags": [
-          "scroll",
-          "sticky",
-          "cards",
-          "tilt",
-          "gsap"
-        ],
-        "tech": [
-          "gsap",
-          "@gsap/react"
-        ],
+        "tags": ["scroll", "sticky", "cards", "tilt", "gsap"],
+        "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/sticky-cards-tilt"
       }
     },
@@ -2843,9 +2338,7 @@
       "title": "BeforeAfterImage",
       "description": "BeforeAfterImage MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2861,9 +2354,7 @@
       "title": "Callout",
       "description": "Callout MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2879,9 +2370,7 @@
       "title": "CodeBlock",
       "description": "CodeBlock MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2897,9 +2386,7 @@
       "title": "CodeStep",
       "description": "CodeStep MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2915,9 +2402,7 @@
       "title": "Details",
       "description": "Details MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2937,9 +2422,7 @@
       "title": "Fullbleed",
       "description": "Fullbleed MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2955,9 +2438,7 @@
       "title": "HeadingLink",
       "description": "HeadingLink MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2973,9 +2454,7 @@
       "title": "InteractiveWidget",
       "description": "InteractiveWidget MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -2991,9 +2470,7 @@
       "title": "LiveDemo",
       "description": "LiveDemo MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -3009,12 +2486,8 @@
       "title": "PageActions",
       "description": "PageActions MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "lucide-react"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["lucide-react"],
       "files": [
         {
           "path": "src/components/mdx/PageActions.tsx",
@@ -3029,12 +2502,8 @@
       "title": "Pill",
       "description": "Pill MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "src/components/mdx/Pill.tsx",
@@ -3049,9 +2518,7 @@
       "title": "SandpackDemo",
       "description": "SandpackDemo MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -3067,12 +2534,8 @@
       "title": "Slideshow",
       "description": "Slideshow MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
-      "dependencies": [
-        "motion"
-      ],
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["motion"],
       "files": [
         {
           "path": "src/components/mdx/Slideshow.tsx",
@@ -3087,9 +2550,7 @@
       "title": "TableOfContents",
       "description": "TableOfContents MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": ["razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -3105,14 +2566,8 @@
       "title": "_previews",
       "description": "_previews MDX component",
       "category": "mdx",
-      "registryDependencies": [
-        "use-debounced-value",
-        "razi-style"
-      ],
-      "dependencies": [
-        "class-variance-authority",
-        "motion"
-      ],
+      "registryDependencies": ["use-debounced-value", "razi-style"],
+      "dependencies": ["class-variance-authority", "motion"],
       "files": [
         {
           "path": "src/components/mdx/_previews.tsx",
@@ -3259,10 +2714,7 @@
       "title": "MDX Controls",
       "description": "Interactive control primitives for MDX articles (Checkbox, Switch, Radio, Range, ControlGroup)",
       "category": "mdx",
-      "registryDependencies": [
-        "use-debounced-value",
-        "razi-style"
-      ],
+      "registryDependencies": ["use-debounced-value", "razi-style"],
       "dependencies": [],
       "files": [
         {
@@ -3303,10 +2755,7 @@
       "description": "utils utility",
       "category": "utilities",
       "registryDependencies": [],
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ],
+      "dependencies": ["clsx", "tailwind-merge"],
       "files": [
         {
           "path": "src/lib/utils.ts",

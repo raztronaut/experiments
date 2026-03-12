@@ -84,7 +84,6 @@ export function HyperbolicInfoModal({
   };
 
   return (
-    // biome-ignore lint: Escape key close handled via useEffect listener
     <div
       aria-labelledby="hyperbolic-modal-title"
       aria-modal="true"

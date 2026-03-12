@@ -471,7 +471,7 @@ function buildMdxComponentMdx(item, allValidItems) {
       "## Preview",
       "",
       `<MdxPreview slug="${name}" title="${title}" />`,
-      "",
+      ""
     );
   }
 
