@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "fec5195dd0e6",
+  "session_id": "978e7f67-3bec-46bb-9cbd-10a7dd065d2a",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:50:55.252206Z",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".gitignore"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "7409652eb219",
+  "checkpoint_transcript_start": 110,
+  "transcript_lines_at_start": 110,
+  "session_metrics": {
+    "turn_count": 7
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:50:55.219998Z",
+    "agent_lines": 1,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1,
+    "agent_percentage": 100
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "fec5195dd0e6",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".gitignore"
+  ],
+  "sessions": [
+    {
+      "metadata": "/fe/c5195dd0e6/0/metadata.json",
+      "transcript": "/fe/c5195dd0e6/0/full.jsonl",
+      "content_hash": "/fe/c5195dd0e6/0/content_hash.txt",
+      "prompt": "/fe/c5195dd0e6/0/prompt.txt"
+    }
+  ]
+}
