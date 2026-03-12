@@ -18,7 +18,9 @@ export async function GET() {
       url: `${SITE_URL}${article.href}`,
       title: article.title,
       ...(article.description && { summary: article.description }),
-      ...(article.content && { content_text: mdxToPlainMarkdown(article.content) }),
+      ...(article.content && {
+        content_text: mdxToPlainMarkdown(article.content),
+      }),
       date_published: new Date(article.publishedAt).toISOString(),
       ...(article.updatedAt && {
         date_modified: new Date(article.updatedAt).toISOString(),

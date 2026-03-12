@@ -1,6 +1,6 @@
 import { performance } from "node:perf_hooks";
-import { GET as getFeedJson } from "../src/app/feed.json/route";
 import { GET as getAtomXml } from "../src/app/atom.xml/route";
+import { GET as getFeedJson } from "../src/app/feed.json/route";
 import { GET as getFeedXml } from "../src/app/feed.xml/route";
 
 async function runBenchmark(name: string, fn: () => Promise<Response>) {
