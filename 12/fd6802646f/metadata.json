@@ -3,7 +3,7 @@
   "checkpoint_id": "12fd6802646f",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     ".agents/contexts/content-constellation.md",
     ".agents/workflows/publish-experiment.md",
@@ -19,6 +19,12 @@
       "transcript": "/12/fd6802646f/0/full.jsonl",
       "content_hash": "/12/fd6802646f/0/content_hash.txt",
       "prompt": ""
+    },
+    {
+      "metadata": "/12/fd6802646f/1/metadata.json",
+      "transcript": "/12/fd6802646f/1/full.jsonl",
+      "content_hash": "/12/fd6802646f/1/content_hash.txt",
+      "prompt": "/12/fd6802646f/1/prompt.txt"
     }
   ]
 }
