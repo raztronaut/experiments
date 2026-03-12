@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "df53c7f973e4",
+  "session_id": "1e7b54ed-8f07-4c05-88f9-f67a5e0e2f86",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:20:36.595832Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "src/app/experiments/(404-not-found)/404-not-found/article/content.mdx",
+    "src/app/experiments/(basketball-replay-center)/basketball-replay-center/article/content.mdx",
+    "src/app/experiments/(velocity-responsive-design)/velocity-responsive-design/article/content.mdx"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "b8e18aeea8bf",
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:20:36.560882Z",
+    "agent_lines": 26,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 26,
+    "agent_percentage": 100
+  }
+}
