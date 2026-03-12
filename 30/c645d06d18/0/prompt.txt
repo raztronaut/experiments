@@ -1,0 +1,8 @@
+Please fix this error:
+
+**Error in experiments/src/components/experiments/non-euclidean-hyperbolic-workspace/NonEuclideanHyperbolicWorkspace.tsx:**
+- **Line 192:** The class `inset-[-1px]` can be written as `-inset-px`
+- **Severity:** Warning
+- **Code:** suggestCanonicalClasses
+
+Provide a solution that resolves this issue. @NonEuclideanHyperbolicWorkspace.tsx
