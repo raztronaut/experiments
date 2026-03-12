@@ -8,7 +8,7 @@
   "status": "shipped",
   "complexity": "advanced",
   "legacy": true,
-  "tags": ["generative", "ui", "cursor"],
-  "tech": ["svg"],
+  "tags": ["math", "geometry", "interactive", "data-viz"],
+  "tech": ["svg", "canvas-2d", "css-transforms", "math"],
   "listing": "public"
 }

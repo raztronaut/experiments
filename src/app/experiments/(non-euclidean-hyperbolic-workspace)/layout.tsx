@@ -5,6 +5,7 @@ import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import experiment from "./experiment.json";
 
 const hasArticle = existsSync(
@@ -18,29 +19,29 @@ const isPublic =
   experiment.status === "shipped" &&
   (!experiment.listing || experiment.listing === "public");
 
+const posterPath = experiment.video
+  ? `/experiments/${experiment.slug}/poster.jpg`
+  : "/og-image.png";
+
 export const metadata = {
   metadataBase: new URL("https://www.razisyed.cv"),
-  title: "Non-Euclidean Hyperbolic Workspace",
-  description:
-    "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
+  title: experiment.title,
+  description: experiment.description,
   openGraph: {
-    title: "Non-Euclidean Hyperbolic Workspace",
-    description:
-      "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
-    url: "https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace",
-    images: ["/experiments/non-euclidean-hyperbolic-workspace/poster.jpg"],
-    videos: ["/experiments/non-euclidean-hyperbolic-workspace/preview.mp4"],
+    title: experiment.title,
+    description: experiment.description,
+    url: `https://www.razisyed.cv/experiments/${experiment.slug}`,
+    images: [posterPath],
+    videos: experiment.video ? [experiment.video] : [],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Non-Euclidean Hyperbolic Workspace",
-    description:
-      "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
-    images: ["/experiments/non-euclidean-hyperbolic-workspace/poster.jpg"],
+    card: "summary_large_image" as const,
+    title: experiment.title,
+    description: experiment.description,
+    images: [posterPath],
   },
   alternates: {
-    canonical:
-      "https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace",
+    canonical: `https://www.razisyed.cv/experiments/${experiment.slug}`,
   },
   authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
   robots: isPublic
@@ -50,17 +51,27 @@ export const metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="font-canvas antialiased">
         <DevToolsInjector />
-        <UmamiScript />
         <ExperimentJsonLd
-          description={metadata.description as string}
-          slug="non-euclidean-hyperbolic-workspace"
-          title={metadata.title as string}
+          description={experiment.description}
+          slug={experiment.slug}
+          tags={experiment.tags as string[]}
+          title={experiment.title}
         />
-        <ExperimentNav articleSlug={hasArticle ? experiment.slug : undefined} />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          disableTransitionOnChange
+          enableSystem
+        >
+          <UmamiScript />
+          <ExperimentNav
+            articleSlug={hasArticle ? experiment.slug : undefined}
+          />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
