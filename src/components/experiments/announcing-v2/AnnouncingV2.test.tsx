@@ -1,6 +1,10 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+vi.mock("./canvas/CanvasText", () => ({
+  CanvasText: () => null,
+}));
+
 vi.mock("@/lib/toolkit/scroll", () => ({
   createUnifiedScroll: () => ({
     lenis: { on: vi.fn() },
@@ -58,28 +62,42 @@ vi.mock("@/hooks/useGSAPDebug", () => ({
   useGSAPDebug: vi.fn(),
 }));
 
-vi.mock("@react-three/fiber", () => ({
-  useFrame: vi.fn(),
-  useThree: vi.fn(() => ({
-    viewport: { width: 10, height: 10, factor: 1 },
-    size: { width: 800, height: 600 },
-  })),
-  Canvas: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-}));
-
-vi.mock("@react-three/drei", () => ({
-  ScreenQuad: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  useGLTF: Object.assign(
-    vi.fn(() => ({
-      scene: { position: { sub: vi.fn() } },
+vi.mock("@react-three/fiber", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@react-three/fiber")>();
+  return {
+    ...actual,
+    useFrame: vi.fn(),
+    useThree: vi.fn(() => ({
+      viewport: { width: 10, height: 10, factor: 1 },
+      size: { width: 800, height: 600 },
     })),
-    { preload: vi.fn() }
-  ),
-}));
+    Canvas: ({ children }: { children: React.ReactNode }) => (
+      <div>{children}</div>
+    ),
+  };
+});
+
+vi.mock("@react-three/drei", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@react-three/drei")>();
+  return {
+    ...actual,
+    Environment: () => null,
+    Float: ({ children }: { children: React.ReactNode }) => (
+      <div>{children}</div>
+    ),
+    Line: () => null,
+    MeshDistortMaterial: () => null,
+    ScreenQuad: ({ children }: { children: React.ReactNode }) => (
+      <div>{children}</div>
+    ),
+    useGLTF: Object.assign(
+      vi.fn(() => ({
+        scene: { position: { sub: vi.fn() } },
+      })),
+      { preload: vi.fn() }
+    ),
+  };
+});
 
 describe("AnnouncingV2", () => {
   it("renders without crashing", async () => {
