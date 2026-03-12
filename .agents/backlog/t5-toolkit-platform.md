@@ -21,10 +21,7 @@ Audit date: 2026-03-10
 
 ## Agent Session Capture
 
-- [ ] **Entire.io integration** -- Install [Entire CLI](https://docs.entire.io/introduction) (`brew install entireio/tap/entire`) and `entire enable` in the repo. Captures full agent session context (transcripts, token usage, line attribution, file changes) as Git-native checkpoints on every commit. Permanent metadata lives on `entire/checkpoints/v1` branch, no noise on working branches. Supports Cursor via Claude Code integration. Enables `entire explain` to understand how code was written, PR-level session review, and token usage tracking across sessions. Low effort -- two commands to set up, zero workflow change after that.
-  - Docs: https://docs.entire.io
-  - Quickstart: `brew install entireio/tap/entire && entire enable`
-  - Replaces: manual agent transcript management in `.cursor/projects/*/agent-transcripts/`
+- [x] **Entire.io integration** -- Done 2026-03-12. Entire CLI v0.5.0 installed, Cursor hooks enabled, telemetry off, conventional commits validation inlined in commit-msg hook. Checkpoints auto-created on every commit. `entire/checkpoints/v1` branch pushed to origin. Known limitation: go-git doesn't support `extensions.worktreeConfig` (removed from git config; Codex/Cursor worktrees unaffected). Cursor sessions lack token accounting and rewind (documented limitations).
 
 ## Scroll Documentation
 
