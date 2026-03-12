@@ -57,7 +57,7 @@ No conflict -- different sections of the file. But after the deploy plan's `git 
 - `**.entire/` directory** does not exist.
 - `**.cursor/hooks.json`** has two continual-learning hooks (`sessionStart`, `stop`).
 - `**.git/hooks/`** only has lefthook's `pre-commit` -- no `post-commit` or `pre-push`.
-- `**lefthook.yml**` has no comment about Entire.
+- `**lefthook.yml`** has no comment about Entire.
 - `**.gitignore**` has no `.entire/settings.local.json` entry.
 - No `vercel.json` exists -- builds are configured in the Vercel dashboard.
 - No `entire/checkpoints/v1` branch exists on origin.
