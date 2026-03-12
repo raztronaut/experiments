@@ -1,0 +1,18 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "90325b824075",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "vercel.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/90/325b824075/0/metadata.json",
+      "transcript": "/90/325b824075/0/full.jsonl",
+      "content_hash": "/90/325b824075/0/content_hash.txt",
+      "prompt": ""
+    }
+  ]
+}

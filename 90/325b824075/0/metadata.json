@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "90325b824075",
+  "session_id": "0b6fec3e-8ef3-4e01-8230-1abd33dbc5b4",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:34:56.918856Z",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "vercel.json"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "cb16f2b857cb",
+  "checkpoint_transcript_start": 23,
+  "transcript_lines_at_start": 23,
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:34:56.896Z",
+    "agent_lines": 0,
+    "human_added": 0,
+    "human_modified": 1,
+    "human_removed": 1,
+    "total_committed": 0,
+    "agent_percentage": 0
+  }
+}
