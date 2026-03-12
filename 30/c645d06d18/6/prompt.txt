@@ -1,0 +1,9 @@
+how would you center the latex math thats in its own line?
+
+---
+
+does that fix align with how other things are styled?
+
+---
+
+sure
