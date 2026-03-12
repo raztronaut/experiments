@@ -7,7 +7,7 @@ updatedAt: "2026-03-11T00:00:00.000Z"
 
 # 404 Not Found
 
-I wanted a 404 page that felt like something physical -- a stack of parchment ribbons drifting in space, each one stamped with "404 NOT FOUND" in heavy type, red guide lines running across them like a ruled notebook. The text scrolls across the ribbons, and when you scroll the page, everything speeds up or reverses. Flip them over and the back face says "INSPIRED BY DAY JOB."
+I wanted a 404 page that felt like something physical: a stack of parchment ribbons drifting in space, each one stamped with "404 NOT FOUND" in heavy type, red guide lines running across them like a ruled notebook. The text scrolls across the ribbons, and when you scroll the page, everything speeds up or reverses. Flip them over and the back face says "INSPIRED BY DAY JOB."
 
 The whole thing is 35 ribbons in React Three Fiber, each with a custom GLSL shader that handles both faces, plus a scroll-velocity system that bypasses React entirely for 60fps updates. Three things worth explaining: the wave deformation, the dual-face shader, and the scroll-velocity bridge.
 
@@ -15,7 +15,7 @@ The whole thing is 35 ribbons in React Three Fiber, each with a custom GLSL shad
 
 Each ribbon is a `boxGeometry` with 256 segments along its length. That's a lot of vertices for a box, but you need the subdivision for smooth sine-wave displacement in the vertex shader.
 
-The main curve is a sine wave applied only to the Z axis (depth). Displacing in Y would make ribbons clip through each other -- keeping it in Z gives the paper-curl look without overlap issues:
+The main curve is a sine wave applied only to the Z axis (depth). Displacing in Y would make ribbons clip through each other. Keeping it in Z gives the paper-curl look without overlap issues:
 
 ```glsl
 float indent = sin(xPos) * uAmplitude;
@@ -28,7 +28,7 @@ indent += sin(xPos * 2.1 + 0.4) * uAmplitude * 0.3;
 indent += sin(xPos * 4.4 + 1.2) * uAmplitude * 0.1;
 ```
 
-The second harmonic runs at 2.1x the base frequency with 30% amplitude. The third at 4.4x with 10%. Those ratios aren't magic -- they just avoid integer multiples so the harmonics don't reinforce the base wave into a sharp peak.
+The second harmonic runs at 2.1x the base frequency with 30% amplitude. The third at 4.4x with 10%. Those ratios aren't magic; they just avoid integer multiples so the harmonics don't reinforce the base wave into a sharp peak.
 
 The `indent` value also flows to the fragment shader as a `varying` called `vIndent`. Valley shadows use it later.
 
@@ -59,17 +59,17 @@ if (vModelNormal.z > 0.5) {
 }
 ```
 
-Front face samples a repeating text texture and scrolls it horizontally by offsetting the UV. The texture is composited over the ribbon's base color using the texture alpha -- text is opaque, background is transparent, so you get colored parchment with dark text on top.
+Front face samples a repeating text texture and scrolls it horizontally by offsetting the UV. The texture is composited over the ribbon's base color using the texture alpha: text is opaque, background is transparent, so you get colored parchment with dark text on top.
 
 Back face has two modes. Most ribbons tile an italic "INSPIRED BY DAY JOB" texture. But ribbons 12 through 21 display a clamped image that spans all 10 ribbons as a single picture, using UV offset and scale to position each ribbon's slice.
 
-The textures aren't loaded from files. They're generated at runtime with Canvas 2D -- `document.createElement('canvas')`, draw the text with Inter 900 weight, add the red guide lines, wrap in a `CanvasTexture` with `RepeatWrapping`. A global cache with ref-counting prevents 35 ribbons from generating the same texture 35 times.
+The textures aren't loaded from files. They're generated at runtime with Canvas 2D: `document.createElement('canvas')`, draw the text with Inter 900 weight, add the red guide lines, wrap in a `CanvasTexture` with `RepeatWrapping`. A global cache with ref-counting prevents 35 ribbons from generating the same texture 35 times.
 
 <InteractiveWidget title="Dual-Face Rendering">
   <DualFaceTextureDemo />
 </InteractiveWidget>
 
-Switch to "Back" to see the italic text mode. On the front, each ribbon scrolls its text independently -- some left, some right, at different speeds.
+Switch to "Back" to see the italic text mode. On the front, each ribbon scrolls its text independently, some left, some right, at different speeds.
 
 After the face check, the shader layers on a full lighting model:
 
@@ -87,7 +87,7 @@ The valley shadow is the most important one. `vIndent` from the vertex shader te
 
 ## Scroll-velocity-driven text
 
-The ribbons have a base text scroll speed, but when you scroll the page, the text accelerates or reverses based on your scroll velocity. The system is deliberately minimal -- no Lenis, no GSAP ScrollTrigger, just a wheel event listener and a mutable ref.
+The ribbons have a base text scroll speed, but when you scroll the page, the text accelerates or reverses based on your scroll velocity. The system is deliberately minimal: no Lenis, no GSAP ScrollTrigger, just a wheel event listener and a mutable ref.
 
 ```tsx
 export const scrollVelocityRef = { current: 0 };
@@ -116,13 +116,13 @@ offsetRef.current += (1.0 + scrollInfluence) * delta;
 materialRef.current.uniforms.uRunTime.value = offsetRef.current;
 ```
 
-The `1.0` in `(1.0 + scrollInfluence)` is the base flow -- text scrolls even when you're not scrolling. The scroll influence adds on top. The result feeds into `uRunTime`, which the fragment shader uses to offset the text UV.
+The `1.0` in `(1.0 + scrollInfluence)` is the base flow: text scrolls even when you're not scrolling. The scroll influence adds on top. The result feeds into `uRunTime`, which the fragment shader uses to offset the text UV.
 
 <InteractiveWidget title="Scroll Velocity">
   <ScrollVelocityDemo />
 </InteractiveWidget>
 
-Scroll inside the demo to see the velocity bar spike and decay. The decay rate slider controls the `lerp` factor -- lower values give a floatier, ice-on-glass feel. The default 0.05 is responsive but smooth.
+Scroll inside the demo to see the velocity bar spike and decay. The decay rate slider controls the `lerp` factor, where lower values give a floatier, ice-on-glass feel. The default 0.05 is responsive but smooth.
 
 ## The mutable ref trick
 
@@ -138,7 +138,7 @@ A mutable ref sits outside React's render cycle entirely. The scroll event write
 
 ## What I'd do differently
 
-The custom scroll system works but it's a one-off. Every other experiment in this lab uses Lenis + ScrollTrigger through the toolkit integration layer. A unified approach would mean scroll velocity is automatically available to any component without wiring up raw wheel events. The mutable ref pattern would stay -- it's just the event capture that should be shared.
+The custom scroll system works but it's a one-off. Every other experiment in this lab uses Lenis + ScrollTrigger through the toolkit integration layer. A unified approach would mean scroll velocity is automatically available to any component without wiring up raw wheel events. The mutable ref pattern would stay; only the event capture needs to be shared.
 
 The texture cache with ref-counting is clever but fragile. If a component re-renders and generates a new cache key (because a dependency changed), the old texture gets orphaned until its ref count drops to zero. A WeakRef-based approach or just using Three.js's built-in `Cache` would be more robust.
 

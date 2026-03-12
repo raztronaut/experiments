@@ -7,7 +7,7 @@ updatedAt: "2026-03-06T00:00:00.000Z"
 
 # Basketball Replay Center
 
-I was working on a basketball product and needed a preloader. Not a spinner. Something that set the mood -- a wall of screens like you'd see in a broadcast control room, each one flickering with different replay angles, all with that degraded CRT look.
+I was working on a basketball product and needed a preloader. Not a spinner. Something that set the mood: a wall of screens like you'd see in a broadcast control room, each one flickering with different replay angles, all with that degraded CRT look.
 
 The screens boot up, the distortion kicks in, then everything fades out except the logo. The whole thing runs in React Three Fiber with custom shaders, Three.js post-processing, and a GSAP timeline. A few people asked how the CRT effect works, so I figured I'd write it up.
 
@@ -98,7 +98,7 @@ vec2 barrelDistortion(vec2 uv, float distortion) {
 }
 ```
 
-`distortion * r2` pushes pixels farther from center more, creating the CRT bulge. Chromatic aberration splits R, G, B by sampling at different distorted UVs. The aberration scales with distortion -- `1.0 + uDistortion * 0.5` -- so when the barrel effect ramps up, the fringing intensifies with it.
+`distortion * r2` pushes pixels farther from center more, creating the CRT bulge. Chromatic aberration splits R, G, B by sampling at different distorted UVs. The aberration scales with distortion (`1.0 + uDistortion * 0.5`), so when the barrel effect ramps up, the fringing intensifies with it.
 
 ## Animating shader uniforms with GSAP
 
@@ -129,7 +129,7 @@ tl.to(panel.material.uniforms.uOpacity, {
 });
 ```
 
-The full animation runs in five phases -- boot-up, distortion ramp, hold, fade-out, logo reveal -- all in a single timeline. Panels are sorted by Manhattan distance from center for the stagger: `Math.abs(col - 2) + Math.abs(row - 1)`. Center first, corners last. On fade-out, it reverses.
+The full animation runs in five phases: boot-up, distortion ramp, hold, fade-out, and logo reveal, all in a single timeline. Panels are sorted by Manhattan distance from center for the stagger: `Math.abs(col - 2) + Math.abs(row - 1)`. Center first, corners last. On fade-out, it reverses.
 
 ## Full thing
 
