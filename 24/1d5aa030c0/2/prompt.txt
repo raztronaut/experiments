@@ -1,0 +1,15 @@
+go through the docs created from the plan @/Users/razisyed/.cursor/plans/readme_and_docs_overhaul_48479757.plan.md and @/Users/razisyed/.cursor/projects/REDACTED/agent-transcripts/c4c552fe-6213-4e49-9574-eb7e3df77150/c4c552fe-6213-4e49-9574-eb7e3df77150.jsonl . make sure they are comprehensive and correct. if theres anything else, either within the new docs, or additional things should be created, look into it
+
+---
+
+@docs_review_and_fixes_68847cad.plan.md (34-36) im pretty sure they do. check @experiments/public/
+
+---
+
+@experiments/src/app/favicon.ico @experiments/src/app/apple-icon.png dawg
+
+---
+
+Implement the plan as specified, it is attached for your reference. Do NOT edit the plan file itself.
+
+To-do's from the plan have already been created. Do not create them again. Mark them as in_progress as you work, starting with the first one. Don't stop until you have completed all the to-dos.
