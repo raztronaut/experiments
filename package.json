@@ -2,6 +2,23 @@
   "name": "experiments",
   "version": "0.1.0",
   "private": true,
+  "description": "Creative coding lab -- shaders, 3D scenes, scroll animation, interactive UI",
+  "homepage": "https://www.razisyed.cv",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raztronaut/experiments"
+  },
+  "license": "MIT",
+  "author": "Razi Syed <syed.raziulhaque@gmail.com>",
+  "keywords": [
+    "experiments",
+    "creative-coding",
+    "shaders",
+    "r3f",
+    "gsap",
+    "nextjs",
+    "shadcn-registry"
+  ],
   "scripts": {
     "dev": "next dev",
     "generate:all": "npm run generate:posters && npm run generate:registry && npm run generate:llms-txt",

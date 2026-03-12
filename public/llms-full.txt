@@ -22,6 +22,15 @@
 - Tags: preloader, broadcast, crt
 - Technologies: r3f, three.js, glsl, gsap, next-themes
 
+### Non-Euclidean Hyperbolic Second Brain
+
+- URL: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article
+- Experiment: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace
+- Published: 2026-03-12T00:00:00.000Z
+- Description: Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations
+- Tags: generative, ui, cursor
+- Technologies: svg
+
 ### Velocity-Responsive Design
 
 - URL: https://www.razisyed.cv/experiments/velocity-responsive-design/article
@@ -155,6 +164,8 @@
 - Created: 2025-12-31T00:41:44.181Z
 - Tags: generative, ui, cursor
 - Technologies: svg
+- Article: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article
+- Article (Markdown): https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article.mdx
 - Markdown Summary: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace.mdx
 
 ### OSX Cheetah UI with a surprise
