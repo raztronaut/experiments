@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
+import { PageActions } from "@/components/mdx/PageActions";
 import { AUTHOR_NAME, SITE_URL } from "@/lib/constants";
 
 interface ArticleNavItem {
@@ -91,7 +92,9 @@ export function ArticleLayout({
         ))}
       </header>
 
-      <article className="e-content min-w-0">{children}</article>
+      <PageActions markdownUrl={`/experiments/${experimentSlug}/article.mdx`} />
+
+      <article className="e-content mt-8 min-w-0">{children}</article>
 
       {(prev || next) && (
         <nav className="mt-16 flex items-stretch gap-4 border-border border-t pt-8">

@@ -137,8 +137,6 @@ The full animation runs in five phases -- boot-up, distortion ramp, hold, fade-o
 
 ## What I'd do differently
 
-The `EffectComposer` gets recreated on every resize because it's in a `useMemo` that depends on `size`. Should create it once and call `setSize` instead.
-
 Video loading is fire-and-forget. On slow connections, panels stay dark. A per-panel loading state with animated static noise would look better and mask the delay.
 
 The responsive scaling uses a hardcoded aspect ratio breakpoint. A proper solution would compute the camera frustum to fit the grid at any ratio.

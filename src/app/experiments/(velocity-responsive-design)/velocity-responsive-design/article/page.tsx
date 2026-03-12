@@ -1,14 +1,11 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
-import {
-  getAdjacentArticles,
-  getArticleContent,
-} from "@/lib/articles";
+import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
 import { SITE_URL } from "@/lib/constants";
 import {
   generateArticleJsonLd,
@@ -65,8 +62,14 @@ export default async function ArticlePage() {
 
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([
     { name: "Home", url: SITE_URL },
-    { name: experiment.title, url: `${SITE_URL}/experiments/${experiment.slug}` },
-    { name: "Article", url: `${SITE_URL}/experiments/${experiment.slug}/article` },
+    {
+      name: experiment.title,
+      url: `${SITE_URL}/experiments/${experiment.slug}`,
+    },
+    {
+      name: "Article",
+      url: `${SITE_URL}/experiments/${experiment.slug}/article`,
+    },
   ]);
 
   return (
@@ -76,7 +79,9 @@ export default async function ArticlePage() {
         type="application/ld+json"
       />
       <script
-        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLdStringify(breadcrumbJsonLd),
+        }}
         type="application/ld+json"
       />
       <ArticleLayout
@@ -90,29 +95,31 @@ export default async function ArticlePage() {
         updatedAt={frontmatter.updatedAt}
       >
         <MDXRemote
-        components={{
-            ...articleComponents,
-            HysteresisDemo,
-            ScrollDensityDemo,
-            VelocityTrackingDemo,
-          } as React.ComponentPropsWithoutRef<typeof MDXRemote>["components"]}
-        options={{
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [
-              rehypeSlug,
-              [
-                rehypePrettyCode,
-                {
-                  theme: { light: "github-light", dark: "github-dark" },
-                  keepBackground: false,
-                },
+          components={
+            {
+              ...articleComponents,
+              HysteresisDemo,
+              ScrollDensityDemo,
+              VelocityTrackingDemo,
+            } as React.ComponentPropsWithoutRef<typeof MDXRemote>["components"]
+          }
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+              rehypePlugins: [
+                rehypeSlug,
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: { light: "github-light", dark: "github-dark" },
+                    keepBackground: false,
+                  },
+                ],
               ],
-            ],
-          },
-        }}
-        source={content}
-      />
+            },
+          }}
+          source={content}
+        />
       </ArticleLayout>
     </>
   );

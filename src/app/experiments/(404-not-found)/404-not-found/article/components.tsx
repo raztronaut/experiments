@@ -1,12 +1,12 @@
 "use client";
 
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  type ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+  Checkbox,
+  ControlGroup,
+  Radio,
+  Range,
+} from "@/components/mdx/controls";
 
 const PARCHMENT_COLORS = [
   "#E6DDB5",
@@ -20,10 +20,6 @@ const PARCHMENT_COLORS = [
 function hexToRgb(hex: string): [number, number, number] {
   const n = Number.parseInt(hex.slice(1), 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-}
-
-function onRange(setter: (v: number) => void) {
-  return (e: ChangeEvent<HTMLInputElement>) => setter(Number(e.target.value));
 }
 
 export function WaveDeformationDemo() {
@@ -151,52 +147,36 @@ export function WaveDeformationDemo() {
         ref={canvasRef}
         width={500}
       />
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Amplitude: {amplitude.toFixed(1)}
-          </span>
-          <input
-            className="w-full"
-            max="6"
-            min="0.5"
-            onChange={onRange(setAmplitude)}
-            step="0.1"
-            type="range"
-            value={amplitude}
-          />
-        </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Frequency: {frequency.toFixed(3)}
-          </span>
-          <input
-            className="w-full"
-            max="0.1"
-            min="0.01"
-            onChange={onRange(setFrequency)}
-            step="0.005"
-            type="range"
-            value={frequency}
-          />
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            checked={harmonics}
-            onChange={(e) => setHarmonics(e.target.checked)}
-            type="checkbox"
-          />
-          <span className="text-muted-foreground">Harmonic layers</span>
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            checked={showShadow}
-            onChange={(e) => setShowShadow(e.target.checked)}
-            type="checkbox"
-          />
-          <span className="text-muted-foreground">Valley shadows</span>
-        </label>
-      </div>
+      <ControlGroup columns={2}>
+        <Range
+          formatValue={(v) => v.toFixed(1)}
+          label="Amplitude"
+          max={6}
+          min={0.5}
+          onChange={setAmplitude}
+          step={0.1}
+          value={amplitude}
+        />
+        <Range
+          formatValue={(v) => v.toFixed(3)}
+          label="Frequency"
+          max={0.1}
+          min={0.01}
+          onChange={setFrequency}
+          step={0.005}
+          value={frequency}
+        />
+        <Checkbox
+          checked={harmonics}
+          label="Harmonic layers"
+          onChange={setHarmonics}
+        />
+        <Checkbox
+          checked={showShadow}
+          label="Valley shadows"
+          onChange={setShowShadow}
+        />
+      </ControlGroup>
     </div>
   );
 }
@@ -318,46 +298,38 @@ export function DualFaceTextureDemo() {
         ref={canvasRef}
         width={500}
       />
-      <div className="grid grid-cols-2 gap-4 text-sm">
+      <ControlGroup columns={2}>
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground">Face</span>
-          <div className="flex gap-3">
-            <label className="flex items-center gap-1.5">
-              <input
-                checked={face === "front"}
-                name="face"
-                onChange={() => setFace("front")}
-                type="radio"
-              />
-              <span>Front (scrolling text)</span>
-            </label>
-            <label className="flex items-center gap-1.5">
-              <input
-                checked={face === "back"}
-                name="face"
-                onChange={() => setFace("back")}
-                type="radio"
-              />
-              <span>Back (italic tiled)</span>
-            </label>
-          </div>
-        </div>
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Text speed: {scrollSpeed.toFixed(2)}
+          <span className="font-medium text-muted-foreground text-xs tracking-tight">
+            Face
           </span>
-          <input
-            className="w-full"
-            disabled={face === "back"}
-            max="2"
-            min="0"
-            onChange={onRange(setScrollSpeed)}
-            step="0.05"
-            type="range"
-            value={scrollSpeed}
-          />
-        </label>
-      </div>
+          <Radio.Group
+            name="face"
+            onChange={(val) => setFace(val as "front" | "back")}
+          >
+            <Radio.Item
+              checked={face === "front"}
+              label="Front (scrolling text)"
+              value="front"
+            />
+            <Radio.Item
+              checked={face === "back"}
+              label="Back (italic tiled)"
+              value="back"
+            />
+          </Radio.Group>
+        </div>
+        <Range
+          disabled={face === "back"}
+          formatValue={(v) => v.toFixed(2)}
+          label="Text speed"
+          max={2}
+          min={0}
+          onChange={setScrollSpeed}
+          step={0.05}
+          value={scrollSpeed}
+        />
+      </ControlGroup>
     </div>
   );
 }
@@ -507,22 +479,15 @@ export function ScrollVelocityDemo() {
         ref={canvasRef}
         width={500}
       />
-      <div className="grid grid-cols-1 gap-4 text-sm">
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Decay rate (lerp factor): {decayRate.toFixed(3)}
-          </span>
-          <input
-            className="w-full"
-            max="0.2"
-            min="0.005"
-            onChange={onRange(setDecayRate)}
-            step="0.005"
-            type="range"
-            value={decayRate}
-          />
-        </label>
-      </div>
+      <Range
+        formatValue={(v) => v.toFixed(3)}
+        label="Decay rate (lerp factor)"
+        max={0.2}
+        min={0.005}
+        onChange={setDecayRate}
+        step={0.005}
+        value={decayRate}
+      />
     </div>
   );
 }

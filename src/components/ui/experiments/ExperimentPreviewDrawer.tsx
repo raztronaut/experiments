@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, FileText } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { Button } from "@/components/ui/button";
@@ -116,19 +116,6 @@ export function ExperimentPreviewDrawer({
             <DrawerTitle className="font-medium text-sm">
               {experiment?.title}
             </DrawerTitle>
-            {experiment?.content?.article && (
-              <Button
-                asChild
-                className="h-7 text-xs"
-                size="sm"
-                variant="outline"
-              >
-                <Link href={`/experiments/${experiment.slug}/article`}>
-                  <FileText className="mr-1.5 h-3 w-3" />
-                  Read Article
-                </Link>
-              </Button>
-            )}
             <Button asChild className="h-7 text-xs" size="sm" variant="outline">
               <Link href={experiment?.href || "#"}>
                 <ExternalLink className="mr-1.5 h-3 w-3" />

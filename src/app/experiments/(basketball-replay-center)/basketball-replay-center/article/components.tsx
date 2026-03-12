@@ -1,12 +1,12 @@
 "use client";
 
-import {
-  type ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Checkbox, ControlGroup, Range } from "@/components/mdx/controls";
+
+function smoothstep(edge0: number, edge1: number, x: number) {
+  const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
+}
 
 export function CRTEffectDemo() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -59,14 +59,14 @@ export function CRTEffectDemo() {
         b += noise * 0.5;
 
         const rollPos = (time * 0.15) % 1;
-        const rollDist = Math.abs(uvY - rollPos);
-        if (rollDist < 0.04) {
-          const roll = (1 - rollDist / 0.04) * 0.15;
-          b += roll;
-        }
+        const roll =
+          (smoothstep(rollPos - 0.04, rollPos, uvY) -
+            smoothstep(rollPos, rollPos + 0.04, uvY)) *
+          0.15;
+        b += roll;
 
         if (showPhosphor) {
-          const dot = Math.sin(uvX * 200) * Math.sin(uvY * 200) * 0.03 + 1;
+          const dot = Math.sin(uvX * 400) * Math.sin(uvY * 400) * 0.03 + 1;
           r *= dot;
           g *= dot;
           b *= dot;
@@ -95,10 +95,6 @@ export function CRTEffectDemo() {
     return () => cancelAnimationFrame(rafRef.current);
   }, [draw]);
 
-  const onRange =
-    (setter: (v: number) => void) => (e: ChangeEvent<HTMLInputElement>) =>
-      setter(Number(e.target.value));
-
   return (
     <div className="space-y-4">
       <canvas
@@ -107,58 +103,40 @@ export function CRTEffectDemo() {
         ref={canvasRef}
         width={400}
       />
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Scanlines: {scanlineIntensity.toFixed(2)}
-          </span>
-          <input
-            className="w-full"
-            max="0.2"
-            min="0"
-            onChange={onRange(setScanlineIntensity)}
-            step="0.01"
-            type="range"
-            value={scanlineIntensity}
-          />
-        </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Noise: {noiseAmount.toFixed(2)}
-          </span>
-          <input
-            className="w-full"
-            max="0.3"
-            min="0"
-            onChange={onRange(setNoiseAmount)}
-            step="0.01"
-            type="range"
-            value={noiseAmount}
-          />
-        </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Vignette: {vignetteStrength.toFixed(2)}
-          </span>
-          <input
-            className="w-full"
-            max="0.8"
-            min="0"
-            onChange={onRange(setVignetteStrength)}
-            step="0.05"
-            type="range"
-            value={vignetteStrength}
-          />
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            checked={showPhosphor}
-            onChange={(e) => setShowPhosphor(e.target.checked)}
-            type="checkbox"
-          />
-          <span className="text-muted-foreground">Phosphor dots</span>
-        </label>
-      </div>
+      <ControlGroup columns={2}>
+        <Range
+          formatValue={(v) => v.toFixed(2)}
+          label="Scanlines"
+          max={0.2}
+          min={0}
+          onChange={setScanlineIntensity}
+          step={0.01}
+          value={scanlineIntensity}
+        />
+        <Range
+          formatValue={(v) => v.toFixed(2)}
+          label="Noise"
+          max={0.3}
+          min={0}
+          onChange={setNoiseAmount}
+          step={0.01}
+          value={noiseAmount}
+        />
+        <Range
+          formatValue={(v) => v.toFixed(2)}
+          label="Vignette"
+          max={0.8}
+          min={0}
+          onChange={setVignetteStrength}
+          step={0.05}
+          value={vignetteStrength}
+        />
+        <Checkbox
+          checked={showPhosphor}
+          label="Phosphor dots"
+          onChange={setShowPhosphor}
+        />
+      </ControlGroup>
     </div>
   );
 }
@@ -270,10 +248,6 @@ export function BarrelDistortionDemo() {
     ctx.putImageData(imageData, 0, 0);
   }, [distortion, chromaticAberration]);
 
-  const onRange =
-    (setter: (v: number) => void) => (e: ChangeEvent<HTMLInputElement>) =>
-      setter(Number(e.target.value));
-
   return (
     <div className="space-y-4">
       <canvas
@@ -282,36 +256,26 @@ export function BarrelDistortionDemo() {
         ref={canvasRef}
         width={400}
       />
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Distortion: {distortion.toFixed(2)}
-          </span>
-          <input
-            className="w-full"
-            max="1.0"
-            min="0"
-            onChange={onRange(setDistortion)}
-            step="0.01"
-            type="range"
-            value={distortion}
-          />
-        </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Chromatic aberration: {chromaticAberration.toFixed(3)}
-          </span>
-          <input
-            className="w-full"
-            max="0.02"
-            min="0"
-            onChange={onRange(setChromaticAberration)}
-            step="0.001"
-            type="range"
-            value={chromaticAberration}
-          />
-        </label>
-      </div>
+      <ControlGroup columns={2}>
+        <Range
+          formatValue={(v) => v.toFixed(2)}
+          label="Distortion"
+          max={1.0}
+          min={0}
+          onChange={setDistortion}
+          step={0.01}
+          value={distortion}
+        />
+        <Range
+          formatValue={(v) => v.toFixed(3)}
+          label="Chromatic aberration"
+          max={0.02}
+          min={0}
+          onChange={setChromaticAberration}
+          step={0.001}
+          value={chromaticAberration}
+        />
+      </ControlGroup>
     </div>
   );
 }

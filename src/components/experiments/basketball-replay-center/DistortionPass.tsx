@@ -126,10 +126,12 @@ export default function DistortionPass({
   const composerRef = useRef<EffectComposer | null>(null);
   const shaderPassRef = useRef<ShaderPass | null>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: created once; resize handled via setSize effect
   const { composer, shaderPass } = useMemo(() => {
+    const dpr = Math.min(window.devicePixelRatio, 2);
     const renderTarget = new THREE.WebGLRenderTarget(
-      size.width * Math.min(window.devicePixelRatio, 2),
-      size.height * Math.min(window.devicePixelRatio, 2),
+      size.width * dpr,
+      size.height * dpr,
       {
         minFilter: THREE.LinearFilter,
         magFilter: THREE.LinearFilter,
@@ -147,7 +149,7 @@ export default function DistortionPass({
     comp.addPass(outputPass);
 
     return { composer: comp, shaderPass: distortionPass };
-  }, [gl, scene, camera, size]);
+  }, [gl, scene, camera]);
 
   // Store refs in effects to avoid modifying during render
   useEffect(() => {

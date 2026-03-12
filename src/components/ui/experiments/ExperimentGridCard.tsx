@@ -1,6 +1,5 @@
 "use client";
 
-import { FileText } from "lucide-react";
 import type React from "react";
 import { memo, useState } from "react";
 import type { Experiment } from "@/lib/experiments";
@@ -88,12 +87,6 @@ export const ExperimentGridCard = memo(
             {experiment.description}
           </p>
           <div className="mt-auto flex flex-wrap gap-1 pt-1">
-            {experiment.content?.article && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 font-medium text-[10px] text-primary">
-                <FileText className="h-3 w-3" />
-                Article
-              </span>
-            )}
             {experiment.tech?.slice(0, 3).map((t) => (
               <span
                 className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"

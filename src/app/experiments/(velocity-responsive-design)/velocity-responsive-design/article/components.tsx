@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  type ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ControlGroup, Range } from "@/components/mdx/controls";
 
 // ---------------------------------------------------------------------------
 // ScrollDensityDemo — concept demo
@@ -22,7 +17,6 @@ const SUMMARY_TEXT =
 export function ScrollDensityDemo() {
   const [speed, setSpeed] = useState(0);
   const isSkim = speed > 60;
-  const t = Math.min(speed / 100, 1);
 
   return (
     <div className="space-y-5">
@@ -69,22 +63,14 @@ export function ScrollDensityDemo() {
         </div>
       </div>
 
-      <label className="flex items-center gap-3 text-sm">
-        <span className="shrink-0 text-muted-foreground">Scroll speed</span>
-        <input
-          className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-foreground"
-          max="100"
-          min="0"
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setSpeed(Number(e.target.value))
-          }
-          type="range"
-          value={speed}
-        />
-        <span className="w-12 shrink-0 text-right font-mono text-muted-foreground">
-          {speed}%
-        </span>
-      </label>
+      <Range
+        formatValue={(v) => `${v}%`}
+        label="Scroll speed"
+        max={100}
+        min={0}
+        onChange={setSpeed}
+        value={speed}
+      />
     </div>
   );
 }
@@ -94,9 +80,7 @@ export function ScrollDensityDemo() {
 // Canvas-based state machine visualization with animated velocity signal.
 // ---------------------------------------------------------------------------
 
-const HYS_W = 400;
-const HYS_H = 200;
-const HYS_PADDING = { top: 20, right: 16, bottom: 30, left: 50 };
+const HYS_PADDING = { top: 20, right: 16, bottom: 30, left: 70 };
 
 export function HysteresisDemo() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -106,8 +90,6 @@ export function HysteresisDemo() {
   const [isPlaying, setIsPlaying] = useState(true);
   const rafRef = useRef(0);
   const timeRef = useRef(0);
-  const stateRef = useRef<"detailed" | "skim">("detailed");
-  const exitTimerRef = useRef(0);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -139,7 +121,6 @@ export function HysteresisDemo() {
       HYS_PADDING.top +
       (1 - v / maxV) * (h - HYS_PADDING.top - HYS_PADDING.bottom);
 
-    // Simulated velocity: a series of surges and drops
     const velocityAt = (t: number) => {
       const cycle = t % 10;
       if (cycle < 2) {
@@ -149,16 +130,16 @@ export function HysteresisDemo() {
         return 500 + (cycle - 2) * 100;
       }
       if (cycle < 5) {
-        return 600 - (cycle - 3.5) * 200;
+        return 650 - ((cycle - 3.5) / 1.5) * 200;
       }
       if (cycle < 6.5) {
-        return 300 + Math.sin(cycle * 4) * 50;
+        return 450 + Math.sin(((cycle - 5) * 2 * Math.PI) / 1.5) * 40;
       }
       if (cycle < 7.5) {
-        return 350 + (cycle - 6.5) * 300;
+        return 450 + (cycle - 6.5) * 200;
       }
       if (cycle < 9) {
-        return 650 - (cycle - 7.5) * 300;
+        return 650 - ((cycle - 7.5) / 1.5) * 450;
       }
       return 200 - (cycle - 9) * 100;
     };
@@ -201,34 +182,17 @@ export function HysteresisDemo() {
 
     ctx.setLineDash([]);
 
-    // Velocity waveform
-    ctx.strokeStyle = "var(--color-foreground)";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
+    // State coloring along the waveform
+    const samples = 200;
+    const stepSize = 10 / samples;
+    const playheadT = time % 10;
     let currentState: "detailed" | "skim" = "detailed";
     let timer = 0;
-    const samples = 200;
-    for (let i = 0; i <= samples; i++) {
-      const sampleT = (i / samples) * 10;
-      const v = velocityAt(sampleT);
-      const x = plotX(sampleT);
-      const y = plotY(Math.min(v, maxV));
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    }
-    ctx.stroke();
+    let playheadState: "detailed" | "skim" = "detailed";
 
-    // State coloring along the waveform
-    const stepSize = 10 / samples;
-    currentState = "detailed";
-    timer = 0;
     for (let i = 0; i < samples; i++) {
       const sampleT = (i / samples) * 10;
       const v = velocityAt(sampleT);
-      const nextV = velocityAt(((i + 1) / samples) * 10);
 
       if (v > enterThreshold) {
         currentState = "skim";
@@ -243,8 +207,13 @@ export function HysteresisDemo() {
         timer = 0;
       }
 
+      const nextSampleT = ((i + 1) / samples) * 10;
+      if (sampleT <= playheadT && playheadT < nextSampleT) {
+        playheadState = currentState;
+      }
+
       const x1 = plotX(sampleT);
-      const x2 = plotX(((i + 1) / samples) * 10);
+      const x2 = plotX(nextSampleT);
       ctx.fillStyle =
         currentState === "skim"
           ? "hsl(45 100% 50% / 0.15)"
@@ -316,9 +285,8 @@ export function HysteresisDemo() {
     const deadCenterY = (deadTop + deadBottom) / 2;
     ctx.fillText("dead zone", w / 2, deadCenterY + 4);
 
-    // Current state indicator
     const stateColor =
-      currentV > enterThreshold ? "hsl(45 100% 50%)" : "hsl(210 80% 60%)";
+      playheadState === "skim" ? "hsl(45 100% 50%)" : "hsl(210 80% 60%)";
     ctx.fillStyle = stateColor;
     ctx.font = "bold 11px ui-monospace, monospace";
     ctx.textAlign = "right";
@@ -348,10 +316,6 @@ export function HysteresisDemo() {
     }
   }, [isPlaying, draw]);
 
-  const onRange =
-    (setter: (v: number) => void) => (e: ChangeEvent<HTMLInputElement>) =>
-      setter(Number(e.target.value));
-
   return (
     <div className="space-y-4">
       <div className="relative">
@@ -368,50 +332,33 @@ export function HysteresisDemo() {
           {isPlaying ? "pause" : "play"}
         </button>
       </div>
-      <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Enter threshold: <span className="font-mono">{enterThreshold}</span>
-          </span>
-          <input
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-foreground"
-            max="700"
-            min="200"
-            onChange={onRange(setEnterThreshold)}
-            step="50"
-            type="range"
-            value={enterThreshold}
-          />
-        </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Exit threshold: <span className="font-mono">{exitThreshold}</span>
-          </span>
-          <input
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-foreground"
-            max="600"
-            min="100"
-            onChange={onRange(setExitThreshold)}
-            step="50"
-            type="range"
-            value={exitThreshold}
-          />
-        </label>
-        <label className="flex flex-col gap-1">
-          <span className="text-muted-foreground">
-            Exit delay: <span className="font-mono">{exitDelay}ms</span>
-          </span>
-          <input
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-foreground"
-            max="5000"
-            min="500"
-            onChange={onRange(setExitDelay)}
-            step="250"
-            type="range"
-            value={exitDelay}
-          />
-        </label>
-      </div>
+      <ControlGroup columns={3}>
+        <Range
+          label="Enter threshold"
+          max={700}
+          min={Math.max(200, exitThreshold + 50)}
+          onChange={setEnterThreshold}
+          step={50}
+          value={enterThreshold}
+        />
+        <Range
+          label="Exit threshold"
+          max={Math.min(600, enterThreshold - 50)}
+          min={100}
+          onChange={setExitThreshold}
+          step={50}
+          value={exitThreshold}
+        />
+        <Range
+          formatValue={(v) => `${v}ms`}
+          label="Exit delay"
+          max={5000}
+          min={500}
+          onChange={setExitDelay}
+          step={250}
+          value={exitDelay}
+        />
+      </ControlGroup>
     </div>
   );
 }
@@ -585,23 +532,15 @@ export function VelocityTrackingDemo() {
         ref={canvasRef}
         style={{ height: 180 }}
       />
-      <label className="flex items-center gap-3 text-sm">
-        <span className="shrink-0 text-muted-foreground">Velocity</span>
-        <input
-          className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted accent-foreground"
-          max={normMax}
-          min="0"
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setInputVelocity(Number(e.target.value))
-          }
-          step="10"
-          type="range"
-          value={inputVelocity}
-        />
-        <span className="w-20 shrink-0 text-right font-mono text-muted-foreground">
-          {inputVelocity} px/s
-        </span>
-      </label>
+      <Range
+        formatValue={(v) => `${v} px/s`}
+        label="Velocity"
+        max={normMax}
+        min={0}
+        onChange={setInputVelocity}
+        step={10}
+        value={inputVelocity}
+      />
     </div>
   );
 }

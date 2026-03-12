@@ -1,6 +1,5 @@
 "use client";
 
-import { FileText } from "lucide-react";
 import React from "react";
 import type { Experiment } from "@/lib/experiments";
 import { InteractivePreviewMedia } from "./InteractivePreviewMedia";
@@ -82,12 +81,6 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
             <div
               className={`mt-2 flex flex-wrap gap-1 transition-opacity duration-300 ${isMobileActive ? "opacity-0" : ""}`}
             >
-              {experiment.content?.article && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 font-medium text-[10px] text-primary">
-                  <FileText className="h-3 w-3" />
-                  Article
-                </span>
-              )}
               {experiment.tech?.slice(0, 3).map((t) => (
                 <span
                   className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
