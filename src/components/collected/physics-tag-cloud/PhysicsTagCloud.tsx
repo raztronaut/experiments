@@ -47,6 +47,7 @@ export function PhysicsTagCloud({
   const runnerRef = useRef<Matter.Runner | null>(null);
   const rafRef = useRef<number>(0);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: rebuild physics sim when tag count changes
   useEffect(() => {
     const container = containerRef.current;
     if (!container) {
@@ -237,7 +238,6 @@ export function PhysicsTagCloud({
         Matter.Engine.clear(engineRef.current);
       }
     };
-    // biome-ignore lint/correctness/useExhaustiveDependencies: rebuild physics sim when tag count changes
   }, [tags.length, gravity, restitution, friction]);
 
   return (

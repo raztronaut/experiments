@@ -44,6 +44,7 @@ export function FeatureConvergence({
     Array<{ width: number; height: number }>
   >([]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure DOM when feature count changes
   useEffect(() => {
     const scope = container.current;
     if (!scope) {
@@ -55,7 +56,6 @@ export function FeatureConvergence({
       return { width: rect.width, height: rect.height };
     });
     setStartDimensions(dims);
-    // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure DOM when feature count changes
   }, [features.length]);
 
   useGSAP(
