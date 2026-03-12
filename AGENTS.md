@@ -143,15 +143,16 @@ From Laws of UX:
 - **Framework**: Vitest + @testing-library/react, JSDOM environment
 - **Location**: test files colocated with components (`ExperimentName.test.tsx`)
 - **Run**: `npm test` (watch mode) or `npx vitest --run --project unit` (CI)
-- **Pre-commit**: lefthook runs `ultracite fix`, `tsc --noEmit`, `validate-experiments`
+- **Pre-commit**: lefthook runs `ultracite check`, `tsc --noEmit`, `validate-experiments`
 
 ## Git Workflow
 
 - **Commits**: Conventional Commits (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`)
 - **Pre-commit hooks** (lefthook, parallel):
-  1. `ultracite fix {staged_files}` -- auto-lint+format staged files
+  1. `ultracite check {staged_files}` -- lint+format check (fails on violations, never writes)
   2. `tsc --noEmit` -- typecheck
   3. `validate-experiments.mjs` -- validate experiment.json files
+- **NEVER use `stage_fixed: true`** in lefthook with any fixer/formatter. It stashes unstaged changes and can silently lose work if the pop fails. Use `check` mode and fix manually with `npm run fix`.
 - **Post-commit / pre-push**: [Entire.io](https://docs.entire.io) captures agent session context as Git-native checkpoints. Metadata lives on `entire/checkpoints/v1` branch. Coexists with lefthook (which only manages `pre-commit`).
 - **Commit voice**: no `Co-Authored-By` AI lines. No "Generated with" language. Conventional commits only. Entire.io tool trailers (`Entire-Checkpoint`, `Entire-Attribution`) are acceptable -- they're structured metadata, not authorship copy.
 
@@ -196,6 +197,7 @@ When tool output exceeds ~2K tokens, write it to a scratch file and return a sum
 - Commit secrets, API keys, or `.env` files
 - Add experiment-specific state to global stores
 - Modify `src/app/(main)/` for experiment-specific code
+- Use `stage_fixed: true` in lefthook (silently loses unstaged work on stash pop failure)
 
 ## Metadata System
 

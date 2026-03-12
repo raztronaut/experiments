@@ -1,10 +1,14 @@
+# SAFETY: never use `stage_fixed: true` with a formatter/fixer (ultracite fix,
+# biome fix, prettier --write). Lefthook stashes unstaged changes before running,
+# and if the stash pop fails (formatting touched overlapping lines), unstaged work
+# is silently lost as an orphaned stash. Use `check` mode instead — fail fast,
+# fix manually.
 pre-commit:
   parallel: true
   commands:
-    # lint-fix:
-    #   run: npx ultracite fix {staged_files}
-    #   stage_fixed: true
-    #   glob: "*.{ts,tsx,js,mjs,json,jsonc,css}"
+    lint-check:
+      run: npx ultracite check {staged_files}
+      glob: "*.{ts,tsx,js,mjs,json,jsonc,css}"
     typecheck:
       run: npx tsc --noEmit
       glob: "*.{ts,tsx}"
