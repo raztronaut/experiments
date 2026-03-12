@@ -6,7 +6,7 @@ import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
 
 export interface Article {
-  content: string;
+  content?: string;
   description?: string;
   experimentHref: string;
   experimentSlug: string;
