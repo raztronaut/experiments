@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "560f38745913",
+  "session_id": "1e7b54ed-8f07-4c05-88f9-f67a5e0e2f86",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:20:58.104149Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "CONTRIBUTING.md",
+    "README.md",
+    "memory.md"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "b8e18aeea8bf",
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:20:58.070504Z",
+    "agent_lines": 155,
+    "human_added": 1687,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 1842,
+    "agent_percentage": 8.414766558089033
+  }
+}
