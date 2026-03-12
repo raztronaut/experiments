@@ -410,6 +410,92 @@ function buildNonExperimentMdx(item, allValidItems) {
   return lines.join("\n");
 }
 
+const MDX_PREVIEW_SLUGS = new Set([
+  "mdx-before-after-image",
+  "mdx-callout",
+  "mdx-code-block",
+  "mdx-code-step",
+  "mdx-controls",
+  "mdx-details",
+  "mdx-fullbleed",
+  "mdx-interactive-widget",
+  "mdx-live-demo",
+  "mdx-pill",
+  "mdx-sandpack-demo",
+  "mdx-slideshow",
+  "mdx-table-of-contents",
+]);
+
+function buildMdxComponentMdx(item, allValidItems) {
+  const { name, title, description, type, category } = item;
+  const deps = item.dependencies ?? [];
+  const registryDeps = item.registryDependencies ?? [];
+  const tags = item.meta?.tags ?? [];
+  const tech = item.meta?.tech ?? [];
+  const fileCount = item.files?.length ?? 0;
+  const lastModified = item.meta?.created ?? null;
+  const related = findRelated(item, allValidItems);
+  const hasPreview = MDX_PREVIEW_SLUGS.has(name);
+
+  const imports = [
+    'import { InstallCommand } from "@/components/registry/InstallCommand";',
+    'import { RegistryMeta } from "@/components/registry/RegistryMeta";',
+    'import { RegistrySourceCode } from "@/components/registry/RegistrySourceCode";',
+  ];
+  if (hasPreview) {
+    imports.push(
+      'import { MdxPreview } from "@/components/registry/MdxPreview";'
+    );
+  }
+
+  const lines = [
+    ...buildFrontmatter(title, description, lastModified),
+    "",
+    ...imports,
+    "",
+    "<RegistryMeta",
+    `  type="${type}"`,
+    `  category="${category}"`,
+    `  dependencies={${toJSArray(deps)}}`,
+    `  registryDependencies={${toJSArray(registryDeps)}}`,
+    `  tags={${toJSArray(tags)}}`,
+    `  tech={${toJSArray(tech)}}`,
+    `  fileCount={${fileCount}}`,
+    "  verified={false}",
+    "/>",
+    "",
+  ];
+
+  if (hasPreview) {
+    lines.push(
+      "## Preview",
+      "",
+      `<MdxPreview slug="${name}" title="${title}" />`,
+      "",
+    );
+  }
+
+  lines.push("## Install", "", `<InstallCommand slug="${name}" />`, "");
+
+  if (deps.length > 0) {
+    lines.push("### Dependencies", "", buildNpmBlock(deps), "");
+  }
+
+  const usageSection = buildUsageSection(item);
+  if (usageSection) {
+    lines.push(usageSection, "");
+  }
+
+  lines.push("## Source", "", `<RegistrySourceCode slug="${name}" />`, "");
+
+  const relatedSection = buildRelatedSection(related);
+  if (relatedSection) {
+    lines.push(relatedSection, "");
+  }
+
+  return lines.join("\n");
+}
+
 function buildCollectedReferenceMdx(item) {
   const { title, description } = item;
   const meta = item.meta ?? {};
@@ -728,6 +814,8 @@ async function main() {
           mdx = buildCollectedReferenceMdx(item);
         } else if (cat === "collected") {
           mdx = buildCollectedPortedMdx(item, allValidItems);
+        } else if (cat === "mdx") {
+          mdx = buildMdxComponentMdx(item, allValidItems);
         } else {
           mdx = buildNonExperimentMdx(item, allValidItems);
         }
