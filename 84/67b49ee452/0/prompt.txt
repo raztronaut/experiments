@@ -1,0 +1,15 @@
+check all conversations, plans, and implementations we've had re: continual learning, the hooks for it, etc.
+
+---
+
+it seems its not even "added" in cursor. can you confirm that if i add it, it wont ruin anything. is it possible to fix it up and, ideally, is it possible to revive the info it gather from its runs?
+
+---
+
+Implement the plan as specified, it is attached for your reference. Do NOT edit the plan file itself.
+
+To-do's from the plan have already been created. Do not create them again. Mark them as in_progress as you work, starting with the first one. Don't stop until you have completed all the to-dos.
+
+---
+
+has it been working?

@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "8467b49ee452",
+  "session_id": "1e7b54ed-8f07-4c05-88f9-f67a5e0e2f86",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:20:26.961532Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "src/app/experiments/experiments.css",
+    "src/components/mdx/CodeBlock.tsx",
+    "src/components/mdx/HeadingLink.tsx",
+    "src/components/mdx/PageActions.tsx",
+    "src/components/mdx/controls/ControlGroup.tsx",
+    "src/components/ui/ArticleLayout.tsx",
+    "src/components/ui/ExperimentNav.tsx"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "b8e18aeea8bf",
+  "session_metrics": {
+    "turn_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:20:26.928103Z",
+    "agent_lines": 46,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 46,
+    "agent_percentage": 100
+  }
+}
