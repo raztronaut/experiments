@@ -1,7 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
-import { getExperiments, __clearCacheForTesting } from "./experiments";
-
-import { beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { __clearCacheForTesting, getExperiments } from "./experiments";
 
 const { mockReaddir, mockReadFile } = vi.hoisted(() => ({
   mockReaddir: vi.fn(),
