@@ -3,14 +3,25 @@
   "checkpoint_id": "241d5aa030c0",
   "session_id": "d4e1111e-6afd-4a20-a86a-02efb117a4ce",
   "strategy": "manual-commit",
-  "created_at": "2026-03-12T08:41:48.673454Z",
+  "created_at": "2026-03-12T08:44:34.497699Z",
   "branch": "v2/platform",
-  "checkpoints_count": 4,
-  "files_touched": [],
+  "checkpoints_count": 3,
+  "files_touched": [
+    "package.json"
+  ],
   "agent": "Cursor",
   "model": "claude-4.6-opus-high-thinking",
-  "turn_id": "29b150dd8717",
+  "turn_id": "c838c67dcac6",
   "session_metrics": {
-    "turn_count": 4
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T08:44:34.474299Z",
+    "agent_lines": 2,
+    "human_added": 0,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 3,
+    "agent_percentage": 66.66666666666666
   }
 }

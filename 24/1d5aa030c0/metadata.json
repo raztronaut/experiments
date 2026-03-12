@@ -3,8 +3,10 @@
   "checkpoint_id": "241d5aa030c0",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 12,
-  "files_touched": null,
+  "checkpoints_count": 11,
+  "files_touched": [
+    "package.json"
+  ],
   "sessions": [
     {
       "metadata": "/24/1d5aa030c0/0/metadata.json",

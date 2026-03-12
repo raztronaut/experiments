@@ -24,3 +24,18 @@ Could not parse expression with acorn
 More information: https://mdxjs.com/docs/troubleshooting-mdx
 
 Next.js version: 16.1.6 (Turbopack)
+
+---
+
+fix this. i think its latex syntax. use a latex plugin
+
+## Error Type
+Console Error
+
+## Error Message
+[next-mdx-remote] error compiling MDX:
+Could not parse expression with acorn
+
+More information: https://mdxjs.com/docs/troubleshooting-mdx
+
+Next.js version: 16.1.6 (Turbopack)
