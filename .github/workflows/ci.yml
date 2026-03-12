@@ -23,6 +23,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Generate Fumadocs source
+        run: npx fumadocs-mdx
+
       - name: Lint
         run: npm run lint
 
