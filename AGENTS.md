@@ -156,6 +156,15 @@ From Laws of UX:
 - **Post-commit / pre-push**: [Entire.io](https://docs.entire.io) captures agent session context as Git-native checkpoints. Metadata lives on `entire/checkpoints/v1` branch. Coexists with lefthook (which only manages `pre-commit`).
 - **Commit voice**: no `Co-Authored-By` AI lines. No "Generated with" language. Conventional commits only. Entire.io tool trailers (`Entire-Checkpoint`, `Entire-Attribution`) are acceptable -- they're structured metadata, not authorship copy.
 
+## Branching and Deploy
+
+- **`main`** = production. Vercel auto-deploys every merge. Branch-protected: PRs required, CI must pass.
+- **Feature branches** for multi-commit work: `feat/`, `fix/`, `port/`, `experiment/`.
+- **Draft PRs** to get Vercel preview URLs without signaling "ready to merge".
+- **Admin bypass** exists for single-commit hotfixes directly to `main`.
+- Preview and production run the identical build pipeline (`generate:posters && generate:registry && generate:llms-txt && next build`). No environment-specific behavior.
+- See `.agents/workflows/deploy.md` for the full lifecycle.
+
 ## Guardrails
 
 ### 2-Iteration Limit

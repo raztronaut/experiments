@@ -143,6 +143,20 @@ Import in your component:
 import './styles.css';
 ```
 
+## Push and Preview
+
+When the experiment is ready for review (or you want to test in a deployed environment):
+
+1. Ensure you're on a feature branch (not `main`)
+2. Push: `git push -u origin HEAD`
+3. Open PR (or push to existing PR branch): `gh pr create --draft` or just push
+4. Vercel auto-deploys a preview. Find the URL in the PR checks.
+5. Test the experiment on the preview URL -- scroll, interaction, mobile viewport
+6. Verify the experiment does NOT appear in registry/llms.txt if `status: "wip"`
+7. When ready, mark PR as ready for review and merge
+
+The preview URL is your staging environment. No separate staging infra needed.
+
 ## Troubleshooting
 
 | Issue | Solution |
