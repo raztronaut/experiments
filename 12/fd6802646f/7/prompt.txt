@@ -1,0 +1,11 @@
+please debug the content articles as thoroughly as possible. it may be related to the article components, the demo components, or the main component.
+
+---
+
+?
+
+---
+
+Implement the plan as specified, it is attached for your reference. Do NOT edit the plan file itself.
+
+To-do's from the plan have already been created. Do not create them again. Mark them as in_progress as you work, starting with the first one. Don't stop until you have completed all the to-dos.
