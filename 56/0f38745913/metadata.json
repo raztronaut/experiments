@@ -3,10 +3,22 @@
   "checkpoint_id": "560f38745913",
   "strategy": "manual-commit",
   "branch": "v2/platform",
-  "checkpoints_count": 2,
+  "checkpoints_count": 3,
   "files_touched": [
+    ".github/pull_request_template.md",
     "CONTRIBUTING.md",
     "README.md",
+    "docs/README.md",
+    "docs/ai-development.md",
+    "docs/architecture.md",
+    "docs/content-system.md",
+    "docs/contributing.md",
+    "docs/deploy.md",
+    "docs/experiments.md",
+    "docs/getting-started.md",
+    "docs/registry.md",
+    "docs/scripts.md",
+    "docs/toolkit.md",
     "memory.md"
   ],
   "sessions": [
@@ -27,6 +39,12 @@
       "transcript": "/56/0f38745913/2/full.jsonl",
       "content_hash": "/56/0f38745913/2/content_hash.txt",
       "prompt": "/56/0f38745913/2/prompt.txt"
+    },
+    {
+      "metadata": "/56/0f38745913/3/metadata.json",
+      "transcript": "/56/0f38745913/3/full.jsonl",
+      "content_hash": "/56/0f38745913/3/content_hash.txt",
+      "prompt": "/56/0f38745913/3/prompt.txt"
     }
   ]
 }
