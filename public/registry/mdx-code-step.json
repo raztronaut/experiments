@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-code-step",
+  "type": "registry:component",
+  "title": "CodeStep",
+  "description": "CodeStep MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "CodeStep.tsx",
+      "type": "registry:component",
+      "content": "import type React from \"react\";\n\ninterface CodeStepProps {\n  children: React.ReactNode;\n  step: number;\n  title: string;\n}\n\nexport function CodeStep({ step, title, children }: CodeStepProps) {\n  return (\n    <div className=\"relative my-8 pl-10\">\n      <div className=\"absolute top-0 left-0 flex h-7 w-7 items-center justify-center rounded-full border border-border bg-muted font-bold text-foreground text-xs\">\n        {step}\n      </div>\n      <h3 className=\"mb-3 font-semibold text-base\">{title}</h3>\n      <div className=\"[&>p]:text-muted-foreground [&>p]:text-sm [&>pre]:mt-3\">\n        {children}\n      </div>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

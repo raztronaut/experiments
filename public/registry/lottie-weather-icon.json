@@ -6,6 +6,7 @@
   "description": "LottieWeatherIcon component",
   "category": "components",
   "registryDependencies": [
+    "use-mounted",
     "razi-style"
   ],
   "files": [

@@ -4,11 +4,15 @@
 
 ## Articles
 - [404 Not Found](https://www.razisyed.cv/experiments/404-not-found/article): Building a cinematic 404 page with procedurally animated 3D ribbons, a dual-face GLSL shader, and scroll-velocity-driven text animation in React Three Fiber
+  - Markdown: https://www.razisyed.cv/experiments/404-not-found/article.mdx
 - [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center/article): Building a sports control room preloader with CRT shaders, barrel distortion, and GSAP-driven uniform animation in React Three Fiber
+  - Markdown: https://www.razisyed.cv/experiments/basketball-replay-center/article.mdx
 - [Velocity-Responsive Design](https://www.razisyed.cv/experiments/velocity-responsive-design/article): What if responsive design responded to how you read, not just what you read on?
+  - Markdown: https://www.razisyed.cv/experiments/velocity-responsive-design/article.mdx
 
 ## Experiments
 - [404 Not Found](https://www.razisyed.cv/experiments/404-not-found): A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.
+- [Airplanes](https://www.razisyed.cv/experiments/airplanes): Scroll-driven 3D airplane storytelling with dual solid/wireframe rendering, parallax backgrounds, and SVG line drawing annotations
 - [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center): A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.
 - [Bugged Out Game of Life Shader](https://www.razisyed.cv/experiments/bugged-out-game-of-life-shader-experiment): A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors
 - [Cursor/Tilt Depth Map Explorer](https://www.razisyed.cv/experiments/cursor-depth-explorer): A tomographic slice style depth map viewer for paintings using your cursor or device tilt (try on mobile too!)
@@ -16,6 +20,7 @@
 - [Keyboard Keys](https://www.razisyed.cv/experiments/keyboard-keys): Interactive 3D keyboard keys with press animation and success/error animations
 - [Life 3D](https://www.razisyed.cv/experiments/life-3d): Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering
 - [Mountain Depth Map Shader Transition](https://www.razisyed.cv/experiments/mountain-transition): A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape
+- [Non-Euclidean Hyperbolic Second Brain](https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace): Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations
 - [OSX Cheetah UI with a surprise](https://www.razisyed.cv/experiments/gravity-physics-ui-layout): Find the hidden stupid feature!
 - [rabbithole.chat Gallery Explore](https://www.razisyed.cv/experiments/rabbithole-chat-gallery-explore): 3D floating gallery shader as an experimental explore page
 - [rabbithole.chat Preloader Shader](https://www.razisyed.cv/experiments/rabbithole-chat-preloader): A vortex gallery shader preloader for rabbithole.chat
@@ -31,6 +36,12 @@
 - 3D: React Three Fiber, Three.js, custom GLSL shaders
 - Scroll: Lenis smooth scroll with Tempus RAF management
 - Styling: Tailwind CSS with shadcn/ui components
+
+## Content API
+- Append `.mdx` to any experiment URL for a markdown summary: /experiments/{slug}.mdx
+- Append `.mdx` to any article URL for markdown content: /experiments/{slug}/article.mdx
+- Send `Accept: text/markdown` header to any article URL to get markdown automatically
+- Registry docs: https://www.razisyed.cv/registry/docs (browsable) or https://www.razisyed.cv/registry/llms.txt
 
 ## Contact
 - GitHub: https://github.com/raztronaut

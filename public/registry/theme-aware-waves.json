@@ -9,6 +9,7 @@
     "simplex-noise"
   ],
   "registryDependencies": [
+    "use-mounted",
     "razi-style"
   ],
   "files": [

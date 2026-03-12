@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-callout",
+  "type": "registry:component",
+  "title": "Callout",
+  "description": "Callout MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "Callout.tsx",
+      "type": "registry:component",
+      "content": "import type React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\ntype CalloutVariant = \"info\" | \"warning\" | \"tip\";\n\ninterface CalloutProps {\n  children: React.ReactNode;\n  title?: string;\n  variant?: CalloutVariant;\n}\n\nconst variantStyles: Record<\n  CalloutVariant,\n  { border: string; bg: string; icon: string }\n> = {\n  info: {\n    border: \"border-blue-500/30\",\n    bg: \"bg-blue-500/5\",\n    icon: \"ℹ\",\n  },\n  warning: {\n    border: \"border-amber-500/30\",\n    bg: \"bg-amber-500/5\",\n    icon: \"⚠\",\n  },\n  tip: {\n    border: \"border-emerald-500/30\",\n    bg: \"bg-emerald-500/5\",\n    icon: \"✦\",\n  },\n};\n\nexport function Callout({ variant = \"info\", title, children }: CalloutProps) {\n  const styles = variantStyles[variant];\n\n  return (\n    <aside\n      className={cn(\n        \"my-6 rounded-lg border-l-4 px-5 py-4\",\n        styles.border,\n        styles.bg\n      )}\n    >\n      {title && (\n        <p className=\"mb-2 font-semibold text-sm\">\n          <span className=\"mr-2\">{styles.icon}</span>\n          {title}\n        </p>\n      )}\n      <div className=\"text-muted-foreground text-sm [&>p]:m-0\">{children}</div>\n    </aside>\n  );\n}\n"
+    }
+  ]
+}

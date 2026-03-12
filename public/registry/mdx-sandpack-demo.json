@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-sandpack-demo",
+  "type": "registry:component",
+  "title": "SandpackDemo",
+  "description": "SandpackDemo MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "SandpackDemo.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport {\n  SandpackCodeEditor,\n  SandpackLayout,\n  SandpackPreview,\n  SandpackProvider,\n} from \"@codesandbox/sandpack-react\";\nimport { useTheme } from \"next-themes\";\n\ninterface SandpackDemoProps {\n  dependencies?: Record<string, string>;\n  editorHeight?: number;\n  files: Record<string, string>;\n  template?: \"react\" | \"react-ts\" | \"vanilla\" | \"vanilla-ts\";\n}\n\nexport function SandpackDemo({\n  files,\n  template = \"react\",\n  dependencies,\n  editorHeight = 350,\n}: SandpackDemoProps) {\n  const { resolvedTheme } = useTheme();\n\n  return (\n    <figure className=\"my-8\">\n      <SandpackProvider\n        customSetup={dependencies ? { dependencies } : undefined}\n        files={files}\n        template={template}\n        theme={resolvedTheme === \"dark\" ? \"dark\" : \"light\"}\n      >\n        <SandpackLayout\n          style={{\n            borderRadius: 8,\n            border: \"1px solid hsl(var(--border))\",\n            overflow: \"hidden\",\n          }}\n        >\n          <SandpackCodeEditor\n            showLineNumbers\n            style={{ height: editorHeight }}\n          />\n          <SandpackPreview style={{ height: editorHeight }} />\n        </SandpackLayout>\n      </SandpackProvider>\n    </figure>\n  );\n}\n"
+    }
+  ]
+}

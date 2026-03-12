@@ -18,7 +18,7 @@
       "glsl"
     ],
     "status": "shipped",
-    "poster": "/experiments/404-not-found/poster.jpg",
+    "poster": null,
     "video": "/experiments/404-not-found/preview.mp4",
     "created": "2026-01-26T20:45:55.003Z",
     "featured": true

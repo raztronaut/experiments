@@ -19,7 +19,7 @@
         "glsl"
       ],
       "status": "shipped",
-      "poster": "/experiments/404-not-found/poster.jpg",
+      "poster": null,
       "video": "/experiments/404-not-found/preview.mp4",
       "created": "2026-01-26T20:45:55.003Z",
       "featured": true
@@ -112,6 +112,8 @@
       "motion"
     ],
     "registryDependencies": [
+      "use-element-size",
+      "use-liquid-glass-style",
       "razi-style"
     ],
     "files": [
@@ -134,6 +136,73 @@
       {
         "name": "Context.tsx",
         "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "airplanes",
+    "type": "registry:block",
+    "title": "Airplanes",
+    "description": "Scroll-driven 3D airplane storytelling with dual solid/wireframe rendering, parallax backgrounds, and SVG line drawing annotations",
+    "category": "experiments",
+    "meta": {
+      "tags": [
+        "scroll-driven",
+        "3d",
+        "storytelling"
+      ],
+      "tech": [
+        "gsap",
+        "three.js",
+        "lenis"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": null,
+      "created": "2026-03-11T22:37:00.630Z"
+    },
+    "dependencies": [
+      "@gsap/react",
+      "gsap"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "Airplanes.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "useAirplaneScene.ts",
+        "type": "registry:hook"
+      },
+      {
+        "name": "BlueprintSection.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "EndSection.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "HeroSection.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "NarrativeSection.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "timeline.ts",
+        "type": "registry:file",
+        "target": "components/experiments/airplanes/timeline.ts"
+      },
+      {
+        "name": "data.ts",
+        "type": "registry:file",
+        "target": "components/experiments/airplanes/data.ts"
       }
     ]
   },
@@ -223,7 +292,7 @@
         "next-themes"
       ],
       "status": "shipped",
-      "poster": "/experiments/basketball-replay-center/poster.jpg",
+      "poster": null,
       "video": "/experiments/basketball-replay-center/preview.mp4",
       "created": "2026-02-20T17:04:36.701Z"
     },
@@ -467,6 +536,7 @@
       "motion"
     ],
     "registryDependencies": [
+      "use-umami",
       "razi-style"
     ],
     "files": [
@@ -586,7 +656,7 @@
         "glsl"
       ],
       "status": "shipped",
-      "poster": "/experiments/cursor-depth-explorer/poster.jpg",
+      "poster": null,
       "video": "/experiments/cursor-depth-explorer/preview.mp4",
       "created": "2026-01-26T05:11:34.490Z"
     },
@@ -732,10 +802,10 @@
     "description": "macOS-style drawer list with grid/list toggle",
     "category": "components",
     "dependencies": [
-      "lucide-react",
       "motion"
     ],
     "registryDependencies": [
+      "use-umami",
       "razi-style"
     ],
     "files": [
@@ -1136,6 +1206,23 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "input",
+    "type": "registry:component",
+    "title": "input",
+    "description": "input component",
+    "category": "components",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "input.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "keyboard-keys",
     "type": "registry:block",
     "title": "Keyboard Keys",
@@ -1283,6 +1370,13 @@
       "use-scramble"
     ],
     "registryDependencies": [
+      "use-element-size",
+      "use-liquid-glass-style",
+      "use-media-query",
+      "use-preferences",
+      "use-time-of-day",
+      "use-weather",
+      "use-mounted",
       "razi-style"
     ],
     "files": [
@@ -1340,6 +1434,7 @@
     "description": "LottieWeatherIcon component",
     "category": "components",
     "registryDependencies": [
+      "use-mounted",
       "razi-style"
     ],
     "files": [
@@ -1357,6 +1452,7 @@
     "description": "LottieWeatherIcon.story component",
     "category": "components",
     "registryDependencies": [
+      "use-mounted",
       "razi-style"
     ],
     "files": [
@@ -1367,6 +1463,459 @@
       },
       {
         "name": "LottieWeatherIcon.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-_previews",
+    "type": "registry:block",
+    "title": "_previews",
+    "description": "_previews MDX component",
+    "category": "mdx",
+    "dependencies": [
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "use-debounced-value",
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "_previews.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "BeforeAfterImagePreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "CalloutPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "CodeBlockPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "CodeStepPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ControlsPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "DetailsPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "FullbleedPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "InteractiveWidgetPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "LiveDemoPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "PillPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "SandpackDemoPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "SlideshowPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "TableOfContentsPreview.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "BeforeAfterImage.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "PreviewShell.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Callout.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "CodeBlock.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "CodeStep.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "index.ts",
+        "type": "registry:file",
+        "target": "components/mdx/controls/index.ts"
+      },
+      {
+        "name": "Details.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Fullbleed.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "InteractiveWidget.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "LiveDemo.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Pill.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Slideshow.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "TableOfContents.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Checkbox.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ControlGroup.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Radio.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Range.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Switch.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "details.css",
+        "type": "registry:file",
+        "target": "components/mdx/details.css"
+      },
+      {
+        "name": "controls.css",
+        "type": "registry:file",
+        "target": "components/mdx/controls/controls.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-before-after-image",
+    "type": "registry:component",
+    "title": "BeforeAfterImage",
+    "description": "BeforeAfterImage MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "BeforeAfterImage.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-callout",
+    "type": "registry:component",
+    "title": "Callout",
+    "description": "Callout MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "Callout.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-code-block",
+    "type": "registry:component",
+    "title": "CodeBlock",
+    "description": "CodeBlock MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "CodeBlock.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-code-step",
+    "type": "registry:component",
+    "title": "CodeStep",
+    "description": "CodeStep MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "CodeStep.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-controls",
+    "type": "registry:block",
+    "title": "MDX Controls",
+    "description": "Interactive control primitives for MDX articles (Checkbox, Switch, Radio, Range, ControlGroup)",
+    "category": "mdx",
+    "registryDependencies": [
+      "use-debounced-value",
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "registry:file",
+        "target": "components/mdx/controls/index.ts"
+      },
+      {
+        "name": "Checkbox.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ControlGroup.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Radio.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Range.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Switch.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "controls.css",
+        "type": "registry:file",
+        "target": "components/mdx/controls/controls.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-details",
+    "type": "registry:block",
+    "title": "Details",
+    "description": "Details MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "Details.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "details.css",
+        "type": "registry:file",
+        "target": "components/mdx/details.css"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-fullbleed",
+    "type": "registry:component",
+    "title": "Fullbleed",
+    "description": "Fullbleed MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "Fullbleed.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-heading-link",
+    "type": "registry:component",
+    "title": "HeadingLink",
+    "description": "HeadingLink MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "HeadingLink.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-interactive-widget",
+    "type": "registry:component",
+    "title": "InteractiveWidget",
+    "description": "InteractiveWidget MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "InteractiveWidget.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-live-demo",
+    "type": "registry:component",
+    "title": "LiveDemo",
+    "description": "LiveDemo MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "LiveDemo.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-page-actions",
+    "type": "registry:component",
+    "title": "PageActions",
+    "description": "PageActions MDX component",
+    "category": "mdx",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "PageActions.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-pill",
+    "type": "registry:component",
+    "title": "Pill",
+    "description": "Pill MDX component",
+    "category": "mdx",
+    "dependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "Pill.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-sandpack-demo",
+    "type": "registry:component",
+    "title": "SandpackDemo",
+    "description": "SandpackDemo MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "SandpackDemo.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-slideshow",
+    "type": "registry:component",
+    "title": "Slideshow",
+    "description": "Slideshow MDX component",
+    "category": "mdx",
+    "dependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "Slideshow.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-table-of-contents",
+    "type": "registry:component",
+    "title": "TableOfContents",
+    "description": "TableOfContents MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "TableOfContents.tsx",
         "type": "registry:component"
       }
     ]
@@ -1562,6 +2111,26 @@
     "files": [
       {
         "name": "popover.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "progress",
+    "type": "registry:component",
+    "title": "progress",
+    "description": "progress component",
+    "category": "components",
+    "dependencies": [
+      "@radix-ui/react-progress"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "progress.tsx",
         "type": "registry:component"
       }
     ]
@@ -1948,6 +2517,7 @@
     "category": "components",
     "registryDependencies": [
       "icons",
+      "use-mounted",
       "razi-style"
     ],
     "files": [
@@ -2207,6 +2777,43 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "table",
+    "type": "registry:component",
+    "title": "table",
+    "description": "table component",
+    "category": "components",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "table.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "tabs",
+    "type": "registry:component",
+    "title": "tabs",
+    "description": "tabs component",
+    "category": "components",
+    "dependencies": [
+      "@radix-ui/react-tabs"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "tabs.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "terminal-cat",
     "type": "registry:block",
     "title": "Terminal Cat",
@@ -2263,6 +2870,7 @@
       "simplex-noise"
     ],
     "registryDependencies": [
+      "use-mounted",
       "razi-style"
     ],
     "files": [
@@ -2289,6 +2897,26 @@
     "files": [
       {
         "name": "ThemeProvider.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "tooltip",
+    "type": "registry:component",
+    "title": "tooltip",
+    "description": "tooltip component",
+    "category": "components",
+    "dependencies": [
+      "@radix-ui/react-tooltip"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "tooltip.tsx",
         "type": "registry:component"
       }
     ]
@@ -2596,6 +3224,7 @@
       "tempus"
     ],
     "registryDependencies": [
+      "use-dev-controls",
       "AIWidget",
       "razi-style"
     ],

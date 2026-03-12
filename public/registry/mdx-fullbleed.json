@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-fullbleed",
+  "type": "registry:component",
+  "title": "Fullbleed",
+  "description": "Fullbleed MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "Fullbleed.tsx",
+      "type": "registry:component",
+      "content": "import type React from \"react\";\n\nexport interface FullbleedProps {\n  children: React.ReactNode;\n}\n\nexport function Fullbleed({ children }: FullbleedProps) {\n  return (\n    <div className=\"relative right-1/2 left-1/2 -mr-[50vw] -ml-[50vw] w-screen\">\n      {children}\n    </div>\n  );\n}\n"
+    }
+  ]
+}

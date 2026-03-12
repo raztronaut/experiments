@@ -9,6 +9,8 @@
     "motion"
   ],
   "registryDependencies": [
+    "use-element-size",
+    "use-liquid-glass-style",
     "razi-style"
   ],
   "files": [

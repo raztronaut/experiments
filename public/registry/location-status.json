@@ -10,6 +10,13 @@
     "use-scramble"
   ],
   "registryDependencies": [
+    "use-element-size",
+    "use-liquid-glass-style",
+    "use-media-query",
+    "use-preferences",
+    "use-time-of-day",
+    "use-weather",
+    "use-mounted",
     "razi-style"
   ],
   "files": [
