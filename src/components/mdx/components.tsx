@@ -1,10 +1,17 @@
 import dynamic from "next/dynamic";
 import type React from "react";
+import { BeforeAfterImage } from "./BeforeAfterImage";
 import { Callout } from "./Callout";
 import { CodeBlock } from "./CodeBlock";
 import { CodeStep } from "./CodeStep";
+import { Checkbox, ControlGroup, Range, Switch } from "./controls";
+import { Details } from "./Details";
+import { Fullbleed } from "./Fullbleed";
+import { HeadingLink } from "./HeadingLink";
 import { InteractiveWidget } from "./InteractiveWidget";
 import { LiveDemo } from "./LiveDemo";
+import { Pill } from "./Pill";
+import { Slideshow } from "./Slideshow";
 
 const SandpackDemo = dynamic(() =>
   import("./SandpackDemo").then((mod) => mod.SandpackDemo)
@@ -14,22 +21,17 @@ function isExternalUrl(href: string): boolean {
   return /^https?:\/\//.test(href) && !href.includes("razisyed.cv");
 }
 
-// biome-ignore lint: MDXComponents type is overly strict with intrinsic element props
 export const articleComponents: Record<string, React.ComponentType<any>> = {
-  h2: ({
-    children,
-    id,
-    ...props
-  }: React.HTMLAttributes<HTMLHeadingElement>) => {
-    if (id?.includes("footnote-label")) {
-      return null;
-    }
-    return (
-      <h2 id={id} {...props}>
-        {children}
-      </h2>
-    );
-  },
+  h2: ({ children, id }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <HeadingLink as="h2" id={id}>
+      {children}
+    </HeadingLink>
+  ),
+  h3: ({ children, id }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <HeadingLink as="h3" id={id}>
+      {children}
+    </HeadingLink>
+  ),
   a: ({
     children,
     href,
@@ -101,9 +103,18 @@ export const articleComponents: Record<string, React.ComponentType<any>> = {
       {...props}
     />
   ),
+  BeforeAfterImage,
   Callout,
+  Checkbox,
   CodeStep,
+  ControlGroup,
+  Details,
+  Fullbleed,
   InteractiveWidget,
   LiveDemo,
+  Pill,
+  Range,
   SandpackDemo,
+  Slideshow,
+  Switch,
 };

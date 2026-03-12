@@ -1,8 +1,14 @@
+export { BeforeAfterImage } from "./BeforeAfterImage";
 export { Callout } from "./Callout";
 export { CodeBlock } from "./CodeBlock";
 export { CodeStep } from "./CodeStep";
 export { articleComponents } from "./components";
+export { Checkbox, ControlGroup, Radio, Range, Switch } from "./controls";
+export { Details } from "./Details";
+export { Fullbleed } from "./Fullbleed";
 export { InteractiveWidget } from "./InteractiveWidget";
 export { LiveDemo } from "./LiveDemo";
+export { Pill } from "./Pill";
 export { SandpackDemo } from "./SandpackDemo";
+export { Slideshow } from "./Slideshow";
 export { TableOfContents } from "./TableOfContents";
