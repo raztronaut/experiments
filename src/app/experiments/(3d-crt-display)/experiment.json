@@ -1,0 +1,14 @@
+{
+  "title": "3D CRT Display",
+  "description": "Interactive 3D CRT monitor with GLTF model, custom CRT shader (scanlines, chromatic aberration, vignette, glitch transition), and mouse-follow tilt",
+  "slug": "3d-crt-display",
+  "created": "2026-03-12T01:04:20.481Z",
+  "profile": "r3f-scene",
+  "status": "wip",
+  "complexity": "advanced",
+  "tags": ["3d", "shader", "interactive", "crt", "retro"],
+  "tech": ["three.js", "r3f", "gsap", "glsl", "zustand"],
+  "image": "",
+  "video": "",
+  "listing": "dev"
+}
