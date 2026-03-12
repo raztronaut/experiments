@@ -1,0 +1,6 @@
+in mobile, articles get shifted a little because of the sizing of the "return to experiments" and "view experiments" buttons i think
+
+---
+
+no its not that i think then (but i do like that)
+maybe its the title, components, the page > things on the top, or something. do a full mobile responsiveness pass
