@@ -1,0 +1,115 @@
+how would you improve the sliders used in the hyperbolic experiment. some just have way too large steps and doesnt make it feel like its sliding / a slider
+
+---
+
+i do like it both being sliders, but i think it should be the right step count and less wide.
+
+---
+
+i didnt ask you to make them less vertically tall. sm is way too small for everything you did it to as well.
+
+---
+
+that still didnt make the sliders less wide there.
+also, i still have issues faced and attempted to solve for latex centering in @/Users/razisyed/.cursor/projects/REDACTED/agent-transcripts/7597139e-b59c-44ab-b1a6-4406bad66c57/7597139e-b59c-44ab-b1a6-4406bad66c57.jsonl and the solutions made in @/Users/razisyed/.cursor/projects/REDACTED/agent-transcripts/4b75aceb-b4c1-49cc-bf9b-e5ea56eb42ef/4b75aceb-b4c1-49cc-bf9b-e5ea56eb42ef.jsonl 
+
+1. the padding in the top being removed was necessary. add that back in
+2. remove breadcrumbs from articles entirely.
+3. latex is still left aligned. i think this leads me to believe that EVERYTHING is being left aligned on mobile or something? i think there has to be some conflict or something else
+
+look through things as comprehensively as you possibly can
+
+---
+
+is this the best practices approach? are you solving the issue from the foundation or are you building bandaid fixes?
+
+---
+
+also, see ths if it helps or maybe this https://theme-ui.com/mdx
+
+---
+
+also, see ths if it helps or maybe this https://theme-ui.com/mdx . i do think this is an overall alignment issue and not specific to one element. we need to make sure we're doing alignment for everything correct.
+
+---
+
+Implement the plan as specified, it is attached for your reference. Do NOT edit the plan file itself.
+
+To-do's from the plan have already been created. Do not create them again. Mark them as in_progress as you work, starting with the first one. Don't stop until you have completed all the to-dos.
+
+---
+
+add padding to the top of the article (following best practices to do this for mdx articles). im only seeing no padding on mobile
+
+---
+
+its good now.
+
+---
+
+summarize the issue and guide for mdx layouts/styling
+
+---
+
+theres a buncha uncommitted changes. i want you to make sure that we havent done many manual changes to stlying/layout in individual files without improving our system foundationally (for example, buttons should be improved from a component level, rather than just in the article)
+
+1. Article System Improvements (detailed)
+This is a structural refactor of the article demo component system, changing from a single monolithic components.tsx file to a components/ directory pattern (one file per demo).
+
+Plop scaffolding:
+
+plop-templates/article/components.tsx.hbs -- deleted. The old template that scaffolded a single "use client" file with all demos.
+plop-templates/article/components-index.ts.hbs -- new. Replacement template that scaffolds a barrel index.ts in a components/ directory.
+plopfile.js -- Updated the add action from article/components.tsx to article/components/index.ts using the new template.
+plop-templates/article/page.tsx.hbs -- Updated the comment block to reference the components/ directory pattern instead of components.tsx.
+Shared MDX/UI components (mobile + polish):
+
+ExperimentNav.tsx -- Nav now spans right-4 left-4 (full width on mobile). Button labels shortened to "Back" / "Article" / "Experiment" on sm:hidden, with full text on sm:inline. Icons get shrink-0.
+ArticleLayout.tsx -- Removed breadcrumb nav entirely. Changed padding from py-16 to pt-20 pb-10 (mobile) / sm:py-16. Prev/next nav changed from flex-row to flex-col on mobile with sm:flex-row.
+experiments.css -- scrollbar-gutter: stable moved behind @media (min-width: 640px) to prevent layout shift on mobile. figure:not(:first-child) margin now scoped to figure[data-rehype-pretty-code-figure] so non-code figures aren't affected. Added .katex-display margin + overflow-x: auto for math rendering.
+CodeBlock.tsx -- Copy button changed from opacity-0 group-hover:opacity-100 to always-visible with transition-colors (mobile can't hover).
+HeadingLink.tsx -- Anchor link now shows on focus:opacity-100, hidden on mobile with max-sm:hidden.
+PageActions.tsx -- Container gets flex-wrap so buttons wrap on narrow viewports.
+ControlGroup.tsx -- New compact boolean prop. When true, multi-column layouts keep their column count on mobile instead of collapsing to 1.
+Content system docs (references updated to components/ pattern):
+
+.agents/contexts/content-constellation.md -- File tree updated from components.tsx to components/ directory with index.ts, utils.ts, DemoOne.tsx, DemoTwo.tsx. Added "Demo component decomposition" pattern description.
+.agents/workflows/publish-experiment.md -- Phase 2 step 7 rewritten: one file per demo, shared helpers in utils.ts, barrel export from index.ts, 200/300 line limits.
+.cursor/agents/content-writer.md -- Added new "Demo Component Decomposition" subsection under Technical Constraints.
+.cursor/rules/article-writing.mdc -- MDX wiring steps updated from 4 to 5 steps (added barrel re-export step). Added "Demo Component Decomposition" subsection.
+.cursor/skills/publish-content/SKILL.md -- Updated scaffold output list, build demos instructions, and verification checklist.
+2. Non-Euclidean Hyperbolic Workspace Article (detailed)
+Full content constellation for the hyperbolic workspace experiment.
+
+New article files (all untracked):
+
+article/page.tsx -- MDX rendering page, wires 5 demo components into the MDX component map.
+article/content.mdx -- ~168-line article covering Poincaré disk geometry, Möbius transforms, geodesic arcs, conformal scaling, and hyperbolic tree layout. Uses 5 interactive demos inline.
+article/components/index.ts -- Barrel export for all 5 demos.
+article/components/utils.ts -- ~189 lines of shared math: Poincaré disk ↔ screen coordinate transforms, geodesic arc computation, Möbius transform application, hyperbolic midpoint, tree layout in hyperbolic space.
+article/components/EuclideanVsHyperbolicDemo.tsx -- Side-by-side Canvas 2D comparison of Euclidean vs hyperbolic grids.
+article/components/MobiusTransformDemo.tsx -- Interactive Möbius transform visualization with draggable origin point.
+article/components/GeodesicDemo.tsx -- Shows geodesic arcs (circular arcs orthogonal to the boundary) vs straight lines.
+article/components/ConformalScaleDemo.tsx -- ~163 lines. Demonstrates conformal scale factor 2/(1-|z|²) with interactive point placement.
+article/components/HyperbolicTreeDemo.tsx -- ~168 lines. Interactive tree layout on the Poincaré disk with draggable root node.
+New docs files (all untracked):
+
+docs/lab-note.md, docs/architecture.md, docs/snippet.md, docs/social.md, docs/changelog.md -- Full content constellation docs.
+Layout refactor (modified):
+
+layout.tsx -- Hardcoded metadata strings replaced with experiment.json field references. Added ThemeProvider wrapper, font-canvas class, suppressHydrationWarning, tags prop to ExperimentJsonLd. Poster path now computed dynamically.
+Registry update (modified):
+
+public/registry/non-euclidean-hyperbolic-workspace.json -- Minor content change in HyperbolicInfoModal.tsx serialized component.
+
+---
+
+are you able to justify align text auto / inter text?
+
+---
+
+ya try it
+
+---
+
+are those additions i made correct?
