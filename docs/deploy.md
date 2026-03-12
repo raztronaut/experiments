@@ -1,5 +1,73 @@
 # CI/CD and Deploy
 
+## Default PR Flow
+
+This repo is designed around branch review and preview deploys. The default path is:
+
+1. Branch off `main`.
+2. Work locally or in a worktree.
+3. Commit with a conventional commit.
+4. Push the branch.
+5. Open a draft PR.
+6. Validate CI and the Vercel preview.
+7. Merge only after the diff is understood and the preview looks right.
+
+Use draft PRs early. They are the normal way to get preview URLs without implying that the work is ready to merge.
+
+## Using AI Work In PRs
+
+AI-prepared work should flow through the same repo controls as human-authored work.
+
+When an automation or agent produces a useful diff, choose one of these paths:
+
+- **Keep the automation branch/worktree as-is** when the work is already scoped cleanly and the PR boundary is obvious.
+- **Continue manually in that same worktree** when the automation created good momentum but the work is not finished.
+- **Start fresh or cherry-pick** when the automation output is mostly diagnostic or the branch boundary is messy.
+
+Do not merge automation output simply because the checks pass. Read the diff first.
+
+### Repo-Specific Examples
+
+- `test-gap-detection`: usually belongs on the normal branch/PR path because it changes code and tests.
+- `update-changelog`: may be small enough for direct local integration if it is clearly correct and low-risk.
+- `automated-architectural-docs`: often benefits from manual review or refinement before it becomes a PR.
+- `announcing-v2`: always use PR + preview + visual QA, even if AI prepared the branch.
+
+## Preview Review Checklist
+
+- [ ] Homepage if shared UI or metadata changed
+- [ ] Changed experiment, article, or registry route
+- [ ] Generated artifacts if the change affects posters, registry, or llms outputs
+- [ ] Mobile pass if UI or layout changed
+- [ ] Reduced-motion or obvious interaction sanity check if motion changed
+
+## Merge Decision Checklist
+
+- [ ] Repo checks passed
+- [ ] Preview inspected when needed
+- [ ] No unrelated diff remains in the branch
+- [ ] Metadata and generated outputs are intentional
+- [ ] Visual QA completed for UI-facing changes
+
+## When Direct Local Integration Is Acceptable
+
+Direct local integration is fine only when the change is:
+
+- tiny and low-risk
+- mostly docs-only or trivial maintenance
+- free of build, config, deploy, registry, or generated-surface implications
+- fully understandable without a preview URL
+
+If the change affects public behavior, rollout surfaces, or deploy confidence, use a PR.
+
+## Common Failure Modes
+
+- skipping PRs for work that really needs preview review
+- leaving long-lived draft branches open with no clear next action
+- merging automation output without understanding the diff
+- forgetting preview verification for UI and rollout work
+- mixing unrelated changes into one branch because an automation wandered
+
 ## Branching Strategy
 
 | Branch | Purpose |
@@ -105,6 +173,8 @@ Every commit gets an `Entire-Checkpoint` trailer linking to session context. `En
 4. **Preview**: Vercel auto-deploys. CI runs.
 5. **Visual QA**: test on the preview URL
 6. **Merge**: mark ready + merge when satisfied
+
+This same flow applies to substantive automation output. The review surface is still the branch, PR, CI, and preview URL.
 
 ## Registry URL Verification
 

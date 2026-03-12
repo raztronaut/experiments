@@ -249,6 +249,7 @@ Read the relevant doc BEFORE working in that domain:
 | Porting | `.agents/skills/porting-demos/SKILL.md` | Porting external demos, websites, repos, or code snippets into experiments |
 | Quick Component | `.agents/skills/quick-component/SKILL.md` | Porting external code or indexing libraries into collected registry |
 | Content | `.agents/contexts/content-constellation.md` | Writing articles, publishing experiments, auditing content coverage |
+| Automation Ops | `.agents/workflows/automation-ops.md` | Handling automation output, worktrees, and PR/deploy decisions for agent-created work |
 
 **Profile-specific guidance**: read `experiment.json` `"profile"` field, then `.agents/profiles/<profile>.md`
 
@@ -256,7 +257,7 @@ Read the relevant doc BEFORE working in that domain:
 - gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa, porting-demos, quick-component
 
 **Workflows** (step-by-step procedures): `.agents/workflows/<name>.md`
-- new-experiment, develop-experiment, publish-experiment, add-experiment-component, add-experiment-assets, cleanup-experiment, visual-qa
+- new-experiment, develop-experiment, publish-experiment, add-experiment-component, add-experiment-assets, cleanup-experiment, visual-qa, automation-ops
 
 **Architecture reference**: `.agents/contexts/architecture.md`
 **Toolkit inventory**: `.agents/contexts/toolkit.md`

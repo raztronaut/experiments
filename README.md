@@ -156,6 +156,7 @@ generate:posters -> generate:registry -> generate:llms-txt -> next build
 Lefthook pre-commit hooks run lint, typecheck, and experiment validation in parallel. [Entire.io](https://docs.entire.io) captures agent session context as Git-native checkpoints on post-commit/pre-push.
 
 See [docs/deploy.md](docs/deploy.md) for the full CI/CD workflow, branching strategy, and hook ownership.
+Use [docs/deploy.md](docs/deploy.md) as the operator playbook for branches, draft PRs, preview review, and merge decisions.
 
 ## Contributing
 
@@ -168,6 +169,7 @@ See [docs/contributing.md](docs/contributing.md) for code style, testing, access
 The `.agents/` directory contains rules, profiles, skills, and workflows that give AI coding assistants deep context about the codebase. Cursor-specific integration lives in `.cursor/rules/`, `.cursor/skills/`, and `.cursor/agents/` with auto-injecting rules and specialized subagents for content writing and auditing.
 
 See [docs/ai-development.md](docs/ai-development.md) for the full AI integration architecture.
+Use [docs/ai-development.md](docs/ai-development.md) as the human/operator guide for Codex, Cursor, automations, worktrees, and review flow.
 
 ## Documentation
 

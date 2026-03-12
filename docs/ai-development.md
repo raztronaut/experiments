@@ -1,6 +1,121 @@
 # AI-Assisted Development
 
-This project has deep integration with AI coding assistants. The `.agents/` directory provides rules, profiles, skills, and workflows that give agents context about the codebase architecture and coding standards.
+This repo is set up for AI-assisted work, but the goal is not to hand control over to agents. The goal is to use Codex, Cursor, worktrees, and automations as force multipliers while keeping review, testing, and deploy decisions explicit.
+
+Use this document as the human/operator guide. For the full agent instruction set, start with `AGENTS.md`. For day-to-day automation handling, use `.agents/workflows/automation-ops.md`.
+
+## How To Use AI In This Repo
+
+The core surfaces each have a distinct job:
+
+| Surface | What it is for |
+|---------|----------------|
+| `AGENTS.md` | Canonical repo rules for AI agents: commands, guardrails, workflows, and domain references |
+| `.agents/` | Deep internal guidance for agents: contexts, workflows, rules, profiles, and skills |
+| `.cursor/` | Cursor-native rules, skills, and subagents that auto-inject or trigger in-editor |
+| `memory.md` | Auto-maintained preferences and workspace facts that help agents avoid repeating mistakes |
+
+Simple mental model:
+
+- `AGENTS.md` tells an agent how not to get lost.
+- `.agents/` tells an agent how to do domain work correctly.
+- `.cursor/` makes Cursor behave more like a repo-aware teammate.
+- `memory.md` preserves lessons learned from past sessions.
+
+## Codex Automations In Practice
+
+Codex automations are recurring tasks that run against a workspace and should leave either:
+
+- a clear, reviewable code or docs diff
+- or a concise report with exact next steps
+
+Treat the output as a proposed work product, not as an auto-mergeable answer.
+
+On this machine, the current examples include:
+
+- `test-gap-detection`: usually produces code and tests in a worktree
+- `update-changelog`: usually produces a small docs diff
+- `automated-architectural-docs`: usually produces doc suggestions or small edits
+
+Default review flow:
+
+1. Inspect the result and classify it.
+2. Review the worktree diff.
+3. Run the normal repo checks.
+4. Decide whether to continue there, open a PR, fold it into other work, backlog it, or discard it.
+
+### Compact Checklist: Review An Automation Result
+
+- [ ] Scope matches the automation prompt
+- [ ] `git status` and `git diff` make sense
+- [ ] No unrelated file churn
+- [ ] Required checks passed
+- [ ] Visual QA done if UI changed
+- [ ] Result classified as mergeable, continue here, backlog, or discard
+
+## Worktrees Without Fear
+
+A worktree is just another checkout of the same repo attached to a branch. It gives you an isolated working directory without forcing you to stash or swap your main checkout.
+
+Why that matters for AI runs:
+
+- automations can work in isolation
+- you can inspect or continue their output without disturbing your main checkout
+- each worktree maps naturally to a branch and, if needed, a PR
+
+Useful mental model:
+
+- **branch** = line of history
+- **worktree** = place on disk where you edit that branch
+- **PR** = review and deploy surface for that branch
+
+If an automation already made useful changes, continuing in that same worktree is often the simplest path. If the output is mostly diagnostic or the scope expanded, start fresh on a new branch/worktree instead.
+
+## Recommended Hybrid Workflow
+
+This repo should not be run in either extreme:
+
+- not "PR everything even if it is a one-line changelog fix"
+- not "let automations edit the repo and merge themselves"
+
+The recommended hybrid model is:
+
+1. Use automations to propose or prepare work.
+2. Review the output like any other branch-sized unit of work.
+3. Keep substantive or externally visible work on the normal branch/PR/preview path.
+4. Allow tiny, low-risk maintenance changes to be integrated locally only when review is straightforward and no deploy-risking systems are involved.
+
+This keeps AI useful without turning review into ceremony for every trivial change.
+
+### Compact Checklist: PR Vs Direct Integration
+
+- [ ] Is the change tiny and low-risk?
+- [ ] Is it docs-only or trivial maintenance?
+- [ ] Does it avoid config, deploy, registry, and generated-surface risk?
+- [ ] Is a preview URL unnecessary?
+
+If any answer is "no", use a PR.
+
+## When To Trust Vs Verify Harder
+
+Some AI-generated changes are cheap to validate. Others are not.
+
+Lower-risk examples:
+
+- changelog updates
+- doc wording or cross-link fixes
+- small architecture doc refreshes
+
+Higher-risk examples:
+
+- build, config, or deploy changes
+- registry generation or URL-contract changes
+- experiment behavior changes
+- `announcing-v2` rollout work
+
+Visual work always needs harder verification. If a change affects UI, motion, registry pages, or generated outputs, review it on a preview URL instead of trusting local static checks alone.
+
+`announcing-v2` is the clearest example in this repo: even if an automation prepares most of the branch, it still needs PR review, preview validation, and visual QA before merge.
 
 ## Entry Points
 
@@ -13,6 +128,21 @@ This project has deep integration with AI coding assistants. The `.agents/` dire
 | `.cursor/skills/` | Cursor | Task-triggered workflow skills |
 | `.cursor/agents/` | Cursor | Specialized subagent personas |
 
+## Recommended Daily Operating Pattern
+
+1. Start in your main checkout or a clean feature branch.
+2. Let an automation or agent prepare work in a worktree when that helps.
+3. Review the diff before trusting the output.
+4. Run the repo checks before committing:
+   - `npm run lint`
+   - `npm run typecheck`
+   - `npm test -- --run --project unit`
+   - `npm run build`
+5. Push and open a draft PR if the work is substantive or externally visible.
+6. Use the preview URL for UI, motion, registry, and rollout validation.
+
+This matches the repo's branch, CI, and deploy model rather than bypassing it.
+
 ## .agents/ Directory
 
 ```
@@ -20,6 +150,7 @@ This project has deep integration with AI coding assistants. The `.agents/` dire
 ├── backlog/           # Pending work organized by theme (t1-t8)
 ├── contexts/          # Deep reference documents
 │   ├── architecture.md    # Route groups, metadata schema, template system
+│   ├── automation-system.md  # Codex automation model, prompt design, maintenance
 │   ├── content-constellation.md  # 6-format content model, tooling, lifecycle
 │   ├── toolkit.md         # All libraries, versions, integration patterns
 │   └── writing-voice.md   # Article voice, lenses, section building blocks
@@ -90,6 +221,7 @@ Step-by-step procedures for common operations:
 | `add-experiment-assets` | Add | Add images, 3D models, or other assets |
 | `cleanup-experiment` | Remove | Safely remove an experiment and all files |
 | `visual-qa` | Review | Structured visual QA with MCP tools |
+| `automation-ops` | Operate | Review automation output, use worktrees safely, and decide PR vs direct integration |
 
 ## Cursor Integration
 
@@ -182,3 +314,9 @@ AI agents follow these safety rules (enforced via AGENTS.md):
 - **Pre-Commit Verification**: `tsc --noEmit` must pass before any commit
 - **Bug Fix Scope**: stay confined to files directly related to the bug, no drive-by refactors
 - **Context Hygiene**: write large tool outputs to scratch files, return summaries
+
+## Where To Go Next
+
+- Read [Deploy](deploy.md) for the human PR, preview, and merge playbook.
+- Read `.agents/workflows/automation-ops.md` for the canonical automation/worktree operator workflow.
+- Read `.agents/backlog/README.md` when automation findings should become deferred work.
