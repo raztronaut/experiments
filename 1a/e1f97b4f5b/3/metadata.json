@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "1ae1f97b4f5b",
+  "session_id": "cb78e110-e48d-4380-ac81-6ccb8bb02115",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:21:06.840804Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "package-lock.json",
+    "package.json",
+    "public/llms-full.txt",
+    "public/llms.txt"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "23407b964813",
+  "session_metrics": {
+    "turn_count": 17
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:21:06.819375Z",
+    "agent_lines": 212,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 212,
+    "agent_percentage": 100
+  }
+}
