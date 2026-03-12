@@ -317,6 +317,8 @@ AI agents follow these safety rules (enforced via AGENTS.md):
 
 ## Where To Go Next
 
+- Read [Automation Operator Sheet](automation-operator-sheet.md) for the one-time deep-pass workflow and sweep order.
+- Read [Automation Deep-Pass Prompts](automation-deep-pass-prompts.md) for copy-paste starters for each deep-pass chat.
 - Read [Deploy](deploy.md) for the human PR, preview, and merge playbook.
 - Read `.agents/workflows/automation-ops.md` for the canonical automation/worktree operator workflow.
 - Read `.agents/backlog/README.md` when automation findings should become deferred work.

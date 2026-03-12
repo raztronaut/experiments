@@ -147,14 +147,14 @@ From Laws of UX:
 
 ## Git Workflow
 
-- **Commits**: Conventional Commits (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`)
 - **Pre-commit hooks** (lefthook, parallel):
   1. `ultracite check {staged_files}` -- lint+format check (fails on violations, never writes)
   2. `tsc --noEmit` -- typecheck
   3. `validate-experiments.mjs` -- validate experiment.json files
 - **NEVER use `stage_fixed: true`** in lefthook with any fixer/formatter. It stashes unstaged changes and can silently lose work if the pop fails. Use `check` mode and fix manually with `npm run fix`.
 - **Post-commit / pre-push**: [Entire.io](https://docs.entire.io) captures agent session context as Git-native checkpoints. Metadata lives on `entire/checkpoints/v1` branch. Coexists with lefthook (which only manages `pre-commit`).
-- **Commit voice**: no `Co-Authored-By` AI lines. No "Generated with" language. Conventional commits only. Entire.io tool trailers (`Entire-Checkpoint`, `Entire-Attribution`) are acceptable -- they're structured metadata, not authorship copy.
+- **Commit messages**: keep them short and descriptive. Conventional Commit prefixes are a good pattern, but not enforced.
+- **Commit voice**: no `Co-Authored-By` AI lines. No "Generated with" language. Entire.io tool trailers (`Entire-Checkpoint`, `Entire-Attribution`) are acceptable -- they're structured metadata, not authorship copy.
 
 ## Branching and Deploy
 

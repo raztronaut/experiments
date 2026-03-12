@@ -5,6 +5,8 @@ Comprehensive guides for the Experiments Lab. Each doc covers one major system.
 | Guide | What it covers |
 |-------|---------------|
 | [Architecture](architecture.md) | Route group isolation, three-location rule, layout hierarchy, environment detection, data flow |
+| [Automation Operator Sheet](automation-operator-sheet.md) | One-time deep-pass workflow, audit lenses, and sweep order for platform-level reviews |
+| [Automation Deep-Pass Prompts](automation-deep-pass-prompts.md) | Copy-paste starter prompts for running each automation domain as a serious platform audit |
 | [Getting Started](getting-started.md) | Prerequisites, installation, creating your first experiment, file anatomy, shipping |
 | [Experiments](experiments.md) | Lifecycle, profiles, metadata system (status/listing/legacy), /dev dashboard, full schema |
 | [Content System](content-system.md) | Articles, content constellation (6 formats), RSS/JSON feeds, llms.txt, dynamic .mdx routes |

@@ -6,7 +6,7 @@ This repo is designed around branch review and preview deploys. The default path
 
 1. Branch off `main`.
 2. Work locally or in a worktree.
-3. Commit with a conventional commit.
+3. Commit with a clear, descriptive message.
 4. Push the branch.
 5. Open a draft PR.
 6. Validate CI and the Vercel preview.
@@ -150,11 +150,9 @@ The lint hook runs in **check** mode (read-only, fails on violations). Fix lint 
 |------|-------|-------|
 | `pre-commit` | Lefthook (`lefthook.yml`) | lint-check, typecheck, validate-experiments |
 | `prepare-commit-msg` | Entire.io (`.git/hooks/`) | Session tracking |
-| `commit-msg` | Entire.io + conventional commits (`.git/hooks/`) | Grep validation + trailer management |
+| `commit-msg` | Entire.io (`.git/hooks/`) | Trailer management |
 | `post-commit` | Entire.io (`.git/hooks/`) | Checkpoint creation |
 | `pre-push` | Entire.io (`.git/hooks/`) | Push session data to `entire/checkpoints/v1` |
-
-After running `entire enable`, re-apply the conventional commits grep to `.git/hooks/commit-msg` (Entire's enable command overwrites it).
 
 ### Commands
 

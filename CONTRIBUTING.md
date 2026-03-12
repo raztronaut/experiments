@@ -2,7 +2,7 @@
 
 Full contributing guide: **[docs/contributing.md](docs/contributing.md)**
 
-Covers code style, TypeScript conventions, component size discipline, Biome linting, testing, conventional commits, pre-commit hooks, accessibility, UX standards, and project boundaries.
+Covers code style, TypeScript conventions, component size discipline, Biome linting, testing, pre-commit hooks, accessibility, UX standards, and project boundaries.
 
 ## Quick Reference
 
@@ -17,9 +17,9 @@ npm run typecheck                  # tsc --noEmit
 npm run validate:experiments       # validate all experiment.json files
 ```
 
-### Commit Convention
+### Commit Messages
 
-[Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`.
+Keep commit messages short and descriptive. Conventional Commit prefixes are a good pattern if they help, but they are not required.
 
 ### Pre-Commit Hooks
 

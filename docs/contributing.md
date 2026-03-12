@@ -83,25 +83,14 @@ npm test -- --run --project unit  # CI mode
 
 ## Git Conventions
 
-### Conventional Commits
+### Commit Messages
 
-All commit messages follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-feat: add fluid simulation experiment
-fix: resolve scroll jank in velocity-responsive-design
-refactor: extract hero section from main component
-docs: update registry documentation
-chore: upgrade GSAP to 3.14
-```
-
-Validated via a grep hook in `.git/hooks/commit-msg`.
+Keep commit messages short and descriptive. Conventional Commit prefixes are a good pattern if they help, but they are not required.
 
 ### Commit Voice
 
 - No `Co-Authored-By` AI lines
 - No "Generated with" or "Created by AI" language
-- Conventional commits only
 - Entire.io tool trailers (`Entire-Checkpoint`, `Entire-Attribution`) are acceptable -- structured metadata, not authorship copy
 
 ### Pre-Commit Hooks
