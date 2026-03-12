@@ -5,6 +5,15 @@
     "ultracite/biome/react",
     "ultracite/biome/next"
   ],
+  "assist": {
+    "actions": {
+      "source": {
+        "useSortedAttributes": "off",
+        "useSortedInterfaceMembers": "off",
+        "useSortedProperties": "off"
+      }
+    }
+  },
   "files": {
     "includes": [
       "!.next",

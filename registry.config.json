@@ -6,6 +6,7 @@
     "collected",
     "hooks",
     "utilities",
+    "mdx",
     "styles"
   ],
   "featured": [
@@ -32,6 +33,7 @@
     "sharedUI": true,
     "collected": true,
     "hooks": true,
+    "mdx": true,
     "utilities": ["src/lib/utils.ts", "src/lib/fonts.ts"]
   }
 }

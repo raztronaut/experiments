@@ -130,6 +130,14 @@ const nextConfig: NextConfig = {
         source: "/r/:slug",
         destination: "/registry/:slug.json",
       },
+      {
+        source: "/experiments/:slug/article.mdx",
+        destination: "/experiments/llms.mdx/:slug/article",
+      },
+      {
+        source: "/experiments/:slug.mdx",
+        destination: "/experiments/llms.mdx/:slug",
+      },
     ];
   },
 };

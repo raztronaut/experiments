@@ -111,13 +111,12 @@ module.exports = (plop) => {
               created: "{{createdDate}}",
               profile: "{{profile}}",
               status: "wip",
+              listing: "public",
               complexity: "{{complexity}}",
               tags: [],
               tech: [],
               image: "",
               video: "",
-              poster: "/experiments/{{dashCase name}}/poster.jpg",
-              publishable: false,
             },
             null,
             2
@@ -282,15 +281,6 @@ module.exports = (plop) => {
           type: "add",
           path: `${routeBase}/docs/changelog.md`,
           templateFile: "plop-templates/article/changelog.md.hbs",
-        },
-        {
-          type: "modify",
-          path: `src/app/experiments/(${slug})/experiment.json`,
-          transform(fileContent) {
-            const data = JSON.parse(fileContent);
-            data.content = { ...data.content, article: true };
-            return `${JSON.stringify(data, null, 2)}\n`;
-          },
         },
       ];
     },

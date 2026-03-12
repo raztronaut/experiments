@@ -28,7 +28,7 @@ async function generatePosters() {
         continue;
       }
 
-      if (config.listing && config.listing !== "experiment") {
+      if ((config.listing || "public") !== "public") {
         continue;
       }
 

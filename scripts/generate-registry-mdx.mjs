@@ -30,6 +30,7 @@ const CATEGORY_ORDER = [
   "components",
   "collected",
   "hooks",
+  "mdx",
   "utilities",
 ];
 const CATEGORY_TITLES = {
@@ -37,6 +38,7 @@ const CATEGORY_TITLES = {
   components: "Components",
   collected: "Collected",
   hooks: "Hooks",
+  mdx: "MDX",
   utilities: "Utilities",
 };
 

@@ -93,36 +93,9 @@ rl.question(
       }
     }
 
-    if (fs.existsSync(experimentJsonPath)) {
-      try {
-        const raw = fs.readFileSync(experimentJsonPath, "utf-8");
-        const data = JSON.parse(raw);
-        let changed = false;
-        if ("content" in data) {
-          data.content = undefined;
-          console.log(`✅ Removed "content" block from experiment.json`);
-          changed = true;
-        }
-        if (data.publishable) {
-          data.publishable = false;
-          console.log("✅ Reset publishable to false (article removed)");
-          changed = true;
-        }
-        if (changed) {
-          fs.writeFileSync(
-            experimentJsonPath,
-            `${JSON.stringify(data, null, 2)}\n`,
-            "utf-8"
-          );
-        } else {
-          console.log(
-            `ℹ️  experiment.json has no "content" block (already clean)`
-          );
-        }
-      } catch (err) {
-        console.error(`❌ Error updating experiment.json: ${err.message}`);
-      }
-    }
+    console.log(
+      "ℹ️  experiment.json left unchanged (article existence is detected by file presence)"
+    );
 
     console.log(
       `\n✨ Deleted ${deletedCount} files from "${safeName}" article & docs.`

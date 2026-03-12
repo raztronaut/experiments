@@ -15,6 +15,7 @@ const COMPONENTS_EXPERIMENTS_DIR = path.join(
 const UI_DIR = path.join(ROOT_DIR, "src", "components", "ui");
 const COLLECTED_DIR = path.join(ROOT_DIR, "src", "components", "collected");
 const HOOKS_DIR = path.join(ROOT_DIR, "src", "hooks");
+const MDX_DIR = path.join(ROOT_DIR, "src", "components", "mdx");
 const ASSET_BASE_URL = "https://www.razisyed.cv";
 
 const EXCLUDE_EXPERIMENTS = ["3-d-basketball-court-hero"];
@@ -145,7 +146,7 @@ const SHARED_CSS_VARS = {
 // ---------------------------------------------------------------------------
 
 function extractImports(content) {
-  const importRegex = /import\s+.*?from\s+['"](.*?)['"]/g;
+  const importRegex = /(?:import|export)\s+.*?from\s+['"](.*?)['"]/g;
   const imports = [];
   let match;
   while ((match = importRegex.exec(content)) !== null) {
@@ -159,6 +160,14 @@ function categorizeImport(importPath) {
     const parts = importPath.split("/");
     const componentName = parts.at(-1).replace(/\.tsx?$/, "");
     return { type: "registry", name: componentName };
+  }
+
+  if (importPath.startsWith("@/hooks/")) {
+    const hookName = importPath
+      .split("/")
+      .at(-1)
+      .replace(/\.tsx?$/, "");
+    return { type: "registry", name: toKebabCase(hookName) };
   }
 
   if (
@@ -443,11 +452,7 @@ async function scanExperiments() {
       continue;
     }
 
-    const listing = metadata.listing || "experiment";
-    if (listing === "unlisted") {
-      console.log(`  Skipping unlisted experiment: ${experimentName}`);
-      continue;
-    }
+    const listing = metadata.listing || "public";
 
     const componentDir = path.join(COMPONENTS_EXPERIMENTS_DIR, experimentName);
     const componentFiles = await getAllComponentFiles(componentDir);
@@ -504,7 +509,7 @@ async function scanExperiments() {
       type: itemType,
       title: metadata.title,
       description: metadata.description,
-      category: listing === "collected" ? "collected" : "experiments",
+      category: listing === "registry" ? "collected" : "experiments",
       registryDependencies: regDeps,
       dependencies: Array.from(allNpmDeps),
       files: allFiles,
@@ -819,6 +824,157 @@ async function scanCollected() {
   return items;
 }
 
+async function scanMdx() {
+  const items = [];
+  let entries;
+  try {
+    entries = await fs.readdir(MDX_DIR, { withFileTypes: true });
+  } catch {
+    return items;
+  }
+
+  const EXCLUDE_FILES = new Set(["components.tsx", "index.ts"]);
+
+  for (const entry of entries) {
+    if (entry.name.startsWith(".") || entry.name.includes(".test.")) {
+      continue;
+    }
+
+    if (entry.isFile() && entry.name.endsWith(".tsx")) {
+      if (EXCLUDE_FILES.has(entry.name)) {
+        continue;
+      }
+
+      const filePath = path.join(MDX_DIR, entry.name);
+      const name = `mdx-${toKebabCase(entry.name)}`;
+      const result = await resolveLocalFiles(filePath);
+
+      const cssFiles = [];
+      for (const f of result.files) {
+        const content = await fs
+          .readFile(f.absolutePath, "utf-8")
+          .catch(() => "");
+        const cssImports = [...content.matchAll(/import\s+['"](.+\.css)['"]/g)];
+        for (const m of cssImports) {
+          const cssPath = path.resolve(path.dirname(f.absolutePath), m[1]);
+          const alreadyIncluded =
+            result.files.some((rf) => rf.absolutePath === cssPath) ||
+            cssFiles.some((cf) => cf === cssPath);
+          if (!alreadyIncluded) {
+            cssFiles.push(cssPath);
+          }
+        }
+      }
+
+      for (const cssPath of cssFiles) {
+        try {
+          const cssContent = await fs.readFile(cssPath, "utf-8");
+          result.files.push({
+            absolutePath: cssPath,
+            name: path.basename(cssPath),
+            relativePath: path.relative(
+              path.join(ROOT_DIR, "src", "components"),
+              cssPath
+            ),
+            content: cssContent,
+          });
+        } catch {
+          /* css file not found */
+        }
+      }
+
+      const files = result.files.map((f) => ({
+        path: path.relative(ROOT_DIR, f.absolutePath),
+        type: f.absolutePath.endsWith(".css")
+          ? "registry:file"
+          : inferFileType(f.absolutePath, f.content),
+      }));
+
+      const isMultiFile = files.length > 1;
+      const jsdocDesc = await extractJSDocDescription(filePath);
+      const componentTitle = entry.name.replace(/\.tsx$/, "");
+
+      items.push({
+        name,
+        type: isMultiFile ? "registry:block" : "registry:component",
+        title: componentTitle,
+        description: jsdocDesc || `${componentTitle} MDX component`,
+        category: "mdx",
+        registryDependencies:
+          result.registryDependencies.length > 0
+            ? [...result.registryDependencies, "razi-style"]
+            : ["razi-style"],
+        dependencies: result.dependencies,
+        files,
+        meta: {},
+      });
+    }
+  }
+
+  const controlsDir = path.join(MDX_DIR, "controls");
+  const controlsIndex = path.join(controlsDir, "index.ts");
+  try {
+    await fs.stat(controlsIndex);
+  } catch {
+    return items;
+  }
+
+  const result = await resolveLocalFiles(controlsIndex);
+
+  const controlsEntries = await fs.readdir(controlsDir, {
+    withFileTypes: true,
+  });
+  const cssFiles = controlsEntries
+    .filter((f) => f.isFile() && f.name.endsWith(".css"))
+    .map((f) => f.name);
+
+  for (const cssFile of cssFiles) {
+    const cssPath = path.join(controlsDir, cssFile);
+    const alreadyIncluded = result.files.some(
+      (f) => f.absolutePath === cssPath
+    );
+    if (!alreadyIncluded) {
+      result.files.push({
+        absolutePath: cssPath,
+        name: cssFile,
+        relativePath: path.relative(
+          path.join(ROOT_DIR, "src", "components"),
+          cssPath
+        ),
+        content: await fs.readFile(cssPath, "utf-8"),
+      });
+    }
+  }
+
+  const files = result.files.map((f) => ({
+    path: path.relative(ROOT_DIR, f.absolutePath),
+    type: f.absolutePath.endsWith(".css")
+      ? "registry:file"
+      : inferFileType(f.absolutePath, f.content),
+  }));
+
+  const jsdocDesc = await extractJSDocDescription(controlsIndex);
+
+  items.push({
+    name: "mdx-controls",
+    type: "registry:block",
+    title: "MDX Controls",
+    description:
+      jsdocDesc ||
+      "Interactive control primitives for MDX articles (Checkbox, Switch, Radio, Range, ControlGroup)",
+    category: "mdx",
+    registryDependencies:
+      result.registryDependencies.length > 0
+        ? [...result.registryDependencies, "razi-style"]
+        : ["razi-style"],
+    dependencies: result.dependencies,
+    files,
+    meta: {},
+  });
+
+  return items;
+}
+
 // ---------------------------------------------------------------------------
 // Curation
 // ---------------------------------------------------------------------------
@@ -944,6 +1100,7 @@ async function main() {
   const scanSharedUIEnabled = config?.scan?.sharedUI === true;
   const scanCollectedEnabled = config?.scan?.collected === true;
   const scanHooksEnabled = config?.scan?.hooks === true;
+  const scanMdxEnabled = config?.scan?.mdx === true;
 
   console.log("Registry discovery starting...\n");
 
@@ -951,6 +1108,7 @@ async function main() {
   let uiItems = [];
   let collectedItems = [];
   let hookItems = [];
+  let mdxItems = [];
   let utilItems = [];
 
   if (scanExperimentsEnabled) {
@@ -978,6 +1136,12 @@ async function main() {
     console.log(`  Found ${hookItems.length} hooks`);
   }
 
+  if (scanMdxEnabled) {
+    console.log("Scanning MDX components...");
+    mdxItems = await scanMdx();
+    console.log(`  Found ${mdxItems.length} MDX components`);
+  }
+
   if (config) {
     console.log("Scanning utilities...");
     utilItems = await scanUtilities(config);
@@ -989,6 +1153,7 @@ async function main() {
     ...uiItems,
     ...collectedItems,
     ...hookItems,
+    ...mdxItems,
     ...utilItems,
   ];
 
@@ -1010,11 +1175,12 @@ async function main() {
   const uiCount = uiItems.length;
   const collectedCount = collectedItems.length;
   const hookCount = hookItems.length;
+  const mdxCount = mdxItems.length;
   const utilCount = utilItems.length;
   const total = allItems.length;
 
   console.log(
-    `\nDiscovered ${expCount} experiments, ${uiCount} components, ${collectedCount} collected, ${hookCount} hooks, ${utilCount} utilities. Total: ${total} items.`
+    `\nDiscovered ${expCount} experiments, ${uiCount} components, ${collectedCount} collected, ${hookCount} hooks, ${mdxCount} mdx, ${utilCount} utilities. Total: ${total} items.`
   );
   console.log(`Wrote registry.json (${total} items)`);
 }

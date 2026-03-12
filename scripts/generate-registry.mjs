@@ -412,11 +412,7 @@ async function generateRegistry() {
         continue;
       }
 
-      const listing = metadata.listing || "experiment";
-      if (listing === "unlisted") {
-        console.log(`Skipping unlisted experiment: ${experimentName}`);
-        continue;
-      }
+      const listing = metadata.listing || "public";
 
       const componentDir = path.join(COMPONENTS_DIR, experimentName);
       const componentFiles = await getAllComponentFiles(componentDir);
@@ -502,7 +498,7 @@ async function generateRegistry() {
           status: metadata.status || "shipped",
           poster: posterField,
           video: videoField,
-          category: listing === "collected" ? "collected" : "experiments",
+          category: listing === "registry" ? "collected" : "experiments",
           fileCount: allFiles.length,
           dependencyCount: Array.from(allNpmDeps).length,
         });

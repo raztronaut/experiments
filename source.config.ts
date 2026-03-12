@@ -3,6 +3,11 @@ import { defineConfig, defineDocs } from "fumadocs-mdx/config";
 
 export const registryDocs = defineDocs({
   dir: "content/registry",
+  docs: {
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+  },
 });
 
 export default defineConfig({

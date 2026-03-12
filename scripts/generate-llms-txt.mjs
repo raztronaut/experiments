@@ -39,7 +39,7 @@ function loadExperiments() {
       continue;
     }
 
-    if (data.listing && data.listing !== "experiment") {
+    if ((data.listing || "public") === "registry") {
       continue;
     }
 
@@ -102,15 +102,15 @@ function generateLlmsTxt(experiments) {
       lines.push(
         `- [${exp.title}](${SITE_URL}/experiments/${exp.slug}/article): ${desc}`
       );
+      lines.push(
+        `  - Markdown: ${SITE_URL}/experiments/${exp.slug}/article.mdx`
+      );
     }
     lines.push("");
   }
 
   lines.push("## Experiments");
   for (const exp of experiments) {
-    if (exp.status === "archived") {
-      continue;
-    }
     lines.push(
       `- [${exp.title}](${SITE_URL}/experiments/${exp.slug}): ${exp.description}`
     );
@@ -123,6 +123,21 @@ function generateLlmsTxt(experiments) {
   lines.push("- 3D: React Three Fiber, Three.js, custom GLSL shaders");
   lines.push("- Scroll: Lenis smooth scroll with Tempus RAF management");
   lines.push("- Styling: Tailwind CSS with shadcn/ui components");
+  lines.push("");
+
+  lines.push("## Content API");
+  lines.push(
+    "- Append `.mdx` to any experiment URL for a markdown summary: /experiments/{slug}.mdx"
+  );
+  lines.push(
+    "- Append `.mdx` to any article URL for markdown content: /experiments/{slug}/article.mdx"
+  );
+  lines.push(
+    "- Send `Accept: text/markdown` header to any article URL to get markdown automatically"
+  );
+  lines.push(
+    `- Registry docs: ${SITE_URL}/registry/docs (browsable) or ${SITE_URL}/registry/llms.txt`
+  );
   lines.push("");
 
   lines.push("## Contact");
@@ -171,9 +186,6 @@ function generateLlmsFullTxt(experiments) {
   lines.push("");
 
   for (const exp of experiments) {
-    if (exp.status === "archived") {
-      continue;
-    }
     lines.push(`### ${exp.title}`);
     lines.push("");
     lines.push(`- URL: ${SITE_URL}/experiments/${exp.slug}`);
@@ -198,7 +210,11 @@ function generateLlmsFullTxt(experiments) {
     }
     if (exp.hasArticle) {
       lines.push(`- Article: ${SITE_URL}/experiments/${exp.slug}/article`);
+      lines.push(
+        `- Article (Markdown): ${SITE_URL}/experiments/${exp.slug}/article.mdx`
+      );
     }
+    lines.push(`- Markdown Summary: ${SITE_URL}/experiments/${exp.slug}.mdx`);
     lines.push("");
   }
 
@@ -224,6 +240,28 @@ function generateLlmsFullTxt(experiments) {
   );
   lines.push(
     "- **Performance hooks**: Hamo (useRect, useWindowSize, useResizeObserver)"
+  );
+  lines.push("");
+
+  lines.push("## Content API");
+  lines.push("");
+  lines.push(
+    "Every experiment and article is available as machine-readable markdown:"
+  );
+  lines.push(
+    "- **Experiment summary**: `GET /experiments/{slug}.mdx` — metadata, source files, install command"
+  );
+  lines.push(
+    "- **Article content**: `GET /experiments/{slug}/article.mdx` — full article as clean markdown"
+  );
+  lines.push(
+    "- **Content negotiation**: Send `Accept: text/markdown` to any article URL to receive markdown instead of HTML"
+  );
+  lines.push(
+    `- **Registry docs**: \`GET ${SITE_URL}/registry/llms.txt\` — index of all registry documentation`
+  );
+  lines.push(
+    `- **Registry full**: \`GET ${SITE_URL}/registry/llms-full.txt\` — complete registry content as markdown`
   );
   lines.push("");
 
