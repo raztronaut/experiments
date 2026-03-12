@@ -1,0 +1,5 @@
+what should i do now? i merged but that branch still failing
+
+---
+
+can you check and see if entire is configured. can do a test push too
