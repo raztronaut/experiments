@@ -30,7 +30,7 @@ export function CodeBlock({ children, raw, ...props }: CodeBlockProps) {
           <span className="font-mono uppercase tracking-wider">{language}</span>
           <button
             aria-label="Copy code"
-            className="text-muted-foreground opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+            className="text-muted-foreground transition-colors hover:text-foreground"
             onClick={handleCopy}
           >
             {copied ? "Copied" : "Copy"}

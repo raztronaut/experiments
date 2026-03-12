@@ -29,7 +29,7 @@ export function PageActions({ markdownUrl }: PageActionsProps) {
   }, [markdownUrl]);
 
   return (
-    <div className="flex items-center gap-2 border-border border-b pb-4">
+    <div className="flex flex-wrap items-center gap-2 border-border border-b pb-4">
       <button
         aria-label="Copy article as Markdown"
         className="inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:border-foreground/20 hover:text-foreground"

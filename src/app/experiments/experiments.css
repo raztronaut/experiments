@@ -26,11 +26,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  article,
-  .prose {
-    text-wrap: pretty;
-  }
-
   *::selection {
     color: hsl(var(--selection-foreground));
     background-color: hsl(var(--selection-background));
@@ -41,9 +36,14 @@
   }
 
   html {
-    scrollbar-gutter: stable;
     scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
     scrollbar-width: thin;
+  }
+
+  @media (min-width: 640px) {
+    html {
+      scrollbar-gutter: stable;
+    }
   }
 
   html.lenis,
@@ -91,6 +91,11 @@
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.09px;
+    text-align: justify;
+    hyphens: auto;
+    text-wrap: pretty;
+    font-variant-ligatures: common-ligatures;
+    text-rendering: optimizeLegibility;
   }
 
   article h1,
@@ -100,6 +105,8 @@
   article h5,
   article h6 {
     @apply font-medium text-foreground;
+    text-align: left;
+    hyphens: manual;
   }
 
   article h2,
@@ -132,8 +139,14 @@
   article ul:not(:first-child),
   article ol:not(:first-child),
   article pre:not(:first-child),
-  article figure:not(:first-child) {
+  article figure[data-rehype-pretty-code-figure]:not(:first-child),
+  article .katex-display:not(:first-child) {
     margin-top: 24px;
+  }
+
+  article .katex-display {
+    overflow-x: auto;
+    text-align: center;
   }
 
   article ol {
@@ -227,7 +240,7 @@
 
   /* ——— Code block figure wrappers ——— */
 
-  article figure {
+  article figure[data-rehype-pretty-code-figure] {
     width: 100%;
     margin-top: 4px;
     overflow: hidden;

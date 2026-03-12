@@ -46,22 +46,7 @@ export function ArticleLayout({
   const permalink = `${SITE_URL}/experiments/${experimentSlug}/article`;
 
   return (
-    <div className="mx-auto h-entry max-w-3xl px-4 py-16 sm:px-6">
-      <nav className="mb-6 flex items-center gap-1.5 text-muted-foreground text-sm">
-        <Link className="transition-colors hover:text-foreground" href="/">
-          Home
-        </Link>
-        <span>&gt;</span>
-        <Link
-          className="transition-colors hover:text-foreground"
-          href={`/experiments/${experimentSlug}`}
-        >
-          {experimentTitle}
-        </Link>
-        <span>&gt;</span>
-        <span className="text-foreground">Article</span>
-      </nav>
-
+    <div className="mx-auto h-entry max-w-3xl px-4 pt-20 pb-10 sm:px-6 sm:py-16">
       <header className="mb-10">
         <h1 className="p-name font-semibold text-foreground">{title}</h1>
         <div className="mt-1 flex flex-wrap items-center gap-x-1 text-muted-foreground text-sm">
@@ -97,7 +82,7 @@ export function ArticleLayout({
       <article className="e-content mt-8 min-w-0">{children}</article>
 
       {(prev || next) && (
-        <nav className="mt-16 flex items-stretch gap-4 border-border border-t pt-8">
+        <nav className="mt-16 flex flex-col items-stretch gap-4 border-border border-t pt-8 sm:flex-row">
           {prev ? (
             <Link
               className="group flex flex-1 flex-col gap-1 rounded-lg border border-border p-4 transition-colors hover:border-foreground/20"

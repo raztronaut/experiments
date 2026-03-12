@@ -25,7 +25,7 @@ export function ExperimentNav({ articleSlug }: ExperimentNavProps) {
         }}
       />
       <nav
-        className="fixed top-4 left-4 z-50 flex items-center gap-2"
+        className="fixed top-4 right-4 left-4 z-50 flex items-center gap-2"
         id="experiment-nav"
       >
         <Link
@@ -34,8 +34,11 @@ export function ExperimentNav({ articleSlug }: ExperimentNavProps) {
           href="/"
           style={{ viewTransitionName: "experiment-back-button" }}
         >
-          <ArrowLeft className="h-4 w-4" />
-          Return to Experiments
+          <ArrowLeft className="h-4 w-4 shrink-0" />
+          <span className="hidden sm:inline">
+            {isOnArticle ? "Return to Articles" : "Return to Experiments"}
+          </span>
+          <span className="sm:hidden">Back</span>
         </Link>
 
         {articleSlug && (
@@ -52,13 +55,15 @@ export function ExperimentNav({ articleSlug }: ExperimentNavProps) {
           >
             {isOnArticle ? (
               <>
-                <Play className="h-4 w-4" />
-                View Experiment
+                <Play className="h-4 w-4 shrink-0" />
+                <span className="hidden sm:inline">View Experiment</span>
+                <span className="sm:hidden">Experiment</span>
               </>
             ) : (
               <>
-                <FileText className="h-4 w-4" />
-                View Article
+                <FileText className="h-4 w-4 shrink-0" />
+                <span className="hidden sm:inline">View Article</span>
+                <span className="sm:hidden">Article</span>
               </>
             )}
           </Link>

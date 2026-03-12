@@ -33,7 +33,7 @@ export function HeadingLink({ as: Tag, id, children }: HeadingLinkProps) {
     <Tag className="group/heading relative" id={id}>
       <a
         aria-label={`Link to section: ${typeof children === "string" ? children : ""}`}
-        className="absolute top-1/2 -left-6 -translate-y-1/2 text-muted-foreground opacity-0 transition-opacity hover:text-foreground group-hover/heading:opacity-100"
+        className="absolute top-1/2 -left-6 -translate-y-1/2 text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus:opacity-100 group-hover/heading:opacity-100 max-sm:hidden"
         href={`#${id}`}
         onClick={(e) => {
           e.preventDefault();
