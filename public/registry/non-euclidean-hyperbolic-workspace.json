@@ -7,12 +7,16 @@
   "category": "experiments",
   "meta": {
     "tags": [
-      "generative",
-      "ui",
-      "cursor"
+      "math",
+      "geometry",
+      "interactive",
+      "data-viz"
     ],
     "tech": [
-      "svg"
+      "svg",
+      "canvas-2d",
+      "css-transforms",
+      "math"
     ],
     "status": "shipped",
     "poster": null,

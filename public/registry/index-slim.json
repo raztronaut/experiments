@@ -211,8 +211,7 @@
       "r3f",
       "three.js",
       "glsl",
-      "gsap",
-      "next-themes"
+      "gsap"
     ],
     "status": "shipped",
     "poster": null,
@@ -229,8 +228,7 @@
     "tags": [
       "generative",
       "game",
-      "animation",
-      "cursor"
+      "animation"
     ],
     "tech": [
       "canvas-2d",
@@ -589,8 +587,7 @@
     "tags": [
       "generative",
       "game",
-      "animation",
-      "cursor"
+      "animation"
     ],
     "tech": [
       "canvas-2d",
@@ -786,7 +783,7 @@
     "poster": null,
     "video": null,
     "category": "mdx",
-    "fileCount": 34,
+    "fileCount": 35,
     "dependencyCount": 2
   },
   {
@@ -856,7 +853,7 @@
     "poster": null,
     "video": null,
     "category": "mdx",
-    "fileCount": 7,
+    "fileCount": 8,
     "dependencyCount": 0
   },
   {
@@ -1043,12 +1040,16 @@
     "title": "Non-Euclidean Hyperbolic Second Brain",
     "description": "Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations",
     "tags": [
-      "generative",
-      "ui",
-      "cursor"
+      "math",
+      "geometry",
+      "interactive",
+      "data-viz"
     ],
     "tech": [
-      "svg"
+      "svg",
+      "canvas-2d",
+      "css-transforms",
+      "math"
     ],
     "status": "shipped",
     "poster": null,
@@ -1144,6 +1145,7 @@
       "animation"
     ],
     "tech": [
+      "r3f",
       "three.js",
       "glsl",
       "motion"
@@ -1261,6 +1263,7 @@
       "generative"
     ],
     "tech": [
+      "r3f",
       "three.js",
       "glsl"
     ],

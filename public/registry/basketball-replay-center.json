@@ -15,8 +15,7 @@
       "r3f",
       "three.js",
       "glsl",
-      "gsap",
-      "next-themes"
+      "gsap"
     ],
     "status": "shipped",
     "poster": null,

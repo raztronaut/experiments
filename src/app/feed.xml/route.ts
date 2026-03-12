@@ -5,7 +5,7 @@ import { escapeXml, mdxToPlainMarkdown } from "@/lib/feed-utils";
 export const revalidate = 3600;
 
 export async function GET() {
-  const articles = await getArticles();
+  const articles = await getArticles(true);
 
   const items = articles.map((article) => {
     const contentBlock = article.content

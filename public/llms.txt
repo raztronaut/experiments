@@ -7,7 +7,7 @@
   - Markdown: https://www.razisyed.cv/experiments/404-not-found/article.mdx
 - [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center/article): Building a sports control room preloader with CRT shaders, barrel distortion, and GSAP-driven uniform animation in React Three Fiber
   - Markdown: https://www.razisyed.cv/experiments/basketball-replay-center/article.mdx
-- [Non-Euclidean Hyperbolic Second Brain](https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article): Building a non-Euclidean second brain on the Poincaré disk — Möbius transforms, geodesic arcs, conformal scaling, and why hyperbolic geometry is a better fit for knowledge graphs than anything Obsidian does
+- [Non-Euclidean Hyperbolic Second Brain](https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article): Building a non-Euclidean second brain on the Poincaré disk: Möbius transforms, geodesic arcs, conformal scaling, and why hyperbolic geometry is a better fit for knowledge graphs than anything Obsidian does
   - Markdown: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article.mdx
 - [Velocity-Responsive Design](https://www.razisyed.cv/experiments/velocity-responsive-design/article): What if responsive design responded to how you read, not just what you read on?
   - Markdown: https://www.razisyed.cv/experiments/velocity-responsive-design/article.mdx
