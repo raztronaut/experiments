@@ -60,6 +60,19 @@ Archive of work that's been finished. Moved here from tier files when fully comp
 - [x] Phase 7: Polish -- theme tuning, responsive QA, loading states, OG images.
 - Plans: `registry_interactive_docs_aaa07efa`, `fumadocs_registry_v2_c44c07e3`, `registry_fumadocs_audit_fix_b10b5838`, `registry_v2_fix_crash_7c0b2691`, `registry_ui_pass_da5a051b`
 
+## 2026-03-11 -- Article Component System Overhaul (T2)
+
+- [x] **Article MDX component system overhaul** -- Ported styled control primitives (`Range`, `Checkbox`, `Switch`, `ControlGroup`) from @maximeheckel/design-system to Tailwind. Added content components (`BeforeAfterImage`, `Slideshow`, `Details`, `Pill`, `Fullbleed`). Redesigned `LiveDemo` frame (integrated toolbar replacing ugly figcaption). Upgraded `InteractiveWidget` to compound component with sidebar/bottom layout modes. All components registered in `articleComponents` map. Agent docs updated across 8 files.
+
+## 2026-03-11 -- Collected Components Infrastructure Review (T2)
+
+- [x] **Review 14 collected codegrid components** -- Infrastructure complete: permanent preview routes at `/collected/<slug>`, `CollectedPreview` iframe component, pipeline auto-generates `_map.ts` + `previewUrl` in meta, MDX docs embed live previews, "Collected" sidebar tab added. Code quality audit passed 12/14 clean, fixed CurvedTextScroll cleanup + FibonacciImageOrb RAF + 2 required-prop defaults (CustomVideoPlayer, ScrollFrameCanvas). Automated visual review confirmed 7/7 batch-1 components render correctly. Remaining: manual visual comparison against originals for all 14, CurvedTextScroll still at 335 lines (borderline), font fidelity gap in feature-convergence/curved-text-scroll.
+  - Plan: [collected_components_infra_review](../../.cursor/plans/collected_components_infra_review_a6ae45a1.plan.md)
+
+## 2026-03-11 -- CSS Base Style Extraction (T7)
+
+- [x] **CSS base style extraction** -- `@theme` block and `@custom-variant dark` deduplicated into `shared-theme.css`. ~45 lines of shared base styles (`scrollbar`, `selection`, `text-rendering`) still duplicated between `globals.css` and `experiments.css` but differ slightly (experiments has Lenis rules, article typography). Low ROI to merge further.
+
 ## N/A -- Removed or No Longer Relevant
 
 - ~~STATUS.md update~~ -- File never created. Status lives in `experiment.json` + generation scripts.

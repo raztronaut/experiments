@@ -139,9 +139,47 @@ Any section can use any demo type. A concept section can include a code demo if 
 
 ## Interactive Component Guide
 
-- **`<InteractiveWidget>`**: The primary tool. Build custom React components in `article/components.tsx` with Canvas 2D, CSS, or simplified renderings. Wrap in `<InteractiveWidget title="...">`. Works for all lens types.
+### Demo Containers
+
+- **`<InteractiveWidget>`**: The primary tool. Wrap custom demos. Supports compound layout: `<InteractiveWidget.Preview>` + `<InteractiveWidget.Controls>` with `layout="sidebar"` or `layout="bottom"`. Backward-compatible with simple `<InteractiveWidget title="..."><Demo /></InteractiveWidget>` usage.
 - **`<SandpackDemo>`**: When readers benefit from editing code and seeing results. Best for self-contained techniques (a single shader, a CSS trick, a small React component). Runs in-browser via CodeSandbox's bundler.
-- **`<LiveDemo>`**: The full experiment with all its dependencies. Embeds via iframe. Use once, usually near the end, for the "full thing" section.
+- **`<LiveDemo>`**: The full experiment with all its dependencies. Embeds via iframe with an integrated toolbar showing a "Live" indicator and "Open full page" link. Use once, usually near the end, for the "full thing" section.
+
+### Demo Controls (`src/components/mdx/controls/`)
+
+Use these instead of raw `<input>` elements for consistent, styled controls in article demos:
+
+- **`<Range>`**: Styled slider with label, value display, CSS gradient fill, optional `debounce` and `formatValue` props.
+- **`<Checkbox>`**: Styled checkbox with animated checkmark and label.
+- **`<Switch>`**: Toggle switch with animated handle and label. Use for on/off parameters.
+- **`<ControlGroup columns={2}>`**: Grid layout wrapper for arranging controls (1, 2, or 3 columns).
+
+### Content Components
+
+- **`<BeforeAfterImage>`**: Drag-to-compare two images. Keyboard accessible (ArrowLeft/ArrowRight). Great for shader/effect before-after comparisons.
+- **`<Slideshow>`**: Image gallery with keyboard navigation, dot indicators, and glass-morphism controls. For multi-step visual explanations.
+- **`<Details>`**: Animated collapsible panel. Compound: `<Details.Summary>` + `<Details.Content>`. For supplementary content, math derivations, implementation notes.
+- **`<Pill>`**: Semantic colored badge (`info`, `success`, `warning`, `danger`). For inline tags, status indicators.
+- **`<Fullbleed>`**: Breaks out of the article max-width container for full-width hero content.
+- **`<Callout>`**: Info/warning/tip callout boxes.
+- **`<CodeStep>`**: Numbered step with title for code walkthroughs.
+
+### Demo Control Patterns
+
+When building an interactive demo with parameter controls, use the compound InteractiveWidget with shared controls:
+
+```
+<InteractiveWidget title="CRT Effect" layout="sidebar">
+  <InteractiveWidget.Preview>
+    <CRTCanvas />
+  </InteractiveWidget.Preview>
+  <InteractiveWidget.Controls>
+    <Range label="Scanlines" value={scanlines} min={0} max={0.2} step={0.01} onChange={setScanlines} />
+    <Range label="Noise" value={noise} min={0} max={0.3} step={0.01} onChange={setNoise} />
+    <Checkbox label="Phosphor dots" checked={phosphor} onChange={setPhosphor} />
+  </InteractiveWidget.Controls>
+</InteractiveWidget>
+```
 
 ---
 

@@ -39,18 +39,32 @@ Pick from these based on lens emphasis. See `writing-voice.md` for details.
 
 ## Interactive Components
 
-- **`<InteractiveWidget>`**: Primary tool. Wrap custom demos -- works for all lens types.
+### Demo Containers
+- **`<InteractiveWidget>`**: Primary tool. Supports compound layout: `<InteractiveWidget.Preview>` + `<InteractiveWidget.Controls>` with `layout="sidebar"` or `layout="bottom"`.
 - **`<SandpackDemo>`**: Editable code playgrounds. Best for self-contained CSS/React tricks.
-- **`<LiveDemo>`**: Full experiment iframe embed. Use once, near the end.
+- **`<LiveDemo>`**: Full experiment iframe embed with integrated toolbar. Use once, near the end.
+
+### Demo Controls (from `src/components/mdx/controls/`)
+- **`<Range>`**: Styled slider with label, value display, gradient fill, optional debounce.
+- **`<Checkbox>`**: Styled checkbox with animated checkmark.
+- **`<Switch>`**: Toggle switch with animated handle.
+- **`<ControlGroup columns={2}>`**: Grid layout for arranging controls.
+
+### Content Components
+- **`<BeforeAfterImage>`**: Drag-to-compare two images. For shader/effect comparisons.
+- **`<Slideshow>`**: Image gallery with keyboard nav and dot indicators.
+- **`<Details>`**: Animated collapsible (`Details.Summary` + `Details.Content`).
+- **`<Pill>`**: Semantic badge (`info`, `success`, `warning`, `danger`).
+- **`<Fullbleed>`**: Full-width breakout from article container.
 
 ## Demo Strategy
 
 Match demos to lens emphasis:
-- Implementation: Canvas 2D recreations with parameter sliders, progressive layering
-- Concept: interactive diagrams, before/after comparisons, parameter spaces, annotated live embeds
-- Exploration: side-by-side version comparisons, expected-vs-actual toggles
+- Implementation: Canvas 2D recreations with `Range`/`Checkbox` controls in `InteractiveWidget` sidebar layout, progressive layering
+- Concept: `BeforeAfterImage` for comparisons, interactive diagrams, parameter spaces, `Slideshow` for multi-step explanations
+- Exploration: side-by-side version comparisons, expected-vs-actual toggles, `Details` for supplementary context
 
-Avoid R3F/WebGL in article demos (prevents loading Three.js). Reference: `basketball-replay-center` article.
+Use shared controls (`Range`, `Checkbox`, `Switch`) instead of raw `<input>` elements. Avoid R3F/WebGL in article demos. Reference: `basketball-replay-center` article.
 
 ## Typography
 

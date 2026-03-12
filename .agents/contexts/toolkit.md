@@ -57,8 +57,10 @@ These are thin integration layers, not abstractions. Experiments import directly
 
 ### Publishing Pipeline (`src/components/mdx/`, `src/components/ui/ArticleLayout.tsx`, `src/lib/articles.ts`)
 - `ArticleLayout` -- Sylph-style single-column article layout: small semibold title, `>` breadcrumb, prev/next nav. TOC commented out. No motion animations.
-- `articleComponents` -- Minimal MDX component map (CSS handles typography). Overrides: h2 (footnote filter), a (external links), pre (CodeBlock), code, blockquote, table, img.
-- `CodeBlock`, `Callout`, `LiveDemo`, `SandpackDemo`, `InteractiveWidget`, `CodeStep` -- Individual MDX components
+- `articleComponents` -- MDX component map (CSS handles typography). Overrides: h2 (footnote filter), a (external links), pre (CodeBlock), code, blockquote, table, img. Custom components listed below.
+- **Demo containers**: `LiveDemo` (iframe embed with integrated toolbar), `InteractiveWidget` (compound layout with `Preview` + `Controls` areas, sidebar/bottom modes), `SandpackDemo` (live code editor)
+- **Demo controls** (`src/components/mdx/controls/`): `Range` (styled slider with debounce, gradient fill), `Checkbox` (animated checkmark), `Switch` (animated toggle), `ControlGroup` (grid layout for controls)
+- **Content components**: `BeforeAfterImage` (drag-to-compare), `Slideshow` (image gallery with keyboard nav), `Details` (animated collapsible), `Pill` (semantic badge), `Fullbleed` (full-width breakout), `Callout` (info/warning/tip), `CodeStep` (numbered walkthrough), `CodeBlock` (syntax highlighted)
 - `ExperimentNav` -- Unified floating nav: "Return to Experiments" + pathname-aware "View Article"/"View Experiment" toggle.
 - `WritingSection` -- Homepage "Writing" section. Server component rendering article cards in a 2-column grid with reading time, analytics, and deep-link anchor (`/#writing`).
 - `getArticles()` -- Scans experiments for `article/content.mdx`, parses frontmatter with gray-matter, computes reading time

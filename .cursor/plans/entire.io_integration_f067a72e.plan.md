@@ -42,6 +42,7 @@ This plan runs BEFORE the [preview/prod deploy workflow](preview_prod_deploy_wor
 ### Interaction with deploy plan's lefthook.yml changes
 
 Both plans modify `lefthook.yml`:
+
 - This plan: adds a comment about Entire hook ownership
 - Deploy plan: adds a `commit-msg` hook for Conventional Commits validation
 
@@ -53,11 +54,11 @@ No conflict -- different sections of the file. But after the deploy plan's `git 
 
 - **AGENTS.md** already updated (lines 154-155) with Entire.io references and "commit voice" policy (Option A from the plan). These items are checked off.
 - **Entire CLI** is NOT installed (`entire not found`).
-- **`.entire/` directory** does not exist.
-- **`.cursor/hooks.json`** has two continual-learning hooks (`sessionStart`, `stop`).
-- **`.git/hooks/`** only has lefthook's `pre-commit` -- no `post-commit` or `pre-push`.
-- **`lefthook.yml`** has no comment about Entire.
-- **`.gitignore`** has no `.entire/settings.local.json` entry.
+- `**.entire/` directory** does not exist.
+- `**.cursor/hooks.json`** has two continual-learning hooks (`sessionStart`, `stop`).
+- `**.git/hooks/`** only has lefthook's `pre-commit` -- no `post-commit` or `pre-push`.
+- `**lefthook.yml**` has no comment about Entire.
+- `**.gitignore**` has no `.entire/settings.local.json` entry.
 - No `vercel.json` exists -- builds are configured in the Vercel dashboard.
 - No `entire/checkpoints/v1` branch exists on origin.
 - Local `main` is 34 commits ahead of `origin/main`.
@@ -231,17 +232,19 @@ rm .cursor/hooks.json.bak
 
 ## Files Changed (this plan only)
 
-| File | Change |
-| --- | --- |
-| `.entire/settings.json` | Created by `entire enable`, then configured |
-| `.entire/settings.local.json` | Created by `entire enable`, gitignored |
-| `.cursor/hooks.json` | Modified by `entire enable` (hooks appended) |
-| `.git/hooks/post-commit` | Created by `entire enable` |
-| `.git/hooks/pre-push` | Created by `entire enable` |
-| `lefthook.yml` | Comment added about Entire hook ownership |
-| `.gitignore` | Possibly add `.entire/settings.local.json` if not auto-handled |
-| `.agents/backlog/t5-toolkit-platform.md` | Check off Entire.io item |
-| `docs/plans/2026-03-10-feat-entire-io-agent-session-capture-plan.md` | Check off completed acceptance criteria |
+
+| File                                                                 | Change                                                         |
+| -------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `.entire/settings.json`                                              | Created by `entire enable`, then configured                    |
+| `.entire/settings.local.json`                                        | Created by `entire enable`, gitignored                         |
+| `.cursor/hooks.json`                                                 | Modified by `entire enable` (hooks appended)                   |
+| `.git/hooks/post-commit`                                             | Created by `entire enable`                                     |
+| `.git/hooks/pre-push`                                                | Created by `entire enable`                                     |
+| `lefthook.yml`                                                       | Comment added about Entire hook ownership                      |
+| `.gitignore`                                                         | Possibly add `.entire/settings.local.json` if not auto-handled |
+| `.agents/backlog/t5-toolkit-platform.md`                             | Check off Entire.io item                                       |
+| `docs/plans/2026-03-10-feat-entire-io-agent-session-capture-plan.md` | Check off completed acceptance criteria                        |
+
 
 ## Risk Mitigations
 

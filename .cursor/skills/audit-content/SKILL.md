@@ -17,24 +17,22 @@ Read all `experiment.json` files from `src/app/experiments/*/`:
 find src/app/experiments -name "experiment.json" -type f
 ```
 
-For each, extract: `slug`, `status`, `legacy`, `publishable`, `content`, `updated`, `inspiration`, `related`, `tags`, `tech`.
+For each, extract: `slug`, `status`, `listing`, `legacy`, `updated`, `inspiration`, `related`, `tags`, `tech`.
 
-### Step 2: Cross-check content flags vs disk
+### Step 2: Check content files on disk
 
-For each experiment, verify the `content` object matches actual files:
+Article existence is detected by file presence, not metadata flags. For each experiment, check whether these files exist:
 
-| Flag | Expected file |
+| Content type | Expected file |
 |------|---------------|
-| `article` | `{route}/article/content.mdx` |
-| `labNote` | `{route}/docs/lab-note.md` |
-| `architecture` | `{route}/docs/architecture.md` |
-| `snippet` | `{route}/docs/snippet.md` |
-| `social` | `{route}/docs/social.md` |
-| `changelog` | `{route}/docs/changelog.md` |
+| Article | `{route}/article/content.mdx` |
+| Lab note | `{route}/docs/lab-note.md` |
+| Architecture | `{route}/docs/architecture.md` |
+| Snippet | `{route}/docs/snippet.md` |
+| Social | `{route}/docs/social.md` |
+| Changelog | `{route}/docs/changelog.md` |
 
-Report mismatches: flag says `true` but file missing, or file exists but flag not set.
-
-Note: The pre-commit validator (`scripts/validate-experiments.mjs`) also does this check -- reference it for the canonical validation logic.
+Note: The pre-commit validator (`scripts/validate-experiments.mjs`) catches basic coherence issues.
 
 ### Step 3: Check schema completeness
 
@@ -64,12 +62,12 @@ Output a markdown table:
 ```markdown
 ## Content Coverage Report
 
-| Experiment | Status | Article | Lab Note | Arch | Snippet | Social | Changelog | Lenses | Publishable |
-|------------|--------|---------|----------|------|---------|--------|-----------|--------|-------------|
-| slug-name  | shipped | x | - | - | - | - | - | **C** I | false |
+| Experiment | Status | Listing | Article | Lab Note | Arch | Snippet | Social | Changelog | Lenses |
+|------------|--------|---------|---------|----------|------|---------|--------|-----------|--------|
+| slug-name  | shipped | public | x | - | - | - | - | - | **C** I |
 ```
 
-Use `x` for present, `-` for missing. In the Lenses column, list `I`, `C`, `E` for whichever signals are present. Bold the strongest. Sort by: publishable first, then shipped, then wip.
+Use `x` for present, `-` for missing. In the Lenses column, list `I`, `C`, `E` for whichever signals are present. Bold the strongest. Sort by: shipped+public first, then shipped+dev, then wip.
 
 ### Step 6: Prioritize next actions
 

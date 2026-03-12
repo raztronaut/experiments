@@ -15,7 +15,7 @@ Turn a shipped experiment into a content constellation: public article, internal
 - Code is clean and demonstrates interesting techniques
 - Read `.agents/contexts/writing-voice.md` before writing anything
 
-Note: `publishable: true` is the OUTPUT of this workflow (set in step 17), not an input gate. Prerequisite is `status: "shipped"`, output is `publishable: true`.
+Prerequisite is `status: "shipped"`. The workflow's output is the article and documentation files on disk.
 
 ## Phase 1: Preparation
 
@@ -32,7 +32,7 @@ npm run new:article:auto -- --name "<slug>"
 # Flags: --name (required), --description (optional)
 ```
 
-This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab-note.md, architecture.md, snippet.md, social.md, changelog.md).
+This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab-note.md, architecture.md, snippet.md, social.md, changelog.md). Article existence is detected at runtime via file presence -- no metadata flag needed.
 
 ## Phase 2: Article (Public)
 
@@ -64,11 +64,12 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
    - **Do NOT use `import` statements inside .mdx files** — `next-mdx-remote` does not support them.
 
    How to build the demos:
-   - For **shader/WebGL experiments**: Use Canvas 2D or CSS to create simplified 2D versions of each effect layer with parameter sliders. No R3F Canvas needed.
+   - For **shader/WebGL experiments**: Use Canvas 2D or CSS to create simplified 2D versions of each effect layer. Use `<Range>`, `<Checkbox>`, `<Switch>` from `src/components/mdx/controls/` for parameter controls (not raw `<input>` elements). No R3F Canvas needed.
    - For **DOM/CSS experiments**: Import simplified versions of the actual components.
    - For **animation experiments**: Use CSS transitions or Motion to show the timing/easing concepts.
-   - For **concept sections**: Build interactive diagrams, comparison toggles, or parameter space explorers.
-   - Wrap all demos in `<InteractiveWidget title="...">` for consistent styling.
+   - For **concept sections**: Build interactive diagrams, `<BeforeAfterImage>` for comparisons, `<Slideshow>` for multi-step visual explanations, or parameter space explorers.
+   - Use compound `<InteractiveWidget>` with `layout="sidebar"` for demos that have controls: `<InteractiveWidget.Preview>` + `<InteractiveWidget.Controls>`. Use simple `<InteractiveWidget title="...">` for plain demos.
+   - Use `<Details>` for collapsible supplementary content, `<Fullbleed>` for full-width hero breakouts, `<Pill>` for inline status badges.
    - Use `<SandpackDemo>` only for self-contained code that benefits from live editing (CSS tricks, small React components — NOT full WebGL setups).
 
 8. Write the article in `content.mdx` following the confirmed outline from step 5. Reference `.agents/contexts/writing-voice.md` for voice guidance per lens.
@@ -105,23 +106,7 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
 
 17. Generate OG image: `npm run capture <slug> -- --og` for screenshot-based OG, or verify the dynamic `/api/og` route works with the experiment title. (Skip if no dev server available.)
 
-18. Update `experiment.json`:
-
-```json
-{
-  "publishable": true,
-  "content": {
-    "article": true,
-    "labNote": true,
-    "architecture": true,
-    "snippet": true,
-    "social": true,
-    "changelog": true
-  }
-}
-```
-
-19. Verify all content:
+18. Verify all content:
     - Article renders at `/experiments/<slug>/article`
     - All docs files are populated (no template placeholders remaining)
     - `article/components.tsx` has real interactive demos, not placeholder divs

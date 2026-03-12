@@ -197,12 +197,30 @@ When tool output exceeds ~2K tokens, write it to a scratch file and return a sum
 - Add experiment-specific state to global stores
 - Modify `src/app/(main)/` for experiment-specific code
 
+## Metadata System
+
+Two fields control visibility across all surfaces. One truth table. No exceptions.
+
+**`status`**: `"wip"` | `"shipped"`
+- `wip`: dev/preview homepage only. Excluded from registry, llms.txt, posters, articles, sitemap, RSS. `noindex`.
+- `shipped`: complete. Eligible for surfaces based on `listing`.
+
+**`listing`**: `"public"` | `"dev"` | `"registry"` (default: `"public"`)
+- `public`: full public visibility. Homepage, registry, llms.txt, posters (if video), articles, sitemap, RSS. SEO indexed.
+- `dev`: dev/preview homepage only. Still in registry and llms.txt. Articles exist but hidden publicly. `noindex`.
+- `registry`: registry only. No homepage, no llms.txt, no posters, no articles, no sitemap. `noindex`.
+
+**`legacy`**: boolean -- agent policy flag. Marks pre-announcing-v2 experiments. Zero runtime effect. Ask before touching.
+
+**Dev status dashboard**: `/dev` route (dev/preview only, 404 in production) shows all experiments with truth-table-derived visibility badges.
+
+**Environment detection**: `src/lib/env.ts` exports `isDev`, `isPreview`, `showDevContent`. Vercel preview deploys show dev content.
+
 ## Constraints
 
-- **18 legacy experiments** (`legacy: true`, `status: "shipped"`) -- untouchable. No layout migration, no code changes.
+- **Legacy experiments** (`legacy: true`, `status: "shipped"`) -- ask before modifying. No layout migration, no code changes without permission.
 - **Biome is deliberately permissive** -- 30+ rules disabled for legacy creative code. AGENTS.md defines stricter standards.
-- **Generation scripts filter `wip`** -- `generate:registry`, `generate:posters`, `generate:llms-txt` skip `status: "wip"`.
-- **`listing` controls visibility** -- `"experiment"` (default): full public visibility. `"collected"`: appears in registry collected section only, hidden from homepage/posters/llms.txt. `"unlisted"`: excluded from all generated output.
+- **Generation scripts gate on `status` + `listing`** -- registry includes all shipped experiments, llms.txt excludes registry-only, posters only for public with video.
 - **Deferred items** (don't attempt to fix): Cursor.tsx `getCursorColor` perf bug, Biome strictness tightening, `useExhaustiveDependencies` enforcement, ArticleLayout TOC scroll-spy.
 
 ## Reference Docs (.agents/)

@@ -4,31 +4,31 @@ overview: Restructure announcing-v2 into a 6-section philosophy-first scrollytel
 todos:
   - id: removals
     content: "Delete: InversaSection + CSS + useInversaScroll, FiddleHoverSection + CSS + useFiddleGrid, heroShader.ts. Remove INVERSA_CONTENT, FIDDLE_CONTENT, GRID_SYMBOLS from data.ts. Remove imports from AnnouncingV2.tsx."
-    status: pending
+    status: completed
   - id: content-rewrite
     content: "Rewrite data.ts: update PRELOADER_CONTENT + JESKOJETS_CONTENT. Add BLUEPRINT_CONTENT, PROCESS_CONTENT, MISSION_CONTROL_CONTENT. Remove old section data."
-    status: pending
+    status: completed
   - id: fix-glb
     content: Investigate monitor.glb (41MB) loading error. Try new-monitor.glb (387KB) as fallback. Ensure CRT shader + hover texture swap works with whichever model loads.
-    status: pending
+    status: completed
   - id: new-blueprint
     content: "Build BlueprintSection: R3F temple model (temple.glb) + cursor-reactive particle cloud + technical readout panels + grid background. Scroll-pinned progressive reveal."
-    status: pending
+    status: completed
   - id: new-process
     content: "Build ProcessSection: R3F scene with volumetric raymarched light beams (Maxime Heckel technique). Abstract geometry. 2-3 beams converge on scroll. Content reveals at convergence."
-    status: pending
+    status: completed
   - id: new-mission-control
     content: Build MissionControlSection with user-provided assets. Prepare asset request list first, then build once assets received.
-    status: pending
+    status: completed
   - id: showcase-cleanup
     content: Move ShowcaseSection inline styles to showcase-section.css. Clean up project list layout.
-    status: pending
+    status: completed
   - id: orchestrator-update
     content: "Update AnnouncingV2.tsx: Preloader -> Blueprint -> Process -> Showcase -> MissionControl -> JeskoJets"
-    status: pending
+    status: completed
   - id: verify-build
     content: Run tsc --noEmit + npm run build to verify no type errors or build failures
-    status: pending
+    status: completed
 isProject: false
 ---
 

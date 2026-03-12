@@ -6,7 +6,6 @@ Audit date: 2026-03-11
 
 ## Code Quality
 
-- [x] **CSS base style extraction** -- `@theme` block and `@custom-variant dark` deduplicated into `shared-theme.css`. ~45 lines of shared base styles (`scrollbar`, `selection`, `text-rendering`) still duplicated between `globals.css` and `experiments.css` but differ slightly (experiments has Lenis rules, article typography). Low ROI to merge further.
 - [ ] **Preview media component redundancies** -- `InteractivePreviewMedia.tsx` and `StaticExperimentMedia.tsx` have overlapping DOM and dead CSS.
 
 ## Tailwind v4 Opportunities

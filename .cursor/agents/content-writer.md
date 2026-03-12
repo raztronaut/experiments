@@ -110,9 +110,23 @@ Only after user confirms the outline and demo plan, begin writing.
 
 ## Interactive Components
 
-- `<InteractiveWidget title="...">`: Primary tool. Wrap custom demos. Works for all lens types.
+### Demo Containers
+- `<InteractiveWidget title="..." layout="sidebar">`: Primary tool. Supports compound `<InteractiveWidget.Preview>` + `<InteractiveWidget.Controls>` with `sidebar` or `bottom` layout. Also works with simple children.
 - `<SandpackDemo>`: Editable code playground. Best for self-contained CSS/React tricks.
-- `<LiveDemo slug="..." height="500px">`: Full experiment iframe. Use once, near the end.
+- `<LiveDemo slug="..." height="500px">`: Full experiment iframe with integrated toolbar. Use once, near the end.
+
+### Demo Controls (`src/components/mdx/controls/`)
+- `<Range label="..." value={v} min={0} max={1} step={0.01} onChange={set}>`: Styled slider with value display and optional debounce.
+- `<Checkbox label="..." checked={v} onChange={set}>`: Styled checkbox with animated checkmark.
+- `<Switch label="..." toggled={v} onChange={set}>`: Toggle switch with animated handle.
+- `<ControlGroup columns={2}>`: Grid layout for arranging controls.
+
+### Content Components
+- `<BeforeAfterImage beforeSrc="..." afterSrc="..." alt="...">`: Drag-to-compare images.
+- `<Slideshow images={[...]} alt="...">`: Image gallery with keyboard nav.
+- `<Details><Details.Summary>Title</Details.Summary><Details.Content>Body</Details.Content></Details>`: Animated collapsible.
+- `<Pill variant="info">text</Pill>`: Semantic badge (info/success/warning/danger).
+- `<Fullbleed>`: Full-width breakout from article container.
 
 ## Reference
 

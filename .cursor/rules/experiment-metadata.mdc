@@ -8,40 +8,49 @@ alwaysApply: false
 
 ## Status Lifecycle
 
-`wip` → `shipped` → (publish workflow) → `publishable: true`
+`wip` → `shipped` (binary lifecycle, no intermediate states)
 
-- `wip`: generation scripts skip this experiment entirely
-- `shipped`: ready for content constellation (publish workflow)
-- `publishable`: OUTPUT of the publish workflow, not an input gate
+- `wip`: dev/preview only. Excluded from all production surfaces, build outputs, and search engines.
+- `shipped`: complete. Visibility determined by `listing`.
+
+## Listing (Visibility Tier)
+
+- `"public"` (default): full public visibility -- homepage, registry, llms.txt, posters, articles, sitemap, RSS. SEO indexed.
+- `"dev"`: dev/preview homepage only. In registry and llms.txt. Articles exist but hidden from public Writing tab. `noindex`.
+- `"registry"`: registry only. Not on homepage, not in llms.txt, no posters, no articles. `noindex`.
+
+## Truth Table
+
+```
+                  | Homepage  | Homepage    | Registry | llms.txt | Posters      | Articles | SEO     |
+                  | (prod)    | (dev/prev)  |          |          |              | (prod)   |         |
+------------------+-----------+-------------+----------+----------+--------------+----------+---------|
+wip + any         | --        | YES         | --       | --       | --           | --       | noindex |
+shipped + public  | YES       | YES         | YES      | YES      | YES (if vid) | YES      | index   |
+shipped + dev     | --        | YES         | YES      | YES      | --           | --       | noindex |
+shipped + registry| --        | --          | YES      | --       | --           | --       | noindex |
+```
 
 ## Required Fields
 
-`title`, `description`, `slug` (kebab-case)
+`title`, `description`, `slug` (kebab-case), `status`, `listing`
 
 ## Enum Values
 
-- **status**: `wip`, `shipped`, `archived`
+- **status**: `wip`, `shipped`
+- **listing**: `public`, `dev`, `registry`
 - **profile**: `r3f-scene`, `r3f-shader`, `scrollytelling`, `interaction`, `dom-effect`, `web-audio`, `mixed`, `blank`
 - **complexity**: `beginner`, `intermediate`, `advanced`
 
-## Content Object
-
-Tracks which content formats exist. Pre-commit validator cross-checks these flags against actual files on disk:
-
-- `article` → `article/content.mdx` must exist
-- `labNote` → `docs/lab-note.md`
-- `architecture` → `docs/architecture.md`
-- `snippet` → `docs/snippet.md`
-- `social` → `docs/social.md`
-- `changelog` → `docs/changelog.md`
-
 ## Optional Fields
 
-- `articleLenses`: array of `"implementation"` | `"concept"` | `"exploration"` -- advisory hint for which article lenses have strong material for this experiment. Not enforced by validator. Content-writer and content-auditor read this as a starting point but always do their own lens analysis.
+- `articleLenses`: array of `"implementation"` | `"concept"` | `"exploration"` -- advisory hint for article lenses. Not enforced by validator.
 
 ## Key Semantics
 
-- `legacy: true` experiments are untouchable (18 pre-V2 experiments)
-- `updated`, `inspiration`, `related` are often empty -- populate when known
-- Read `.agents/rules/experiments.md` for full isolation rules and decomposition guidance
-- Check `profile` field and read `.agents/profiles/<profile>.md` for type-specific guidance
+- `legacy: true`: agent policy flag for pre-announcing-v2 experiments. Ask before modifying. Zero runtime effect.
+- Article existence is detected by file presence (`article/content.mdx`), not by a metadata flag.
+- `poster` is computed at runtime from `video` field, not stored in JSON.
+- `updated`, `inspiration`, `related` are often empty -- populate when known.
+- Read `.agents/rules/experiments.md` for full isolation rules and decomposition guidance.
+- Check `profile` field and read `.agents/profiles/<profile>.md` for type-specific guidance.

@@ -13,7 +13,7 @@ Turn a shipped experiment into a content constellation. Adapted from `.agents/wo
 - Visual output validated
 - Read `.agents/contexts/writing-voice.md` before writing
 
-Note: `publishable: true` is the OUTPUT of this workflow, not an input gate.
+The workflow's output is the article and documentation files on disk. Article existence is detected by file presence, not metadata.
 
 ## Workflow
 
@@ -43,7 +43,7 @@ npm run new:article
 # Enter the experiment slug when prompted
 ```
 
-This creates 8 files: `article/page.tsx`, `article/content.mdx`, `article/components.tsx`, `docs/lab-note.md`, `docs/architecture.md`, `docs/snippet.md`, `docs/social.md`, `docs/changelog.md`. Auto-sets `content.article: true` in experiment.json.
+This creates 8 files: `article/page.tsx`, `article/content.mdx`, `article/components.tsx`, `docs/lab-note.md`, `docs/architecture.md`, `docs/snippet.md`, `docs/social.md`, `docs/changelog.md`.
 
 ### Phase 2: Article (Public)
 
@@ -65,11 +65,12 @@ This creates 8 files: `article/page.tsx`, `article/content.mdx`, `article/compon
    Present the demo plan and ask: "These are the interactive elements I'd build -- any changes?"
 
 8. **Build demos** in `article/components.tsx` (`"use client"`):
-   - For shader/WebGL: Use Canvas 2D or CSS to recreate effects with parameter sliders. No R3F.
+   - For shader/WebGL: Use Canvas 2D or CSS to recreate effects. Use `<Range>`, `<Checkbox>`, `<Switch>` from `src/components/mdx/controls/` for parameter controls (not raw `<input>` elements). No R3F.
    - For DOM/CSS: Import simplified component versions.
    - For animation: Use CSS transitions or Motion for timing/easing concepts.
-   - For concept sections: Build interactive diagrams, comparison toggles, or parameter space explorers.
-   - Wrap in `<InteractiveWidget title="...">` for consistent styling.
+   - For concept sections: Build interactive diagrams, `<BeforeAfterImage>` for comparisons, or parameter space explorers.
+   - Wrap in `<InteractiveWidget title="..." layout="sidebar">` with `<InteractiveWidget.Preview>` + `<InteractiveWidget.Controls>` for the sidebar layout pattern, or simple `<InteractiveWidget title="...">` for plain demos.
+   - Use `<Details>` for supplementary content, `<Slideshow>` for multi-step visuals, `<Fullbleed>` for hero breakouts.
 
 9. **Wire demos** into `article/page.tsx`:
 
@@ -106,23 +107,8 @@ import { Step1Demo, Step2Demo } from "./components";
 ### Phase 5: Finalization
 
 18. Generate OG image: `npm run capture <slug> -- --og` (skip if no dev server).
-19. Update `experiment.json`:
 
-```json
-{
-  "publishable": true,
-  "content": {
-    "article": true,
-    "labNote": true,
-    "architecture": true,
-    "snippet": true,
-    "social": true,
-    "changelog": true
-  }
-}
-```
-
-20. Final verification:
+19. Final verification:
     - Article renders with interactive demos
     - All 5 docs populated
     - `components.tsx` has real demos, not placeholders

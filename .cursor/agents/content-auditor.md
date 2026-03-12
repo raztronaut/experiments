@@ -13,20 +13,18 @@ You are a content health auditor for a creative coding lab. Your job is to scan 
 4. Evaluate generated registry output if relevant
 5. Produce a markdown status report
 
-## Content Flag Cross-Check
+## Content File Check
 
-Each experiment's `content` object in `experiment.json` should match these files:
+Article existence is detected by file presence on disk, not metadata flags. For each experiment, check whether these files exist:
 
-| Flag | File Path (relative to experiment route) |
+| Content type | File Path (relative to experiment route) |
 |------|------------------------------------------|
-| `article` | `article/content.mdx` |
-| `labNote` | `docs/lab-note.md` |
-| `architecture` | `docs/architecture.md` |
-| `snippet` | `docs/snippet.md` |
-| `social` | `docs/social.md` |
-| `changelog` | `docs/changelog.md` |
-
-Report both directions: flag says `true` but file is missing, AND file exists but flag is not set.
+| Article | `article/content.mdx` |
+| Lab note | `docs/lab-note.md` |
+| Architecture | `docs/architecture.md` |
+| Snippet | `docs/snippet.md` |
+| Social | `docs/social.md` |
+| Changelog | `docs/changelog.md` |
 
 ## Schema Completeness Check
 
@@ -61,14 +59,14 @@ Include lens signals in the Content Coverage table. These are observations to he
 
 ## Report Format
 
-Output a markdown table sorted by: publishable first, then shipped, then wip. Skip `legacy: true` for content recommendations.
+Output a markdown table sorted by: shipped+public first, then shipped+dev, then wip. Skip `legacy: true` for content recommendations.
 
 ```markdown
 ## Content Coverage
 
-| Experiment | Status | Art | Lab | Arch | Snip | Social | CLog | Lenses | Publishable |
-|------------|--------|-----|-----|------|------|--------|------|--------|-------------|
-| name       | shipped | x  | -   | -    | -    | -      | -    | I C    | false       |
+| Experiment | Status | Listing | Art | Lab | Arch | Snip | Social | CLog | Lenses |
+|------------|--------|---------|-----|-----|------|------|--------|------|--------|
+| name       | shipped | public | x  | -   | -    | -    | -      | -    | I C    |
 
 ## Schema Gaps
 
@@ -91,4 +89,4 @@ For a fast check, run the pre-commit validator:
 npm run validate:experiments
 ```
 
-This catches content flag / disk mismatches automatically.
+This catches coherence issues (e.g. public experiments missing video, WIP experiments with articles).

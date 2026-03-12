@@ -38,12 +38,12 @@ The layout.tsx renders its own `<html>` and `<body>`, giving each experiment com
   "video": "/experiments/slug/preview.mp4",
   "profile": "r3f-scene",
   "status": "wip",
+  "listing": "public",
   "tags": ["3d", "shader"],
   "tech": ["r3f", "drei"],
   "complexity": "advanced",
   "inspiration": [{ "title": "Reference", "url": "https://..." }],
   "related": ["other-experiment-slug"],
-  "publishable": false,
   "legacy": true
 }
 ```
@@ -51,12 +51,12 @@ The layout.tsx renders its own `<html>` and `<body>`, giving each experiment com
 | Field | Type | Purpose |
 |-------|------|---------|
 | `profile` | string | Activates behavioral guidance from `.agents/profiles/`. Used by template scaffolder. |
-| `status` | `wip` / `shipped` / `archived` | Used by `getExperiments()` for programmatic filtering. Generation scripts skip `wip`. |
+| `status` | `"wip"` / `"shipped"` | Lifecycle stage. Generation scripts skip `wip`. `getExperiments()` hides WIP in production. |
+| `listing` | `"public"` / `"dev"` / `"registry"` | Visibility tier. `public`: all surfaces. `dev`: dev homepage + registry + llms.txt. `registry`: registry only. |
 | `tags` | string[] | Categorization for search, JSON-LD structured data, OG images, and llms.txt |
 | `tech` | string[] | Libraries used (for search and context) |
 | `complexity` | string | `beginner` / `intermediate` / `advanced` |
-| `legacy` | boolean | Pre-V2 experiment. Not refactored, kept as-is. |
-| `publishable` | boolean | Quality-reviewed, ready for public. Set at END of publish workflow (step 17). Different from `content.article` which only tracks file existence. |
+| `legacy` | boolean | Pre-V2 experiment. Agent policy flag -- ask before touching. Zero runtime effect. |
 
 ## Template System
 

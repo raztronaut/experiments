@@ -20,12 +20,12 @@ Each experiment can have a **content constellation** -- 6 formats targeting diff
 ## Lifecycle
 
 ```
-status: "shipped"  →  publish workflow (5 phases)  →  publishable: true
+status: "shipped"  →  publish workflow (5 phases)  →  article/content.mdx exists on disk
 ```
 
-- `publishable` is the OUTPUT of the workflow, not an input gate
 - Prerequisite: `status: "shipped"` and visual QA passed
-- The `content` object in `experiment.json` tracks which formats exist (cross-checked by pre-commit validator)
+- Article existence is detected by file presence (`article/content.mdx`), not by a metadata flag
+- Articles are only publicly visible for `listing: "public"` experiments (see `.cursor/rules/experiment-metadata.mdc` for the full truth table)
 
 ## File Locations
 
@@ -48,15 +48,17 @@ src/app/experiments/(slug)/slug/
 ## Scaffolding
 
 ```bash
-npm run new:article              # creates 8 files, sets content.article: true (interactive)
+npm run new:article              # creates 8 files (interactive)
 npm run new:article:auto -- --name <slug>  # non-interactive equivalent for AI agents
-npm run delete:article <slug> # removes article/ + docs/, resets content + publishable
+npm run delete:article <slug> # removes article/ + docs/
 ```
 
 ## Key Technical Patterns
 
 - **No `import` in MDX** -- `next-mdx-remote` doesn't support it. Build demos in `components.tsx`, import in `page.tsx`, spread into `components` prop.
 - **Canvas 2D / CSS for article demos** -- avoid loading Three.js in article context. For shader experiments, recreate effects in Canvas 2D with parameter sliders.
+- **Shared control primitives** -- `Range`, `Checkbox`, `Switch`, `ControlGroup` (in `src/components/mdx/controls/`) provide consistent, styled controls for article demos. No raw `<input>` elements. `InteractiveWidget` supports compound layout with `Preview` + `Controls` areas.
+- **Content components** -- `BeforeAfterImage` (drag comparison), `Slideshow` (image gallery), `Details` (collapsible), `Pill` (badge), `Fullbleed` (breakout) are available in the MDX component map alongside the original Callout, CodeStep, LiveDemo, and SandpackDemo.
 - **Typography is CSS-first** -- `experiments.css` (Sylph port) handles all article typography. MDX component map does NOT override heading/paragraph styles.
 - **Article lenses** -- articles blend three lenses (implementation, concept, exploration) in any proportion. See `writing-voice.md` for section building blocks and demo patterns per lens. The agent should present a lens analysis and ask the user for direction before committing to a structure.
 - **Lens emphasis informs other formats** -- concept-heavy experiments benefit from idea-hook social threads; implementation-heavy experiments from technique-hook threads. Lab notes and changelogs naturally lean exploration. The lenses are guidance, not enforcement.
@@ -110,19 +112,13 @@ Content feeds into these build-time generators (all skip `status: "wip"`):
 
 ## Validation
 
-The pre-commit validator (`scripts/validate-experiments.mjs`) cross-checks `content` flags in `experiment.json` against actual files on disk. If `content.article: true` but `article/content.mdx` doesn't exist, the commit fails.
+The pre-commit validator (`scripts/validate-experiments.mjs`) checks enum values for `status` and `listing`, and warns about coherence issues (e.g. public experiments missing video).
 
 Quick check: `npm run validate:experiments`
 
 ## Reference Implementation
 
-**basketball-replay-center** and **404-not-found** -- the two experiments with all 6 content types complete. Study them before writing your first article:
+**basketball-replay-center** and **404-not-found** -- two experiments with all 6 content types complete. Study them before writing your first article:
 - Progressive Canvas 2D demos reimplementing shader techniques with interactive sliders
 - Full MDX wiring pattern with custom `components.tsx`
 - All 5 docs formats populated with real content
-
-## Current State
-
-- 3/18 experiments have articles (`send-button`, `basketball-replay-center`, `404-not-found`)
-- 15 experiments have `content: {}` -- the largest content gap
-- `updated`, `inspiration`, `related` fields empty across most experiments
