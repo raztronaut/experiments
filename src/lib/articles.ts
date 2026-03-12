@@ -6,6 +6,7 @@ import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
 
 export interface Article {
+  content: string;
   description?: string;
   experimentHref: string;
   experimentSlug: string;
@@ -76,6 +77,7 @@ export const getArticles = cache(async (): Promise<Article[]> => {
           return {
             title: data.title || name,
             description: data.description,
+            content,
             slug: name,
             experimentSlug: name,
             publishedAt:
