@@ -1,0 +1,30 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "3208ba6cbe53",
+  "session_id": "0b6fec3e-8ef3-4e01-8230-1abd33dbc5b4",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:33:17.516795Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "AGENTS.md",
+    "src/components/ui/wave-background.tsx"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "cb16f2b857cb",
+  "checkpoint_transcript_start": 9,
+  "transcript_lines_at_start": 9,
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:33:17.494896Z",
+    "agent_lines": 169,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 169,
+    "agent_percentage": 100
+  }
+}

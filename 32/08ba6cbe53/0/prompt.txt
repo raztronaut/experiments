@@ -1,0 +1,5 @@
+⚠ Found lockfile missing swc dependencies, run next locally to automatically patch
+> Build error occurred
+Error: > Couldn't find any `pages` or `app` directory. Please create one under the project root
+    at ignore-listed frames
+Error: Command "npm run vercel-build" exited with 1
