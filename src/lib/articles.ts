@@ -30,17 +30,21 @@ export const getArticles = cache(async (): Promise<Article[]> => {
       (d) => d.isDirectory() && d.name.startsWith("(") && d.name !== "(index)"
     );
 
-    const slugDirEntries = await Promise.all(
-      routeGroups.map(async (group) => {
-        const groupPath = path.join(experimentsDir, group.name);
-        const dirs = (
-          await fs.readdir(groupPath, { withFileTypes: true })
-        ).filter((d) => d.isDirectory() && !d.name.startsWith("."));
-        return dirs.map((d) => ({ groupPath, name: d.name }));
-      })
-    );
-
-    const candidates = slugDirEntries.flat();
+    const candidates = (
+      await Promise.all(
+        routeGroups.map(async (group) => {
+          const groupPath = path.join(experimentsDir, group.name);
+          const dirs = await fs.readdir(groupPath, { withFileTypes: true });
+          const groupCandidates: { groupPath: string; name: string }[] = [];
+          for (const d of dirs) {
+            if (d.isDirectory() && d.name.charCodeAt(0) !== 46 /* '.' */) {
+              groupCandidates.push({ groupPath, name: d.name });
+            }
+          }
+          return groupCandidates;
+        })
+      )
+    ).flat();
 
     const results = await Promise.all(
       candidates.map(async ({ groupPath, name }): Promise<Article | null> => {
