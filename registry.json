@@ -399,10 +399,6 @@
           "type": "registry:file"
         },
         {
-          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicGrid.tsx",
-          "type": "registry:component"
-        },
-        {
           "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/HyperbolicInfoModal.tsx",
           "type": "registry:component"
         },
@@ -417,6 +413,18 @@
         {
           "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/NonEuclideanHyperbolicWorkspace.tsx",
           "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/data.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/hooks/useHyperbolicNavigation.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/experiments/non-euclidean-hyperbolic-workspace/hooks/useViewportRadius.ts",
+          "type": "registry:hook"
         }
       ],
       "meta": {
@@ -677,7 +685,7 @@
       "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
       "category": "experiments",
       "registryDependencies": ["AIWidget", "razi-style"],
-      "dependencies": ["lucide-react", "motion", "lenis", "gsap"],
+      "dependencies": ["lucide-react", "motion", "lenis", "tempus"],
       "files": [
         {
           "path": "src/components/experiments/velocity-responsive-design/FlightControl.tsx",
@@ -690,6 +698,10 @@
         {
           "path": "src/components/experiments/velocity-responsive-design/VelocityContext.tsx",
           "type": "registry:component"
+        },
+        {
+          "path": "src/components/experiments/velocity-responsive-design/hooks/useVelocityEngine.ts",
+          "type": "registry:hook"
         },
         {
           "path": "src/components/experiments/velocity-responsive-design/IntelligentScroller.tsx",
@@ -1406,6 +1418,22 @@
       "meta": {}
     },
     {
+      "name": "popover",
+      "type": "registry:component",
+      "title": "popover",
+      "description": "popover component",
+      "category": "components",
+      "registryDependencies": ["razi-style"],
+      "dependencies": ["@radix-ui/react-popover"],
+      "files": [
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "scroll-area",
       "type": "registry:component",
       "title": "scroll-area",
@@ -1947,6 +1975,22 @@
         "tech": ["gsap", "@gsap/react"],
         "previewUrl": "/collected/sticky-cards-tilt"
       }
+    },
+    {
+      "name": "use-debounced-value",
+      "type": "registry:hook",
+      "title": "useDebouncedValue",
+      "description": "useDebouncedValue hook",
+      "category": "hooks",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/hooks/useDebouncedValue.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {}
     },
     {
       "name": "use-debug",

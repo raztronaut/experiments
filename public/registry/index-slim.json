@@ -794,7 +794,7 @@
     "poster": null,
     "video": "/experiments/non-euclidean-hyperbolic-workspace/preview.mp4",
     "category": "experiments",
-    "fileCount": 7,
+    "fileCount": 9,
     "dependencyCount": 1
   },
   {
@@ -819,6 +819,20 @@
     "category": "collected",
     "fileCount": 2,
     "dependencyCount": 0
+  },
+  {
+    "name": "popover",
+    "type": "registry:component",
+    "title": "popover",
+    "description": "popover component",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 1
   },
   {
     "name": "rabbithole-chat-gallery-explore",
@@ -1181,6 +1195,20 @@
     "dependencyCount": 0
   },
   {
+    "name": "use-debounced-value",
+    "type": "registry:hook",
+    "title": "useDebouncedValue",
+    "description": "useDebouncedValue hook",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "hooks",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
     "name": "use-debug",
     "type": "registry:hook",
     "title": "useDebug",
@@ -1368,7 +1396,7 @@
     "poster": null,
     "video": "/experiments/velocity-responsive-design/preview.mp4",
     "category": "experiments",
-    "fileCount": 11,
+    "fileCount": 12,
     "dependencyCount": 4
   },
   {

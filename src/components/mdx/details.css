@@ -1,0 +1,38 @@
+/* Details/Collapsible — ported from @maximeheckel/design-system */
+
+details[open] > summary ~ * {
+  animation: mdx-details-open 0.3s ease-out;
+}
+
+details.details-closing > summary ~ * {
+  animation: mdx-details-close 0.3s ease-out forwards;
+}
+
+@keyframes mdx-details-open {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mdx-details-close {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details[open] > summary ~ *,
+  details.details-closing > summary ~ * {
+    animation: none;
+  }
+}

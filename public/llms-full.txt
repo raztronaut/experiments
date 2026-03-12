@@ -22,14 +22,14 @@
 - Tags: preloader, broadcast, crt
 - Technologies: r3f, three.js, glsl, gsap, next-themes
 
-### Send Button
+### Velocity-Responsive Design
 
-- URL: https://www.razisyed.cv/experiments/send-button/article
-- Experiment: https://www.razisyed.cv/experiments/send-button
-- Published: 2025-12-23T00:00:00.000Z
-- Description: A cool animated send button animation
-- Tags: ui, animation, interaction
-- Technologies: motion
+- URL: https://www.razisyed.cv/experiments/velocity-responsive-design/article
+- Experiment: https://www.razisyed.cv/experiments/velocity-responsive-design
+- Published: 2026-03-11T00:00:00.000Z
+- Description: A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed
+- Tags: scroll, animation, ui, generative
+- Technologies: lenis, motion, canvas-2d
 
 ## All Experiments
 
@@ -84,7 +84,7 @@
 - URL: https://www.razisyed.cv/experiments/game-of-life-shader
 - Description: An attempt to implement Conway's Game of Life with the logic defining the shader
 - Complexity: intermediate
-- Profile: blank
+- Profile: dom-effect
 - Status: shipped
 - Created: 2025-12-24T04:56:14.074Z
 - Tags: generative, game, animation, cursor
@@ -117,22 +117,11 @@
 - URL: https://www.razisyed.cv/experiments/mountain-transition
 - Description: A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape
 - Complexity: advanced
-- Profile: r3f-shader
+- Profile: mixed
 - Status: shipped
 - Created: 2026-01-22T21:59:04.491Z
 - Tags: shader, animation, scroll, 3d
 - Technologies: r3f, three.js, glsl, gsap
-
-### Non-Euclidean Hyperbolic Second Brain
-
-- URL: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace
-- Description: Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations
-- Complexity: advanced
-- Profile: interaction
-- Status: shipped
-- Created: 2025-12-31T00:41:44.181Z
-- Tags: generative, ui, cursor
-- Technologies: svg
 
 ### OSX Cheetah UI with a surprise
 
@@ -177,7 +166,6 @@
 - Created: 2025-12-23T20:09:01.977Z
 - Tags: ui, animation, interaction
 - Technologies: motion
-- Article: https://www.razisyed.cv/experiments/send-button/article
 
 ### Shader Landing
 
@@ -222,6 +210,7 @@
 - Created: 2025-12-31T04:46:03.740Z
 - Tags: scroll, animation, ui, generative
 - Technologies: lenis, motion, canvas-2d
+- Article: https://www.razisyed.cv/experiments/velocity-responsive-design/article
 
 ## Technical Stack
 
