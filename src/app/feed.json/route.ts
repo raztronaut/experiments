@@ -1,4 +1,4 @@
-import { getArticleContent, getArticles } from "@/lib/articles";
+import { getArticles } from "@/lib/articles";
 import {
   AUTHOR_NAME,
   SITE_DESCRIPTION,
@@ -12,25 +12,21 @@ export const revalidate = 3600;
 export async function GET() {
   const articles = await getArticles();
 
-  const items = await Promise.all(
-    articles.map(async (article) => {
-      const full = await getArticleContent(article.slug);
-
-      return {
-        id: `${SITE_URL}${article.href}`,
-        url: `${SITE_URL}${article.href}`,
-        title: article.title,
-        ...(article.description && { summary: article.description }),
-        ...(full && { content_text: mdxToPlainMarkdown(full.content) }),
-        date_published: new Date(article.publishedAt).toISOString(),
-        ...(article.updatedAt && {
-          date_modified: new Date(article.updatedAt).toISOString(),
-        }),
-        authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
-        ...(article.tech && article.tech.length > 0 && { tags: article.tech }),
-      };
-    })
-  );
+  const items = articles.map((article) => {
+    return {
+      id: `${SITE_URL}${article.href}`,
+      url: `${SITE_URL}${article.href}`,
+      title: article.title,
+      ...(article.description && { summary: article.description }),
+      ...(article.content && { content_text: mdxToPlainMarkdown(article.content) }),
+      date_published: new Date(article.publishedAt).toISOString(),
+      ...(article.updatedAt && {
+        date_modified: new Date(article.updatedAt).toISOString(),
+      }),
+      authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
+      ...(article.tech && article.tech.length > 0 && { tags: article.tech }),
+    };
+  });
 
   const feed = {
     version: "https://jsonfeed.org/version/1.1",

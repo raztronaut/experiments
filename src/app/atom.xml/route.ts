@@ -1,4 +1,4 @@
-import { getArticleContent, getArticles } from "@/lib/articles";
+import { getArticles } from "@/lib/articles";
 import {
   AUTHOR_NAME,
   SITE_DESCRIPTION,
@@ -12,20 +12,18 @@ export const revalidate = 3600;
 export async function GET() {
   const articles = await getArticles();
 
-  const entries = await Promise.all(
-    articles.map(async (article) => {
-      const full = await getArticleContent(article.slug);
-      const contentBlock = full
-        ? `\n    <content type="text"><![CDATA[${mdxToPlainMarkdown(full.content)}]]></content>`
-        : "";
+  const entries = articles.map((article) => {
+    const contentBlock = article.content
+      ? `\n    <content type="text"><![CDATA[${mdxToPlainMarkdown(article.content)}]]></content>`
+      : "";
 
-      const updated = article.updatedAt || article.publishedAt;
+    const updated = article.updatedAt || article.publishedAt;
 
-      const categories = (article.tech || [])
-        .map((t) => `\n    <category term="${escapeXml(t)}" />`)
-        .join("");
+    const categories = (article.tech || [])
+      .map((t) => `\n    <category term="${escapeXml(t)}" />`)
+      .join("");
 
-      return `  <entry>
+    return `  <entry>
     <title>${escapeXml(article.title)}</title>
     <link href="${SITE_URL}${article.href}" rel="alternate" type="text/html" />
     <id>${SITE_URL}${article.href}</id>
@@ -36,8 +34,7 @@ export async function GET() {
       <uri>${SITE_URL}</uri>
     </author>${categories}
   </entry>`;
-    })
-  );
+  });
 
   const latestUpdated =
     articles.length > 0
