@@ -103,10 +103,19 @@ Only after user confirms the outline and demo plan, begin writing.
 
 ## Technical Constraints
 
-- **No `import` in MDX files.** Build demos in `article/components.tsx`, import in `article/page.tsx`, spread into `components` prop.
+- **No `import` in MDX files.** Build demos in `article/components/`, export from `index.ts`, import in `article/page.tsx`, spread into `components` prop.
 - **Use Canvas 2D or CSS for demos, not R3F/WebGL.** Avoids loading Three.js in article context.
 - **Typography is CSS-first.** `experiments.css` handles all styles. No Tailwind typography overrides.
 - **The `# Title` h1 in MDX IS the visual page title.**
+
+### Demo Component Decomposition
+
+Article demos live in `article/components/` -- one file per demo, not a single monolithic file.
+
+- **One demo per file**: `article/components/DemoName.tsx` -- each file is `"use client"` and self-contained.
+- **Shared utilities**: extract repeated math, drawing helpers, or constants into `article/components/utils.ts`.
+- **Barrel export**: `article/components/index.ts` re-exports all demos. The `page.tsx` import path (`from "./components"`) resolves to this barrel.
+- **Size discipline**: target 200 lines per file, hard limit 300. If a demo exceeds this, extract sub-components or helpers.
 
 ## Interactive Components
 

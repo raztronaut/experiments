@@ -1,0 +1,29 @@
+// Article demo components for {{titleCase name}}.
+//
+// STRUCTURE:
+// - One file per demo: ./DemoName.tsx ("use client", self-contained)
+// - Shared utilities: ./utils.ts (math, drawing helpers — create as needed)
+// - Barrel export here: re-export all demos for page.tsx consumption
+//
+// PROGRESSIVE DEMO PATTERN:
+// For complex experiments (3+ techniques), build a series of demos where
+// each one adds one layer to the previous. Readers experience the same
+// build-up you did when creating the experiment.
+//
+//   Example for a shader experiment:
+//     Step1Demo.tsx → just scanlines, with intensity slider
+//     Step2Demo.tsx → scanlines + noise + vignette, with all three sliders
+//     Step3Demo.tsx → barrel distortion visualization
+//     <LiveDemo> → the full experiment at the end (in content.mdx)
+//
+// WIRING (critical — MDX imports don't work with next-mdx-remote):
+// 1. Create demo in ./DemoName.tsx
+// 2. Re-export from this file: export { DemoName } from "./DemoName";
+// 3. Import in page.tsx: import { DemoName } from "./components";
+// 4. Spread into MDXRemote components prop
+// 5. Use in content.mdx: <InteractiveWidget title="..."><DemoName /></InteractiveWidget>
+//
+// RENDERING APPROACH:
+// - WebGL/R3F experiments: use Canvas 2D or CSS to show the concept (no R3F needed)
+// - DOM/CSS experiments: import simplified versions of the actual components
+// - Animation experiments: use CSS transitions or Motion for timing demos

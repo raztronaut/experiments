@@ -36,7 +36,11 @@ src/app/experiments/(slug)/slug/
 ├── article/
 │   ├── page.tsx           # MDX rendering, component wiring, JSON-LD
 │   ├── content.mdx        # Article body (frontmatter + prose)
-│   └── components.tsx     # "use client" interactive demos
+│   └── components/        # "use client" interactive demos
+│       ├── index.ts       # Barrel re-export (page.tsx imports from here)
+│       ├── utils.ts       # Shared math/drawing helpers (optional)
+│       ├── DemoOne.tsx    # One file per demo component
+│       └── DemoTwo.tsx
 └── docs/
     ├── lab-note.md
     ├── architecture.md
@@ -55,7 +59,8 @@ npm run delete:article <slug> # removes article/ + docs/
 
 ## Key Technical Patterns
 
-- **No `import` in MDX** -- `next-mdx-remote` doesn't support it. Build demos in `components.tsx`, import in `page.tsx`, spread into `components` prop.
+- **No `import` in MDX** -- `next-mdx-remote` doesn't support it. Build demos in `components/`, export from `components/index.ts`, import in `page.tsx`, spread into `components` prop.
+- **Demo component decomposition** -- one file per demo in `article/components/DemoName.tsx`. Shared math/drawing helpers go in `utils.ts`. Barrel re-export in `index.ts`. Target 200 lines per file, hard limit 300. The `page.tsx` import path (`from "./components"`) resolves to the barrel.
 - **Canvas 2D / CSS for article demos** -- avoid loading Three.js in article context. For shader experiments, recreate effects in Canvas 2D with parameter sliders.
 - **Shared control primitives** -- `Range`, `Checkbox`, `Switch`, `ControlGroup` (in `src/components/mdx/controls/`) provide consistent, styled controls for article demos. No raw `<input>` elements. `InteractiveWidget` supports compound layout with `Preview` + `Controls` areas.
 - **Content components** -- `BeforeAfterImage` (drag comparison), `Slideshow` (image gallery), `Details` (collapsible), `Pill` (badge), `Fullbleed` (breakout) are available in the MDX component map alongside the original Callout, CodeStep, LiveDemo, and SandpackDemo.
@@ -120,5 +125,5 @@ Quick check: `npm run validate:experiments`
 
 **basketball-replay-center** and **404-not-found** -- two experiments with all 6 content types complete. Study them before writing your first article:
 - Progressive Canvas 2D demos reimplementing shader techniques with interactive sliders
-- Full MDX wiring pattern with custom `components.tsx`
+- Full MDX wiring pattern with custom `components/` directory
 - All 5 docs formats populated with real content

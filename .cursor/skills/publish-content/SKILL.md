@@ -43,7 +43,7 @@ npm run new:article
 # Enter the experiment slug when prompted
 ```
 
-This creates 8 files: `article/page.tsx`, `article/content.mdx`, `article/components.tsx`, `docs/lab-note.md`, `docs/architecture.md`, `docs/snippet.md`, `docs/social.md`, `docs/changelog.md`.
+This creates 8 files: `article/page.tsx`, `article/content.mdx`, `article/components/index.ts`, `docs/lab-note.md`, `docs/architecture.md`, `docs/snippet.md`, `docs/social.md`, `docs/changelog.md`.
 
 ### Phase 2: Article (Public)
 
@@ -64,7 +64,9 @@ This creates 8 files: `article/page.tsx`, `article/content.mdx`, `article/compon
 
    Present the demo plan and ask: "These are the interactive elements I'd build -- any changes?"
 
-8. **Build demos** in `article/components.tsx` (`"use client"`):
+8. **Build demos** in `article/components/` (one `"use client"` file per demo):
+   - Create each demo as `article/components/DemoName.tsx`. Extract shared math/drawing helpers to `article/components/utils.ts`. Re-export all demos from `article/components/index.ts`.
+   - Target 200 lines per file, hard limit 300.
    - For shader/WebGL: Use Canvas 2D or CSS to recreate effects. Use `<Range>`, `<Checkbox>`, `<Switch>` from `src/components/mdx/controls/` for parameter controls (not raw `<input>` elements). No R3F.
    - For DOM/CSS: Import simplified component versions.
    - For animation: Use CSS transitions or Motion for timing/easing concepts.
@@ -111,7 +113,7 @@ import { Step1Demo, Step2Demo } from "./components";
 19. Final verification:
     - Article renders with interactive demos
     - All 5 docs populated
-    - `components.tsx` has real demos, not placeholders
+    - `components/` has real demos (one per file), not placeholders
 
 ## Reference Implementation
 

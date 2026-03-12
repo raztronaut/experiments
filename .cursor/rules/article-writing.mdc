@@ -32,10 +32,17 @@ Pick from these based on lens emphasis. See `writing-voice.md` for details.
 ## MDX Wiring (CRITICAL)
 
 `next-mdx-remote` does NOT support `import` in MDX files. All custom components must be:
-1. Built in `article/components.tsx` (`"use client"`)
-2. Imported in `article/page.tsx`
-3. Spread into components prop: `components={{ ...articleComponents, MyDemo }}`
-4. Used directly in MDX: `<InteractiveWidget title="..."><MyDemo /></InteractiveWidget>`
+1. Built in `article/components/DemoName.tsx` (`"use client"`, one file per demo)
+2. Re-exported from `article/components/index.ts`
+3. Imported in `article/page.tsx`: `import { MyDemo } from "./components"`
+4. Spread into components prop: `components={{ ...articleComponents, MyDemo }}`
+5. Used directly in MDX: `<InteractiveWidget title="..."><MyDemo /></InteractiveWidget>`
+
+### Demo Component Decomposition
+
+- One demo per file in `article/components/`. Shared math/drawing helpers go in `utils.ts`.
+- Barrel re-export in `index.ts` keeps the `page.tsx` import path unchanged.
+- Target 200 lines per file, hard limit 300.
 
 ## Interactive Components
 

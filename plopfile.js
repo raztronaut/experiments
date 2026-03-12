@@ -254,8 +254,8 @@ module.exports = (plop) => {
         },
         {
           type: "add",
-          path: `${routeBase}/article/components.tsx`,
-          templateFile: "plop-templates/article/components.tsx.hbs",
+          path: `${routeBase}/article/components/index.ts`,
+          templateFile: "plop-templates/article/components-index.ts.hbs",
         },
         {
           type: "add",

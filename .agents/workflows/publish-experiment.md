@@ -32,7 +32,7 @@ npm run new:article:auto -- --name "<slug>"
 # Flags: --name (required), --description (optional)
 ```
 
-This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab-note.md, architecture.md, snippet.md, social.md, changelog.md). Article existence is detected at runtime via file presence -- no metadata flag needed.
+This creates `article/` (page.tsx, content.mdx, components/index.ts) and `docs/` (lab-note.md, architecture.md, snippet.md, social.md, changelog.md). Article existence is detected at runtime via file presence -- no metadata flag needed.
 
 ## Phase 2: Article (Public)
 
@@ -57,8 +57,10 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
 
 **Important**: The `# Title` h1 in the MDX IS the visual page title. The layout header only shows a small metadata line — all visual hierarchy comes from the MDX content itself.
 
-7. Build the demo components in `article/components.tsx`, then wire them into `article/page.tsx`:
-   - Import the components in `page.tsx`: `import { Step1Demo, Step2Demo } from "./components";`
+7. Build the demo components in `article/components/` (one `"use client"` file per demo), then wire them into `article/page.tsx`:
+   - Create each demo as `article/components/DemoName.tsx`. Extract shared math/drawing helpers to `article/components/utils.ts`. Re-export all demos from `article/components/index.ts`.
+   - Target 200 lines per file, hard limit 300.
+   - Import in `page.tsx`: `import { Step1Demo, Step2Demo } from "./components";`
    - Merge into the MDXRemote components prop: `components={{ ...articleComponents, Step1Demo, Step2Demo }}`
    - Use directly in `content.mdx`: `<InteractiveWidget title="..."><Step1Demo /></InteractiveWidget>`
    - **Do NOT use `import` statements inside .mdx files** — `next-mdx-remote` does not support them.
@@ -109,7 +111,7 @@ This creates `article/` (page.tsx, content.mdx, components.tsx) and `docs/` (lab
 18. Verify all content:
     - Article renders at `/experiments/<slug>/article`
     - All docs files are populated (no template placeholders remaining)
-    - `article/components.tsx` has real interactive demos, not placeholder divs
+    - `article/components/` has real interactive demos (one per file), not placeholder divs
 
 ## Styling Notes
 
