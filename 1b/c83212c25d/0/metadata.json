@@ -1,0 +1,18 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "1bc83212c25d",
+  "session_id": "488067a1-2ec5-456e-8140-6afb20decbe5",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T07:50:57.642116Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 0,
+  "files_touched": null,
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "adae48a5c32d",
+  "checkpoint_transcript_start": 60,
+  "transcript_lines_at_start": 60,
+  "session_metrics": {
+    "turn_count": 7
+  }
+}

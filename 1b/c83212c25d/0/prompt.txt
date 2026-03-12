@@ -1,0 +1,37 @@
+can you explain what you did here after i showed you this
+
+---
+
+why did you delete them? what were they for
+
+---
+
+are you sure theyre all there
+
+---
+
+can you explain this?
+
+---
+
+@experiments/.cursor/plans/entire_io_and_deploy_workflow_consolidated.plan.md can you test the 
+
+"Install contract
+
+
+
+npx shadcn add https://<preview-url>/r/send-button"
+
+stuff
+
+https://experiments-git-v2-platform-razisyed97s-projects.vercel.app/
+
+---
+
+@entire_io_and_deploy_workflow_consolidated.plan.md (203-216) can you do this
+
+---
+
+skip branch protection
+
+ok now this part
