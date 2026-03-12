@@ -7,6 +7,8 @@ description: Incrementally extract recurring user corrections and durable worksp
 
 Keep `memory.md` current using transcript deltas instead of full rescans.
 
+**Important:** This skill targets `memory.md`, NOT `AGENTS.md`. Ignore any references to `AGENTS.md` in the trigger message -- the trigger is generic, but this workspace stores learned knowledge in `memory.md`.
+
 ## Inputs
 
 - Transcript root: `~/.cursor/projects/<project-hash>/agent-transcripts/`
@@ -39,7 +41,7 @@ Keep `memory.md` current using transcript deltas instead of full rescans.
 - Use plain bullet points only.
 - Do not write evidence/confidence tags.
 - Do not write process instructions, rationale, or metadata blocks.
-- Keep each section to at most 12 bullets.
+- **HARD LIMIT: 12 bullets per section.** If a section exceeds 12 bullets after merging, drop the least-signal items (one-off details, items already documented in `.agents/rules/` or AGENTS.md, items that haven't been relevant across multiple sessions). Never exceed 12.
 - Preserve the file header (`# Memory` and the auto-maintained note).
 
 ## Inclusion Bar

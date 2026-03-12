@@ -1,1 +1,7 @@
-{}
+{
+  "plugins": {
+    "continual-learning": {
+      "enabled": true
+    }
+  }
+}

@@ -253,7 +253,7 @@ Read the relevant doc BEFORE working in that domain:
 **Profile-specific guidance**: read `experiment.json` `"profile"` field, then `.agents/profiles/<profile>.md`
 
 **Skills** (library-specific patterns): `.agents/skills/<name>/SKILL.md`
-- gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa, porting-demos, quick-component, continual-learning
+- gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa, porting-demos, quick-component
 
 **Workflows** (step-by-step procedures): `.agents/workflows/<name>.md`
 - new-experiment, develop-experiment, publish-experiment, add-experiment-component, add-experiment-assets, cleanup-experiment, visual-qa
@@ -274,7 +274,7 @@ Auto-inject rules, task-triggered skills, and specialized subagents for content 
 - experiment-metadata, article-writing, experiment-components, content-docs, generation-scripts, registry-curation
 
 **Skills** (discoverable task workflows): `.cursor/skills/<name>/SKILL.md`
-- publish-content, audit-content, run-generation
+- publish-content, audit-content, run-generation, continual-learning (plugin-provided hook + workspace skill override targeting `memory.md`)
 
 **Subagents** (specialized personas): `.cursor/agents/*.md`
 - content-writer, content-auditor
