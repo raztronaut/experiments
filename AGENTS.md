@@ -232,7 +232,7 @@ Two fields control visibility across all surfaces. One truth table. No exception
 - **Legacy experiments** (`legacy: true`, `status: "shipped"`) -- ask before modifying. No layout migration, no code changes without permission.
 - **Biome is deliberately permissive** -- 30+ rules disabled for legacy creative code. AGENTS.md defines stricter standards.
 - **Generation scripts gate on `status` + `listing`** -- registry includes all shipped experiments, llms.txt excludes registry-only, posters only for public with video.
-- **Deferred items** (don't attempt to fix): Cursor.tsx `getCursorColor` perf bug, Biome strictness tightening, `useExhaustiveDependencies` enforcement, ArticleLayout TOC scroll-spy.
+- **Deferred items** (don't attempt to fix): Cursor.tsx `getCursorColor` perf bug, Biome strictness tightening, ArticleLayout TOC scroll-spy.
 
 ## Reference Docs (.agents/)
 
