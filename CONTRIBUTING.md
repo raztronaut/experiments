@@ -1,27 +1,29 @@
 # Contributing
 
-Thanks for your interest in contributing to experiments!
+Full contributing guide: **[docs/contributing.md](docs/contributing.md)**
 
-## Getting Started
+Covers code style, TypeScript conventions, component size discipline, Biome linting, testing, conventional commits, pre-commit hooks, accessibility, UX standards, and project boundaries.
 
-1.  **Fork** the repository on GitHub.
-2.  **Clone** your fork locally.
-3.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
+## Quick Reference
 
-## Development
+```bash
+npm install                        # install deps (lefthook hooks auto-install)
+npm run dev                        # dev server at localhost:3000
+npm run new:experiment             # scaffold a new experiment
+npm test                           # vitest watch mode
+npm run lint                       # biome check (read-only)
+npm run fix                        # biome autofix
+npm run typecheck                  # tsc --noEmit
+npm run validate:experiments       # validate all experiment.json files
+```
 
--   Run the development server: `npm run dev`
--   Run tests: `npm test`
--   Lint your code: `npm run lint`
+### Commit Convention
 
-## Pull Requests
+[Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`.
 
-1.  Create a new branch for your feature or fix: `git checkout -b feature/my-feature`.
-2.  Commit your changes with clear messages.
-3.  Push to your fork and submit a Pull Request.
+### Pre-Commit Hooks
+
+Lefthook runs lint, typecheck, and experiment validation in parallel on every commit. Fix lint issues with `npm run fix`, then re-stage and re-commit.
 
 ## License
 

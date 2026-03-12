@@ -1,191 +1,190 @@
-# Web Dev Experiments
+# Razi's Experiments Lab
 
-A personal playground for exploring UI interactions, shaders, and modern web development techniques.
+Creative coding lab at [razisyed.cv](https://www.razisyed.cv). Isolated Next.js experiments exploring shaders, 3D scenes, scroll-driven animation, and interactive UI.
 
-## Purpose
+## Quick Start
 
-The goal of this project is to provide a robust environment for rapid prototyping. It allows for the exploration of new ideas, libraries, and techniques without the overhead of setting up a new project every time, while ensuring that each experiment remains **strictly isolated** from others.
+```bash
+npm install
+npm run dev                         # http://localhost:3000
+npm run new:experiment              # scaffold a new experiment
+npm run new:experiment:auto -- --name "my idea" --profile scrollytelling
+```
 
-## Prerequisites
+## Tech Stack
 
-- **Node.js**: v20 or higher
-- **npm**: v10 or higher
+| Library | Version | Import |
+|---------|---------|--------|
+| Next.js | 16.1 | `next` (App Router, React 19) |
+| React | 19.2 | `react`, `react-dom` |
+| TypeScript | ^5 | strict mode |
+| Tailwind CSS | 4.2 | CSS-first config, `@tailwindcss/postcss`, shadcn/ui |
+| GSAP | 3.14 | `gsap`, `gsap/ScrollTrigger`, `@gsap/react` |
+| Motion | 12.x | `motion/react` |
+| Lenis | 1.3 | `lenis`, `lenis/react` |
+| Tempus | 1.0-dev.17 | `tempus` (unified RAF with priority system) |
+| Hamo | 1.0-dev.10 | `hamo` (useRect, useWindowSize, useResizeObserver) |
+| R3F | 9.4 | `@react-three/fiber` |
+| Drei | 10.7 | `@react-three/drei` |
+| Three.js | 0.182 | `three` (always dynamic import) |
+| Zustand | 5.0 | `zustand` |
+| Fumadocs | 16.6 | Registry documentation system |
+| Biome | 2.4 | via `ultracite` (linting + formatting) |
+| Vitest | 4.0 | `vitest` (unit tests with JSDOM) |
+
+See [docs/toolkit.md](docs/toolkit.md) for the full animation/3D stack and integration patterns.
 
 ## Project Structure
 
-The project is organized to separate the main application dashboard from the isolated experiments.
+Each experiment is an isolated Next.js route group with its own `<html>`/`<body>`:
 
 ```
-experiments/
-├── public/
-│   └── experiments/          # Experiment assets (images, models)
-├── src/
-│   ├── app/
-│   │   ├── (main)/           # Dashboard application routes
-│   │   └── experiments/      # Isolated experiment routes
-│   │       └── (group)/      # Route groups (opt-out of main layout)
-│   ├── components/
-│   │   ├── ui/               # Shared dashboard components (Shadcn)
-│   │   └── experiments/      # Experiment-specific components
-│   └── lib/                  # Shared utilities
-├── scripts/                  # Automation scripts (cleanup, etc.)
-└── plopfile.js               # Scaffolding generator
+src/
+├── app/
+│   ├── (main)/                    # Dashboard, homepage, /dev status
+│   ├── (registry)/                # Component registry + Fumadocs docs
+│   └── experiments/
+│       └── (experiment-name)/     # Route group (isolated layout)
+│           ├── layout.tsx         # Own HTML root, metadata, dev tools
+│           ├── experiment.json    # Metadata (status, listing, profile, tags, tech)
+│           └── experiment-name/
+│               ├── page.tsx       # Imports main component
+│               ├── error.tsx      # Error boundary
+│               ├── article/       # MDX article (optional)
+│               └── docs/          # Lab note, architecture, snippet, social, changelog
+├── components/
+│   ├── ui/                        # Shared dashboard components (shadcn)
+│   ├── experiments/               # Experiment-specific components
+│   ├── collected/                 # Ported external components for registry
+│   └── mdx/                      # Article rendering components
+├── lib/
+│   └── toolkit/                   # Animation integration layer
+│       ├── scroll.ts              # createUnifiedScroll() (Lenis + GSAP + Tempus)
+│       ├── raf.ts                 # Tempus re-export
+│       └── r3f.tsx                # ExperimentCanvas wrapper
+├── hooks/                         # Shared hooks (useDevControls, useDebug)
+content/
+│   └── registry/                  # Generated Fumadocs MDX (build-time)
+scripts/                           # Automation (scaffolding, generation, validation)
+public/
+│   ├── experiments/               # Per-experiment assets (preview.mp4, poster.jpg, models)
+│   └── registry/                  # Generated registry JSON files
 ```
 
-## Architecture
+Three locations per experiment, no exceptions: route group, component directory, public assets. No cross-experiment imports.
 
-To ensure that experiments do not interfere with each other or the main application layout:
+## Key Concepts
 
-- **Isolated Environments**: Each experiment runs in its own route group.
-- **Style Isolation**: The main application uses global styles (Tailwind, Shadcn), but experiments can opt-out or use their own isolated CSS to ensure a clean slate.
-- **Component Independence**: Components are built specifically for their experiment, developed in isolation using route-group separation.
+### Experiments
 
-## Technology Stack
+Every experiment is scaffolded via CLI, lives in three directories, and is controlled by `experiment.json` metadata. The `status` field (`wip`/`shipped`) and `listing` field (`public`/`dev`/`registry`) form a truth table that controls visibility across all surfaces -- homepage, registry, feeds, llms.txt, sitemap.
 
-- **Framework**: Next.js 16 (App Router)
-- **Styling**: Tailwind CSS & Shadcn UI (Main Dashboard)
-- **Animation**: Motion (`motion/react`)
-- **3D Graphics**: React Three Fiber / Three.js
-- **Tooling**: Plop.js for scaffolding, Vitest for testing.
+See [docs/experiments.md](docs/experiments.md) for the full lifecycle, profiles, and metadata system.
 
-## Workflow & Automation
+### Content System
 
-We use custom automation to streamline the creative process and maintain project cleanliness.
+Shipped experiments can have a **content constellation**: a long-form MDX article, lab note, architecture doc, snippet, social copy, and changelog. Articles power the RSS feed (`/feed.xml`), JSON feed (`/feed.json`), and appear in llms.txt. Dynamic `.mdx` routes serve any experiment or article as clean markdown for LLMs.
 
-### 1. Scaffold a New Experiment (`plop.js`)
-Instead of manually creating folders and files, we use a CLI generator to scaffold new experiments.
-```bash
-npm run new:experiment
-```
-This command:
-- Prompts for an experiment name and description.
-- Generates the route structure in `src/app/experiments`.
-- Creates a dedicated component directory in `src/components/experiments`.
-- **Creates a metadata file (`experiment.json`)** which allows the dashboard to automatically list the experiment.
-- **Creates an asset directory** in `public/experiments/<name>` for images/models.
-### 2. Integration
-Once components are ready, they are assembled into the page file designated for that experiment.
+See [docs/content-system.md](docs/content-system.md) for the article system, feeds, and llms.txt.
 
-### 3. Verification
-Visit `http://localhost:3000/experiments/<experiment-name>` to see your creation live.
+### Component Registry
 
-### 5. Cleanup
-Experiments can be transient. If an idea doesn't work out or is no longer needed, it can be cleanly removed.
-```bash
-npm run delete:experiment <experiment-name>
-```
-This script removes all associated files (routes, components, public assets). Because the registry is dynamic, the experiment automatically disappears from the dashboard.
-
-## Sharing Experiments (Component Registry)
-
-This project features a **Shadcn-compatible Registry**, allowing you to share experiments as embeddable components that others can install via a single command.
-
-### How it Works
-The registry system automatically bundles experiment components, resolves their package dependencies (like `gsap`, `three`, `framer-motion`), and prepares a JSON manifest that complies with the `shadcn/ui` registry schema.
-
-### 1. Generate the Registry
-To refresh the registry manifests for all experiments:
-```bash
-npm run generate:registry
-```
-This generates individual JSON files in `public/registry/` and an `index.json` listing all shared experiments.
-
-### 2. CDN & Asset Streaming
-When a component is installed into a third-party project, its static assets (images, videos, SVGs in `public/experiments/`) are automatically pointed to the production CDN at `https://www.razisyed.cv`. 
-
-> [!NOTE]
-> This ensures that binary assets (MP4s, JPEGs) work instantly without requiring the installer to manually copy files into their own `public/` folder.
-
-### 3. Installation
-Any experiment in the registry can be installed into a Next.js project using the Shadcn CLI:
+A [shadcn-compatible registry](https://www.razisyed.cv/registry) lets anyone install experiments and components into their own projects:
 
 ```bash
-npx shadcn@latest add https://www.razisyed.cv/r/<experiment-name>
+npx shadcn@latest add https://www.razisyed.cv/r/send-button
 ```
 
-For example, to install the Basketball Replay Center:
-```bash
-npx shadcn@latest add https://www.razisyed.cv/r/basketball-replay-center
-```
+The registry catalogs 100+ items across experiments, components, collected ports, hooks, and utilities. Fumadocs powers browsable documentation at `/registry/docs`.
 
-The CLI will:
-1. Download the component files.
-2. Resolve and install required NPM dependencies.
-3. Merge necessary Tailwind configurations and CSS variables.
-4. Rewrite public asset paths to stream from the CDN.
+See [docs/registry.md](docs/registry.md) for the generation pipeline, collected components, and curation.
 
-## Best Practices
+### Animation Toolkit
 
-- **Strict Isolation**: Do not import components from other experiments. Keep dependencies self-contained.
-- **No Global Store Pollution**: Avoid adding experiment-specific state to global stores unless absolutely necessary.
-- **Cleanups**: Use `useEffect` cleanups for event listeners, timers, or WebGL contexts to prevent memory leaks when navigating away.
+A thin integration layer at `src/lib/toolkit/` unifies Lenis smooth scroll, GSAP animations, and Three.js rendering under a single Tempus RAF loop with a priority chain: -1 (scroll), 0 (animation), 1 (render).
 
-## AI-Assisted Development
+See [docs/toolkit.md](docs/toolkit.md) for the priority system, dynamic import patterns, and library-specific guidance.
 
-This project includes rules and workflows for AI coding assistants (like Antigravity, Cursor, GitHub Copilot Chat) that help maintain the isolation architecture automatically.
+## Commands
 
-### Available Workflows
+### Development
 
 | Command | Purpose |
 |---------|---------|
-| `/new-experiment` | Scaffold a new experiment with all required files |
-| `/develop-experiment` | Work on an existing experiment with isolation guardrails |
-| `/cleanup-experiment` | Safely remove an experiment and all its files |
-| `/add-experiment-component` | Add a new component within an experiment |
-| `/add-experiment-assets` | Add images, 3D models, or other assets |
+| `npm run dev` | Next.js dev server |
+| `npm run build` | Full build (posters + registry + llms-txt + next build) |
+| `npm test` | Vitest (watch mode) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run lint` | Biome check via ultracite |
+| `npm run fix` | Biome autofix via ultracite |
 
-### What the AI Knows
+### Experiment Lifecycle
 
-The `.agent/` directory contains:
-- **Rules** that enforce isolation (no cross-experiment imports, correct file locations)
-- **Workflows** with code templates for common patterns (Framer Motion, React Three Fiber, etc.)
+| Command | Purpose |
+|---------|---------|
+| `npm run new:experiment` | Scaffold experiment (interactive) |
+| `npm run new:experiment:auto -- --name "name" --profile r3f-scene` | Scaffold experiment (non-interactive) |
+| `npm run delete:experiment <name>` | Delete experiment (with confirmation) |
+| `npm run delete:experiment <name> --yes` | Delete experiment (skip confirmation) |
+| `npm run new:article` | Scaffold article for existing experiment |
+| `npm run new:article:auto -- --name <slug>` | Scaffold article (non-interactive) |
+| `npm run delete:article <slug>` | Remove article content |
+| `npm run new:collected` | Scaffold collected component (interactive) |
+| `npm run new:collected:auto` | Scaffold collected component (non-interactive) |
 
-This means AI assistants will automatically:
-- Use `npm run new:experiment` instead of manually creating files
-- Place components in the correct experiment directory
-- Follow cleanup patterns for `useEffect` hooks
-- Avoid modifying shared code for experiment-specific needs
+### Generation and Capture
 
-## Getting Started
+| Command | Purpose |
+|---------|---------|
+| `npm run generate:posters` | Extract video first frames (skips wip) |
+| `npm run generate:registry` | Build shadcn-compatible registry (skips wip) |
+| `npm run generate:llms-txt` | Generate llms.txt + llms-full.txt (skips wip) |
+| `npm run validate:experiments` | Validate all experiment.json files |
+| `npm run capture <slug>` | Playwright screenshot capture |
+| `npm run optimize:videos` | Compress experiment preview videos |
 
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+See [docs/scripts.md](docs/scripts.md) for detailed documentation on every script.
 
-2. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
-   Visit [http://localhost:3000](http://localhost:3000) for the main dashboard.
+## Deploy
 
-3. **Run tests**:
-   ```bash
-   npm run test
-   ```
+Vercel auto-deploys every merge to `main`. PRs get preview deploys with the identical build pipeline:
 
-## Adding Previews & Posters
-
-To add a hover preview (image or video) to your experiment and ensure optimal performance:
-
-1.  **Add Asset**: Place your video (`.mp4`) or image (`.png`, `.jpg`) in `public/experiments/<experiment-slug>/`.
-2.  **Update Config**: Edit `src/app/experiments/(<experiment-slug>)/experiment.json`:
-
-```json
-{
-  "image": "/experiments/<experiment-slug>/preview.png",
-  "video": "/experiments/<experiment-slug>/preview.mp4",
-  "poster": "/experiments/<experiment-slug>/poster.jpg"
-}
+```
+generate:posters -> generate:registry -> generate:llms-txt -> next build
 ```
 
-3.  **Generate Poster (Automated)**:
-    If you have added a video, run the following command to automatically extract the first frame as a `poster.jpg`. This is critical for performance and ensuring the Vercel deployment remains lightweight:
-    ```bash
-    npm run generate:posters
-    ```
+Lefthook pre-commit hooks run lint, typecheck, and experiment validation in parallel. [Entire.io](https://docs.entire.io) captures agent session context as Git-native checkpoints on post-commit/pre-push.
 
-*Note: The website uses the poster image as a placeholder before the video loads to prevent layout shifts and excessive resource usage.*
+See [docs/deploy.md](docs/deploy.md) for the full CI/CD workflow, branching strategy, and hook ownership.
+
+## Contributing
+
+Conventional commits (`feat:`, `fix:`, `refactor:`, `docs:`, `chore:`). Biome handles all linting and formatting. TypeScript strict mode, no `any`. Components target 200 lines (hard limit 300). `prefers-reduced-motion` always respected.
+
+See [docs/contributing.md](docs/contributing.md) for code style, testing, accessibility, and git conventions.
+
+## AI-Assisted Development
+
+The `.agents/` directory contains rules, profiles, skills, and workflows that give AI coding assistants deep context about the codebase. Cursor-specific integration lives in `.cursor/rules/`, `.cursor/skills/`, and `.cursor/agents/` with auto-injecting rules and specialized subagents for content writing and auditing.
+
+See [docs/ai-development.md](docs/ai-development.md) for the full AI integration architecture.
+
+## Documentation
+
+All guides live in [`docs/`](docs/):
+
+| Guide | Covers |
+|-------|--------|
+| [Architecture](docs/architecture.md) | Isolation model, route groups, data flow |
+| [Getting Started](docs/getting-started.md) | Setup, first experiment, file anatomy |
+| [Experiments](docs/experiments.md) | Lifecycle, profiles, metadata system |
+| [Content System](docs/content-system.md) | Articles, feeds, llms.txt |
+| [Registry](docs/registry.md) | Shadcn registry, collected components, Fumadocs |
+| [Toolkit](docs/toolkit.md) | Animation stack, 3D, priority chain |
+| [Deploy](docs/deploy.md) | CI/CD, Vercel, lefthook, Entire.io |
+| [Scripts](docs/scripts.md) | All automation scripts |
+| [Contributing](docs/contributing.md) | Code style, testing, git conventions |
+| [AI Development](docs/ai-development.md) | Agent integration, Cursor, MCP tools |
 
 ## License
 
