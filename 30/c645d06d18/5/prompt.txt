@@ -1,0 +1,5 @@
+commit everything with several commits
+
+---
+
+provide a summary of all the specific changes/what was impacted for each of those groups of file changes. for everything but the aritcle system improvements and the Non-euclidean hyperbolic workspace article, you can be extremely concise and give file overviews
