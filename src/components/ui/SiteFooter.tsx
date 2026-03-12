@@ -19,7 +19,7 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="border-border/50 border-t pt-24 pb-32 text-[0.875rem] text-muted-foreground md:pt-12">
+    <footer className="h-card border-border/50 border-t pt-24 pb-32 text-[0.875rem] text-muted-foreground md:pt-12">
       <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
         <div className="max-w-md space-y-4">
           <p>
@@ -66,22 +66,26 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col gap-3 md:items-end">
-          <span
+          <a
             className={cn(
-              "block font-normal text-muted-foreground/60 text-sm",
+              "u-url block p-name font-normal text-muted-foreground/60 text-sm no-underline",
               replica.className
             )}
+            href="https://www.razisyed.cv"
+            rel="me"
           >
             built by razi
-          </span>
+          </a>
+          <span className="sr-only p-job-title">Design Engineer</span>
           <div className="flex items-center gap-3">
             <WithHover config={HOVER_OFFSET_CONFIG}>
               <Link
                 aria-label="GitHub"
-                className="inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
+                className="u-url inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
                 data-umami-event="github_click"
                 data-umami-event-type="profile"
                 href="https://github.com/raztronaut"
+                rel="me"
                 target="_blank"
               >
                 <Icons.GitHub className="h-5 w-5" />
@@ -90,10 +94,11 @@ export function SiteFooter() {
             <WithHover config={HOVER_OFFSET_CONFIG}>
               <Link
                 aria-label="X (formerly Twitter)"
-                className="inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
+                className="u-url inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
                 data-umami-event="social_click"
                 data-umami-event-platform="x"
                 href="https://x.com/raztronaut"
+                rel="me"
                 target="_blank"
               >
                 <Icons.X className="h-5 w-5" />
@@ -102,10 +107,11 @@ export function SiteFooter() {
             <WithHover config={HOVER_OFFSET_CONFIG}>
               <Link
                 aria-label="LinkedIn"
-                className="inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
+                className="u-url inline-flex items-center justify-center rounded-md border border-border/50 bg-muted/20 p-2 text-foreground transition-colors hover:bg-muted/40"
                 data-umami-event="social_click"
                 data-umami-event-platform="linkedin"
                 href="https://linkedin.com/in/raztronaut"
+                rel="me"
                 target="_blank"
               >
                 <Icons.Linkedin className="h-5 w-5" />

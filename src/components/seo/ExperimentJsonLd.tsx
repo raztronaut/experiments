@@ -1,7 +1,7 @@
 import { SITE_URL } from "@/lib/constants";
 import {
   generateBreadcrumbJsonLd,
-  generateExperimentJsonLd,
+  generateCreativeWorkJsonLd,
   safeJsonLdStringify,
 } from "@/lib/structured-data";
 
@@ -23,7 +23,7 @@ export function ExperimentJsonLd({
       <script
         dangerouslySetInnerHTML={{
           __html: safeJsonLdStringify(
-            generateExperimentJsonLd({ title, description, slug, tags })
+            generateCreativeWorkJsonLd({ title, description, slug, tags })
           ),
         }}
         type="application/ld+json"

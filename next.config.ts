@@ -14,6 +14,22 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
   },
+  {
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self'",
+      "connect-src 'self' https://cloud.umami.is https://*.vercel-insights.com https://api.open-meteo.com blob:",
+      "worker-src 'self' blob:",
+      "media-src 'self'",
+      "object-src 'none'",
+      "frame-src 'self'",
+      "frame-ancestors 'self'",
+    ].join("; "),
+  },
 ];
 
 const nextConfig: NextConfig = {
@@ -91,6 +107,16 @@ const nextConfig: NextConfig = {
             ].join("; "),
           },
         ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      // Redirect phantom /experiments URL to homepage (experiments are a tab)
+      {
+        source: "/experiments",
+        destination: "/",
+        permanent: true,
       },
     ];
   },

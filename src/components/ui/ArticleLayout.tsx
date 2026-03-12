@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
+import { AUTHOR_NAME, SITE_URL } from "@/lib/constants";
 
 interface ArticleNavItem {
   href: string;
@@ -15,6 +16,7 @@ interface ArticleLayoutProps {
   prev?: ArticleNavItem;
   publishedAt: string;
   readingTime: string;
+  tags?: string[];
   title: string;
   updatedAt?: string;
 }
@@ -38,9 +40,12 @@ export function ArticleLayout({
   children,
   prev,
   next,
+  tags,
 }: ArticleLayoutProps) {
+  const permalink = `${SITE_URL}/experiments/${experimentSlug}/article`;
+
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="mx-auto h-entry max-w-3xl px-4 py-16 sm:px-6">
       <nav className="mb-6 flex items-center gap-1.5 text-muted-foreground text-sm">
         <Link className="transition-colors hover:text-foreground" href="/">
           Home
@@ -57,24 +62,36 @@ export function ArticleLayout({
       </nav>
 
       <header className="mb-10">
-        <p className="font-semibold text-foreground">{title}</p>
+        <h1 className="p-name font-semibold text-foreground">{title}</h1>
         <div className="mt-1 flex flex-wrap items-center gap-x-1 text-muted-foreground text-sm">
-          <span>Published {formatDate(publishedAt)}</span>
+          <time className="dt-published" dateTime={publishedAt}>
+            Published {formatDate(publishedAt)}
+          </time>
           {updatedAt && updatedAt !== publishedAt && (
             <>
               <span>&middot;</span>
-              <span>Updated {formatDate(updatedAt)}</span>
+              <time className="dt-updated" dateTime={updatedAt}>
+                Updated {formatDate(updatedAt)}
+              </time>
             </>
           )}
           <span>&middot;</span>
           <span>{readingTime}</span>
         </div>
+        <a className="sr-only h-card p-author" href={SITE_URL} rel="author">
+          {AUTHOR_NAME}
+        </a>
+        <a className="u-url sr-only" href={permalink}>
+          Permalink
+        </a>
+        {tags?.map((tag) => (
+          <span className="sr-only p-category" key={tag}>
+            {tag}
+          </span>
+        ))}
       </header>
 
-      {/* TOC commented out for now -- will re-enable after styling is finalized */}
-      {/* <MobileTOC /> */}
-
-      <article className="min-w-0">{children}</article>
+      <article className="e-content min-w-0">{children}</article>
 
       {(prev || next) && (
         <nav className="mt-16 flex items-stretch gap-4 border-border border-t pt-8">

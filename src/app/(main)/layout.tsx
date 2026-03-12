@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { activeFont } from "@/lib/fonts";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
@@ -35,13 +35,25 @@ export const metadata: Metadata = {
     "Experiment",
     "Portfolio",
     "Razi Syed",
+    "WebGL",
+    "GSAP",
+    "Design Engineering",
+    "Interactive",
+    "Animation",
+    "R3F",
   ],
   authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
   creator: "Razi Syed",
   publisher: "Razi Syed",
   applicationName: "Razi's Experiments",
+  category: "technology",
   alternates: {
     canonical: "/",
+    types: {
+      "application/rss+xml": "/feed.xml",
+      "application/atom+xml": "/atom.xml",
+      "application/feed+json": "/feed.json",
+    },
   },
   metadataBase: new URL("https://www.razisyed.cv"),
   openGraph: {
@@ -66,6 +78,7 @@ export const metadata: Metadata = {
     title: "Razi's Experiments",
     description:
       "A playground for exploring UI interactions, shaders, and modern web techniques.",
+    creator: "@raztronaut",
     images: ["/og-image.png"],
   },
   robots: {
@@ -79,6 +92,16 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  other: {
+    "msapplication-TileColor": "#111115",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#111115" },
+  ],
 };
 
 export default function RootLayout({
@@ -88,6 +111,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link href="https://cloud.umami.is" rel="dns-prefetch" />
+        <link
+          href="https://webmention.io/www.razisyed.cv/webmention"
+          rel="webmention"
+        />
+        <link
+          href="https://webmention.io/www.razisyed.cv/xmlrpc"
+          rel="pingback"
+        />
+      </head>
       <body
         className={cn(
           activeFont.className,
@@ -95,6 +129,25 @@ export default function RootLayout({
           "min-h-screen bg-background font-canvas text-foreground antialiased"
         )}
       >
+        <div className="sr-only h-card" hidden>
+          <a className="u-url p-name" href="https://www.razisyed.cv" rel="me">
+            Razi Syed
+          </a>
+          <span className="p-job-title">Design Engineer</span>
+          <a className="u-url" href="https://github.com/raztronaut" rel="me">
+            GitHub
+          </a>
+          <a className="u-url" href="https://x.com/raztronaut" rel="me">
+            X
+          </a>
+          <a
+            className="u-url"
+            href="https://linkedin.com/in/raztronaut"
+            rel="me"
+          >
+            LinkedIn
+          </a>
+        </div>
         <script
           dangerouslySetInnerHTML={{
             __html: `

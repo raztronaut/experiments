@@ -1,0 +1,4 @@
+Contact: https://github.com/raztronaut
+Expires: 2027-01-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.razisyed.cv/.well-known/security.txt

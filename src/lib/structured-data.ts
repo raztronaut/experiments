@@ -1,7 +1,9 @@
 import type {
   BreadcrumbList,
+  CreativeWork,
+  ItemList,
   Person,
-  SoftwareApplication,
+  ProfilePage,
   TechArticle,
   WebSite,
   WithContext,
@@ -43,7 +45,11 @@ function personSchema(): WithContext<Person> {
 
 export function generateWebSiteJsonLd(): {
   "@context": "https://schema.org";
-  "@graph": [WithContext<Person>, WithContext<WebSite>];
+  "@graph": [
+    WithContext<Person>,
+    WithContext<WebSite>,
+    WithContext<ProfilePage>,
+  ];
 } {
   return {
     "@context": "https://schema.org",
@@ -56,8 +62,43 @@ export function generateWebSiteJsonLd(): {
         url: SITE_URL,
         description: SITE_DESCRIPTION,
         author: personRef(),
+        inLanguage: "en-US",
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        name: SITE_TITLE,
+        url: SITE_URL,
+        mainEntity: personRef(),
+        dateCreated: "2025-01-01",
+        dateModified: "2025-01-01",
       },
     ],
+  };
+}
+
+interface ExperimentListItem {
+  description: string;
+  slug: string;
+  title: string;
+}
+
+export function generateExperimentListJsonLd(
+  experiments: ExperimentListItem[]
+): WithContext<ItemList> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Creative Coding Experiments",
+    description: SITE_DESCRIPTION,
+    numberOfItems: experiments.length,
+    itemListElement: experiments.map((exp, index) => ({
+      "@type": "ListItem" as const,
+      position: index + 1,
+      name: exp.title,
+      description: exp.description,
+      url: `${SITE_URL}/experiments/${exp.slug}`,
+    })),
   };
 }
 
@@ -95,6 +136,11 @@ export function generateArticleJsonLd(
     image: `${SITE_URL}${params.ogImageUrl}`,
     url: canonicalUrl,
     mainEntityOfPage: canonicalUrl,
+    inLanguage: "en-US",
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: [".p-name", ".e-content"],
+    },
     ...(params.tags &&
       params.tags.length > 0 && { keywords: params.tags.join(", ") }),
   };
@@ -127,27 +173,22 @@ interface ExperimentJsonLdParams {
   title: string;
 }
 
-export function generateExperimentJsonLd(
+export function generateCreativeWorkJsonLd(
   params: ExperimentJsonLdParams
-): WithContext<SoftwareApplication> {
+): WithContext<CreativeWork> {
   return {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "CreativeWork",
     name: params.title,
     description: params.description,
-    applicationCategory: "MultimediaApplication",
-    operatingSystem: "Any",
     url: `${SITE_URL}/experiments/${params.slug}`,
-    author: {
+    creator: {
       "@type": "Person",
       name: AUTHOR_NAME,
       url: SITE_URL,
     },
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
+    isAccessibleForFree: true,
+    inLanguage: "en-US",
     ...(params.tags &&
       params.tags.length > 0 && { keywords: params.tags.join(", ") }),
   };
