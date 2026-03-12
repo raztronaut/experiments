@@ -17,7 +17,16 @@ export default function Error({
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center gap-4 bg-background text-foreground">
       <h2 className="font-bold text-red-600 text-xl">Something went wrong!</h2>
-      <p className="text-muted-foreground">{error.message}</p>
+      <p className="text-muted-foreground">
+        {process.env.NODE_ENV === "development"
+          ? error.message
+          : "An unexpected error occurred."}
+      </p>
+      {error.digest && (
+        <p className="text-muted-foreground/60 text-xs">
+          Error ID: {error.digest}
+        </p>
+      )}
       <Button onClick={() => reset()}>Try again</Button>
     </div>
   );

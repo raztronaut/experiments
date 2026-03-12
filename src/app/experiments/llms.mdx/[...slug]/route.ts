@@ -34,10 +34,7 @@ async function loadRegistryFiles(slug: string): Promise<string[] | null> {
   }
 }
 
-function experimentToMarkdown(
-  exp: Experiment,
-  files: string[] | null
-): string {
+function experimentToMarkdown(exp: Experiment, files: string[] | null): string {
   const lines: string[] = [];
   lines.push(`# ${exp.title} (${SITE_URL}/experiments/${exp.slug})`);
   lines.push("");
@@ -103,10 +100,7 @@ export async function GET(_req: Request, { params }: RouteContext) {
   if (isArticle) {
     const article = await getArticleContent(slug);
     if (!article) {
-      return NextResponse.json(
-        { error: "Article not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
     const markdown = mdxToPlainMarkdown(article.content);
     const title = article.frontmatter.title || slug;

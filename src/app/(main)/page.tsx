@@ -10,6 +10,10 @@ import { ThemeAwareWaves } from "@/components/ui/ThemeAwareWaves";
 import { getArticles } from "@/lib/articles";
 import { getExperiments } from "@/lib/experiments";
 import { replica, testDieGrotesk } from "@/lib/fonts";
+import {
+  generateExperimentListJsonLd,
+  safeJsonLdStringify,
+} from "@/lib/structured-data";
 import { cn } from "@/lib/utils";
 
 export const revalidate = 3600;
@@ -27,7 +31,19 @@ async function ContentSectionAsync() {
     getArticles(),
     getExperiments(),
   ]);
-  return <ContentSection articles={articles} experiments={experiments} />;
+  return (
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLdStringify(
+            generateExperimentListJsonLd(experiments)
+          ),
+        }}
+        type="application/ld+json"
+      />
+      <ContentSection articles={articles} experiments={experiments} />
+    </>
+  );
 }
 
 function ContentSkeleton() {
@@ -107,7 +123,7 @@ export default function Home() {
                 data-umami-event="github_click"
                 data-umami-event-type="profile"
                 href="https://github.com/raztronaut"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
                 target="_blank"
               >
                 <Icons.GitHub className="h-5 w-5" />
@@ -120,7 +136,7 @@ export default function Home() {
                 data-umami-event="social_click"
                 data-umami-event-platform="x"
                 href="https://x.com/raztronaut"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
                 target="_blank"
               >
                 <Icons.X className="h-5 w-5" />
@@ -133,7 +149,7 @@ export default function Home() {
                 data-umami-event="social_click"
                 data-umami-event-platform="linkedin"
                 href="https://linkedin.com/in/raztronaut"
-                rel="noopener noreferrer"
+                rel="me noopener noreferrer"
                 target="_blank"
               >
                 <Icons.Linkedin className="h-5 w-5" />

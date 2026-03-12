@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useDebug } from "@/hooks/useDebug";
 
 const REPORT_INTERVAL_MS = 2000;
 
@@ -81,12 +82,17 @@ function updateGlobalMetrics(partial: Partial<ExperimentMetrics>) {
  * window.__experimentMetrics for programmatic querying by AI agents.
  */
 export function ExperimentDevMetrics() {
+  const isDebug = useDebug();
   const frameTimesRef = useRef<number[]>([]);
   const lastReportRef = useRef(performance.now());
   const clsRef = useRef(0);
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
+    if (!isDebug) {
+      return;
+    }
+
     let clsObserver: PerformanceObserver | undefined;
     try {
       clsObserver = new PerformanceObserver((list) => {
@@ -149,7 +155,7 @@ export function ExperimentDevMetrics() {
       cancelAnimationFrame(rafRef.current);
       clsObserver?.disconnect();
     };
-  }, []);
+  }, [isDebug]);
 
   return null;
 }

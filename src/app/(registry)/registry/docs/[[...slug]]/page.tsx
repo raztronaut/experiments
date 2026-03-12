@@ -6,6 +6,10 @@ import {
   PageLastUpdate,
 } from "fumadocs-ui/layouts/flux/page";
 import { notFound } from "next/navigation";
+import {
+  MarkdownCopyButton,
+  ViewOptionsPopover,
+} from "@/components/ai/page-actions";
 import { registrySource } from "@/lib/registry-source";
 import { getMDXComponents } from "@/mdx-components";
 
@@ -27,10 +31,18 @@ export default async function Page({ params }: PageProps) {
       ? new Date(frontmatter.lastModified)
       : null;
 
+  const markdownUrl = `${page.url}.mdx`;
+  const slugPath = slug?.join("/") ?? "";
+  const githubUrl = `https://github.com/raztronaut/experiments/blob/main/content/registry/${slugPath || "index"}.mdx`;
+
   return (
     <DocsPage tableOfContent={{ style: "clerk" }} toc={page.data.toc}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+      <div className="flex flex-row items-center gap-2 border-fd-border border-b pt-2 pb-4">
+        <MarkdownCopyButton markdownUrl={markdownUrl} />
+        <ViewOptionsPopover githubUrl={githubUrl} markdownUrl={markdownUrl} />
+      </div>
       <DocsBody>
         <MDXContent components={getMDXComponents()} />
       </DocsBody>

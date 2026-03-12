@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const ExperimentDevMetrics =
   process.env.NODE_ENV === "development"
@@ -41,7 +42,15 @@ interface DevToolsInjectorProps {
 }
 
 export function DevToolsInjector({ production }: DevToolsInjectorProps = {}) {
-  if (production) {
+  const [isDebug, setIsDebug] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has("debug")) {
+      setIsDebug(true);
+    }
+  }, []);
+
+  if (production || isDebug) {
     return (
       <>
         <ExperimentDevMetricsProd />

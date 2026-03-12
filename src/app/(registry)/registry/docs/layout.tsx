@@ -48,6 +48,7 @@ export default function RegistryDocsLayout({
           { title: "Components", url: "/registry/docs/components" },
           { title: "Collected", url: "/registry/docs/collected" },
           { title: "Hooks", url: "/registry/docs/hooks" },
+          { title: "MDX", url: "/registry/docs/mdx" },
           { title: "Utilities", url: "/registry/docs/utilities" },
         ],
         banner: <SidebarBanner />,

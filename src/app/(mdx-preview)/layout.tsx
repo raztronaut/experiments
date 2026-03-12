@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { activeFont } from "@/lib/fonts";
+import type { ReactNode } from "react";
 import { showDevContent } from "@/lib/env";
+import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import "./mdx-preview.css";
 

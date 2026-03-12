@@ -2,6 +2,11 @@ import { type NextRequest, NextResponse } from "next/server";
 
 const CANONICAL_HOST = "www.razisyed.cv";
 
+function isMarkdownPreferred(request: NextRequest): boolean {
+  const accept = request.headers.get("accept") || "";
+  return accept.includes("text/markdown") && !accept.includes("text/html");
+}
+
 export function proxy(request: NextRequest) {
   const { hostname, pathname, search } = request.nextUrl;
 
@@ -20,6 +25,22 @@ export function proxy(request: NextRequest) {
     const clean = new URL(request.url);
     clean.pathname = pathname.slice(0, -1);
     return NextResponse.redirect(clean, 308);
+  }
+
+  if (isMarkdownPreferred(request)) {
+    const articleMatch = pathname.match(/^\/experiments\/([^/]+)\/article$/);
+    if (articleMatch) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/experiments/llms.mdx/${articleMatch[1]}/article`;
+      return NextResponse.rewrite(url);
+    }
+
+    const registryMatch = pathname.match(/^\/registry\/docs\/(.+)$/);
+    if (registryMatch) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/registry/llms.mdx/${registryMatch[1]}`;
+      return NextResponse.rewrite(url);
+    }
   }
 
   return NextResponse.next();
