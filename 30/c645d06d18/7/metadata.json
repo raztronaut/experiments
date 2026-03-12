@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.5.0",
+  "checkpoint_id": "30c645d06d18",
+  "session_id": "9922fcae-40d1-48ff-ade0-2141b7cf7c3c",
+  "strategy": "manual-commit",
+  "created_at": "2026-03-12T11:20:02.516587Z",
+  "branch": "v2/platform",
+  "checkpoints_count": 2,
+  "files_touched": [
+    ".agents/skills/continual-learning/SKILL.md",
+    ".cursor/hooks.json",
+    ".cursor/hooks/continual-learning-start.mjs",
+    ".cursor/hooks/continual-learning-stop.mjs",
+    ".cursor/settings.json",
+    "AGENTS.md"
+  ],
+  "agent": "Cursor",
+  "model": "claude-4.6-opus-high-thinking",
+  "turn_id": "a8e8a9de2146",
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-03-12T11:20:02.493795Z",
+    "agent_lines": 9,
+    "human_added": 76,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 85,
+    "agent_percentage": 10.588235294117647
+  }
+}
