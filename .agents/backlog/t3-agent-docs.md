@@ -6,7 +6,7 @@ Audit date: 2026-03-10
 
 ## Domain 7: Docs Housekeeping (1 remaining)
 
-- [ ] **AGENTS.md: cross-ref scrollytelling decomposition** -- Component size discipline section (lines 110-116) doesn't cross-reference `scrollytelling.md` as the canonical decomposition example. `architecture.md` does (line 136), but AGENTS.md itself does not.
+- [x] **AGENTS.md: cross-ref scrollytelling decomposition** -- Added canonical cross-reference in AGENTS component size discipline section to `.agents/profiles/scrollytelling.md` (2026-03-13).
 
 ## Domain 8: Overview Pass (blocked)
 
