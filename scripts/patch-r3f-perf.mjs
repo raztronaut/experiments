@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Patches r3f-perf's roboto.woff.mjs source map so Turbopack doesn't
  * try to read the binary .woff file (which causes a UTF-8 decode error).

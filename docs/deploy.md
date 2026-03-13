@@ -90,10 +90,10 @@ Use draft PRs to get Vercel preview URLs without signaling "ready to merge."
 
 ## Build Pipeline
 
-`npm run build` chains four steps:
+`npm run build` chains two steps: `generate:all` (parallel generation) then `next build`:
 
 ```
-generate:posters  ->  generate:registry  ->  generate:llms-txt  ->  next build
+generate:all (posters || registry || llms-txt) -> next build
 ```
 
 | Step | Script | Output |

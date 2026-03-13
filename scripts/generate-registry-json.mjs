@@ -1,6 +1,8 @@
+#!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeIfChanged } from "./lib/write-if-changed.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1118,8 +1120,10 @@ async function generateCollectedMap(collectedItems) {
   lines.push("");
 
   const mapPath = path.join(COLLECTED_DIR, "_map.ts");
-  await fs.writeFile(mapPath, lines.join("\n"));
-  console.log(`  Generated _map.ts (${entries.length} components)`);
+  const mapWrote = await writeIfChanged(mapPath, lines.join("\n"));
+  console.log(
+    `  ${mapWrote ? "Generated" : "Unchanged"} _map.ts (${entries.length} components)`
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -1201,7 +1205,10 @@ async function main() {
   };
 
   const outputPath = path.join(ROOT_DIR, "registry.json");
-  await fs.writeFile(outputPath, JSON.stringify(registry, null, 2));
+  const registryWrote = await writeIfChanged(
+    outputPath,
+    JSON.stringify(registry, null, 2)
+  );
 
   const expCount = experimentItems.length;
   const uiCount = uiItems.length;
@@ -1214,7 +1221,9 @@ async function main() {
   console.log(
     `\nDiscovered ${expCount} experiments, ${uiCount} components, ${collectedCount} collected, ${hookCount} hooks, ${mdxCount} mdx, ${utilCount} utilities. Total: ${total} items.`
   );
-  console.log(`Wrote registry.json (${total} items)`);
+  console.log(
+    `${registryWrote ? "Wrote" : "Unchanged"} registry.json (${total} items)`
+  );
 }
 
 main().catch((error) => {

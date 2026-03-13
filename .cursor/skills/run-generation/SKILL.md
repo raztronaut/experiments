@@ -12,7 +12,8 @@ description: Run, debug, and verify the content generation pipeline (registry, p
 | `npm run generate:registry` | 4-step registry pipeline (JSON → build → post-process → MDX) |
 | `npm run generate:posters` | Extract first frame from preview videos via ffmpeg |
 | `npm run generate:llms-txt` | Generate `public/llms.txt` + `public/llms-full.txt` |
-| `npm run build` | Full chain: posters → registry → llms-txt → next build |
+| `npm run generate:all` | Orchestrator: runs posters, registry, llms-txt in parallel |
+| `npm run build` | `generate:all` → `next build` |
 
 ## Registry Pipeline (4 steps, sequential)
 
@@ -24,7 +25,6 @@ description: Run, debug, and verify the content generation pipeline (registry, p
 ## Skip Logic
 
 - `status: "wip"` experiments are skipped by all generators
-- `status: "archived"` experiments are skipped by llms-txt
 
 ## Common Failure Modes
 

@@ -1,6 +1,8 @@
+#!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { writeIfChanged } from "./lib/write-if-changed.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -76,20 +78,26 @@ async function buildRegistry() {
 
   await fs.mkdir(PUBLIC_REGISTRY_DIR, { recursive: true });
 
+  const expectedFiles = new Set(manifest.items.map((i) => `${i.name}.json`));
   const existingFiles = await fs.readdir(PUBLIC_REGISTRY_DIR);
-  const staleJsons = existingFiles.filter(
-    (f) => f.endsWith(".json") && f !== "index.json" && f !== "index-slim.json"
+  const staleFiles = existingFiles.filter(
+    (f) =>
+      f.endsWith(".json") &&
+      f !== "index.json" &&
+      f !== "index-slim.json" &&
+      !expectedFiles.has(f)
   );
-  if (staleJsons.length > 0) {
+  if (staleFiles.length > 0) {
     await Promise.all(
-      staleJsons.map((f) => fs.unlink(path.join(PUBLIC_REGISTRY_DIR, f)))
+      staleFiles.map((f) => fs.unlink(path.join(PUBLIC_REGISTRY_DIR, f)))
     );
     console.log(
-      `🧹 Cleaned ${staleJsons.length} stale files from public/registry/`
+      `🧹 Cleaned ${staleFiles.length} stale files from public/registry/`
     );
   }
 
-  let builtCount = 0;
+  let written = 0;
+  let unchanged = 0;
 
   for (const item of manifest.items) {
     if (item.type === "registry:style") {
@@ -99,12 +107,16 @@ async function buildRegistry() {
           output[key] = item[key];
         }
       }
-      await fs.writeFile(
+      const wrote = await writeIfChanged(
         path.join(PUBLIC_REGISTRY_DIR, `${item.name}.json`),
         JSON.stringify(output, null, 2)
       );
-      console.log(`✅ Built: ${item.name} (style)`);
-      builtCount++;
+      if (wrote) {
+        written++;
+        console.log(`✅ Built: ${item.name} (style)`);
+      } else {
+        unchanged++;
+      }
       continue;
     }
 
@@ -189,15 +201,22 @@ async function buildRegistry() {
 
     output.files = outputFiles;
 
-    await fs.writeFile(
+    const wrote = await writeIfChanged(
       path.join(PUBLIC_REGISTRY_DIR, `${item.name}.json`),
       JSON.stringify(output, null, 2)
     );
-    console.log(`✅ Built: ${item.name} (${outputFiles.length} files)`);
-    builtCount++;
+    if (wrote) {
+      written++;
+      console.log(`✅ Built: ${item.name} (${outputFiles.length} files)`);
+    } else {
+      unchanged++;
+    }
   }
 
-  console.log(`🚀 Built ${builtCount} registry items to public/registry/`);
+  console.log(
+    `🚀 Registry: ${written} written, ${unchanged} unchanged` +
+      (staleFiles.length > 0 ? `, ${staleFiles.length} stale deleted` : "")
+  );
 }
 
 buildRegistry();

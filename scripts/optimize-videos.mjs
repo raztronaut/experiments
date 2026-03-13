@@ -1,8 +1,12 @@
+#!/usr/bin/env node
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const EXPERIMENTS_DIR = path.join(process.cwd(), "public/experiments");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, "..");
+const EXPERIMENTS_DIR = path.join(ROOT, "public/experiments");
 
 function getFiles(dir) {
   const subdirs = fs.readdirSync(dir, { withFileTypes: true });

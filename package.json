@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "generate:all": "npm run generate:posters && npm run generate:registry && npm run generate:llms-txt",
+    "generate:all": "node scripts/generate-all.mjs",
     "build": "npm run generate:all && next build",
     "generate:llms-txt": "node scripts/generate-llms-txt.mjs",
     "start": "next start",
@@ -39,7 +39,6 @@
     "delete:article": "node scripts/delete-article.mjs",
     "generate:posters": "node scripts/generate-posters.mjs",
     "generate:registry": "node scripts/generate-registry-json.mjs && node scripts/build-registry.mjs && node scripts/post-process-registry.mjs && node scripts/generate-registry-mdx.mjs",
-    "generate:registry:legacy": "node scripts/generate-registry.mjs",
     "capture": "node scripts/capture.mjs",
     "validate:experiments": "node scripts/validate-experiments.mjs",
     "optimize:videos": "node scripts/optimize-videos.mjs",

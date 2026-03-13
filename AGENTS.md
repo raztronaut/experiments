@@ -38,6 +38,7 @@ npm run delete:article <slug>           # remove article content
 ### Generation and capture
 
 ```bash
+npm run generate:all           # run all generators in parallel (posters + registry + llms-txt)
 npm run generate:posters       # extract video first frames (skips wip)
 npm run generate:registry      # build shadcn-compatible registry (skips wip)
 npm run generate:llms-txt      # generate llms.txt + llms-full.txt (skips wip)
@@ -164,7 +165,7 @@ From Laws of UX:
 - **Feature branches** for multi-commit work: `feat/`, `fix/`, `port/`, `experiment/`.
 - **Draft PRs** to get Vercel preview URLs without signaling "ready to merge".
 - **Admin bypass** exists for single-commit hotfixes directly to `main`.
-- Preview and production run the identical build pipeline (`generate:posters && generate:registry && generate:llms-txt && next build`). No environment-specific behavior.
+- Preview and production run the identical build pipeline (`generate:all && next build`). `generate:all` orchestrates posters, registry, and llms-txt in parallel. No environment-specific behavior.
 - See `.agents/workflows/deploy.md` for the full lifecycle.
 
 ## Guardrails

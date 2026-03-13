@@ -136,6 +136,7 @@ See [docs/toolkit.md](docs/toolkit.md) for the priority system, dynamic import p
 
 | Command | Purpose |
 |---------|---------|
+| `npm run generate:all` | Run all generators in parallel (posters + registry + llms-txt) |
 | `npm run generate:posters` | Extract video first frames (skips wip) |
 | `npm run generate:registry` | Build shadcn-compatible registry (skips wip) |
 | `npm run generate:llms-txt` | Generate llms.txt + llms-full.txt (skips wip) |
@@ -150,7 +151,7 @@ See [docs/scripts.md](docs/scripts.md) for detailed documentation on every scrip
 Vercel auto-deploys every merge to `main`. PRs get preview deploys with the identical build pipeline:
 
 ```
-generate:posters -> generate:registry -> generate:llms-txt -> next build
+generate:all (posters || registry || llms-txt in parallel) -> next build
 ```
 
 Lefthook pre-commit hooks run lint, typecheck, and experiment validation in parallel. [Entire.io](https://docs.entire.io) captures agent session context as Git-native checkpoints on post-commit/pre-push.

@@ -17,8 +17,7 @@ alwaysApply: false
 
 ## Skip Logic
 
-- `status: "wip"` experiments are skipped by registry, posters, and llms-txt generation
-- `status: "archived"` experiments are skipped by llms-txt
+- `status: "wip"` experiments are skipped by all generators (registry, posters, llms-txt)
 
 ## Curation Layer
 
@@ -35,4 +34,4 @@ Stale outputs from deleted experiments persist in `public/registry/` and pollute
 
 ## Build Order
 
-`npm run build` = posters → registry (4-step) → llms-txt → `next build`
+`npm run build` = `generate:all` (posters || registry || llms-txt in parallel) → `next build`
