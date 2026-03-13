@@ -1,0 +1,14 @@
+{
+  "title": "Luma Morphing",
+  "description": "Canvas 2D morphing effect inspired by the Luma Dream Machine website.",
+  "slug": "luma-morphing",
+  "created": "2026-03-13T20:55:30.962Z",
+  "profile": "dom-effect",
+  "status": "shipped",
+  "listing": "dev",
+  "complexity": "intermediate",
+  "tags": ["canvas", "morphing", "image-sequence", "animation"],
+  "tech": ["canvas-2d", "react"],
+  "image": "",
+  "video": ""
+}

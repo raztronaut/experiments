@@ -1,0 +1,175 @@
+/* Luma Morphing -- dark cinema UI */
+
+.luma-morphing-content {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: #050505;
+  color: #e8e8e8;
+  font-family: "SF Mono", "Monaco", "Consolas", monospace;
+}
+
+/* ---- Canvas ---- */
+
+.luma-morphing-canvas-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.luma-morphing-canvas {
+  width: 100%;
+  height: 100%;
+  max-width: min(100vw, 100dvh);
+  max-height: min(100dvh, 100vw);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.luma-morphing-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* ---- Switcher (floating pill) ---- */
+
+.luma-morphing-switcher-container {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 32px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.luma-morphing-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.luma-morphing-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.luma-morphing-button {
+  appearance: none;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  aspect-ratio: 1;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.luma-morphing-button:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
+}
+
+.luma-morphing-button:active {
+  transform: scale(0.95);
+}
+
+.luma-morphing-button--active {
+  background-color: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.luma-morphing-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.luma-morphing-button-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+
+.luma-morphing-button--active + .luma-morphing-button-label {
+  opacity: 0.9;
+}
+
+/* ---- Loading ---- */
+
+.luma-morphing-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  gap: 20px;
+  background-color: #050505;
+  color: #e8e8e8;
+  font-family: "SF Mono", "Monaco", "Consolas", monospace;
+}
+
+.luma-morphing-loading-bar {
+  width: clamp(160px, 40vw, 280px);
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.luma-morphing-loading-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    transparent
+  );
+  transform-origin: left center;
+  transition: transform 0.2s ease-out;
+}
+
+.luma-morphing-loading-text {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.5;
+}
+
+/* ---- Reduced motion ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .luma-morphing-button {
+    transition: none;
+  }
+
+  .luma-morphing-loading-fill {
+    transition: none;
+  }
+}
