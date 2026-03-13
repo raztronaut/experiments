@@ -524,10 +524,6 @@ function buildCollectedReferenceMdx(item) {
     "",
   ];
 
-  if (library) {
-    lines.push("> [!NOTE]", `> From [${library}](${libraryUrl})`, "");
-  }
-
   if (source) {
     lines.push(
       `<a href="${source}" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-md bg-fd-primary px-4 py-2 text-sm font-medium text-fd-primary-foreground no-underline hover:opacity-90">View Original</a>`,
@@ -573,13 +569,6 @@ function buildCollectedPortedMdx(item, allValidItems) {
     "/>",
     "",
   ];
-
-  if (source || author) {
-    const attribution = author
-      ? `Ported from [${author}](${source})`
-      : `Ported from [source](${source})`;
-    lines.push("> [!NOTE]", `> ${attribution}`, "");
-  }
 
   if (previewUrl) {
     lines.push(
