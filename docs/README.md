@@ -5,6 +5,7 @@ Comprehensive guides for the Experiments Lab. Each doc covers one major system.
 | Guide | What it covers |
 |-------|---------------|
 | [Architecture](architecture.md) | Route group isolation, three-location rule, layout hierarchy, environment detection, data flow |
+| [GPT-5.4 Deep Repo Audit Prompt](gpt-5.4-deep-repo-audit-prompt.md) | Reusable mega-prompt for an aggressive, evidence-backed full-system architecture/performance audit |
 | [Automation Operator Sheet](automation-operator-sheet.md) | One-time deep-pass workflow, audit lenses, and sweep order for platform-level reviews |
 | [Automation Deep-Pass Prompts](automation-deep-pass-prompts.md) | Copy-paste starter prompts for running each automation domain as a serious platform audit |
 | [Getting Started](getting-started.md) | Prerequisites, installation, creating your first experiment, file anatomy, shipping |

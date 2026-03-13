@@ -2,6 +2,8 @@
 
 Copy-paste starter prompts for running each current automation domain as a one-time, deep platform review.
 
+For a repo-wide, non-domain-specific structural audit, use [GPT-5.4 Deep Repo Audit Prompt](gpt-5.4-deep-repo-audit-prompt.md). The prompts in this file are narrower lenses; the GPT-5.4 prompt is the comprehensive whole-repo version.
+
 Use these with:
 
 - a fresh chat
@@ -16,6 +18,10 @@ Each prompt is designed to produce:
 - exact implementation slices
 - verification guidance
 - a clear decision on what to execute now vs later
+
+## 0. GPT-5.4 Whole-Repo Structural Audit
+
+Use the dedicated prompt at [`gpt-5.4-deep-repo-audit-prompt.md`](gpt-5.4-deep-repo-audit-prompt.md) when the goal is a comprehensive architecture, performance, build-pipeline, metadata, and future-state structure audit across the entire repo.
 
 ## 1. Deep Automation Auditor
 
