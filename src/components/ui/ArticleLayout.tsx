@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
+import { Suspense } from "react";
+import { TypographyDebugPanel } from "@/components/dev/TypographyDebugPanel";
 import { PageActions } from "@/components/mdx/PageActions";
 import { AUTHOR_NAME, SITE_URL } from "@/lib/constants";
 
@@ -80,6 +82,10 @@ export function ArticleLayout({
       <PageActions markdownUrl={`/experiments/${experimentSlug}/article.mdx`} />
 
       <article className="e-content mt-8 min-w-0">{children}</article>
+
+      <Suspense>
+        <TypographyDebugPanel />
+      </Suspense>
 
       {(prev || next) && (
         <nav className="mt-16 flex flex-col items-stretch gap-4 border-border border-t pt-8 sm:flex-row">
