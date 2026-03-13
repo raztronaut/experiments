@@ -119,6 +119,7 @@ export function createUnifiedScroll(
         gsapTempusDispose();
         gsapTempusDispose = undefined;
         gsap.ticker.add(gsap.updateRoot);
+        gsap.ticker.lagSmoothing(500, 33);
       }
     },
   };

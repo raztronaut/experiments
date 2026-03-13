@@ -5,9 +5,6 @@
   "title": "ThemeProvider",
   "description": "ThemeProvider component",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "ThemeProvider.tsx",

@@ -5,9 +5,6 @@
   "title": "icons",
   "description": "icons component",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "icons.tsx",

@@ -52,6 +52,7 @@ export default function {{pascalCase name}}() {
       lenisDispose();
       gsapDispose();
       gsap.ticker.add(gsap.updateRoot);
+      gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
     };
   }, []);

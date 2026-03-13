@@ -22,9 +22,6 @@
     ],
     "previewUrl": "/collected/fibonacci-image-orb"
   },
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "FibonacciImageOrb.tsx",

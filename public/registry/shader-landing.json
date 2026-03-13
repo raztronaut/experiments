@@ -20,9 +20,6 @@
     "video": "/experiments/shader-landing/preview-shader-landing.mp4",
     "created": "2025-12-02T00:00:00.000Z"
   },
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "ShaderLanding.tsx",

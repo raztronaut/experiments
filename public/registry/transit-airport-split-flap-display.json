@@ -27,9 +27,6 @@
     "motion",
     "lucide-react"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "SplitFlapCell.tsx",

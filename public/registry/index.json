@@ -29,9 +29,6 @@
       "@react-three/fiber",
       "three"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "404NotFound.tsx",
@@ -91,9 +88,6 @@
     "title": "ai-icons",
     "description": "ai-icons component",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ai-icons.tsx",
@@ -165,9 +159,6 @@
     "dependencies": [
       "@gsap/react",
       "gsap"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -300,9 +291,6 @@
       "three",
       "gsap"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "BasketballReplayCenter.tsx",
@@ -355,9 +343,6 @@
     },
     "dependencies": [
       "@paper-design/shaders-react"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -490,9 +475,6 @@
       "@gsap/react",
       "gsap"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ClipPathReveal.tsx",
@@ -512,9 +494,6 @@
     "title": "ConsoleEasterEgg",
     "description": "ConsoleEasterEgg component",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ConsoleEasterEgg.tsx",
@@ -620,9 +599,6 @@
       "@gsap/react",
       "gsap"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "CounterFlipReveal.tsx",
@@ -664,9 +640,6 @@
       "lucide-react",
       "three",
       "motion"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -715,9 +688,6 @@
     "dependencies": [
       "gsap"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "CurvedTextScroll.tsx",
@@ -753,9 +723,6 @@
       ],
       "previewUrl": "/collected/custom-video-player"
     },
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "CustomVideoPlayer.tsx",
@@ -886,9 +853,6 @@
     "dependencies": [
       "lucide-react"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ExperimentNav.tsx",
@@ -924,9 +888,6 @@
     "dependencies": [
       "@gsap/react",
       "gsap"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -964,9 +925,6 @@
       ],
       "previewUrl": "/collected/fibonacci-image-orb"
     },
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "FibonacciImageOrb.tsx",
@@ -1049,9 +1007,6 @@
     "title": "GrainOverlay",
     "description": "Subtle film grain overlay effect",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "GrainOverlay.tsx",
@@ -1066,9 +1021,6 @@
     "title": "GrainOverlay.story",
     "description": "GrainOverlay.story component",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "GrainOverlay.story.tsx",
@@ -1106,9 +1058,6 @@
     "dependencies": [
       "matter-js",
       "lucide-react"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -1152,9 +1101,6 @@
     "title": "icons",
     "description": "icons component",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "icons.tsx",
@@ -1186,9 +1132,6 @@
       ],
       "previewUrl": "/collected/image-explosion"
     },
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ImageExplosion.tsx",
@@ -1240,9 +1183,6 @@
       "created": "2025-12-24T03:26:10.067Z",
       "featured": true
     },
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "Key.tsx",
@@ -1284,9 +1224,6 @@
       "@react-three/fiber",
       "three"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "Controls.tsx",
@@ -1323,9 +1260,6 @@
     "title": "LiquidGlassFilter",
     "description": "LiquidGlassFilter component",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "LiquidGlassFilter.tsx",
@@ -1340,9 +1274,6 @@
     "title": "LiquidGlassFilter.story",
     "description": "LiquidGlassFilter.story component",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "LiquidGlassFilter.story.tsx",
@@ -1770,9 +1701,6 @@
     "title": "Fullbleed",
     "description": "Fullbleed MDX component",
     "category": "mdx",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "Fullbleed.tsx",
@@ -1861,9 +1789,6 @@
     "dependencies": [
       "class-variance-authority"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "Pill.tsx",
@@ -1932,9 +1857,6 @@
     "title": "MobileBlocker",
     "description": "Hook to determine if the current device should be blocked (mobile).",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "MobileBlocker.tsx",
@@ -1972,9 +1894,6 @@
       "@react-three/drei",
       "gsap",
       "three"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -2019,9 +1938,6 @@
     },
     "dependencies": [
       "lucide-react"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -2089,9 +2005,6 @@
       ],
       "previewUrl": "/collected/physics-tag-cloud"
     },
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "PhysicsTagCloud.tsx",
@@ -2113,9 +2026,6 @@
     "category": "components",
     "dependencies": [
       "@radix-ui/react-popover"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -2173,9 +2083,6 @@
       "three",
       "normalize-wheel"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "GalleryExploreScene.tsx",
@@ -2230,9 +2137,6 @@
       "lucide-react",
       "motion"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "Gallery.ts",
@@ -2265,9 +2169,6 @@
       "motion",
       "use-scramble"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ScrambleTicker.tsx",
@@ -2285,9 +2186,6 @@
     "dependencies": [
       "motion",
       "use-scramble"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -2351,9 +2249,6 @@
     "dependencies": [
       "@gsap/react",
       "gsap"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -2500,9 +2395,6 @@
       "video": "/experiments/shader-landing/preview-shader-landing.mp4",
       "created": "2025-12-02T00:00:00.000Z"
     },
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ShaderLanding.tsx",
@@ -2595,9 +2487,6 @@
       "@gsap/react",
       "gsap"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "SplitCardFlip.tsx",
@@ -2638,9 +2527,6 @@
     "dependencies": [
       "@gsap/react",
       "gsap"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -2684,9 +2570,6 @@
       "@gsap/react",
       "gsap"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "StickyCardsFold.tsx",
@@ -2728,9 +2611,6 @@
       "@gsap/react",
       "gsap"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "StickyCardsScale.tsx",
@@ -2770,9 +2650,6 @@
     "dependencies": [
       "@gsap/react",
       "gsap"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -2848,9 +2725,6 @@
     "dependencies": [
       "sonner"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "DevToolsKeyboard.tsx",
@@ -2881,8 +2755,7 @@
       "simplex-noise"
     ],
     "registryDependencies": [
-      "use-mounted",
-      "razi-style"
+      "use-mounted"
     ],
     "files": [
       {
@@ -2902,9 +2775,6 @@
     "title": "ThemeProvider",
     "description": "ThemeProvider component",
     "category": "components",
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "ThemeProvider.tsx",
@@ -2960,9 +2830,6 @@
     "dependencies": [
       "motion",
       "lucide-react"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {
@@ -3302,9 +3169,6 @@
     "dependencies": [
       "simplex-noise"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "wave-background.tsx",
@@ -3321,9 +3185,6 @@
     "category": "components",
     "dependencies": [
       "simplex-noise"
-    ],
-    "registryDependencies": [
-      "razi-style"
     ],
     "files": [
       {

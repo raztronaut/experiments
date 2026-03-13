@@ -9,9 +9,6 @@
     "motion",
     "use-scramble"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "ScrambleTicker.tsx",

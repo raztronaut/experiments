@@ -8,9 +8,6 @@
   "dependencies": [
     "lucide-react"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "ExperimentNav.tsx",

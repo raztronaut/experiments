@@ -31,9 +31,6 @@
     "lucide-react",
     "motion"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "Gallery.ts",

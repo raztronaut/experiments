@@ -5,9 +5,6 @@
   "title": "ConsoleEasterEgg",
   "description": "ConsoleEasterEgg component",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "ConsoleEasterEgg.tsx",

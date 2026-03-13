@@ -5,9 +5,6 @@
   "title": "ai-icons",
   "description": "ai-icons component",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "ai-icons.tsx",

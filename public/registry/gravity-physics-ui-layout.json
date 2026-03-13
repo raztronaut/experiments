@@ -24,9 +24,6 @@
     "matter-js",
     "lucide-react"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "DesktopIcon.tsx",

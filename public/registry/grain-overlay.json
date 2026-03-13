@@ -5,9 +5,6 @@
   "title": "GrainOverlay",
   "description": "Subtle film grain overlay effect",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "GrainOverlay.tsx",

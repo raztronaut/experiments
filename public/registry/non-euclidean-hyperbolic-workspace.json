@@ -26,9 +26,6 @@
   "dependencies": [
     "lucide-react"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "HyperbolicGraphGen.ts",

@@ -27,9 +27,6 @@
     "three",
     "gsap"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "BasketballReplayCenter.tsx",

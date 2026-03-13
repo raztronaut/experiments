@@ -29,9 +29,6 @@
   "dependencies": [
     "gsap"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "CurvedTextScroll.tsx",

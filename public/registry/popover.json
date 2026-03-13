@@ -8,9 +8,6 @@
   "dependencies": [
     "@radix-ui/react-popover"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "popover.tsx",

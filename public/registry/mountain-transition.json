@@ -29,9 +29,6 @@
     "gsap",
     "three"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "MountainTransition.tsx",

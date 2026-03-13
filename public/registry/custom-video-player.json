@@ -21,9 +21,6 @@
     ],
     "previewUrl": "/collected/custom-video-player"
   },
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "CustomVideoPlayer.tsx",

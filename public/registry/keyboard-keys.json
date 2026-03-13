@@ -20,9 +20,6 @@
     "created": "2025-12-24T03:26:10.067Z",
     "featured": true
   },
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "Key.tsx",

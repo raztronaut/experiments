@@ -27,9 +27,6 @@
     "@gsap/react",
     "gsap"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "StickyCardsScale.tsx",

@@ -22,9 +22,6 @@
     ],
     "previewUrl": "/collected/image-explosion"
   },
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "ImageExplosion.tsx",

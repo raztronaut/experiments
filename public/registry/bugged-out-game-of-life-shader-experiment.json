@@ -24,9 +24,6 @@
   "dependencies": [
     "@paper-design/shaders-react"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "BuggedOutGameOfLifeShaderExperiment.tsx",

@@ -5,9 +5,6 @@
   "title": "LiquidGlassFilter",
   "description": "LiquidGlassFilter component",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "LiquidGlassFilter.tsx",

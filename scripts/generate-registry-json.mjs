@@ -410,6 +410,24 @@ function toKebabCase(str) {
 }
 
 // ---------------------------------------------------------------------------
+// Shared-token detection (determines whether an item needs razi-style)
+// ---------------------------------------------------------------------------
+
+const SEMANTIC_TOKEN_PATTERN = new RegExp(
+  [
+    "(?:bg|text|border|ring|outline|shadow|divide|from|via|to|placeholder|caret|fill|stroke|decoration)-(?:background|foreground|card|popover|primary|secondary|muted|accent|destructive|input|border|ring)",
+    "(?:bg|text|border|fill|stroke)-chart-[1-5]",
+    "var\\(--(?:background|foreground|card|popover|primary|secondary|muted|accent|destructive|border|input|ring|radius|chart-[1-5])(?:-foreground)?\\)",
+    "hsl\\(var\\(--(?:background|foreground|card|popover|primary|secondary|muted|accent|destructive|border|input|ring|chart-[1-5])",
+    "animate-static-noise",
+  ].join("|")
+);
+
+function usesSharedTokens(resolvedFiles) {
+  return resolvedFiles.some((f) => SEMANTIC_TOKEN_PATTERN.test(f.content));
+}
+
+// ---------------------------------------------------------------------------
 // Scanners
 // ---------------------------------------------------------------------------
 
@@ -465,6 +483,7 @@ async function scanExperiments() {
     }
 
     const allFiles = [];
+    const allResolvedFiles = [];
     const seenAbsolutePaths = new Set();
     const allNpmDeps = new Set();
     const allRegistryDeps = new Set();
@@ -477,6 +496,7 @@ async function scanExperiments() {
           continue;
         }
         seenAbsolutePaths.add(resolved);
+        allResolvedFiles.push(f);
 
         const fileType = inferFileType(f.absolutePath, f.content);
         allFiles.push({
@@ -499,7 +519,9 @@ async function scanExperiments() {
     const isMultiFile = allFiles.length > 1;
     const itemType = isMultiFile ? "registry:block" : "registry:component";
     const regDeps = Array.from(allRegistryDeps);
-    regDeps.push("razi-style");
+    if (usesSharedTokens(allResolvedFiles)) {
+      regDeps.push("razi-style");
+    }
 
     const posterField = metadata.poster || metadata.image || null;
     const videoField = metadata.video || null;
@@ -560,16 +582,18 @@ async function scanSharedUI() {
     const jsdocDesc = await extractJSDocDescription(filePath);
     const componentTitle = entry.name.replace(/\.tsx$/, "");
 
+    const regDeps = [...result.registryDependencies];
+    if (usesSharedTokens(result.files)) {
+      regDeps.push("razi-style");
+    }
+
     items.push({
       name,
       type: "registry:component",
       title: componentTitle,
       description: jsdocDesc || `${componentTitle} component`,
       category: "components",
-      registryDependencies:
-        result.registryDependencies.length > 0
-          ? [...result.registryDependencies, "razi-style"]
-          : ["razi-style"],
+      registryDependencies: regDeps,
       dependencies: result.dependencies,
       files,
       meta: {},
@@ -612,16 +636,18 @@ async function scanHooks() {
     const jsdocDesc = await extractJSDocDescription(filePath);
     const hookTitle = entry.name.replace(/\.ts$/, "");
 
+    const regDeps = [...result.registryDependencies];
+    if (usesSharedTokens(result.files)) {
+      regDeps.push("razi-style");
+    }
+
     items.push({
       name,
       type: "registry:hook",
       title: hookTitle,
       description: jsdocDesc || `${hookTitle} hook`,
       category: "hooks",
-      registryDependencies:
-        result.registryDependencies.length > 0
-          ? [...result.registryDependencies, "razi-style"]
-          : [],
+      registryDependencies: regDeps,
       dependencies: result.dependencies,
       files,
       meta: {},
@@ -658,16 +684,18 @@ async function scanUtilities(config) {
     const jsdocDesc = await extractJSDocDescription(filePath);
     const utilTitle = path.basename(filePath).replace(/\.tsx?$/, "");
 
+    const regDeps = [...result.registryDependencies];
+    if (usesSharedTokens(result.files)) {
+      regDeps.push("razi-style");
+    }
+
     items.push({
       name,
       type: "registry:lib",
       title: utilTitle,
       description: jsdocDesc || `${utilTitle} utility`,
       category: "utilities",
-      registryDependencies:
-        result.registryDependencies.length > 0
-          ? [...result.registryDependencies, "razi-style"]
-          : [],
+      registryDependencies: regDeps,
       dependencies: result.dependencies,
       files,
       meta: {},
@@ -795,10 +823,10 @@ async function scanCollected() {
 
     const isMultiFile = files.length > 1;
     const itemType = isMultiFile ? "registry:block" : "registry:component";
-    const regDeps =
-      result.registryDependencies.length > 0
-        ? [...result.registryDependencies, "razi-style"]
-        : ["razi-style"];
+    const regDeps = [...result.registryDependencies];
+    if (usesSharedTokens(result.files)) {
+      regDeps.push("razi-style");
+    }
 
     items.push({
       name: entry.name,
@@ -894,16 +922,18 @@ async function scanMdx() {
       const jsdocDesc = await extractJSDocDescription(filePath);
       const componentTitle = entry.name.replace(/\.tsx$/, "");
 
+      const regDeps = [...result.registryDependencies];
+      if (usesSharedTokens(result.files)) {
+        regDeps.push("razi-style");
+      }
+
       items.push({
         name,
         type: isMultiFile ? "registry:block" : "registry:component",
         title: componentTitle,
         description: jsdocDesc || `${componentTitle} MDX component`,
         category: "mdx",
-        registryDependencies:
-          result.registryDependencies.length > 0
-            ? [...result.registryDependencies, "razi-style"]
-            : ["razi-style"],
+        registryDependencies: regDeps,
         dependencies: result.dependencies,
         files,
         meta: {},
@@ -955,6 +985,11 @@ async function scanMdx() {
 
   const jsdocDesc = await extractJSDocDescription(controlsIndex);
 
+  const controlsRegDeps = [...result.registryDependencies];
+  if (usesSharedTokens(result.files)) {
+    controlsRegDeps.push("razi-style");
+  }
+
   items.push({
     name: "mdx-controls",
     type: "registry:block",
@@ -963,10 +998,7 @@ async function scanMdx() {
       jsdocDesc ||
       "Interactive control primitives for MDX articles (Checkbox, Switch, Radio, Range, ControlGroup)",
     category: "mdx",
-    registryDependencies:
-      result.registryDependencies.length > 0
-        ? [...result.registryDependencies, "razi-style"]
-        : ["razi-style"],
+    registryDependencies: controlsRegDeps,
     dependencies: result.dependencies,
     files,
     meta: {},

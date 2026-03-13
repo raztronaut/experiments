@@ -28,9 +28,6 @@
     "three",
     "motion"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "CursorDepthExplorer.tsx",

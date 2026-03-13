@@ -5,9 +5,6 @@
   "title": "GrainOverlay.story",
   "description": "GrainOverlay.story component",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "GrainOverlay.story.tsx",

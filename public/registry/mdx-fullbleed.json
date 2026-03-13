@@ -5,9 +5,6 @@
   "title": "Fullbleed",
   "description": "Fullbleed MDX component",
   "category": "mdx",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "Fullbleed.tsx",

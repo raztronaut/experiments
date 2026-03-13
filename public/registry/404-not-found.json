@@ -28,9 +28,6 @@
     "@react-three/fiber",
     "three"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "404NotFound.tsx",

@@ -5,9 +5,6 @@
   "title": "MobileBlocker",
   "description": "Hook to determine if the current device should be blocked (mobile).",
   "category": "components",
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "MobileBlocker.tsx",

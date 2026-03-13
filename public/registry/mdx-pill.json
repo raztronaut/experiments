@@ -8,9 +8,6 @@
   "dependencies": [
     "class-variance-authority"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "Pill.tsx",

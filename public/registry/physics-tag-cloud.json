@@ -22,9 +22,6 @@
     ],
     "previewUrl": "/collected/physics-tag-cloud"
   },
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
     {
       "name": "PhysicsTagCloud.tsx",
