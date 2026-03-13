@@ -12,15 +12,11 @@ The correct setup is:
 
 ## Current verified state
 
-As of this investigation:
+As of 2026-03-12:
 
 - main checkout branch: `main`
-- main checkout status:
-  - `docs/README.md` modified
-  - `docs/automation-deep-pass-prompts.md` modified
-  - `registry.json` modified
-  - `docs/gpt-5.4-deep-repo-audit-prompt.md` untracked
-  - `temp/` untracked
+- main checkout status: **fully committed, clean working tree**
+- last commit: `ad3d5e0` by Razi Syed (2026-03-12 23:51:12 -0400)
 - clean worktree branch: `razi/architecture-realization`
 - clean worktree status: clean at branch creation
 - detached prototype worktree still exists separately at `/Users/razisyed/.codex/worktrees/1f4c/experiments`
