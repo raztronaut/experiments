@@ -32,8 +32,9 @@ Read these docs in order before making structural changes:
 12. `11-next-build-hang-investigation.md`
 13. `12-execution-board.md`
 14. `13-risk-register.md`
-15. `14-target-state-diagram.md`
-16. `15-comprehensive-system-map.md` -- Full cross-referenced map of all systems, verified against filesystem
+15. `14-target-state-diagram.md` -- Original target-state diagram (possibly deprecated, see below)
+16. `15-comprehensive-current-system-map.md` -- Full cross-referenced map of all current systems, verified against filesystem
+17. `new-target-state-diagram.md` -- Revised target-state diagram with expanded layers (authored, derived, runtime, tooling), grounded in realization-pack findings
 
 ## Realization rules
 
