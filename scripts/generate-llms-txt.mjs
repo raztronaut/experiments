@@ -276,16 +276,41 @@ function generateLlmsFullTxt(experiments) {
   return lines.join("\n");
 }
 
-const experiments = loadExperiments();
-const llmsTxt = generateLlmsTxt(experiments);
-const llmsFullTxt = generateLlmsFullTxt(experiments);
+function writeIfChangedSync(filePath, content) {
+  try {
+    const existing = fs.readFileSync(filePath, "utf-8");
+    if (existing === content) {
+      return false;
+    }
+  } catch {
+    // File doesn't exist — fall through to write
+  }
+  fs.writeFileSync(filePath, content);
+  return true;
+}
 
-fs.writeFileSync(path.join(PUBLIC_DIR, "llms.txt"), llmsTxt);
-fs.writeFileSync(path.join(PUBLIC_DIR, "llms-full.txt"), llmsFullTxt);
+try {
+  const experiments = loadExperiments();
+  const llmsTxt = generateLlmsTxt(experiments);
+  const llmsFullTxt = generateLlmsFullTxt(experiments);
 
-console.log(
-  `Generated llms.txt (${experiments.length} experiments, ${experiments.filter((e) => e.hasArticle).length} articles)`
-);
-console.log(
-  `Generated llms-full.txt (${llmsFullTxt.split("\n").length} lines)`
-);
+  const llmsWrote = writeIfChangedSync(
+    path.join(PUBLIC_DIR, "llms.txt"),
+    llmsTxt
+  );
+  const fullWrote = writeIfChangedSync(
+    path.join(PUBLIC_DIR, "llms-full.txt"),
+    llmsFullTxt
+  );
+
+  const articleCount = experiments.filter((e) => e.hasArticle).length;
+  console.log(
+    `${llmsWrote ? "✅" : "⏩"} llms.txt (${experiments.length} experiments, ${articleCount} articles)${llmsWrote ? "" : " unchanged"}`
+  );
+  console.log(
+    `${fullWrote ? "✅" : "⏩"} llms-full.txt (${llmsFullTxt.split("\n").length} lines)${fullWrote ? "" : " unchanged"}`
+  );
+} catch (error) {
+  console.error("❌ generate-llms-txt failed:", error.message);
+  process.exit(1);
+}

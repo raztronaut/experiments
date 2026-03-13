@@ -15,6 +15,7 @@
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
+import { writeIfChanged } from "./lib/write-if-changed.mjs";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const REGISTRY_JSON = join(ROOT, "registry.json");
@@ -747,7 +748,7 @@ async function main() {
 
   const activeCats = CATEGORY_ORDER.filter((c) => grouped[c]?.length);
 
-  await writeFile(
+  await writeIfChanged(
     join(OUTPUT_DIR, "meta.json"),
     `${JSON.stringify({ title: "Registry", pages: activeCats }, null, 2)}\n`
   );
@@ -775,7 +776,7 @@ async function main() {
     await mkdir(catDir, { recursive: true });
 
     const pages = buildPagesArray(grouped[cat]);
-    await writeFile(
+    await writeIfChanged(
       join(catDir, "meta.json"),
       `${JSON.stringify(
         { root: true, title: CATEGORY_TITLES[cat] ?? cat, pages },

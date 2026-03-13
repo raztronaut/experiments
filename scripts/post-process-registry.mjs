@@ -9,10 +9,12 @@
  *   generate-registry-json.mjs → build-registry.mjs → post-process-registry.mjs
  */
 
-import { readdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { readdir, readFile } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { writeIfChanged } from "./lib/write-if-changed.mjs";
 
-const ROOT_DIR = process.cwd();
+const ROOT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const REGISTRY_DIR = join(ROOT_DIR, "public", "registry");
 const MANIFEST_PATH = join(ROOT_DIR, "registry.json");
 
@@ -223,21 +225,30 @@ async function main() {
 
   const indexItems = buildIndex(items);
   const indexJson = JSON.stringify(indexItems, null, 2);
-  await writeFile(join(REGISTRY_DIR, "index.json"), indexJson);
+  const indexWrote = await writeIfChanged(
+    join(REGISTRY_DIR, "index.json"),
+    indexJson
+  );
   const indexKB = (Buffer.byteLength(indexJson) / 1024).toFixed(1);
   console.log(
-    `✅ Generated index.json (${indexItems.length} items, ${indexKB} KB)`
+    `${indexWrote ? "✅" : "⏩"} index.json (${indexItems.length} items, ${indexKB} KB)${indexWrote ? "" : " unchanged"}`
   );
 
   const slimItems = buildSlimIndex(items, metaMap);
   const slimJson = JSON.stringify(slimItems, null, 2);
-  await writeFile(join(REGISTRY_DIR, "index-slim.json"), slimJson);
+  const slimWrote = await writeIfChanged(
+    join(REGISTRY_DIR, "index-slim.json"),
+    slimJson
+  );
   const slimKB = (Buffer.byteLength(slimJson) / 1024).toFixed(1);
   console.log(
-    `✅ Generated index-slim.json (${slimItems.length} items, ${slimKB} KB)`
+    `${slimWrote ? "✅" : "⏩"} index-slim.json (${slimItems.length} items, ${slimKB} KB)${slimWrote ? "" : " unchanged"}`
   );
 
   console.log("📦 Post-processing complete.");
 }
 
-main();
+main().catch((err) => {
+  console.error("❌ post-process-registry failed:", err.message);
+  process.exit(1);
+});

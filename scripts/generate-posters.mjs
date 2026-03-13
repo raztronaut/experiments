@@ -1,12 +1,20 @@
+#!/usr/bin/env node
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const EXPERIMENTS_DIR = path.join(process.cwd(), "src/app/experiments");
-const PUBLIC_DIR = path.join(process.cwd(), "public");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, "..");
+const EXPERIMENTS_DIR = path.join(ROOT, "src/app/experiments");
+const PUBLIC_DIR = path.join(ROOT, "public");
 
 async function generatePosters() {
   console.log("🔍 Scanning experiments for videos...");
+
+  let failures = 0;
+  let generated = 0;
+  let skipped = 0;
 
   try {
     const entries = fs.readdirSync(EXPERIMENTS_DIR, { withFileTypes: true });
@@ -46,22 +54,32 @@ async function generatePosters() {
 
         if (fs.existsSync(videoPath)) {
           if (fs.existsSync(posterPath)) {
-            // console.log(`⏩ Poster already exists for: ${slug}`);
-          } else {
-            console.log(`🎬 Generating poster for: ${slug}...`);
-            try {
-              // Extract first frame, resize to max 1200w, text quality high (q:v 5 is decent for jpg)
-              execSync(
-                `ffmpeg -y -i "${videoPath}" -ss 00:00:00.000 -vframes 1 -vf "scale=1200:-1" -q:v 5 "${posterPath}"`,
-                { stdio: "inherit" }
-              );
-              console.log(`✅ Generated poster: ${posterPath}`);
-            } catch (error) {
-              console.error(
-                `❌ Failed to generate poster for ${slug}:`,
-                error.message
-              );
+            const videoMtime = fs.statSync(videoPath).mtimeMs;
+            const posterMtime = fs.statSync(posterPath).mtimeMs;
+            if (posterMtime >= videoMtime) {
+              skipped++;
+              continue;
             }
+            console.log(`🔄 Poster stale (video newer), regenerating: ${slug}`);
+          }
+
+          console.log(`🎬 Generating poster for: ${slug}...`);
+          try {
+            execSync(
+              `ffmpeg -y -i "${videoPath}" -ss 00:00:00.000 -vframes 1 -vf "scale=1200:-1" -q:v 5 "${posterPath}"`,
+              { stdio: "inherit" }
+            );
+            console.log(`✅ Generated poster: ${posterPath}`);
+            generated++;
+          } catch (error) {
+            console.error(
+              `❌ Failed to generate poster for ${slug}:`,
+              error.message
+            );
+            if (fs.existsSync(posterPath)) {
+              fs.unlinkSync(posterPath);
+            }
+            failures++;
           }
         } else {
           console.warn(`⚠️ Video file not found: ${videoPath}`);
@@ -69,10 +87,21 @@ async function generatePosters() {
       }
     }
 
-    console.log("✨ Poster generation complete.");
+    console.log(
+      `✨ Posters: ${generated} generated, ${skipped} up-to-date` +
+        (failures > 0 ? `, ${failures} failed` : "")
+    );
   } catch (error) {
-    console.error("❌ Error reading experiments directory:", error);
+    console.error("❌ Error reading experiments directory:", error.message);
+    process.exit(1);
+  }
+
+  if (failures > 0) {
+    process.exit(1);
   }
 }
 
-generatePosters();
+generatePosters().catch((err) => {
+  console.error("❌ generate-posters failed:", err.message);
+  process.exit(1);
+});

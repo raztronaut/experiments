@@ -25,12 +25,13 @@
 
 ## Build pipeline on deploy
 
-Vercel runs `npm run build` which chains:
+Vercel runs `npm run build` which calls `generate:all` then `next build`.
+
+`generate:all` orchestrates three phases in parallel:
 
 1. `generate:posters` -- ffmpeg first-frame extraction (skips wip)
-2. `generate:registry` -- shadcn-compatible JSON (skips wip)
+2. `generate:registry` -- 4-step shadcn-compatible JSON pipeline (skips wip)
 3. `generate:llms-txt` -- LLM discovery files (skips wip)
-4. `next build` -- production bundle
 
 All three generation scripts filter out `status: "wip"` experiments. Preview deploys show only shipped experiments in generated indexes. WIP experiments are accessible by direct URL but don't appear in registry/llms.txt.
 

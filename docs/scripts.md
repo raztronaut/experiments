@@ -208,10 +208,20 @@ Patches `r3f-perf` for compatibility. Runs automatically via the `postinstall` n
 
 ## Build Pipeline Integration
 
-The `npm run build` command chains generation scripts before the Next.js build:
+`npm run build` calls `generate:all` then `next build`:
 
 ```bash
-npm run generate:posters && npm run generate:registry && npm run generate:llms-txt && next build
+npm run generate:all && next build
 ```
+
+### generate-all.mjs
+
+Orchestrator that runs the three generation phases in parallel:
+
+- **posters** (`generate-posters.mjs`) -- independent, writes to `public/experiments/*/poster.jpg`
+- **registry** (4-step sequential pipeline) -- writes to `registry.json`, `public/registry/`, `content/registry/`
+- **llms-txt** (`generate-llms-txt.mjs`) -- independent, writes to `public/llms.txt` + `public/llms-full.txt`
+
+Wall-clock time is `max(posters, registry, llms-txt)` instead of their sum. Prints per-phase timing on completion. All scripts use `writeIfChanged` to skip writes when output is identical, preserving file timestamps and avoiding unnecessary git diffs.
 
 This runs on every Vercel deploy (both preview and production).
