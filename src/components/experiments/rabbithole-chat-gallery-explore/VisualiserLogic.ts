@@ -121,7 +121,8 @@ export default class VisualiserLogic {
     const urls: string[] = new Array(20)
       .fill(0)
       .map(
-        (_, i) => `/experiments/rabbithole-chat-preloader/frames/${i + 1}.jpg`
+        (_, i) =>
+          `/experiments/rabbithole-chat-gallery-explore/frames/${i + 1}.jpg`
       );
 
     await this.loadTextureAtlas(urls);
