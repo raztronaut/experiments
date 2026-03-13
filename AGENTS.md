@@ -116,6 +116,8 @@ Target **200 lines** per component. Hard limit **300 lines** -- triggers mandato
 3. Split visual sections into `sections/SectionName.tsx` -- each owns its own `useGSAP`/animation scope
 4. Main component becomes a thin orchestrator: lifecycle, shared state, section composition
 
+For the canonical decomposition pattern (orchestrator + section-owned animation scopes), see `.agents/profiles/scrollytelling.md`.
+
 ## Animation Standards
 
 From the 12 Principles of Animation:
