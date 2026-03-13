@@ -10,7 +10,7 @@
  *   llms-txt     (independent)
  */
 
-import { execFile } from "node:child_process";
+import { spawn } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,10 +18,12 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 function run(script) {
   const abs = resolve(ROOT, script);
-  return new Promise((resolve, reject) => {
-    execFile("node", [abs], { cwd: ROOT, stdio: "inherit" }, (err) =>
-      err ? reject(err) : resolve()
+  return new Promise((res, rej) => {
+    const proc = spawn("node", [abs], { cwd: ROOT, stdio: "inherit" });
+    proc.on("close", (code) =>
+      code === 0 ? res() : rej(new Error(`${script} exited with code ${code}`))
     );
+    proc.on("error", rej);
   });
 }
 
