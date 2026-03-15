@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import "../experiments.css";
@@ -6,6 +7,8 @@ import { DevToolsInjector } from "@/components/dev";
 import { ThemeProvider } from "@/components/experiments/send-button/ThemeProvider";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
+import { getRelatedSlugs } from "@/lib/experiments";
 import experiment from "./experiment.json";
 
 const hasArticle = existsSync(
@@ -65,6 +68,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           enableSystem
         >
           {children}
+          {getRelatedSlugs(experiment)?.length > 0 && (
+            <Suspense fallback={null}>
+              <RelatedExperimentsSection
+                slugs={getRelatedSlugs(experiment)}
+                variant="experiment"
+              />
+            </Suspense>
+          )}
         </ThemeProvider>
       </body>
     </html>

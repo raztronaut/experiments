@@ -3,12 +3,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { writeIfChanged } from "./lib/write-if-changed.mjs";
+import { SITE_URL } from "./lib/site-config.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, "..");
 
-const ASSET_BASE_URL = "https://www.razisyed.cv";
+const ASSET_BASE_URL = SITE_URL;
 const ITEM_SCHEMA = "https://ui.shadcn.com/schema/registry-item.json";
 const PUBLIC_REGISTRY_DIR = path.join(ROOT_DIR, "public", "registry");
 const MANIFEST_PATH = path.join(ROOT_DIR, "registry.json");

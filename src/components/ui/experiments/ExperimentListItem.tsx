@@ -1,5 +1,7 @@
 "use client";
 
+import { FileText } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import type { Experiment } from "@/lib/experiments";
 import { InteractivePreviewMedia } from "./InteractivePreviewMedia";
@@ -79,7 +81,7 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
               {experiment.description}
             </p>
             <div
-              className={`mt-2 flex flex-wrap gap-1 transition-opacity duration-300 ${isMobileActive ? "opacity-0" : ""}`}
+              className={`mt-2 flex flex-wrap items-center gap-1 transition-opacity duration-300 ${isMobileActive ? "opacity-0" : ""}`}
             >
               {experiment.tech?.map((t) => (
                 <span
@@ -89,6 +91,17 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
                   {t}
                 </span>
               ))}
+              {experiment.articleHref && (
+                <Link
+                  aria-label={`Read article: ${experiment.title}`}
+                  className="pointer-events-auto inline-flex items-center gap-1 rounded-full border border-border bg-muted/50 px-2 py-0.5 font-medium text-[10px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
+                  href={experiment.articleHref}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FileText className="h-3 w-3" />
+                  Article
+                </Link>
+              )}
             </div>
           </div>
 

@@ -21,6 +21,7 @@
 - [Game of Life Shader](https://www.razisyed.cv/experiments/game-of-life-shader): An attempt to implement Conway's Game of Life with the logic defining the shader
 - [Keyboard Keys](https://www.razisyed.cv/experiments/keyboard-keys): Interactive 3D keyboard keys with press animation and success/error animations
 - [Life 3D](https://www.razisyed.cv/experiments/life-3d): Autonomous voxel Game of Life evolution in cubic space with high-fidelity cinematic rendering
+- [Luma Morphing](https://www.razisyed.cv/experiments/luma-morphing): Canvas 2D morphing effect inspired by the Luma Dream Machine website.
 - [Mountain Depth Map Shader Transition](https://www.razisyed.cv/experiments/mountain-transition): A cinematic scene transition using a depth map and FBM noise to create a volumetric reveal that respects the 3D structure of the landscape
 - [Non-Euclidean Hyperbolic Second Brain](https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace): Navigate infinite information density on a Poincaré disk using non-Euclidean geometry and Möbius transformations
 - [OSX Cheetah UI with a surprise](https://www.razisyed.cv/experiments/gravity-physics-ui-layout): Find the hidden stupid feature!
@@ -45,7 +46,15 @@
 - Send `Accept: text/markdown` header to any article URL to get markdown automatically
 - Registry docs: https://www.razisyed.cv/registry/docs (browsable) or https://www.razisyed.cv/registry/llms.txt
 
+## AI Discovery Files
+- Sitemap: https://www.razisyed.cv/sitemap.xml
+- RSS: https://www.razisyed.cv/feed.xml
+- JSON Feed: https://www.razisyed.cv/feed.json
+- llms.txt: https://www.razisyed.cv/llms.txt
+- Registry docs: https://www.razisyed.cv/registry/docs
+
 ## Contact
+- Email: syed.raziulhaque@gmail.com
 - GitHub: https://github.com/raztronaut
-- Twitter: https://twitter.com/razisyed
+- X (Twitter): https://x.com/raztronaut
 - Website: https://www.razisyed.cv

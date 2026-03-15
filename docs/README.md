@@ -11,6 +11,7 @@ Comprehensive guides for the Experiments Lab. Each doc covers one major system.
 | [Getting Started](getting-started.md) | Prerequisites, installation, creating your first experiment, file anatomy, shipping |
 | [Experiments](experiments.md) | Lifecycle, profiles, metadata system (status/listing/legacy), /dev dashboard, full schema |
 | [Content System](content-system.md) | Articles, content constellation (6 formats), RSS/JSON feeds, llms.txt, dynamic .mdx routes |
+| [SEO](seo.md) | llms.txt (AI Visibility), structured data, site-config, feeds, validation |
 | [Registry](registry.md) | Shadcn-compatible registry, generation pipeline, collected components, Fumadocs, curation |
 | [Toolkit](toolkit.md) | GSAP, Motion, Lenis, Tempus, R3F, integration layer, priority chain, dev tools |
 | [Deploy](deploy.md) | CI pipeline, Vercel, lefthook pre-commit hooks, Entire.io, build pipeline, branching, PR/preview operator flow |

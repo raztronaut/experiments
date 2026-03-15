@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
+import { getRelatedSlugs } from "@/lib/experiments";
 import { SITE_URL } from "@/lib/constants";
 import {
   generateArticleJsonLd,
@@ -85,6 +86,7 @@ export default async function ArticlePage() {
         experimentTitle={experiment.title}
         next={next ? { title: next.title, href: next.href } : undefined}
         prev={prev ? { title: prev.title, href: prev.href } : undefined}
+        related={getRelatedSlugs(experiment)}
         publishedAt={frontmatter.publishedAt || experiment.created}
         readingTime={`${readingMinutes} min read`}
         title={frontmatter.title || experiment.title}

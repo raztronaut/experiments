@@ -13,6 +13,7 @@ const ConsoleEasterEgg = dynamic(() =>
 
 import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { AUTHOR_NAME, SITE_TITLE, SITE_URL } from "@/lib/constants";
 import {
   generateWebSiteJsonLd,
   safeJsonLdStringify,
@@ -21,8 +22,8 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: {
-    default: "Razi's Experiments",
-    template: "%s | Razi's Experiments",
+    default: SITE_TITLE,
+    template: `%s | ${SITE_TITLE}`,
   },
   description:
     "A playground for exploring UI interactions, shaders, and modern web techniques.",
@@ -35,6 +36,8 @@ export const metadata: Metadata = {
     "Experiment",
     "Portfolio",
     "Razi Syed",
+    "Razi",
+    "raztronaut",
     "WebGL",
     "GSAP",
     "Design Engineering",
@@ -42,10 +45,10 @@ export const metadata: Metadata = {
     "Animation",
     "R3F",
   ],
-  authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
-  creator: "Razi Syed",
-  publisher: "Razi Syed",
-  applicationName: "Razi's Experiments",
+  authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
+  creator: AUTHOR_NAME,
+  publisher: AUTHOR_NAME,
+  applicationName: SITE_TITLE,
   category: "technology",
   alternates: {
     canonical: "/",
@@ -55,13 +58,13 @@ export const metadata: Metadata = {
       "application/feed+json": "/feed.json",
     },
   },
-  metadataBase: new URL("https://www.razisyed.cv"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "Razi's Experiments",
+    title: SITE_TITLE,
     description:
       "A playground for exploring UI interactions, shaders, and modern web techniques.",
-    url: "https://www.razisyed.cv",
-    siteName: "Razi's Experiments",
+    url: SITE_URL,
+    siteName: SITE_TITLE,
     locale: "en_US",
     type: "website",
     images: [
@@ -69,13 +72,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Razi's Experiments Preview",
+        alt: "Razi's Experiments Lab",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Razi's Experiments",
+    title: SITE_TITLE,
     description:
       "A playground for exploring UI interactions, shaders, and modern web techniques.",
     creator: "@raztronaut",

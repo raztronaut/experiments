@@ -34,7 +34,7 @@ export const SocialPills = memo(
             href="https://github.com/raztronaut"
             onMouseEnter={() => setHoveredId("github")}
             onMouseLeave={() => setHoveredId(null)}
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
             target="_blank"
           >
             {hoveredId === "github" ? (
@@ -58,7 +58,7 @@ export const SocialPills = memo(
             href="https://x.com/raztronaut"
             onMouseEnter={() => setHoveredId("x")}
             onMouseLeave={() => setHoveredId(null)}
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
             target="_blank"
           >
             {hoveredId === "x" ? (
@@ -82,7 +82,7 @@ export const SocialPills = memo(
             href="https://linkedin.com/in/raztronaut"
             onMouseEnter={() => setHoveredId("linkedin")}
             onMouseLeave={() => setHoveredId(null)}
-            rel="noopener noreferrer"
+            rel="me noopener noreferrer"
             target="_blank"
           >
             {hoveredId === "linkedin" ? (

@@ -1,5 +1,7 @@
 "use client";
 
+import { FileText } from "lucide-react";
+import Link from "next/link";
 import type React from "react";
 import { memo, useState } from "react";
 import type { Experiment } from "@/lib/experiments";
@@ -86,7 +88,7 @@ export const ExperimentGridCard = memo(
           <p className="line-clamp-3 text-pretty text-muted-foreground text-sm leading-relaxed">
             {experiment.description}
           </p>
-          <div className="mt-auto flex flex-wrap gap-1 pt-1">
+          <div className="mt-auto flex flex-wrap items-center gap-1 pt-1">
             {experiment.tech?.map((t) => (
               <span
                 className="rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground"
@@ -95,6 +97,17 @@ export const ExperimentGridCard = memo(
                 {t}
               </span>
             ))}
+            {experiment.articleHref && (
+              <Link
+                aria-label={`Read article: ${experiment.title}`}
+                className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/50 px-2 py-0.5 font-medium text-[10px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
+                href={experiment.articleHref}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FileText className="h-3 w-3" />
+                Article
+              </Link>
+            )}
           </div>
         </div>
       </div>

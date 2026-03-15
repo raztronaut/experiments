@@ -43,6 +43,7 @@ npm run generate:posters       # extract video first frames (skips wip)
 npm run generate:registry      # build shadcn-compatible registry (skips wip)
 npm run generate:llms-txt      # generate llms.txt + llms-full.txt (skips wip)
 npm run validate:experiments   # validate all experiment.json files
+npm run validate:site-config   # validate site-config.mjs ↔ constants.ts sync
 npm run capture <slug>         # Playwright screenshot capture
 npm run optimize:videos        # compress experiment preview videos
 ```

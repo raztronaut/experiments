@@ -41,6 +41,7 @@
     "generate:registry": "node scripts/generate-registry-json.mjs && node scripts/build-registry.mjs && node scripts/post-process-registry.mjs && node scripts/generate-registry-mdx.mjs",
     "capture": "node scripts/capture.mjs",
     "validate:experiments": "node scripts/validate-experiments.mjs",
+    "validate:site-config": "node scripts/validate-site-config.mjs",
     "optimize:videos": "node scripts/optimize-videos.mjs",
     "analyze": "next experimental-analyze",
     "prepare": "lefthook install",

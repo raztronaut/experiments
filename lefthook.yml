@@ -19,3 +19,5 @@ pre-commit:
     validate-experiments:
       run: node scripts/validate-experiments.mjs
       glob: "**/experiment.json"
+    validate-site-config:
+      run: node scripts/validate-site-config.mjs

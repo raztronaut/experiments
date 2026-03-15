@@ -1,10 +1,11 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { Suspense } from "react";
 import { TypographyDebugPanel } from "@/components/dev/TypographyDebugPanel";
 import { PageActions } from "@/components/mdx/PageActions";
-import { AUTHOR_NAME, SITE_URL } from "@/lib/constants";
+import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
+import { AUTHOR_DISPLAY, SITE_URL } from "@/lib/constants";
 
 interface ArticleNavItem {
   href: string;
@@ -17,6 +18,7 @@ interface ArticleLayoutProps {
   experimentTitle: string;
   next?: ArticleNavItem;
   prev?: ArticleNavItem;
+  related?: string[];
   publishedAt: string;
   readingTime: string;
   tags?: string[];
@@ -43,6 +45,7 @@ export function ArticleLayout({
   children,
   prev,
   next,
+  related,
   tags,
 }: ArticleLayoutProps) {
   const permalink = `${SITE_URL}/experiments/${experimentSlug}/article`;
@@ -67,7 +70,7 @@ export function ArticleLayout({
           <span>{readingTime}</span>
         </div>
         <a className="sr-only h-card p-author" href={SITE_URL} rel="author">
-          {AUTHOR_NAME}
+          {AUTHOR_DISPLAY}
         </a>
         <a className="u-url sr-only" href={permalink}>
           Permalink
@@ -83,9 +86,25 @@ export function ArticleLayout({
 
       <article className="e-content mt-8 min-w-0">{children}</article>
 
+      <div className="mt-10">
+        <Link
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-4 py-3 font-medium text-sm text-foreground transition-colors hover:border-foreground/20 hover:bg-muted/50"
+          href={`/experiments/${experimentSlug}`}
+        >
+          <Play className="h-4 w-4" />
+          Try the {experimentTitle} experiment
+        </Link>
+      </div>
+
       <Suspense>
         <TypographyDebugPanel />
       </Suspense>
+
+      {related && related.length > 0 && (
+        <Suspense fallback={null}>
+          <RelatedExperimentsSection slugs={related} variant="article" />
+        </Suspense>
+      )}
 
       {(prev || next) && (
         <nav className="mt-16 flex flex-col items-stretch gap-4 border-border border-t pt-8 sm:flex-row">

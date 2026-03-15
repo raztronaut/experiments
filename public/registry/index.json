@@ -208,6 +208,7 @@
       "lucide-react"
     ],
     "registryDependencies": [
+      "RelatedExperimentsSection",
       "razi-style"
     ],
     "files": [
@@ -767,6 +768,7 @@
     "description": "macOS-style drawer list with grid/list toggle",
     "category": "components",
     "dependencies": [
+      "lucide-react",
       "motion"
     ],
     "registryDependencies": [
@@ -1392,6 +1394,60 @@
       {
         "name": "LottieWeatherIcon.tsx",
         "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "luma-morphing",
+    "type": "registry:block",
+    "title": "Luma Morphing",
+    "description": "Canvas 2D morphing effect inspired by the Luma Dream Machine website.",
+    "category": "experiments",
+    "meta": {
+      "tags": [
+        "canvas",
+        "morphing",
+        "image-sequence",
+        "animation"
+      ],
+      "tech": [
+        "canvas-2d",
+        "react"
+      ],
+      "status": "shipped",
+      "poster": null,
+      "video": null,
+      "created": "2026-03-13T20:55:30.962Z"
+    },
+    "registryDependencies": [
+      "use-dev-controls"
+    ],
+    "files": [
+      {
+        "name": "LumaMorphing.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "useImageSequence.ts",
+        "type": "registry:hook"
+      },
+      {
+        "name": "useMorphAnimation.ts",
+        "type": "registry:hook"
+      },
+      {
+        "name": "MorphCanvas.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "Switcher.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "data.ts",
+        "type": "registry:file",
+        "target": "components/experiments/luma-morphing/data.ts"
       }
     ]
   },
@@ -2155,6 +2211,26 @@
         "name": "shaders.ts",
         "type": "registry:file",
         "target": "components/experiments/rabbithole-chat-preloader/shaders.ts"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "related-experiments-section",
+    "type": "registry:component",
+    "title": "RelatedExperimentsSection",
+    "description": "RelatedExperimentsSection component",
+    "category": "components",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "RelatedExperimentsSection.tsx",
+        "type": "registry:component"
       }
     ]
   },

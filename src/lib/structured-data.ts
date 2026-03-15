@@ -37,6 +37,9 @@ function personSchema(): WithContext<Person> {
     "@type": "Person",
     "@id": personId,
     name: AUTHOR_NAME,
+    givenName: "Razi",
+    familyName: "Syed",
+    alternateName: ["Razi", "raztronaut"],
     url: SITE_URL,
     sameAs: [GITHUB_URL, TWITTER_URL],
     jobTitle: "Design Engineer",
@@ -116,6 +119,7 @@ export function generateArticleJsonLd(
   params: ArticleJsonLdParams
 ): WithContext<TechArticle> {
   const canonicalUrl = `${SITE_URL}/experiments/${params.slug}/article`;
+  const experimentUrl = `${SITE_URL}/experiments/${params.slug}`;
   return {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -123,6 +127,10 @@ export function generateArticleJsonLd(
     description: params.description,
     datePublished: params.datePublished,
     ...(params.dateModified && { dateModified: params.dateModified }),
+    about: {
+      "@type": "CreativeWork",
+      url: experimentUrl,
+    },
     author: {
       "@type": "Person",
       name: AUTHOR_NAME,

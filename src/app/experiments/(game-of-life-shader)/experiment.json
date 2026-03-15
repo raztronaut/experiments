@@ -10,5 +10,6 @@
   "legacy": true,
   "tags": ["generative", "game", "animation"],
   "tech": ["canvas-2d", "web-workers"],
-  "listing": "public"
+  "listing": "public",
+  "related": ["bugged-out-game-of-life-shader-experiment", "life-3d"]
 }
