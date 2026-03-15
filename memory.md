@@ -28,6 +28,6 @@ Auto-maintained by the continual-learning skill. Do not edit manually.
 - Pre-commit hooks (lefthook) run in parallel: `ultracite check`, `tsc --noEmit`, `validate-experiments.mjs`; `tsc --noEmit` requires a prior build because it depends on `.source/` generated output
 - `ScrollTrigger.refresh()` must be called after Lenis initialization; `createUnifiedScroll()` does not handle this internally
 - In multi-section experiments, `position: fixed` elements in pinned sections are visible before ScrollTrigger activates -- always set initial animation states via `gsap.set` before `ScrollTrigger.create`
-- Biome/ultracite can't lint paths with parentheses (Next.js route groups); `cd` into the directory and run `ultracite check .` instead
+- Pre-commit runs `ultracite check` (full-project) to avoid Biome path bugs with parentheses in Next.js route groups
 - `generate:all` is a node orchestrator (`scripts/generate-all.mjs`) running posters, registry (4-step), and llms-txt in parallel with per-phase timing
 - All generation scripts use `scripts/lib/write-if-changed.mjs` to skip unchanged writes; `build-registry` uses smart stale deletion (only truly removed items); posters use mtime comparison

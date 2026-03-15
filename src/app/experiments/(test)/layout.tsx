@@ -1,6 +1,6 @@
-import { Suspense } from "react";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { Suspense } from "react";
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";

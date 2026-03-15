@@ -11,7 +11,7 @@ pre-commit:
   parallel: true
   commands:
     lint-check:
-      run: npx ultracite check {staged_files}
+      run: npx ultracite check
       glob: "*.{ts,tsx,js,mjs,json,jsonc,css}"
     typecheck:
       run: npx tsc --noEmit

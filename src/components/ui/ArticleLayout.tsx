@@ -88,7 +88,7 @@ export function ArticleLayout({
 
       <div className="mt-10">
         <Link
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-4 py-3 font-medium text-sm text-foreground transition-colors hover:border-foreground/20 hover:bg-muted/50"
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-4 py-3 font-medium text-foreground text-sm transition-colors hover:border-foreground/20 hover:bg-muted/50"
           href={`/experiments/${experimentSlug}`}
         >
           <Play className="h-4 w-4" />

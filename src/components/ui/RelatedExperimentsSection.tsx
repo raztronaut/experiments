@@ -1,6 +1,5 @@
 import { FileText } from "lucide-react";
 import Link from "next/link";
-import type { Experiment } from "@/lib/experiments";
 import { getExperimentsBySlugs } from "@/lib/experiments";
 
 interface RelatedExperimentsSectionProps {
@@ -14,7 +13,9 @@ export async function RelatedExperimentsSection({
   variant = "article",
 }: RelatedExperimentsSectionProps) {
   const experiments = await getExperimentsBySlugs(slugs);
-  if (experiments.length === 0) return null;
+  if (experiments.length === 0) {
+    return null;
+  }
 
   const containerClass =
     variant === "article"
@@ -24,7 +25,7 @@ export async function RelatedExperimentsSection({
   return (
     <aside
       aria-label="Related experiments"
-      className={`mt-16 border-t border-border pt-8 ${containerClass}`}
+      className={`mt-16 border-border border-t pt-8 ${containerClass}`}
     >
       <h2 className="mb-4 font-semibold text-foreground text-sm">
         Related experiments

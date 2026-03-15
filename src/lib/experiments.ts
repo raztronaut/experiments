@@ -61,7 +61,9 @@ export interface Experiment {
 
 /** Extract related slugs from raw experiment config. Works with experiment.json imports. */
 export function getRelatedSlugs(config: unknown): string[] {
-  if (!config || typeof config !== "object") return [];
+  if (!config || typeof config !== "object") {
+    return [];
+  }
   const r = (config as Record<string, unknown>).related;
   return Array.isArray(r)
     ? (r.filter((s): s is string => typeof s === "string") as string[])
@@ -265,7 +267,9 @@ export const getExperiments = cache(async function getExperiments(
  */
 export const getExperimentsBySlugs = cache(
   async (slugs: string[]): Promise<Experiment[]> => {
-    if (slugs.length === 0) return [];
+    if (slugs.length === 0) {
+      return [];
+    }
     const experiments = await getExperiments();
     const bySlug = new Map(experiments.map((e) => [e.slug, e]));
     return slugs

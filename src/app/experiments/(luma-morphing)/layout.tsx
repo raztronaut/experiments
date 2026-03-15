@@ -1,15 +1,15 @@
-import { Suspense } from "react";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { Suspense } from "react";
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
-import { getRelatedSlugs } from "@/lib/experiments";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { AUTHOR_NAME, SITE_URL } from "@/lib/constants";
+import { getRelatedSlugs } from "@/lib/experiments";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";
@@ -26,10 +26,11 @@ import experiment from "./experiment.json";
 // and load via next/font/local with a relative src path.
 
 const hasArticle = existsSync(
-  join(__dirname, "luma-morphing", "article", "content.mdx")
+  join(import.meta.dirname, "luma-morphing", "article", "content.mdx")
 );
 
-const isPublic = experiment.status === "shipped" &&
+const isPublic =
+  experiment.status === "shipped" &&
   (!experiment.listing || experiment.listing === "public");
 
 const posterPath = experiment.video

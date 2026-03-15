@@ -14,7 +14,13 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
-const KEYS = ["SITE_URL", "SITE_TITLE", "AUTHOR_NAME", "GITHUB_URL", "TWITTER_URL"];
+const KEYS = [
+  "SITE_URL",
+  "SITE_TITLE",
+  "AUTHOR_NAME",
+  "GITHUB_URL",
+  "TWITTER_URL",
+];
 
 function extractFromSiteConfig() {
   const content = fs.readFileSync(
@@ -25,7 +31,9 @@ function extractFromSiteConfig() {
   for (const key of KEYS) {
     const re = new RegExp(`export const ${key}\\s*=\\s*["']([^"']+)["']`, "m");
     const m = content.match(re);
-    if (m) result[key] = m[1];
+    if (m) {
+      result[key] = m[1];
+    }
   }
   return result;
 }
@@ -39,7 +47,9 @@ function extractFromConstants() {
   for (const key of KEYS) {
     const re = new RegExp(`export const ${key}\\s*=\\s*["']([^"']+)["']`, "m");
     const m = content.match(re);
-    if (m) result[key] = m[1];
+    if (m) {
+      result[key] = m[1];
+    }
   }
   return result;
 }
@@ -58,9 +68,7 @@ try {
     process.exit(1);
   }
   if (missingInConstants.length > 0) {
-    console.error(
-      `❌ constants.ts missing: ${missingInConstants.join(", ")}`
-    );
+    console.error(`❌ constants.ts missing: ${missingInConstants.join(", ")}`);
     process.exit(1);
   }
 

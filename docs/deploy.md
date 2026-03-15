@@ -132,7 +132,7 @@ Three hooks run in parallel on every commit (`lefthook.yml`):
 
 | Hook | Command | Files |
 |------|---------|-------|
-| lint-check | `npx ultracite check {staged_files}` | `*.{ts,tsx,js,mjs,json,jsonc,css}` |
+| lint-check | `npx ultracite check` | `*.{ts,tsx,js,mjs,json,jsonc,css}` |
 | typecheck | `npx tsc --noEmit` | `*.{ts,tsx}` |
 | validate-experiments | `node scripts/validate-experiments.mjs` | `**/experiment.json` |
 

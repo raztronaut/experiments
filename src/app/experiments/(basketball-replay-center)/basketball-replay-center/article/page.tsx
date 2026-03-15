@@ -6,8 +6,8 @@ import remarkGfm from "remark-gfm";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
-import { getRelatedSlugs } from "@/lib/experiments";
 import { SITE_URL } from "@/lib/constants";
+import { getRelatedSlugs } from "@/lib/experiments";
 import {
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,

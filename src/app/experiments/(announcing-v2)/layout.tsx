@@ -1,15 +1,15 @@
-import { Suspense } from "react";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { Suspense } from "react";
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
 import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
-import { getRelatedSlugs } from "@/lib/experiments";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { AUTHOR_NAME, SITE_URL } from "@/lib/constants";
+import { getRelatedSlugs } from "@/lib/experiments";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";

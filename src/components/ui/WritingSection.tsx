@@ -26,7 +26,7 @@ export function WritingSection({ articles }: WritingSectionProps) {
   }
 
   return (
-    <div className="h-feed grid grid-cols-1 gap-4 md:grid-cols-2" role="feed">
+    <div className="grid h-feed grid-cols-1 gap-4 md:grid-cols-2" role="feed">
       {articles.map((article) => (
         <WithHover key={article.slug}>
           <Link
