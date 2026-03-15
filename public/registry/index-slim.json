@@ -474,7 +474,7 @@
     "video": null,
     "category": "components",
     "fileCount": 8,
-    "dependencyCount": 1
+    "dependencyCount": 2
   },
   {
     "name": "experiment-error-boundary",
@@ -770,6 +770,28 @@
     "video": null,
     "category": "components",
     "fileCount": 2,
+    "dependencyCount": 0
+  },
+  {
+    "name": "luma-morphing",
+    "type": "registry:block",
+    "title": "Luma Morphing",
+    "description": "Canvas 2D morphing effect inspired by the Luma Dream Machine website.",
+    "tags": [
+      "canvas",
+      "morphing",
+      "image-sequence",
+      "animation"
+    ],
+    "tech": [
+      "canvas-2d",
+      "react"
+    ],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "experiments",
+    "fileCount": 6,
     "dependencyCount": 0
   },
   {
@@ -1156,6 +1178,20 @@
     "category": "experiments",
     "fileCount": 4,
     "dependencyCount": 5
+  },
+  {
+    "name": "related-experiments-section",
+    "type": "registry:component",
+    "title": "RelatedExperimentsSection",
+    "description": "RelatedExperimentsSection component",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 1
   },
   {
     "name": "scramble-ticker",

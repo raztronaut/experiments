@@ -61,5 +61,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.3,
     },
+    {
+      url: `${SITE_URL}/feed.json`,
+      changeFrequency: "weekly",
+      priority: 0.3,
+    },
   ];
 }

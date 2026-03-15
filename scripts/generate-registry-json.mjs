@@ -2,6 +2,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { SITE_URL } from "./lib/site-config.mjs";
 import { writeIfChanged } from "./lib/write-if-changed.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,7 +19,7 @@ const UI_DIR = path.join(ROOT_DIR, "src", "components", "ui");
 const COLLECTED_DIR = path.join(ROOT_DIR, "src", "components", "collected");
 const HOOKS_DIR = path.join(ROOT_DIR, "src", "hooks");
 const MDX_DIR = path.join(ROOT_DIR, "src", "components", "mdx");
-const ASSET_BASE_URL = "https://www.razisyed.cv";
+const ASSET_BASE_URL = SITE_URL;
 
 const EXCLUDE_EXPERIMENTS = ["3-d-basketball-court-hero"];
 
@@ -1200,7 +1201,7 @@ async function main() {
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "razi-experiments",
-    homepage: "https://www.razisyed.cv",
+    homepage: SITE_URL,
     items: allItems,
   };
 

@@ -6,12 +6,17 @@ import { usePathname } from "next/navigation";
 
 interface ExperimentNavProps {
   articleSlug?: string;
+  /** Experiment or article title for aria-label on View Article / View Experiment link */
+  experimentTitle?: string;
 }
 
 const pillClass =
   "flex items-center gap-2 rounded-full border border-white/10 bg-zinc-900/50 px-4 py-2 font-medium text-sm text-white backdrop-blur-xs transition-colors hover:bg-zinc-900/70";
 
-export function ExperimentNav({ articleSlug }: ExperimentNavProps) {
+export function ExperimentNav({
+  articleSlug,
+  experimentTitle,
+}: ExperimentNavProps) {
   const pathname = usePathname();
   const isOnArticle = pathname?.includes("/article");
 
@@ -43,6 +48,13 @@ export function ExperimentNav({ articleSlug }: ExperimentNavProps) {
 
         {articleSlug && (
           <Link
+            aria-label={
+              experimentTitle
+                ? isOnArticle
+                  ? `View ${experimentTitle} experiment`
+                  : `View ${experimentTitle} article`
+                : undefined
+            }
             className={pillClass}
             data-umami-event={
               isOnArticle ? "view_experiment_click" : "view_article_click"

@@ -10,5 +10,6 @@
   "legacy": true,
   "tags": ["preloader", "broadcast", "crt"],
   "tech": ["r3f", "three.js", "glsl", "gsap"],
-  "listing": "public"
+  "listing": "public",
+  "related": ["3d-crt-display", "mountain-transition"]
 }

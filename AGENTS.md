@@ -43,6 +43,7 @@ npm run generate:posters       # extract video first frames (skips wip)
 npm run generate:registry      # build shadcn-compatible registry (skips wip)
 npm run generate:llms-txt      # generate llms.txt + llms-full.txt (skips wip)
 npm run validate:experiments   # validate all experiment.json files
+npm run validate:site-config   # validate site-config.mjs ↔ constants.ts sync
 npm run capture <slug>         # Playwright screenshot capture
 npm run optimize:videos        # compress experiment preview videos
 ```
@@ -151,7 +152,7 @@ From Laws of UX:
 ## Git Workflow
 
 - **Pre-commit hooks** (lefthook, parallel):
-  1. `ultracite check {staged_files}` -- lint+format check (fails on violations, never writes)
+  1. `ultracite check` -- lint+format check, full project (fails on violations, never writes)
   2. `tsc --noEmit` -- typecheck
   3. `validate-experiments.mjs` -- validate experiment.json files
 - **NEVER use `stage_fixed: true`** in lefthook with any fixer/formatter. It stashes unstaged changes and can silently lose work if the pop fails. Use `check` mode and fix manually with `npm run fix`.

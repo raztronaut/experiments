@@ -38,6 +38,21 @@ todos:
   - id: fix-rss-lastbuild
     content: Compute RSS lastBuildDate from max of all article dates instead of assuming array order
     status: completed
+  - id: single-source-config
+    content: Create site-config.json as single source of truth; update constants.ts and scripts to use it
+    status: pending
+  - id: faqpage-schema
+    content: Add FAQPage schema to articles with faq frontmatter; implement generateFAQPageJsonLd
+    status: pending
+  - id: llms-txt-ai-discovery
+    content: Add ## AI Discovery Files and optional ## What We Do Not Do to llms.txt generation
+    status: pending
+  - id: layout-related-rollout
+    content: Add RelatedExperimentsSection to remaining 18 experiment layouts
+    status: pending
+  - id: organization-schema
+    content: Add Organization schema to generateWebSiteJsonLd for entity clarity
+    status: pending
 isProject: false
 ---
 
@@ -198,3 +213,206 @@ graph TD
 
 
 Item 1 is a one-line rename that eliminates the deprecation warning. Items 2-6 are quick wins. Items 7-12 are deeper improvements.
+
+---
+
+# Part 6: Six Upgrades — Exhaustive Investigation and Implementation Guide
+
+These six upgrades bring the SEO system closer to "reference-tier" quality. Each is investigated exhaustively below.
+
+---
+
+## 6.1 Single Source of Truth for Identity/URLs
+
+### Current State
+- **constants.ts** (app): SITE_URL, SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME, AUTHOR_DISPLAY, GITHUB_URL, TWITTER_URL
+- **site-config.mjs** (scripts): SITE_URL, AUTHOR_NAME, GITHUB_URL, TWITTER_URL — manually synced via comment
+- **Hardcoded values**: generate-llms-txt.mjs lines 90, 156 use `"Razi's Experiments Lab"`; lines 144-145 use `"https://github.com/raztronaut"` and `"https://x.com/raztronaut"`; next.config.ts line 100 has `https://www.razisyed.cv` in registry CSP
+
+### Implementation Options
+**Option A — JSON config (recommended):** Create `site-config.json` at project root. Both app and scripts import it.
+- App: `import siteConfig from './site-config.json'` (Next.js resolves JSON)
+- Scripts: `import { createRequire } from 'module'; const { SITE_URL } = createRequire(import.meta.url)('./site-config.json')`
+- Single file; no TypeScript/ESM bridge; easy to validate
+
+**Option B — site-config.mjs as source, app re-exports:** Scripts stay as-is. Create `src/lib/site-config.ts` that `fetch`es or `import`s the MJS at build time. Complex; not recommended.
+
+**Option C — Expand site-config.mjs, derive constants.ts:** Add SITE_TITLE, SITE_DESCRIPTION, AUTHOR_DISPLAY to site-config. In constants.ts, use dynamic import at build or a codegen script that writes constants from site-config. Scripts already use site-config; app would need a build step.
+
+**Recommended: Option A** — `site-config.json` with:
+```json
+{
+  "SITE_URL": "https://www.razisyed.cv",
+  "SITE_TITLE": "Razi's Experiments Lab",
+  "SITE_DESCRIPTION": "Creative coding experiments — shaders, 3D, animation, and interaction design.",
+  "AUTHOR_NAME": "Razi Syed",
+  "AUTHOR_DISPLAY": "Razi",
+  "GITHUB_URL": "https://github.com/raztronaut",
+  "TWITTER_URL": "https://x.com/raztronaut"
+}
+```
+
+### Files to Update
+- Create `site-config.json`
+- Rewrite `src/lib/constants.ts` to import from `site-config.json` (or re-export)
+- Rewrite `scripts/lib/site-config.mjs` to read and export from `site-config.json`
+- Update `scripts/generate-llms-txt.mjs`: import SITE_TITLE, GITHUB_URL, TWITTER_URL from site-config; remove hardcodes
+- Update `next.config.ts`: use `process.env.SITE_URL` or read site-config for registry CSP `img-src` (or keep SITE_URL in env; add to generate step)
+
+### Testing
+- `npm run generate:llms-txt` — output uses SITE_TITLE, correct Contact URLs
+- `npm run build` — app builds; no import errors
+- `npm run validate:experiments` — passes
+- Grep for hardcoded `razisyed.cv`, `raztronaut`, `Razi's Experiments` — none outside site-config
+
+### Validation
+- Add `scripts/validate-site-config.mjs` that checks site-config.json has all required keys and valid URLs; run in CI/pre-commit
+
+---
+
+## 6.2 prefers-reduced-motion (Already Done)
+
+### Status
+[src/app/(main)/globals.css](src/app/(main)/globals.css) lines 82-90 already include:
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+**No action needed.** Optional: add `@media (prefers-reduced-motion: reduce)` to `src/app/experiments.css` if experiment layouts have their own animations outside globals.
+
+---
+
+## 6.3 FAQPage Schema
+
+### Current State
+- Articles use TechArticle schema with speakable
+- MDX has `Details` component (details/summary) — can map to FAQ Q&A
+- schema-dts has `FAQPage` type
+- No FAQPage schema emitted
+
+### Implementation
+**Where it applies:** Only when an article has FAQ-like content. Options:
+- **A) Per-article frontmatter:** Add `faq: [{ question, answer }]` to article frontmatter; emit FAQPage JSON-LD when present
+- **B) Parse MDX for Details:** At build/render, extract `<details><summary>Q</summary>...A...</details>` from compiled content — fragile
+- **C) Site-wide FAQ page:** Create `/faq` with common Q&A; add single FAQPage on that page
+
+**Recommended: A** — explicit frontmatter. Add to article page (e.g. 404-not-found, velocity-responsive-design) where FAQ makes sense.
+
+### Files to Update
+- Extend article page to read `faq` from frontmatter
+- Add `generateFAQPageJsonLd(accords: { name: string; text: string }[]): WithContext<FAQPage>` in [structured-data.ts](src/lib/structured-data.ts)
+- In article page, conditionally render `<script type="application/ld+json">` with FAQPage when `frontmatter.faq?.length > 0`
+- Add FAQPage to schema-dts imports (schema-dts exports it)
+
+### Testing
+- Add `faq` to one article frontmatter; verify JSON-LD in page source
+- Google Rich Results Test: paste article URL, confirm FAQPage detected
+- Validate: no FAQPage when faq is empty/absent
+
+---
+
+## 6.4 llms.txt Spec Alignment (AI Visibility v1.1.1)
+
+### Current State
+- H1, blockquote, Contact present
+- Missing: `## AI Discovery Files`, optional `## What We Do Not Do`
+- llm.txt → llms.txt redirect exists in next.config.ts (lines 119-125)
+
+### Implementation
+Update [scripts/generate-llms-txt.mjs](scripts/generate-llms-txt.mjs) `generateLlmsTxt()`:
+- After `## Contact`, before `return`, add:
+```
+## AI Discovery Files
+- Sitemap: ${SITE_URL}/sitemap.xml
+- RSS: ${SITE_URL}/feed.xml
+- Atom: ${SITE_URL}/atom.xml
+- JSON Feed: ${SITE_URL}/feed.json
+- llms.txt: ${SITE_URL}/llms.txt
+- Registry docs: ${SITE_URL}/registry/docs
+- Registry llms: ${SITE_URL}/registry/llms.txt
+```
+- Optionally add:
+```
+## What We Do Not Do
+- No commercial APIs or production support. Creative coding experiments only.
+```
+
+### Testing
+- Run `npm run generate:llms-txt`; inspect `public/llms.txt`
+- Submit to [AI Visibility Checker](https://www.ai-visibility.org.uk/) — verify improved score
+- Ensure file stays under ~50KB and ~100 lines (spec recommendation)
+
+---
+
+## 6.5 Layout Rollout — RelatedExperimentsSection
+
+### Current State
+- **With RelatedExperimentsSection (4):** test, rabbithole-chat-preloader, cursor-depth-explorer, mountain-transition
+- **Without (18):** luma-morphing, basketball-replay-center, velocity-responsive-design, non-euclidean-hyperbolic-workspace, 404-not-found, airplanes, keyboard-keys, gravity-physics-ui-layout, shader-landing, life-3d, terminal-cat, transit-airport-split-flap-display, game-of-life-shader, bugged-out-game-of-life-shader-experiment, rabbithole-chat-gallery-explore, announcing-v2, send-button, 3d-crt-display
+- Plop template includes RelatedExperimentsSection; uses `experiment.related?.length > 0`
+
+### Implementation
+For each layout missing RelatedExperimentsSection, add (using plop pattern):
+1. Import: `import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";`
+2. Import: `import { getRelatedSlugs } from "@/lib/experiments";` (for layouts using static `experiment` object)
+3. Block: `{getRelatedSlugs(experiment)?.length > 0 && ( <Suspense fallback={null}><RelatedExperimentsSection slugs={getRelatedSlugs(experiment)} variant="experiment" /></Suspense> )}`
+
+**Layouts vary:** Some use `experiment` from `./experiment.json`; plop uses `experiment.related`. Prefer `getRelatedSlugs(experiment)` for consistency (works with both `experiment` from JSON and plop's `experiment`).
+
+### Files to Update (18 layouts)
+luma-morphing, basketball-replay-center, velocity-responsive-design, non-euclidean-hyperbolic-workspace, 404-not-found, airplanes, keyboard-keys, gravity-physics-ui-layout, shader-landing, life-3d, terminal-cat, transit-airport-split-flap-display, game-of-life-shader, bugged-out-game-of-life-shader-experiment, rabbithole-chat-gallery-explore, announcing-v2, send-button, 3d-crt-display
+
+### Testing
+- Add `"related": ["other-slug"]` to one experiment.json; verify RelatedExperimentsSection appears on both experiment and article pages
+- `npm run build` — no errors
+- Spot-check 2–3 updated layouts in dev
+
+---
+
+## 6.6 Organization Schema
+
+### Current State
+- WebSite graph: Person, WebSite, ProfilePage
+- No Organization; WebSite has `author: personRef()`
+
+### Implementation
+For a solo creative lab, Organization can represent the "Razi's Experiments Lab" entity. Schema.org: Organization has `name`, `url`, `description`; can have `founder` or `member` pointing to Person.
+
+Add to [structured-data.ts](src/lib/structured-data.ts) `generateWebSiteJsonLd()`:
+```typescript
+{
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
+  name: SITE_TITLE,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  founder: personRef(),
+}
+```
+Include in `@graph`; add `publisher: { "@id": `${SITE_URL}/#organization` }` to WebSite if desired. ProfilePage already has `mainEntity: personRef()` — keep Person as primary for personal brand; Organization adds entity clarity for Google.
+
+### schema-dts
+Check `import type { Organization } from "schema-dts"` — schema-dts exports it.
+
+### Testing
+- View page source; validate JSON-LD with Google Rich Results Test
+- Ensure no duplicate or conflicting `@id` values
+
+---
+
+## 6.7 Summary: Implementation Order and Tests
+
+| # | Upgrade | Effort | Files | Key Tests |
+|---|---------|--------|-------|-----------|
+| 1 | Single source (site-config.json) | Medium | site-config.json, constants.ts, site-config.mjs, generate-llms-txt.mjs | generate:llms-txt, build, validate |
+| 2 | prefers-reduced-motion | Done | — | — |
+| 3 | FAQPage schema | Low | structured-data.ts, article pages | Rich Results Test |
+| 4 | llms.txt AI Discovery Files | Low | generate-llms-txt.mjs | AI Visibility Checker |
+| 5 | Layout rollout (18 layouts) | Medium | 18 layout.tsx files | build, related section visible |
+| 6 | Organization schema | Low | structured-data.ts | Rich Results Test |

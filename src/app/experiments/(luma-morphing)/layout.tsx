@@ -1,11 +1,15 @@
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import path from "node:path";
+import { Suspense } from "react";
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { AUTHOR_NAME, SITE_URL } from "@/lib/constants";
+import { getRelatedSlugs } from "@/lib/experiments";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";
@@ -21,11 +25,16 @@ import experiment from "./experiment.json";
 // For experiment-specific fonts, place .woff2 files in public/experiments/{{dashCase name}}/
 // and load via next/font/local with a relative src path.
 
+// process.cwd() is stable at build time (Vercel/CI); import.meta.dirname can be undefined in Turbopack.
 const hasArticle = existsSync(
-  join(__dirname, "luma-morphing", "article", "content.mdx")
+  path.join(
+    process.cwd(),
+    `src/app/experiments/(${experiment.slug})/${experiment.slug}/article/content.mdx`
+  )
 );
 
-const isPublic = experiment.status === "shipped" &&
+const isPublic =
+  experiment.status === "shipped" &&
   (!experiment.listing || experiment.listing === "public");
 
 const posterPath = experiment.video
@@ -33,13 +42,13 @@ const posterPath = experiment.video
   : "/og-image.png";
 
 export const metadata = {
-  metadataBase: new URL("https://www.razisyed.cv"),
+  metadataBase: new URL(SITE_URL),
   title: experiment.title,
   description: experiment.description,
   openGraph: {
     title: experiment.title,
     description: experiment.description,
-    url: `https://www.razisyed.cv/experiments/${experiment.slug}`,
+    url: `${SITE_URL}/experiments/${experiment.slug}`,
     images: [posterPath],
     videos: experiment.video ? [experiment.video] : [],
   },
@@ -50,9 +59,9 @@ export const metadata = {
     images: [posterPath],
   },
   alternates: {
-    canonical: `https://www.razisyed.cv/experiments/${experiment.slug}`,
+    canonical: `${SITE_URL}/experiments/${experiment.slug}`,
   },
-  authors: [{ name: "Razi Syed", url: "https://www.razisyed.cv" }],
+  authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
   robots: isPublic
     ? { index: true, follow: true, googleBot: { index: true, follow: true } }
     : { index: false, follow: false },
@@ -83,6 +92,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             articleSlug={hasArticle ? experiment.slug : undefined}
           />
           {children}
+          {getRelatedSlugs(experiment)?.length > 0 && (
+            <Suspense fallback={null}>
+              <RelatedExperimentsSection
+                slugs={getRelatedSlugs(experiment)}
+                variant="experiment"
+              />
+            </Suspense>
+          )}
         </ThemeProvider>
       </body>
     </html>

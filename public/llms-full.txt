@@ -142,6 +142,18 @@
 - Technologies: r3f, three.js, postprocessing
 - Markdown Summary: https://www.razisyed.cv/experiments/life-3d.mdx
 
+### Luma Morphing
+
+- URL: https://www.razisyed.cv/experiments/luma-morphing
+- Description: Canvas 2D morphing effect inspired by the Luma Dream Machine website.
+- Complexity: intermediate
+- Profile: dom-effect
+- Status: shipped
+- Created: 2026-03-13T20:55:30.962Z
+- Tags: canvas, morphing, image-sequence, animation
+- Technologies: canvas-2d, react
+- Markdown Summary: https://www.razisyed.cv/experiments/luma-morphing.mdx
+
 ### Mountain Depth Map Shader Transition
 
 - URL: https://www.razisyed.cv/experiments/mountain-transition
@@ -290,4 +302,4 @@ Every experiment and article is available as machine-readable markdown:
 Built by Razi Syed, a Design Engineer.
 - Website: https://www.razisyed.cv
 - GitHub: https://github.com/raztronaut
-- Twitter: https://twitter.com/razisyed
+- X (Twitter): https://x.com/raztronaut

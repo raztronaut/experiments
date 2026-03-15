@@ -118,6 +118,16 @@ try {
       error(relPath, `"tech" must be an array, got ${typeof config.tech}`);
     }
 
+    if (config.related !== undefined && !Array.isArray(config.related)) {
+      error(
+        relPath,
+        `"related" must be an array, got ${typeof config.related}`
+      );
+    }
+    if (config.related && !config.related.every((s) => typeof s === "string")) {
+      error(relPath, '"related" must be an array of slugs (strings)');
+    }
+
     if (
       config.created !== undefined &&
       Number.isNaN(Date.parse(config.created))

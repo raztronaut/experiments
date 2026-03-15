@@ -10,11 +10,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { SITE_TITLE, SITE_URL } from "./lib/site-config.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const EXPERIMENTS_DIR = path.resolve(__dirname, "..", "src/app/experiments");
 const PUBLIC_DIR = path.resolve(__dirname, "..", "public");
-const SITE_URL = "https://www.razisyed.cv";
 
 function loadExperiments() {
   const experiments = [];
@@ -88,7 +88,7 @@ function generateLlmsTxt(experiments) {
   const articles = experiments.filter((e) => e.hasArticle);
   const lines = [];
 
-  lines.push("# Razi's Experiments Lab");
+  lines.push(`# ${SITE_TITLE}`);
   lines.push("");
   lines.push(
     "> A creative coding lab exploring shaders, 3D graphics, animation, and interaction design. Each experiment is isolated, interactive, and close to publishable."
@@ -140,9 +140,18 @@ function generateLlmsTxt(experiments) {
   );
   lines.push("");
 
+  lines.push("## AI Discovery Files");
+  lines.push(`- Sitemap: ${SITE_URL}/sitemap.xml`);
+  lines.push(`- RSS: ${SITE_URL}/feed.xml`);
+  lines.push(`- JSON Feed: ${SITE_URL}/feed.json`);
+  lines.push(`- llms.txt: ${SITE_URL}/llms.txt`);
+  lines.push(`- Registry docs: ${SITE_URL}/registry/docs`);
+  lines.push("");
+
   lines.push("## Contact");
+  lines.push("- Email: syed.raziulhaque@gmail.com");
   lines.push("- GitHub: https://github.com/raztronaut");
-  lines.push("- Twitter: https://twitter.com/razisyed");
+  lines.push("- X (Twitter): https://x.com/raztronaut");
   lines.push(`- Website: ${SITE_URL}`);
   lines.push("");
 
@@ -153,7 +162,7 @@ function generateLlmsFullTxt(experiments) {
   const articles = experiments.filter((e) => e.hasArticle);
   const lines = [];
 
-  lines.push("# Razi's Experiments Lab — Full Content");
+  lines.push(`# ${SITE_TITLE} — Full Content`);
   lines.push("");
   lines.push(
     "> A creative coding lab exploring shaders, 3D graphics, animation, and interaction design. Each experiment is isolated, interactive, and close to publishable."
@@ -270,7 +279,7 @@ function generateLlmsFullTxt(experiments) {
   lines.push("Built by Razi Syed, a Design Engineer.");
   lines.push(`- Website: ${SITE_URL}`);
   lines.push("- GitHub: https://github.com/raztronaut");
-  lines.push("- Twitter: https://twitter.com/razisyed");
+  lines.push("- X (Twitter): https://x.com/raztronaut");
   lines.push("");
 
   return lines.join("\n");

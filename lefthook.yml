@@ -11,7 +11,7 @@ pre-commit:
   parallel: true
   commands:
     lint-check:
-      run: npx ultracite check {staged_files}
+      run: npx ultracite check
       glob: "*.{ts,tsx,js,mjs,json,jsonc,css}"
     typecheck:
       run: npx tsc --noEmit
@@ -19,3 +19,5 @@ pre-commit:
     validate-experiments:
       run: node scripts/validate-experiments.mjs
       glob: "**/experiment.json"
+    validate-site-config:
+      run: node scripts/validate-site-config.mjs

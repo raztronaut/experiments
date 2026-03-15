@@ -11,5 +11,6 @@
   "tags": ["scroll", "animation", "ui", "generative"],
   "tech": ["lenis", "motion", "canvas-2d"],
   "articleLenses": ["concept", "implementation"],
-  "listing": "public"
+  "listing": "public",
+  "related": ["mountain-transition", "cursor-depth-explorer"]
 }

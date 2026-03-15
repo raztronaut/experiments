@@ -1,0 +1,19 @@
+# Developer AI — Razi's Experiments Lab
+
+For AI assistants helping developers:
+
+## Tech Stack
+- Next.js 16+ (App Router), React 19+, TypeScript
+- Animation: Motion (motion/react), GSAP with ScrollTrigger
+- 3D: React Three Fiber, Three.js, custom GLSL shaders
+- Scroll: Lenis, Tempus RAF
+- Styling: Tailwind CSS, shadcn/ui
+
+## Content API
+- Experiments: /experiments/{slug}
+- Articles: /experiments/{slug}/article
+- Markdown: append .mdx to URLs or use Accept: text/markdown
+- Registry: https://www.razisyed.cv/registry/docs
+
+## Full Documentation
+- https://www.razisyed.cv/llms.txt

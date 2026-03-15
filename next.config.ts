@@ -118,6 +118,12 @@ const nextConfig: NextConfig = {
         destination: "/",
         permanent: true,
       },
+      // llm.txt compatibility redirect (AI Visibility spec variant)
+      {
+        source: "/llm.txt",
+        destination: "/llms.txt",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

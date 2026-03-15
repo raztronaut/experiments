@@ -164,6 +164,20 @@ Checks:
 
 Runs as a pre-commit hook via lefthook.
 
+### validate-site-config.mjs
+
+Validates that `scripts/lib/site-config.mjs` and `src/lib/constants.ts` stay in sync on overlapping keys (SITE_URL, SITE_TITLE, AUTHOR_NAME, GITHUB_URL, TWITTER_URL).
+
+```bash
+npm run validate:site-config
+```
+
+Checks:
+- All five keys present in both files
+- Values match exactly; exits 1 on mismatch
+
+Runs as a pre-commit hook via lefthook (no glob — runs every commit).
+
 ## Capture and Optimization
 
 ### capture.mjs

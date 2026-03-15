@@ -65,9 +65,7 @@ Configuration: `biome.jsonc` extends `ultracite/biome/core`, `ultracite/biome/re
 
 Biome is deliberately permissive (30+ rules disabled) to accommodate legacy creative code. AGENTS.md defines stricter standards for new code.
 
-### Parenthesized Path Workaround
-
-Biome/ultracite can't lint paths with parentheses (Next.js route groups like `(experiment-name)`). To lint those files, `cd` into the directory and run `ultracite check .` instead.
+Pre-commit runs `ultracite check` on the full project (no file list), so files under parenthesized route groups (e.g. `(experiment-name)`) are linted without path-handling issues.
 
 ## Testing
 
@@ -99,7 +97,7 @@ Lefthook runs three checks in parallel before every commit:
 
 | Check | Command | Fails on |
 |-------|---------|----------|
-| Lint | `npx ultracite check {staged_files}` | Any lint/format violation |
+| Lint | `npx ultracite check` | Any lint/format violation |
 | Typecheck | `npx tsc --noEmit` | Any type error |
 | Validate | `node scripts/validate-experiments.mjs` | Invalid experiment.json |
 

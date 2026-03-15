@@ -1,12 +1,15 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { Suspense } from "react";
 import "../experiments.css";
 import { Libre_Baskerville } from "next/font/google";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
+import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import { getRelatedSlugs } from "@/lib/experiments";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";
@@ -91,6 +94,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             articleSlug={hasArticle ? experiment.slug : undefined}
           />
           {children}
+          {getRelatedSlugs(experiment)?.length > 0 && (
+            <Suspense fallback={null}>
+              <RelatedExperimentsSection
+                slugs={getRelatedSlugs(experiment)}
+                variant="experiment"
+              />
+            </Suspense>
+          )}
         </ThemeProvider>
       </body>
     </html>

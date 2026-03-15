@@ -38,6 +38,7 @@ const VALID_COMPLEXITIES: ExperimentComplexity[] = [
 const VALID_LISTINGS: ExperimentListing[] = ["public", "dev", "registry"];
 
 export interface Experiment {
+  articleHref?: string;
   complexity?: ExperimentComplexity;
   created: string;
   description: string;
@@ -56,6 +57,17 @@ export interface Experiment {
   title: string;
   updated?: string;
   video?: string;
+}
+
+/** Extract related slugs from raw experiment config. Works with experiment.json imports. */
+export function getRelatedSlugs(config: unknown): string[] {
+  if (!config || typeof config !== "object") {
+    return [];
+  }
+  const r = (config as Record<string, unknown>).related;
+  return Array.isArray(r)
+    ? (r.filter((s): s is string => typeof s === "string") as string[])
+    : [];
 }
 
 export interface ExperimentFilter {
@@ -164,8 +176,24 @@ export const getExperiments = cache(async function getExperiments(
             ? `/experiments/${config.slug}/poster.jpg`
             : undefined;
 
+          const articlePath = path.join(
+            experimentsDir,
+            dirName,
+            config.slug,
+            "article",
+            "content.mdx"
+          );
+          let articleHref: string | undefined;
+          try {
+            await fs.access(articlePath);
+            articleHref = `/experiments/${config.slug}/article`;
+          } catch {
+            // No article
+          }
+
           const experiment = validateExperiment({
             ...config,
+            ...(articleHref && { articleHref }),
             href: `/experiments/${config.slug}`,
             poster: posterPath,
           });
@@ -232,3 +260,20 @@ export const getExperiments = cache(async function getExperiments(
     return [];
   }
 });
+
+/**
+ * Returns experiments matching the given slugs, in slug order.
+ * Only includes experiments that would appear in getExperiments() (visibility rules apply).
+ */
+export const getExperimentsBySlugs = cache(
+  async (slugs: string[]): Promise<Experiment[]> => {
+    if (slugs.length === 0) {
+      return [];
+    }
+    const experiments = await getExperiments();
+    const bySlug = new Map(experiments.map((e) => [e.slug, e]));
+    return slugs
+      .map((s) => bySlug.get(s))
+      .filter((e): e is Experiment => e != null);
+  }
+);
