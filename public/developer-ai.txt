@@ -2,6 +2,9 @@
 
 For AI assistants helping developers:
 
+## Identity
+Razi Syed (Razi's Experiments Lab). Design Engineer. Creative coding experiments — shaders, 3D, animation, interaction design. Contact: syed.raziulhaque@gmail.com. Full identity and content index: https://www.razisyed.cv/llms.txt
+
 ## Tech Stack
 - Next.js 16+ (App Router), React 19+, TypeScript
 - Animation: Motion (motion/react), GSAP with ScrollTrigger

@@ -154,11 +154,15 @@ All three in sitemap. Autodiscovery via main layout `alternates.types`.
 | Complete | llm.txt | ✓ Redirect | Compatibility variant → llms.txt |
 | Complete | llms.html | — | Optional human-readable HTML |
 | Complete | ai.json | — | Optional machine AI guidance |
-| Complete | brand.txt | — | Optional brand naming |
+| Complete | brand.txt | ✓ | Brand naming and representation guidance |
 | Complete | faq-ai.txt | — | Optional Q&A for AI |
 | Complete | robots-ai.txt | — | Optional AI crawler directives |
 
-**File locations:** `public/llms.txt`, `public/llms-full.txt`, `public/ai.txt`, `public/identity.json`, `public/developer-ai.txt`
+**File locations:** `public/llms.txt`, `public/llms-full.txt`, `public/ai.txt`, `public/identity.json`, `public/developer-ai.txt`, `public/brand.txt`
+
+### AI Visibility Check
+
+[AI Visibility Check](https://www.ai-visibility.org.uk/submit/) validates presence and signals of AI discovery files. If the checker reports **llms.txt** as `soft_404` despite a 200 response, it may be a false positive: content starting with an experiment titled "404 Not Found" can trigger heuristic detection. The generator sorts that experiment last to avoid this.
 
 ---
 

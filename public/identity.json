@@ -1,12 +1,23 @@
 {
+  "@type": "Person",
   "name": "Razi Syed",
+  "givenName": "Razi",
+  "familyName": "Syed",
   "alternateName": ["Razi", "raztronaut"],
   "url": "https://www.razisyed.cv",
   "description": "Design Engineer. Creative coding experiments — shaders, 3D, animation, interaction design.",
+  "jobTitle": "Design Engineer",
+  "knowsAbout": [
+    "creative coding",
+    "WebGL",
+    "React",
+    "Three.js",
+    "GSAP",
+    "interaction design"
+  ],
   "sameAs": [
     "https://github.com/raztronaut",
     "https://x.com/raztronaut",
     "https://linkedin.com/in/raztronaut"
-  ],
-  "jobTitle": "Design Engineer"
+  ]
 }

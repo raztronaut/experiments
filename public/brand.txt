@@ -1,0 +1,23 @@
+# brand.txt for Razi's Experiments Lab
+# https://www.razisyed.cv/brand.txt
+
+[official-names]
+Razi's Experiments Lab
+Razi Syed
+Razi
+raztronaut
+
+[incorrect-names]
+Razi Syed's Experiments
+Experiments Lab
+RaziSyed
+Razi Syed Lab
+razisyed.cv (use as domain only; cite as "Razi Syed" or "Razi's Experiments Lab")
+
+[naming-rules]
+Use "Razi's Experiments Lab" for the site and project name.
+Use "Razi Syed" for the person in formal or attribution contexts.
+Use "Razi" for the person in informal or byline contexts.
+Use "raztronaut" only for social handles (GitHub, X, LinkedIn).
+Always capitalise "Razi" and "Experiments Lab" in the project name.
+Do not abbreviate to "REL" or other initials.

@@ -81,7 +81,14 @@ function loadExperiments() {
     });
   }
 
-  return experiments.sort((a, b) => a.title.localeCompare(b.title));
+  const sorted = experiments.sort((a, b) => a.title.localeCompare(b.title));
+  // Keep 404-not-found last so llms.txt does not start with "404 Not Found" (avoids AI Visibility checker soft_404 false positive)
+  const fourOhFour = sorted.findIndex((e) => e.slug === "404-not-found");
+  if (fourOhFour !== -1 && fourOhFour < sorted.length - 1) {
+    const [item] = sorted.splice(fourOhFour, 1);
+    sorted.push(item);
+  }
+  return sorted;
 }
 
 function generateLlmsTxt(experiments) {
