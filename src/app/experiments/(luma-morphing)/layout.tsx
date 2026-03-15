@@ -1,5 +1,5 @@
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import path from "node:path";
 import { Suspense } from "react";
 import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
@@ -25,8 +25,12 @@ import experiment from "./experiment.json";
 // For experiment-specific fonts, place .woff2 files in public/experiments/{{dashCase name}}/
 // and load via next/font/local with a relative src path.
 
+// process.cwd() is stable at build time (Vercel/CI); import.meta.dirname can be undefined in Turbopack.
 const hasArticle = existsSync(
-  join(import.meta.dirname, "luma-morphing", "article", "content.mdx")
+  path.join(
+    process.cwd(),
+    `src/app/experiments/(${experiment.slug})/${experiment.slug}/article/content.mdx`
+  )
 );
 
 const isPublic =
