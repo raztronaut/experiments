@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import {
-  articleRehypePlugins,
-  articleRemarkPlugins,
-} from "@/lib/mdx-article-config";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
 import { SITE_URL } from "@/lib/constants";
 import { getRelatedSlugs } from "@/lib/experiments";
+import {
+  articleRehypePlugins,
+  articleRemarkPlugins,
+} from "@/lib/mdx-article-config";
 import {
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,

@@ -6,13 +6,14 @@
  * with # which would be h1 — we use rehype-shift-heading to demote h1→h2,
  * h2→h3, etc., ensuring a single h1 per page for SEO.
  */
-import type { PluggableList } from "unified";
+
 import rehypeKatex from "rehype-katex";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeShiftHeading from "rehype-shift-heading";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import type { PluggableList } from "unified";
 
 /** Base rehype plugins: shift headings (h1→h2 so ArticleLayout h1 is sole h1), slug, syntax highlighting */
 export const articleRehypePlugins: PluggableList = [

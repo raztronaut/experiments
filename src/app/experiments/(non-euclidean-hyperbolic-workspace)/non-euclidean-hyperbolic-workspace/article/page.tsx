@@ -1,15 +1,15 @@
 import "katex/dist/katex.min.css";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import {
-  articleRehypePluginsWithMath,
-  articleRemarkPluginsWithMath,
-} from "@/lib/mdx-article-config";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
 import { SITE_URL } from "@/lib/constants";
 import { getRelatedSlugs } from "@/lib/experiments";
+import {
+  articleRehypePluginsWithMath,
+  articleRemarkPluginsWithMath,
+} from "@/lib/mdx-article-config";
 import {
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,
