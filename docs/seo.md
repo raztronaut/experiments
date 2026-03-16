@@ -27,7 +27,7 @@ Comprehensive reference for search engine and AI system visibility at the Experi
 |-------|----------------|
 | metadataBase | `https://www.razisyed.cv` |
 | title | SITE_TITLE |
-| description | Site description |
+| description | SITE_DESCRIPTION (~155 chars; no portfolio tech stack; focus on experiments) |
 | authors, creator, publisher | AUTHOR_NAME |
 | applicationName | SITE_TITLE |
 | category | technology |

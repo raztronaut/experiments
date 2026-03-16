@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypePrettyCode from "rehype-pretty-code";
-import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
+import {
+  articleRehypePlugins,
+  articleRemarkPlugins,
+} from "@/lib/mdx-article-config";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
@@ -110,17 +111,8 @@ export default async function ArticlePage() {
           }}
           options={{
             mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [
-                rehypeSlug,
-                [
-                  rehypePrettyCode,
-                  {
-                    theme: { light: "github-light", dark: "github-dark" },
-                    keepBackground: false,
-                  },
-                ],
-              ],
+              remarkPlugins: [...articleRemarkPlugins],
+              rehypePlugins: [...articleRehypePlugins],
             },
           }}
           source={content}

@@ -65,7 +65,7 @@ These are thin integration layers, not abstractions. Experiments import directly
 - `WritingSection` -- Homepage "Writing" section. Server component rendering article cards in a 2-column grid with reading time, analytics, and deep-link anchor (`/#writing`).
 - `getArticles()` -- Scans experiments for `article/content.mdx`, parses frontmatter with gray-matter, computes reading time
 - `getAdjacentArticles(slug)` -- Returns prev/next articles for article page navigation
-- `next-mdx-remote/rsc` -- Renders MDX at build time with rehype-pretty-code, remark-gfm, rehype-slug
+- `next-mdx-remote/rsc` -- Renders MDX at build time via `src/lib/mdx-article-config.ts`: remark-gfm, rehype-shift-heading (SEO h1 hierarchy), rehype-pretty-code, rehype-slug
 - Dynamic OG route at `/api/og?title=...&tags=...` -- Edge runtime ImageResponse
 - RSS feed at `/feed.xml` -- RSS 2.0 via `getArticles()`
 - Article plop generator: `npm run new:article` scaffolds article/ + docs/ directories (now prompts for description, auto-populates dates)
@@ -121,6 +121,7 @@ Located in `src/components/ui/`:
 | `rehype-pretty-code` | ^0.14.3 | Syntax highlighting in articles |
 | `shiki` | ^4.0.1 | Highlighting engine |
 | `rehype-slug` | ^6.0.0 | Heading IDs for TOC |
+| `rehype-shift-heading` | ^2.0.0 | Demotes MDX headings (h1→h2) so ArticleLayout h1 is sole h1 |
 | `gray-matter` | ^4.0.3 | YAML frontmatter parsing |
 | `reading-time-estimator` | ^2.1.1 | Reading time in article headers |
 | `@tailwindcss/typography` | ^0.5.19 | Prose styling (wired into tailwind.config.ts) |

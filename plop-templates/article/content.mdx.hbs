@@ -6,9 +6,9 @@ updatedAt: "{{createdDate}}"
 ---
 
 {/* 
-  Article structure (see .agent/contexts/writing-voice.md):
+  Article structure (see .agents/contexts/writing-voice.md):
   
-  1. # Title — the MDX h1 IS the visual page title
+  1. # Title — renders as h2 (rehype-shift-heading demotes; ArticleLayout provides h1)
   2. Hook — 1-2 paragraphs
   3. ## Section per technique — code + interactive demo for each layer
      Each major technique gets its own <InteractiveWidget> demo that

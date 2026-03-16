@@ -8,28 +8,21 @@ Comprehensive audit of experiment articles, cards, home page, and adjacent SEO s
 
 | Area | Status | Priority |
 |------|--------|----------|
-| ProfilePage dateCreated/dateModified | ❌ Invalid format | High |
-| Meta descriptions (length) | ⚠️ Suboptimal | High |
-| Title formatting | ⚠️ Could improve | Medium |
-| H1–H6 hierarchy | ⚠️ Issues in articles, cards | Medium |
+| ProfilePage dateCreated/dateModified | ✅ Fixed (ISO 8601) | — |
+| Meta descriptions (length) | ✅ Fixed (~155 chars) | — |
+| Site description content | ✅ No portfolio tech stack; focus on experiments | — |
+| H1–H6 hierarchy | ✅ remark-heading-shift + section h2 + card h3 | — |
 | ItemList structured data | ✅ Implemented | — |
 | Hreflang | ⚪ N/A (single locale) | — |
-| Article-specific metadata | ⚠️ Prefer frontmatter | Medium |
+| Article-specific metadata | ✅ Prefer frontmatter.description | — |
 
 ---
 
 ## 1. Structured Data (Google Rich Results Test)
 
-### 1.1 ProfilePage dateCreated / dateModified — Invalid
+### 1.1 ProfilePage dateCreated / dateModified — Fixed
 
-**Issue:** Google flags "Invalid datetime value" for `dateCreated` and `dateModified`. Current values use `2025-01-01` (date-only). Google expects full ISO 8601 datetime, e.g. `2025-01-01T00:00:00Z`.
-
-**Location:** `src/lib/structured-data.ts` lines 76–77
-
-**Fix:** Use full datetime format. Options:
-- Build-time: `new Date().toISOString()` at build (non-deterministic)
-- Static: `2025-01-01T00:00:00Z` (valid format, fixed date)
-- From constants: Add `SITE_LAUNCH_DATE` in constants.ts
+**Was:** `2025-01-01` (date-only, invalid per Google). **Now:** `2025-01-01T00:00:00Z` (full ISO 8601) in `src/lib/structured-data.ts`.
 
 ### 1.2 ItemList — OK
 
@@ -45,16 +38,11 @@ Person schema with `sameAs` (GitHub, X) is strong for personal SEO. TechArticle 
 
 ### 2.1 Site-Level (Main Layout)
 
-| Field | Current | Recommended | Notes |
-|-------|---------|-------------|-------|
-| description | "A playground for exploring UI interactions, shaders, and modern web techniques." (~60 chars) | 150–160 chars | Too short; Google may truncate or auto-generate |
-| SITE_DESCRIPTION (constants) | "Creative coding experiments — shaders, 3D, animation, and interaction design." (~65 chars) | 150–160 chars | Used in structured data; consider expanding |
-
-**Best practice:** Meta description should be 150–160 characters, include primary keywords (creative coding, Razi Syed, experiments, shaders, 3D), and a clear value proposition.
+**Fixed.** SITE_DESCRIPTION is ~155 chars, focuses on experiments (WebGL shaders, 3D scenes, scroll-driven animation, interactive UI) and example experiments ("From CRT effects to hyperbolic spaces"). **Content strategy:** Do not expose portfolio tech stack (Next.js, R3F, GSAP) in site-level metadata; reserve tech details for experiment/article descriptions.
 
 ### 2.2 Article Pages
 
-Articles use `experiment.description` for meta. When `frontmatter.description` exists, it is often more specific and better for the article URL. Prefer `frontmatter.description ?? experiment.description`.
+**Fixed.** All article pages use `generateMetadata()` and prefer `frontmatter.description ?? experiment.description` for meta and JSON-LD.
 
 ### 2.3 Experiment Pages
 
@@ -80,35 +68,21 @@ Current: `${experiment.title} — Article` (e.g. "Basketball Replay Center — A
 
 ## 4. H1–H6 Hierarchy
 
-### 4.1 Home Page
+### 4.1 Home Page — Fixed
 
 - **h1:** "razi's experiments" ✓
-- **Section:** No explicit h2 for "Experiments" or "Writing" tab
-- **Cards:** ExperimentListItem uses h2, ExperimentGridCard uses h3
+- **Section:** sr-only h2 for "Experiments" or "Writing" (ContentSection)
+- **Cards:** ExperimentListItem and ExperimentGridCard both use h3 (h1 → h2 → h3)
 
-**Issue:** Hierarchy jumps from h1 to h2/h3 without a section h2. Recommended: add a visually hidden or tab-associated h2 for the active section (e.g. "Experiments", "Writing").
-
-### 4.2 Article Pages
+### 4.2 Article Pages — Fixed
 
 - **ArticleLayout:** Renders `<h1>` with article title ✓
-- **MDX content:** Many articles start with `# Title` (another h1)
+- **MDX content:** `rehype-shift-heading` (shift=1) demotes h1→h2, h2→h3, etc. Single h1 per page.
+- **Config:** `src/lib/mdx-article-config.ts` centralizes plugins; all article pages and plop template use it.
 
-**Issue:** Duplicate h1. Articles like basketball-replay-center, 404-not-found, velocity-responsive-design have both:
-1. ArticleLayout h1 (title)
-2. MDX `# Title` (same or similar)
+### 4.3 Experiment Cards — Fixed
 
-**Fix:** Either:
-- Remove the leading `#` from article content and start with `##` (recommended), or
-- Use a remark plugin to demote the first heading level in MDX
-
-**Good example:** non-euclidean-hyperbolic-workspace article starts with prose, then `##`, so no duplicate h1.
-
-### 4.3 Experiment Cards (Grid vs List)
-
-- **Grid:** h1 (page) → h3 (card titles). Missing h2 for "Experiments" section.
-- **List:** h1 (page) → h2 (each item). Semantically acceptable but many h2s as siblings.
-
-**Recommendation:** Add a single h2 for the section ("Experiments" / "Writing") and use h3 for card titles in both views.
+Both grid and list use h3 for card titles. Section h2 is sr-only (no UI change).
 
 ---
 
@@ -149,19 +123,31 @@ Canonical URLs are set for main layout, experiments, and articles. ✓
 
 ## 8. Implementation Checklist
 
-| # | Task | File(s) | Effort |
-|---|------|---------|--------|
-| 1 | Fix ProfilePage dateCreated/dateModified to ISO 8601 | structured-data.ts | Low |
-| 2 | Expand site meta description to 150–160 chars | layout.tsx, constants.ts | Low |
-| 3 | Prefer frontmatter.description for article metadata | article/page.tsx (per experiment) | Low |
-| 4 | Add section h2 for Experiments/Writing on home | ContentSection, ExperimentDrawerList | Medium |
-| 5 | Normalize card heading: h2 section + h3 card titles | ExperimentGridCard, ExperimentListItem, WritingSection | Medium |
-| 6 | Fix duplicate h1 in articles (MDX # vs ArticleLayout) | content.mdx files + optional remark plugin | Medium |
-| 7 | Consider longer SITE_DESCRIPTION for structured data | constants.ts | Low |
+| # | Task | Status |
+|---|------|--------|
+| 1 | Fix ProfilePage dateCreated/dateModified to ISO 8601 | ✅ |
+| 2 | Expand site meta description; no portfolio tech stack | ✅ |
+| 3 | Prefer frontmatter.description for article metadata | ✅ |
+| 4 | Add section h2 for Experiments/Writing on home | ✅ |
+| 5 | Normalize card heading: h2 section + h3 card titles | ✅ |
+| 6 | Fix duplicate h1 via rehype-shift-heading | ✅ |
+| 7 | Shared MDX config (mdx-article-config.ts) | ✅ |
 
 ---
 
-## 9. References
+## 9. AEO (AI Engine Optimization)
+
+| Surface | Status |
+|---------|--------|
+| llms.txt | ✓ AI Visibility v1.1.1 spec |
+| ai.txt, identity.json, developer-ai.txt | ✓ Per docs/seo.md |
+| TechArticle speakable | ✓ cssSelector for voice/answer-box |
+| Structured data (Person, WebSite, ItemList) | ✓ Machine-readable entity graph |
+| SITE_DESCRIPTION | ✓ No portfolio tech; experiment-focused for AI summarization |
+
+---
+
+## 10. References
 
 - [Google Rich Results Test](https://search.google.com/test/rich-results)
 - [Schema.org dateModified](https://schema.org/dateModified)

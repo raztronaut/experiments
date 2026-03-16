@@ -1,11 +1,10 @@
 import "katex/dist/katex.min.css";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypeKatex from "rehype-katex";
-import rehypePrettyCode from "rehype-pretty-code";
-import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
+import {
+  articleRehypePluginsWithMath,
+  articleRemarkPluginsWithMath,
+} from "@/lib/mdx-article-config";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
@@ -116,18 +115,8 @@ export default async function ArticlePage() {
           }}
           options={{
             mdxOptions: {
-              remarkPlugins: [remarkGfm, remarkMath],
-              rehypePlugins: [
-                rehypeKatex,
-                rehypeSlug,
-                [
-                  rehypePrettyCode,
-                  {
-                    theme: { light: "github-light", dark: "github-dark" },
-                    keepBackground: false,
-                  },
-                ],
-              ],
+              remarkPlugins: [...articleRemarkPluginsWithMath],
+              rehypePlugins: [...articleRehypePluginsWithMath],
             },
           }}
           source={content}
