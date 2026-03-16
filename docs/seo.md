@@ -17,9 +17,50 @@ Comprehensive reference for search engine and AI system visibility at the Experi
 
 ---
 
-## 2. Metadata and Layouts
+## 2. Surface Preview
 
-### 2.1 Main Layout
+What appears when the site is shared or indexed across Google, Twitter/X, Facebook, LinkedIn, etc.
+
+### Homepage (`https://www.razisyed.cv/`)
+
+| Surface | Title | Description | Image |
+|---------|-------|-------------|-------|
+| **Google** | Razi's Experiments Lab | SITE_DESCRIPTION (~155 chars) | — |
+| **Twitter/X** | Razi's Experiments Lab | SITE_DESCRIPTION | og-image.png (1200×630) |
+| **Facebook/LinkedIn** | Same via Open Graph | Same | Same |
+| **Rich results** | ProfilePage + Person + WebSite + ItemList (experiments) | — | — |
+
+### Experiment pages (e.g. `/experiments/basketball-replay-center`)
+
+| Surface | Title | Description | Image |
+|---------|-------|-------------|-------|
+| **Google** | {experiment.title} \| Razi's Experiments Lab | experiment.json description | — |
+| **Twitter/X** | experiment.title | experiment.description | poster.jpg or og-image.png |
+| **Facebook/LinkedIn** | Same via Open Graph | Same | Same |
+| **Rich results** | CreativeWork schema | — | — |
+
+### Article pages (e.g. `/experiments/basketball-replay-center/article`)
+
+| Surface | Title | Description | Image |
+|---------|-------|-------------|-------|
+| **Google** | {title} — Article \| Razi's Experiments Lab | frontmatter.description ?? experiment.description | — |
+| **Twitter/X** | {title} — Article | Same | /api/og?title=...&tags=... |
+| **Facebook/LinkedIn** | Same via Open Graph | Same | Same |
+| **Rich results** | TechArticle + BreadcrumbList | — | — |
+
+### Quick reference
+
+| URL type | Title pattern | Description source |
+|----------|---------------|--------------------|
+| Homepage | Razi's Experiments Lab | SITE_DESCRIPTION |
+| Experiment | {title} \| Razi's Experiments Lab | experiment.json |
+| Article | {title} — Article \| Razi's Experiments Lab | frontmatter.description ?? experiment.description |
+
+---
+
+## 3. Metadata and Layouts
+
+### 3.1 Main Layout
 
 **File:** `src/app/(main)/layout.tsx`
 
@@ -27,7 +68,7 @@ Comprehensive reference for search engine and AI system visibility at the Experi
 |-------|----------------|
 | metadataBase | `https://www.razisyed.cv` |
 | title | SITE_TITLE |
-| description | Site description |
+| description | SITE_DESCRIPTION (~155 chars; no portfolio tech stack; focus on experiments) |
 | authors, creator, publisher | AUTHOR_NAME |
 | applicationName | SITE_TITLE |
 | category | technology |
@@ -38,7 +79,7 @@ Comprehensive reference for search engine and AI system visibility at the Experi
 | robots | index, follow; googleBot max-video-preview, max-image-preview, max-snippet |
 | keywords | Next.js, React, Three.js, Razi Syed, Razi, raztronaut, etc. |
 
-### 2.2 Experiment Layouts
+### 3.2 Experiment Layouts
 
 Per-experiment metadata from `experiment.json` and `AUTHOR_NAME`, `SITE_URL` from constants. Poster or video used for OG images. Public experiments: `index: true, follow: true`; WIP/dev: noindex.
 
@@ -46,7 +87,7 @@ Per-experiment metadata from `experiment.json` and `AUTHOR_NAME`, `SITE_URL` fro
 
 ---
 
-## 3. Structured Data (JSON-LD)
+## 4. Structured Data (JSON-LD)
 
 **File:** `src/lib/structured-data.ts`
 
@@ -64,7 +105,7 @@ Speakable on TechArticle uses `cssSelector: [".p-name", ".e-content"]` for voice
 
 ---
 
-## 4. Sitemap
+## 5. Sitemap
 
 **File:** `src/app/sitemap.ts`
 
@@ -77,7 +118,7 @@ Revalidate: 3600s. Uses `getExperiments()` and `getArticles()` from lib.
 
 ---
 
-## 5. Robots
+## 6. Robots
 
 **File:** `src/app/robots.ts`
 
@@ -93,7 +134,7 @@ Revalidate: 3600s. Uses `getExperiments()` and `getArticles()` from lib.
 
 ---
 
-## 6. Feeds
+## 7. Feeds
 
 | Feed | URL | Format | XSL |
 |------|-----|--------|-----|
@@ -105,7 +146,7 @@ All three in sitemap. Autodiscovery via main layout `alternates.types`.
 
 ---
 
-## 7. llms.txt (AI Visibility v1.1.1)
+## 8. llms.txt (AI Visibility v1.1.1)
 
 **Spec:** [ai-visibility.org.uk/specifications/llms-txt](https://www.ai-visibility.org.uk/specifications/llms-txt/)
 
@@ -141,7 +182,7 @@ All three in sitemap. Autodiscovery via main layout `alternates.types`.
 
 ---
 
-## 8. AI Discovery Files
+## 9. AI Discovery Files
 
 **AI Visibility tiers** ([specs](https://www.ai-visibility.org.uk/specifications/)):
 
@@ -162,7 +203,7 @@ All three in sitemap. Autodiscovery via main layout `alternates.types`.
 
 ---
 
-## 9. Site Config and Constants
+## 10. Site Config and Constants
 
 Two sources; overlapping keys must stay in sync.
 
@@ -177,7 +218,7 @@ Two sources; overlapping keys must stay in sync.
 
 ---
 
-## 10. IndieWeb and Social
+## 11. IndieWeb and Social
 
 | Item | Location | Implementation |
 |------|----------|----------------|
@@ -191,7 +232,7 @@ Two sources; overlapping keys must stay in sync.
 
 ---
 
-## 11. Naming Strategy
+## 12. Naming Strategy
 
 **Goal:** Visible UI uses "Razi" (mononym); schema, feeds, and machine-readable surfaces use "Razi Syed" and "raztronaut" for SEO across all variants.
 
@@ -208,7 +249,7 @@ Two sources; overlapping keys must stay in sync.
 
 ---
 
-## 12. Canonical Host and Redirects
+## 13. Canonical Host and Redirects
 
 | Redirect | Implementation |
 |----------|----------------|
@@ -220,7 +261,7 @@ Two sources; overlapping keys must stay in sync.
 
 ---
 
-## 13. Security and Performance
+## 14. Security and Performance
 
 ### Security Headers (next.config.ts)
 
@@ -238,7 +279,7 @@ Two sources; overlapping keys must stay in sync.
 
 ---
 
-## 14. Favicons and Manifest
+## 15. Favicons and Manifest
 
 - **manifest.ts** — References icon-192.png, icon-512.png
 - **og-image.png** — 1200×630 for OG/Twitter
@@ -246,7 +287,7 @@ Two sources; overlapping keys must stay in sync.
 
 ---
 
-## 15. Article–Experiment Linking
+## 16. Article–Experiment Linking
 
 - **articleHref** — `getExperiments()` sets `articleHref` when `content.mdx` exists
 - **Related experiments** — `getRelatedSlugs(experiment)` uses `experiment.json` `related` array
@@ -257,13 +298,13 @@ Two sources; overlapping keys must stay in sync.
 
 ---
 
-## 16. Related Experiments
+## 17. Related Experiments
 
 `experiment.json` may include `related: ["slug1", "slug2"]`. Layouts using the plop pattern render `RelatedExperimentsSection` when `getRelatedSlugs(experiment)?.length > 0`. See [Experiments](experiments.md) for schema.
 
 ---
 
-## 17. Validation
+## 18. Validation
 
 | Script | Command | Purpose |
 |--------|---------|---------|
@@ -274,7 +315,7 @@ Both run in lefthook pre-commit. See [Scripts](scripts.md).
 
 ---
 
-## 18. Optional / Out of Scope
+## 19. Optional / Out of Scope
 
 | Item | Notes |
 |------|-------|
@@ -286,7 +327,7 @@ Both run in lefthook pre-commit. See [Scripts](scripts.md).
 
 ---
 
-## 19. References
+## 20. References
 
 - [llms.txt Specification v1.1.1](https://www.ai-visibility.org.uk/specifications/llms-txt/)
 - [AI Visibility Specifications](https://www.ai-visibility.org.uk/specifications/)

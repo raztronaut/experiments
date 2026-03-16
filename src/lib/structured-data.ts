@@ -73,8 +73,8 @@ export function generateWebSiteJsonLd(): {
         name: SITE_TITLE,
         url: SITE_URL,
         mainEntity: personRef(),
-        dateCreated: "2025-01-01",
-        dateModified: "2025-01-01",
+        dateCreated: "2025-01-01T00:00:00Z",
+        dateModified: "2025-01-01T00:00:00Z",
       },
     ],
   };

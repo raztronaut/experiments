@@ -1,13 +1,14 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypePrettyCode from "rehype-pretty-code";
-import rehypeSlug from "rehype-slug";
-import remarkGfm from "remark-gfm";
 import { articleComponents } from "@/components/mdx";
 import { ArticleLayout } from "@/components/ui/ArticleLayout";
 import { getAdjacentArticles, getArticleContent } from "@/lib/articles";
 import { SITE_URL } from "@/lib/constants";
 import { getRelatedSlugs } from "@/lib/experiments";
+import {
+  articleRehypePlugins,
+  articleRemarkPlugins,
+} from "@/lib/mdx-article-config";
 import {
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,
@@ -22,24 +23,29 @@ import {
 
 const ogImageUrl = `/api/og?${new URLSearchParams({ title: experiment.title, tags: (experiment.tags as string[]).join(",") })}`;
 
-export const metadata = {
-  title: `${experiment.title} — Article`,
-  description: experiment.description,
-  alternates: {
-    canonical: `${SITE_URL}/experiments/${experiment.slug}/article`,
-  },
-  openGraph: {
+export async function generateMetadata() {
+  const articleContent = await getArticleContent(experiment.slug);
+  const description =
+    articleContent?.frontmatter.description ?? experiment.description;
+  return {
     title: `${experiment.title} — Article`,
-    description: experiment.description,
-    images: [ogImageUrl],
-  },
-  twitter: {
-    card: "summary_large_image" as const,
-    title: `${experiment.title} — Article`,
-    description: experiment.description,
-    images: [ogImageUrl],
-  },
-};
+    description,
+    alternates: {
+      canonical: `${SITE_URL}/experiments/${experiment.slug}/article`,
+    },
+    openGraph: {
+      title: `${experiment.title} — Article`,
+      description,
+      images: [ogImageUrl],
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title: `${experiment.title} — Article`,
+      description,
+      images: [ogImageUrl],
+    },
+  };
+}
 
 export default async function ArticlePage() {
   const [articleContent, { prev, next }] = await Promise.all([
@@ -53,7 +59,7 @@ export default async function ArticlePage() {
 
   const articleJsonLd = generateArticleJsonLd({
     title: frontmatter.title || experiment.title,
-    description: experiment.description,
+    description: frontmatter.description ?? experiment.description,
     slug: experiment.slug,
     datePublished: frontmatter.publishedAt || experiment.created,
     dateModified: frontmatter.updatedAt,
@@ -107,17 +113,8 @@ export default async function ArticlePage() {
           }
           options={{
             mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [
-                rehypeSlug,
-                [
-                  rehypePrettyCode,
-                  {
-                    theme: { light: "github-light", dark: "github-dark" },
-                    keepBackground: false,
-                  },
-                ],
-              ],
+              remarkPlugins: [...articleRemarkPlugins],
+              rehypePlugins: [...articleRehypePlugins],
             },
           }}
           source={content}

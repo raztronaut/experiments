@@ -62,10 +62,13 @@ updatedAt: "2026-03-11T00:00:00.000Z"
 
 ### Rendering
 
-`article/page.tsx` renders the MDX using `next-mdx-remote/rsc` with:
+`article/page.tsx` renders the MDX using `next-mdx-remote/rsc` with shared config from `src/lib/mdx-article-config.ts`:
 - **remark-gfm** for GitHub-flavored Markdown (tables, strikethrough, task lists)
+- **rehype-shift-heading** (shift=1) so h1→h2, h2→h3 — ArticleLayout provides the single h1 for SEO
 - **rehype-pretty-code** with Shiki for syntax highlighting
 - **rehype-slug** for heading IDs (enabling deep links)
+
+Articles with LaTeX math use `articleRemarkPluginsWithMath` and `articleRehypePluginsWithMath` (adds remark-math, rehype-katex).
 
 The page generates JSON-LD structured data (Article + Breadcrumb schemas) for SEO and injects it via `<script type="application/ld+json">`.
 

@@ -69,11 +69,11 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
         <div className="pointer-events-none relative z-10 flex flex-col items-start justify-between gap-1 md:flex-row md:gap-4">
           <div className="order-last w-full min-w-0 flex-1 md:order-first">
             <div className="mb-1">
-              <h2
+              <h3
                 className={`font-bold text-lg tracking-tight transition-colors duration-300 md:text-2xl ${isMobileActive ? "opacity-0" : "text-foreground"}`}
               >
                 {experiment.title}
-              </h2>
+              </h3>
             </div>
             <p
               className={`text-[13px] leading-relaxed transition-colors duration-300 md:text-base ${isMobileActive ? "opacity-0" : "text-muted-foreground"}`}
