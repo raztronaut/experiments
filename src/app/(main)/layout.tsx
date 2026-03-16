@@ -13,7 +13,12 @@ const ConsoleEasterEgg = dynamic(() =>
 
 import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
-import { AUTHOR_NAME, SITE_TITLE, SITE_URL } from "@/lib/constants";
+import {
+  AUTHOR_NAME,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/lib/constants";
 import {
   generateWebSiteJsonLd,
   safeJsonLdStringify,
@@ -25,8 +30,7 @@ export const metadata: Metadata = {
     default: SITE_TITLE,
     template: `%s | ${SITE_TITLE}`,
   },
-  description:
-    "A playground for exploring UI interactions, shaders, and modern web techniques.",
+  description: SITE_DESCRIPTION,
   keywords: [
     "Next.js",
     "React",
@@ -61,8 +65,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   openGraph: {
     title: SITE_TITLE,
-    description:
-      "A playground for exploring UI interactions, shaders, and modern web techniques.",
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
     siteName: SITE_TITLE,
     locale: "en_US",
@@ -79,8 +82,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
-    description:
-      "A playground for exploring UI interactions, shaders, and modern web techniques.",
+    description: SITE_DESCRIPTION,
     creator: "@raztronaut",
     images: ["/og-image.png"],
   },

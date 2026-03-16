@@ -82,9 +82,15 @@ export function ContentSection({ articles, experiments }: ContentSectionProps) {
       </div>
 
       {activeTab === "experiments" ? (
-        <ExperimentDrawerList experiments={experiments} viewMode={viewMode} />
+        <>
+          <h2 className="sr-only">Experiments</h2>
+          <ExperimentDrawerList experiments={experiments} viewMode={viewMode} />
+        </>
       ) : (
-        <WritingSection articles={articles} />
+        <>
+          <h2 className="sr-only">Writing</h2>
+          <WritingSection articles={articles} />
+        </>
       )}
     </section>
   );

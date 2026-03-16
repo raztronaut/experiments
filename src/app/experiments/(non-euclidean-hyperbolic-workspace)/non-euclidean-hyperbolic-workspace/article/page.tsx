@@ -28,24 +28,29 @@ import {
 
 const ogImageUrl = `/api/og?${new URLSearchParams({ title: experiment.title, tags: (experiment.tags as string[]).join(",") })}`;
 
-export const metadata = {
-  title: `${experiment.title} — Article`,
-  description: experiment.description,
-  alternates: {
-    canonical: `${SITE_URL}/experiments/${experiment.slug}/article`,
-  },
-  openGraph: {
+export async function generateMetadata() {
+  const articleContent = await getArticleContent(experiment.slug);
+  const description =
+    articleContent?.frontmatter.description ?? experiment.description;
+  return {
     title: `${experiment.title} — Article`,
-    description: experiment.description,
-    images: [ogImageUrl],
-  },
-  twitter: {
-    card: "summary_large_image" as const,
-    title: `${experiment.title} — Article`,
-    description: experiment.description,
-    images: [ogImageUrl],
-  },
-};
+    description,
+    alternates: {
+      canonical: `${SITE_URL}/experiments/${experiment.slug}/article`,
+    },
+    openGraph: {
+      title: `${experiment.title} — Article`,
+      description,
+      images: [ogImageUrl],
+    },
+    twitter: {
+      card: "summary_large_image" as const,
+      title: `${experiment.title} — Article`,
+      description,
+      images: [ogImageUrl],
+    },
+  };
+}
 
 export default async function ArticlePage() {
   const articleContent = await getArticleContent(experiment.slug);
@@ -57,7 +62,7 @@ export default async function ArticlePage() {
 
   const articleJsonLd = generateArticleJsonLd({
     title: frontmatter.title || experiment.title,
-    description: experiment.description,
+    description: frontmatter.description ?? experiment.description,
     slug: experiment.slug,
     datePublished: frontmatter.publishedAt || experiment.created,
     dateModified: frontmatter.updatedAt,
