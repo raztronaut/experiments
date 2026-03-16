@@ -147,7 +147,26 @@ Canonical URLs are set for main layout, experiments, and articles. ✓
 
 ---
 
-## 10. References
+## 10. Main layout constants (follow-up)
+
+Webmention, pingback, and sr-only h-card URLs now use `SITE_URL`, `GITHUB_URL`, `TWITTER_URL`, `LINKEDIN_URL`, and `AUTHOR_NAME` from `src/lib/constants.ts`. Webmention.io URLs are built as `https://webmention.io/${new URL(SITE_URL).host}/webmention` (and `/xmlrpc` for pingback) so a single constant change updates all surfaces.
+
+---
+
+## 11. Investigation notes (gaps and best-practice checks)
+
+| Item | Finding |
+|------|--------|
+| **generateMetadata + getArticleContent** | Article pages call `getArticleContent(slug)` in both `generateMetadata()` and the page component. `getArticleContent` is wrapped in React `cache()` in `src/lib/articles.ts`, so the same request is deduplicated within the render pass; no double read. |
+| **Article date format** | Article JSON-LD and `<time dateTime>` use frontmatter/experiment dates as-is. Schema.org and HTML5 accept date-only (e.g. `2025-01-01`). For strictest Google Rich Results, full ISO 8601 (e.g. `2025-01-01T00:00:00Z`) in frontmatter is recommended; plop uses `{{createdDate}}` (often date-only). No code bug; authors can use full ISO in frontmatter. |
+| **Plop content.mdx.hbs** | Frontmatter already has `description: "{{description}}"`. The plop fix commit "add related and getRelatedSlugs" refers to the **layout** prop `related={getRelatedSlugs(experiment)}` in the article page template, not frontmatter. New articles get both a frontmatter description and the Related section when `experiment.json` has a `related` array. |
+| **Registry JSON** | `public/registry/*.json` changes in the PR come from regenerating with `npm run generate:all` (or build pipeline) after component updates (e.g. ContentSection h2). Regenerate after layout/component changes to keep registry in sync. |
+| **Poster binaries** | Poster.jpg changes are from "regenerate registry and posters from build pipeline" commit. Expect binary diffs when posters are re-captured or the pipeline runs; no action unless a specific poster is wrong. |
+| **404 article** | The 404-not-found article page on this branch passes `related={getRelatedSlugs(experiment)}` to ArticleLayout (same as other article pages). Hierarchy and metadata are consistent. |
+
+---
+
+## 12. References
 
 - [Google Rich Results Test](https://search.google.com/test/rich-results)
 - [Schema.org dateModified](https://schema.org/dateModified)

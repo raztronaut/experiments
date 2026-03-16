@@ -15,9 +15,12 @@ import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import {
   AUTHOR_NAME,
+  GITHUB_URL,
+  LINKEDIN_URL,
   SITE_DESCRIPTION,
   SITE_TITLE,
   SITE_URL,
+  TWITTER_URL,
 } from "@/lib/constants";
 import {
   generateWebSiteJsonLd,
@@ -119,11 +122,11 @@ export default function RootLayout({
       <head>
         <link href="https://cloud.umami.is" rel="dns-prefetch" />
         <link
-          href="https://webmention.io/www.razisyed.cv/webmention"
+          href={`https://webmention.io/${new URL(SITE_URL).host}/webmention`}
           rel="webmention"
         />
         <link
-          href="https://webmention.io/www.razisyed.cv/xmlrpc"
+          href={`https://webmention.io/${new URL(SITE_URL).host}/xmlrpc`}
           rel="pingback"
         />
       </head>
@@ -135,21 +138,17 @@ export default function RootLayout({
         )}
       >
         <div className="sr-only h-card" hidden>
-          <a className="u-url p-name" href="https://www.razisyed.cv" rel="me">
-            Razi Syed
+          <a className="u-url p-name" href={SITE_URL} rel="me">
+            {AUTHOR_NAME}
           </a>
           <span className="p-job-title">Design Engineer</span>
-          <a className="u-url" href="https://github.com/raztronaut" rel="me">
+          <a className="u-url" href={GITHUB_URL} rel="me">
             GitHub
           </a>
-          <a className="u-url" href="https://x.com/raztronaut" rel="me">
+          <a className="u-url" href={TWITTER_URL} rel="me">
             X
           </a>
-          <a
-            className="u-url"
-            href="https://linkedin.com/in/raztronaut"
-            rel="me"
-          >
+          <a className="u-url" href={LINKEDIN_URL} rel="me">
             LinkedIn
           </a>
         </div>

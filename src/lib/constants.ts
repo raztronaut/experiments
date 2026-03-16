@@ -8,3 +8,4 @@ export const AUTHOR_NAME = "Razi Syed";
 export const AUTHOR_DISPLAY = "Razi";
 export const GITHUB_URL = "https://github.com/raztronaut";
 export const TWITTER_URL = "https://x.com/raztronaut";
+export const LINKEDIN_URL = "https://linkedin.com/in/raztronaut";
