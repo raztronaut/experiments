@@ -250,6 +250,7 @@ Read the relevant doc BEFORE working in that domain:
 | Scroll | `.agents/rules/scroll.md` | Using Lenis, ScrollTrigger, or createUnifiedScroll |
 | Performance | `.agents/rules/performance.md` | Optimizing render, bundle, or runtime performance |
 | Experiments | `.agents/rules/experiments.md` | Creating or modifying any experiment (always read) |
+| SEO / metadata | `docs/seo.md` | Editing metadata, sitemap, robots, structured data, or indexing |
 | Porting | `.agents/skills/porting-demos/SKILL.md` | Porting external demos, websites, repos, or code snippets into experiments |
 | Quick Component | `.agents/skills/quick-component/SKILL.md` | Porting external code or indexing libraries into collected registry |
 | Content | `.agents/contexts/content-constellation.md` | Writing articles, publishing experiments, auditing content coverage |

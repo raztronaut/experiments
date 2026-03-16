@@ -315,7 +315,23 @@ Both run in lefthook pre-commit. See [Scripts](scripts.md).
 
 ---
 
-## 19. Optional / Out of Scope
+## 19. Indexing (Google, Bing)
+
+Submit the sitemap so search engines discover all pages; request indexing only for a few key URLs.
+
+| Step | Where | Action |
+|------|--------|--------|
+| Verify site | [Google Search Console](https://search.google.com/search-console) | Add property (URL prefix `https://www.razisyed.cv`), verify via HTML tag or DNS |
+| Submit sitemap | GSC → Sitemaps | Submit `https://www.razisyed.cv/sitemap.xml` |
+| Verify site | [Bing Webmaster Tools](https://www.bing.com/webmasters) | Add site, verify |
+| Submit sitemap | Bing → Sitemaps | Submit same sitemap URL |
+| Optional | GSC or Bing URL Inspection | Request indexing for homepage and 1–2 key pages; don’t submit every URL |
+
+robots.txt already allows crawlers and references the sitemap. After submission, indexing can take days to weeks. Monitor in GSC (Pages, Sitemaps) and Bing (URL Inspection, Sitemaps).
+
+---
+
+## 20. Optional / Out of Scope
 
 | Item | Notes |
 |------|-------|
@@ -324,10 +340,11 @@ Both run in lefthook pre-commit. See [Scripts](scripts.md).
 | AI Visibility Directory | Manual submit at ai-visibility.org.uk/submit |
 | ExperimentNav aria-label | Low priority; pass experiment title when available |
 | What We Do Not Do (llms.txt) | Optional exclusion section |
+| IndexNow | Optional; speeds up Bing/Yandex discovery of new URLs |
 
 ---
 
-## 20. References
+## 21. References
 
 - [llms.txt Specification v1.1.1](https://www.ai-visibility.org.uk/specifications/llms-txt/)
 - [AI Visibility Specifications](https://www.ai-visibility.org.uk/specifications/)
