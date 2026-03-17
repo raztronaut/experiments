@@ -27,12 +27,28 @@ function getChunkSizes() {
     process.exit(1);
   }
 
-  const files = fs.readdirSync(CHUNKS_DIR).filter((f) => f.endsWith(".js"));
-  return files.map((f) => {
-    const p = path.join(CHUNKS_DIR, f);
-    const stat = fs.statSync(p);
-    return { name: f, bytes: stat.size, kb: Math.round(stat.size / 1024) };
-  });
+  /** Recursively collect all .js files (Next.js may emit chunks in subdirs e.g. chunks/app). */
+  function walk(dir) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    const results = [];
+    for (const e of entries) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) {
+        results.push(...walk(full));
+      } else if (e.isFile() && e.name.endsWith(".js")) {
+        const stat = fs.statSync(full);
+        const rel = path.relative(CHUNKS_DIR, full);
+        results.push({
+          name: rel,
+          bytes: stat.size,
+          kb: Math.round(stat.size / 1024),
+        });
+      }
+    }
+    return results;
+  }
+
+  return walk(CHUNKS_DIR);
 }
 
 function main() {

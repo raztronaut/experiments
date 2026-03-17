@@ -29,35 +29,31 @@ Baseline and comparison for the page performance overhaul (PR #17).
 
 ---
 
-## After (Post-merge)
+## After (Preview — March 2026)
 
-**To capture**: Run Lighthouse on production after PR #17 is merged and deployed.
+**Source**: Lighthouse on https://experiments-2z17900zi-razisyed97s-projects.vercel.app (PR #17 preview)
+
+| Metric | Before | After | Δ |
+|--------|--------|------|---|
+| **Performance** | 74 | **85** | **+11** |
+| **FCP** | 1.2s | 1.1s | −0.1s |
+| **LCP** | 3.5s | 4.1s | +0.6s* |
+| **TBT** | 680ms | **160ms** | **−520ms (−76%)** |
+| **CLS** | 0 | 0 | — |
+| **Speed Index** | 2.4s | 2.6s | +0.2s |
+
+\* LCP regression likely preview artifact (placeholder images vs. production video posters). Re-test after merge.
+
+**Bundle**:
+- ~939 KB total client JS reduction (19.5 MB → 18.6 MB)
+- SWIPE_GESTURE_ICON: 22 KB moved from JS to static PNG
+
+---
+
+## Re-capture after production deploy
 
 ```bash
 npm run lighthouse  # Outputs .lighthouse-report.html and opens in browser
 ```
 
-Or use Chrome DevTools → Lighthouse → Performance → Run.
-
-**Measured (bundle)**:
-- ~900 KB total client JS reduction (19.5 MB → 18.6 MB)
-- SWIPE_GESTURE_ICON: 22 KB moved from JS to static PNG
-
-**Expected (Lighthouse, once deployed)**:
-- **TBT**: Deferred analytics → less main-thread blocking
-- **LCP**: JeskoJetsSection next/image (AVIF/WebP) on announcing-v2 route
-
----
-
-## Delta (to fill after merge)
-
-| Metric | Before | After | Δ |
-|--------|--------|------|---|
-| Performance | 74 | — | — |
-| FCP | 1.2s | — | — |
-| LCP | 3.5s | — | — |
-| TBT | 680ms | — | — |
-| CLS | 0 | — | — |
-| Speed Index | 2.4s | — | — |
-
-**How to update**: After merge, run `npm run lighthouse`, then paste the metrics into the After column and compute Δ.
+Run after merge to compare production vs. preview (LCP may improve with real posters).
