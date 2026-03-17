@@ -289,3 +289,22 @@ Auto-inject rules, task-triggered skills, and specialized subagents for content 
 
 **Subagents** (specialized personas): `.cursor/agents/*.md`
 - content-writer, content-auditor
+
+## Cursor Cloud specific instructions
+
+### Services
+
+| Service | Command | Notes |
+|---------|---------|-------|
+| Next.js dev server | `npm run dev` | Port 3000. No external services required. |
+
+### Gotchas
+
+- **Typecheck requires fumadocs codegen**: `tsc --noEmit` fails until `npx fumadocs-mdx` has run at least once (generates `.source/` directory). The update script handles this automatically.
+- **lefthook + `core.hooksPath`**: Cloud agent VMs set `core.hooksPath` locally. Use `npx lefthook install --force` to install hooks into the existing hooks directory. The update script handles this.
+- **No `.env` needed**: The project has zero required environment variables. All external integrations (analytics, weather) degrade gracefully.
+- **Build pipeline**: `npm run build` runs `generate:all` (posters + registry + llms-txt) then `next build`. All generation operates on local files only.
+
+### Standard commands
+
+See the `## Commands` section above for lint, typecheck, test, build, and experiment lifecycle commands.
