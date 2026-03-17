@@ -29,20 +29,20 @@ Baseline and comparison for the page performance overhaul (PR #17).
 
 ---
 
-## After (Preview — March 2026)
+## After (Production — March 2026)
 
-**Source**: Lighthouse on https://experiments-2z17900zi-razisyed97s-projects.vercel.app (PR #17 preview)
+**Source**: Lighthouse on https://www.razisyed.cv (PR #17 merged)
 
 | Metric | Before | After | Δ |
 |--------|--------|------|---|
-| **Performance** | 74 | **85** | **+11** |
-| **FCP** | 1.2s | 1.1s | −0.1s |
-| **LCP** | 3.5s | 4.1s | +0.6s* |
-| **TBT** | 680ms | **160ms** | **−520ms (−76%)** |
+| **Performance** | 74 | **97** | **+23 (+31%)** |
+| **FCP** | 1.2s | **1.0s** | −0.2s (−17%) |
+| **LCP** | 3.5s | **2.4s** | **−1.1s (−31%)** |
+| **TBT** | 680ms | **100ms** | **−580ms (−85%)** |
 | **CLS** | 0 | 0 | — |
-| **Speed Index** | 2.4s | 2.6s | +0.2s |
+| **Speed Index** | 2.4s | 2.5s | +0.1s |
 
-\* LCP regression likely preview artifact (placeholder images vs. production video posters). Re-test after merge.
+All Core Web Vitals now passing. LCP improved on production (real video posters) vs. preview (placeholders).
 
 **Bundle**:
 - ~939 KB total client JS reduction (19.5 MB → 18.6 MB)
@@ -50,10 +50,8 @@ Baseline and comparison for the page performance overhaul (PR #17).
 
 ---
 
-## Re-capture after production deploy
+## Re-capture after changes
 
 ```bash
 npm run lighthouse  # Outputs .lighthouse-report.html and opens in browser
 ```
-
-Run after merge to compare production vs. preview (LCP may improve with real posters).
