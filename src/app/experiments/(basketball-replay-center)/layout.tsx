@@ -75,6 +75,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <ExperimentNav
             articleSlug={hasArticle ? experiment.slug : undefined}
           />
+          <h1 className="sr-only">{experiment.title}</h1>
           {children}
         </ThemeProvider>
       </body>

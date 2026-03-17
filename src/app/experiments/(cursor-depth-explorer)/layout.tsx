@@ -59,6 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           title={metadata.title as string}
         />
         <ExperimentNav articleSlug={hasArticle ? experiment.slug : undefined} />
+        <h1 className="sr-only">{metadata.title as string}</h1>
         {children}
       </body>
     </html>
