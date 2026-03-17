@@ -62,7 +62,10 @@ export function ExperimentDrawerList({
   const [mobilePreviewExperiment, setMobilePreviewExperiment] =
     useState<Experiment | null>(null);
   const touchStartRef = useRef<number | null>(null);
+  const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setIsHidden } = useCursor();
+
+  const PREFETCH_HOVER_DELAY_MS = 100;
 
   // Analytics
   const { trackExperiment, track } = useUmami();
@@ -202,15 +205,24 @@ export function ExperimentDrawerList({
   const handleMouseEnter = (index: number) => {
     setHoveredIndex(index);
     setIsVisible(true);
-    // Prefetch experiment and article on hover (cards are not Links, so no viewport prefetch)
-    const exp = experiments[index];
-    if (exp) {
-      router.prefetch(exp.href);
-      if (exp.articleHref) router.prefetch(exp.articleHref);
-    }
+    // Debounce prefetch to avoid prefetching on quick mouse pass-over
+    prefetchTimeoutRef.current = setTimeout(() => {
+      const exp = experiments[index];
+      if (exp) {
+        router.prefetch(exp.href);
+        if (exp.articleHref) {
+          router.prefetch(exp.articleHref);
+        }
+      }
+      prefetchTimeoutRef.current = null;
+    }, PREFETCH_HOVER_DELAY_MS);
   };
 
   const handleMouseLeave = () => {
+    if (prefetchTimeoutRef.current) {
+      clearTimeout(prefetchTimeoutRef.current);
+      prefetchTimeoutRef.current = null;
+    }
     setHoveredIndex(null);
     setIsVisible(false);
   };

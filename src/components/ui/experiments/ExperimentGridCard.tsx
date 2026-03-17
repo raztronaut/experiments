@@ -4,7 +4,7 @@ import { FileText } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { Experiment } from "@/lib/experiments";
 import { MobileSwipeTutorialOverlay } from "./MobileSwipeTutorialOverlay";
 import { StaticExperimentMedia } from "./StaticExperimentMedia";
@@ -32,13 +32,32 @@ export const ExperimentGridCard = memo(
   }: ExperimentGridCardProps) => {
     const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
+    const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+      null
+    );
 
-    // Prefetch experiment and article on hover (card is not a Link, so no viewport prefetch)
+    const PREFETCH_HOVER_DELAY_MS = 100;
+
+    // Debounce prefetch to avoid prefetching on quick mouse pass-over
     useEffect(() => {
-      if (isHovered) {
-        router.prefetch(experiment.href);
-        if (experiment.articleHref) router.prefetch(experiment.articleHref);
+      if (!isHovered) {
+        return;
       }
+
+      prefetchTimeoutRef.current = setTimeout(() => {
+        router.prefetch(experiment.href);
+        if (experiment.articleHref) {
+          router.prefetch(experiment.articleHref);
+        }
+        prefetchTimeoutRef.current = null;
+      }, PREFETCH_HOVER_DELAY_MS);
+
+      return () => {
+        if (prefetchTimeoutRef.current) {
+          clearTimeout(prefetchTimeoutRef.current);
+          prefetchTimeoutRef.current = null;
+        }
+      };
     }, [isHovered, experiment.href, experiment.articleHref, router]);
 
     // Combine hover (Desktop) and mobile active state
