@@ -146,7 +146,13 @@ Before merging performance-sensitive changes:
 
 ---
 
-## 8. Implemented Optimizations
+## 8. Performance Metrics
+
+See `docs/performance-metrics.md` for before/after Lighthouse metrics. Run `npm run lighthouse` after merge to capture post-deploy numbers.
+
+---
+
+## 9. Implemented Optimizations
 
 | Item | Status |
 |------|--------|
