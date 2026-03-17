@@ -37,7 +37,7 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
 
   return (
     <div
-      className="group relative block cursor-pointer"
+      className="group relative block cursor-pointer touch-pan-y"
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

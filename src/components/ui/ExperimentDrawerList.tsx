@@ -62,6 +62,9 @@ export function ExperimentDrawerList({
   const [mobilePreviewExperiment, setMobilePreviewExperiment] =
     useState<Experiment | null>(null);
   const touchStartRef = useRef<number | null>(null);
+  /** Slug of experiment we just swiped; used to suppress only that gesture's synthetic click, not taps on other cards */
+  const swipedExperimentSlugRef = useRef<string | null>(null);
+  const swipeResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setIsHidden } = useCursor();
 
@@ -142,6 +145,16 @@ export function ExperimentDrawerList({
       }
     }
   }, [isOpen, selectedExperiment, router]);
+
+  // Clear swipe reset timer on unmount
+  useEffect(
+    () => () => {
+      if (swipeResetTimerRef.current) {
+        clearTimeout(swipeResetTimerRef.current);
+      }
+    },
+    []
+  );
 
   // Track list origin for position calculations (only in list mode)
   useEffect(() => {
@@ -239,19 +252,33 @@ export function ExperimentDrawerList({
 
       const touchEnd = e.changedTouches[0].clientX;
       const diff = touchStartRef.current - touchEnd;
+      touchStartRef.current = null;
 
       if (Math.abs(diff) > 50) {
+        if (swipeResetTimerRef.current) {
+          clearTimeout(swipeResetTimerRef.current);
+          swipeResetTimerRef.current = null;
+        }
+        swipedExperimentSlugRef.current = experiment.slug;
         setMobilePreviewExperiment((prev) =>
           prev?.slug === experiment.slug ? null : experiment
         );
+        // Fallback: clear in case synthetic click never fires
+        swipeResetTimerRef.current = setTimeout(() => {
+          swipedExperimentSlugRef.current = null;
+          swipeResetTimerRef.current = null;
+        }, 400);
       }
-      touchStartRef.current = null;
     },
     []
   );
 
   const handleExperimentClick = useCallback(
     (experiment: Experiment) => {
+      if (swipedExperimentSlugRef.current === experiment.slug) {
+        swipedExperimentSlugRef.current = null;
+        return;
+      }
       trackExperiment(UmamiEvents.EXPERIMENT_OPEN_DRAWER, {
         slug: experiment.slug,
         title: experiment.title,
