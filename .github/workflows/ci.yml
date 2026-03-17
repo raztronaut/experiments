@@ -57,3 +57,16 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Bundle size budget
+        run: npm run budget
+
+      - name: Analyze bundles
+        run: npm run analyze:output
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v4
+        if: github.event_name == 'pull_request'
+        with:
+          name: bundle-analysis-${{ github.sha }}
+          path: .next/diagnostics/analyze/

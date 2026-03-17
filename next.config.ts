@@ -81,6 +81,11 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: securityHeaders,
       },
+      // Source maps: noindex to avoid indexing minified source structure
+      {
+        source: "/_next/static/chunks/:filename(.+\\.map)",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
       {
         source: "/swipe-gesture-icon.png",
         headers: [

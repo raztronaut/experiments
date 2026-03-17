@@ -3,6 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import { useRef } from "react";
 import { useDevControls } from "@/hooks/useDevControls";
 import { JESKOJETS_CONTENT } from "../data";
@@ -99,13 +100,25 @@ export function JeskoJetsSection() {
     <div ref={containerRef}>
       <section className="jesko-hero">
         <div className="jesko-sky-container" ref={skyRef}>
-          <img alt="" src="/experiments/announcing-v2/sky.jpg" />
+          <Image
+            alt=""
+            fill
+            sizes="100vw"
+            src="/experiments/announcing-v2/sky.jpg"
+            style={{ objectFit: "cover" }}
+          />
         </div>
         <div className="jesko-hero-copy" ref={copyRef}>
           <h1>{JESKOJETS_CONTENT.copy}</h1>
         </div>
         <div className="jesko-window-container" ref={windowRef}>
-          <img alt="" src="/experiments/announcing-v2/window.png" />
+          <Image
+            alt=""
+            fill
+            sizes="100vw"
+            src="/experiments/announcing-v2/window.png"
+            style={{ objectFit: "cover" }}
+          />
         </div>
         <div className="jesko-hero-header" ref={headerRef}>
           <div className="jesko-col">

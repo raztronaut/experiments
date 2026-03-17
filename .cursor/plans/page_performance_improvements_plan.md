@@ -104,16 +104,38 @@ Created `DeferredVercelAnalytics` — loads Analytics and SpeedInsights after mo
 
 ---
 
+## S-Tier Completeness (Round 3)
+
+### Source maps ✓
+- `X-Robots-Tag: noindex, nofollow` on `/_next/static/chunks/*.map`
+- Error monitoring integration documented in `docs/performance.md`
+
+### CI integration ✓
+- Bundle size budget: `npm run budget` (fails if total > 22 MB or single > 850 KB)
+- Analyze output uploaded as PR artifact
+- PR template includes budget checkbox
+
+### Documentation ✓
+- `docs/performance.md` — Error monitoring, bundle budget, CI, PR checklist
+- Single source of truth for performance tooling
+
+---
+
+### Image audit (partial) ✓
+- JeskoJetsSection: sky.jpg, window.png → next/image with fill
+
+---
+
 ## Deferred / Future
 
 | Item | Effort | Impact | Notes |
 |------|--------|--------|-------|
-| Image audit | Medium | 44 KB | Replace plain `<img>` in announcing-v2, collected with next/image |
+| Image audit (remaining) | Medium | ~40 KB | announcing-v2 PreloaderSection/ShowcaseSection, collected components |
 | GSAP route-split | Medium | 39 KB | Load GSAP only on scroll/animation routes — complex |
 
 ---
 
 ## Reference
 
-- `docs/performance.md` — Source maps, analyzer usage
+- `docs/performance.md` — Source maps, analyzer, budget, CI, error monitoring
 - `.agents/rules/performance.md` — Frame budget, bundle discipline

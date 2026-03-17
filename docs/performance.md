@@ -1,6 +1,6 @@
 # Performance and Bundle Analysis
 
-Reference for production performance tooling: source maps, bundle analysis, and ongoing optimization workflows.
+S-tier reference for production performance: source maps, bundle analysis, CI gating, and monitoring. Designed so a 1000x dev can audit, debug, and optimize with confidence.
 
 ---
 
@@ -10,31 +10,42 @@ Reference for production performance tooling: source maps, bundle analysis, and 
 
 ### What It Does
 
-Next.js emits `.map` files alongside production JS chunks. Browsers and error-reporting services can map minified stack traces back to original source files.
+Next.js emits `.map` files alongside production JS chunks. Browsers and error-reporting services map minified stack traces to original source files.
 
 ### How to Use
 
 | Use Case | How |
 |----------|-----|
-| **Chrome DevTools** | Open DevTools → Sources tab. Minified files show "original source" links. Click to see TypeScript/JSX. |
-| **Error reporting** | Services like Sentry, LogRocket, or Vercel's built-in error overlay can symbolicate production errors when source maps are available. |
-| **Performance profiling** | DevTools Performance tab shows readable function names and file paths instead of `chunk-abc123.js:1:2345`. |
+| **Chrome DevTools** | DevTools → Sources. Minified files show "original source" links. |
+| **Error reporting** | Sentry, LogRocket, Vercel overlay: symbolicate production errors when maps are available. |
+| **Performance profiling** | DevTools Performance tab shows readable function names instead of `chunk.js:1:2345`. |
 
-### Security Note
+### Error Monitoring Integration
 
-Source maps are served from `/_next/static/chunks/*.map`. They expose your original source structure. If you have sensitive logic, consider restricting map access (e.g. via Vercel's `x-robots-tag: noindex` or auth) or disabling for specific routes. For a public portfolio, the trade-off is usually acceptable for better debugging.
+With source maps enabled, configure your error service to fetch maps from production:
+
+- **Sentry**: Set `dist` and `release`; upload source maps at build time or allow Sentry to fetch from `/_next/static/chunks/*.map`.
+- **LogRocket**: Automatically symbolicates when maps are served.
+- **Vercel**: Built-in error overlay uses maps when available.
+
+Ensure `productionBrowserSourceMaps: true` is set before deploying.
+
+### Security and Hygiene
+
+- **X-Robots-Tag**: `noindex, nofollow` is set on `/_next/static/chunks/*.map` in `next.config.ts` so search engines don't index minified source structure.
+- **Exposure**: Maps reveal original source layout. For sensitive logic, restrict access or disable for specific routes.
 
 ### Verification
 
-After deploy, open any production page, DevTools → Network, filter by "JS". Find a chunk (e.g. `dabbe1938f49ee34.js`). A corresponding `dabbe1938f49ee34.js.map` should be requested when you open that file in the Sources tab.
+After deploy: DevTools → Network → filter "JS" → open a chunk in Sources. A `.map` request should appear when you view the file.
 
 ---
 
 ## 2. Bundle Analysis (`next experimental-analyze`)
 
-**Script**: `npm run analyze` (interactive) | `npm run analyze:output` (write to disk)
+**Scripts**: `npm run analyze` (interactive) | `npm run analyze:output` (disk) | `npm run budget` (CI gate)
 
-Next.js 16.1+ includes a built-in bundle analyzer. No `@next/bundle-analyzer` package needed.
+Next.js 16.1+ built-in analyzer. No `@next/bundle-analyzer` needed.
 
 ### Interactive Mode
 
@@ -42,13 +53,9 @@ Next.js 16.1+ includes a built-in bundle analyzer. No `@next/bundle-analyzer` pa
 npm run analyze
 ```
 
-- Starts a local server at `http://localhost:4000`
-- Requires a prior `npm run build` (analyzes `.next/` output)
-- **Features**:
-  - Separate client vs server bundle views
-  - Import chain tracing (why a module is included)
-  - Filter by route, environment, file type
-  - Treemap: module size = rectangle area
+- Server at `http://localhost:4000`
+- Requires prior `npm run build`
+- **Features**: Client/server split, import chain tracing, route filter, treemap by size
 
 ### Output Mode (CI / Sharing)
 
@@ -56,29 +63,46 @@ npm run analyze
 npm run analyze:output
 ```
 
-- Writes static files to `.next/diagnostics/analyze/`
-- Use for: CI artifact upload, PR comparisons, historical tracking
-- Output includes `index.html` (viewable in browser) and `.txt` summaries
+- Writes to `.next/diagnostics/analyze/`
+- CI uploads as artifact on PRs (see `.github/workflows/ci.yml`)
+
+### Bundle Size Budget
+
+```bash
+npm run budget
+```
+
+- Runs after build. Fails if:
+  - Total client chunks > 22 MB (uncompressed)
+  - Any single chunk > 850 KB
+- Thresholds in `scripts/bundle-size-budget.mjs`
+- CI runs this automatically; adjust budgets as the app evolves
 
 ### Workflow
 
-1. **Before optimization**: Run `analyze:output`, save or commit the output path for comparison.
-2. **After changes**: Run again, diff or compare treemaps.
-3. **Targets**: Look for large single modules, duplicate dependencies, heavy libraries that could be dynamic-imported or tree-shaken.
-
-### Example Findings
-
-From real optimizations:
-
-- **optimizePackageImports**: Lucide, Motion, Leva, Three.js, R3F, Drei, etc. are in `next.config.ts`. Verify tree-shaking in the treemap.
-- **Dynamic imports**: Heavy deps (GSAP, Three.js, R3F) should appear in lazy chunks, not the main page bundle.
-- **Barrel imports**: Can pull in entire packages. Prefer direct file imports.
+1. **Before optimization**: `analyze:output`, save for comparison.
+2. **After changes**: Run again, compare treemaps.
+3. **Targets**: Large modules, duplicate deps, heavy libs that could be dynamic-imported or tree-shaken.
 
 ---
 
-## 3. Performance Rules Reference
+## 3. CI Integration
 
-See `.agents/rules/performance.md` for:
+The main CI workflow (`.github/workflows/ci.yml`) runs:
+
+1. Lint, typecheck, validate, test
+2. Build
+3. **Bundle size budget** — fails if over thresholds
+4. **Analyze** — `analyze:output`
+5. **Upload artifact** — PRs get `bundle-analysis-{sha}` artifact
+
+Download the artifact and open `index.html` to inspect bundle composition for any PR.
+
+---
+
+## 4. Performance Rules Reference
+
+See `.agents/rules/performance.md`:
 
 - Frame budget (60fps, ~10ms JS per frame)
 - Compositor-only animation (`transform`, `opacity`)
@@ -88,58 +112,49 @@ See `.agents/rules/performance.md` for:
 
 ---
 
-## 4. Ongoing Monitoring
+## 5. Ongoing Monitoring
 
 | Tool | Purpose |
 |------|---------|
-| **Vercel Speed Insights** | Real-user LCP, FCP, CLS, INP, TTFB. Visible in Vercel dashboard. |
-| **Vercel Analytics** | Page views, referrers. |
-| **`?debug`** | Per-experiment dev metrics (FPS, heap, CLS) in production. Append to any experiment URL. |
-| **`npm run analyze:output`** | Bundle size snapshots. Run after major dependency or layout changes. |
-
----
-
-## 5. CI / PR Workflow
-
-To track bundle size over time or compare before/after a change:
-
-```bash
-npm run build && npm run analyze:output
-```
-
-The output at `.next/diagnostics/analyze/` can be:
-- **Uploaded as a CI artifact** (e.g. GitHub Actions `actions/upload-artifact`)
-- **Compared** by opening `index.html` from two builds side-by-side
-- **Archived** for historical reference (e.g. before major dependency upgrades)
-
-Example GitHub Actions step:
-
-```yaml
-- run: npm run build && npm run analyze:output
-- uses: actions/upload-artifact@v4
-  with:
-    name: bundle-analysis
-    path: .next/diagnostics/analyze/
-```
+| **Vercel Speed Insights** | Real-user LCP, FCP, CLS, INP, TTFB |
+| **Vercel Analytics** | Page views, referrers |
+| **`?debug`** | Per-experiment metrics in production |
+| **`npm run analyze:output`** | Bundle snapshots after major changes |
+| **`npm run budget`** | Pre-commit or CI bundle gate |
 
 ---
 
 ## 6. Quick Commands
 
 ```bash
-npm run build          # Required before analyze
-npm run analyze        # Interactive bundle analyzer (localhost:4000)
-npm run analyze:output # Write analysis to .next/diagnostics/analyze/
+npm run build          # Required before analyze/budget
+npm run analyze        # Interactive (localhost:4000)
+npm run analyze:output # Write to .next/diagnostics/analyze/
+npm run budget         # Fail if over bundle size thresholds
 ```
 
 ---
 
-## 7. Further Improvements to Consider
+## 7. PR Checklist (Performance)
 
-| Improvement | Effort | Impact | Notes |
-|-------------|--------|--------|-------|
-| **Defer Analytics** | Low | Low | Wrap `@vercel/analytics` and `@vercel/speed-insights` in a client component that loads after hydration. Risk: hydration mismatch if not done carefully. |
-| **Preconnect Vercel** | Low | Low | Add `<link rel="preconnect" href="https://vitals.vercel-insights.com" />` if Speed Insights is a major early request. |
-| **Route-level code splitting** | Medium | Medium | Ensure experiment routes use `dynamic()` for heavy components (R3F, GSAP). Already in place for most experiments. |
-| **Image optimization** | Low | Medium | `next/image` with AVIF/WebP is configured. Verify `sizes` prop on responsive images. |
-| **Font loading** | Done | — | `display: 'swap'` on local fonts per S-Tier plan. |
+Before merging performance-sensitive changes:
+
+- [ ] `npm run budget` passes
+- [ ] `npm run analyze` — no new large modules on critical paths
+- [ ] LCP target < 2.5s (check Lighthouse on preview)
+- [ ] No new barrel imports or static heavy deps on homepage
+
+---
+
+## 8. Implemented Optimizations
+
+| Item | Status |
+|------|--------|
+| Source maps | Enabled, noindex on .map |
+| Defer Analytics/SpeedInsights | `DeferredVercelAnalytics` |
+| Preconnect Vercel | `vitals.vercel-insights.com` |
+| Constants audit | SWIPE_GESTURE_ICON → static PNG |
+| optimizePackageImports | motion, framer-motion, lucide, etc. |
+| Browserslist | Modern-only (not dead, not ie 11) |
+| Font loading | `display: 'swap'` on local fonts |
+| Bundle budget | CI gate in `scripts/bundle-size-budget.mjs` |
