@@ -130,6 +130,16 @@ export function ExperimentDrawerList({
     setIsHidden(isOpen);
   }, [isOpen, setIsHidden]);
 
+  // Prefetch when drawer opens (covers mobile tap without hover)
+  useEffect(() => {
+    if (isOpen && selectedExperiment) {
+      router.prefetch(selectedExperiment.href);
+      if (selectedExperiment.articleHref) {
+        router.prefetch(selectedExperiment.articleHref);
+      }
+    }
+  }, [isOpen, selectedExperiment, router]);
+
   // Track list origin for position calculations (only in list mode)
   useEffect(() => {
     if (viewMode !== "list") {
@@ -192,6 +202,12 @@ export function ExperimentDrawerList({
   const handleMouseEnter = (index: number) => {
     setHoveredIndex(index);
     setIsVisible(true);
+    // Prefetch experiment and article on hover (cards are not Links, so no viewport prefetch)
+    const exp = experiments[index];
+    if (exp) {
+      router.prefetch(exp.href);
+      if (exp.articleHref) router.prefetch(exp.articleHref);
+    }
   };
 
   const handleMouseLeave = () => {

@@ -2,8 +2,9 @@
 
 import { FileText } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type React from "react";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import type { Experiment } from "@/lib/experiments";
 import { MobileSwipeTutorialOverlay } from "./MobileSwipeTutorialOverlay";
 import { StaticExperimentMedia } from "./StaticExperimentMedia";
@@ -29,7 +30,16 @@ export const ExperimentGridCard = memo(
     showTutorial,
     priority = false,
   }: ExperimentGridCardProps) => {
+    const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
+
+    // Prefetch experiment and article on hover (card is not a Link, so no viewport prefetch)
+    useEffect(() => {
+      if (isHovered) {
+        router.prefetch(experiment.href);
+        if (experiment.articleHref) router.prefetch(experiment.articleHref);
+      }
+    }, [isHovered, experiment.href, experiment.articleHref, router]);
 
     // Combine hover (Desktop) and mobile active state
     // For Grid, we just play the video if hovered or active.
