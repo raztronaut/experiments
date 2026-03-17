@@ -62,6 +62,7 @@ export function ExperimentDrawerList({
   const [mobilePreviewExperiment, setMobilePreviewExperiment] =
     useState<Experiment | null>(null);
   const touchStartRef = useRef<number | null>(null);
+  const swipeHandledRef = useRef(false);
   const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setIsHidden } = useCursor();
 
@@ -239,19 +240,27 @@ export function ExperimentDrawerList({
 
       const touchEnd = e.changedTouches[0].clientX;
       const diff = touchStartRef.current - touchEnd;
+      touchStartRef.current = null;
 
       if (Math.abs(diff) > 50) {
+        swipeHandledRef.current = true;
         setMobilePreviewExperiment((prev) =>
           prev?.slug === experiment.slug ? null : experiment
         );
+        // Reset after synthetic click would have fired (~300ms)
+        setTimeout(() => {
+          swipeHandledRef.current = false;
+        }, 400);
       }
-      touchStartRef.current = null;
     },
     []
   );
 
   const handleExperimentClick = useCallback(
     (experiment: Experiment) => {
+      if (swipeHandledRef.current) {
+        return;
+      }
       trackExperiment(UmamiEvents.EXPERIMENT_OPEN_DRAWER, {
         slug: experiment.slug,
         title: experiment.title,
