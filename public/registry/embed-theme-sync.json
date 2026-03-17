@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "embed-theme-sync",
+  "type": "registry:component",
+  "title": "EmbedThemeSync",
+  "description": "When the page is loaded inside an iframe with ?embed=1&theme=light|dark",
+  "category": "components",
+  "files": [
+    {
+      "name": "EmbedThemeSync.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { useSearchParams } from \"next/navigation\";\nimport { useTheme } from \"next-themes\";\nimport { useEffect, useRef } from \"react\";\n\n/**\n * When the page is loaded inside an iframe with ?embed=1&theme=light|dark\n * (e.g. from LiveDemo in an article), sync the document theme to the param\n * so the embedded experiment matches the article's theme.\n */\nexport function EmbedThemeSync() {\n  const searchParams = useSearchParams();\n  const { setTheme } = useTheme();\n  const applied = useRef(false);\n\n  useEffect(() => {\n    if (applied.current) {\n      return;\n    }\n    const embed = searchParams.get(\"embed\");\n    const theme = searchParams.get(\"theme\");\n    if (embed === \"1\" && (theme === \"light\" || theme === \"dark\")) {\n      setTheme(theme);\n      applied.current = true;\n    }\n  }, [searchParams, setTheme]);\n\n  return null;\n}\n"
+    }
+  ]
+}

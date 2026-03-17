@@ -1,7 +1,9 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import type React from "react";
 import { Suspense } from "react";
+import { useMounted } from "@/hooks/useMounted";
 
 interface LiveDemoProps {
   children?: React.ReactNode;
@@ -10,6 +12,14 @@ interface LiveDemoProps {
 }
 
 export function LiveDemo({ slug, height = "400px", children }: LiveDemoProps) {
+  const mounted = useMounted();
+  const { resolvedTheme } = useTheme();
+  // Use fixed "light" until mounted so server and client initial render match (avoids hydration mismatch).
+  const theme = mounted && resolvedTheme === "dark" ? "dark" : "light";
+  const iframeSrc = slug
+    ? `/experiments/${slug}?embed=1&theme=${theme}`
+    : undefined;
+
   return (
     <figure className="my-8">
       <div className="overflow-hidden rounded-xl border border-border bg-background">
@@ -20,9 +30,10 @@ export function LiveDemo({ slug, height = "400px", children }: LiveDemoProps) {
             </Suspense>
           ) : slug ? (
             <iframe
+              key={theme}
               className="h-full w-full border-0"
               loading="lazy"
-              src={`/experiments/${slug}`}
+              src={iframeSrc}
               title={`Live demo: ${slug}`}
             />
           ) : (

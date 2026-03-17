@@ -463,6 +463,20 @@
     "dependencyCount": 1
   },
   {
+    "name": "embed-theme-sync",
+    "type": "registry:component",
+    "title": "EmbedThemeSync",
+    "description": "When the page is loaded inside an iframe with ?embed=1&theme=light|dark",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
     "name": "experiment-drawer-list",
     "type": "registry:component",
     "title": "ExperimentDrawerList",

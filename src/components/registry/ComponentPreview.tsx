@@ -1,7 +1,9 @@
 "use client";
 
 import { ExternalLink, Monitor, Smartphone, Tablet } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useCallback, useState } from "react";
+import { useMounted } from "@/hooks/useMounted";
 
 import { cn } from "@/lib/utils";
 
@@ -32,8 +34,13 @@ function ComponentPreview({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [viewport, setViewport] = useState<Viewport>("desktop");
-
-  const previewUrl = `${basePath}/${slug}`;
+  const mounted = useMounted();
+  const { resolvedTheme } = useTheme();
+  // Use fixed "light" until mounted so server and client initial render match (avoids hydration mismatch).
+  const theme = mounted && resolvedTheme === "dark" ? "dark" : "light";
+  const baseUrl = `${basePath}/${slug}`;
+  const previewUrl =
+    basePath === "/component-preview" ? `${baseUrl}?theme=${theme}` : baseUrl;
   const activeViewport = VIEWPORTS.find((v) => v.value === viewport)!;
 
   const handleLoad = useCallback(() => {
@@ -101,6 +108,7 @@ function ComponentPreview({
             </div>
           ) : (
             <iframe
+              key={theme}
               className={cn(
                 "absolute inset-0 h-full w-full",
                 loading && "invisible"

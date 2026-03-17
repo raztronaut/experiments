@@ -12,7 +12,9 @@ export async function RelatedExperimentsSection({
   slugs,
   variant = "article",
 }: RelatedExperimentsSectionProps) {
-  const experiments = await getExperimentsBySlugs(slugs);
+  const experiments = (await getExperimentsBySlugs(slugs)).filter(
+    (e) => e.status === "shipped" && (e.listing ?? "public") === "public"
+  );
   if (experiments.length === 0) {
     return null;
   }

@@ -9,7 +9,7 @@
 - URL: https://www.razisyed.cv/experiments/404-not-found/article
 - Experiment: https://www.razisyed.cv/experiments/404-not-found
 - Published: 2026-03-11T00:00:00.000Z
-- Description: A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.
+- Description: A cinematic 404 experience with procedurally animated 3D ribbons, custom GLSL shaders, and scroll-driven text in React Three Fiber.
 - Tags: 3d, shader, animation, scroll
 - Technologies: r3f, three.js, glsl
 
@@ -36,7 +36,7 @@
 - URL: https://www.razisyed.cv/experiments/velocity-responsive-design/article
 - Experiment: https://www.razisyed.cv/experiments/velocity-responsive-design
 - Published: 2026-03-11T00:00:00.000Z
-- Description: A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed
+- Description: A 'Relativistic Reader' that adapts content density and layout based on scroll speed using Lenis and hysteresis.
 - Tags: scroll, animation, ui, generative
 - Technologies: lenis, motion, canvas-2d
 
@@ -45,7 +45,7 @@
 ### 404 Not Found
 
 - URL: https://www.razisyed.cv/experiments/404-not-found
-- Description: A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.
+- Description: A cinematic 404 experience with procedurally animated 3D ribbons, custom GLSL shaders, and scroll-driven text in React Three Fiber.
 - Complexity: advanced
 - Profile: r3f-shader
 - Status: shipped
@@ -267,7 +267,7 @@
 ### Velocity-Responsive Design
 
 - URL: https://www.razisyed.cv/experiments/velocity-responsive-design
-- Description: A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed
+- Description: A 'Relativistic Reader' that adapts content density and layout based on scroll speed using Lenis and hysteresis.
 - Complexity: intermediate
 - Profile: scrollytelling
 - Status: shipped

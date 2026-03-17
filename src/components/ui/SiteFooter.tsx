@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useTheme } from "next-themes";
+// import { useTheme } from "next-themes";
 import { Icons } from "@/components/ui/icons";
-import { useMounted } from "@/hooks/useMounted";
 import { replica } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { WithHover } from "./cursor/WithHover";
@@ -11,12 +10,12 @@ import { WithHover } from "./cursor/WithHover";
 const HOVER_OFFSET_CONFIG = { hoverOffset: 2 } as const;
 
 export function SiteFooter() {
-  const { setTheme, resolvedTheme } = useTheme();
-  const mounted = useMounted();
-
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  };
+  // TODO: Restore theme toggle — theme switching is disabled until persistence/sync is fixed
+  // const { setTheme, resolvedTheme } = useTheme();
+  // const mounted = useMounted();
+  // const toggleTheme = () => {
+  //   setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  // };
 
   return (
     <footer className="h-card border-border/50 border-t pt-24 pb-32 text-[0.875rem] text-muted-foreground md:pt-12">
@@ -41,6 +40,7 @@ export function SiteFooter() {
               </a>
             </WithHover>
           </p>
+          {/* TODO: Restore theme toggle — theme switching disabled until persistence/sync is fixed
           <WithHover config={HOVER_OFFSET_CONFIG}>
             <button
               aria-label="Toggle theme"
@@ -63,6 +63,7 @@ export function SiteFooter() {
               )}
             </button>
           </WithHover>
+          */}
         </div>
 
         <div className="flex flex-col gap-3 md:items-end">

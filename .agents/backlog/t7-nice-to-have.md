@@ -22,6 +22,7 @@ Migrated from v3.4 to v4.2 (2026-03-11). These leverage new v4 capabilities:
 
 ## Features
 
+- [ ] **Restore theme toggle** -- Theme switch buttons (SiteFooter + send-button ThemeSwitch) are commented out / disabled until theme persistence and embed sync are fixed. Re-enable and verify no revert-to-dark after switching to light.
 - [ ] **`next-view-transitions`** -- Same-document transitions for the `(main)` route group. CSS cross-document transitions already work. Good candidate for T2 Registry page transitions too (mentioned in registry plan Phase 7).
 - [ ] **Tier 2/3 library adoption** -- None adopted yet. Once the registry ships (T2), these become "consume upstream registry, fork, customize, redistribute" opportunities -- the shadcn model applied recursively.
   - Tier 2: r3f-scroll-rig, react-vfx/vfx.js, StringTune, @react-three/timeline, Theatre.js

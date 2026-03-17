@@ -5,10 +5,9 @@ import "../experiments.css";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { DevToolsInjector } from "@/components/dev";
 import { ExperimentJsonLd } from "@/components/seo/ExperimentJsonLd";
+import { EmbedThemeSync } from "@/components/ui/EmbedThemeSync";
 import { ExperimentNav } from "@/components/ui/ExperimentNav";
-import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
-import { getRelatedSlugs } from "@/lib/experiments";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import experiment from "./experiment.json";
@@ -85,19 +84,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
           enableSystem
         >
+          <Suspense fallback={null}>
+            <EmbedThemeSync />
+          </Suspense>
           <UmamiScript />
           <ExperimentNav
             articleSlug={hasArticle ? experiment.slug : undefined}
           />
           {children}
-          {getRelatedSlugs(experiment)?.length > 0 && (
-            <Suspense fallback={null}>
-              <RelatedExperimentsSection
-                slugs={getRelatedSlugs(experiment)}
-                variant="experiment"
-              />
-            </Suspense>
-          )}
         </ThemeProvider>
       </body>
     </html>

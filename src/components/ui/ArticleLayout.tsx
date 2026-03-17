@@ -4,7 +4,9 @@ import type React from "react";
 import { Suspense } from "react";
 import { TypographyDebugPanel } from "@/components/dev/TypographyDebugPanel";
 import { PageActions } from "@/components/mdx/PageActions";
+import { AIWidget } from "@/components/ui/AIWidget";
 import { RelatedExperimentsSection } from "@/components/ui/RelatedExperimentsSection";
+import { SiteFooter } from "@/components/ui/SiteFooter";
 import { AUTHOR_DISPLAY, SITE_URL } from "@/lib/constants";
 
 interface ArticleNavItem {
@@ -171,6 +173,9 @@ export function ArticleLayout({
           )}
         </nav>
       )}
+
+      <SiteFooter />
+      <AIWidget />
     </div>
   );
 }

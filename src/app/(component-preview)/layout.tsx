@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
+import { ComponentPreviewThemeSync } from "./ComponentPreviewThemeSync";
 import "./component-preview.css";
 
 export const metadata = {
@@ -14,7 +16,7 @@ export default function ComponentPreviewLayout({
   children: ReactNode;
 }) {
   return (
-    <html className="dark" lang="en">
+    <html className="dark" lang="en" suppressHydrationWarning>
       <body
         className={cn(
           activeFont.className,
@@ -30,6 +32,9 @@ export default function ComponentPreviewLayout({
           overscrollBehavior: "none",
         }}
       >
+        <Suspense fallback={null}>
+          <ComponentPreviewThemeSync />
+        </Suspense>
         {children}
       </body>
     </html>

@@ -41,6 +41,8 @@ What appears when the site is shared or indexed across Google, Twitter/X, Facebo
 
 ### Article pages (e.g. `/experiments/basketball-replay-center/article`)
 
+Article pages use full site chrome: breadcrumb, article content, Related experiments (once), prev/next nav, SiteFooter, and AIWidget. Experiment pages (e.g. `/experiments/basketball-replay-center`) show only the top-left nav (Return / Go to article) and the experiment; no Related section, footer, or widget. Theming (light/dark) applies to article content and to embedded demos (LiveDemo iframes and component-preview iframes receive theme via URL and sync on load).
+
 | Surface | Title | Description | Image |
 |---------|-------|-------------|-------|
 | **Google** | {title} — Article \| Razi's Experiments Lab | frontmatter.description ?? experiment.description | — |

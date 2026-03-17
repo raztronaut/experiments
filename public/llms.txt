@@ -3,17 +3,17 @@
 > A creative coding lab exploring shaders, 3D graphics, animation, and interaction design. Each experiment is isolated, interactive, and close to publishable.
 
 ## Articles
-- [404 Not Found](https://www.razisyed.cv/experiments/404-not-found/article): Building a cinematic 404 page with procedurally animated 3D ribbons, a dual-face GLSL shader, and scroll-velocity-driven text animation in React Three Fiber
+- [404 Not Found](https://www.razisyed.cv/experiments/404-not-found/article): Building a cinematic 404 page with procedurally animated 3D ribbons, a dual-face GLSL shader, and scroll-velocity-driven text in React Three Fiber
   - Markdown: https://www.razisyed.cv/experiments/404-not-found/article.mdx
 - [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center/article): Building a sports control room preloader with CRT shaders, barrel distortion, and GSAP-driven uniform animation in React Three Fiber
   - Markdown: https://www.razisyed.cv/experiments/basketball-replay-center/article.mdx
-- [Non-Euclidean Hyperbolic Second Brain](https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article): Building a non-Euclidean second brain on the Poincaré disk: Möbius transforms, geodesic arcs, conformal scaling, and why hyperbolic geometry is a better fit for knowledge graphs than anything Obsidian does
+- [Non-Euclidean Hyperbolic Second Brain](https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article): Non-Euclidean second brain on the Poincaré disk: Möbius transforms, geodesic arcs, and why hyperbolic geometry fits knowledge graphs better than flat apps.
   - Markdown: https://www.razisyed.cv/experiments/non-euclidean-hyperbolic-workspace/article.mdx
-- [Velocity-Responsive Design](https://www.razisyed.cv/experiments/velocity-responsive-design/article): What if responsive design responded to how you read, not just what you read on?
+- [Velocity-Responsive Design](https://www.razisyed.cv/experiments/velocity-responsive-design/article): What if responsive design responded to how you read? VRD adapts typography and content density to scroll speed using Lenis and hysteresis.
   - Markdown: https://www.razisyed.cv/experiments/velocity-responsive-design/article.mdx
 
 ## Experiments
-- [404 Not Found](https://www.razisyed.cv/experiments/404-not-found): A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.
+- [404 Not Found](https://www.razisyed.cv/experiments/404-not-found): A cinematic 404 experience with procedurally animated 3D ribbons, custom GLSL shaders, and scroll-driven text in React Three Fiber.
 - [Airplanes](https://www.razisyed.cv/experiments/airplanes): Scroll-driven 3D airplane storytelling with dual solid/wireframe rendering, parallax backgrounds, and SVG line drawing annotations
 - [Basketball Replay Center](https://www.razisyed.cv/experiments/basketball-replay-center): A WebGL preloader recreating a sports control room, with a CRT screen grid, custom distortion shaders, post-processing, and GSAP animations.
 - [Bugged Out Game of Life Shader](https://www.razisyed.cv/experiments/bugged-out-game-of-life-shader-experiment): A variant of the Game of Life shader accidentally counting the decaying ghost trails as living neighbors
@@ -31,7 +31,7 @@
 - [Shader Landing](https://www.razisyed.cv/experiments/shader-landing): A random shader experiment
 - [Terminal Cat](https://www.razisyed.cv/experiments/terminal-cat): Animating ASCII art in the browser console logs
 - [Transit/Airport Split-Flap Display](https://www.razisyed.cv/experiments/transit-airport-split-flap-display): A split flap display for transit/airport systems with sound effects manually made with Web Audio API
-- [Velocity-Responsive Design](https://www.razisyed.cv/experiments/velocity-responsive-design): A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed
+- [Velocity-Responsive Design](https://www.razisyed.cv/experiments/velocity-responsive-design): A 'Relativistic Reader' that adapts content density and layout based on scroll speed using Lenis and hysteresis.
 
 ## Technical Details
 - Built with Next.js 16+ (App Router), React 19+, TypeScript

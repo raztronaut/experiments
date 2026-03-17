@@ -1088,7 +1088,9 @@
       "description": "ArticleLayout component",
       "category": "components",
       "registryDependencies": [
+        "AIWidget",
         "RelatedExperimentsSection",
+        "SiteFooter",
         "razi-style"
       ],
       "dependencies": [
@@ -1180,6 +1182,22 @@
         {
           "path": "src/components/ui/experiments/constants.ts",
           "type": "registry:file"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "embed-theme-sync",
+      "type": "registry:component",
+      "title": "EmbedThemeSync",
+      "description": "When the page is loaded inside an iframe with ?embed=1&theme=light|dark",
+      "category": "components",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/EmbedThemeSync.tsx",
+          "type": "registry:component"
         }
       ],
       "meta": {}

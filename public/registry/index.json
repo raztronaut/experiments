@@ -208,7 +208,9 @@
       "lucide-react"
     ],
     "registryDependencies": [
+      "AIWidget",
       "RelatedExperimentsSection",
+      "SiteFooter",
       "razi-style"
     ],
     "files": [
@@ -756,6 +758,20 @@
       },
       {
         "name": "GrainOverlay.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "embed-theme-sync",
+    "type": "registry:component",
+    "title": "EmbedThemeSync",
+    "description": "When the page is loaded inside an iframe with ?embed=1&theme=light|dark",
+    "category": "components",
+    "files": [
+      {
+        "name": "EmbedThemeSync.tsx",
         "type": "registry:component"
       }
     ]
