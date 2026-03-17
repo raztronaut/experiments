@@ -78,3 +78,12 @@ Use shared controls (`Range`, `Checkbox`, `Switch`) instead of raw `<input>` ele
 CSS-first via `experiments.css` (Sylph port). Do NOT add Tailwind typography overrides to the MDX component map -- the CSS handles headings, paragraphs, lists, and code blocks.
 
 ## The `# Title` h1 in the MDX IS the visual page title. The layout header only shows metadata.
+
+## SEO checklist (before publish)
+
+- **Description:** 120–155 chars in frontmatter; unique per article; used for meta and JSON-LD.
+- **Title and H1:** Aligned; single H1 per page.
+- **First paragraph:** States topic and value; snippet-friendly (no "In this article we'll…").
+- **Headings:** Descriptive of each section.
+- **No duplicate title or description** with another article.
+- Full guidance: docs/seo.md.

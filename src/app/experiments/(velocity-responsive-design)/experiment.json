@@ -1,6 +1,6 @@
 {
   "title": "Velocity-Responsive Design",
-  "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
+  "description": "A 'Relativistic Reader' that adapts content density and layout based on scroll speed using Lenis and hysteresis.",
   "slug": "velocity-responsive-design",
   "profile": "scrollytelling",
   "created": "2025-12-31T04:46:03.740Z",

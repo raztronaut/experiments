@@ -7,6 +7,7 @@ import {
 
 interface ExperimentJsonLdProps {
   description: string;
+  image?: string;
   slug: string;
   tags?: string[];
   title: string;
@@ -17,13 +18,20 @@ export function ExperimentJsonLd({
   description,
   slug,
   tags,
+  image,
 }: ExperimentJsonLdProps) {
   return (
     <>
       <script
         dangerouslySetInnerHTML={{
           __html: safeJsonLdStringify(
-            generateCreativeWorkJsonLd({ title, description, slug, tags })
+            generateCreativeWorkJsonLd({
+              title,
+              description,
+              slug,
+              tags,
+              image,
+            })
           ),
         }}
         type="application/ld+json"

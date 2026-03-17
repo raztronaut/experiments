@@ -315,7 +315,101 @@ Both run in lefthook pre-commit. See [Scripts](scripts.md).
 
 ---
 
-## 19. Indexing (Google, Bing)
+## 19. Keyword Strategy and Flow
+
+**Where keywords live:**
+
+- **Main layout** (`src/app/(main)/layout.tsx`): Static `keywords` array (Next.js, React, Three.js, Shaders, Razi Syed, raztronaut, WebGL, GSAP, Design Engineering, etc.) — site-wide only.
+- **Experiment pages:** No HTML meta keywords in layout by default; **JSON-LD** (CreativeWork) gets `keywords` from `experiment.tags` in `src/lib/structured-data.ts`. Optional: add `metadata.keywords` from `tags` + `tech` in plop template for parity.
+- **Article pages:** **JSON-LD** (TechArticle) gets `keywords` from `params.tags` (experiment.tags). Optional: add `metadata.keywords` in article page from experiment.tags + tech.
+
+**Data flow:** Experiment `tags` (and optionally `tech`) feed CreativeWork and TechArticle JSON-LD, and llms.txt / llms-full.txt (Experiments section and per-experiment blocks). Single source: `experiment.json`. Google largely ignores meta keywords; Bing and some AI systems may use them. Adding per-page meta keywords from tags+tech keeps surfaces consistent.
+
+---
+
+## 20. Experiment Metadata for SEO
+
+**Description:**
+
+- **Length:** 120–160 characters for experiment pages. Used in meta description, OG/Twitter, CreativeWork schema, sitemap, and llms.txt.
+- **Content:** State what the experiment is and one concrete technique or outcome (e.g. "Interactive 3D CRT monitor with custom scanline shader, chromatic aberration, and mouse-follow tilt").
+- **Validation:** `validate-experiments.mjs` can warn when length is outside 100–180 chars (soft band). See [Validation and audit](#26-validation-and-audit).
+
+**Tags and tech:**
+
+- **tags:** Topic/theme (e.g. scroll, shader, 3d, crt, interactive). Flow to JSON-LD `keywords` and llms.txt. Use consistent casing where it matters (e.g. "3D", "CRT").
+- **tech:** Stack (e.g. r3f, three.js, gsap, glsl). Flow to llms-full.txt and optional meta keywords. Prefer common casing: "R3F", "Three.js", "GSAP", "GLSL".
+- Populate both for shipped/public experiments so search and AI surfaces are complete.
+
+---
+
+## 21. Article Content SEO
+
+**Frontmatter:**
+
+- **title:** Clear, unique; aligns with the single H1 (MDX # Title).
+- **description:** 120–155 characters; used for meta and TechArticle; unique per article and compelling for CTR.
+- **publishedAt / updatedAt:** ISO 8601; set `updatedAt` when making meaningful content changes (E-E-A-T).
+- **keywords (optional):** Article-specific long-tail terms; if present, can be merged with experiment.tags for JSON-LD.
+
+**Prose:**
+
+- **First 100–150 words:** State the topic, experiment name, and 1–2 key techniques or outcomes. Snippet-friendly: answer "What is this?" so search and AI can extract a clear summary. Avoid filler ("In this article we'll…").
+- **H2/H3:** Descriptive of the section; support discoverability. No keyword stuffing; voice per writing-voice.md.
+- **In-body:** Natural use of experiment name, technique names, and stack. Internal links to related experiments/articles where relevant; external links to authoritative docs/specs where helpful.
+- **Depth:** Articles should be substantive (e.g. 400–600+ words for indexable articles); each article is the definitive piece for that experiment.
+
+See [.agents/contexts/writing-voice.md](.agents/contexts/writing-voice.md) (SEO and discoverability) and [.cursor/rules/article-writing.mdc](.cursor/rules/article-writing.mdc) (SEO checklist).
+
+---
+
+## 22. Internal Linking
+
+- **Experiment → article:** "Read article" on cards; article CTA "Try the {experimentTitle} experiment" links back to experiment.
+- **Article → experiment:** CTA and breadcrumb (Home > Experiment > Article).
+- **Related:** `experiment.json` `related: ["slug1", "slug2"]` drives RelatedExperimentsSection on experiment and article pages. Use genuine topical overlap.
+- **In-body:** Link to related experiments or articles in prose where it adds value. No pillar/category pages unless you add them later; the graph is experiment ↔ article + related experiments.
+
+---
+
+## 23. Title and Description Length
+
+| Surface | Guidance |
+|--------|----------|
+| **Page title (title tag)** | ~50–60 characters to avoid truncation in Google. Pattern: `{page} \| Razi's Experiments Lab` or `{title} — Article \| …`. |
+| **Experiment meta description** | 120–160 chars (from experiment.json). |
+| **Article meta description** | 120–155 chars (from frontmatter.description ?? experiment.description). |
+
+Audit script can flag title length > 60 and description outside these bands.
+
+---
+
+## 24. Image SEO
+
+- **Experiment posters:** Used as OG/Twitter image and in sitemap. Ensure poster exists for experiments with video; fallback is og-image.png. Alt text for experiment cards: use experiment title or a short descriptive phrase (e.g. "Basketball Replay Center — CRT grid preloader").
+- **Article images (MDX):** Use meaningful `alt` on all images (screenshots, diagrams, before/after). Alt should describe the image for accessibility and image search.
+- **OG/dynamic images:** `/api/og` generates article OG images; no separate alt policy for the image API output beyond title/tags in the image.
+
+---
+
+## 25. Visible Breadcrumbs
+
+Article pages include **visible breadcrumb navigation** (e.g. Home > {experimentTitle} > Article) in addition to BreadcrumbList JSON-LD. Implemented in `ArticleLayout` (or article page wrapper) with `<nav aria-label="Breadcrumb">`; link order matches JSON-LD. Last item is current page (text only or `aria-current="page"`). Improves UX and reinforces hierarchy for crawlers.
+
+---
+
+## 26. Validation and Audit
+
+| Script / command | Purpose |
+|------------------|---------|
+| **validate-experiments** | `npm run validate:experiments` — schema, enums, slugs, related; optional soft warning for description length outside 100–180 chars and empty tags/tech for shipped+public. |
+| **audit-seo** | `npm run audit:seo` (or validate:seo) — reads all experiment.json and article content.mdx; reports description lengths, duplicate titles/descriptions, title length > 60, missing tags/tech; writes `docs/audits/seo-keywords-content-YYYY-MM.md`. Optional: exit non-zero on critical issues (e.g. duplicate titles) for CI. |
+
+Align with [.cursor/skills/audit-content/SKILL.md](.cursor/skills/audit-content/SKILL.md) so content coverage and SEO tuning can be reviewed together.
+
+---
+
+## 27. Indexing (Google, Bing)
 
 Submit the sitemap so search engines discover all pages; request indexing only for a few key URLs.
 
@@ -331,7 +425,7 @@ robots.txt already allows crawlers and references the sitemap. After submission,
 
 ---
 
-## 20. Optional / Out of Scope
+## 28. Optional / Out of Scope
 
 | Item | Notes |
 |------|-------|
@@ -344,7 +438,7 @@ robots.txt already allows crawlers and references the sitemap. After submission,
 
 ---
 
-## 21. References
+## 29. References
 
 - [llms.txt Specification v1.1.1](https://www.ai-visibility.org.uk/specifications/llms-txt/)
 - [AI Visibility Specifications](https://www.ai-visibility.org.uk/specifications/)

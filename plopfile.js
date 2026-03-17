@@ -16,7 +16,7 @@ module.exports = (plop) => {
       {
         type: "input",
         name: "description",
-        message: "Short description (optional):",
+        message: "Short description (120–160 chars for SEO, optional):",
       },
       {
         type: "list",
@@ -231,7 +231,8 @@ module.exports = (plop) => {
       {
         type: "input",
         name: "description",
-        message: "Article description (optional, press Enter to skip):",
+        message:
+          "Article description (120–155 chars for meta and JSON-LD, optional):",
       },
     ],
     actions(answers) {

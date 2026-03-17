@@ -46,6 +46,8 @@ description: Create a new isolated experiment with all required scaffolding
    - `src/components/experiments/kebab-name/PascalName.test.tsx` - Test file
    - `public/experiments/kebab-name/.gitkeep` - Asset directory
 
+   **After scaffolding:** Fill `experiment.json` description (120–160 chars for SEO) and tags/tech for JSON-LD and llms.txt. See docs/seo.md.
+
 3. Open the main component and start implementing:
    ```
    src/components/experiments/<name>/<PascalName>.tsx

@@ -9,18 +9,19 @@ description: Run, debug, and verify the content generation pipeline (registry, p
 
 | Command | What it does |
 |---------|-------------|
-| `npm run generate:registry` | 4-step registry pipeline (JSON → build → post-process → MDX) |
+| `npm run generate:registry` | 5-step registry pipeline (JSON → build → post-process → export component-preview slugs → MDX) |
 | `npm run generate:posters` | Extract first frame from preview videos via ffmpeg |
 | `npm run generate:llms-txt` | Generate `public/llms.txt` + `public/llms-full.txt` |
 | `npm run generate:all` | Orchestrator: runs posters, registry, llms-txt in parallel |
 | `npm run build` | `generate:all` → `next build` |
 
-## Registry Pipeline (4 steps, sequential)
+## Registry Pipeline (5 steps, sequential)
 
 1. **generate-registry-json.mjs**: Scans 5 categories (experiments, sharedUI, collected, hooks, utilities), resolves import graphs, applies `registry.config.json` curation → `registry.json`
 2. **build-registry.mjs**: Reads manifest + file contents → `public/registry/{name}.json` (shadcn-compatible)
 3. **post-process-registry.mjs**: Validates all items → `public/registry/index.json` + `index-slim.json`
-4. **generate-registry-mdx.mjs**: Generates Fumadocs MDX docs → `content/registry/**/*.mdx`
+4. **export-component-preview-slugs.mjs**: Reads `ui-component-previews.tsx`, extracts keys of `UI_COMPONENT_PREVIEWS` → `scripts/component-preview-slugs.json` (single source of truth for which components get a live preview)
+5. **generate-registry-mdx.mjs**: Generates Fumadocs MDX docs → `content/registry/**/*.mdx` (uses slug list from step 4 for component Preview sections)
 
 ## Skip Logic
 

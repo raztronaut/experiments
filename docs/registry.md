@@ -32,9 +32,24 @@ The CLI downloads component files, resolves and installs npm dependencies, merge
 | `mdx` | `src/components/mdx/` | MDX rendering components |
 | `styles` | Shared style item | `razi-style` design tokens |
 
+## Previews
+
+| Category | Preview behavior |
+|----------|------------------|
+| **Experiments** | Live iframe to `/experiments/[slug]` (ExperimentPreview). |
+| **Components** | Every component doc has a Preview section. Slugs in `UI_COMPONENT_PREVIEWS` get a live iframe (`/component-preview/[slug]`); others show a “Preview not yet added” placeholder. Single source of truth: `src/components/registry/ui-component-previews.tsx`; slug list is derived at build time by `export-component-preview-slugs.mjs`. |
+| **MDX** | Live iframe for 12 items in `MDX_PREVIEW_SLUGS` via `/mdx-preview/[slug]`. |
+| **Collected** | Permanent preview routes at `/collected/[slug]` (iframe); doc pages do not yet embed a Preview block. |
+| **Hooks / Utilities** | No preview blocks (code-only docs). |
+
+### Adding a component preview
+
+1. Add an entry to `UI_COMPONENT_PREVIEWS` in `src/components/registry/ui-component-previews.tsx` (slug → `{ component: YourPreviewComponent }`).
+2. Run `npm run generate:registry`. The export script will include the new slug; the MDX generator will add a live Preview section for that component. No edits in the generator or any slug list.
+
 ## Generation Pipeline
 
-`npm run generate:registry` runs 4 scripts in sequence:
+`npm run generate:registry` runs 5 scripts in sequence:
 
 ### 1. generate-registry-json.mjs
 
@@ -59,11 +74,16 @@ Post-processing step that handles:
 - `razi-style` shared style propagation (`registryDependencies: ["razi-style"]` eliminates ~120 lines of duplicated Tailwind/CSS variables per item)
 - Metadata enrichment
 
-### 4. generate-registry-mdx.mjs
+### 4. export-component-preview-slugs.mjs
+
+Reads `src/components/registry/ui-component-previews.tsx`, extracts the keys of `UI_COMPONENT_PREVIEWS`, and writes `scripts/component-preview-slugs.json`. The MDX generator uses this file to know which components get a live preview iframe (single source of truth).
+
+### 5. generate-registry-mdx.mjs
 
 Generates MDX documentation files into `content/registry/` for Fumadocs:
 - One MDX file per registry item
-- Includes source code, install command, metadata, and component previews
+- Includes source code, install command, metadata, and previews (experiments: iframe; components: iframe or placeholder; MDX: iframe for whitelisted slugs)
+- Reads `scripts/component-preview-slugs.json` (from step 4) to decide which component docs get a live preview
 - Files with `.generated` marker are regenerated on each build; hand-authored files are preserved
 
 ## Collected Components

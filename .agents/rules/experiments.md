@@ -3,7 +3,7 @@
 # Experiment Isolation Rules
 
 ## Scaffolding
-Always use `npm run new:experiment` to create experiments. Never manually create initial experiment files. The generator handles route groups, layouts, metadata, components, and tests.
+Always use `npm run new:experiment` to create experiments. Experiment metadata (description, tags, tech) drives SEO surfaces; see docs/seo.md and .cursor/rules/experiment-metadata.mdc. Never manually create initial experiment files. The generator handles route groups, layouts, metadata, components, and tests.
 
 When porting external code (Codegrid, Awwwards, CodePen, repos), read `.agents/skills/porting-demos/SKILL.md` before scaffolding.
 

@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/constants";
 
 const DISALLOWED = [
+  "/component-preview",
   "/dev",
   "/mdx-preview",
   "/u/",

@@ -52,6 +52,35 @@ export function ArticleLayout({
 
   return (
     <div className="mx-auto h-entry max-w-3xl px-4 pt-20 pb-10 sm:px-6 sm:py-16">
+      <nav
+        aria-label="Breadcrumb"
+        className="mb-6 text-muted-foreground text-sm"
+      >
+        <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+          <li>
+            <Link href="/" className="transition-colors hover:text-foreground">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden className="select-none">
+            <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+          </li>
+          <li>
+            <Link
+              href={`/experiments/${experimentSlug}`}
+              className="transition-colors hover:text-foreground"
+            >
+              {experimentTitle}
+            </Link>
+          </li>
+          <li aria-hidden className="select-none">
+            <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+          </li>
+          <li aria-current="page" className="text-foreground">
+            Article
+          </li>
+        </ol>
+      </nav>
       <header className="mb-10">
         <h1 className="p-name font-semibold text-foreground">{title}</h1>
         <div className="mt-1 flex flex-wrap items-center gap-x-1 text-muted-foreground text-sm">

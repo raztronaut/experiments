@@ -65,6 +65,7 @@ export default async function ArticlePage() {
     dateModified: frontmatter.updatedAt,
     tags: experiment.tags as string[],
     ogImageUrl,
+    wordCount: Math.round(readingMinutes * 200),
   });
 
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([

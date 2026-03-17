@@ -113,6 +113,7 @@ interface ArticleJsonLdParams {
   slug: string;
   tags?: string[];
   title: string;
+  wordCount?: number;
 }
 
 export function generateArticleJsonLd(
@@ -151,6 +152,8 @@ export function generateArticleJsonLd(
     },
     ...(params.tags &&
       params.tags.length > 0 && { keywords: params.tags.join(", ") }),
+    ...(params.wordCount != null &&
+      params.wordCount > 0 && { wordCount: params.wordCount }),
   };
 }
 
@@ -176,6 +179,7 @@ export function generateBreadcrumbJsonLd(
 
 interface ExperimentJsonLdParams {
   description: string;
+  image?: string;
   slug: string;
   tags?: string[];
   title: string;
@@ -190,6 +194,11 @@ export function generateCreativeWorkJsonLd(
     name: params.title,
     description: params.description,
     url: `${SITE_URL}/experiments/${params.slug}`,
+    ...(params.image && {
+      image: params.image.startsWith("http")
+        ? params.image
+        : `${SITE_URL}${params.image}`,
+    }),
     creator: {
       "@type": "Person",
       name: AUTHOR_NAME,

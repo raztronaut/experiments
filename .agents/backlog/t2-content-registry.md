@@ -24,6 +24,7 @@ The largest body of remaining work. Infrastructure is complete but barely used.
 
 ## Registry
 
+- **Component previews (done)** — Every component doc has a Preview section; custom previews from `UI_COMPONENT_PREVIEWS` (single source of truth), others show a placeholder. Pipeline includes `export-component-preview-slugs.mjs`. Future improvements (usage snippets, audit, more previews): see `docs/registry-improvement-plan.md`.
 - [ ] **Curated Component Collection** -- Personal component mood board (Are.na / Raindrop.io for UI components). Single `collection.json` manifest as the database, CLI (`npm run collect add <url>`) with auto-enrichment (OG metadata + shadcn registry probe), web management UI at `/registry/collected` with boards/tags/ratings/status tracking, dev-mode server actions for write-back, and `quick-component` agent skill (save/port/manage modes). Three phases:
   1. **Data + CLI** -- `collection.json` schema (items, boards, statuses, ratings, notes), `scripts/collect.mjs` with add/list/tag/rate/note/status/board/remove/stats subcommands, auto-enrichment pipeline, update `scanCollected()` to read from `collection.json`.
   2. **Web UI** -- `/registry/collected` page with board tabs, status/tag/rating filters, search, CollectedGrid + CollectedCard components, dev-mode server actions for inline management.

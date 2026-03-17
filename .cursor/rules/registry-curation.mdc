@@ -32,11 +32,16 @@ alwaysApply: false
 - **scan toggles**: Control which directories `generate-registry-json.mjs` crawls
 - **utilities**: Explicit file paths (not auto-discovered like other categories)
 
+## Previews
+
+- Every **component** doc has a Preview section. Slugs in `UI_COMPONENT_PREVIEWS` (`src/components/registry/ui-component-previews.tsx`) get a live iframe via `/component-preview/[slug]`; others show `ComponentPreviewPlaceholder` (“Preview not yet added”). Single source of truth: that TS file; slug list is derived by `export-component-preview-slugs.mjs` → `scripts/component-preview-slugs.json` before MDX generation.
+- **Experiments** and **MDX** (whitelisted slugs) use iframe previews via `ComponentPreview` with their respective `basePath`. **Collected** has routes at `/collected/[slug]` but doc pages do not yet embed a Preview block.
+
 ## Code Display
 
 - Source code on docs pages uses `DynamicCodeBlock` from `fumadocs-ui/components/dynamic-codeblock` for runtime Shiki syntax highlighting
 - Install commands also use `DynamicCodeBlock` with `lang="bash"`
-- For shared UI components (`category: "components"`), hand-authored MDX in `content/registry/components/` renders components directly with inline JSX previews (do NOT import `.story.tsx` files in MDX -- `@fumadocs/story` barrel export pulls `node:fs/promises` which breaks Turbopack)
+- For shared UI components (`category: "components"`), generated MDX includes a Preview section (iframe or placeholder); hand-authored MDX in `content/registry/components/` is preserved (do NOT import `.story.tsx` in MDX — `@fumadocs/story` pulls `node:fs/promises` which breaks Turbopack)
 - For experiments and collected, iframe previews use `ComponentPreview` (unified component with `basePath` prop)
 
 ## After Changes

@@ -204,3 +204,13 @@ No hashtags unless genuinely useful.
 
 ### Changelog
 Idea lineage. Where it came from, how it evolved. Sections: Origin, Iterations (versioned), Current State, Related Ideas.
+
+---
+
+## SEO and discoverability
+
+- **First 100–150 words:** State the topic, experiment name, and 1–2 key techniques or outcomes. Answer "What is this?" so search and AI can extract a clear summary. No filler ("In this article we'll…").
+- **Headings (H2/H3):** Descriptive of the section; support discoverability. No keyword stuffing; voice unchanged.
+- **In-body:** Natural use of experiment name, technique names, and stack (e.g. GSAP, R3F). Internal links to related experiments/articles where relevant; external links to authoritative docs/specs where helpful.
+- **Depth:** Articles should be substantive (e.g. 400–600+ words for indexable articles). Each article is the definitive piece for that experiment.
+- See docs/seo.md for meta description length, title length, and validation.

@@ -3,7 +3,7 @@
   "name": "velocity-responsive-design",
   "type": "registry:block",
   "title": "Velocity-Responsive Design",
-  "description": "A 'Relativistic Reader' that adapts content density and layout based on the user's scroll speed",
+  "description": "A 'Relativistic Reader' that adapts content density and layout based on scroll speed using Lenis and hysteresis.",
   "category": "experiments",
   "meta": {
     "tags": [

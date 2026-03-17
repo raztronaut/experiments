@@ -8,7 +8,10 @@ import { cn } from "@/lib/utils";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
-// Mappings for Day/Night Specific Icons
+/** In-memory cache for Lottie JSON by filename to avoid re-fetching the same icon. */
+const lottieCache = new Map<string, unknown>();
+
+// Mappings for Day/Night Specific Icons (Open-Meteo WMO weather_code subset)
 const weatherIcons: Record<number, { day: string; night: string }> = {
   // Clear
   0: { day: "sun-hot.json", night: "moon-full.json" },
@@ -57,8 +60,8 @@ const weatherIcons: Record<number, { day: string; night: string }> = {
     day: "partly-cloudy-day-snow.json",
     night: "partly-cloudy-night-snow.json",
   },
-  73: { day: "snow.json", night: "snow.json" },
-  75: { day: "snow.json", night: "snow.json" },
+  73: { day: "overcast-snow.json", night: "overcast-snow.json" },
+  75: { day: "overcast-snow.json", night: "overcast-snow.json" },
   77: { day: "snowflake.json", night: "snowflake.json" }, // Snow grains
 
   // Rain showers
@@ -82,7 +85,7 @@ const weatherIcons: Record<number, { day: string; night: string }> = {
   },
   86: {
     day: "thunderstorms-day-snow.json",
-    night: "thunderstorms-day-snow.json",
+    night: "thunderstorms-night-snow.json",
   },
 
   // Thunderstorm
@@ -112,16 +115,22 @@ export function LottieWeatherIcon({
 
   useEffect(() => {
     const loadLottie = async () => {
-      // Fallback to sun/moon if code not found
-      const mapping = weatherIcons[code] || weatherIcons[0];
+      const mapping = weatherIcons[code] ?? weatherIcons[0];
       const filename = isNight ? mapping.night : mapping.day;
 
+      const cached = lottieCache.get(filename);
+      if (cached !== undefined) {
+        setAnimationData(cached);
+        return;
+      }
+
       try {
-        // Dynamically import the JSON file
-        // Note: We need to use the public path or import them.
-        // Since they are in public/, we can fetch them.
         const response = await fetch(`/weather/line/lottie/${filename}`);
-        const data = await response.json();
+        if (!response.ok) {
+          return;
+        }
+        const data = (await response.json()) as unknown;
+        lottieCache.set(filename, data);
         setAnimationData(data);
       } catch (error) {
         console.error("Failed to load weather icon:", filename, error);

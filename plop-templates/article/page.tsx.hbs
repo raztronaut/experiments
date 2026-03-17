@@ -39,6 +39,9 @@ export async function generateMetadata() {
   return {
     title: `${experiment.title} — Article`,
     description,
+    ...((experiment.tags?.length || experiment.tech?.length) && {
+      keywords: [...(experiment.tags ?? []), ...(experiment.tech ?? [])],
+    }),
     alternates: {
       canonical: `${SITE_URL}/experiments/${experiment.slug}/article`,
     },
@@ -70,6 +73,7 @@ export default async function ArticlePage() {
     dateModified: frontmatter.updatedAt,
     tags: experiment.tags as string[],
     ogImageUrl,
+    wordCount: Math.round(readingMinutes * 200),
   });
 
   const breadcrumbJsonLd = generateBreadcrumbJsonLd([

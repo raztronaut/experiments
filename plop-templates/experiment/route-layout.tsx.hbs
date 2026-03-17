@@ -56,6 +56,9 @@ export const metadata = {
     canonical: `${SITE_URL}/experiments/${experiment.slug}`,
   },
   authors: [{ name: AUTHOR_NAME, url: SITE_URL }],
+  ...((experiment.tags?.length || experiment.tech?.length) && {
+    keywords: [...(experiment.tags ?? []), ...(experiment.tech ?? [])],
+  }),
   robots: isPublic
     ? { index: true, follow: true, googleBot: { index: true, follow: true } }
     : { index: false, follow: false },
@@ -71,6 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <DevToolsInjector />
         <ExperimentJsonLd
           description={experiment.description}
+          image={posterPath !== "/og-image.png" ? `${SITE_URL}${posterPath}` : undefined}
           slug={experiment.slug}
           tags={experiment.tags as string[]}
           title={experiment.title}

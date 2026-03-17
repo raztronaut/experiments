@@ -46,6 +46,10 @@ shipped + registry| --        | --          | YES      | --       | --          
 
 - `articleLenses`: array of `"implementation"` | `"concept"` | `"exploration"` -- advisory hint for article lenses. Not enforced by validator.
 
+## SEO
+
+Description 120–160 chars; include tags and tech for JSON-LD and llms.txt. See docs/seo.md.
+
 ## Key Semantics
 
 - `legacy: true`: agent policy flag for pre-announcing-v2 experiments. Ask before modifying. Zero runtime effect.

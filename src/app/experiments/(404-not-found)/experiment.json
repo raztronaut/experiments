@@ -1,6 +1,6 @@
 {
   "title": "404 Not Found",
-  "description": "A cinematic 404 experience with procedurally animated 3D ribbons and custom GLSL shader effects.",
+  "description": "A cinematic 404 experience with procedurally animated 3D ribbons, custom GLSL shaders, and scroll-driven text in React Three Fiber.",
   "slug": "404-not-found",
   "profile": "r3f-shader",
   "created": "2026-01-26T20:45:55.003Z",

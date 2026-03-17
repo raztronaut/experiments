@@ -90,7 +90,7 @@ The main registry scanner (~1200 lines). Scans source directories, resolves impo
 node scripts/generate-registry-json.mjs
 ```
 
-This is the first step of the 4-script registry pipeline. It reads curation rules from `registry.config.json`.
+This is the first step of the 5-script registry pipeline. It reads curation rules from `registry.config.json`.
 
 ### build-registry.mjs
 
@@ -110,6 +110,14 @@ Post-processes registry output. Handles `razi-style` shared style propagation an
 node scripts/post-process-registry.mjs
 ```
 
+### export-component-preview-slugs.mjs
+
+Reads `src/components/registry/ui-component-previews.tsx`, extracts the keys of `UI_COMPONENT_PREVIEWS`, and writes `scripts/component-preview-slugs.json`. The next step (generate-registry-mdx.mjs) uses this to know which component docs get a live preview iframe.
+
+```bash
+node scripts/export-component-preview-slugs.mjs
+```
+
 ### generate-registry-mdx.mjs
 
 Generates Fumadocs MDX documentation into `content/registry/`. Files with a `.generated` marker are regenerated on each build; hand-authored files are preserved.
@@ -120,7 +128,7 @@ node scripts/generate-registry-mdx.mjs
 
 ### Full Registry Pipeline
 
-All four run in sequence:
+All five run in sequence:
 
 ```bash
 npm run generate:registry
@@ -128,6 +136,7 @@ npm run generate:registry
 # node scripts/generate-registry-json.mjs &&
 # node scripts/build-registry.mjs &&
 # node scripts/post-process-registry.mjs &&
+# node scripts/export-component-preview-slugs.mjs &&
 # node scripts/generate-registry-mdx.mjs
 ```
 

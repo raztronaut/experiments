@@ -151,6 +151,27 @@ try {
         "missing explicit listing field (should be public, dev, or registry)"
       );
     }
+
+    const descLen = config.description?.length ?? 0;
+    if (descLen > 0 && (descLen < 100 || descLen > 180)) {
+      warn(
+        relPath,
+        `description length ${descLen} outside SEO band 100–180 chars (docs/seo.md)`
+      );
+    }
+
+    const isIndexable =
+      config.status === "shipped" && (config.listing ?? "public") === "public";
+    if (
+      isIndexable &&
+      (!config.tags || config.tags.length === 0) &&
+      (!config.tech || config.tech.length === 0)
+    ) {
+      warn(
+        relPath,
+        "shipped+public but tags and tech empty (SEO/llms.txt benefit from them)"
+      );
+    }
   }
 
   console.log(`Validated ${slugs.size} experiments.`);
