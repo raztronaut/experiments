@@ -67,7 +67,7 @@ export const ExperimentGridCard = memo(
 
     return (
       <div
-        className="group flex h-full cursor-pointer flex-col gap-3 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 touch-pan-y"
+        className="group flex h-full cursor-pointer touch-pan-y flex-col gap-3 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         onClick={() => onClick(experiment)}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
