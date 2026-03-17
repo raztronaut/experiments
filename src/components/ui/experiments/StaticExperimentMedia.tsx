@@ -89,7 +89,7 @@ export const StaticExperimentMedia = ({
           }}
           priority={priority}
           quality={70}
-          sizes="(max-width: 768px) 92vw, (max-width: 1024px) 44vw, 28vw"
+          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 48vw, 30vw"
           src={staticImage}
         />
       )}
