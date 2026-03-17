@@ -2,7 +2,8 @@
 
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { SWIPE_GESTURE_ICON_DATA } from "./constants";
+
+const SWIPE_GESTURE_ICON_URL = "/swipe-gesture-icon.png";
 
 interface MobileSwipeTutorialOverlayProps {
   onVisibilityChange?: (isVisible: boolean) => void;
@@ -66,8 +67,8 @@ export function MobileSwipeTutorialOverlay({
           }}
           className="relative h-5 w-5 bg-black dark:bg-white"
           style={{
-            maskImage: `url(${SWIPE_GESTURE_ICON_DATA})`,
-            WebkitMaskImage: `url(${SWIPE_GESTURE_ICON_DATA})`,
+            maskImage: `url(${SWIPE_GESTURE_ICON_URL})`,
+            WebkitMaskImage: `url(${SWIPE_GESTURE_ICON_URL})`,
             maskSize: "contain",
             WebkitMaskSize: "contain",
             maskRepeat: "no-repeat",

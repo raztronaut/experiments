@@ -13,7 +13,9 @@
     "chrome >= 111",
     "edge >= 111",
     "firefox >= 111",
-    "safari >= 16.4"
+    "safari >= 16.4",
+    "not dead",
+    "not ie 11"
   ],
   "author": "Razi Syed <syed.raziulhaque@gmail.com>",
   "keywords": [

@@ -19,7 +19,7 @@ todos:
     status: pending
   - id: constants-audit
     content: Investigate 33KB constants.ts in analyzer (may be structured-data or other)
-    status: pending
+    status: completed
 isProject: false
 ---
 
@@ -90,14 +90,25 @@ Created `DeferredVercelAnalytics` — loads Analytics and SpeedInsights after mo
 
 ---
 
+## Completed (Round 2)
+
+### Constants audit ✓
+- **Root cause**: `SWIPE_GESTURE_ICON_DATA` — 22 KB base64 PNG in `src/components/ui/experiments/constants.ts`
+- **Fix**: Extracted to `public/swipe-gesture-icon.png`, updated `MobileSwipeTutorialOverlay` to use URL. Removes ~22 KB from JS bundle.
+
+### Duplicated JS ✓
+- Added `framer-motion` to `optimizePackageImports` (motion is built on framer-motion; both may appear in chunks).
+
+### Legacy JS ✓
+- Updated browserslist: added `"not dead"` and `"not ie 11"` for explicit modern-only targeting.
+
+---
+
 ## Deferred / Future
 
 | Item | Effort | Impact | Notes |
 |------|--------|--------|-------|
 | Image audit | Medium | 44 KB | Replace plain `<img>` in announcing-v2, collected with next/image |
-| Constants audit | Low | TBD | 33 KB in analyzer — may be structured-data or tree |
-| Duplicated JS | High | 30 KB | Next.js/framer-motion — requires deeper bundle analysis |
-| Legacy JS | Low | 14 KB | Update browserslist, remove polyfills |
 | GSAP route-split | Medium | 39 KB | Load GSAP only on scroll/animation routes — complex |
 
 ---

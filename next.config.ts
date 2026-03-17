@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       "lucide-react",
       "motion",
+      "framer-motion",
       "leva",
       "three",
       "@react-three/fiber",
@@ -79,6 +80,15 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+      {
+        source: "/swipe-gesture-icon.png",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
       {
         source:
