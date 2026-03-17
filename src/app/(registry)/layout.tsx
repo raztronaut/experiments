@@ -1,7 +1,6 @@
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
+import { DeferredVercelAnalytics } from "@/components/analytics/DeferredVercelAnalytics";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { activeFont } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -28,6 +27,9 @@ export default function RegistryLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link href="https://vitals.vercel-insights.com" rel="preconnect" />
+      </head>
       <body
         className={cn(
           activeFont.className,
@@ -45,8 +47,7 @@ export default function RegistryLayout({
         >
           {children}
         </RootProvider>
-        <Analytics />
-        <SpeedInsights />
+        <DeferredVercelAnalytics />
       </body>
     </html>
   );

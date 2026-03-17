@@ -16,6 +16,7 @@
 - [ ] `npm run typecheck` passes
 - [ ] `npm run lint` passes
 - [ ] `npm run validate:experiments` passes
+- [ ] `npm run budget` passes (if bundle-affecting changes)
 - [ ] Tested on Vercel preview deploy
 - [ ] Visual QA on preview URL (if UI changes)
 

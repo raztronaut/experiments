@@ -13,7 +13,9 @@
     "chrome >= 111",
     "edge >= 111",
     "firefox >= 111",
-    "safari >= 16.4"
+    "safari >= 16.4",
+    "not dead",
+    "not ie 11"
   ],
   "author": "Razi Syed <syed.raziulhaque@gmail.com>",
   "keywords": [
@@ -51,6 +53,9 @@
     "audit:seo": "node scripts/audit-seo.mjs",
     "optimize:videos": "node scripts/optimize-videos.mjs",
     "analyze": "next experimental-analyze",
+    "analyze:output": "next experimental-analyze --output",
+    "budget": "node scripts/bundle-size-budget.mjs",
+    "lighthouse": "npx lighthouse https://www.razisyed.cv --output=html --output-path=./.lighthouse-report.html --view",
     "prepare": "lefthook install",
     "postinstall": "node scripts/patch-r3f-perf.mjs"
   },

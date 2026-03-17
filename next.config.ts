@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       "lucide-react",
       "motion",
+      "framer-motion",
       "leva",
       "three",
       "@react-three/fiber",
@@ -52,6 +53,7 @@ const nextConfig: NextConfig = {
       "@radix-ui/react-separator",
       "@radix-ui/react-progress",
       "@radix-ui/react-slot",
+      "@radix-ui/react-switch",
       "sonner",
       "vaul",
       "katex",
@@ -78,6 +80,20 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+      // Source maps: noindex to avoid indexing minified source structure
+      {
+        source: "/_next/static/chunks/:filename(.+\\.map)",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/swipe-gesture-icon.png",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
       {
         source:
