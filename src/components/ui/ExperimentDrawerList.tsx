@@ -62,7 +62,10 @@ export function ExperimentDrawerList({
   const [mobilePreviewExperiment, setMobilePreviewExperiment] =
     useState<Experiment | null>(null);
   const touchStartRef = useRef<number | null>(null);
+  const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setIsHidden } = useCursor();
+
+  const PREFETCH_HOVER_DELAY_MS = 100;
 
   // Analytics
   const { trackExperiment, track } = useUmami();
@@ -130,6 +133,16 @@ export function ExperimentDrawerList({
     setIsHidden(isOpen);
   }, [isOpen, setIsHidden]);
 
+  // Prefetch when drawer opens (covers mobile tap without hover)
+  useEffect(() => {
+    if (isOpen && selectedExperiment) {
+      router.prefetch(selectedExperiment.href);
+      if (selectedExperiment.articleHref) {
+        router.prefetch(selectedExperiment.articleHref);
+      }
+    }
+  }, [isOpen, selectedExperiment, router]);
+
   // Track list origin for position calculations (only in list mode)
   useEffect(() => {
     if (viewMode !== "list") {
@@ -192,9 +205,24 @@ export function ExperimentDrawerList({
   const handleMouseEnter = (index: number) => {
     setHoveredIndex(index);
     setIsVisible(true);
+    // Debounce prefetch to avoid prefetching on quick mouse pass-over
+    prefetchTimeoutRef.current = setTimeout(() => {
+      const exp = experiments[index];
+      if (exp) {
+        router.prefetch(exp.href);
+        if (exp.articleHref) {
+          router.prefetch(exp.articleHref);
+        }
+      }
+      prefetchTimeoutRef.current = null;
+    }, PREFETCH_HOVER_DELAY_MS);
   };
 
   const handleMouseLeave = () => {
+    if (prefetchTimeoutRef.current) {
+      clearTimeout(prefetchTimeoutRef.current);
+      prefetchTimeoutRef.current = null;
+    }
     setHoveredIndex(null);
     setIsVisible(false);
   };
