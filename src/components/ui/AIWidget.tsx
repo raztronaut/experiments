@@ -99,7 +99,7 @@ export function AIWidget() {
         <motion.div
           className={cn(
             "group flex items-center rounded-lg border border-border/50 p-2 shadow-lg",
-            "bg-muted/40 transition-all duration-300" // Visible base, no manual blur (handled by glassStyle fallback)
+            "bg-muted/40 transition-colors duration-300" // Visible base, no manual blur (handled by glassStyle fallback)
           )}
           initial={false}
           layout
@@ -111,7 +111,7 @@ export function AIWidget() {
               <button
                 aria-label={`Summarize with ${service.name}`}
                 className={cn(
-                  "relative rounded-md p-2 text-muted-foreground transition-all duration-200",
+                  "relative rounded-md p-2 text-muted-foreground transition-colors duration-200",
                   "hover:bg-muted hover:text-foreground active:scale-95",
                   "focus:outline-hidden focus:ring-2 focus:ring-primary/20"
                 )}

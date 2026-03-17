@@ -324,7 +324,7 @@ export function ExperimentDrawerList({
                 onClick={handleExperimentClick}
                 onTouchEnd={handleTouchEnd}
                 onTouchStart={handleTouchStart}
-                priority={index < 2}
+                priority={index === 0}
                 showTutorial={index === 0}
               />
             ))}

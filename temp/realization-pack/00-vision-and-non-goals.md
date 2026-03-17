@@ -7,17 +7,17 @@ This repo is no longer just an experiments site.
 It is becoming a **portfolio operating system** with three simultaneous jobs:
 
 1. **Public portfolio**
-   - a high-end personal site for peers, clients, and thought leadership
-   - curated, intentional, visually strong
-   - not every internal artifact should be front-door visible
+  - a high-end personal site for peers, clients, and thought leadership
+  - curated, intentional, visually strong
+  - not every internal artifact should be front-door visible
 2. **Internal compounding engine**
-   - every experiment, collected reference, reusable component, article, and workflow should make future work faster and better
-   - the repo is both a showcase and a leverage machine
-   - speed of iteration matters as much as public polish
+  - every experiment, collected reference, reusable component, article, and workflow should make future work faster and better
+  - the repo is both a showcase and a leverage machine
+  - speed of iteration matters as much as public polish
 3. **Selective publishing system**
-   - visibility must be controllable
-   - public, dev-only, registry-only, and not-yet-ready states all matter
-   - promotion should be metadata-driven, not accidental
+  - visibility must be controllable
+  - public, dev-only, registry-only, and not-yet-ready states all matter
+  - promotion should be metadata-driven, not accidental
 
 ## Architectural principles for this pass
 
@@ -185,3 +185,4 @@ Unless later docs justify them, these are out of scope:
 - retrofitting every legacy experiment to v2 patterns
 - inventing a new publishing model outside `status × listing`
 - shipping a brand-new search architecture before content/runtime unification is settled
+

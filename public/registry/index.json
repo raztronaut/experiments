@@ -740,6 +740,20 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "deferred-ai-widget",
+    "type": "registry:component",
+    "title": "DeferredAIWidget",
+    "description": "Loads the heavy AI widget after LCP/idle.",
+    "category": "components",
+    "files": [
+      {
+        "name": "DeferredAIWidget.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "drawer",
     "type": "registry:component",
     "title": "drawer",
@@ -1306,6 +1320,37 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "location-status-enhancer",
+    "type": "registry:component",
+    "title": "LocationStatusEnhancer",
+    "description": "LocationStatusEnhancer component",
+    "category": "components",
+    "files": [
+      {
+        "name": "LocationStatusEnhancer.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "location-status-static",
+    "type": "registry:component",
+    "title": "LocationStatusStatic",
+    "description": "Server-rendered, zero-JS placeholder for the above-the-fold location/status UI.",
+    "category": "components",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "LocationStatusStatic.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "location-status",
     "type": "registry:component",
     "title": "LocationStatus",
@@ -1479,6 +1524,7 @@
       "motion"
     ],
     "registryDependencies": [
+      "use-mounted",
       "use-debounced-value",
       "razi-style"
     ],
@@ -1822,6 +1868,7 @@
     "description": "LiveDemo MDX component",
     "category": "mdx",
     "registryDependencies": [
+      "use-mounted",
       "razi-style"
     ],
     "files": [
@@ -2381,9 +2428,6 @@
       "lucide-react",
       "@radix-ui/react-switch"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
       {
         "name": "AnimatedPlaceholder.tsx",
@@ -2512,7 +2556,6 @@
     "category": "components",
     "registryDependencies": [
       "icons",
-      "use-mounted",
       "razi-style"
     ],
     "files": [

@@ -1,10 +1,11 @@
 import { Suspense } from "react";
-import { AIWidget } from "@/components/ui/AIWidget";
 import { ContentSection } from "@/components/ui/ContentSection";
 import { WithHover } from "@/components/ui/cursor/WithHover";
+import { DeferredAIWidget } from "@/components/ui/DeferredAIWidget";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { Icons } from "@/components/ui/icons";
-import { LocationStatus } from "@/components/ui/LocationStatus";
+import { LocationStatusEnhancer } from "@/components/ui/LocationStatusEnhancer";
+import { LocationStatusStatic } from "@/components/ui/LocationStatusStatic";
 import { SiteFooter } from "@/components/ui/SiteFooter";
 import { ThemeAwareWaves } from "@/components/ui/ThemeAwareWaves";
 import { getArticles } from "@/lib/articles";
@@ -87,7 +88,10 @@ export default function Home() {
         <div className="relative z-10 mb-8 md:mb-12">
           <div>
             <div className="relative mb-6 md:mb-8">
-              <LocationStatus />
+              <div id="location-status-static">
+                <LocationStatusStatic />
+              </div>
+              <LocationStatusEnhancer staticElementId="location-status-static" />
             </div>
             <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
               <WithHover config={TEXT_SCALE_CONFIG} type="text">
@@ -165,7 +169,7 @@ export default function Home() {
       <div className="mx-auto w-full max-w-6xl px-8 md:px-24">
         <SiteFooter />
       </div>
-      <AIWidget />
+      <DeferredAIWidget />
     </div>
   );
 }

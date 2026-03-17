@@ -17,8 +17,13 @@
 
   html {
     scrollbar-gutter: stable;
-    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
     scrollbar-width: thin;
+  }
+
+  @media (pointer: fine) {
+    html {
+      scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+    }
   }
 
   ::-webkit-scrollbar {

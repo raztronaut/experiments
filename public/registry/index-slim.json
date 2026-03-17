@@ -449,6 +449,20 @@
     "dependencyCount": 0
   },
   {
+    "name": "deferred-ai-widget",
+    "type": "registry:component",
+    "title": "DeferredAIWidget",
+    "description": "Loads the heavy AI widget after LCP/idle.",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
     "name": "drawer",
     "type": "registry:component",
     "title": "drawer",
@@ -757,6 +771,34 @@
     "category": "components",
     "fileCount": 11,
     "dependencyCount": 2
+  },
+  {
+    "name": "location-status-enhancer",
+    "type": "registry:component",
+    "title": "LocationStatusEnhancer",
+    "description": "LocationStatusEnhancer component",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
+    "name": "location-status-static",
+    "type": "registry:component",
+    "title": "LocationStatusStatic",
+    "description": "Server-rendered, zero-JS placeholder for the above-the-fold location/status UI.",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 0
   },
   {
     "name": "lottie-weather-icon",

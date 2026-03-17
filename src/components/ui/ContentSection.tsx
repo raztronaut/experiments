@@ -28,10 +28,10 @@ export function ContentSection({ articles, experiments }: ContentSectionProps) {
 
   return (
     <section className="relative w-full">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div
           aria-label="Content type"
-          className="flex items-center rounded-lg border border-border/50 bg-muted/50 p-1"
+          className="inline-flex items-center rounded-lg border border-border/50 bg-muted/50 p-1"
           role="tablist"
         >
           {tabs.map((tab) => (
@@ -73,10 +73,12 @@ export function ContentSection({ articles, experiments }: ContentSectionProps) {
             </WithHover>
           )}
           {activeTab === "experiments" && (
-            <ViewModeToggle
-              onViewModeChange={setViewMode}
-              viewMode={viewMode}
-            />
+            <div className="shrink-0">
+              <ViewModeToggle
+                onViewModeChange={setViewMode}
+                viewMode={viewMode}
+              />
+            </div>
           )}
         </div>
       </div>

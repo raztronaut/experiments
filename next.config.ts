@@ -22,7 +22,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
-      "connect-src 'self' https://cloud.umami.is https://*.vercel-insights.com https://api.open-meteo.com blob:",
+      "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.vercel-insights.com https://api.open-meteo.com blob:",
       "worker-src 'self' blob:",
       "media-src 'self'",
       "object-src 'none'",

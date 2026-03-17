@@ -17,11 +17,11 @@ export function ViewModeToggle({
 }: ViewModeToggleProps) {
   return (
     <div className="flex items-center justify-end">
-      <div className="flex items-center rounded-lg border border-border/50 bg-muted/50 p-1">
+      <div className="flex items-center rounded-lg border border-border/50 bg-muted/50 p-0.5">
         <WithHover config={{ hoverOffset: 0 }}>
           <button
             aria-label="Grid view"
-            className={`rounded-md p-1.5 transition-all ${
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:h-8 md:w-8 ${
               viewMode === "grid"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
@@ -34,7 +34,7 @@ export function ViewModeToggle({
         <WithHover config={{ hoverOffset: 0 }}>
           <button
             aria-label="List view"
-            className={`rounded-md p-1.5 transition-all ${
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:h-8 md:w-8 ${
               viewMode === "list"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"

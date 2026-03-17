@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "deferred-ai-widget",
+  "type": "registry:component",
+  "title": "DeferredAIWidget",
+  "description": "Loads the heavy AI widget after LCP/idle.",
+  "category": "components",
+  "files": [
+    {
+      "name": "DeferredAIWidget.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport type React from \"react\";\nimport { useEffect, useState } from \"react\";\n\ntype AIWidgetComponent = React.ComponentType;\n\nfunction runWhenIdle(cb: () => void) {\n  if (typeof window === \"undefined\") {\n    return;\n  }\n\n  // Prefer requestIdleCallback; fallback to a small delay.\n  if (\"requestIdleCallback\" in window) {\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    (window as any).requestIdleCallback(cb, { timeout: 1500 });\n    return;\n  }\n\n  setTimeout(cb, 800);\n}\n\n/**\n * Loads the heavy AI widget after LCP/idle.\n * Keeps initial JS on `/` smaller on Mobile.\n */\nexport function DeferredAIWidget() {\n  const [Widget, setWidget] = useState<AIWidgetComponent | null>(null);\n\n  useEffect(() => {\n    runWhenIdle(() => {\n      import(\"./AIWidget\")\n        .then((m) => setWidget(() => m.AIWidget))\n        .catch(() => {});\n    });\n  }, []);\n\n  if (!Widget) {\n    return null;\n  }\n\n  return <Widget />;\n}\n"
+    }
+  ]
+}

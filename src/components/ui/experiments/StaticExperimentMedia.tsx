@@ -79,6 +79,7 @@ export const StaticExperimentMedia = ({
           alt={experiment.title}
           className="z-0 object-cover"
           fill
+          fetchPriority={priority ? "high" : "auto"}
           onError={() => {
             if (staticImage === experiment.poster) {
               setPosterError(true);
@@ -88,7 +89,7 @@ export const StaticExperimentMedia = ({
           }}
           priority={priority}
           quality={70}
-          sizes="(max-width: 768px) 100vw, 400px"
+          sizes="(max-width: 768px) 92vw, (max-width: 1024px) 44vw, 28vw"
           src={staticImage}
         />
       )}

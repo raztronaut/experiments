@@ -758,9 +758,7 @@
       "title": "Send Button",
       "description": "A cool animated send button animation",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": [],
       "dependencies": [
         "motion",
         "lucide-react",
@@ -1187,6 +1185,22 @@
       "meta": {}
     },
     {
+      "name": "deferred-ai-widget",
+      "type": "registry:component",
+      "title": "DeferredAIWidget",
+      "description": "Loads the heavy AI widget after LCP/idle.",
+      "category": "components",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/DeferredAIWidget.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "embed-theme-sync",
       "type": "registry:component",
       "title": "EmbedThemeSync",
@@ -1447,6 +1461,40 @@
       "meta": {}
     },
     {
+      "name": "location-status-enhancer",
+      "type": "registry:component",
+      "title": "LocationStatusEnhancer",
+      "description": "LocationStatusEnhancer component",
+      "category": "components",
+      "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LocationStatusEnhancer.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "location-status-static",
+      "type": "registry:component",
+      "title": "LocationStatusStatic",
+      "description": "Server-rendered, zero-JS placeholder for the above-the-fold location/status UI.",
+      "category": "components",
+      "registryDependencies": [
+        "razi-style"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/LocationStatusStatic.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "lottie-weather-icon.story",
       "type": "registry:component",
       "title": "LottieWeatherIcon.story",
@@ -1574,7 +1622,6 @@
       "category": "components",
       "registryDependencies": [
         "icons",
-        "use-mounted",
         "razi-style"
       ],
       "dependencies": [],
@@ -2997,6 +3044,7 @@
       "description": "LiveDemo MDX component",
       "category": "mdx",
       "registryDependencies": [
+        "use-mounted",
         "razi-style"
       ],
       "dependencies": [],
@@ -3109,6 +3157,7 @@
       "description": "_previews MDX component",
       "category": "mdx",
       "registryDependencies": [
+        "use-mounted",
         "use-debounced-value",
         "razi-style"
       ],
