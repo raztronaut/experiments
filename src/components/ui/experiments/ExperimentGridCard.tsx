@@ -100,7 +100,7 @@ export const ExperimentGridCard = memo(
             {experiment.articleHref && (
               <Link
                 aria-label={`Read article: ${experiment.title}`}
-                className="inline-flex min-h-11 items-center gap-1 rounded-full border border-border bg-muted/50 px-3 py-2 font-medium text-muted-foreground text-xs transition-colors hover:border-foreground/20 hover:text-foreground md:min-h-0 md:px-2 md:py-0.5 md:text-[10px]"
+                className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/50 px-2 py-0.5 font-medium text-[10px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
                 href={experiment.articleHref}
                 onClick={(e) => e.stopPropagation()}
               >

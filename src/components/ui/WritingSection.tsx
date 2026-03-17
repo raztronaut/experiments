@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrowRight, FlaskConical } from "lucide-react";
 import Link from "next/link";
 import type { Article } from "@/lib/articles";

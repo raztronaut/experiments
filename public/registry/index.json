@@ -537,6 +537,10 @@
         "type": "registry:component"
       },
       {
+        "name": "WritingSection.tsx",
+        "type": "registry:component"
+      },
+      {
         "name": "Context.tsx",
         "type": "registry:component"
       },

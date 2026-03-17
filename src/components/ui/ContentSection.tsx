@@ -1,7 +1,6 @@
 "use client";
 
 import { Rss } from "lucide-react";
-import dynamic from "next/dynamic";
 import { useState } from "react";
 import type { Article } from "@/lib/articles";
 import type { Experiment } from "@/lib/experiments";
@@ -9,15 +8,7 @@ import { cn } from "@/lib/utils";
 import { WithHover } from "./cursor/WithHover";
 import { ExperimentDrawerList } from "./ExperimentDrawerList";
 import { ViewModeToggle } from "./experiments/ViewModeToggle";
-
-const WritingSection = dynamic(
-  () => import("./WritingSection").then((m) => ({ default: m.WritingSection })),
-  { ssr: false }
-);
-
-function preloadWritingSection() {
-  import("./WritingSection").catch(() => {});
-}
+import { WritingSection } from "./WritingSection";
 
 type ContentTab = "experiments" | "writing";
 
@@ -54,12 +45,6 @@ export function ContentSection({ articles, experiments }: ContentSectionProps) {
                     : "text-muted-foreground hover:text-foreground"
                 )}
                 onClick={() => setActiveTab(tab.id)}
-                onMouseEnter={
-                  tab.id === "writing" ? preloadWritingSection : undefined
-                }
-                onFocus={
-                  tab.id === "writing" ? preloadWritingSection : undefined
-                }
                 role="tab"
                 type="button"
               >

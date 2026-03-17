@@ -1150,6 +1150,10 @@
           "type": "registry:component"
         },
         {
+          "path": "src/components/ui/WritingSection.tsx",
+          "type": "registry:component"
+        },
+        {
           "path": "src/components/ui/cursor/Context.tsx",
           "type": "registry:component"
         },
