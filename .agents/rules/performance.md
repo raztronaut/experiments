@@ -39,3 +39,8 @@ For R3F experiments, `<R3FDevToolsInjector />` is auto-included in R3F Plop temp
 ```
 
 Append `?debug` to the URL for a visual r3f-perf panel + camera helpers. See `.agents/skills/visual-qa.md`.
+
+## Bundle Analysis
+
+- **Source maps**: `productionBrowserSourceMaps: true` in next.config.ts. Enables readable stack traces and DevTools source mapping in production.
+- **Analyzer**: `npm run analyze` (interactive at localhost:4000) or `npm run analyze:output` (writes to `.next/diagnostics/analyze/`). Run after `npm run build`. See `docs/performance.md`.

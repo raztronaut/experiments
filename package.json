@@ -51,6 +51,7 @@
     "audit:seo": "node scripts/audit-seo.mjs",
     "optimize:videos": "node scripts/optimize-videos.mjs",
     "analyze": "next experimental-analyze",
+    "analyze:output": "next experimental-analyze --output",
     "prepare": "lefthook install",
     "postinstall": "node scripts/patch-r3f-perf.mjs"
   },

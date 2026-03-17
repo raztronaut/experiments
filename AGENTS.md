@@ -46,6 +46,8 @@ npm run validate:experiments   # validate all experiment.json files
 npm run validate:site-config   # validate site-config.mjs ↔ constants.ts sync
 npm run capture <slug>         # Playwright screenshot capture
 npm run optimize:videos        # compress experiment preview videos
+npm run analyze                # interactive bundle analyzer (localhost:4000)
+npm run analyze:output         # write analysis to .next/diagnostics/analyze/
 ```
 
 ## Tech Stack
@@ -250,6 +252,7 @@ Read the relevant doc BEFORE working in that domain:
 | Shaders | `.agents/rules/shaders.md` | Editing .glsl/.frag/.vert files or ShaderMaterial |
 | Scroll | `.agents/rules/scroll.md` | Using Lenis, ScrollTrigger, or createUnifiedScroll |
 | Performance | `.agents/rules/performance.md` | Optimizing render, bundle, or runtime performance |
+| Performance tooling | `docs/performance.md` | Source maps, bundle analyzer, performance monitoring |
 | Experiments | `.agents/rules/experiments.md` | Creating or modifying any experiment (always read) |
 | Registry | `docs/registry.md` | Editing registry pipeline, component previews, or registry docs |
 | SEO / metadata | `docs/seo.md` | Editing metadata, sitemap, robots, structured data, or indexing |
