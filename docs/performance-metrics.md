@@ -29,6 +29,23 @@ Baseline and comparison for the page performance overhaul (PR #17).
 
 ---
 
+## After (Preview — March 2026)
+
+**Source**: Lighthouse on https://experiments-2z17900zi-razisyed97s-projects.vercel.app (PR #17 preview)
+
+| Metric | Before | After | Δ |
+|--------|--------|------|---|
+| **Performance** | 74 | **85** | **+11** |
+| **FCP** | 1.2s | 1.1s | −0.1s |
+| **LCP** | 3.5s | 4.1s | +0.6s* |
+| **TBT** | 680ms | **160ms** | **−520ms (−76%)** |
+| **CLS** | 0 | 0 | — |
+| **Speed Index** | 2.4s | 2.6s | +0.2s |
+
+\* LCP regression likely preview artifact (placeholder images vs. production video posters). Re-test after merge.
+
+---
+
 ## After (Production — March 2026)
 
 **Source**: Lighthouse on https://www.razisyed.cv (PR #17 merged)
