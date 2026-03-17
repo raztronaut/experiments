@@ -120,7 +120,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link href="https://cloud.umami.is" rel="dns-prefetch" />
+        <link href="https://cloud.umami.is" rel="preconnect" />
+        <link href="https://api-gateway.umami.dev" rel="preconnect" />
         <link
           href={`https://webmention.io/${new URL(SITE_URL).host}/webmention`}
           rel="webmention"

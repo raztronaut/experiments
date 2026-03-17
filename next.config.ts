@@ -45,6 +45,17 @@ const nextConfig: NextConfig = {
       "shiki",
       "fumadocs-core",
       "fumadocs-ui",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-tooltip",
+      "@radix-ui/react-scroll-area",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-separator",
+      "@radix-ui/react-progress",
+      "@radix-ui/react-slot",
+      "sonner",
+      "vaul",
+      "katex",
+      "lottie-react",
     ],
   },
   images: {
@@ -52,7 +63,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   poweredByHeader: false,
-  productionBrowserSourceMaps: false,
+  productionBrowserSourceMaps: true,
   compiler: {
     removeConsole: {
       exclude: ["error"],

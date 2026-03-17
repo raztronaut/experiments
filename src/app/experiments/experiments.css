@@ -39,11 +39,7 @@
     scrollbar-width: thin;
   }
 
-  @media (pointer: fine) {
-    html {
-      scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
-    }
-  }
+  /* scrollbar-color removed: causes layout recalculations (jank) during scroll */
 
   @media (min-width: 640px) {
     html {
