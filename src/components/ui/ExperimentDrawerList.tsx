@@ -63,6 +63,7 @@ export function ExperimentDrawerList({
     useState<Experiment | null>(null);
   const touchStartRef = useRef<number | null>(null);
   const swipeHandledRef = useRef(false);
+  const swipeResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setIsHidden } = useCursor();
 
@@ -143,6 +144,16 @@ export function ExperimentDrawerList({
       }
     }
   }, [isOpen, selectedExperiment, router]);
+
+  // Clear swipe reset timer on unmount
+  useEffect(
+    () => () => {
+      if (swipeResetTimerRef.current) {
+        clearTimeout(swipeResetTimerRef.current);
+      }
+    },
+    []
+  );
 
   // Track list origin for position calculations (only in list mode)
   useEffect(() => {
@@ -243,13 +254,18 @@ export function ExperimentDrawerList({
       touchStartRef.current = null;
 
       if (Math.abs(diff) > 50) {
+        if (swipeResetTimerRef.current) {
+          clearTimeout(swipeResetTimerRef.current);
+          swipeResetTimerRef.current = null;
+        }
         swipeHandledRef.current = true;
         setMobilePreviewExperiment((prev) =>
           prev?.slug === experiment.slug ? null : experiment
         );
         // Reset after synthetic click would have fired (~300ms)
-        setTimeout(() => {
+        swipeResetTimerRef.current = setTimeout(() => {
           swipeHandledRef.current = false;
+          swipeResetTimerRef.current = null;
         }, 400);
       }
     },
