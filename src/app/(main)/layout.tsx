@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { activeFont } from "@/lib/fonts";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import dynamic from "next/dynamic";
+import { DeferredVercelAnalytics } from "@/components/analytics/DeferredVercelAnalytics";
 import { GlobalTracking } from "@/components/analytics/GlobalTracking";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 
@@ -122,6 +121,7 @@ export default function RootLayout({
       <head>
         <link href="https://cloud.umami.is" rel="preconnect" />
         <link href="https://api-gateway.umami.dev" rel="preconnect" />
+        <link href="https://vitals.vercel-insights.com" rel="preconnect" />
         <link
           href={`https://webmention.io/${new URL(SITE_URL).host}/webmention`}
           rel="webmention"
@@ -181,8 +181,7 @@ export default function RootLayout({
         >
           <CursorProvider>{children}</CursorProvider>
         </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
+        <DeferredVercelAnalytics />
       </body>
     </html>
   );
