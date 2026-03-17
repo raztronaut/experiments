@@ -62,7 +62,8 @@ export function ExperimentDrawerList({
   const [mobilePreviewExperiment, setMobilePreviewExperiment] =
     useState<Experiment | null>(null);
   const touchStartRef = useRef<number | null>(null);
-  const swipeHandledRef = useRef(false);
+  /** Slug of experiment we just swiped; used to suppress only that gesture's synthetic click, not taps on other cards */
+  const swipedExperimentSlugRef = useRef<string | null>(null);
   const swipeResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { setIsHidden } = useCursor();
@@ -258,13 +259,13 @@ export function ExperimentDrawerList({
           clearTimeout(swipeResetTimerRef.current);
           swipeResetTimerRef.current = null;
         }
-        swipeHandledRef.current = true;
+        swipedExperimentSlugRef.current = experiment.slug;
         setMobilePreviewExperiment((prev) =>
           prev?.slug === experiment.slug ? null : experiment
         );
-        // Reset after synthetic click would have fired (~300ms)
+        // Fallback: clear in case synthetic click never fires
         swipeResetTimerRef.current = setTimeout(() => {
-          swipeHandledRef.current = false;
+          swipedExperimentSlugRef.current = null;
           swipeResetTimerRef.current = null;
         }, 400);
       }
@@ -274,7 +275,8 @@ export function ExperimentDrawerList({
 
   const handleExperimentClick = useCallback(
     (experiment: Experiment) => {
-      if (swipeHandledRef.current) {
+      if (swipedExperimentSlugRef.current === experiment.slug) {
+        swipedExperimentSlugRef.current = null;
         return;
       }
       trackExperiment(UmamiEvents.EXPERIMENT_OPEN_DRAWER, {
