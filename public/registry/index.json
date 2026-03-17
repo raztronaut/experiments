@@ -754,6 +754,20 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "deferred-theme-aware-waves",
+    "type": "registry:component",
+    "title": "DeferredThemeAwareWaves",
+    "description": "DeferredThemeAwareWaves component",
+    "category": "components",
+    "files": [
+      {
+        "name": "DeferredThemeAwareWaves.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "drawer",
     "type": "registry:component",
     "title": "drawer",

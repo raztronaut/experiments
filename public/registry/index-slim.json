@@ -463,6 +463,20 @@
     "dependencyCount": 0
   },
   {
+    "name": "deferred-theme-aware-waves",
+    "type": "registry:component",
+    "title": "DeferredThemeAwareWaves",
+    "description": "DeferredThemeAwareWaves component",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
     "name": "drawer",
     "type": "registry:component",
     "title": "drawer",

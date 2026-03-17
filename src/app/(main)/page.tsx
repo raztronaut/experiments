@@ -2,12 +2,13 @@ import { Suspense } from "react";
 import { ContentSection } from "@/components/ui/ContentSection";
 import { WithHover } from "@/components/ui/cursor/WithHover";
 import { DeferredAIWidget } from "@/components/ui/DeferredAIWidget";
+import { DeferredThemeAwareWaves } from "@/components/ui/DeferredThemeAwareWaves";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { Icons } from "@/components/ui/icons";
 import { LocationStatusEnhancer } from "@/components/ui/LocationStatusEnhancer";
 import { LocationStatusStatic } from "@/components/ui/LocationStatusStatic";
 import { SiteFooter } from "@/components/ui/SiteFooter";
-import { ThemeAwareWaves } from "@/components/ui/ThemeAwareWaves";
+
 import { getArticles } from "@/lib/articles";
 import { getExperiments } from "@/lib/experiments";
 import { replica, testDieGrotesk } from "@/lib/fonts";
@@ -82,7 +83,7 @@ export default function Home() {
           WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent)",
         }}
       >
-        <ThemeAwareWaves className="h-full w-full" />
+        <DeferredThemeAwareWaves className="h-full w-full" />
       </div>
       <main className="relative isolate z-10 mx-auto w-full max-w-6xl flex-1 p-4 pt-40 md:p-24 md:pt-64">
         <div className="relative z-10 mb-8 md:mb-12">
