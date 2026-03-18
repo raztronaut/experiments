@@ -11,13 +11,24 @@ import {
 } from "@react-three/postprocessing";
 import React, { Suspense } from "react";
 import * as THREE from "three";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMounted } from "@/hooks/useMounted";
 import { Controls } from "./Controls";
 import { PRESETS } from "./presets";
 import { useLife3d } from "./useLife3d";
 import { VoxelGrid } from "./VoxelGrid";
 
+/** Smaller grid on mobile to avoid WebGL/InstancedMesh limits (64k instances can fail on iOS) */
+const DESKTOP_GRID = 40;
+const MOBILE_GRID = 20;
+
 export default function Life_3d() {
   const [activePreset, setActivePreset] = React.useState("neural");
+  const mounted = useMounted();
+  const isTouchDevice = useMediaQuery("(pointer: coarse)");
+  const isNarrowViewport = useMediaQuery("(max-width: 768px)");
+  const isMobile = isTouchDevice || isNarrowViewport;
+  const gridSize = mounted && isMobile ? MOBILE_GRID : DESKTOP_GRID;
 
   const {
     grid,
@@ -33,12 +44,20 @@ export default function Life_3d() {
     setSpeed,
     updateRules,
   } = useLife3d({
-    initialWidth: 40,
-    initialHeight: 40,
-    initialDepth: 40,
+    initialDepth: gridSize,
     initialDensity: PRESETS.neural.density,
+    initialHeight: gridSize,
     initialRules: PRESETS.neural.rules,
+    initialWidth: gridSize,
   });
+
+  // Re-initialize when gridSize changes (e.g. mobile detected after mount)
+  React.useEffect(() => {
+    if (mounted && dimensions.width !== gridSize) {
+      const preset = PRESETS[activePreset];
+      reset(gridSize, gridSize, gridSize, preset.density, isPlaying);
+    }
+  }, [mounted, gridSize, activePreset, isPlaying, reset, dimensions.width]);
 
   const handlePresetChange = (presetId: string) => {
     setActivePreset(presetId);
@@ -55,7 +74,7 @@ export default function Life_3d() {
 
   return (
     <div className="group relative h-full w-full overflow-hidden bg-black">
-      {/* R3F Canvas */}
+      {/* R3F Canvas — gridSize reduced on mobile to avoid WebGL/InstancedMesh limits */}
       <Canvas camera={{ position: [35, 35, 35], fov: 45 }} dpr={[1, 2]} shadows>
         <OrbitControls
           autoRotate={!isPlaying}
