@@ -178,17 +178,20 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX();
 
-const sentryOptions =
-  process.env.SENTRY_AUTH_TOKEN || process.env.NEXT_PUBLIC_SENTRY_DSN
-    ? {
-        org: process.env.SENTRY_ORG,
-        project: process.env.SENTRY_PROJECT,
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-        widenClientFileUpload: true,
-        tunnelRoute: "/monitoring",
-        silent: !process.env.CI,
-      }
-    : undefined;
+const sentryEnabled =
+  Boolean(process.env.SENTRY_DSN) ||
+  Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN);
+
+const sentryOptions = sentryEnabled
+  ? {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      widenClientFileUpload: true,
+      tunnelRoute: "/monitoring",
+      silent: !process.env.CI,
+    }
+  : undefined;
 
 const configWithMDX = withMDX(nextConfig);
 

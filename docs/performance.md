@@ -125,14 +125,19 @@ See `.agents/rules/performance.md`:
 
 ### Sentry (error and performance monitoring)
 
-Sentry is **optional** and env-gated: when `NEXT_PUBLIC_SENTRY_DSN` is not set, no Sentry code runs (graceful degradation).
+Sentry is **optional** and env-gated: when no DSN is set, no Sentry code runs (graceful degradation).
 
-**Environment variables:**
+**Full implementation (recommended for production):** set all of the following in Vercel (and optionally in `.env.local` / `.env.sentry-build-plugin` for local builds):
 
-- `NEXT_PUBLIC_SENTRY_DSN` — Enables client, server, and edge Sentry. Set in Vercel and optionally in `.env.local` for local testing.
-- `SENTRY_DSN` — Optional; used for server/edge when set (falls back to `NEXT_PUBLIC_SENTRY_DSN` if unset).
-- `SENTRY_AUTH_TOKEN` — For source map upload at build time. Create at [sentry.io/settings/auth-tokens/](https://sentry.io/settings/auth-tokens/) with `project:releases` and `org:read`. Set in Vercel (and optionally in `.env.sentry-build-plugin` locally; that file is gitignored).
-- `SENTRY_ORG`, `SENTRY_PROJECT` — Optional; required for source map upload when using the build plugin. Set in Vercel or CI.
+| Variable | Purpose | Where to set |
+|----------|---------|--------------|
+| `NEXT_PUBLIC_SENTRY_DSN` | Client (browser) DSN; enables error reporting in the app. | Vercel → Environment Variables (all envs). Safe to expose. |
+| `SENTRY_DSN` | Server/edge DSN; used for Node and Edge runtimes (falls back to `NEXT_PUBLIC_SENTRY_DSN` if unset). Prefer setting this so the client DSN is not the only source. | Vercel, **Sensitive** recommended. |
+| `SENTRY_AUTH_TOKEN` | Source map upload at build time. Create at [sentry.io/settings/auth-tokens/](https://sentry.io/settings/auth-tokens/) with `project:releases` and `org:read`. | Vercel, **Sensitive**. Locally: `.env.sentry-build-plugin` (gitignored). |
+| `SENTRY_ORG` | Sentry organization slug (required for source map upload). | Vercel or CI. |
+| `SENTRY_PROJECT` | Sentry project slug (required for source map upload). | Vercel or CI. |
+
+**Minimum:** Set `NEXT_PUBLIC_SENTRY_DSN` (or `SENTRY_DSN` for server-only) to enable error reporting. Add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` for readable stack traces via source map upload.
 
 **Features:** Error monitoring (all runtimes), tracing (10% sample in prod), session replay only when an error occurs (replaysOnErrorSampleRate: 1.0). Tunnel route `/monitoring` bypasses ad-blockers. Source maps are uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set. See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
 

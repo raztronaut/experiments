@@ -48,3 +48,4 @@ Append `?debug` to the URL for a visual r3f-perf panel + camera helpers. See `.a
 ## Error and performance monitoring
 
 - When Sentry is enabled (DSN set), report errors from error boundaries and route `error.tsx` via `@/lib/sentry` (`captureExperimentError`). Do not log PII or secrets in Sentry extra or breadcrumbs.
+- Full Sentry setup: `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT`. See `docs/performance.md`.
