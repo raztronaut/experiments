@@ -2,6 +2,39 @@ import { withSentryConfig } from "@sentry/nextjs";
 import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 
+// Sentry CSP report endpoint (Settings > Security Headers); built from DSN so violations show in Sentry
+function getSentryReportUri(): string {
+  const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
+  if (!dsn) {
+    return "";
+  }
+  try {
+    const u = new URL(dsn);
+    const key = u.username;
+    const projectId = u.pathname.replace(/^\//, "");
+    const host = u.hostname;
+    return `https://${host}/api/${projectId}/security/?sentry_key=${key}`;
+  } catch {
+    return "";
+  }
+}
+
+const sentryReportUri = getSentryReportUri();
+const cspDirectives = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self'",
+  "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.vercel-insights.com https://*.ingest.sentry.io https://api.open-meteo.com blob:",
+  "worker-src 'self' blob:",
+  "media-src 'self'",
+  "object-src 'none'",
+  "frame-src 'self'",
+  "frame-ancestors 'self'",
+  ...(sentryReportUri ? [`report-uri ${sentryReportUri}`] : []),
+];
+
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   {
@@ -21,19 +54,7 @@ const securityHeaders = [
   },
   {
     key: "Content-Security-Policy",
-    value: [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https:",
-      "font-src 'self'",
-      "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.vercel-insights.com https://*.ingest.sentry.io https://api.open-meteo.com blob:",
-      "worker-src 'self' blob:",
-      "media-src 'self'",
-      "object-src 'none'",
-      "frame-src 'self'",
-      "frame-ancestors 'self'",
-    ].join("; "),
+    value: cspDirectives.join("; "),
   },
 ];
 

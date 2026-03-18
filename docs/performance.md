@@ -141,7 +141,7 @@ Sentry is **optional** and env-gated: when no DSN is set, no Sentry code runs (g
 
 **Features:** Error monitoring (all runtimes), tracing (10% sample in prod), profiling (10% in prod, client), session replay only when an error occurs (replaysOnErrorSampleRate: 1.0). Logs are disabled. Tunnel route `/monitoring` bypasses ad-blockers. Source maps are uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set. See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
 
-**Verification:** After deploy, open `/dev` (preview or dev only) and use **Send test to Sentry** or **Throw test error**. Confirm the event appears in [Sentry Issues](https://sentry.io/issues/) within ~30s.
+**Verification:** After deploy, open `/dev` (preview or dev only) and use **Send test to Sentry** or **Throw test error**. In production, visit any page with **`?sentry_test=prod-verify`** (e.g. `https://www.razisyed.cv/?sentry_test=prod-verify`); one test event is sent and the param is removed from the URL. Confirm the event in [Sentry Issues](https://sentry.io/issues/) within ~30s.
 
 **No data in Sentry?**
 

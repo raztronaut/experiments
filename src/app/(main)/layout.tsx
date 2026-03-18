@@ -10,6 +10,7 @@ const ConsoleEasterEgg = dynamic(() =>
   import("@/components/ui/ConsoleEasterEgg").then((m) => m.ConsoleEasterEgg)
 );
 
+import { SentryProdTestTrigger } from "@/components/monitoring/SentryProdTestTrigger";
 import { CursorProvider } from "@/components/ui/cursor/Provider";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import {
@@ -174,6 +175,7 @@ export default function RootLayout({
         <UmamiScript />
         <GlobalTracking />
         <ConsoleEasterEgg />
+        <SentryProdTestTrigger />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
