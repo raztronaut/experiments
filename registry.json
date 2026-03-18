@@ -1080,6 +1080,26 @@
       "meta": {}
     },
     {
+      "name": "article-card",
+      "type": "registry:component",
+      "title": "ArticleCard",
+      "description": "Article card with prefetch={false} and hover-triggered prefetch.",
+      "category": "components",
+      "registryDependencies": [
+        "razi-style"
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/ArticleCard.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "article-layout",
       "type": "registry:component",
       "title": "ArticleLayout",
@@ -1166,6 +1186,10 @@
           "type": "registry:component"
         },
         {
+          "path": "src/components/ui/ArticleCard.tsx",
+          "type": "registry:component"
+        },
+        {
           "path": "src/components/ui/experiments/MobileSwipeTutorialOverlay.tsx",
           "type": "registry:component"
         },
@@ -1176,10 +1200,6 @@
         {
           "path": "src/components/ui/experiments/InteractivePreviewMedia.tsx",
           "type": "registry:component"
-        },
-        {
-          "path": "src/components/ui/experiments/constants.ts",
-          "type": "registry:file"
         }
       ],
       "meta": {}
@@ -1274,10 +1294,6 @@
         {
           "path": "src/components/ui/experiments/InteractivePreviewMedia.tsx",
           "type": "registry:component"
-        },
-        {
-          "path": "src/components/ui/experiments/constants.ts",
-          "type": "registry:file"
         }
       ],
       "meta": {}
@@ -1712,6 +1728,10 @@
       "files": [
         {
           "path": "src/components/ui/WritingSection.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/ui/ArticleCard.tsx",
           "type": "registry:component"
         },
         {

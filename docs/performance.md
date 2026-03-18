@@ -139,16 +139,36 @@ Sentry is **optional** and env-gated: when no DSN is set, no Sentry code runs (g
 
 **Minimum:** Set `NEXT_PUBLIC_SENTRY_DSN` (or `SENTRY_DSN` for server-only) to enable error reporting. Add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` for readable stack traces via source map upload.
 
-**Features:** Error monitoring (all runtimes), tracing (10% sample in prod), profiling (10% in prod, client), session replay only when an error occurs (replaysOnErrorSampleRate: 1.0). Logs are disabled. Tunnel route `/monitoring` bypasses ad-blockers. Source maps are uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set. See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
+**Features:**
 
-**Verification:** After deploy, open `/dev` (preview or dev only) and use **Send test to Sentry** or **Throw test error**. In production, visit any page with **`?sentry_test=prod-verify`** (e.g. `https://www.razisyed.cv/?sentry_test=prod-verify`); one test event is sent and the param is removed from the URL. Confirm the event in [Sentry Issues](https://sentry.io/issues/) within ~30s.
+- **Errors**: all runtimes (client + node + edge), env-gated, no PII by default.
+- **Tracing**: `tracesSampleRate` is `1.0` in dev, `0.1` in prod.
+- **Profiling**: enabled on **browser + node** with `profileSessionSampleRate` (dev `1.0`, prod `0.1`) and `profileLifecycle: "trace"`. Requires `Document-Policy: js-profiling` header (already set in `next.config.ts`). Browser profiling is Chromium-only.
+- **Replay**: replay-on-error only (`replaysSessionSampleRate: 0`, `replaysOnErrorSampleRate: 1.0`), privacy-default.
+- **Logs**: disabled.
+
+**Tags:** main app errors use `route: "main"`; experiment route errors use `route: "experiment"` and `slug: "<experiment-slug>"` (from `captureExperimentError` in `(main)/error.tsx` and each experiment `error.tsx`).
+
+**Replay privacy:** Session Replay uses Sentry defaults (`maskAllText: true`, `blockAllMedia: true`); see [Sentry Replay privacy](https://docs.sentry.io/platforms/javascript/guides/nextjs/session-replay/privacy/).
+
+**Ad-blocker bypass (tunnel):** events are sent via tunnel route `/_t` (same origin); the client sets `tunnel: "/_t"` and `next.config` sets `tunnelRoute: "/_t"`. There is **no root `middleware.ts`** in this repo (by design); without middleware, the tunnel route cannot be intercepted.
+
+**Source maps:** uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set (via `withSentryConfig`). `productionBrowserSourceMaps: true` keeps DevTools profiling readable too.
+
+See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
+
+**Verification:**
+
+- **Dev/Preview**: open `/dev` and use **Send test to Sentry** or **Throw test error**.
+- **Production (error-only)**: visit any page with **`?sentry_test=prod-verify`** (e.g. `https://www.razisyed.cv/?sentry_test=prod-verify`). One test error is sent and the param is removed.
+- **Production (healthcheck: message + trace + profile)**: visit any page with **`?sentry_test=healthcheck`**. This sends a message (“Sentry healthcheck”) and a tiny traced span (shows up in Performance). With profiling enabled and supported, a profile should be attached to the trace.
 
 **No data in Sentry?**
 
 1. **Redeploy after adding env vars** — `NEXT_PUBLIC_SENTRY_DSN` is inlined at **build time**. If you added it in Vercel after the last deploy, trigger a new deployment (e.g. push a commit or use Vercel’s “Redeploy”) so the client bundle is built with the DSN.
 2. **Check build env** — In Vercel, ensure `NEXT_PUBLIC_SENTRY_DSN` is set for the environment that runs the build (e.g. Preview and Production).
 3. **Enable debug** — In development, the client init sets `debug: true`; open the browser console to see Sentry SDK logs (e.g. “Sentry SDK not sending because DSN is undefined”).
-4. **Ad-blockers** — If the console shows `net::ERR_BLOCKED_BY_CLIENT` on Sentry requests (or on `/monitoring`), a browser extension is blocking them. Test in an incognito window with extensions disabled, or whitelist your domain. The tunnel (`tunnelRoute: "/monitoring"`) avoids direct ingest URLs but some blockers still match it.
+4. **Ad-blockers** — If the console shows `net::ERR_BLOCKED_BY_CLIENT` on Sentry requests or on `/_t`, a browser extension is blocking them. We use tunnel `/_t` and explicit `tunnel` in the client to avoid direct ingest URLs and common block-list path names. Test in an incognito window with extensions disabled, or whitelist your domain.
 5. **Sentry quota** — Check [Stats](https://sentry.io/orgredirect/organizations/:orgslug/stats/) and billing in case quota is exceeded.
 
 ---
@@ -188,7 +208,7 @@ See `docs/performance-metrics.md` for before/after Lighthouse metrics. Run `npm 
 | Source maps | Enabled, noindex on .map |
 | Defer Analytics/SpeedInsights | `DeferredVercelAnalytics` |
 | Preconnect Vercel | `vitals.vercel-insights.com` |
-| Sentry (optional) | Env-gated; errors + tracing + replay-on-error; tunnel `/monitoring`; preconnect `o0.ingest.sentry.io` |
+| Sentry (optional) | Env-gated; errors + tracing + replay-on-error; tunnel `/_t` (ad-blocker bypass); preconnect `o0.ingest.sentry.io` |
 | Constants audit | SWIPE_GESTURE_ICON → static PNG |
 | optimizePackageImports | motion, framer-motion, lucide, etc. |
 | Browserslist | Modern-only (not dead, not ie 11) |

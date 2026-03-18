@@ -1,6 +1,6 @@
 # Razi's Experiments Lab
 
-Creative coding lab at https://www.razisyed.cv. Isolated Next.js experiments -- shaders, 3D scenes, scroll-driven animation, interactive UI. Every experiment should be close to publishable. Fight entropy. Leave the codebase better than you found it.
+Creative coding lab at [https://www.razisyed.cv](https://www.razisyed.cv). Isolated Next.js experiments -- shaders, 3D scenes, scroll-driven animation, interactive UI. Every experiment should be close to publishable. Fight entropy. Leave the codebase better than you found it.
 
 ## Commands
 
@@ -52,25 +52,28 @@ npm run analyze:output         # write analysis to .next/diagnostics/analyze/
 
 ## Tech Stack
 
-| Library | Version | Import |
-|---------|---------|--------|
-| Next.js | 16.1 | `next` -- App Router, React 19 |
-| React | 19.2 | `react`, `react-dom` |
-| TypeScript | ^5 | strict mode |
-| Tailwind CSS | 4.2 | CSS-first config, `@tailwindcss/postcss`, shadcn/ui, class-variance-authority |
-| GSAP | 3.14 | `gsap`, `gsap/ScrollTrigger`, `@gsap/react` -- always dynamic import |
-| Motion | 12.x | `motion/react` -- layout animations, gestures, springs |
-| Lenis | 1.3 | `lenis`, `lenis/react` -- smooth scroll |
-| Tempus | 1.0-dev.17 | `tempus` -- unified RAF with priority system |
-| Hamo | 1.0-dev.10 | `hamo` -- useRect, useWindowSize, useResizeObserver |
-| R3F | 9.4 | `@react-three/fiber` -- React renderer for Three.js |
-| Drei | 10.7 | `@react-three/drei` -- R3F helpers |
-| Three.js | 0.182 | `three` -- always dynamic import |
-| Zustand | 5.0 | `zustand` -- state management (getState() in useFrame) |
-| Biome | 2.4 | via `ultracite` -- linting + formatting |
-| Vitest | 4.0 | `vitest` -- unit tests with JSDOM |
+
+| Library      | Version    | Import                                                                        |
+| ------------ | ---------- | ----------------------------------------------------------------------------- |
+| Next.js      | 16.1       | `next` -- App Router, React 19                                                |
+| React        | 19.2       | `react`, `react-dom`                                                          |
+| TypeScript   | ^5         | strict mode                                                                   |
+| Tailwind CSS | 4.2        | CSS-first config, `@tailwindcss/postcss`, shadcn/ui, class-variance-authority |
+| GSAP         | 3.14       | `gsap`, `gsap/ScrollTrigger`, `@gsap/react` -- always dynamic import          |
+| Motion       | 12.x       | `motion/react` -- layout animations, gestures, springs                        |
+| Lenis        | 1.3        | `lenis`, `lenis/react` -- smooth scroll                                       |
+| Tempus       | 1.0-dev.17 | `tempus` -- unified RAF with priority system                                  |
+| Hamo         | 1.0-dev.10 | `hamo` -- useRect, useWindowSize, useResizeObserver                           |
+| R3F          | 9.4        | `@react-three/fiber` -- React renderer for Three.js                           |
+| Drei         | 10.7       | `@react-three/drei` -- R3F helpers                                            |
+| Three.js     | 0.182      | `three` -- always dynamic import                                              |
+| Zustand      | 5.0        | `zustand` -- state management (getState() in useFrame)                        |
+| Biome        | 2.4        | via `ultracite` -- linting + formatting                                       |
+| Vitest       | 4.0        | `vitest` -- unit tests with JSDOM                                             |
+
 
 **Toolkit integration layer** at `src/lib/toolkit/`:
+
 - `scroll.ts` -- `createUnifiedScroll()`: Lenis (priority -1) + GSAP (priority 0) on Tempus RAF
 - `raf.ts` -- Tempus re-export
 - `r3f.tsx` -- `ExperimentCanvas`: Canvas wrapper with optional Tempus render (priority 1)
@@ -99,6 +102,7 @@ public/experiments/experiment-name/
 ```
 
 **Hard rules:**
+
 - No cross-experiment imports. No global state pollution. Shared UI is read-only.
 - Always scaffold with `npm run new:experiment`. Never manually create experiment files.
 - Three locations only: `src/app/experiments/(name)/`, `src/components/experiments/name/`, `public/experiments/name/`
@@ -115,6 +119,7 @@ public/experiments/experiment-name/
 ### Component size discipline
 
 Target **200 lines** per component. Hard limit **300 lines** -- triggers mandatory decomposition:
+
 1. Extract constants to `data.ts`
 2. Extract hooks to dedicated files
 3. Split visual sections into `sections/SectionName.tsx` -- each owns its own `useGSAP`/animation scope
@@ -131,7 +136,7 @@ From the 12 Principles of Animation:
 - **Follow-through**: stagger children, spring overshoot for physicality.
 - **Anticipation**: subtle cue before major actions (scale-down before scale-up).
 - **Exaggeration**: amplify feedback sparingly -- error shakes, success bounces.
-- **`prefers-reduced-motion`**: always respected. Use `gsap.set` for fallbacks, not early returns.
+- `**prefers-reduced-motion`**: always respected. Use `gsap.set` for fallbacks, not early returns.
 - **Motion vocabulary diversity**: each section needs a distinct motion signature. Mix `clipPath` reveals, blur transitions, scale transforms, text splitting, parallax, horizontal scroll, counter-animations. Don't repeat `opacity: 0, y: 40` everywhere.
 
 ## UX Standards
@@ -164,7 +169,7 @@ From Laws of UX:
 
 ## Branching and Deploy
 
-- **`main`** = production. Vercel auto-deploys every merge. Branch-protected: PRs required, CI must pass.
+- `**main`** = production. Vercel auto-deploys every merge. Branch-protected: PRs required, CI must pass.
 - **Feature branches** for multi-commit work: `feat/`, `fix/`, `port/`, `experiment/`.
 - **Draft PRs** to get Vercel preview URLs without signaling "ready to merge".
 - **Admin bypass** exists for single-commit hotfixes directly to `main`.
@@ -174,26 +179,33 @@ From Laws of UX:
 ## Guardrails
 
 ### 2-Iteration Limit
+
 If an approach fails after **2 attempts**, STOP:
+
 1. Summarize what you tried and why it failed
 2. Present **2-3 alternatives** with trade-offs
 3. Ask which direction to take
 
 ### Visual/Spatial Honesty
+
 For WebGL, shaders, physics, animations, canvas -- acknowledge you cannot see the output. Provide best-effort with clear TODOs. Suggest the user validate visually.
 
 ### Pre-Commit Verification
+
 Before ANY commit: `tsc --noEmit` + build must pass. Never commit code that doesn't build.
 
 ### Bug Fix Scope
+
 Stay confined to files directly related to the bug. No drive-by refactors, no dependency upgrades in bug fix PRs.
 
 ### Context Hygiene
+
 When tool output exceeds ~2K tokens, write it to a scratch file and return a summary with the file path.
 
 ## Boundaries
 
 **Always do:**
+
 - Scaffold experiments with `npm run new:experiment`
 - Run `tsc --noEmit` before commits
 - Respect `prefers-reduced-motion`
@@ -202,12 +214,14 @@ When tool output exceeds ~2K tokens, write it to a scratch file and return a sum
 - Clean up effects (listeners, timers, animation contexts)
 
 **Ask first:**
+
 - Adding new production dependencies
 - Modifying shared UI (`src/components/ui/`)
 - Changing the toolkit integration layer (`src/lib/toolkit/`)
 - Modifying CI/CD configuration
 
 **Never do:**
+
 - Import from another experiment's component directory
 - Modify legacy experiments (`legacy: true` in experiment.json)
 - Commit secrets, API keys, or `.env` files
@@ -219,18 +233,20 @@ When tool output exceeds ~2K tokens, write it to a scratch file and return a sum
 
 Two fields control visibility across all surfaces. One truth table. No exceptions.
 
-**`status`**: `"wip"` | `"shipped"`
+`**status`**: `"wip"` | `"shipped"`
+
 - `wip`: dev/preview homepage only. Excluded from registry, llms.txt, posters, articles, sitemap, RSS. `noindex`.
 - `shipped`: complete. Eligible for surfaces based on `listing`.
 
-**`listing`**: `"public"` | `"dev"` | `"registry"` (default: `"public"`)
+`**listing**`: `"public"` | `"dev"` | `"registry"` (default: `"public"`)
+
 - `public`: full public visibility. Homepage, registry, llms.txt, posters (if video), articles, sitemap, RSS. SEO indexed.
 - `dev`: dev/preview homepage only. Still in registry and llms.txt. Articles exist but hidden publicly. `noindex`.
 - `registry`: registry only. No homepage, no llms.txt, no posters, no articles, no sitemap. `noindex`.
 
-**`legacy`**: boolean -- agent policy flag. Marks pre-announcing-v2 experiments. Zero runtime effect. Ask before touching.
+`**legacy**`: boolean -- agent policy flag. Marks pre-announcing-v2 experiments. Zero runtime effect. Ask before touching.
 
-**Dev status dashboard**: `/dev` route (dev/preview only, 404 in production) shows all experiments with truth-table-derived visibility badges.
+**Dev status dashboard**: `/dev` route (dev/preview only, 404 in productmion) shows all experiments with truth-table-derived visibility badges.
 
 **Environment detection**: `src/lib/env.ts` exports `isDev`, `isPreview`, `showDevContent`. Vercel preview deploys show dev content.
 
@@ -245,28 +261,32 @@ Two fields control visibility across all surfaces. One truth table. No exception
 
 Read the relevant doc BEFORE working in that domain:
 
-| Domain | File | Read when |
-|--------|------|-----------|
-| Animation | `.agents/rules/animations.md` | Editing components with GSAP, Motion, or scroll-driven animation |
-| R3F / 3D | `.agents/rules/r3f.md` | Editing R3F scenes, Canvas, useFrame, drei components |
-| Shaders | `.agents/rules/shaders.md` | Editing .glsl/.frag/.vert files or ShaderMaterial |
-| Scroll | `.agents/rules/scroll.md` | Using Lenis, ScrollTrigger, or createUnifiedScroll |
-| Performance | `.agents/rules/performance.md` | Optimizing render, bundle, or runtime performance |
-| Performance tooling | `docs/performance.md` | Source maps, bundle analyzer, performance monitoring |
-| Experiments | `.agents/rules/experiments.md` | Creating or modifying any experiment (always read) |
-| Registry | `docs/registry.md` | Editing registry pipeline, component previews, or registry docs |
-| SEO / metadata | `docs/seo.md` | Editing metadata, sitemap, robots, structured data, or indexing |
-| Porting | `.agents/skills/porting-demos/SKILL.md` | Porting external demos, websites, repos, or code snippets into experiments |
-| Quick Component | `.agents/skills/quick-component/SKILL.md` | Porting external code or indexing libraries into collected registry |
-| Content | `.agents/contexts/content-constellation.md` | Writing articles, publishing experiments, auditing content coverage |
-| Automation Ops | `.agents/workflows/automation-ops.md` | Handling automation output, worktrees, and PR/deploy decisions for agent-created work |
+
+| Domain              | File                                        | Read when                                                                             |
+| ------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Animation           | `.agents/rules/animations.md`               | Editing components with GSAP, Motion, or scroll-driven animation                      |
+| R3F / 3D            | `.agents/rules/r3f.md`                      | Editing R3F scenes, Canvas, useFrame, drei components                                 |
+| Shaders             | `.agents/rules/shaders.md`                  | Editing .glsl/.frag/.vert files or ShaderMaterial                                     |
+| Scroll              | `.agents/rules/scroll.md`                   | Using Lenis, ScrollTrigger, or createUnifiedScroll                                    |
+| Performance         | `.agents/rules/performance.md`              | Optimizing render, bundle, or runtime performance                                     |
+| Performance tooling | `docs/performance.md`                       | Source maps, bundle analyzer, performance monitoring                                  |
+| Experiments         | `.agents/rules/experiments.md`              | Creating or modifying any experiment (always read)                                    |
+| Registry            | `docs/registry.md`                          | Editing registry pipeline, component previews, or registry docs                       |
+| SEO / metadata      | `docs/seo.md`                               | Editing metadata, sitemap, robots, structured data, or indexing                       |
+| Porting             | `.agents/skills/porting-demos/SKILL.md`     | Porting external demos, websites, repos, or code snippets into experiments            |
+| Quick Component     | `.agents/skills/quick-component/SKILL.md`   | Porting external code or indexing libraries into collected registry                   |
+| Content             | `.agents/contexts/content-constellation.md` | Writing articles, publishing experiments, auditing content coverage                   |
+| Automation Ops      | `.agents/workflows/automation-ops.md`       | Handling automation output, worktrees, and PR/deploy decisions for agent-created work |
+
 
 **Profile-specific guidance**: read `experiment.json` `"profile"` field, then `.agents/profiles/<profile>.md`
 
 **Skills** (library-specific patterns): `.agents/skills/<name>/SKILL.md`
+
 - gsap-modern, lenis-scroll, motion-react, r3f-core, shader-authoring, tempus-raf, visual-qa, porting-demos, quick-component
 
 **Workflows** (step-by-step procedures): `.agents/workflows/<name>.md`
+
 - new-experiment, develop-experiment, publish-experiment, add-experiment-component, add-experiment-assets, cleanup-experiment, visual-qa, automation-ops
 
 **Architecture reference**: `.agents/contexts/architecture.md`
@@ -282,21 +302,40 @@ Read the relevant doc BEFORE working in that domain:
 Auto-inject rules, task-triggered skills, and specialized subagents for content and experiment workflows:
 
 **Rules** (auto-inject context when matching files are open): `.cursor/rules/*.mdc`
+
 - experiment-metadata, article-writing, experiment-components, content-docs, generation-scripts, registry-curation
 
 **Skills** (discoverable task workflows): `.cursor/skills/<name>/SKILL.md`
+
 - publish-content, audit-content, run-generation, continual-learning (plugin-provided hook + workspace skill override targeting `memory.md`)
 
 **Subagents** (specialized personas): `.cursor/agents/*.md`
+
 - content-writer, content-auditor
 
 ## Cursor Cloud specific instructions
 
 ### Services
 
-| Service | Command | Notes |
-|---------|---------|-------|
+
+| Service            | Command       | Notes                                     |
+| ------------------ | ------------- | ----------------------------------------- |
 | Next.js dev server | `npm run dev` | Port 3000. No external services required. |
+
+
+### MCP is already set up
+
+This repo is configured to let Cursor Cloud agents verify changes with real tooling (no guesswork):
+
+- **Sentry MCP**: `plugin-sentry-sentry` is available for querying org/project, issues, releases, environments, and events.
+- **Browser MCPs**: `cursor-ide-browser`, `project-0-experiments-browser-devtools`, and PinchTab are available for UI verification, profiling, and reproducible interaction flows.
+
+Use them proactively when the task is “debug prod”, “why is perf bad”, “verify a release”, “confirm Sentry events exist”, or anything involving runtime behavior.
+
+### Fast prod verification (Sentry)
+
+- **Error-only**: visit any page with `?sentry_test=prod-verify` → one test error event is emitted and the param is removed.
+- **Healthcheck (message + trace + profile)**: visit any page with `?sentry_test=healthcheck` → emits a message and a tiny traced span; with profiling enabled and supported, a profile should be attached to the trace.
 
 ### Gotchas
 

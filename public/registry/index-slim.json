@@ -156,6 +156,20 @@
     "dependencyCount": 2
   },
   {
+    "name": "article-card",
+    "type": "registry:component",
+    "title": "ArticleCard",
+    "description": "Article card with prefetch={false} and hover-triggered prefetch.",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 1
+  },
+  {
     "name": "article-layout",
     "type": "registry:component",
     "title": "ArticleLayout",
@@ -515,7 +529,7 @@
     "poster": null,
     "video": null,
     "category": "components",
-    "fileCount": 8,
+    "fileCount": 7,
     "dependencyCount": 2
   },
   {
@@ -1863,7 +1877,7 @@
     "poster": null,
     "video": null,
     "category": "components",
-    "fileCount": 3,
+    "fileCount": 4,
     "dependencyCount": 1
   }
 ]

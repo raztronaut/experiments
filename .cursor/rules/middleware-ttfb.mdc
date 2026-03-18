@@ -1,0 +1,19 @@
+---
+description: Guardrails for middleware/edge request-time work to prevent TTFB regressions. This repo intentionally avoids root middleware.
+globs: "{middleware.ts,next.config.ts,src/app/**/route.ts}"
+alwaysApply: false
+---
+
+# Middleware/TTFB guardrails
+
+## Default stance
+
+- Prefer **no middleware** unless absolutely necessary.
+- Never add request-time third-party fetches in middleware/edge.
+
+## If middleware is introduced
+
+- Keep it cheap: redirects/headers only.
+- No heavy parsing, no crypto, no network I/O.
+- Verify TTFB impact with traces before merging.
+

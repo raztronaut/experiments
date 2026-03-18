@@ -13,7 +13,10 @@ export default function Error({
 }) {
   useEffect(() => {
     console.error(error);
-    captureExperimentError(error);
+    captureExperimentError(error, undefined, {
+      route: "experiment",
+      slug: "{{dashCase name}}",
+    });
   }, [error]);
 
   return (

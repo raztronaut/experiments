@@ -213,7 +213,7 @@ const sentryOptions = sentryEnabled
       project: process.env.SENTRY_PROJECT,
       authToken: process.env.SENTRY_AUTH_TOKEN,
       widenClientFileUpload: true,
-      tunnelRoute: "/monitoring",
+      tunnelRoute: "/_t",
       silent: !process.env.CI,
     }
   : undefined;

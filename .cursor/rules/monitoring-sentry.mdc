@@ -1,0 +1,42 @@
+---
+description: Sentry invariants for this repo (Next.js App Router). Applies to Sentry config, instrumentation, monitoring components, and tunnel/release wiring.
+globs: "{instrumentation.ts,instrumentation-client.ts,sentry.*.config.ts,next.config.ts,src/lib/sentry.ts,src/components/monitoring/**/*.tsx,src/app/**/error.tsx,src/app/global-error.tsx,plop-templates/**/route-error*.hbs}"
+alwaysApply: false
+---
+
+# Monitoring: Sentry (repo invariants)
+
+## Environment gating
+
+- Sentry must be a **no-op** when DSN is missing.
+- Client DSN (`NEXT_PUBLIC_SENTRY_DSN`) is **build-time inlined** → redeploy after changes.
+
+## Privacy posture
+
+- `sendDefaultPii: false` always.
+- No accidental PII tagging.
+- Replay is **on-error only** and privacy-default.
+
+## Sampling defaults
+
+- `tracesSampleRate`: dev `1.0`, prod `0.1` (unless explicitly changed).
+- `profileSessionSampleRate`: dev `1.0`, prod `0.1`.
+- Profiling uses `profileLifecycle: "trace"` (trace-attached profiling).
+
+## Profiling prerequisites
+
+- `Document-Policy: js-profiling` must be set (in `next.config.ts`).
+- Browser profiling is Chromium-only; do not treat missing browser profiles as a bug on Safari/Firefox.
+
+## Tunnel invariants
+
+- Tunnel route is `/_t` and must match:
+  - client init: `tunnel: "/_t"`
+  - `withSentryConfig`: `tunnelRoute: "/_t"`
+- This repo intentionally has **no root `middleware.ts`**; nothing should intercept `/_t`.
+
+## Deterministic verification
+
+- `?sentry_test=prod-verify` emits exactly one error and removes the param.
+- `?sentry_test=healthcheck` emits message + traced span and removes the param.
+

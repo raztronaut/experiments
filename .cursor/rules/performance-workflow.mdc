@@ -1,0 +1,32 @@
+---
+description: Measure-first performance workflow. Requires artifacts and ties recommendations to evidence.
+globs: "**/*"
+alwaysApply: true
+---
+
+# Performance workflow (measure-first)
+
+## Non-negotiables
+
+- No speculative optimization without at least one artifact:
+  - DevTools Performance profile
+  - Sentry trace/profile link
+  - bundle analyzer output (`.next/diagnostics/analyze/`)
+  - Lighthouse report (when relevant)
+
+## Pick the right playbook
+
+- Interaction latency → `inp-investigation`
+- Bundle/TTI regressions → `bundle-analysis`
+- Server delays → `ttfb-audit`
+- General perf debugging → `perf-investigation`
+
+## Output standard
+
+Every perf task must end with:
+
+- **What was slow** (metric)
+- **Why** (root cause)
+- **What changed** (patch)
+- **Proof** (artifact + delta)
+
