@@ -118,9 +118,25 @@ See `.agents/rules/performance.md`:
 |------|---------|
 | **Vercel Speed Insights** | Real-user LCP, FCP, CLS, INP, TTFB |
 | **Vercel Analytics** | Page views, referrers |
+| **Sentry** | Error monitoring + tracing + replay-on-error (env-gated; see below) |
 | **`?debug`** | Per-experiment metrics in production |
 | **`npm run analyze:output`** | Bundle snapshots after major changes |
 | **`npm run budget`** | Pre-commit or CI bundle gate |
+
+### Sentry (error and performance monitoring)
+
+Sentry is **optional** and env-gated: when `NEXT_PUBLIC_SENTRY_DSN` is not set, no Sentry code runs (graceful degradation).
+
+**Environment variables:**
+
+- `NEXT_PUBLIC_SENTRY_DSN` — Enables client, server, and edge Sentry. Set in Vercel and optionally in `.env.local` for local testing.
+- `SENTRY_DSN` — Optional; used for server/edge when set (falls back to `NEXT_PUBLIC_SENTRY_DSN` if unset).
+- `SENTRY_AUTH_TOKEN` — For source map upload at build time. Create at [sentry.io/settings/auth-tokens/](https://sentry.io/settings/auth-tokens/) with `project:releases` and `org:read`. Set in Vercel (and optionally in `.env.sentry-build-plugin` locally; that file is gitignored).
+- `SENTRY_ORG`, `SENTRY_PROJECT` — Optional; required for source map upload when using the build plugin. Set in Vercel or CI.
+
+**Features:** Error monitoring (all runtimes), tracing (10% sample in prod), session replay only when an error occurs (replaysOnErrorSampleRate: 1.0). Tunnel route `/monitoring` bypasses ad-blockers. Source maps are uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set. See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
+
+**Verification:** After deploy, trigger a test error (e.g. throw in a server action or API route), confirm the event appears in [Sentry Issues](https://sentry.io/issues/) with a readable stack trace within ~30s, then remove the test.
 
 ---
 
@@ -159,6 +175,7 @@ See `docs/performance-metrics.md` for before/after Lighthouse metrics. Run `npm 
 | Source maps | Enabled, noindex on .map |
 | Defer Analytics/SpeedInsights | `DeferredVercelAnalytics` |
 | Preconnect Vercel | `vitals.vercel-insights.com` |
+| Sentry (optional) | Env-gated; errors + tracing + replay-on-error; tunnel `/monitoring`; preconnect `o0.ingest.sentry.io` |
 | Constants audit | SWIPE_GESTURE_ICON → static PNG |
 | optimizePackageImports | motion, framer-motion, lucide, etc. |
 | Browserslist | Modern-only (not dead, not ie 11) |

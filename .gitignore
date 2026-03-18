@@ -36,6 +36,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env.sentry-build-plugin
 
 # cursor hook state
 .cursor/hooks/state/

@@ -26,6 +26,10 @@ sections/SectionN.tsx  → each visual section owns its own useGSAP scope
 hooks/, shaders/       → extracted as needed
 ```
 
+## Error reporting
+
+- In error boundaries and route `error.tsx`, report to Sentry via `captureExperimentError` from `@/lib/sentry` when Sentry is enabled (env-gated).
+
 ## Animation Standards
 
 - Always respect `prefers-reduced-motion` -- use `gsap.set` to reveal, never early return

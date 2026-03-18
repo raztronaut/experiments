@@ -10,6 +10,7 @@ import {
   useEffect,
 } from "react";
 import Tempus from "tempus";
+import { captureExperimentError } from "@/lib/sentry";
 
 interface ExperimentCanvasProps extends CanvasProps {
   /** Include AdaptiveDpr + AdaptiveEvents for automatic performance scaling. */
@@ -37,6 +38,7 @@ class CanvasErrorBoundary extends Component<
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error("[ExperimentCanvas] WebGL error:", error, info);
+    captureExperimentError(error, info, { source: "canvas" });
   }
 
   render() {

@@ -44,3 +44,7 @@ Append `?debug` to the URL for a visual r3f-perf panel + camera helpers. See `.a
 
 - **Source maps**: `productionBrowserSourceMaps: true` in next.config.ts. Enables readable stack traces and DevTools source mapping in production.
 - **Analyzer**: `npm run analyze` (interactive at localhost:4000) or `npm run analyze:output` (writes to `.next/diagnostics/analyze/`). Run after `npm run build`. See `docs/performance.md`.
+
+## Error and performance monitoring
+
+- When Sentry is enabled (DSN set), report errors from error boundaries and route `error.tsx` via `@/lib/sentry` (`captureExperimentError`). Do not log PII or secrets in Sentry extra or breadcrumbs.

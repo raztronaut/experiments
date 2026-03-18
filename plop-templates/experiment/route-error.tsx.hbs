@@ -1,5 +1,6 @@
 "use client";
 
+import { captureExperimentError } from "@/lib/sentry";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +13,7 @@ export default function Error({
 }) {
   useEffect(() => {
     console.error(error);
+    captureExperimentError(error);
   }, [error]);
 
   return (
