@@ -81,7 +81,7 @@ export default function Life_3d() {
           position={[-30, 40, 30]}
         />
 
-        <Environment preset="city" />
+        <Environment files="/experiments/life-3d/potsdamer_platz_1k.hdr" />
 
         {/* Simulation */}
         <Suspense fallback={null}>
