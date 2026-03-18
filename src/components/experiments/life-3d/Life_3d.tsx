@@ -1,6 +1,7 @@
 "use client";
 
 import { Environment, OrbitControls, Stars } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import {
   Bloom,
   ChromaticAberration,
@@ -10,7 +11,6 @@ import {
 } from "@react-three/postprocessing";
 import React, { Suspense } from "react";
 import * as THREE from "three";
-import { ExperimentCanvas } from "@/lib/toolkit/r3f";
 import { Controls } from "./Controls";
 import { PRESETS } from "./presets";
 import { useLife3d } from "./useLife3d";
@@ -55,18 +55,8 @@ export default function Life_3d() {
 
   return (
     <div className="group relative h-full w-full touch-none overflow-hidden bg-black">
-      {/* ExperimentCanvas: error boundary, adaptive DPR/events for mobile */}
-      <ExperimentCanvas
-        adaptive
-        camera={{ position: [35, 35, 35], fov: 45 }}
-        dpr={[1, 2]}
-        errorFallback={
-          <div className="flex h-full w-full items-center justify-center bg-black text-white/80">
-            <p>3D content unavailable on this device.</p>
-          </div>
-        }
-        shadows
-      >
+      {/* touch-none ensures OrbitControls receive touch events on mobile */}
+      <Canvas camera={{ position: [35, 35, 35], fov: 45 }} dpr={[1, 2]} shadows>
         <OrbitControls
           autoRotate={!isPlaying}
           autoRotateSpeed={0.3}
@@ -129,7 +119,7 @@ export default function Life_3d() {
             radialModulation={false}
           />
         </EffectComposer>
-      </ExperimentCanvas>
+      </Canvas>
 
       {/* Controls Overlay */}
       <Controls
