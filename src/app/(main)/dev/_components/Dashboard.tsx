@@ -10,6 +10,7 @@ import {
   DEFAULT_FILTERS,
   type FilterState,
 } from "./filter-utils";
+import { SentryTestButton } from "./SentryTestButton";
 import { StatsBar } from "./StatsBar";
 import { SurfaceMatrix } from "./SurfaceMatrix";
 import type { DashboardData, SortKey, Tab } from "./types";
@@ -86,6 +87,9 @@ export function Dashboard({ data }: DashboardProps) {
           Dev-only command center &mdash; {data.stats.total} experiments,{" "}
           {data.stats.shipped} shipped, {data.stats.wip} WIP
         </p>
+        <div className="mt-3">
+          <SentryTestButton />
+        </div>
       </header>
 
       <Tabs
