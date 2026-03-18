@@ -16,6 +16,10 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=()",
   },
   {
+    key: "Document-Policy",
+    value: "js-profiling",
+  },
+  {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",

@@ -118,7 +118,7 @@ See `.agents/rules/performance.md`:
 |------|---------|
 | **Vercel Speed Insights** | Real-user LCP, FCP, CLS, INP, TTFB |
 | **Vercel Analytics** | Page views, referrers |
-| **Sentry** | Error monitoring + tracing + replay-on-error (env-gated; see below) |
+| **Sentry** | Errors, tracing, profiling, replay-on-error (env-gated; see below) |
 | **`?debug`** | Per-experiment metrics in production |
 | **`npm run analyze:output`** | Bundle snapshots after major changes |
 | **`npm run budget`** | Pre-commit or CI bundle gate |
@@ -139,9 +139,17 @@ Sentry is **optional** and env-gated: when no DSN is set, no Sentry code runs (g
 
 **Minimum:** Set `NEXT_PUBLIC_SENTRY_DSN` (or `SENTRY_DSN` for server-only) to enable error reporting. Add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` for readable stack traces via source map upload.
 
-**Features:** Error monitoring (all runtimes), tracing (10% sample in prod), session replay only when an error occurs (replaysOnErrorSampleRate: 1.0). Tunnel route `/monitoring` bypasses ad-blockers. Source maps are uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set. See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
+**Features:** Error monitoring (all runtimes), tracing (10% sample in prod), profiling (10% in prod, client), session replay only when an error occurs (replaysOnErrorSampleRate: 1.0). Logs are disabled. Tunnel route `/monitoring` bypasses ad-blockers. Source maps are uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set. See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
 
-**Verification:** After deploy, trigger a test error (e.g. throw in a server action or API route), confirm the event appears in [Sentry Issues](https://sentry.io/issues/) with a readable stack trace within ~30s, then remove the test.
+**Verification:** After deploy, open `/dev` (preview or dev only) and use **Send test to Sentry** or **Throw test error**. Confirm the event appears in [Sentry Issues](https://sentry.io/issues/) within ~30s.
+
+**No data in Sentry?**
+
+1. **Redeploy after adding env vars** — `NEXT_PUBLIC_SENTRY_DSN` is inlined at **build time**. If you added it in Vercel after the last deploy, trigger a new deployment (e.g. push a commit or use Vercel’s “Redeploy”) so the client bundle is built with the DSN.
+2. **Check build env** — In Vercel, ensure `NEXT_PUBLIC_SENTRY_DSN` is set for the environment that runs the build (e.g. Preview and Production).
+3. **Enable debug** — In development, the client init sets `debug: true`; open the browser console to see Sentry SDK logs (e.g. “Sentry SDK not sending because DSN is undefined”).
+4. **Ad-blockers** — Use the tunnel: we set `tunnelRoute: "/monitoring"` so events go through your origin; disable ad-blockers for your site if you still see no events.
+5. **Sentry quota** — Check [Stats](https://sentry.io/orgredirect/organizations/:orgslug/stats/) and billing in case quota is exceeded.
 
 ---
 
