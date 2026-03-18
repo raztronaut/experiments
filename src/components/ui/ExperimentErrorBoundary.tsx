@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { Component, type ReactNode } from "react";
+import { captureExperimentError } from "@/lib/sentry";
 
 interface Props {
   children: ReactNode;
@@ -29,6 +30,7 @@ export class ExperimentErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("Experiment error:", error, errorInfo);
+    captureExperimentError(error, errorInfo);
   }
 
   render() {

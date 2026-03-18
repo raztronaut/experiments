@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { captureExperimentError } from "@/lib/sentry";
 
 export default function Error({
   error,
@@ -12,6 +13,10 @@ export default function Error({
 }) {
   useEffect(() => {
     console.error(error);
+    captureExperimentError(error, undefined, {
+      route: "experiment",
+      slug: "game-of-life-shader",
+    });
   }, [error]);
 
   return (

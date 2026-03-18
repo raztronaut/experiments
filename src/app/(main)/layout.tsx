@@ -122,6 +122,7 @@ export default function RootLayout({
         <link href="https://cloud.umami.is" rel="preconnect" />
         <link href="https://api-gateway.umami.dev" rel="preconnect" />
         <link href="https://vitals.vercel-insights.com" rel="preconnect" />
+        <link href="https://o0.ingest.sentry.io" rel="preconnect" />
         <link
           href={`https://webmention.io/${new URL(SITE_URL).host}/webmention`}
           rel="webmention"

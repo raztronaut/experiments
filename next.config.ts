@@ -1,3 +1,4 @@
+import { withSentryConfig } from "@sentry/nextjs";
 import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 
@@ -15,6 +16,10 @@ const securityHeaders = [
     value: "camera=(), microphone=(), geolocation=()",
   },
   {
+    key: "Document-Policy",
+    value: "js-profiling",
+  },
+  {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
@@ -22,7 +27,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self'",
-      "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.vercel-insights.com https://api.open-meteo.com blob:",
+      "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.vercel-insights.com https://*.ingest.sentry.io https://api.open-meteo.com blob:",
       "worker-src 'self' blob:",
       "media-src 'self'",
       "object-src 'none'",
@@ -177,4 +182,23 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX();
 
-export default withMDX(nextConfig);
+const sentryEnabled =
+  Boolean(process.env.SENTRY_DSN) ||
+  Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN);
+
+const sentryOptions = sentryEnabled
+  ? {
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      widenClientFileUpload: true,
+      tunnelRoute: "/monitoring",
+      silent: !process.env.CI,
+    }
+  : undefined;
+
+const configWithMDX = withMDX(nextConfig);
+
+export default sentryOptions
+  ? withSentryConfig(configWithMDX, sentryOptions)
+  : configWithMDX;

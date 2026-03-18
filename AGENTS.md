@@ -302,7 +302,7 @@ Auto-inject rules, task-triggered skills, and specialized subagents for content 
 
 - **Typecheck requires fumadocs codegen**: `tsc --noEmit` fails until `npx fumadocs-mdx` has run at least once (generates `.source/` directory). The update script handles this automatically.
 - **lefthook + `core.hooksPath`**: Cloud agent VMs set `core.hooksPath` locally. Use `npx lefthook install --force` to install hooks into the existing hooks directory. The update script handles this.
-- **No `.env` needed**: The project has zero required environment variables. All external integrations (analytics, weather) degrade gracefully.
+- **No `.env` needed**: The project has zero required environment variables. Sentry is optional: for full implementation set `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` in Vercel; when no DSN is set, Sentry does not run. All external integrations (analytics, weather) degrade gracefully.
 - **Build pipeline**: `npm run build` runs `generate:all` (posters + registry + llms-txt) then `next build`. All generation operates on local files only.
 
 ### Standard commands

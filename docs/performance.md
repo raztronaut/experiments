@@ -118,9 +118,38 @@ See `.agents/rules/performance.md`:
 |------|---------|
 | **Vercel Speed Insights** | Real-user LCP, FCP, CLS, INP, TTFB |
 | **Vercel Analytics** | Page views, referrers |
+| **Sentry** | Errors, tracing, profiling, replay-on-error (env-gated; see below) |
 | **`?debug`** | Per-experiment metrics in production |
 | **`npm run analyze:output`** | Bundle snapshots after major changes |
 | **`npm run budget`** | Pre-commit or CI bundle gate |
+
+### Sentry (error and performance monitoring)
+
+Sentry is **optional** and env-gated: when no DSN is set, no Sentry code runs (graceful degradation).
+
+**Full implementation (recommended for production):** set all of the following in Vercel (and optionally in `.env.local` / `.env.sentry-build-plugin` for local builds):
+
+| Variable | Purpose | Where to set |
+|----------|---------|--------------|
+| `NEXT_PUBLIC_SENTRY_DSN` | Client (browser) DSN; enables error reporting in the app. | Vercel → Environment Variables (all envs). Safe to expose. |
+| `SENTRY_DSN` | Server/edge DSN; used for Node and Edge runtimes (falls back to `NEXT_PUBLIC_SENTRY_DSN` if unset). Prefer setting this so the client DSN is not the only source. | Vercel, **Sensitive** recommended. |
+| `SENTRY_AUTH_TOKEN` | Source map upload at build time. Create at [sentry.io/settings/auth-tokens/](https://sentry.io/settings/auth-tokens/) with `project:releases` and `org:read`. | Vercel, **Sensitive**. Locally: `.env.sentry-build-plugin` (gitignored). |
+| `SENTRY_ORG` | Sentry organization slug (required for source map upload). | Vercel or CI. |
+| `SENTRY_PROJECT` | Sentry project slug (required for source map upload). | Vercel or CI. |
+
+**Minimum:** Set `NEXT_PUBLIC_SENTRY_DSN` (or `SENTRY_DSN` for server-only) to enable error reporting. Add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` for readable stack traces via source map upload.
+
+**Features:** Error monitoring (all runtimes), tracing (10% sample in prod), profiling (10% in prod, client), session replay only when an error occurs (replaysOnErrorSampleRate: 1.0). Logs are disabled. Tunnel route `/monitoring` bypasses ad-blockers. Source maps are uploaded on `next build` when `SENTRY_AUTH_TOKEN` is set. See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/nextjs/).
+
+**Verification:** After deploy, open `/dev` (preview or dev only) and use **Send test to Sentry** or **Throw test error**. Confirm the event appears in [Sentry Issues](https://sentry.io/issues/) within ~30s.
+
+**No data in Sentry?**
+
+1. **Redeploy after adding env vars** — `NEXT_PUBLIC_SENTRY_DSN` is inlined at **build time**. If you added it in Vercel after the last deploy, trigger a new deployment (e.g. push a commit or use Vercel’s “Redeploy”) so the client bundle is built with the DSN.
+2. **Check build env** — In Vercel, ensure `NEXT_PUBLIC_SENTRY_DSN` is set for the environment that runs the build (e.g. Preview and Production).
+3. **Enable debug** — In development, the client init sets `debug: true`; open the browser console to see Sentry SDK logs (e.g. “Sentry SDK not sending because DSN is undefined”).
+4. **Ad-blockers** — Use the tunnel: we set `tunnelRoute: "/monitoring"` so events go through your origin; disable ad-blockers for your site if you still see no events.
+5. **Sentry quota** — Check [Stats](https://sentry.io/orgredirect/organizations/:orgslug/stats/) and billing in case quota is exceeded.
 
 ---
 
@@ -159,6 +188,7 @@ See `docs/performance-metrics.md` for before/after Lighthouse metrics. Run `npm 
 | Source maps | Enabled, noindex on .map |
 | Defer Analytics/SpeedInsights | `DeferredVercelAnalytics` |
 | Preconnect Vercel | `vitals.vercel-insights.com` |
+| Sentry (optional) | Env-gated; errors + tracing + replay-on-error; tunnel `/monitoring`; preconnect `o0.ingest.sentry.io` |
 | Constants audit | SWIPE_GESTURE_ICON → static PNG |
 | optimizePackageImports | motion, framer-motion, lucide, etc. |
 | Browserslist | Modern-only (not dead, not ie 11) |
