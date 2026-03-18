@@ -1,9 +1,6 @@
 "use client";
 
 import { Environment, OrbitControls, Stars } from "@react-three/drei";
-import React, { Suspense } from "react";
-import * as THREE from "three";
-import { ExperimentCanvas } from "@/lib/toolkit/r3f";
 import {
   Bloom,
   ChromaticAberration,
@@ -11,6 +8,9 @@ import {
   Noise,
   Vignette,
 } from "@react-three/postprocessing";
+import React, { Suspense } from "react";
+import * as THREE from "three";
+import { ExperimentCanvas } from "@/lib/toolkit/r3f";
 import { Controls } from "./Controls";
 import { PRESETS } from "./presets";
 import { useLife3d } from "./useLife3d";
@@ -54,7 +54,7 @@ export default function Life_3d() {
   };
 
   return (
-    <div className="group relative h-full w-full overflow-hidden bg-black touch-none">
+    <div className="group relative h-full w-full touch-none overflow-hidden bg-black">
       {/* ExperimentCanvas: error boundary, adaptive DPR/events for mobile */}
       <ExperimentCanvas
         adaptive
