@@ -199,6 +199,26 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "article-card",
+    "type": "registry:component",
+    "title": "ArticleCard",
+    "description": "Article card with prefetch={false} and hover-triggered prefetch.",
+    "category": "components",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "ArticleCard.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "article-layout",
     "type": "registry:component",
     "title": "ArticleLayout",
@@ -553,6 +573,10 @@
         "type": "registry:component"
       },
       {
+        "name": "ArticleCard.tsx",
+        "type": "registry:component"
+      },
+      {
         "name": "MobileSwipeTutorialOverlay.tsx",
         "type": "registry:component"
       },
@@ -563,11 +587,6 @@
       {
         "name": "InteractivePreviewMedia.tsx",
         "type": "registry:component"
-      },
-      {
-        "name": "constants.ts",
-        "type": "registry:file",
-        "target": "components/ui/experiments/constants.ts"
       }
     ]
   },
@@ -847,11 +866,6 @@
       {
         "name": "InteractivePreviewMedia.tsx",
         "type": "registry:component"
-      },
-      {
-        "name": "constants.ts",
-        "type": "registry:file",
-        "target": "components/ui/experiments/constants.ts"
       }
     ]
   },
@@ -3363,6 +3377,10 @@
     "files": [
       {
         "name": "WritingSection.tsx",
+        "type": "registry:component"
+      },
+      {
+        "name": "ArticleCard.tsx",
         "type": "registry:component"
       },
       {

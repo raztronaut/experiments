@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "article-card",
+  "type": "registry:component",
+  "title": "ArticleCard",
+  "description": "Article card with prefetch={false} and hover-triggered prefetch.",
+  "category": "components",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ArticleCard.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { ArrowRight, FlaskConical } from \"lucide-react\";\nimport Link from \"next/link\";\nimport { useRouter } from \"next/navigation\";\nimport type React from \"react\";\nimport { useCallback, useRef } from \"react\";\nimport type { Article } from \"@/lib/articles\";\n\nconst PREFETCH_HOVER_DELAY_MS = 100;\n\nfunction formatDate(iso: string): string {\n  return new Date(iso).toLocaleDateString(\"en-US\", {\n    year: \"numeric\",\n    month: \"long\",\n    day: \"numeric\",\n    timeZone: \"UTC\",\n  });\n}\n\ninterface ArticleCardProps {\n  article: Article;\n  onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;\n  onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;\n}\n\n/**\n * Article card with prefetch={false} and hover-triggered prefetch.\n * Reduces bandwidth vs viewport prefetch when many articles are visible.\n */\nexport function ArticleCard({\n  article,\n  onMouseEnter,\n  onMouseLeave,\n}: ArticleCardProps) {\n  const router = useRouter();\n  const prefetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);\n\n  const handleMouseEnter = useCallback(\n    (e: React.MouseEvent<HTMLElement>) => {\n      prefetchTimeoutRef.current = setTimeout(() => {\n        router.prefetch(article.href);\n        prefetchTimeoutRef.current = null;\n      }, PREFETCH_HOVER_DELAY_MS);\n      onMouseEnter?.(e);\n    },\n    [article.href, onMouseEnter, router]\n  );\n\n  const handleMouseLeave = useCallback(\n    (e: React.MouseEvent<HTMLElement>) => {\n      if (prefetchTimeoutRef.current) {\n        clearTimeout(prefetchTimeoutRef.current);\n        prefetchTimeoutRef.current = null;\n      }\n      onMouseLeave?.(e);\n    },\n    [onMouseLeave]\n  );\n\n  return (\n    <Link\n      className=\"group flex flex-col gap-3 rounded-xl border border-border p-5 transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xs\"\n      data-umami-event=\"article_click\"\n      data-umami-event-article={article.slug}\n      href={article.href}\n      prefetch={false}\n      onMouseEnter={handleMouseEnter}\n      onMouseLeave={handleMouseLeave}\n    >\n      <div className=\"flex items-center justify-between\">\n        <span className=\"font-mono text-muted-foreground/60 text-xs\">\n          {formatDate(article.publishedAt)}\n        </span>\n        <span className=\"font-mono text-muted-foreground/60 text-xs\">\n          {article.readingMinutes} min read\n        </span>\n      </div>\n\n      <div>\n        <h3 className=\"font-semibold text-foreground leading-tight tracking-tight transition-colors group-hover:text-primary\">\n          {article.title}\n        </h3>\n      </div>\n\n      {article.description && (\n        <p className=\"line-clamp-2 text-pretty text-muted-foreground text-sm leading-relaxed\">\n          {article.description}\n        </p>\n      )}\n\n      <div className=\"mt-auto flex flex-wrap items-center gap-1.5\">\n        <span className=\"inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 font-medium text-[10px] text-primary\">\n          <FlaskConical className=\"h-3 w-3\" />\n          View Experiment\n        </span>\n        {article.tech?.map((t) => (\n          <span\n            className=\"rounded-full bg-accent px-2 py-0.5 font-medium text-[10px] text-accent-foreground\"\n            key={t}\n          >\n            {t}\n          </span>\n        ))}\n      </div>\n\n      <span className=\"flex items-center gap-1 text-muted-foreground text-xs transition-colors group-hover:text-foreground\">\n        Read article\n        <ArrowRight className=\"h-3 w-3 transition-transform group-hover:translate-x-0.5\" />\n      </span>\n    </Link>\n  );\n}\n"
+    }
+  ]
+}

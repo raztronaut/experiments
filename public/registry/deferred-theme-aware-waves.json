@@ -9,7 +9,7 @@
     {
       "name": "DeferredThemeAwareWaves.tsx",
       "type": "registry:component",
-      "content": "\"use client\";\n\nimport dynamic from \"next/dynamic\";\n\nconst ThemeAwareWaves = dynamic(\n  () =>\n    import(\"./ThemeAwareWaves\").then((m) => ({\n      default: m.ThemeAwareWaves,\n    })),\n  {\n    ssr: false,\n    loading: () => <div className=\"h-full w-full\" />,\n  }\n);\n\ninterface DeferredThemeAwareWavesProps {\n  className?: string;\n}\n\nexport function DeferredThemeAwareWaves({ className }: DeferredThemeAwareWavesProps) {\n  return <ThemeAwareWaves className={className} />;\n}\n"
+      "content": "\"use client\";\n\nimport dynamic from \"next/dynamic\";\n\nconst ThemeAwareWaves = dynamic(\n  () =>\n    import(\"./ThemeAwareWaves\").then((m) => ({\n      default: m.ThemeAwareWaves,\n    })),\n  {\n    ssr: false,\n    loading: () => <div className=\"h-full w-full\" />,\n  }\n);\n\ninterface DeferredThemeAwareWavesProps {\n  className?: string;\n}\n\nexport function DeferredThemeAwareWaves({\n  className,\n}: DeferredThemeAwareWavesProps) {\n  return <ThemeAwareWaves className={className} />;\n}\n"
     }
   ]
 }
