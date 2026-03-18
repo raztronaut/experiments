@@ -44,8 +44,8 @@ export async function RelatedExperimentsSection({
               </Link>
               {exp.articleHref && (
                 <Link
-                  aria-label={`Read article: ${exp.title}`}
-                  className="inline-flex items-center gap-1 text-muted-foreground text-xs transition-colors hover:text-foreground"
+                  aria-label={`Article, read article: ${exp.title}`}
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 text-muted-foreground text-xs transition-colors hover:text-foreground"
                   href={exp.articleHref}
                 >
                   <FileText className="h-3 w-3" />

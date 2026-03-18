@@ -34,6 +34,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   experimental: {
+    // Inline CSS to eliminate render-blocking stylesheet requests; improves FCP/LCP.
+    // Trade-off: CSS no longer cached separately; each HTML response includes styles (Tailwind is atomic, so size is manageable). See docs/performance.md.
+    inlineCss: true,
     optimizePackageImports: [
       "lucide-react",
       "motion",

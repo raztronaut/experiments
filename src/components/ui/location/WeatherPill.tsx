@@ -37,8 +37,8 @@ export const WeatherPill = memo(
           {weather ? (
             <WithHover>
               <motion.button
-                aria-label="Toggle temperature unit"
-                className="relative z-60 flex h-5 w-full cursor-pointer items-center justify-center gap-1.5 rounded-sm px-2 py-0.5 text-foreground transition-colors md:h-8 md:gap-2 md:px-3"
+                aria-label={`${tempValue !== null ? `${tempValue} ${tempUnitLabel}` : "Temperature"}, toggle temperature unit`}
+                className="relative z-60 flex h-5 min-h-[44px] w-full min-w-[44px] cursor-pointer items-center justify-center gap-1.5 rounded-sm px-2 py-0.5 text-foreground transition-colors md:h-8 md:gap-2 md:px-3"
                 key="weather"
                 layout
                 onClick={toggleUnit}

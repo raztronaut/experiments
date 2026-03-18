@@ -29,8 +29,8 @@ export const LocationPill = memo(
       >
         <WithHover>
           <motion.button
-            aria-label="Toggle location format"
-            className="relative z-10 flex h-5 w-full cursor-pointer items-center justify-center rounded-sm px-2 py-0.5 text-foreground transition-colors md:h-8 md:px-3"
+            aria-label={`${showCoords ? "43°39'N 79°23'W" : "TORONTO"}, toggle location format`}
+            className="relative z-10 flex h-5 min-h-[44px] w-full min-w-[44px] cursor-pointer items-center justify-center rounded-sm px-2 py-0.5 text-foreground transition-colors md:h-8 md:px-3"
             layout
             onClick={() => setShowCoords(!showCoords)}
             onMouseEnter={() => setHoveredId("location")}

@@ -27,6 +27,8 @@
 # lighthouse reports
 .lighthouse-report.html
 .lighthouse-report.json
+.lighthouse-desktop.html
+.lighthouse-mobile.html
 
 # debug
 npm-debug.log*

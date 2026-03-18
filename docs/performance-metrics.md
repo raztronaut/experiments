@@ -67,8 +67,18 @@ All Core Web Vitals now passing. LCP improved on production (real video posters)
 
 ---
 
+## Target: 100 across all categories (mobile + desktop)
+
+Goal: **Lighthouse 100** for Performance, Accessibility, Best Practices, and SEO on both mobile and desktop. Run audits after major changes or before release.
+
+---
+
 ## Re-capture after changes
 
 ```bash
-npm run lighthouse  # Outputs .lighthouse-report.html and opens in browser
+npm run lighthouse         # Single run, .lighthouse-report.html
+npm run lighthouse:mobile # Mobile preset, .lighthouse-mobile.html
+npm run lighthouse:desktop # Desktop preset, .lighthouse-desktop.html
 ```
+
+Or use Chrome DevTools MCP: `lighthouse_audit` (a11y, SEO, best practices) and `performance_start_trace` (performance/CWV). See `docs/performance.md` § 6a.

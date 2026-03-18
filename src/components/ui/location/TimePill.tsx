@@ -76,8 +76,8 @@ export const TimePill = memo(
       >
         <WithHover>
           <motion.button
-            aria-label="Toggle time format"
-            className="relative z-10 flex h-5 w-full cursor-pointer items-center justify-center rounded-sm px-2 py-0.5 text-foreground transition-colors md:h-8 md:px-3"
+            aria-label={`${mounted ? `${timeString} ${period || "AM"}` : "Time"}, toggle time format`}
+            className="relative z-10 flex h-5 min-h-[44px] w-full min-w-[44px] cursor-pointer items-center justify-center rounded-sm px-2 py-0.5 text-foreground transition-colors md:h-8 md:px-3"
             layout
             onClick={() => setUse24Hour(!use24Hour)}
             onMouseEnter={() => setHoveredId("time")}

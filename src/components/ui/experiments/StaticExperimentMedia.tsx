@@ -80,6 +80,7 @@ export const StaticExperimentMedia = ({
           className="z-0 object-cover"
           fill
           fetchPriority={priority ? "high" : "auto"}
+          loading={priority ? "eager" : "lazy"}
           onError={() => {
             if (staticImage === experiment.poster) {
               setPosterError(true);
