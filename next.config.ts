@@ -23,9 +23,9 @@ const sentryReportUri = getSentryReportUri();
 const cspDirectives = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-  "style-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob: https:",
-  "font-src 'self'",
+  "font-src 'self' https://fonts.gstatic.com",
   "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev https://*.vercel-insights.com https://*.ingest.sentry.io https://api.open-meteo.com blob:",
   "worker-src 'self' blob:",
   "media-src 'self'",
