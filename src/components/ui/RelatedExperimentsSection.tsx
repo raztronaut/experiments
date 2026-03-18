@@ -1,4 +1,3 @@
-import { FileText } from "lucide-react";
 import Link from "next/link";
 import { getExperimentsBySlugs } from "@/lib/experiments";
 
@@ -42,16 +41,6 @@ export async function RelatedExperimentsSection({
               >
                 {exp.title}
               </Link>
-              {exp.articleHref && (
-                <Link
-                  aria-label={`Article, read article: ${exp.title}`}
-                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 text-muted-foreground text-xs transition-colors hover:text-foreground"
-                  href={exp.articleHref}
-                >
-                  <FileText className="h-3 w-3" />
-                  Article
-                </Link>
-              )}
             </div>
           </li>
         ))}

@@ -1,7 +1,5 @@
 "use client";
 
-import { FileText } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { memo, useEffect, useRef, useState } from "react";
@@ -126,17 +124,6 @@ export const ExperimentGridCard = memo(
                 {t}
               </span>
             ))}
-            {experiment.articleHref && (
-              <Link
-                aria-label={`Article, read article: ${experiment.title}`}
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1 rounded-full border border-border bg-muted/50 px-2 py-0.5 font-medium text-[10px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
-                href={experiment.articleHref}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <FileText className="h-3 w-3" />
-                Article
-              </Link>
-            )}
           </div>
         </div>
       </div>
