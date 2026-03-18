@@ -54,8 +54,8 @@ export default function Life_3d() {
   };
 
   return (
-    <div className="group relative h-full w-full touch-none overflow-hidden bg-black">
-      {/* touch-none ensures OrbitControls receive touch events on mobile */}
+    <div className="group relative h-full w-full overflow-hidden bg-black">
+      {/* R3F Canvas */}
       <Canvas camera={{ position: [35, 35, 35], fov: 45 }} dpr={[1, 2]} shadows>
         <OrbitControls
           autoRotate={!isPlaying}
