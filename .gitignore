@@ -56,3 +56,4 @@ content/registry/
 
 
 .env*.local
+.jules/dev.log
