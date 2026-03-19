@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ControlGroup, Switch } from "@/components/mdx/controls";
+import { useCanvasResize } from "./useCanvasResize";
 import {
   BG,
   C,
@@ -96,16 +97,7 @@ export function MobiusTransformDemo() {
     ctx.fill();
   }, [showAngles, showBoundary]);
 
-  useEffect(() => {
-    draw();
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
-    const ro = new ResizeObserver(() => draw());
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [draw]);
+  useCanvasResize(canvasRef, draw);
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent<HTMLCanvasElement>) => {

@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { ControlGroup, Range } from "@/components/mdx/controls";
+import { useCanvasResize } from "./useCanvasResize";
 import {
   BG,
   C,
@@ -145,16 +146,7 @@ export function EuclideanVsHyperbolicDemo() {
     }
   }, [tree]);
 
-  useEffect(() => {
-    draw();
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
-    const ro = new ResizeObserver(() => draw());
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [draw]);
+  useCanvasResize(canvasRef, draw);
 
   return (
     <div className="space-y-4">

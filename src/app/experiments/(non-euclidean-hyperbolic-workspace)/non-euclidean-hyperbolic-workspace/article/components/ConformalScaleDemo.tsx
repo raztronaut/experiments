@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ControlGroup, Range } from "@/components/mdx/controls";
+import { useCanvasResize } from "./useCanvasResize";
 import { BG, drawDiskBorder, LABEL_ALPHA, setupCanvas } from "./utils";
 
 export function ConformalScaleDemo() {
@@ -128,16 +129,7 @@ export function ConformalScaleDemo() {
     }
   }, [radius]);
 
-  useEffect(() => {
-    draw();
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
-    const ro = new ResizeObserver(() => draw());
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [draw]);
+  useCanvasResize(canvasRef, draw);
 
   return (
     <div className="space-y-4">

@@ -24,6 +24,10 @@ if (dsn) {
     // avoid block lists that match "sentry" / "monitoring" / "ingest". Must match next.config tunnelRoute.
     tunnel: "/_t",
 
+    // View Transitions API can abort when DOM mutates during navigation (e.g. ResizeObserver in canvas demos).
+    // Primary fix is deferring canvas work via requestAnimationFrame; this ignores any remaining edge cases.
+    ignoreErrors: [/Transition was aborted because of invalid state/],
+
     // Explicit tracing + propagation (Sentry docs)
     integrations: [
       Sentry.browserTracingIntegration(),
