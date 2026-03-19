@@ -1,0 +1,3 @@
+## 2024-10-24 - Accessibility on physical UI bounds
+**Learning:** Adding standard HTML/ARIA attributes like `aria-label` to interactive DOM nodes within physics-based layouts (like `gravity-physics-ui-layout`) works seamlessly and doesn't interfere with their physical bounding boxes or React ref assignments.
+**Action:** Continue directly applying ARIA attributes to standard `button` elements even when they act as physics colliders or are nested in complex WebGL/HTML hybrid environments.
