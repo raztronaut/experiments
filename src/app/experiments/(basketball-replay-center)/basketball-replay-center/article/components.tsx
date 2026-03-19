@@ -15,6 +15,7 @@ export function CRTEffectDemo() {
   const [vignetteStrength, setVignetteStrength] = useState(0.3);
   const [showPhosphor, setShowPhosphor] = useState(true);
   const rafRef = useRef<number>(0);
+  const imageDataRef = useRef<ImageData | null>(null);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -31,7 +32,15 @@ export function CRTEffectDemo() {
     const time = performance.now() * 0.001;
 
     const baseColor = [20, 38, 64];
-    const imageData = ctx.createImageData(w, h);
+
+    if (
+      !imageDataRef.current ||
+      imageDataRef.current.width !== w ||
+      imageDataRef.current.height !== h
+    ) {
+      imageDataRef.current = ctx.createImageData(w, h);
+    }
+    const imageData = imageDataRef.current;
     const data = imageData.data;
 
     for (let y = 0; y < h; y++) {
@@ -163,6 +172,7 @@ export function BarrelDistortionDemo() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [distortion, setDistortion] = useState(0.35);
   const [chromaticAberration, setChromaticAberration] = useState(0.003);
+  const imageDataRef = useRef<ImageData | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -176,7 +186,15 @@ export function BarrelDistortionDemo() {
 
     const w = canvas.width;
     const h = canvas.height;
-    const imageData = ctx.createImageData(w, h);
+
+    if (
+      !imageDataRef.current ||
+      imageDataRef.current.width !== w ||
+      imageDataRef.current.height !== h
+    ) {
+      imageDataRef.current = ctx.createImageData(w, h);
+    }
+    const imageData = imageDataRef.current;
     const data = imageData.data;
 
     let gridPattern: ImageData | null = null;

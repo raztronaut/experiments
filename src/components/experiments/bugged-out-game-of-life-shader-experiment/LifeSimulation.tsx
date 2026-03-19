@@ -105,6 +105,12 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
     let lastGrid: Uint8Array | null = null;
     let lastAgeGrid: Uint8Array | null = null;
 
+    // Create the ImageData buffers once per resolution change, rather than every frame
+    const vData = volatileCtx.createImageData(resolution.w, resolution.h);
+    const sData = stableCtx.createImageData(resolution.w, resolution.h);
+    const vPixels = vData.data;
+    const sPixels = sData.data;
+
     workerRef.current.onmessage = (e) => {
       if (e.data.type === "UPDATE") {
         lastGrid = e.data.grid;
@@ -130,10 +136,9 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
         volatileCtx.clearRect(0, 0, resolution.w, resolution.h);
         stableCtx.clearRect(0, 0, resolution.w, resolution.h);
 
-        const vData = volatileCtx.createImageData(resolution.w, resolution.h);
-        const sData = stableCtx.createImageData(resolution.w, resolution.h);
-        const vPixels = vData.data;
-        const sPixels = sData.data;
+        // Clear the pixel buffers explicitly since we only write active pixels inside the loop
+        vPixels.fill(0);
+        sPixels.fill(0);
 
         // Threshold for "Stable" behavior (slightly increased for better visual logic)
         const STABLE_AGE = 20;

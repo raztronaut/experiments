@@ -1,0 +1,21 @@
+
+> experiments@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+- Experiments (use with caution):
+  · optimizePackageImports
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+[MDX] generated files in 29.87453699999992ms
+[MDX] started dev server
+✓ Ready in 5.5s
+○ Compiling /_not-found/page ...
+ GET /experiments/bugged-out-game-of-life-shader-experiment/article 404 in 13.1s (compile: 11.7s, render: 1482ms)

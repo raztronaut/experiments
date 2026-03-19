@@ -106,6 +106,10 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
     let animateId: number;
     let lastGrid: Uint8Array | null = null;
 
+    // Create the ImageData buffer once per resolution change, rather than every frame
+    const imgData = ctx.createImageData(resolution.w, resolution.h);
+    const data = imgData.data;
+
     // Listen for updates from the Worker
     workerRef.current.onmessage = (e) => {
       if (e.data.type === "UPDATE") {
@@ -121,9 +125,7 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
 
       // 2. Draw the *current* frame if we have data
       if (lastGrid && ctx) {
-        // Create a buffer to write pixel data directly (fastest method in JS)
-        const imgData = ctx.createImageData(resolution.w, resolution.h);
-        const data = imgData.data;
+        // We reuse the imgData buffer to avoid GC overhead
 
         for (let i = 0; i < lastGrid.length; i++) {
           const stride = i * 4;
