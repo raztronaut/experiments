@@ -49,6 +49,7 @@ export class ExperimentErrorBoundary extends Component<Props, State> {
           <button
             className="rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
             onClick={() => this.setState({ hasError: false, error: null })}
+            type="button"
           >
             Try again
           </button>
