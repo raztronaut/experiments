@@ -15,6 +15,7 @@ export function CRTEffectDemo() {
   const [vignetteStrength, setVignetteStrength] = useState(0.3);
   const [showPhosphor, setShowPhosphor] = useState(true);
   const rafRef = useRef<number>(0);
+  const imgDataRef = useRef<ImageData | null>(null);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -31,7 +32,15 @@ export function CRTEffectDemo() {
     const time = performance.now() * 0.001;
 
     const baseColor = [20, 38, 64];
-    const imageData = ctx.createImageData(w, h);
+
+    if (
+      !imgDataRef.current ||
+      imgDataRef.current.width !== w ||
+      imgDataRef.current.height !== h
+    ) {
+      imgDataRef.current = ctx.createImageData(w, h);
+    }
+    const imageData = imgDataRef.current;
     const data = imageData.data;
 
     for (let y = 0; y < h; y++) {
@@ -163,6 +172,8 @@ export function BarrelDistortionDemo() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [distortion, setDistortion] = useState(0.35);
   const [chromaticAberration, setChromaticAberration] = useState(0.003);
+  const imgDataRef = useRef<ImageData | null>(null);
+  const gridPatternRef = useRef<ImageData | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -176,23 +187,39 @@ export function BarrelDistortionDemo() {
 
     const w = canvas.width;
     const h = canvas.height;
-    const imageData = ctx.createImageData(w, h);
+
+    // Optimization: Reuse ImageData buffer instead of reallocating on every render loop
+    if (
+      !imgDataRef.current ||
+      imgDataRef.current.width !== w ||
+      imgDataRef.current.height !== h
+    ) {
+      imgDataRef.current = ctx.createImageData(w, h);
+    }
+    const imageData = imgDataRef.current;
     const data = imageData.data;
 
-    let gridPattern: ImageData | null = null;
-    const tile = createGridTile();
-    const tmpCanvas = document.createElement("canvas");
-    tmpCanvas.width = w;
-    tmpCanvas.height = h;
-    const tmpCtx = tmpCanvas.getContext("2d");
-    if (tmpCtx) {
-      const pat = tmpCtx.createPattern(tile, "repeat");
-      if (pat) {
-        tmpCtx.fillStyle = pat;
-        tmpCtx.fillRect(0, 0, w, h);
-        gridPattern = tmpCtx.getImageData(0, 0, w, h);
+    // Optimization: Cache the grid pattern ImageData
+    if (
+      !gridPatternRef.current ||
+      gridPatternRef.current.width !== w ||
+      gridPatternRef.current.height !== h
+    ) {
+      const tile = createGridTile();
+      const tmpCanvas = document.createElement("canvas");
+      tmpCanvas.width = w;
+      tmpCanvas.height = h;
+      const tmpCtx = tmpCanvas.getContext("2d");
+      if (tmpCtx) {
+        const pat = tmpCtx.createPattern(tile, "repeat");
+        if (pat) {
+          tmpCtx.fillStyle = pat;
+          tmpCtx.fillRect(0, 0, w, h);
+          gridPatternRef.current = tmpCtx.getImageData(0, 0, w, h);
+        }
       }
     }
+    const gridPattern = gridPatternRef.current;
 
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {

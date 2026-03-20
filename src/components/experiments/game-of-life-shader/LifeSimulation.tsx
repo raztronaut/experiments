@@ -115,15 +115,18 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
       }
     };
 
+    // Optimization: Create ImageData buffer once outside the render loop
+    // This prevents garbage collection spikes by reusing the same pixel buffer
+    const imgData = ctx.createImageData(resolution.w, resolution.h);
+    const data = imgData.data;
+
     const render = () => {
       // 1. Kick off the math for the *next* frame immediately
       workerRef.current?.postMessage({ type: "TICK" });
 
       // 2. Draw the *current* frame if we have data
       if (lastGrid && ctx) {
-        // Create a buffer to write pixel data directly (fastest method in JS)
-        const imgData = ctx.createImageData(resolution.w, resolution.h);
-        const data = imgData.data;
+        // We use the pre-allocated imgData instead of creating a new one each frame
 
         for (let i = 0; i < lastGrid.length; i++) {
           const stride = i * 4;

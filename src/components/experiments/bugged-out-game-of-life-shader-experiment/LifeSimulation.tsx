@@ -122,6 +122,13 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
       }
     };
 
+    // Optimization: Pre-allocate ImageData to avoid garbage collection spikes
+    // in the requestAnimationFrame render loop
+    const vData = volatileCtx.createImageData(resolution.w, resolution.h);
+    const sData = stableCtx.createImageData(resolution.w, resolution.h);
+    const vPixels = vData.data;
+    const sPixels = sData.data;
+
     const render = () => {
       workerRef.current?.postMessage({ type: "TICK" });
 
@@ -130,10 +137,9 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
         volatileCtx.clearRect(0, 0, resolution.w, resolution.h);
         stableCtx.clearRect(0, 0, resolution.w, resolution.h);
 
-        const vData = volatileCtx.createImageData(resolution.w, resolution.h);
-        const sData = stableCtx.createImageData(resolution.w, resolution.h);
-        const vPixels = vData.data;
-        const sPixels = sData.data;
+        // Optimization: Clear the pre-allocated pixel buffers instead of recreating them
+        vPixels.fill(0);
+        sPixels.fill(0);
 
         // Threshold for "Stable" behavior (slightly increased for better visual logic)
         const STABLE_AGE = 20;
