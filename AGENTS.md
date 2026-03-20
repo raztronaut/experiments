@@ -334,8 +334,9 @@ Use them proactively when the task is “debug prod”, “why is perf bad”, �
 
 ### Fast prod verification (Sentry)
 
-- **Error-only**: visit any page with `?sentry_test=prod-verify` → one test error event is emitted and the param is removed.
-- **Healthcheck (message + trace + profile)**: visit any page with `?sentry_test=healthcheck` → emits a message and a tiny traced span; with profiling enabled and supported, a profile should be attached to the trace.
+- **Error-only**: visit any page with `?sentry_test=prod-verify` → one test error event (tags include `route=main`) is emitted and the param is removed.
+- **Experiment tagging**: visit any page with `?sentry_test=experiment-verify` → one test error event (tags include `route=experiment` and `slug`) is emitted and the param is removed.
+- **Healthcheck (message + trace)**: visit any page with `?sentry_test=healthcheck` → emits a message and a tiny traced span (visible in Performance).
 
 ### Gotchas
 

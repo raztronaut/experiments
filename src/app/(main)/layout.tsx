@@ -10,6 +10,7 @@ const ConsoleEasterEgg = dynamic(() =>
   import("@/components/ui/ConsoleEasterEgg").then((m) => m.ConsoleEasterEgg)
 );
 
+import { SentryExperimentProdTestTrigger } from "@/components/monitoring/SentryExperimentProdTestTrigger";
 import { SentryHealthcheckTrigger } from "@/components/monitoring/SentryHealthcheckTrigger";
 import { SentryProdTestTrigger } from "@/components/monitoring/SentryProdTestTrigger";
 import { CursorProvider } from "@/components/ui/cursor/Provider";
@@ -177,6 +178,7 @@ export default function RootLayout({
         <GlobalTracking />
         <ConsoleEasterEgg />
         <SentryProdTestTrigger />
+        <SentryExperimentProdTestTrigger />
         <SentryHealthcheckTrigger />
         <ThemeProvider
           attribute="class"

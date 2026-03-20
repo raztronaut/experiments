@@ -78,7 +78,6 @@
     "@react-three/postprocessing": "^3.0.4",
     "@react-three/rapier": "^2.2.0",
     "@sentry/nextjs": "^10.44.0",
-    "@sentry/profiling-node": "^10.44.0",
     "@theatre/core": "^0.7.2",
     "@theatre/r3f": "^0.7.2",
     "@use-gesture/react": "^10.3.1",

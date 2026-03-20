@@ -9,7 +9,7 @@ You audit release quality for this repo (Sentry + Next.js).
 
 1. Use Sentry MCP to find the latest release in the target environment.
 2. Confirm debug files/source maps exist for the release.
-3. Verify deterministic triggers: `prod-verify` and `healthcheck`.
+3. Verify deterministic triggers: `prod-verify`, `experiment-verify`, and `healthcheck`.
 
 ## Output format (strict)
 
@@ -28,5 +28,6 @@ You audit release quality for this repo (Sentry + Next.js).
 
 ## Verification triggers
 - prod-verify:
+- experiment-verify:
 - healthcheck:
 

@@ -1,6 +1,6 @@
 ---
 name: perf-investigation
-description: Reproduce, measure, profile, correlate with Sentry traces/profiles, and ship a surgical fix. Use for “site feels slow”, “jank”, “low FPS”, “perf regression”.
+description: Reproduce, measure, profile, correlate with Sentry traces, and ship a surgical fix. Use for “site feels slow”, “jank”, “low FPS”, “perf regression”.
 ---
 
 # Performance Investigation (100x workflow)
@@ -41,7 +41,7 @@ Pick the right tool:
 ### 5) Verify
 
 - Re-run the same measurement and compare
-- If Sentry is enabled: confirm improved spans/transactions/profiles
+- If Sentry is enabled: confirm improved spans/transactions
 
 ## Output format (always)
 

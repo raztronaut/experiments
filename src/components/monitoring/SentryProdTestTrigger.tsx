@@ -26,6 +26,7 @@ export function SentryProdTestTrigger() {
     captureExperimentError(new Error("Sentry prod test"), undefined, {
       source: "prod-query-param",
       test: "true",
+      route: "main",
     });
     params.delete(PROD_TEST_PARAM);
     const newSearch = params.toString();

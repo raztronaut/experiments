@@ -42,7 +42,7 @@ Pick one:
 - **Fix now**: clear repro, tight surface area
 - **Instrument**: missing tags/spans/metadata
 - **De-noise**: sampling/filtering/tags adjustment (no PII)
-- **Verify**: use prod triggers (`prod-verify`, `healthcheck`)
+- **Verify**: use prod triggers (`prod-verify`, `experiment-verify`, `healthcheck`)
 
 ## Output format (always)
 

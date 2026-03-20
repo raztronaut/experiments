@@ -20,11 +20,12 @@ description: Production verification checklist (Sentry wiring, tunnel, releases/
 ### 2) Deterministic verification triggers
 
 - **Error-only**: visit `/?sentry_test=prod-verify`
-  - Expect: 1 new issue/event ("Sentry prod test"), param removed from URL.
-- **Healthcheck (message + trace + profile)**: visit `/?sentry_test=healthcheck`
+  - Expect: 1 new issue/event ("Sentry prod test"), tags include `route=main`. Param removed from URL.
+- **Experiment tagging**: visit `/?sentry_test=experiment-verify`
+  - Expect: 1 new issue/event ("Sentry experiment test"), tags include `route=experiment` and `slug=bugged-out-game-of-life-shader-experiment`. Param removed from URL.
+- **Healthcheck (message + trace)**: visit `/?sentry_test=healthcheck`
   - Expect: 1 message event ("Sentry healthcheck")
-  - Expect: 1 traced span/transaction visible in Performance
-  - Expect: profile attached to trace when supported (Chromium for browser profiling; node for server spans)
+  - Expect: 1 traced span/transaction visible in Performance (transaction "Sentry healthcheck", span "Sentry healthcheck span")
 
 ### 3) Tunnel verification (`/_t`)
 
@@ -44,7 +45,7 @@ Return a short report:
 - **Environment**: prod/preview + URL
 - **Sentry enabled**: yes/no (+ why)
 - **Error verify**: pass/fail (+ issue/event link if available)
-- **Healthcheck verify**: pass/fail (+ performance trace/profile evidence)
+- **Healthcheck verify**: pass/fail (+ performance trace evidence)
 - **Tunnel**: pass/fail (+ request evidence)
 - **Release/source maps**: pass/fail (+ evidence)
 

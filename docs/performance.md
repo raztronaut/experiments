@@ -118,7 +118,7 @@ See `.agents/rules/performance.md`:
 |------|---------|
 | **Vercel Speed Insights** | Real-user LCP, FCP, CLS, INP, TTFB |
 | **Vercel Analytics** | Page views, referrers |
-| **Sentry** | Errors, tracing, profiling, replay-on-error (env-gated; see below) |
+| **Sentry** | Errors, tracing, replay-on-error (env-gated; see below) |
 | **`?debug`** | Per-experiment metrics in production |
 | **`npm run analyze:output`** | Bundle snapshots after major changes |
 | **`npm run budget`** | Pre-commit or CI bundle gate |
@@ -143,9 +143,9 @@ Sentry is **optional** and env-gated: when no DSN is set, no Sentry code runs (g
 
 - **Errors**: all runtimes (client + node + edge), env-gated, no PII by default.
 - **Tracing**: `tracesSampleRate` is `1.0` in dev, `0.1` in prod.
-- **Profiling**: enabled on **browser + node** with `profileSessionSampleRate` (dev `1.0`, prod `0.1`) and `profileLifecycle: "trace"`. Requires `Document-Policy: js-profiling` header (already set in `next.config.ts`). Browser profiling is Chromium-only.
-- **Replay**: replay-on-error only (`replaysSessionSampleRate: 0`, `replaysOnErrorSampleRate: 1.0`), privacy-default.
+- **Replay**: replay-on-error only (`replaysSessionSampleRate: 0`, `replaysOnErrorSampleRate: 0.1` in prod, `1.0` in dev for debugging), privacy-default. Tuned for free-plan quota.
 - **Logs**: disabled.
+- **Profiling**: disabled (free-plan friendly; enable via PAYG if needed).
 
 **Tags:** main app errors use `route: "main"`; experiment route errors use `route: "experiment"` and `slug: "<experiment-slug>"` (from `captureExperimentError` in `(main)/error.tsx` and each experiment `error.tsx`).
 
@@ -161,7 +161,8 @@ See [Sentry for Next.js](https://docs.sentry.io/platforms/javascript/guides/next
 
 - **Dev/Preview**: open `/dev` and use **Send test to Sentry** or **Throw test error**.
 - **Production (error-only)**: visit any page with **`?sentry_test=prod-verify`** (e.g. `https://www.razisyed.cv/?sentry_test=prod-verify`). One test error is sent and the param is removed.
-- **Production (healthcheck: message + trace + profile)**: visit any page with **`?sentry_test=healthcheck`**. This sends a message (“Sentry healthcheck”) and a tiny traced span (shows up in Performance). With profiling enabled and supported, a profile should be attached to the trace.
+- **Production (healthcheck: message + trace)**: visit any page with **`?sentry_test=healthcheck`**. This sends a message (“Sentry healthcheck”) and a tiny traced span (shows up in Performance).
+- **Production (experiment tagging)**: visit any page with **`?sentry_test=experiment-verify`** to emit a test error with `route=experiment` and `slug` tags.
 
 **No data in Sentry?**
 

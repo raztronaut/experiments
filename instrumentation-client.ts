@@ -14,11 +14,9 @@ if (dsn) {
     debug: isDev,
 
     tracesSampleRate: isDev ? 1.0 : 0.1,
-    profileSessionSampleRate: isDev ? 1.0 : 0.1,
-    profileLifecycle: "trace",
 
     replaysSessionSampleRate: 0,
-    replaysOnErrorSampleRate: 1.0,
+    replaysOnErrorSampleRate: isDev ? 1.0 : 0.1,
 
     // Tunnel through our origin to avoid ad-blockers (Sentry troubleshooting). Path chosen to
     // avoid block lists that match "sentry" / "monitoring" / "ingest". Must match next.config tunnelRoute.
@@ -31,7 +29,6 @@ if (dsn) {
     // Explicit tracing + propagation (Sentry docs)
     integrations: [
       Sentry.browserTracingIntegration(),
-      Sentry.browserProfilingIntegration(),
       Sentry.replayIntegration(),
     ],
     tracePropagationTargets: [

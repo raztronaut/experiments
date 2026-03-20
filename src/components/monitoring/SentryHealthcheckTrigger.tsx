@@ -12,7 +12,6 @@ const HEALTHCHECK_VALUE = "healthcheck";
  * deterministic Sentry signal:
  * - a message event (for Issues)
  * - a tiny traced span/transaction (for Performance)
- * - and, when profiling is enabled + supported, a profile attached to the trace
  *
  * Works in prod where /dev is disabled. Removes the param after firing.
  */
@@ -35,15 +34,24 @@ export function SentryHealthcheckTrigger() {
     Sentry.setTag("test", "true");
     Sentry.captureMessage("Sentry healthcheck");
 
-    // Keep it tiny and deterministic. With profileLifecycle: "trace", this should
-    // attach a profile to the trace in supported environments.
+    // Explicit root transaction + nested span so Sentry Performance shows the trace.
+    // forceTransaction ensures a root transaction in the UI.
     Sentry.startSpan(
       {
         op: "healthcheck",
-        name: "Sentry healthcheck span",
-        attributes: { "sentry.healthcheck": true },
+        name: "Sentry healthcheck",
+        forceTransaction: true,
       },
-      () => {}
+      () => {
+        Sentry.startSpan(
+          {
+            op: "healthcheck",
+            name: "Sentry healthcheck span",
+            attributes: { "sentry.healthcheck": true },
+          },
+          () => {}
+        );
+      }
     );
 
     params.delete(HEALTHCHECK_PARAM);
