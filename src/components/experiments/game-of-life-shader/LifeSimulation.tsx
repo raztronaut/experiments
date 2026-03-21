@@ -115,15 +115,25 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
       }
     };
 
+    // ⚡ Bolt: Hoist ImageData creation out of the render loop to prevent garbage collection spikes
+    // Lazily initialize a buffer to write pixel data directly (fastest method in JS)
+    let imgData: ImageData | null = null;
+    let data: Uint8ClampedArray | null = null;
+
     const render = () => {
       // 1. Kick off the math for the *next* frame immediately
       workerRef.current?.postMessage({ type: "TICK" });
 
       // 2. Draw the *current* frame if we have data
       if (lastGrid && ctx) {
-        // Create a buffer to write pixel data directly (fastest method in JS)
-        const imgData = ctx.createImageData(resolution.w, resolution.h);
-        const data = imgData.data;
+        // Lazily initialize ImageData to guarantee non-zero resolution dimensions
+        if (imgData && data) {
+          // ⚡ Bolt: Clear the buffer efficiently instead of reallocating
+          data.fill(0);
+        } else {
+          imgData = ctx.createImageData(resolution.w, resolution.h);
+          data = imgData.data;
+        }
 
         for (let i = 0; i < lastGrid.length; i++) {
           const stride = i * 4;

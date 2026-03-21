@@ -122,6 +122,12 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
       }
     };
 
+    // ⚡ Bolt: Hoist ImageData creation out of the render loop to prevent garbage collection spikes
+    let vData: ImageData | null = null;
+    let sData: ImageData | null = null;
+    let vPixels: Uint8ClampedArray | null = null;
+    let sPixels: Uint8ClampedArray | null = null;
+
     const render = () => {
       workerRef.current?.postMessage({ type: "TICK" });
 
@@ -130,10 +136,16 @@ export function LifeSimulation({ className }: LifeSimulationProps) {
         volatileCtx.clearRect(0, 0, resolution.w, resolution.h);
         stableCtx.clearRect(0, 0, resolution.w, resolution.h);
 
-        const vData = volatileCtx.createImageData(resolution.w, resolution.h);
-        const sData = stableCtx.createImageData(resolution.w, resolution.h);
-        const vPixels = vData.data;
-        const sPixels = sData.data;
+        if (vData && sData && vPixels && sPixels) {
+          // ⚡ Bolt: Clear the buffers efficiently instead of reallocating
+          vPixels.fill(0);
+          sPixels.fill(0);
+        } else {
+          vData = volatileCtx.createImageData(resolution.w, resolution.h);
+          sData = stableCtx.createImageData(resolution.w, resolution.h);
+          vPixels = vData.data;
+          sPixels = sData.data;
+        }
 
         // Threshold for "Stable" behavior (slightly increased for better visual logic)
         const STABLE_AGE = 20;

@@ -1,0 +1,3 @@
+## 2024-05-24 - Hoist ImageData Allocation out of requestAnimationFrame
+**Learning:** Instantiating `ImageData` using `ctx.createImageData(width, height)` inside a `requestAnimationFrame` loop creates performance bottlenecks through excessive garbage collection spikes and memory allocation.
+**Action:** Always hoist `ImageData` allocations outside of the render loop (e.g., inside the `useEffect` scope but outside `render()`). Clear the pixel buffer on each frame efficiently using `.fill(0)` instead of re-allocating.
