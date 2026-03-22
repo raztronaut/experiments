@@ -9,6 +9,13 @@ import type { Experiment } from "@/lib/experiments";
 import { MobileSwipeTutorialOverlay } from "./MobileSwipeTutorialOverlay";
 import { StaticExperimentMedia } from "./StaticExperimentMedia";
 
+// ⚡ Bolt: Cache DateTimeFormat outside render loop to prevent re-instantiating on every card mount
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 interface ExperimentGridCardProps {
   experiment: Experiment;
   isMobileActive: boolean;
@@ -103,11 +110,7 @@ export const ExperimentGridCard = memo(
                 className="font-mono text-muted-foreground/60 text-xs"
                 suppressHydrationWarning
               >
-                {new Date(experiment.created).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {dateFormatter.format(new Date(experiment.created))}
               </span>
             )}
             <h3 className="font-semibold text-foreground leading-tight tracking-tight transition-colors group-hover:text-primary">

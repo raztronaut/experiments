@@ -2,8 +2,19 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { cache } from "react";
-import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
+
+// ⚡ Bolt: Fast alternative to reading-time-estimator that avoids heavy markdown parsing
+// and HTML sanitization just to count words, significantly speeding up feed/listing generation.
+function estimateReadingTimeMinutes(text: string): number {
+  if (!text) {
+    return 0;
+  }
+  const WORDS_PER_MINUTE = 200;
+  // A simple regex split on whitespace is highly performant and accurate enough for estimation
+  const wordCount = text.trim().split(/\s+/).length;
+  return Math.ceil(wordCount / WORDS_PER_MINUTE) || 1;
+}
 
 export interface Article {
   content?: string;
@@ -85,7 +96,7 @@ export const getArticles = cache(
                 data.publishedAt ||
                 data.time?.created ||
                 "1970-01-01T00:00:00.000Z",
-              readingMinutes: readingTime(content).minutes,
+              readingMinutes: estimateReadingTimeMinutes(content),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -153,8 +164,8 @@ export const getArticleContent = cache(
     try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
-      const estimate = readingTime(content);
-      return { frontmatter: data, content, readingMinutes: estimate.minutes };
+      const readingMinutes = estimateReadingTimeMinutes(content);
+      return { frontmatter: data, content, readingMinutes };
     } catch {
       return null;
     }

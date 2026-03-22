@@ -1,0 +1,7 @@
+## 2024-05-14 - Expensive Intl Instantiations in Render Loops
+**Learning:** Instantiating `Intl.DateTimeFormat` or calling `new Date(...).toLocaleDateString()` with options inside a React component render loop is surprisingly expensive and causes significant blocking, particularly in list/grid views like `ExperimentGridCard`. V8 has to recreate the locale data every time.
+**Action:** Always hoist `Intl.DateTimeFormat` instantiations outside of the React component body and reuse the formatter instance for date strings.
+
+## 2024-05-14 - Heavy Markdown Parsing for Reading Time
+**Learning:** Using libraries like `reading-time-estimator` that internally run full HTML sanitization and markdown parsing on raw MDX just to count words is a massive performance bottleneck when iterating over many articles (e.g., in `getArticles`). The overhead of these heavy AST parsers can add >40ms of blocking time per request when a simple regex achieves effectively the same estimation in <1ms.
+**Action:** For simple metric estimations like "reading time" on raw text/markdown, prefer fast native regex splits (`text.trim().split(/\s+/).length`) over heavy parser dependencies. Keep these calculations lean on the backend/build step.
