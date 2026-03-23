@@ -206,13 +206,22 @@ export default function GravityPhysicsUiLayout() {
                   >
                     <div className="flex h-full flex-col bg-white">
                       <div className="flex gap-2 border-gray-300 border-b bg-[#e8e8e8] p-1 text-xs">
-                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs active:bg-gray-200">
+                        <button
+                          type="button"
+                          className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-gray-200"
+                        >
                           Delete
                         </button>
-                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs active:bg-gray-200">
+                        <button
+                          type="button"
+                          className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-gray-200"
+                        >
                           Reply
                         </button>
-                        <button className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs active:bg-gray-200">
+                        <button
+                          type="button"
+                          className="rounded border border-gray-400 bg-white px-2 py-0.5 shadow-xs hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-gray-200"
+                        >
                           New
                         </button>
                       </div>

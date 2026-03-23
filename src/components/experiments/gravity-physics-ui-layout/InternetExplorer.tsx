@@ -138,16 +138,20 @@ export default function InternetExplorer() {
         <div className="flex items-center gap-4">
           <div className="flex gap-0">
             <button
-              className={`flex h-8 w-10 items-center justify-center rounded-l-md border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs ${historyIndex === 0 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
+              type="button"
+              className={`flex h-8 w-10 items-center justify-center rounded-l-md border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${historyIndex === 0 ? "cursor-not-allowed opacity-50" : "hover:from-gray-50 hover:to-[#bbbbbb] active:bg-[#bbbbbb]"}`}
               disabled={historyIndex === 0}
               onClick={handleBack}
+              aria-label="Back"
             >
               <ChevronLeft className="text-gray-700" size={20} />
             </button>
             <button
-              className={`flex h-8 w-10 items-center justify-center rounded-r-md border border-gray-400 border-l-0 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs ${historyIndex === history.length - 1 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
+              type="button"
+              className={`flex h-8 w-10 items-center justify-center rounded-r-md border border-gray-400 border-l-0 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${historyIndex === history.length - 1 ? "cursor-not-allowed opacity-50" : "hover:from-gray-50 hover:to-[#bbbbbb] active:bg-[#bbbbbb]"}`}
               disabled={historyIndex === history.length - 1}
               onClick={handleForward}
+              aria-label="Forward"
             >
               <ChevronRight className="text-gray-700" size={20} />
             </button>
@@ -155,8 +159,10 @@ export default function InternetExplorer() {
 
           <div className="flex gap-2">
             <button
-              className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs active:bg-[#bbbbbb]"
+              type="button"
+              className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs hover:from-gray-50 hover:to-[#bbbbbb] focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-[#bbbbbb]"
               onClick={handleRefresh}
+              aria-label="Refresh"
             >
               <RefreshCw
                 className={`text-gray-700 ${isLoading ? "animate-spin" : ""}`}
@@ -164,8 +170,10 @@ export default function InternetExplorer() {
               />
             </button>
             <button
-              className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs active:bg-[#bbbbbb]"
+              type="button"
+              className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs hover:from-gray-50 hover:to-[#bbbbbb] focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 active:bg-[#bbbbbb]"
               onClick={handleHome}
+              aria-label="Home"
             >
               <Home className="text-gray-700" size={16} />
             </button>
@@ -196,7 +204,8 @@ export default function InternetExplorer() {
           </span>
           {FAVORITES.map((fav) => (
             <button
-              className="flex items-center gap-1 whitespace-nowrap text-gray-700 hover:text-blue-700 hover:underline"
+              type="button"
+              className="flex items-center gap-1 whitespace-nowrap rounded-sm px-1 text-gray-700 hover:bg-gray-200 hover:text-blue-700 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               key={fav.name}
               onClick={() => navigate(fav.url)}
             >
@@ -228,7 +237,8 @@ export default function InternetExplorer() {
                 <li>
                   Click the{" "}
                   <button
-                    className="flex inline-flex items-center gap-1 hover:underline"
+                    type="button"
+                    className="inline-flex items-center gap-1 rounded-sm hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                     onClick={handleRefresh}
                   >
                     <RefreshCw size={10} /> Refresh
