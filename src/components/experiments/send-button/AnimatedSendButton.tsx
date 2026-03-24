@@ -85,11 +85,11 @@ export function AnimatedSendButton({
       // - overflow-hidden: Clips the arrow as it flies out of bounds
       // - rounded-full: Circular button shape
       // - Change width/height to resize the button
+      aria-label="Send message"
       className="relative flex items-center justify-center overflow-hidden rounded-full bg-black p-3 font-medium text-white dark:bg-white dark:text-black"
       disabled={disabled || state !== "idle"}
       onClick={handleClick}
       style={{ width: 44, height: 44 }}
-      tabIndex={-1}
       title="Send"
       // Subtle press effect - only when idle and not disabled
       type="button"
