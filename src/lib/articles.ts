@@ -2,7 +2,6 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { cache } from "react";
-import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
 
 export interface Article {
@@ -85,7 +84,10 @@ export const getArticles = cache(
                 data.publishedAt ||
                 data.time?.created ||
                 "1970-01-01T00:00:00.000Z",
-              readingMinutes: readingTime(content).minutes,
+              // ⚡ Bolt: Fast word counting avoids heavy AST/markdown parsing during feed generation
+              readingMinutes: Math.ceil(
+                (content || "").split(/\s+/).length / 200
+              ),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -153,8 +155,9 @@ export const getArticleContent = cache(
     try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
-      const estimate = readingTime(content);
-      return { frontmatter: data, content, readingMinutes: estimate.minutes };
+      // ⚡ Bolt: Fast word counting avoids heavy AST/markdown parsing during feed generation
+      const minutes = Math.ceil((content || "").split(/\s+/).length / 200);
+      return { frontmatter: data, content, readingMinutes: minutes };
     } catch {
       return null;
     }
