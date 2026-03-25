@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Transition } from "motion/react";
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useMounted } from "@/hooks/useMounted";
 import { WithHover } from "../cursor/WithHover";
 import { ScrambleTicker } from "../ScrambleTicker";
@@ -12,6 +12,26 @@ interface TimePillProps {
   setHoveredId: (id: string | null) => void;
   setUse24Hour: (use: boolean) => void;
   use24Hour: boolean;
+}
+
+// Module-level cache for Intl.DateTimeFormat to prevent expensive instantiations during render
+let formattersCache: Record<string, Intl.DateTimeFormat> = {};
+
+export function __clearCacheForTesting() {
+  formattersCache = {};
+}
+
+function getFormatter(use24Hour: boolean): Intl.DateTimeFormat {
+  const key = use24Hour ? "24h" : "12h";
+  if (!formattersCache[key]) {
+    formattersCache[key] = new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: !use24Hour,
+      timeZone: "America/Toronto",
+    });
+  }
+  return formattersCache[key];
 }
 
 export const TimePill = memo(
@@ -40,17 +60,7 @@ export const TimePill = memo(
       return () => clearTimeout(timerId);
     }, []);
 
-    const formatter = useMemo(
-      () =>
-        new Intl.DateTimeFormat("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: !use24Hour,
-          timeZone: "America/Toronto",
-        }),
-      [use24Hour]
-    );
-
+    const formatter = getFormatter(use24Hour);
     const timeParts = formatter.formatToParts(date);
     const hour = timeParts.find((p) => p.type === "hour")?.value || "";
     const minute = timeParts.find((p) => p.type === "minute")?.value || "";
