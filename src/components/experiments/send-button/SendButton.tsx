@@ -72,8 +72,8 @@ export function SendButton() {
           {/* Input Row */}
           <div className="flex w-full max-w-3xl items-center gap-2 rounded-full bg-white p-3 dark:bg-zinc-900">
             <button
-              className="rounded-full p-3 transition hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-              tabIndex={-1}
+              aria-label="Attach file"
+              className="rounded-full p-3 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:focus-visible:ring-zinc-500 dark:hover:bg-zinc-800"
               title="Attach file"
               type="button"
             >
@@ -98,8 +98,8 @@ export function SendButton() {
             </div>
 
             <button
-              className="group rounded-full p-3 transition hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-              tabIndex={-1}
+              aria-label="Voice input"
+              className="group rounded-full p-3 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:focus-visible:ring-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
               title="Voice input"
               type="button"
             >

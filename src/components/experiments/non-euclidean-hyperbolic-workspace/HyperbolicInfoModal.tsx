@@ -114,7 +114,7 @@ export function HyperbolicInfoModal({
       </div>
 
       <div
-        className="relative mx-4 flex max-h-[90%] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/90 shadow-2xl"
+        className="relative mx-4 flex max-h-[90%] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-950/90 shadow-2xl outline-none"
         ref={dialogRef}
         tabIndex={-1}
       >
