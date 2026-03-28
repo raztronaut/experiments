@@ -280,5 +280,5 @@ function RegistryGrid({ items: rawItems }: RegistryGridProps) {
   );
 }
 
-export { RegistryGrid };
 export type { RegistrySlimItem };
+export { RegistryGrid };

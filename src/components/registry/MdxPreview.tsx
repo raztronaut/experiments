@@ -11,5 +11,5 @@ function MdxPreview({ slug, title }: MdxPreviewProps) {
   return <ComponentPreview basePath="/mdx-preview" slug={slug} title={title} />;
 }
 
-export { MdxPreview };
 export type { MdxPreviewProps };
+export { MdxPreview };

@@ -309,5 +309,5 @@ function RegistryCard({
   );
 }
 
-export { RegistryCard };
 export type { RegistryCardProps };
+export { RegistryCard };

@@ -23,7 +23,7 @@ const SEQUENCE_FOLDERS: [number, number][] = [
 
 export function generateSequencePaths(): string[] {
   const paths: string[] = [];
-  const cacheBust = typeof window !== "undefined" ? `?v=${Date.now()}` : "";
+  const cacheBust = typeof window === "undefined" ? "" : `?v=${Date.now()}`;
 
   for (const [from, to] of SEQUENCE_FOLDERS) {
     for (let i = 0; i < FRAMES_PER_SEQUENCE; i++) {

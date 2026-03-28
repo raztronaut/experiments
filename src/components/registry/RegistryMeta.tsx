@@ -139,5 +139,5 @@ function RegistryMeta({
   );
 }
 
-export { RegistryMeta };
 export type { RegistryMetaProps };
+export { RegistryMeta };

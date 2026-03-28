@@ -101,7 +101,7 @@ export function HysteresisDemo() {
       return;
     }
 
-    const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+    const dpr = typeof window === "undefined" ? 1 : window.devicePixelRatio;
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
 
@@ -394,7 +394,7 @@ export function VelocityTrackingDemo() {
       return;
     }
 
-    const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+    const dpr = typeof window === "undefined" ? 1 : window.devicePixelRatio;
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
 
