@@ -60,7 +60,7 @@ export function ArticleCard({
 
   return (
     <Link
-      className="group flex flex-col gap-3 rounded-xl border border-border p-5 transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xs"
+      className="group flex flex-col gap-3 rounded-xl border border-border p-5 outline-hidden transition-[border-color,box-shadow] duration-200 hover:border-foreground/20 hover:shadow-xs focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       data-umami-event="article_click"
       data-umami-event-article={article.slug}
       href={article.href}
