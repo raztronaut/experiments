@@ -13,5 +13,5 @@ function UIComponentPreview({ slug, title }: UIComponentPreviewProps) {
   );
 }
 
-export { UIComponentPreview };
 export type { UIComponentPreviewProps };
+export { UIComponentPreview };

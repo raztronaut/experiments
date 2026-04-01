@@ -256,9 +256,9 @@ function buildReport({ experiments, flags }) {
       lines.push("");
       for (const f of warnings) {
         const detail =
-          f.value !== undefined
-            ? ` (value: ${f.value}${f.band ? `, band: ${f.band}` : ""}${f.max ? `, max: ${f.max}` : ""})`
-            : "";
+          f.value === undefined
+            ? ""
+            : ` (value: ${f.value}${f.band ? `, band: ${f.band}` : ""}${f.max ? `, max: ${f.max}` : ""})`;
         lines.push(`- **${f.type}**: ${f.slug}${detail}`);
       }
     }

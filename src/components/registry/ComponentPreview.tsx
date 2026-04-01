@@ -149,5 +149,5 @@ function ComponentPreview({
   );
 }
 
-export { ComponentPreview };
 export type { ComponentPreviewProps };
+export { ComponentPreview };

@@ -94,9 +94,9 @@ async function main() {
   }
 
   const includeToolkit =
-    args.toolkit !== undefined
-      ? args.toolkit
-      : profile !== "blank" && TOOLKIT_DEFAULT_PROFILES.includes(profile);
+    args.toolkit === undefined
+      ? profile !== "blank" && TOOLKIT_DEFAULT_PROFILES.includes(profile)
+      : args.toolkit;
 
   const includeLeva = args.leva;
   const description = args.description || "";
@@ -110,8 +110,8 @@ async function main() {
     description,
     complexity,
     profile,
-    includeToolkit: profile !== "blank" ? includeToolkit : false,
-    includeLeva: profile !== "blank" ? includeLeva : false,
+    includeToolkit: profile === "blank" ? false : includeToolkit,
+    includeLeva: profile === "blank" ? false : includeLeva,
   };
 
   console.log(`Scaffolding experiment: "${args.name}"`);
