@@ -21,12 +21,14 @@ export function ViewModeToggle({
         <WithHover config={{ hoverOffset: 0 }}>
           <button
             aria-label="Grid view"
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:h-8 md:w-8 ${
+            aria-pressed={viewMode === "grid"}
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:h-8 md:w-8 ${
               viewMode === "grid"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
             }`}
             onClick={() => onViewModeChange("grid")}
+            type="button"
           >
             <LayoutGrid className="h-4 w-4" />
           </button>
@@ -34,12 +36,14 @@ export function ViewModeToggle({
         <WithHover config={{ hoverOffset: 0 }}>
           <button
             aria-label="List view"
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:h-8 md:w-8 ${
+            aria-pressed={viewMode === "list"}
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:h-8 md:w-8 ${
               viewMode === "list"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
             }`}
             onClick={() => onViewModeChange("list")}
+            type="button"
           >
             <List className="h-4 w-4" />
           </button>
