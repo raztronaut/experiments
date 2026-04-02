@@ -1,0 +1,3 @@
+## 2025-04-02 - Hoist Intl.DateTimeFormat Instantiation
+**Learning:** Instantiating `Intl.DateTimeFormat` is an extremely expensive operation (taking orders of magnitude longer than usage). Placing it inside a React render loop (even wrapped in a `useMemo` that can be evicted, or without caching) causes severe performance bottlenecks during rapid re-renders (such as animation frame updates).
+**Action:** Always cache `Intl.DateTimeFormat` and similar heavy native JavaScript API instances globally outside of the component scope to ensure they are instantiated exactly once per module load, instead of relying on in-render hooks.

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Transition } from "motion/react";
-import { memo, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useMounted } from "@/hooks/useMounted";
 import { WithHover } from "../cursor/WithHover";
 import { ScrambleTicker } from "../ScrambleTicker";
@@ -13,6 +13,22 @@ interface TimePillProps {
   setUse24Hour: (use: boolean) => void;
   use24Hour: boolean;
 }
+
+// Cache formatters outside the component to prevent significant performance overhead
+// from Intl.DateTimeFormat instantiation during React re-renders.
+const formatter12Hour = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true,
+  timeZone: "America/Toronto",
+});
+
+const formatter24Hour = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "America/Toronto",
+});
 
 export const TimePill = memo(
   ({
@@ -40,16 +56,7 @@ export const TimePill = memo(
       return () => clearTimeout(timerId);
     }, []);
 
-    const formatter = useMemo(
-      () =>
-        new Intl.DateTimeFormat("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: !use24Hour,
-          timeZone: "America/Toronto",
-        }),
-      [use24Hour]
-    );
+    const formatter = use24Hour ? formatter24Hour : formatter12Hour;
 
     const timeParts = formatter.formatToParts(date);
     const hour = timeParts.find((p) => p.type === "hour")?.value || "";
