@@ -6,6 +6,7 @@ export { articleComponents } from "./components";
 export { Checkbox, ControlGroup, Radio, Range, Switch } from "./controls";
 export { Details } from "./Details";
 export { Fullbleed } from "./Fullbleed";
+export { ImageSwitcher } from "./ImageSwitcher";
 export { InteractiveWidget } from "./InteractiveWidget";
 export { LiveDemo } from "./LiveDemo";
 export { Pill } from "./Pill";

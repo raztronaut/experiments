@@ -15,32 +15,42 @@ export interface SlideshowProps {
   alt?: string;
   aspectRatio?: CSSProperties["aspectRatio"];
   height?: number;
-  images: string[];
+  images?: string[];
   width?: number;
 }
 
 export function Slideshow({
-  images,
+  images = [],
   width = 700,
   height = 400,
   alt = "Image",
   aspectRatio = "16 / 9",
 }: SlideshowProps) {
+  const imageCount = images.length;
   const [currentIndex, setCurrentIndex] = useState(0);
   const galleryRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(galleryRef);
   const shouldReduceMotion = useReducedMotion();
 
   const next = useCallback(() => {
-    setCurrentIndex((prev) => (prev < images.length - 1 ? prev + 1 : prev));
-  }, [images.length]);
+    setCurrentIndex((prev) => (prev < imageCount - 1 ? prev + 1 : prev));
+  }, [imageCount]);
 
   const previous = useCallback(() => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
   }, []);
 
   useEffect(() => {
+    if (currentIndex >= imageCount) {
+      setCurrentIndex(0);
+    }
+  }, [currentIndex, imageCount]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (imageCount === 0) {
+        return;
+      }
       if (!isInView) {
         return;
       }
@@ -53,7 +63,11 @@ export function Slideshow({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isInView, next, previous]);
+  }, [imageCount, isInView, next, previous]);
+
+  if (imageCount === 0) {
+    return null;
+  }
 
   const calculateTranslation = (index: number): number => {
     if (!galleryRef.current) {
@@ -150,7 +164,7 @@ export function Slideshow({
               aria-label="Next slide"
               className={cn(
                 "flex h-6 w-6 items-center justify-center rounded text-muted-foreground transition-colors hover:text-foreground",
-                currentIndex === images.length - 1 && "invisible"
+                currentIndex === imageCount - 1 && "invisible"
               )}
               onClick={next}
               type="button"

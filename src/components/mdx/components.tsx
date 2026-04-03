@@ -8,6 +8,7 @@ import { Checkbox, ControlGroup, Range, Switch } from "./controls";
 import { Details } from "./Details";
 import { Fullbleed } from "./Fullbleed";
 import { HeadingLink } from "./HeadingLink";
+import { ImageSwitcher } from "./ImageSwitcher";
 import { InteractiveWidget } from "./InteractiveWidget";
 import { LiveDemo } from "./LiveDemo";
 import { Pill } from "./Pill";
@@ -110,6 +111,7 @@ export const articleComponents: Record<string, React.ComponentType<any>> = {
   ControlGroup,
   Details,
   Fullbleed,
+  ImageSwitcher,
   InteractiveWidget,
   LiveDemo,
   Pill,

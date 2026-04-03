@@ -2,14 +2,33 @@
 title: "Basketball Replay Center"
 description: "Building a sports control room preloader with CRT shaders, barrel distortion, and GSAP-driven uniform animation in React Three Fiber"
 publishedAt: "2026-03-06T00:00:00.000Z"
-updatedAt: "2026-03-06T00:00:00.000Z"
+updatedAt: "2026-04-03T00:00:00.000Z"
 ---
 
 # Basketball Replay Center
 
-I was working on a basketball product and needed a preloader. Not a spinner. Something that set the mood: a wall of screens like you'd see in a broadcast control room, each one flickering with different replay angles, all with that degraded CRT look.
+I was working on a basketball product and needed a preloader. Not a spinner. Something that set the mood and immediately told you what kind of tool you were about to use.
 
-The screens boot up, the distortion kicks in, then everything fades out except the logo. The whole thing runs in React Three Fiber with custom shaders, Three.js post-processing, and a GSAP timeline. A few people asked how the CRT effect works, so I figured I'd write it up.
+The visual reference in my head was less "generic sports app" and more command room, control center, replay bunker. I love that aesthetic: wall-sized displays, live feeds, color-coded panels, everything feeling slightly over-instrumented in the best way. The company I was building this for was a sports analytics product for coaches and general managers to analyze live video and data, then generate reports for scouting, game planning, player development, recruiting, and the rest of the weekly workflow around a team.
+
+These were the kinds of references I kept coming back to while building it:
+
+<ImageSwitcher>
+  <img
+    alt="Replay operations center with multiple live sports feeds across a curved wall"
+    src="/experiments/basketball-replay-center/article/control-center-reference-2.png"
+  />
+  <img
+    alt="Blue control center with operators facing a large live systems board"
+    src="/experiments/basketball-replay-center/article/control-center-reference-1.png"
+  />
+  <img
+    alt="NBA draft-style command center with wall displays and interactive table"
+    src="/experiments/basketball-replay-center/article/nba-command-center.webp"
+  />
+</ImageSwitcher>
+
+That framing made the preloader direction obvious. The screens boot up, the distortion kicks in, then everything fades out except the logo. The whole thing runs in React Three Fiber with custom shaders, Three.js post-processing, and a GSAP timeline. A few people asked how the CRT effect works, so I figured I'd write it up.
 
 ## The CRT screen shader
 
