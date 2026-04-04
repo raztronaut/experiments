@@ -2,8 +2,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { cache } from "react";
-import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
+
+function estimateReadingTime(text: string): number {
+  const wordCount = text.match(/\S+/g)?.length || 0;
+  return Math.max(1, Math.round(wordCount / 200)); // ~200 wpm
+}
 
 export interface Article {
   content?: string;
@@ -85,7 +89,7 @@ export const getArticles = cache(
                 data.publishedAt ||
                 data.time?.created ||
                 "1970-01-01T00:00:00.000Z",
-              readingMinutes: readingTime(content).minutes,
+              readingMinutes: estimateReadingTime(content),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -153,8 +157,11 @@ export const getArticleContent = cache(
     try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
-      const estimate = readingTime(content);
-      return { frontmatter: data, content, readingMinutes: estimate.minutes };
+      return {
+        frontmatter: data,
+        content,
+        readingMinutes: estimateReadingTime(content),
+      };
     } catch {
       return null;
     }
