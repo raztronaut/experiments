@@ -378,9 +378,10 @@ export default function CursorDepthExplorer({
     >
       {needsPermissionButton && !hasPermission && (
         <button
-          className="pointer-events-auto absolute bottom-8 left-8 z-50 rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs backdrop-blur-sm transition-colors hover:bg-white/10"
+          className="pointer-events-auto absolute bottom-8 left-8 z-50 rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs backdrop-blur-sm transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           onClick={requestPermission}
           onPointerDown={(e) => e.stopPropagation()}
+          type="button"
         >
           Enable Tilt Control
         </button>
@@ -399,9 +400,11 @@ export default function CursorDepthExplorer({
           {/* Depth Reveal Button */}
           <button
             aria-label="Toggle Depth Map"
-            className={`rounded-full border border-white/20 p-3 backdrop-blur-sm transition-colors ${isRevealed ? "bg-white/30 text-white" : "bg-black/50 text-white hover:bg-white/10"}`}
+            aria-pressed={isRevealed}
+            className={`rounded-full border border-white/20 p-3 backdrop-blur-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${isRevealed ? "bg-white/30 text-white" : "bg-black/50 text-white hover:bg-white/10"}`}
             onClick={() => setIsRevealed(!isRevealed)}
             onPointerDown={(e) => e.stopPropagation()}
+            type="button"
           >
             <Eye size={20} />
           </button>
@@ -409,9 +412,10 @@ export default function CursorDepthExplorer({
           {/* Info Button */}
           <button
             aria-label="Painting Information"
-            className="rounded-full border border-white/20 bg-black/50 p-3 text-white backdrop-blur-sm transition-colors hover:bg-white/10"
+            className="rounded-full border border-white/20 bg-black/50 p-3 text-white backdrop-blur-sm transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
             onClick={() => setIsInfoModalOpen(true)}
             onPointerDown={(e) => e.stopPropagation()}
+            type="button"
           >
             <Info size={20} />
           </button>
@@ -419,9 +423,10 @@ export default function CursorDepthExplorer({
 
         {/* Next Painting Button */}
         <button
-          className="pointer-events-auto rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs tracking-wider backdrop-blur-sm transition-colors hover:bg-white/10"
+          className="pointer-events-auto rounded-full border border-white/20 bg-black/50 px-4 py-2 text-white text-xs tracking-wider backdrop-blur-sm transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           onClick={nextImage}
           onPointerDown={(e) => e.stopPropagation()}
+          type="button"
         >
           Next Painting
         </button>
