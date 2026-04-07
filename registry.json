@@ -3056,6 +3056,24 @@
       "meta": {}
     },
     {
+      "name": "mdx-image-switcher",
+      "type": "registry:component",
+      "title": "ImageSwitcher",
+      "description": "ImageSwitcher MDX component",
+      "category": "mdx",
+      "registryDependencies": [
+        "razi-style"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/ImageSwitcher.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
       "name": "mdx-interactive-widget",
       "type": "registry:component",
       "title": "InteractiveWidget",
