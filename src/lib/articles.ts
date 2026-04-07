@@ -86,7 +86,10 @@ export const getArticles = cache(
                 "1970-01-01T00:00:00.000Z",
               // Use regex word counting instead of heavy AST parsing or .split()
               // to prevent allocating massive arrays and GC spikes during build
-              readingMinutes: Math.max(1, Math.round((content.match(/\S+/g)?.length || 0) / 200)),
+              readingMinutes: Math.max(
+                1,
+                Math.round((content.match(/\S+/g)?.length || 0) / 200)
+              ),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -156,7 +159,10 @@ export const getArticleContent = cache(
       const { data, content } = matter(raw);
       // Use regex word counting instead of heavy AST parsing or .split()
       // to prevent allocating massive arrays and GC spikes during build
-      const estimate = Math.max(1, Math.round((content.match(/\S+/g)?.length || 0) / 200));
+      const estimate = Math.max(
+        1,
+        Math.round((content.match(/\S+/g)?.length || 0) / 200)
+      );
       return { frontmatter: data, content, readingMinutes: estimate };
     } catch {
       return null;
