@@ -2,7 +2,6 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { cache } from "react";
-import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
 
 export interface Article {
@@ -85,7 +84,10 @@ export const getArticles = cache(
                 data.publishedAt ||
                 data.time?.created ||
                 "1970-01-01T00:00:00.000Z",
-              readingMinutes: readingTime(content).minutes,
+              readingMinutes: Math.max(
+                1,
+                Math.round((content.match(/\S+/g)?.length || 0) / 200)
+              ),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -134,9 +136,23 @@ export interface ArticleContent {
   readingMinutes: number;
 }
 
-export const getAdjacentArticles = cache(async (experimentSlug: string) => {
+const getArticleIndices = cache(async () => {
   const articles = await getArticles();
-  const idx = articles.findIndex((a) => a.experimentSlug === experimentSlug);
+  const indexMap = new Map<string, number>();
+  for (let i = 0; i < articles.length; i++) {
+    indexMap.set(articles[i].experimentSlug, i);
+  }
+  return { articles, indexMap };
+});
+
+export const getAdjacentArticles = cache(async (experimentSlug: string) => {
+  const { articles, indexMap } = await getArticleIndices();
+  const idx = indexMap.get(experimentSlug);
+
+  if (idx === undefined) {
+    return { prev: undefined, next: undefined };
+  }
+
   return {
     prev: idx > 0 ? articles[idx - 1] : undefined,
     next: idx < articles.length - 1 ? articles[idx + 1] : undefined,
@@ -153,8 +169,11 @@ export const getArticleContent = cache(
     try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
-      const estimate = readingTime(content);
-      return { frontmatter: data, content, readingMinutes: estimate.minutes };
+      const readingMinutes = Math.max(
+        1,
+        Math.round((content.match(/\S+/g)?.length || 0) / 200)
+      );
+      return { frontmatter: data, content, readingMinutes };
     } catch {
       return null;
     }
