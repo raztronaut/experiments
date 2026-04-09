@@ -72,8 +72,8 @@ export function SendButton() {
           {/* Input Row */}
           <div className="flex w-full max-w-3xl items-center gap-2 rounded-full bg-white p-3 dark:bg-zinc-900">
             <button
-              className="rounded-full p-3 transition hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-              tabIndex={-1}
+              aria-label="Attach file"
+              className="rounded-full p-3 transition hover:bg-gray-100 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring dark:text-zinc-400 dark:hover:bg-zinc-800"
               title="Attach file"
               type="button"
             >
@@ -83,6 +83,7 @@ export function SendButton() {
             {/* Text Input & Placeholder */}
             <div className="relative flex-1">
               <input
+                aria-label="Message"
                 className="w-full flex-1 rounded-md border-0 bg-transparent py-2 font-normal text-base outline-0 placeholder:text-gray-400 dark:text-white"
                 onChange={(e) => setInputValue(e.target.value)}
                 onFocus={handleActivate}
@@ -98,8 +99,8 @@ export function SendButton() {
             </div>
 
             <button
-              className="group rounded-full p-3 transition hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-              tabIndex={-1}
+              aria-label="Voice input"
+              className="group rounded-full p-3 transition hover:bg-gray-100 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
               title="Voice input"
               type="button"
             >
