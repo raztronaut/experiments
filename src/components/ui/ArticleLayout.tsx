@@ -28,13 +28,16 @@ interface ArticleLayoutProps {
   updatedAt?: string;
 }
 
+// ⚡ Bolt: Cache Intl.DateTimeFormat globally to avoid expensive instantiations in render loops
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  return dateFormatter.format(new Date(iso));
 }
 
 export function ArticleLayout({
