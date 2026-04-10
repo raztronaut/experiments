@@ -68,7 +68,7 @@ export const WeatherPill = memo(
                 >
                   <ScrambleTicker
                     layoutTransition={layoutTransition}
-                    text={tempValue !== null ? String(tempValue) : ""}
+                    text={tempValue === null ? "" : String(tempValue)}
                   />
                   <motion.span
                     className="text-[10px] uppercase tracking-wider opacity-50 md:text-xs"

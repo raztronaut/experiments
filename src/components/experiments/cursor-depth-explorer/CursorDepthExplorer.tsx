@@ -182,7 +182,9 @@ function Scene({
         targetDepth = 1.0 - (pointer.y + 1) * 0.5;
       }
       // Otherwise use tilt if data is available
-      else if (tiltRef.current !== null) {
+      else if (tiltRef.current === null) {
+        targetDepth = 1.0 - (pointer.y + 1) * 0.5;
+      } else {
         // Initialize baseline tilt on first valid reading to prevent jumps
         // This makes the interaction relative to how the user is currently holding the phone
         if (initialTiltRef.current === null) {
@@ -200,10 +202,6 @@ function Scene({
         const normalizedTilt = 0.5 + relativeTilt / range;
 
         targetDepth = Math.max(0, Math.min(1, normalizedTilt));
-      }
-      // Fallback (e.g. initial state)
-      else {
-        targetDepth = 1.0 - (pointer.y + 1) * 0.5;
       }
 
       materialRef.current.uniforms.uFocus.value = targetDepth;

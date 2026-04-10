@@ -197,7 +197,7 @@ export const useConsoleCat = (enabled = true) => {
       // We want the terrain to move "left" so indices increase
       const viewWidth = termWidth + 10;
       const start = state.terrainOffset % (fullTerrainWidth - viewWidth);
-      const terrainSlice = baseTerrain.substring(start, start + viewWidth);
+      const terrainSlice = baseTerrain.slice(start, start + viewWidth);
 
       outputBuffer += `%c${terrainSlice}`;
       styles.push("color: #8be9fd; font-weight: bold;"); // Cyan/Ice color for snow

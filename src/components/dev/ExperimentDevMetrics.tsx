@@ -133,7 +133,7 @@ export function ExperimentDevMetrics() {
           const cls = Math.round(clsRef.current * 1000) / 1000;
 
           const tweens = getGsapTweenCount();
-          const gsapStr = tweens !== null ? ` gsap_tweens=${tweens}` : "";
+          const gsapStr = tweens === null ? "" : ` gsap_tweens=${tweens}`;
 
           console.warn(
             `[DevMetrics] fps=${fps} fps_min=${fpsMin} heap=${heap} cls=${cls}${gsapStr}`

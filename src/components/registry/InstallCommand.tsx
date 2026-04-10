@@ -11,5 +11,5 @@ function InstallCommand({ slug }: InstallCommandProps) {
   return <DynamicCodeBlock code={command} lang="bash" />;
 }
 
-export { InstallCommand };
 export type { InstallCommandProps };
+export { InstallCommand };

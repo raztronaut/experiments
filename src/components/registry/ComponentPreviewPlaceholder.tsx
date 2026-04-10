@@ -32,5 +32,5 @@ function ComponentPreviewPlaceholder({
   );
 }
 
-export { ComponentPreviewPlaceholder };
 export type { ComponentPreviewPlaceholderProps };
+export { ComponentPreviewPlaceholder };
