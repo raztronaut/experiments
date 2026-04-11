@@ -1,0 +1,3 @@
+## 2024-11-20 - Fast text processing and loop optimizations
+**Learning:** For fast reading time estimations across large numbers of MDX articles, `readingTime(text)` from third-party libraries can be extremely slow and cause garbage collection spikes due to array allocations like `.split(/\s+/)`. Also, `Array.findIndex()` becomes a bottleneck when called N times in a loop over N items (O(N^2)).
+**Action:** Use simple regex matching `text.match(/\S+/g)?.length` combined with O(1) map precomputation via `react.cache` helper `getArticleIndexMap` to avoid huge garbage collection delays and redundant iterations in feed generation.
