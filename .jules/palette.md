@@ -1,3 +1,6 @@
 ## 2025-03-20 - Explicit button types in Error Boundaries
 **Learning:** React Error Boundaries (like `ExperimentErrorBoundary`) can unexpectedly submit forms if their fallback UI includes `<button>` elements without explicit types (which default to `type="submit"` in HTML), leading to jarring page reloads or side effects when an error occurs inside a form context.
 **Action:** Always add `type="button"` to `<button>` elements in fallback UIs and generic components unless they are explicitly intended to submit a form.
+## 2025-03-20 - Ensure tab index compliance and accessible states
+**Learning:** `tabIndex={-1}` is actively harmful on interactive semantic elements like `<button>` because it forcibly removes them from the tab order. Additionally, dynamically styled toggles (like "Think" or "Deep Search") require `aria-pressed` to correctly announce their state to assistive tech. Adding custom Tailwind visual states does not automatically provide accessible contexts.
+**Action:** When creating custom buttons or toggles, never use `tabIndex={-1}`. Provide explicit `aria-label` for icon-only buttons, use `aria-pressed` for toggles, and use `focus-visible:ring` classes to provide visual indication of focus state.

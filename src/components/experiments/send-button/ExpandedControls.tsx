@@ -38,7 +38,8 @@ export function ExpandedControls({
       <div className="flex items-center gap-3">
         {/* Think Toggle */}
         <button
-          className={`group flex items-center gap-1 rounded-full px-4 py-2 font-medium transition-all ${
+          aria-pressed={thinkActive}
+          className={`group flex items-center gap-1 rounded-full px-4 py-2 font-medium transition-all focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring ${
             thinkActive
               ? "bg-blue-600/10 text-blue-950 outline-blue-600/60 outline-solid dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
               : "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
@@ -63,7 +64,8 @@ export function ExpandedControls({
             width: deepSearchActive ? 125 : 36,
             paddingLeft: deepSearchActive ? 8 : 9,
           }}
-          className={`group flex items-center justify-start gap-1 overflow-hidden whitespace-nowrap rounded-full px-4 py-2 font-medium transition ${
+          aria-pressed={deepSearchActive}
+          className={`group flex items-center justify-start gap-1 overflow-hidden whitespace-nowrap rounded-full px-4 py-2 font-medium transition focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring ${
             deepSearchActive
               ? "bg-blue-600/10 text-blue-950 outline-blue-600/60 outline-solid dark:bg-blue-500/20 dark:text-blue-200 dark:outline-blue-500/50"
               : "bg-transparent text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
