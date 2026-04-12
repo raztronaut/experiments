@@ -28,13 +28,15 @@ interface ArticleLayoutProps {
   updatedAt?: string;
 }
 
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  return dateFormatter.format(new Date(iso));
 }
 
 export function ArticleLayout({

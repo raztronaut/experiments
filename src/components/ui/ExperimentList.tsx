@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/card";
 import type { Experiment } from "@/lib/experiments";
 
+const dateFormatter = new Intl.DateTimeFormat("en-US");
+
 interface ExperimentListProps {
   experiments: Experiment[];
 }
@@ -25,7 +27,7 @@ export function ExperimentList({ experiments }: ExperimentListProps) {
                     className="text-muted-foreground text-xs tabular-nums"
                     suppressHydrationWarning
                   >
-                    {new Date(experiment.created).toLocaleDateString()}
+                    {dateFormatter.format(new Date(experiment.created))}
                   </span>
                 )}
               </div>
