@@ -2,8 +2,11 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { cache } from "react";
-import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
+
+const estimateReadingTime = (text: string): number => {
+  return Math.max(1, Math.ceil((text.match(/\S+/g)?.length || 0) / 200));
+};
 
 export interface Article {
   content?: string;
@@ -85,7 +88,7 @@ export const getArticles = cache(
                 data.publishedAt ||
                 data.time?.created ||
                 "1970-01-01T00:00:00.000Z",
-              readingMinutes: readingTime(content).minutes,
+              readingMinutes: estimateReadingTime(content),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -134,12 +137,23 @@ export interface ArticleContent {
   readingMinutes: number;
 }
 
+export const getArticleIndices = cache(async () => {
+  const articles = await getArticles();
+  const indices = new Map<string, number>();
+  for (let i = 0; i < articles.length; i++) {
+    indices.set(articles[i].experimentSlug, i);
+  }
+  return indices;
+});
+
 export const getAdjacentArticles = cache(async (experimentSlug: string) => {
   const articles = await getArticles();
-  const idx = articles.findIndex((a) => a.experimentSlug === experimentSlug);
+  const indices = await getArticleIndices();
+  const idx = indices.get(experimentSlug) ?? -1;
   return {
     prev: idx > 0 ? articles[idx - 1] : undefined,
-    next: idx < articles.length - 1 ? articles[idx + 1] : undefined,
+    next:
+      idx !== -1 && idx < articles.length - 1 ? articles[idx + 1] : undefined,
   };
 });
 
@@ -153,8 +167,8 @@ export const getArticleContent = cache(
     try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
-      const estimate = readingTime(content);
-      return { frontmatter: data, content, readingMinutes: estimate.minutes };
+      const estimate = estimateReadingTime(content);
+      return { frontmatter: data, content, readingMinutes: estimate };
     } catch {
       return null;
     }
