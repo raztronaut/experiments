@@ -54,11 +54,16 @@ export function calculateShortestPath(start: number, end: number): number {
   const throughTop = end + SEQUENCE_COUNT - start;
   const throughBottom = end - (start + SEQUENCE_COUNT);
 
-  const candidates = [direct, throughTop, throughBottom];
-  const absValues = candidates.map(Math.abs);
-  const minAbs = Math.min(...absValues);
+  // Performance optimization (Bolt): Replace array allocations, .map(), and
+  // Math.min(...arr) with simple manual comparisons to avoid garbage collection
+  // and spread overhead for small, fixed-size datasets.
+  const absDirect = Math.abs(direct);
+  const absTop = Math.abs(throughTop);
+  const absBottom = Math.abs(throughBottom);
 
-  return candidates[absValues.indexOf(minAbs)];
+  if (absDirect <= absTop && absDirect <= absBottom) return direct;
+  if (absTop <= absDirect && absTop <= absBottom) return throughTop;
+  return throughBottom;
 }
 
 /**
