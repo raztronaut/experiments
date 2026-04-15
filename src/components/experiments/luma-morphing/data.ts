@@ -61,8 +61,12 @@ export function calculateShortestPath(start: number, end: number): number {
   const absTop = Math.abs(throughTop);
   const absBottom = Math.abs(throughBottom);
 
-  if (absDirect <= absTop && absDirect <= absBottom) return direct;
-  if (absTop <= absDirect && absTop <= absBottom) return throughTop;
+  if (absDirect <= absTop && absDirect <= absBottom) {
+    return direct;
+  }
+  if (absTop <= absDirect && absTop <= absBottom) {
+    return throughTop;
+  }
   return throughBottom;
 }
 
