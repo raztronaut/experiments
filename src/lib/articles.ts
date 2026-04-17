@@ -28,7 +28,8 @@ export const getArticles = cache(
     try {
       const entries = await fs.readdir(experimentsDir, { withFileTypes: true });
       const routeGroups = entries.filter(
-        (d) => d.isDirectory() && d.name.startsWith("(") && d.name !== "(index)"
+        (d) =>
+          d.isDirectory() && d.name.startsWith("(") && d.name !== "(index)",
       );
 
       const slugDirEntries = await Promise.all(
@@ -38,7 +39,7 @@ export const getArticles = cache(
             await fs.readdir(groupPath, { withFileTypes: true })
           ).filter((d) => d.isDirectory() && !d.name.startsWith("."));
           return dirs.map((d) => ({ groupPath, name: d.name }));
-        })
+        }),
       );
 
       const candidates = slugDirEntries.flat();
@@ -49,7 +50,7 @@ export const getArticles = cache(
             groupPath,
             name,
             "article",
-            "content.mdx"
+            "content.mdx",
           );
 
           try {
@@ -63,7 +64,7 @@ export const getArticles = cache(
             try {
               const expJson = await fs.readFile(
                 path.join(groupPath, "experiment.json"),
-                "utf-8"
+                "utf-8",
               );
               const exp = JSON.parse(expJson);
               tech = exp.tech;
@@ -87,7 +88,10 @@ export const getArticles = cache(
               // Performance optimization: Avoid using `reading-time-estimator` NLP library here.
               // Regex word counting (`\S+`) is ~6x faster and prevents massive garbage collection
               // spikes during feed generation across many articles.
-              readingMinutes: Math.max(1, Math.ceil((content.match(/\S+/g)?.length ?? 0) / 200)),
+              readingMinutes: Math.max(
+                1,
+                Math.ceil((content.match(/\S+/g)?.length ?? 0) / 200),
+              ),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -99,7 +103,7 @@ export const getArticles = cache(
           } catch {
             return null;
           }
-        })
+        }),
       );
 
       let articles = results.filter((a): a is Article => a !== null);
@@ -114,12 +118,12 @@ export const getArticles = cache(
 
       return articles.sort(
         (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
       );
     } catch {
       return [];
     }
-  }
+  },
 );
 
 export interface ArticleFrontmatter {
@@ -149,7 +153,7 @@ export const getArticleContent = cache(
   async (slug: string): Promise<ArticleContent | null> => {
     const filePath = path.join(
       process.cwd(),
-      `src/app/experiments/(${slug})/${slug}/article/content.mdx`
+      `src/app/experiments/(${slug})/${slug}/article/content.mdx`,
     );
 
     try {
@@ -157,9 +161,13 @@ export const getArticleContent = cache(
       const { data, content } = matter(raw);
       // Performance optimization: Using simple regex for reading time instead of heavy NLP library.
       const words = content.match(/\S+/g)?.length ?? 0;
-      return { frontmatter: data, content, readingMinutes: Math.max(1, Math.ceil(words / 200)) };
+      return {
+        frontmatter: data,
+        content,
+        readingMinutes: Math.max(1, Math.ceil(words / 200)),
+      };
     } catch {
       return null;
     }
-  }
+  },
 );
