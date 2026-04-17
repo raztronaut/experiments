@@ -1005,6 +1005,20 @@
     "dependencyCount": 0
   },
   {
+    "name": "mdx-image-switcher",
+    "type": "registry:component",
+    "title": "ImageSwitcher",
+    "description": "ImageSwitcher MDX component",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "mdx",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
     "name": "mdx-interactive-widget",
     "type": "registry:component",
     "title": "InteractiveWidget",
