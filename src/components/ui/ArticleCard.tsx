@@ -9,13 +9,15 @@ import type { Article } from "@/lib/articles";
 
 const PREFETCH_HOVER_DELAY_MS = 100;
 
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  });
+  return dateFormatter.format(new Date(iso));
 }
 
 interface ArticleCardProps {

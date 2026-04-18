@@ -36,15 +36,15 @@ const lerp = (start: number, end: number, factor: number) => {
 };
 
 // Cached date formatter options for performance
-const dateFormatOptions: Intl.DateTimeFormatOptions = {
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long",
   day: "numeric",
-};
+});
 
 // Pre-compute formatted date from ISO string
 const formatDate = (isoDate: string): string => {
-  return new Date(isoDate).toLocaleDateString("en-US", dateFormatOptions);
+  return dateFormatter.format(new Date(isoDate));
 };
 
 /**
