@@ -84,7 +84,10 @@ export const getArticles = cache(
                 data.publishedAt ||
                 data.time?.created ||
                 "1970-01-01T00:00:00.000Z",
-              readingMinutes: Math.max(1, Math.round((content.match(/\S+/g)?.length ?? 0) / 200)),
+              readingMinutes: Math.max(
+                1,
+                Math.round((content.match(/\S+/g)?.length ?? 0) / 200)
+              ),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -152,7 +155,10 @@ export const getArticleContent = cache(
     try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
-      const minutes = Math.max(1, Math.round((content.match(/\S+/g)?.length ?? 0) / 200));
+      const minutes = Math.max(
+        1,
+        Math.round((content.match(/\S+/g)?.length ?? 0) / 200)
+      );
       return { frontmatter: data, content, readingMinutes: minutes };
     } catch {
       return null;
