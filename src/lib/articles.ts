@@ -7,7 +7,9 @@ import { showDevContent } from "./env";
 function calculateReadingMinutes(content: string): number {
   const words = content.match(/\S+/g)?.length || 0;
   // Use a simple 200 WPM estimation, defaulting to at least 1 minute for non-empty text, 0 for empty.
-  if (words === 0) return 0;
+  if (words === 0) {
+    return 0;
+  }
   return Math.max(1, Math.round(words / 200));
 }
 
