@@ -91,8 +91,10 @@ const DesktopWindow: React.FC<DesktopWindowProps> = ({
       <div className="flex h-6 w-full cursor-grab items-center border-[#b4b4b4] border-b bg-linear-to-b from-[#f6f6f6] to-[#dcdcdc] px-2 active:cursor-grabbing">
         <div className="flex space-x-2">
           <button
+            aria-label="Close"
             className="h-3 w-3 rounded-full border border-[#e0443e] bg-[#ff5f57] shadow-inner transition-colors hover:bg-[#ff5f57]/80 active:bg-[#bf4c46]"
             onClick={handleClose}
+            type="button"
           />
           <div className="h-3 w-3 rounded-full border border-[#dea123] bg-[#ffbd2e] shadow-inner" />
           <div className="h-3 w-3 rounded-full border border-[#1aab29] bg-[#28ca41] shadow-inner" />

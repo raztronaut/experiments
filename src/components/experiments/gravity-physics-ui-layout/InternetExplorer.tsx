@@ -138,16 +138,20 @@ export default function InternetExplorer() {
         <div className="flex items-center gap-4">
           <div className="flex gap-0">
             <button
+              aria-label="Back"
               className={`flex h-8 w-10 items-center justify-center rounded-l-md border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs ${historyIndex === 0 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
               disabled={historyIndex === 0}
               onClick={handleBack}
+              type="button"
             >
               <ChevronLeft className="text-gray-700" size={20} />
             </button>
             <button
+              aria-label="Forward"
               className={`flex h-8 w-10 items-center justify-center rounded-r-md border border-gray-400 border-l-0 bg-linear-to-b from-white to-[#cccccc] p-2 shadow-xs ${historyIndex === history.length - 1 ? "cursor-not-allowed opacity-50" : "active:bg-[#bbbbbb]"}`}
               disabled={historyIndex === history.length - 1}
               onClick={handleForward}
+              type="button"
             >
               <ChevronRight className="text-gray-700" size={20} />
             </button>
@@ -155,8 +159,10 @@ export default function InternetExplorer() {
 
           <div className="flex gap-2">
             <button
+              aria-label="Refresh"
               className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs active:bg-[#bbbbbb]"
               onClick={handleRefresh}
+              type="button"
             >
               <RefreshCw
                 className={`text-gray-700 ${isLoading ? "animate-spin" : ""}`}
@@ -164,8 +170,10 @@ export default function InternetExplorer() {
               />
             </button>
             <button
+              aria-label="Home"
               className="rounded border border-gray-400 bg-linear-to-b from-white to-[#cccccc] p-1.5 shadow-xs active:bg-[#bbbbbb]"
               onClick={handleHome}
+              type="button"
             >
               <Home className="text-gray-700" size={16} />
             </button>
@@ -199,6 +207,7 @@ export default function InternetExplorer() {
               className="flex items-center gap-1 whitespace-nowrap text-gray-700 hover:text-blue-700 hover:underline"
               key={fav.name}
               onClick={() => navigate(fav.url)}
+              type="button"
             >
               <span className="inline-block h-3 w-3 rounded-sm bg-blue-400 opacity-50" />
               {fav.name}
@@ -230,6 +239,7 @@ export default function InternetExplorer() {
                   <button
                     className="flex inline-flex items-center gap-1 hover:underline"
                     onClick={handleRefresh}
+                    type="button"
                   >
                     <RefreshCw size={10} /> Refresh
                   </button>{" "}
