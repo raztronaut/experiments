@@ -1,0 +1,3 @@
+## 2024-04-23 - Avoid O(N^2) bottlenecks when searching arrays multiple times across React component tree
+**Learning:** React's `cache` function deduplicates by arguments. When repeatedly searching an array for different keys across multiple components/requests, placing the search inside a cached function taking the key as an argument causes an O(N^2) bottleneck because the underlying expensive array generation or lookup logic runs once per unique key.
+**Action:** Instead of caching a function that takes a key and performs a search, cache the generation of a lookup `Map` (or precomputed index mapping) in a parameterless helper function. This shares the O(1) lookup map across the request lifecycle, ensuring the expensive parts run only once.
