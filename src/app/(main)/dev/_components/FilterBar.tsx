@@ -65,9 +65,9 @@ function TriChip({
     <Button
       className={cn(
         "h-7 rounded-full px-2.5 text-xs",
-        value !== null
-          ? "border-zinc-500 bg-zinc-700 text-zinc-100"
-          : "border-zinc-800 bg-zinc-900/50 text-zinc-500 hover:border-zinc-600 hover:text-zinc-300"
+        value === null
+          ? "border-zinc-800 bg-zinc-900/50 text-zinc-500 hover:border-zinc-600 hover:text-zinc-300"
+          : "border-zinc-500 bg-zinc-700 text-zinc-100"
       )}
       onClick={onClick}
       size="sm"
@@ -155,6 +155,9 @@ export function FilterBar({ experiments, filters, onChange }: FilterBarProps) {
           ))}
         </select>
         <Button
+          aria-label={
+            filters.sortDir === "asc" ? "Sort ascending" : "Sort descending"
+          }
           className="border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:text-zinc-200"
           onClick={() =>
             onChange({
