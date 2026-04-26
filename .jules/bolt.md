@@ -1,0 +1,3 @@
+## 2024-05-18 - Avoid React.cache O(N^2) by Precomputing Lookup Maps and Avoid Memory Heavy NLP
+**Learning:** React's `cache` function deduplicates by arguments. When repeatedly searching an array for different keys, avoiding an O(N) search inside a cached function with an argument prevents an O(N^2) bottleneck. Additionally, using `reading-time-estimator` on long texts allocates massive arrays, causing garbage collection spikes. Simple regex `match(/\S+/g)` is over 100x faster.
+**Action:** Cache the generation of a lookup `Map` in a parameterless helper for O(1) lookups. Use regex word counting `Math.ceil((text.match(/\S+/g)?.length || 0) / 200)` instead of NLP libraries for reading times.
