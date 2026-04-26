@@ -13,17 +13,19 @@ export function TableOfContents() {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string>("");
 
-  const getHeadings = useCallback(() => {
-    return Array.from(
-      document.querySelectorAll(
-        "article h1[id], article h2[id], article h3[id]"
-      )
-    ).map((el) => ({
-      id: el.id,
-      text: el.textContent || "",
-      level: el.tagName.toLowerCase(),
-    }));
-  }, []);
+  const getHeadings = useCallback(
+    () =>
+      Array.from(
+        document.querySelectorAll(
+          "article h1[id], article h2[id], article h3[id]"
+        )
+      ).map((el) => ({
+        id: el.id,
+        text: el.textContent || "",
+        level: el.tagName.toLowerCase(),
+      })),
+    []
+  );
 
   useEffect(() => {
     const collected = getHeadings();
@@ -73,8 +75,10 @@ export function TableOfContents() {
         {headings.map((heading) => (
           <li key={heading.id}>
             <button
+              type="button"
+              aria-current={activeId === heading.id ? "true" : undefined}
               className={cn(
-                "block w-full border-l-2 py-1 text-left text-muted-foreground transition-colors hover:text-foreground",
+                "block w-full border-l-2 py-1 text-left text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring",
                 heading.level === "h1" && "pl-3",
                 heading.level === "h2" && "pl-5",
                 heading.level === "h3" && "pl-7",
