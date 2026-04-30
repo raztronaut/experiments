@@ -1,0 +1,3 @@
+## 2024-05-18 - Fast reading time estimation without large array allocations
+**Learning:** For fast reading time estimations across long MDX articles, using `text.match(/\S+/g)?.length` creates temporary string arrays proportional to text length which can cause garbage collection overhead for enormous texts (100k+ words). However, for normal article lengths, it's still significantly faster and more lightweight than importing parsing-heavy packages like `reading-time-estimator`.
+**Action:** When calculating word counts, prefer `Math.max(1, Math.ceil((text.match(/\S+/g)?.length ?? 0) / 200))` over heavy libraries unless exact punctuation parsing is strictly required. For extreme lengths, use iterative regex matching or split loops to prevent allocating massive arrays.
