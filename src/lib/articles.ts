@@ -134,14 +134,31 @@ export interface ArticleContent {
   readingMinutes: number;
 }
 
-export const getAdjacentArticles = cache(async (experimentSlug: string) => {
+// ⚡ Bolt Optimization:
+// Cache the generation of a lookup Map in a parameterless helper.
+// This prevents O(N^2) bottlenecks when getAdjacentArticles is called repeatedly
+// for different slugs, by deduplicating the Map creation and enabling O(1) lookups.
+const getArticleIndexMap = cache(async () => {
   const articles = await getArticles();
-  const idx = articles.findIndex((a) => a.experimentSlug === experimentSlug);
+  const map = new Map<string, number>();
+  let i = 0;
+  for (const article of articles) {
+    map.set(article.experimentSlug, i++);
+  }
+  return { articles, map };
+});
+
+export const getAdjacentArticles = async (experimentSlug: string) => {
+  const { articles, map } = await getArticleIndexMap();
+  const idx = map.get(experimentSlug);
+  if (idx === undefined) {
+    return { prev: undefined, next: undefined };
+  }
   return {
     prev: idx > 0 ? articles[idx - 1] : undefined,
     next: idx < articles.length - 1 ? articles[idx + 1] : undefined,
   };
-});
+};
 
 export const getArticleContent = cache(
   async (slug: string): Promise<ArticleContent | null> => {
