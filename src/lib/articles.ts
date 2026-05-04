@@ -134,14 +134,24 @@ export interface ArticleContent {
   readingMinutes: number;
 }
 
-export const getAdjacentArticles = cache(async (experimentSlug: string) => {
+const getArticlesMap = cache(async () => {
   const articles = await getArticles();
-  const idx = articles.findIndex((a) => a.experimentSlug === experimentSlug);
+  const map = new Map<string, number>();
+  for (let i = 0; i < articles.length; i++) {
+    map.set(articles[i].experimentSlug, i);
+  }
+  return { articles, map };
+});
+
+export const getAdjacentArticles = async (experimentSlug: string) => {
+  const { articles, map } = await getArticlesMap();
+  const idx = map.get(experimentSlug) ?? -1;
   return {
     prev: idx > 0 ? articles[idx - 1] : undefined,
-    next: idx < articles.length - 1 ? articles[idx + 1] : undefined,
+    next:
+      idx !== -1 && idx < articles.length - 1 ? articles[idx + 1] : undefined,
   };
-});
+};
 
 export const getArticleContent = cache(
   async (slug: string): Promise<ArticleContent | null> => {
