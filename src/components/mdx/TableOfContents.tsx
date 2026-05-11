@@ -73,8 +73,10 @@ export function TableOfContents() {
         {headings.map((heading) => (
           <li key={heading.id}>
             <button
+              type="button"
+              aria-current={activeId === heading.id ? "true" : undefined}
               className={cn(
-                "block w-full border-l-2 py-1 text-left text-muted-foreground transition-colors hover:text-foreground",
+                "block w-full border-l-2 py-1 text-left text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring",
                 heading.level === "h1" && "pl-3",
                 heading.level === "h2" && "pl-5",
                 heading.level === "h3" && "pl-7",
