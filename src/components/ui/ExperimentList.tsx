@@ -15,7 +15,11 @@ export function ExperimentList({ experiments }: ExperimentListProps) {
   return (
     <div className="grid grid-cols-1 gap-4">
       {experiments.map((experiment) => (
-        <Link href={experiment.href} key={experiment.href}>
+        <Link
+          className="block rounded-xl focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
+          href={experiment.href}
+          key={experiment.href}
+        >
           <Card className="h-full cursor-pointer border-zinc-200 transition-colors hover:bg-muted/50 dark:border-zinc-800">
             <CardHeader>
               <div className="flex items-start justify-between">
