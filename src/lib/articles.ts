@@ -2,7 +2,6 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { cache } from "react";
-import { readingTime } from "reading-time-estimator";
 import { showDevContent } from "./env";
 
 export interface Article {
@@ -85,7 +84,12 @@ export const getArticles = cache(
                 data.publishedAt ||
                 data.time?.created ||
                 "1970-01-01T00:00:00.000Z",
-              readingMinutes: readingTime(content).minutes,
+              // Bolt: Regex word counting avoids massive array allocations from complex NLP libraries
+              // 200 WPM is standard reading speed.
+              readingMinutes: Math.max(
+                1,
+                Math.ceil((content.match(/\S+/g)?.length || 0) / 200)
+              ),
               updatedAt: data.updatedAt || data.time?.updated,
               href: `/experiments/${name}/article`,
               experimentHref: `/experiments/${name}`,
@@ -153,8 +157,13 @@ export const getArticleContent = cache(
     try {
       const raw = await fs.readFile(filePath, "utf-8");
       const { data, content } = matter(raw);
-      const estimate = readingTime(content);
-      return { frontmatter: data, content, readingMinutes: estimate.minutes };
+      // Bolt: Regex word counting avoids massive array allocations from complex NLP libraries
+      // 200 WPM is standard reading speed.
+      const readingMinutes = Math.max(
+        1,
+        Math.ceil((content.match(/\S+/g)?.length || 0) / 200)
+      );
+      return { frontmatter: data, content, readingMinutes };
     } catch {
       return null;
     }
