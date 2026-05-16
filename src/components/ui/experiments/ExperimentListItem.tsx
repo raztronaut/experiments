@@ -37,7 +37,7 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
 
   return (
     <div
-      className="group relative block cursor-pointer touch-pan-y outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
+      className="group relative block cursor-pointer touch-pan-y rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
