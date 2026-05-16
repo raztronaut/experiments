@@ -37,13 +37,21 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
 
   return (
     <div
-      className="group relative block cursor-pointer touch-pan-y"
+      className="group relative block cursor-pointer touch-pan-y outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl"
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onTouchEnd={onTouchEnd}
       onTouchStart={onTouchStart}
+      role="button"
       style={{ contentVisibility: "auto", containIntrinsicSize: "0 100px" }}
+      tabIndex={0}
     >
       <div className="relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-colors duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 md:p-6">
         {/* Mobile preview background */}
@@ -94,7 +102,7 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
               {experiment.articleHref && (
                 <Link
                   aria-label={`Read article: ${experiment.title}`}
-                  className="pointer-events-auto inline-flex items-center gap-1 rounded-full border border-border bg-muted/50 px-2 py-0.5 font-medium text-[10px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
+                  className="pointer-events-auto inline-flex items-center gap-1 rounded-full border border-border bg-muted/50 px-2 py-0.5 font-medium text-[10px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring"
                   href={experiment.articleHref}
                   onClick={(e) => e.stopPropagation()}
                 >
