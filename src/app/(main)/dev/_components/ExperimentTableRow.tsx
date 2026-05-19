@@ -178,6 +178,8 @@ export function ExperimentTableRow({
       <TableRow className="hover:bg-zinc-900/40">
         <TableCell>
           <Button
+            aria-expanded={isExpanded}
+            aria-label={`Toggle details for ${exp.title}`}
             className={cn(
               "h-6 w-6 text-muted-foreground transition-transform hover:text-zinc-300",
               isExpanded && "rotate-90"
