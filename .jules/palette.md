@@ -1,3 +1,6 @@
 ## 2025-03-20 - Explicit button types in Error Boundaries
 **Learning:** React Error Boundaries (like `ExperimentErrorBoundary`) can unexpectedly submit forms if their fallback UI includes `<button>` elements without explicit types (which default to `type="submit"` in HTML), leading to jarring page reloads or side effects when an error occurs inside a form context.
 **Action:** Always add `type="button"` to `<button>` elements in fallback UIs and generic components unless they are explicitly intended to submit a form.
+## 2025-05-20 - Toggle buttons require explicit aria-pressed and focus rings
+**Learning:** Toggle buttons, such as view mode switchers (Grid/List), often suffer from poor accessibility. If a `<button>` element does not explicitly communicate its state with `aria-pressed`, screen readers cannot discern which option is currently active. Furthermore, such interactive custom components frequently miss keyboard-focus styles, preventing effective keyboard navigation.
+**Action:** When implementing or updating custom toggle or switcher buttons, always include `aria-pressed={isActive}` to communicate state accurately to assistive technology, and add robust focus styling (`focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring`) to guarantee clear keyboard navigability.
