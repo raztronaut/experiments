@@ -1,3 +1,6 @@
 ## 2025-03-20 - Explicit button types in Error Boundaries
 **Learning:** React Error Boundaries (like `ExperimentErrorBoundary`) can unexpectedly submit forms if their fallback UI includes `<button>` elements without explicit types (which default to `type="submit"` in HTML), leading to jarring page reloads or side effects when an error occurs inside a form context.
 **Action:** Always add `type="button"` to `<button>` elements in fallback UIs and generic components unless they are explicitly intended to submit a form.
+## 2025-03-20 - Ensure Keyboard Navigation on Clickable Elements
+**Learning:** Custom interactive list components (like `ExperimentListItem.tsx`) that act as block-level links but use `onClick` handlers directly on generic DOM elements (like `div`) will not be keyboard accessible by default. This makes them unreachable via `Tab` and un-activatable via `Enter` or `Space` for screen readers and keyboard users.
+**Action:** When a custom element has an `onClick` handler but isn't a native `<button>` or `<a>`, always ensure keyboard accessibility by adding `role="button"`, `tabIndex={0}`, an `onKeyDown` handler that triggers the action and calls `e.preventDefault()`, and explicit visible focus rings (`focus-visible:ring-2`, etc.).
