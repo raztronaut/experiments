@@ -39,7 +39,7 @@ export function ContentSection({ articles, experiments }: ContentSectionProps) {
               <button
                 aria-selected={activeTab === tab.id}
                 className={cn(
-                  "rounded-md px-3 py-1.5 text-sm transition-all",
+                  "rounded-md px-3 py-1.5 text-sm transition-all focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring",
                   activeTab === tab.id
                     ? "bg-background text-foreground shadow-xs"
                     : "text-muted-foreground hover:text-foreground"
