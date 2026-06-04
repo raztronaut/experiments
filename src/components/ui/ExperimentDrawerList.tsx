@@ -31,21 +31,19 @@ interface ExperimentDrawerListProps {
   viewMode: "list" | "grid";
 }
 
-const lerp = (start: number, end: number, factor: number) => {
-  return start + (end - start) * factor;
-};
+const lerp = (start: number, end: number, factor: number) =>
+  start + (end - start) * factor;
 
 // Cached date formatter options for performance
-const dateFormatOptions: Intl.DateTimeFormatOptions = {
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long",
   day: "numeric",
-};
+});
 
 // Pre-compute formatted date from ISO string
-const formatDate = (isoDate: string): string => {
-  return new Date(isoDate).toLocaleDateString("en-US", dateFormatOptions);
-};
+const formatDate = (isoDate: string): string =>
+  dateFormatter.format(new Date(isoDate));
 
 /**
  * Displays a list of experiments in either grid or list view with a preview drawer.
@@ -125,11 +123,11 @@ export function ExperimentDrawerList({
   }, []);
 
   // Memoize formatted dates to avoid recalculating on each render
-  const formattedDates = useMemo(() => {
-    return new Map(
-      experiments.map((exp) => [exp.slug, formatDate(exp.created)])
-    );
-  }, [experiments]);
+  const formattedDates = useMemo(
+    () =>
+      new Map(experiments.map((exp) => [exp.slug, formatDate(exp.created)])),
+    [experiments]
+  );
 
   // Hide custom cursor when drawer is open
   useEffect(() => {
