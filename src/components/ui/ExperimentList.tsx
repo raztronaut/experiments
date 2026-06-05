@@ -11,6 +11,10 @@ interface ExperimentListProps {
   experiments: Experiment[];
 }
 
+// Cache Intl.DateTimeFormat to avoid parsing/allocation overhead on each render
+// Also explicitly specify "en-US" locale to prevent potential SSR hydration mismatches
+const dateFormatter = new Intl.DateTimeFormat("en-US");
+
 export function ExperimentList({ experiments }: ExperimentListProps) {
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -25,7 +29,7 @@ export function ExperimentList({ experiments }: ExperimentListProps) {
                     className="text-muted-foreground text-xs tabular-nums"
                     suppressHydrationWarning
                   >
-                    {new Date(experiment.created).toLocaleDateString()}
+                    {dateFormatter.format(new Date(experiment.created))}
                   </span>
                 )}
               </div>

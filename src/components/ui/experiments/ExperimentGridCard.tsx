@@ -19,6 +19,13 @@ interface ExperimentGridCardProps {
   showTutorial?: boolean;
 }
 
+// Cache Intl.DateTimeFormat to avoid parsing/allocation overhead on each render
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 // Grid Card Component
 export const ExperimentGridCard = memo(
   ({
@@ -103,11 +110,7 @@ export const ExperimentGridCard = memo(
                 className="font-mono text-muted-foreground/60 text-xs"
                 suppressHydrationWarning
               >
-                {new Date(experiment.created).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {dateFormatter.format(new Date(experiment.created))}
               </span>
             )}
             <h3 className="font-semibold text-foreground leading-tight tracking-tight transition-colors group-hover:text-primary">
