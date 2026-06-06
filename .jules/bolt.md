@@ -1,0 +1,3 @@
+## 2024-05-14 - Pre-computing search strings for lists
+**Learning:** Calling `.toLowerCase()` repeatedly in a render-loop filtering process creates a significant number of short-lived string allocations, potentially impacting performance on large lists.
+**Action:** Pre-compute a combined `_searchString` locally extending the item interface during an initial `useMemo` map pass, dramatically reducing string allocations during the actual filtering phase.
