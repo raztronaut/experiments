@@ -21,7 +21,9 @@ export function ViewModeToggle({
         <WithHover config={{ hoverOffset: 0 }}>
           <button
             aria-label="Grid view"
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:h-8 md:w-8 ${
+            aria-pressed={viewMode === "grid"}
+            type="button"
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring md:h-8 md:w-8 ${
               viewMode === "grid"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
@@ -34,7 +36,9 @@ export function ViewModeToggle({
         <WithHover config={{ hoverOffset: 0 }}>
           <button
             aria-label="List view"
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors md:h-8 md:w-8 ${
+            aria-pressed={viewMode === "list"}
+            type="button"
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring md:h-8 md:w-8 ${
               viewMode === "list"
                 ? "bg-background text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground"
