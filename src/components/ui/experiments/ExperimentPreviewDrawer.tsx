@@ -88,6 +88,7 @@ export function ExperimentPreviewDrawer({
               <button
                 aria-label="Close"
                 className="flex h-3 w-3 items-center justify-center rounded-full bg-[#FF5F57] transition-colors hover:bg-[#FF5F57]"
+                type="button"
               >
                 {isHoveringTrafficLights ? <CloseIcon /> : null}
               </button>
@@ -97,6 +98,7 @@ export function ExperimentPreviewDrawer({
               <button
                 aria-label="Minimize"
                 className="flex h-3 w-3 items-center justify-center rounded-full bg-[#FEBC2E] transition-colors hover:bg-[#FEBC2E]"
+                type="button"
               >
                 {isHoveringTrafficLights ? <MinimizeIcon /> : null}
               </button>
@@ -106,6 +108,7 @@ export function ExperimentPreviewDrawer({
               aria-label="Open in new tab"
               className="flex h-3 w-3 items-center justify-center rounded-full bg-[#28C840] transition-colors hover:bg-[#28C840]"
               onClick={onOpenFullPage}
+              type="button"
             >
               {isHoveringTrafficLights ? <ExpandIcon /> : null}
             </button>
