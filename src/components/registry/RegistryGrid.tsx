@@ -65,8 +65,26 @@ function RegistryGrid({ items: rawItems }: RegistryGridProps) {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const debounce = useDebounce(200);
 
+  // ⚡ Bolt: Pre-compute a combined lowercase search string for each item
+  // Why: Avoids re-allocating strings and calling .toLowerCase() on multiple
+  // fields during every render cycle of the filter loop.
+  // Impact: O(1) string creation per item vs O(N) string creations per keystroke.
   const items = useMemo(
-    () => rawItems.filter((item) => !item.name.endsWith(".story")),
+    () =>
+      rawItems
+        .filter((item) => !item.name.endsWith(".story"))
+        .map((item) => ({
+          ...item,
+          _searchString: [
+            item.title,
+            item.description,
+            item.tags?.join(" "),
+            item.library,
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase(),
+        })),
     [rawItems]
   );
 
@@ -88,11 +106,13 @@ function RegistryGrid({ items: rawItems }: RegistryGridProps) {
     return counts;
   }, [items]);
 
-  const availableCategories = useMemo(() => {
-    return CATEGORY_ORDER.filter(
-      (cat) => cat === "all" || (categoryCounts[cat] ?? 0) > 0
-    );
-  }, [categoryCounts]);
+  const availableCategories = useMemo(
+    () =>
+      CATEGORY_ORDER.filter(
+        (cat) => cat === "all" || (categoryCounts[cat] ?? 0) > 0
+      ),
+    [categoryCounts]
+  );
 
   const filteredItems = useMemo(() => {
     const query = debouncedQuery.toLowerCase().trim();
@@ -105,16 +125,8 @@ function RegistryGrid({ items: rawItems }: RegistryGridProps) {
         }
       }
 
-      if (query) {
-        const titleMatch = item.title.toLowerCase().includes(query);
-        const descMatch = item.description.toLowerCase().includes(query);
-        const tagMatch = item.tags?.some((t) =>
-          t.toLowerCase().includes(query)
-        );
-        const libMatch = item.library?.toLowerCase().includes(query);
-        if (!(titleMatch || descMatch || tagMatch || libMatch)) {
-          return false;
-        }
+      if (query && !item._searchString.includes(query)) {
+        return false;
       }
 
       return true;
@@ -280,5 +292,5 @@ function RegistryGrid({ items: rawItems }: RegistryGridProps) {
   );
 }
 
-export { RegistryGrid };
 export type { RegistrySlimItem };
+export { RegistryGrid };
