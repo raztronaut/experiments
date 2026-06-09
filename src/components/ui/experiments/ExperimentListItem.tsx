@@ -37,12 +37,20 @@ export const ExperimentListItem = React.memo(function ExperimentListItem({
 
   return (
     <div
-      className="group relative block cursor-pointer touch-pan-y"
+      className="group relative block cursor-pointer touch-pan-y rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onTouchEnd={onTouchEnd}
       onTouchStart={onTouchStart}
+      role="button"
+      tabIndex={0}
       style={{ contentVisibility: "auto", containIntrinsicSize: "0 100px" }}
     >
       <div className="relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-colors duration-300 ease-out hover:border-foreground/20 hover:bg-muted/30 md:p-6">
