@@ -1,3 +1,6 @@
 ## 2025-03-20 - Explicit button types in Error Boundaries
 **Learning:** React Error Boundaries (like `ExperimentErrorBoundary`) can unexpectedly submit forms if their fallback UI includes `<button>` elements without explicit types (which default to `type="submit"` in HTML), leading to jarring page reloads or side effects when an error occurs inside a form context.
 **Action:** Always add `type="button"` to `<button>` elements in fallback UIs and generic components unless they are explicitly intended to submit a form.
+## 2025-04-22 - Missing `type="button"` and `aria-label` on experimental UI mockups
+**Learning:** Experimental skeuomorphic UIs (like fake OS windows or browsers) often use native `<button>` tags for things like "close window" dots or "refresh" icons but omit `aria-label` and `type="button"`. Because these often live inside larger react applications, a missing `type="button"` could inadvertently submit a parent form, and missing `aria-label`s make the mockups completely inaccessible to screen readers.
+**Action:** When building or modifying experimental UI mockups (like OS or browser clones), always explicitly include `type="button"` on interactive controls and ensure icon-only buttons have descriptive `aria-label`s.
