@@ -1,0 +1,3 @@
+## 2025-02-14 - Pre-compute Search Strings for Client-Side Filtering
+**Learning:** In React components performing client-side array search filtering, calculating `.toLowerCase()` inside the `filter` loop for multiple string properties on every render/keystroke causes significant repeated string allocations and performance overhead. Pre-computing a combined lowercase search string during the initial mapping phase (e.g., in a `useMemo`) drastically improves search performance.
+**Action:** When extending external data models with temporary frontend state (like `_searchString`), define a localized extension interface (e.g., `interface ProcessedItem extends OriginalItem`) inside the component file to maintain strict type cleanliness without polluting the exported model.
