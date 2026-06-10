@@ -11,6 +11,8 @@ interface ExperimentListProps {
   experiments: Experiment[];
 }
 
+const dateFormatter = new Intl.DateTimeFormat();
+
 export function ExperimentList({ experiments }: ExperimentListProps) {
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -25,7 +27,7 @@ export function ExperimentList({ experiments }: ExperimentListProps) {
                     className="text-muted-foreground text-xs tabular-nums"
                     suppressHydrationWarning
                   >
-                    {new Date(experiment.created).toLocaleDateString()}
+                    {dateFormatter.format(new Date(experiment.created))}
                   </span>
                 )}
               </div>
