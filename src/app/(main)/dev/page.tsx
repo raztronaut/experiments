@@ -8,6 +8,7 @@ import type {
   ExperimentListing,
   ExperimentProfile,
   ExperimentStatus,
+  InspirationLink,
 } from "@/lib/experiments";
 import { Dashboard } from "./_components/Dashboard";
 import {
@@ -50,7 +51,7 @@ interface RawExperiment {
   created: string;
   description: string;
   image?: string;
-  inspiration?: { title: string; url: string }[];
+  inspiration?: InspirationLink[];
   legacy?: boolean;
   listing?: string;
   profile?: string;

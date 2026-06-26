@@ -11,7 +11,6 @@ import { fragmentShader, vertexShader } from "./shaders";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Create the Shader Material
 const TransitionMaterial = shaderMaterial(
   {
     uProgress: 0,
@@ -34,7 +33,6 @@ import type { Texture } from "three";
 
 extend({ TransitionMaterial });
 
-// Define the properties required by the shader
 type TransitionMaterialProps = {
   uProgress?: number;
   uTime?: number;

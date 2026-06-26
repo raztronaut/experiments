@@ -58,20 +58,18 @@ export function AnimatedSendButton({
       return;
     }
 
-    // Start the fly-away animation
     setState("sending");
 
-    // Wait for actual send operation, or simulate delay
+    // No onSend handler in demo mode — fall back to a fixed delay so the
+    // success animation still plays.
     if (onSend) {
       await onSend();
     } else {
       await new Promise((resolve) => setTimeout(resolve, DEFAULT_SEND_DELAY));
     }
 
-    // Show success state
     setState("success");
 
-    // Reset to idle after displaying success
     setTimeout(() => {
       setState("idle");
     }, SUCCESS_DISPLAY_TIME);

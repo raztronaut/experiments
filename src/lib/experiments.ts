@@ -37,6 +37,11 @@ const VALID_COMPLEXITIES: ExperimentComplexity[] = [
 ];
 const VALID_LISTINGS: ExperimentListing[] = ["public", "dev", "registry"];
 
+export interface InspirationLink {
+  title: string;
+  url: string;
+}
+
 export interface Experiment {
   articleHref?: string;
   complexity?: ExperimentComplexity;
@@ -44,7 +49,7 @@ export interface Experiment {
   description: string;
   href: string;
   image?: string;
-  inspiration?: { title: string; url: string }[];
+  inspiration?: InspirationLink[];
   legacy?: boolean;
   listing?: ExperimentListing;
   poster?: string;

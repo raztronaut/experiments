@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "experiment-route-error",
+  "type": "registry:component",
+  "title": "ExperimentRouteError",
+  "description": "Shared fallback for experiment route `error.tsx` boundaries. Reports to Sentry",
+  "category": "components",
+  "registryDependencies": [
+    "button",
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ExperimentRouteError.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport { useEffect } from \"react\";\nimport { Button } from \"@/components/ui/button\";\nimport { captureExperimentError } from \"@/lib/sentry\";\n\ntype RouteError = Error & { digest?: string };\n\ninterface ExperimentRouteErrorProps {\n  error: RouteError;\n  reset: () => void;\n  slug: string;\n}\n\n/**\n * Shared fallback for experiment route `error.tsx` boundaries. Reports to Sentry\n * (env-gated) and offers a retry. Distinct from `ExperimentErrorBoundary`, which\n * is a class boundary for inline component trees without `reset`/`digest`.\n */\nexport function ExperimentRouteError({\n  error,\n  reset,\n  slug,\n}: ExperimentRouteErrorProps) {\n  useEffect(() => {\n    console.error(error);\n    captureExperimentError(error, undefined, { route: \"experiment\", slug });\n  }, [error, slug]);\n\n  return (\n    <div className=\"flex h-screen w-full flex-col items-center justify-center gap-4 bg-background text-foreground\">\n      <h2 className=\"font-bold text-red-600 text-xl\">Something went wrong!</h2>\n      <p className=\"text-muted-foreground\">\n        {process.env.NODE_ENV === \"development\"\n          ? error.message\n          : \"An unexpected error occurred.\"}\n      </p>\n      {error.digest && (\n        <p className=\"text-muted-foreground/60 text-xs\">\n          Error ID: {error.digest}\n        </p>\n      )}\n      <Button onClick={() => reset()}>Try again</Button>\n    </div>\n  );\n}\n"
+    }
+  ]
+}

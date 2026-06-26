@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mdx-image-switcher",
+  "type": "registry:component",
+  "title": "ImageSwitcher",
+  "description": "ImageSwitcher MDX component",
+  "category": "mdx",
+  "registryDependencies": [
+    "razi-style"
+  ],
+  "files": [
+    {
+      "name": "ImageSwitcher.tsx",
+      "type": "registry:component",
+      "content": "\"use client\";\n\nimport Image from \"next/image\";\nimport {\n  Children,\n  isValidElement,\n  type ReactElement,\n  type ReactNode,\n  useMemo,\n  useState,\n} from \"react\";\nimport { cn } from \"@/lib/utils\";\n\ninterface ImageItem {\n  alt: string;\n  src: string;\n}\n\ninterface ImageLikeProps {\n  alt?: string;\n  src?: string;\n}\n\nexport interface ImageSwitcherProps {\n  children: ReactNode;\n}\n\nfunction isImageLikeChild(\n  child: ReactNode\n): child is ReactElement<ImageLikeProps> {\n  return (\n    isValidElement<ImageLikeProps>(child) && typeof child.props.src === \"string\"\n  );\n}\n\nexport function ImageSwitcher({ children }: ImageSwitcherProps) {\n  const images = useMemo(\n    () =>\n      Children.toArray(children)\n        .filter(isImageLikeChild)\n        .map((child) => ({\n          src: child.props.src ?? \"\",\n          alt: child.props.alt ?? \"\",\n        }))\n        .filter((image) => image.src.length > 0),\n    [children]\n  );\n\n  const [activeIndex, setActiveIndex] = useState(0);\n  const safeActiveIndex =\n    activeIndex >= 0 && activeIndex < images.length ? activeIndex : 0;\n  const activeImage = images[safeActiveIndex];\n\n  if (!activeImage) {\n    return null;\n  }\n\n  return (\n    <figure className=\"my-8\">\n      <div className=\"rounded-xl border border-border bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:20px_20px] p-6 md:p-8\">\n        <div className=\"mx-auto max-w-3xl\">\n          <div className=\"overflow-hidden border border-white/80 bg-black\">\n            <Image\n              alt={activeImage.alt}\n              className=\"h-auto w-full object-cover\"\n              height={768}\n              priority={safeActiveIndex === 0}\n              src={activeImage.src}\n              width={1365}\n            />\n          </div>\n\n          <div className=\"mt-5 flex justify-center gap-4 md:gap-6\">\n            {images.map((image, index) => {\n              const isActive = index === safeActiveIndex;\n\n              return (\n                <button\n                  aria-label={`Show image ${index + 1}`}\n                  className={cn(\n                    \"relative h-14 w-14 overflow-hidden border transition-all md:h-16 md:w-16\",\n                    isActive\n                      ? \"border-white\"\n                      : \"border-white/70 opacity-70 hover:opacity-100\"\n                  )}\n                  key={image.src}\n                  onClick={() => setActiveIndex(index)}\n                  type=\"button\"\n                >\n                  <Image\n                    alt=\"\"\n                    className=\"h-full w-full object-cover\"\n                    fill\n                    sizes=\"64px\"\n                    src={image.src}\n                  />\n                </button>\n              );\n            })}\n          </div>\n        </div>\n      </div>\n    </figure>\n  );\n}\n"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import type {
   ExperimentListing,
   ExperimentProfile,
   ExperimentStatus,
+  InspirationLink,
 } from "@/lib/experiments";
 
 // ---------------------------------------------------------------------------
@@ -36,7 +37,7 @@ export interface ExperimentRow {
   created: string;
   description: string;
   hasArticle: boolean;
-  inspiration?: { title: string; url: string }[];
+  inspiration?: InspirationLink[];
   legacy?: boolean;
   listing: ExperimentListing;
   listingExplicit: boolean;
@@ -168,7 +169,7 @@ export function computeCompleteness(exp: {
   video?: string;
   hasArticle: boolean;
   updated?: string;
-  inspiration?: { title: string; url: string }[];
+  inspiration?: InspirationLink[];
   related?: string[];
 }): CompletenessResult {
   const checks: { label: string; pts: number; met: boolean }[] = [

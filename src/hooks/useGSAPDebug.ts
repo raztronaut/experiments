@@ -1,5 +1,6 @@
 "use client";
 
+import type { GSDevTools } from "gsap/GSDevTools";
 import { useEffect, useRef } from "react";
 import { useDebug } from "./useDebug";
 
@@ -23,13 +24,14 @@ export function useGSAPDebug(
   id: string
 ) {
   const isDebug = useDebug();
-  const instanceRef = useRef<any>(null);
+  const instanceRef = useRef<GSDevTools | null>(null);
 
   useEffect(() => {
     if (!(isDebug && timeline)) {
       return;
     }
 
+    const activeTimeline = timeline;
     let cancelled = false;
 
     async function init() {
@@ -48,7 +50,7 @@ export function useGSAPDebug(
         gsap.registerPlugin(GSDevTools);
 
         instanceRef.current = GSDevTools.create({
-          animation: timeline!,
+          animation: activeTimeline,
           id,
           minimal: false,
         });
@@ -61,7 +63,7 @@ export function useGSAPDebug(
 
     return () => {
       cancelled = true;
-      if (instanceRef.current?.kill) {
+      if (instanceRef.current) {
         instanceRef.current.kill();
         instanceRef.current = null;
       }

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/app/**/{page,layout,error,not-found,loading,template,default,route,opengraph-image,twitter-image,icon,apple-icon,sitemap,robots,manifest}.{ts,tsx}",
+    "src/app/**/route.{ts,tsx}",
+    "scripts/*.mjs",
+    "src/setupTests.ts",
+    "instrumentation.ts",
+    "instrumentation-client.ts",
+    "sentry.server.config.ts",
+    "sentry.edge.config.ts",
+    "next.config.ts",
+    "vitest.config.ts",
+    "source.config.ts",
+    "plopfile.{js,mjs,cjs,ts}",
+    "**/*.test.{ts,tsx}"
+  ],
+  "project": ["src/**/*.{ts,tsx}", "scripts/**/*.mjs"],
+  "ignore": [".source/**", "src/components/ui/**"],
+  "ignoreDependencies": ["r3f-perf"],
+  "ignoreBinaries": ["lefthook"],
+  "next": true,
+  "vitest": true
+}

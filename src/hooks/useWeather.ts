@@ -9,6 +9,14 @@ export interface WeatherData {
   weatherCode: number;
 }
 
+interface OpenMeteoResponse {
+  current: {
+    temperature_2m: number;
+    weather_code: number;
+    is_day: 0 | 1;
+  };
+}
+
 const TORONTO_COORDS = { lat: 43.6532, lng: -79.3832 };
 
 function convertTemperature(celsius: number, unit: TemperatureUnit): number {
@@ -42,7 +50,7 @@ export function useWeather(unit: TemperatureUnit = "C") {
           `https://api.open-meteo.com/v1/forecast?latitude=${TORONTO_COORDS.lat}&longitude=${TORONTO_COORDS.lng}&current=temperature_2m,weather_code,is_day`,
           { signal: controller.signal }
         );
-        const data = await res.json();
+        const data = (await res.json()) as OpenMeteoResponse;
         setWeather({
           temperature: data.current.temperature_2m,
           weatherCode: data.current.weather_code,

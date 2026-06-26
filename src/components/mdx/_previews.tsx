@@ -34,5 +34,3 @@ export const MDX_PREVIEWS: Record<string, MdxPreviewEntry> = {
   "mdx-slideshow": { component: SlideshowPreview },
   "mdx-table-of-contents": { component: TableOfContentsPreview },
 };
-
-export const MDX_PREVIEW_SLUGS = Object.keys(MDX_PREVIEWS);

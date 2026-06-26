@@ -39,7 +39,6 @@ const DesktopWindow: React.FC<DesktopWindowProps> = ({
       return;
     }
 
-    // Create the window body
     const body = Matter.Bodies.rectangle(x, y, width, height, {
       friction: 0.1,
       restitution: 0.4, // Bouncy windows

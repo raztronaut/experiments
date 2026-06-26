@@ -2,20 +2,9 @@
 
 import type React from "react";
 import { useEffect, useState } from "react";
+import { runWhenIdle } from "@/lib/idle";
 
 type LocationStatusComponent = React.ComponentType;
-
-function runWhenIdle(cb: () => void) {
-  if (typeof window === "undefined") {
-    return;
-  }
-  if ("requestIdleCallback" in window) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).requestIdleCallback(cb, { timeout: 1500 });
-    return;
-  }
-  setTimeout(cb, 800);
-}
 
 export function LocationStatusEnhancer({
   staticElementId = "location-status-static",

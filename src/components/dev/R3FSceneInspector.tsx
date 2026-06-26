@@ -3,32 +3,34 @@
 import { useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import type {
+  BoxGeometry,
   BufferGeometry,
   Camera,
   Light,
   Material,
   Mesh,
+  MeshStandardMaterial,
   Object3D,
   OrthographicCamera,
   PerspectiveCamera,
+  PlaneGeometry,
+  SphereGeometry,
 } from "three";
 
 const INSPECT_INTERVAL_MS = 10_000;
 
 function getGeometryDesc(geometry: BufferGeometry): string {
-  const params = (geometry as any).parameters;
-  if (!params) {
-    return geometry.type;
-  }
-
   if (geometry.type === "BoxGeometry") {
-    return `BoxGeometry ${params.width}x${params.height}x${params.depth}`;
+    const p = (geometry as BoxGeometry).parameters;
+    return `BoxGeometry ${p.width}x${p.height}x${p.depth}`;
   }
   if (geometry.type === "PlaneGeometry") {
-    return `PlaneGeometry ${params.width}x${params.height}`;
+    const p = (geometry as PlaneGeometry).parameters;
+    return `PlaneGeometry ${p.width}x${p.height}`;
   }
   if (geometry.type === "SphereGeometry") {
-    return `SphereGeometry r=${params.radius}`;
+    const p = (geometry as SphereGeometry).parameters;
+    return `SphereGeometry r=${p.radius}`;
   }
   return geometry.type;
 }
@@ -38,19 +40,16 @@ function getMaterialDesc(material: Material | Material[]): string {
   if (!mat) {
     return "none";
   }
-  const color = (mat as any).color;
+  const color =
+    "color" in mat ? (mat as MeshStandardMaterial).color : undefined;
   const colorStr = color ? ` color:#${color.getHexString()}` : "";
   return `${mat.type}${colorStr}`;
 }
 
 function getLightDesc(light: Light): string {
-  const intensity = (light as any).intensity;
   const pos = light.position;
-  let desc = light.type;
-  if (intensity !== undefined) {
-    desc += ` (intensity: ${intensity})`;
-  }
-  if (pos && (pos.x || pos.y || pos.z)) {
+  let desc = `${light.type} (intensity: ${light.intensity})`;
+  if (pos.x || pos.y || pos.z) {
     desc += ` (position: [${pos.x}, ${pos.y}, ${pos.z}])`;
   }
   return desc;
@@ -82,7 +81,7 @@ function serializeNode(
     label += ` "${obj.name}"`;
   }
 
-  if ((obj as any).isLight) {
+  if ((obj as Light).isLight) {
     label = getLightDesc(obj as Light);
   } else if ((obj as Mesh).isMesh) {
     const mesh = obj as Mesh;

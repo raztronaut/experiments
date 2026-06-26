@@ -1,5 +1,6 @@
 "use client";
 
+import type { GSDevTools } from "gsap/GSDevTools";
 import { Leva } from "leva";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useDebug } from "@/hooks/useDebug";
@@ -52,7 +53,7 @@ function DeviceInfo() {
  * to specific timelines with ids for scene jumping.
  */
 function GsapDebugTools() {
-  const instanceRef = useRef<any>(null);
+  const instanceRef = useRef<GSDevTools | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -81,7 +82,7 @@ function GsapDebugTools() {
 
     return () => {
       cancelled = true;
-      if (instanceRef.current?.kill) {
+      if (instanceRef.current) {
         instanceRef.current.kill();
         instanceRef.current = null;
       }

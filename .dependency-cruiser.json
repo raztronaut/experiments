@@ -1,0 +1,20 @@
+{
+  "forbidden": [
+    {
+      "name": "no-circular",
+      "severity": "warn",
+      "comment": "Circular dependencies make code hard to reason about and can cause init-order bugs.",
+      "from": {},
+      "to": { "circular": true }
+    }
+  ],
+  "options": {
+    "doNotFollow": { "path": "node_modules" },
+    "tsConfig": { "fileName": "tsconfig.json" },
+    "tsPreCompilationDeps": true,
+    "enhancedResolveOptions": {
+      "exportsFields": ["exports"],
+      "conditionNames": ["import", "require", "node", "default", "types"]
+    }
+  }
+}

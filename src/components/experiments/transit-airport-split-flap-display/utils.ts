@@ -1,4 +1,4 @@
-import { ALPHANUMERIC_SET, CHAR_SET, NUMERIC_SET, TIME_SET } from "./constants";
+import { CHAR_SET } from "./constants";
 
 export function sanitizeChar(char: string, charSet: string = CHAR_SET): string {
   const sanitized = char.toUpperCase();
@@ -26,19 +26,4 @@ export function getPreviousChar(
   const currentIndex = getSafeIndex(currentChar, charSet);
   const prevIndex = (currentIndex - 1 + charSet.length) % charSet.length;
   return charSet[prevIndex];
-}
-
-export function getBestCharSet(text: string): string {
-  // Check if it's purely numeric (excluding spaces)
-  if (/^[0-9 ]+$/.test(text)) {
-    return NUMERIC_SET;
-  }
-
-  // Check if it's a time-like string (numbers, colon, space)
-  if (/^[0-9: ]+$/.test(text)) {
-    return TIME_SET;
-  }
-
-  // Default to alphanumeric
-  return ALPHANUMERIC_SET;
 }

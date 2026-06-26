@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-// import { useTheme } from "next-themes";
 import { Icons } from "@/components/ui/icons";
 import { replica } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -10,13 +9,6 @@ import { WithHover } from "./cursor/WithHover";
 const HOVER_OFFSET_CONFIG = { hoverOffset: 2 } as const;
 
 export function SiteFooter() {
-  // TODO: Restore theme toggle — theme switching is disabled until persistence/sync is fixed
-  // const { setTheme, resolvedTheme } = useTheme();
-  // const mounted = useMounted();
-  // const toggleTheme = () => {
-  //   setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  // };
-
   return (
     <footer className="h-card border-border/50 border-t pt-24 pb-32 text-[0.875rem] text-muted-foreground md:pt-12">
       <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
@@ -40,30 +32,6 @@ export function SiteFooter() {
               </a>
             </WithHover>
           </p>
-          {/* TODO: Restore theme toggle — theme switching disabled until persistence/sync is fixed
-          <WithHover config={HOVER_OFFSET_CONFIG}>
-            <button
-              aria-label="Toggle theme"
-              className="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-[0.7rem] text-muted-foreground/60 uppercase tracking-widest transition-colors hover:bg-muted/40 hover:text-foreground"
-              data-umami-event="theme_toggle"
-              onClick={toggleTheme}
-              {...(mounted && {
-                "data-umami-event-theme":
-                  resolvedTheme === "dark" ? "light" : "dark",
-              })}
-            >
-              {mounted ? (
-                resolvedTheme === "dark" ? (
-                  "turn on the lights!"
-                ) : (
-                  "turn off the lights!"
-                )
-              ) : (
-                <span className="opacity-0">turn on the lights!</span>
-              )}
-            </button>
-          </WithHover>
-          */}
         </div>
 
         <div className="flex flex-col gap-3 md:items-end">

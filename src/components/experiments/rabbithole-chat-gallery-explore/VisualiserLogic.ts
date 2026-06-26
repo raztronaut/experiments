@@ -91,8 +91,7 @@ export default class VisualiserLogic {
     this.createInstancedMesh();
     this.fetchCovers();
 
-    // We'll manage event listeners in the React component or ensure cleanup if we add them here
-    // For now, let's keep the global wheel for simplicity, but we should adding a cleanup method.
+    // Global wheel listener; removed in dispose().
     window.addEventListener("wheel", this.onWheel);
   }
 
@@ -180,8 +179,8 @@ export default class VisualiserLogic {
     // Second pass: draw images and calculate normalized coordinates
     let currentY = 0;
     this.imageInfos = images.map((img) => {
-      // Cast to standard type that has width/height
-      // We use 'as any' for drawImage to satisfy the overload, but stricter typing for properties
+      // CanvasImageSource members don't all expose width/height; narrow to the
+      // subset we draw.
       const source = img as { width: number; height: number };
       const aspectRatio = source.width / source.height;
 

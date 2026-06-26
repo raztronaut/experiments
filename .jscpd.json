@@ -1,0 +1,16 @@
+{
+  "threshold": 0,
+  "reporters": ["json", "console"],
+  "absolute": true,
+  "gitignore": true,
+  "minLines": 8,
+  "minTokens": 60,
+  "ignore": [
+    "**/node_modules/**",
+    "**/.next/**",
+    "**/.source/**",
+    "**/*.test.{ts,tsx}",
+    "**/public/**"
+  ],
+  "format": ["typescript", "tsx", "javascript", "jsx"]
+}

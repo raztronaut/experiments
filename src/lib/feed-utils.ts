@@ -22,7 +22,10 @@ export function mdxToPlainMarkdown(mdx: string): string {
     .replace(EMPTY_LINES_RE, "\n\n")
     .trim();
 
-  return cleaned.replace(/__CODE_BLOCK_(\d+)__/g, (_, idx) => codeBlocks[idx]);
+  return cleaned.replace(
+    /__CODE_BLOCK_(\d+)__/g,
+    (_match: string, idx: string) => codeBlocks[Number(idx)]
+  );
 }
 
 export function escapeXml(str: string): string {

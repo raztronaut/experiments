@@ -35,7 +35,8 @@ export function usePreferences() {
     try {
       const stored = localStorage.getItem("pref-24h");
       return stored === "true";
-    } catch {
+    } catch (e) {
+      console.error("Failed to load use24Hour preference", e);
       return false;
     }
   });
@@ -47,7 +48,8 @@ export function usePreferences() {
     try {
       const stored = localStorage.getItem("pref-show-coords");
       return stored === "true";
-    } catch {
+    } catch (e) {
+      console.error("Failed to load showCoords preference", e);
       return false;
     }
   });

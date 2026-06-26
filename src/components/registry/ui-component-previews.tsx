@@ -115,5 +115,3 @@ export const UI_COMPONENT_PREVIEWS: Record<string, UIComponentPreviewEntry> = {
     },
   },
 };
-
-export const COMPONENT_PREVIEW_SLUGS = Object.keys(UI_COMPONENT_PREVIEWS);

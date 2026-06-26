@@ -80,7 +80,7 @@
     "video": "/experiments/send-button/preview-send-button.mp4",
     "category": "experiments",
     "fileCount": 8,
-    "dependencyCount": 3
+    "dependencyCount": 2
   },
   {
     "name": "transit-airport-split-flap-display",
@@ -253,7 +253,7 @@
     "poster": null,
     "video": "/experiments/bugged-out-game-of-life-shader-experiment/preview.mp4",
     "category": "experiments",
-    "fileCount": 4,
+    "fileCount": 3,
     "dependencyCount": 1
   },
   {
@@ -575,6 +575,20 @@
     "dependencyCount": 1
   },
   {
+    "name": "experiment-route-error",
+    "type": "registry:component",
+    "title": "ExperimentRouteError",
+    "description": "Shared fallback for experiment route `error.tsx` boundaries. Reports to Sentry",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "components",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
     "name": "feature-convergence",
     "type": "registry:block",
     "title": "FeatureConvergence",
@@ -653,7 +667,7 @@
     "poster": null,
     "video": "/experiments/game-of-life-shader/preview.mp4",
     "category": "experiments",
-    "fileCount": 4,
+    "fileCount": 3,
     "dependencyCount": 1
   },
   {
@@ -995,6 +1009,20 @@
     "type": "registry:component",
     "title": "HeadingLink",
     "description": "HeadingLink MDX component",
+    "tags": [],
+    "tech": [],
+    "status": "shipped",
+    "poster": null,
+    "video": null,
+    "category": "mdx",
+    "fileCount": 1,
+    "dependencyCount": 0
+  },
+  {
+    "name": "mdx-image-switcher",
+    "type": "registry:component",
+    "title": "ImageSwitcher",
+    "description": "ImageSwitcher MDX component",
     "tags": [],
     "tech": [],
     "status": "shipped",
@@ -1374,27 +1402,6 @@
     "dependencyCount": 1
   },
   {
-    "name": "shader-landing",
-    "type": "registry:block",
-    "title": "Shader Landing",
-    "description": "A random shader experiment",
-    "tags": [
-      "shader",
-      "generative"
-    ],
-    "tech": [
-      "r3f",
-      "three.js",
-      "glsl"
-    ],
-    "status": "shipped",
-    "poster": null,
-    "video": "/experiments/shader-landing/preview-shader-landing.mp4",
-    "category": "experiments",
-    "fileCount": 3,
-    "dependencyCount": 0
-  },
-  {
     "name": "site-footer",
     "type": "registry:component",
     "title": "SiteFooter",
@@ -1701,7 +1708,7 @@
     "video": null,
     "category": "hooks",
     "fileCount": 2,
-    "dependencyCount": 0
+    "dependencyCount": 1
   },
   {
     "name": "use-liquid-glass-style",

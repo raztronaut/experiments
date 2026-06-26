@@ -23,15 +23,7 @@
   "dependencies": [
     "@paper-design/shaders-react"
   ],
-  "registryDependencies": [
-    "razi-style"
-  ],
   "files": [
-    {
-      "name": "GameOfLifeShader.tsx",
-      "type": "registry:component",
-      "content": "\"use client\";\n\nexport default function GameOfLifeShader() {\n  return (\n    <div className=\"flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-4\">\n      <h1 className=\"mb-2 font-bold text-2xl\">Game of Life Shader</h1>\n      <p className=\"text-muted-foreground\">\n        Start building your experiment here.\n      </p>\n    </div>\n  );\n}\n"
-    },
     {
       "name": "GradientBackground.tsx",
       "type": "registry:component",

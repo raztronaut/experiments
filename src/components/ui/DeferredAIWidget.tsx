@@ -2,23 +2,9 @@
 
 import type React from "react";
 import { useEffect, useState } from "react";
+import { runWhenIdle } from "@/lib/idle";
 
 type AIWidgetComponent = React.ComponentType;
-
-function runWhenIdle(cb: () => void) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  // Prefer requestIdleCallback; fallback to a small delay.
-  if ("requestIdleCallback" in window) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).requestIdleCallback(cb, { timeout: 1500 });
-    return;
-  }
-
-  setTimeout(cb, 800);
-}
 
 /**
  * Loads the heavy AI widget after LCP/idle.

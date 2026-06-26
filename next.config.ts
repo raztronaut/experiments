@@ -59,6 +59,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Pin the workspace root so Turbopack never infers a parent directory when a
+  // stray lockfile exists higher up the tree.
+  turbopack: {
+    root: import.meta.dirname,
+  },
   experimental: {
     optimizePackageImports: [
       "lucide-react",
@@ -79,7 +84,6 @@ const nextConfig: NextConfig = {
       "@radix-ui/react-separator",
       "@radix-ui/react-progress",
       "@radix-ui/react-slot",
-      "@radix-ui/react-switch",
       "sonner",
       "vaul",
       "katex",

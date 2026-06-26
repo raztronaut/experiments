@@ -210,15 +210,11 @@
       ],
       "files": [
         {
-          "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/BuggedOutGameOfLifeShaderExperiment.tsx",
+          "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/GradientBackground.tsx",
           "type": "registry:component"
         },
         {
           "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/LifeSimulation.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "src/components/experiments/bugged-out-game-of-life-shader-experiment/GradientBackground.tsx",
           "type": "registry:component"
         },
         {
@@ -294,17 +290,11 @@
       "title": "Game of Life Shader",
       "description": "An attempt to implement Conway's Game of Life with the logic defining the shader",
       "category": "experiments",
-      "registryDependencies": [
-        "razi-style"
-      ],
+      "registryDependencies": [],
       "dependencies": [
         "@paper-design/shaders-react"
       ],
       "files": [
-        {
-          "path": "src/components/experiments/game-of-life-shader/GameOfLifeShader.tsx",
-          "type": "registry:component"
-        },
         {
           "path": "src/components/experiments/game-of-life-shader/GradientBackground.tsx",
           "type": "registry:component"
@@ -761,8 +751,7 @@
       "registryDependencies": [],
       "dependencies": [
         "motion",
-        "lucide-react",
-        "@radix-ui/react-switch"
+        "lucide-react"
       ],
       "files": [
         {
@@ -812,44 +801,6 @@
         "video": "/experiments/send-button/preview-send-button.mp4",
         "created": "2025-12-23T20:09:01.977Z",
         "featured": true
-      }
-    },
-    {
-      "name": "shader-landing",
-      "type": "registry:block",
-      "title": "Shader Landing",
-      "description": "A random shader experiment",
-      "category": "experiments",
-      "registryDependencies": [],
-      "dependencies": [],
-      "files": [
-        {
-          "path": "src/components/experiments/shader-landing/ShaderLanding.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "src/components/experiments/shader-landing/useThreeShader.ts",
-          "type": "registry:hook"
-        },
-        {
-          "path": "src/components/experiments/shader-landing/shaders.ts",
-          "type": "registry:file"
-        }
-      ],
-      "meta": {
-        "tags": [
-          "shader",
-          "generative"
-        ],
-        "tech": [
-          "r3f",
-          "three.js",
-          "glsl"
-        ],
-        "status": "shipped",
-        "poster": null,
-        "video": "/experiments/shader-landing/preview-shader-landing.mp4",
-        "created": "2025-12-02T00:00:00.000Z"
       }
     },
     {
@@ -1347,6 +1298,25 @@
       "files": [
         {
           "path": "src/components/ui/ExperimentNav.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "experiment-route-error",
+      "type": "registry:component",
+      "title": "ExperimentRouteError",
+      "description": "Shared fallback for experiment route `error.tsx` boundaries. Reports to Sentry",
+      "category": "components",
+      "registryDependencies": [
+        "button",
+        "razi-style"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/ExperimentRouteError.tsx",
           "type": "registry:component"
         }
       ],
@@ -2786,7 +2756,9 @@
       "description": "Links a GSAP timeline to GSDevTools when ?debug is active.",
       "category": "hooks",
       "registryDependencies": [],
-      "dependencies": [],
+      "dependencies": [
+        "gsap"
+      ],
       "files": [
         {
           "path": "src/hooks/useGSAPDebug.ts",
@@ -3050,6 +3022,24 @@
       "files": [
         {
           "path": "src/components/mdx/HeadingLink.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {}
+    },
+    {
+      "name": "mdx-image-switcher",
+      "type": "registry:component",
+      "title": "ImageSwitcher",
+      "description": "ImageSwitcher MDX component",
+      "category": "mdx",
+      "registryDependencies": [
+        "razi-style"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/mdx/ImageSwitcher.tsx",
           "type": "registry:component"
         }
       ],

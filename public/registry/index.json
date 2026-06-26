@@ -369,15 +369,11 @@
     ],
     "files": [
       {
-        "name": "BuggedOutGameOfLifeShaderExperiment.tsx",
+        "name": "GradientBackground.tsx",
         "type": "registry:component"
       },
       {
         "name": "LifeSimulation.tsx",
-        "type": "registry:component"
-      },
-      {
-        "name": "GradientBackground.tsx",
         "type": "registry:component"
       },
       {
@@ -922,6 +918,24 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "experiment-route-error",
+    "type": "registry:component",
+    "title": "ExperimentRouteError",
+    "description": "Shared fallback for experiment route `error.tsx` boundaries. Reports to Sentry",
+    "category": "components",
+    "registryDependencies": [
+      "button",
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "ExperimentRouteError.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "feature-convergence",
     "type": "registry:block",
     "title": "FeatureConvergence",
@@ -1037,14 +1051,7 @@
     "dependencies": [
       "@paper-design/shaders-react"
     ],
-    "registryDependencies": [
-      "razi-style"
-    ],
     "files": [
-      {
-        "name": "GameOfLifeShader.tsx",
-        "type": "registry:component"
-      },
       {
         "name": "GradientBackground.tsx",
         "type": "registry:component"
@@ -1873,6 +1880,23 @@
   },
   {
     "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+    "name": "mdx-image-switcher",
+    "type": "registry:component",
+    "title": "ImageSwitcher",
+    "description": "ImageSwitcher MDX component",
+    "category": "mdx",
+    "registryDependencies": [
+      "razi-style"
+    ],
+    "files": [
+      {
+        "name": "ImageSwitcher.tsx",
+        "type": "registry:component"
+      }
+    ]
+  },
+  {
+    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
     "name": "mdx-interactive-widget",
     "type": "registry:component",
     "title": "InteractiveWidget",
@@ -2453,8 +2477,7 @@
     },
     "dependencies": [
       "motion",
-      "lucide-react",
-      "@radix-ui/react-switch"
+      "lucide-react"
     ],
     "files": [
       {
@@ -2534,44 +2557,6 @@
       {
         "name": "separator.tsx",
         "type": "registry:component"
-      }
-    ]
-  },
-  {
-    "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-    "name": "shader-landing",
-    "type": "registry:block",
-    "title": "Shader Landing",
-    "description": "A random shader experiment",
-    "category": "experiments",
-    "meta": {
-      "tags": [
-        "shader",
-        "generative"
-      ],
-      "tech": [
-        "r3f",
-        "three.js",
-        "glsl"
-      ],
-      "status": "shipped",
-      "poster": null,
-      "video": "/experiments/shader-landing/preview-shader-landing.mp4",
-      "created": "2025-12-02T00:00:00.000Z"
-    },
-    "files": [
-      {
-        "name": "ShaderLanding.tsx",
-        "type": "registry:component"
-      },
-      {
-        "name": "useThreeShader.ts",
-        "type": "registry:hook"
-      },
-      {
-        "name": "shaders.ts",
-        "type": "registry:file",
-        "target": "components/experiments/shader-landing/shaders.ts"
       }
     ]
   },
@@ -3090,6 +3075,9 @@
     "title": "useGSAPDebug",
     "description": "Links a GSAP timeline to GSDevTools when ?debug is active.",
     "category": "hooks",
+    "dependencies": [
+      "gsap"
+    ],
     "files": [
       {
         "name": "useGSAPDebug.ts",

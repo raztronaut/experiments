@@ -6,10 +6,6 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-// import * as SwitchPrimitives from "@radix-ui/react-switch";
-// import { motion } from "motion/react";
-// import { useCallback } from "react";
-
 const ThemeSwitch = ({
   className,
   ...props
@@ -19,13 +15,6 @@ const ThemeSwitch = ({
   useEffect(() => setMounted(true), []);
 
   const isChecked = resolvedTheme === "dark";
-
-  // const handleCheckedChange = useCallback(
-  //   (checked: boolean) => {
-  //     setTheme(checked ? "dark" : "light");
-  //   },
-  //   [setTheme]
-  // );
 
   if (!mounted) {
     return null;
@@ -42,17 +31,6 @@ const ThemeSwitch = ({
       title="Theme toggle disabled — fix planned"
       {...props}
     >
-      {/* Commented out: interactive switch until theme persistence/sync is fixed
-      <SwitchPrimitives.Root
-        checked={isChecked}
-        className={...}
-        onCheckedChange={handleCheckedChange}
-      >
-        <SwitchPrimitives.Thumb asChild>
-          <motion.span animate={{ x: isChecked ? 48 : 4, ... }} />
-        </SwitchPrimitives.Thumb>
-      </SwitchPrimitives.Root>
-      */}
       <span
         className={cn(
           "absolute inset-0 rounded-full transition-colors duration-300",

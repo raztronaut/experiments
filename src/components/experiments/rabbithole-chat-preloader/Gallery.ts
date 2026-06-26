@@ -60,7 +60,6 @@ export default class Gallery {
   }
 
   async loadTextureAtlas() {
-    // Define your image paths - using the paths from the experiment structure
     const basePath = "/experiments/rabbithole-chat-preloader/frames";
     const imagePaths = [
       `${basePath}/1.jpg`,

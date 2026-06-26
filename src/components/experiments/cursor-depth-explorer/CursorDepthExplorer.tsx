@@ -213,7 +213,7 @@ function Scene({
   const image = depthTexture.image as HTMLImageElement;
 
   // Calculate aspect ratio scale to cover the viewport
-  const scale = useMemo(() => {
+  const scale = useMemo<[number, number, number]>(() => {
     if (!image) {
       return [viewport.width, viewport.height, 1];
     }
@@ -221,7 +221,8 @@ function Scene({
     const imageAspect = image.width / image.height;
     const viewportAspect = viewport.width / viewport.height;
 
-    let w, h;
+    let w: number;
+    let h: number;
     // Cover logic
     if (fit === "cover") {
       if (imageAspect > viewportAspect) {
@@ -247,7 +248,7 @@ function Scene({
   }, [image, viewport.width, viewport.height, fit]);
 
   return (
-    <mesh scale={scale as any}>
+    <mesh scale={scale}>
       <planeGeometry args={[1, 1]} />
       <shaderMaterial
         fragmentShader={fragmentShader}
@@ -266,6 +267,12 @@ interface CursorDepthExplorerProps {
   smoothness?: number;
   thickness?: number;
 }
+
+// iOS 13+ exposes a static requestPermission() on DeviceOrientationEvent that
+// is not part of the standard lib.dom typings.
+type DeviceOrientationEventiOS = typeof DeviceOrientationEvent & {
+  requestPermission?: () => Promise<"granted" | "denied">;
+};
 
 export default function CursorDepthExplorer({
   imagePath: defaultImagePath = "/experiments/cursor-depth-explorer/depth.png",
@@ -303,9 +310,10 @@ export default function CursorDepthExplorer({
     // Check if we need a button (iOS 13+)
     // wrapping in try-catch for safety
     try {
+      const doe = DeviceOrientationEvent as DeviceOrientationEventiOS;
       const isIOS =
-        typeof (DeviceOrientationEvent as any) !== "undefined" &&
-        typeof (DeviceOrientationEvent as any).requestPermission === "function";
+        typeof DeviceOrientationEvent !== "undefined" &&
+        typeof doe.requestPermission === "function";
 
       // Avoid synchronous setState warning by pushing to next tick
       setTimeout(() => {
@@ -342,13 +350,10 @@ export default function CursorDepthExplorer({
   }, [hasPermission]);
 
   const requestPermission = async () => {
-    if (
-      typeof (DeviceOrientationEvent as any).requestPermission === "function"
-    ) {
+    const doe = DeviceOrientationEvent as DeviceOrientationEventiOS;
+    if (typeof doe.requestPermission === "function") {
       try {
-        const permissionState = await (
-          DeviceOrientationEvent as any
-        ).requestPermission();
+        const permissionState = await doe.requestPermission();
 
         if (permissionState === "granted") {
           setHasPermission(true);
@@ -356,9 +361,10 @@ export default function CursorDepthExplorer({
         } else {
           alert("Permission denied. Tilt control will not work.");
         }
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.error(e);
-        alert(`Error requesting permission: ${e.message}`);
+        const message = e instanceof Error ? e.message : String(e);
+        alert(`Error requesting permission: ${message}`);
       }
     }
   };
